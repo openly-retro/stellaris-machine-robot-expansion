@@ -1,0 +1,87 @@
+xvcv_mdlc_synthetic_start_origin_trigger = {
+	optimize_memory
+	OR = {
+		has_origin = xvcv_mdlc_origin_synth_ascend
+		has_origin = xvcv_mdlc_origin_mechanical_heritage
+	}
+}
+xvcv_mdlc_bio_robot_auto_growth_possible_pop_trigger = {
+	optimize_memory
+	has_trait = xvcv_mdlc_trait_bio_robot
+	has_population_control = { country = prev type = no }
+	is_being_purged = no
+}
+xvcv_mdlc_bio_robot_auto_growth_possible_planet_trigger = {
+	optimize_memory
+	any_owned_pop = { xvcv_mdlc_bio_robot_auto_growth_possible_pop_trigger = yes }
+	NOR = {
+		has_modifier = planet_population_control
+		has_modifier = planet_population_control_gestalt
+	}
+}
+xvcv_mdlc_bio_robot_auto_growth_not_possible_planet_trigger = {
+	optimize_memory
+	OR = { #not any of the pop on the planet fulfills the required conditions (when there is no pop on the planet that meets the growth requirements)
+		NOT = { any_owned_pop = { xvcv_mdlc_bio_robot_auto_growth_possible_pop_trigger = yes } } #do not change this to 'no' and do not remove that 'NOT' operator either
+		has_modifier = planet_population_control
+		has_modifier = planet_population_control_gestalt
+	}
+}
+xvcv_mdlc_world_machines_districts_valid_trigger = {
+	optimize_memory
+	exists = owner
+	owner = { has_ascension_perk = xvcv_mdlc_ap_world_machines }
+}
+xvcv_mdlc_world_machines_planet_classes_trigger = {
+	optimize_memory
+	OR = {
+		is_planet_class = xvcv_mdlc_pc_machine_ecu
+		is_planet_class = xvcv_mdlc_pc_machine_cpu
+		is_planet_class = xvcv_mdlc_pc_machine_ser
+	}
+}
+xvcv_mdlc_world_machines_districts_heat_indicators_calc_trigger = {
+	optimize_memory
+	OR = {
+		last_district_changed = xvcv_mdlc_common_district_cooling
+
+		last_district_changed = xvcv_mdlc_pc_machine_ecu_district_alloys
+		last_district_changed = xvcv_mdlc_pc_machine_ecu_district_goods
+		last_district_changed = xvcv_mdlc_pc_machine_ecu_district_rare_resources
+		last_district_changed = xvcv_mdlc_pc_machine_ecu_district_naval_cap
+
+		last_district_changed = xvcv_mdlc_pc_machine_cpu_district_physics
+		last_district_changed = xvcv_mdlc_pc_machine_cpu_district_society
+		last_district_changed = xvcv_mdlc_pc_machine_cpu_district_engineering
+		last_district_changed = xvcv_mdlc_pc_machine_cpu_district_decryption
+
+		last_district_changed = xvcv_mdlc_pc_machine_ser_district_unity
+		last_district_changed = xvcv_mdlc_pc_machine_ser_district_admin_cap
+		last_district_changed = xvcv_mdlc_pc_machine_ser_district_crime
+		last_district_changed = xvcv_mdlc_pc_machine_ser_district_encryption
+	}
+}
+xvcv_mdlc_situation_machine_learning_add_progress_trigger = {
+	optimize_memory
+	check_variable = { which = xvcv_mdlc_situation_machine_learning_$ON_ACTION_TYPE$_var value < 1 } #one-time only
+}
+xvcv_mdlc_diplomacy_possible_trigger = {
+	optimize_memory
+    custom_tooltip_fail = {
+        text = xvcv_mdlc_diplomacy_possible.fail
+        NOT = { has_valid_civic = civic_machine_terminator }
+    }
+}
+xvcv_mdlc_leader_tied_traits_add_trigger = {
+	optimize_memory
+	species = { has_trait = $SPECIES_TRAIT$ }
+	NOT = { has_trait = $LEADER_TRAIT$ }
+}
+xvcv_mdlc_leader_tied_traits_remove_trigger = {
+	optimize_memory
+	NOR = {
+		species = { has_trait = $SPECIES_TRAIT$ }
+		has_leader_flag = xvcv_mdlc_leader_making_target_leader
+	}
+	has_trait = $LEADER_TRAIT$
+}

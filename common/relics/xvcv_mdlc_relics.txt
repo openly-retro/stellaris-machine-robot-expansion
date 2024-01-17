@@ -1,0 +1,221 @@
+xvcv_mdlc_r_unknown_core = {
+	activation_duration = 1800
+	portrait = "GFX_relic_xvcv_mdlc_r_unknown_core"
+	sound = "relic_activation_isolated_contingency_core"
+
+	resources = {
+		category = relics
+		cost = {
+			trigger = { is_ai = yes }
+			energy = 1000
+		}
+		cost = {
+			trigger = { is_ai = no }
+			energy = 2000
+		}
+	}
+
+	ai_weight = {
+		weight = 0
+		modifier = {
+			weight = 100
+			owner = {
+				resource_stockpile_compare = {
+					resource = energy
+					value >= 6000	
+				}
+				resource_income_compare = {
+					resource = energy
+					value >= 100
+				}
+			}
+		}
+	}
+
+	triggered_country_modifier = {
+		potential = { always = yes }
+		science_ship_survey_speed = 0.2
+	}
+
+	score = 1000
+
+	active_effect = {
+		custom_tooltip = xvcv_mdlc_r_unknown_core_tooltip
+		custom_tooltip = "relic_triumph_cooldown_short"
+		hidden_effect = {
+			add_modifier = { modifier = "relic_activation_cooldown" days = 1800 }
+			random_list = {
+				1 = {
+					add_monthly_resource_mult = { resource = physics_research value = 12 }
+					if = {
+						limit = { has_country_flag = xvcv_mdlc_r_unknown_core_message_on }
+						create_message = { type = XVCV_MDLC_R_UNKNOWN_CORE_ACTIVATION_MESSAGE_TYPE localization = XVCV_MDLC_R_UNKNOWN_CORE_RANDOM_BONUS_1 days = 10 target = this.capital_scope }
+					}
+				}
+				1 = {
+					add_monthly_resource_mult = { resource = society_research value = 12 }
+					if = {
+						limit = { has_country_flag = xvcv_mdlc_r_unknown_core_message_on }
+						create_message = { type = XVCV_MDLC_R_UNKNOWN_CORE_ACTIVATION_MESSAGE_TYPE localization = XVCV_MDLC_R_UNKNOWN_CORE_RANDOM_BONUS_2 days = 10 target = this.capital_scope }
+					}
+				}
+				1 = {
+					add_monthly_resource_mult = { resource = engineering_research value = 12 }
+					if = {
+						limit = { has_country_flag = xvcv_mdlc_r_unknown_core_message_on }
+						create_message = { type = XVCV_MDLC_R_UNKNOWN_CORE_ACTIVATION_MESSAGE_TYPE localization = XVCV_MDLC_R_UNKNOWN_CORE_RANDOM_BONUS_3 days = 10 target = this.capital_scope }
+					}
+				}
+				1 = {
+					add_monthly_resource_mult = { resource = physics_research value = 1 min = 2000 max = 2000 }
+					if = {
+						limit = { has_country_flag = xvcv_mdlc_r_unknown_core_message_on }
+						create_message = { type = XVCV_MDLC_R_UNKNOWN_CORE_ACTIVATION_MESSAGE_TYPE localization = XVCV_MDLC_R_UNKNOWN_CORE_RANDOM_BONUS_4 days = 10 target = this.capital_scope }
+					}
+				}	
+				1 = {
+					add_monthly_resource_mult = { resource = society_research value = 1 min = 2000 max = 2000 }
+					if = {
+						limit = { has_country_flag = xvcv_mdlc_r_unknown_core_message_on }
+						create_message = { type = XVCV_MDLC_R_UNKNOWN_CORE_ACTIVATION_MESSAGE_TYPE localization = XVCV_MDLC_R_UNKNOWN_CORE_RANDOM_BONUS_5 days = 10 target = this.capital_scope }
+					}
+				}
+				1 = {
+					add_monthly_resource_mult = { resource = engineering_research value = 1 min = 2000 max = 2000 }
+					if = {
+						limit = { has_country_flag = xvcv_mdlc_r_unknown_core_message_on }
+						create_message = { type = XVCV_MDLC_R_UNKNOWN_CORE_ACTIVATION_MESSAGE_TYPE localization = XVCV_MDLC_R_UNKNOWN_CORE_RANDOM_BONUS_6 days = 10 target = this.capital_scope }
+					}
+				}
+				1 = {
+					random_list = {
+						1 = { add_modifier = { modifier = xvcv_mdlc_r_unknown_core_random_bonus_1 days = 1080 } }
+						1 = { add_modifier = { modifier = xvcv_mdlc_r_unknown_core_random_bonus_2 days = 1080 } }
+						1 = { add_modifier = { modifier = xvcv_mdlc_r_unknown_core_random_bonus_3 days = 1080 } }
+						1 = { add_modifier = { modifier = xvcv_mdlc_r_unknown_core_random_bonus_4 days = 1080 } }
+						1 = { add_modifier = { modifier = xvcv_mdlc_r_unknown_core_random_bonus_5 days = 1080 } }
+						1 = { add_modifier = { modifier = xvcv_mdlc_r_unknown_core_random_bonus_6 days = 1080 } }
+					}
+					if = {
+						limit = { has_country_flag = xvcv_mdlc_r_unknown_core_message_on }
+						create_message = { type = XVCV_MDLC_R_UNKNOWN_CORE_ACTIVATION_MESSAGE_TYPE localization = XVCV_MDLC_R_UNKNOWN_CORE_RANDOM_BONUS_7 days = 10 target = this.capital_scope }
+					}
+				}
+				1 = {
+					add_random_research_option = {
+						add_progress = 0.1
+						ignore_prereqs = no
+						ignore_rare = no
+						fail_effects = {
+							random_list = {
+								#physics
+								1 = {
+									modifier = { factor = 0 NOT = { has_technology = tech_power_plant_3 } }
+									add_research_option = tech_repeatable_improved_tile_energy_output add_tech_progress = { tech = tech_repeatable_improved_tile_energy_output progress = 0.10 } 
+								}
+								1 = {
+									modifier = { factor = 0 NOT = { has_technology = tech_shields_4 } }
+									add_research_option = tech_repeatable_improved_shield_output add_tech_progress = { tech = tech_repeatable_improved_shield_output progress = 0.10 } 
+								}
+								1 = {
+									modifier = { factor = 0 NOT = { has_technology = tech_lasers_4 } }
+									add_research_option = tech_repeatable_weapon_type_energy_damage add_tech_progress = { tech = tech_repeatable_weapon_type_energy_damage progress = 0.10 } 
+								}
+								1 = {
+									modifier = { factor = 0 NOT = { has_technology = tech_lasers_2 } }
+									add_research_option = tech_repeatable_weapon_type_energy_fire_rate add_tech_progress = { tech = tech_repeatable_weapon_type_energy_fire_rate progress = 0.10 } 
+								}
+								1 = {
+									modifier = { factor = 0 NOT = { has_technology = tech_physics_2 } }
+									add_research_option = tech_repeatable_reduced_building_cost add_tech_progress = { tech = tech_repeatable_reduced_building_cost progress = 0.10 } 
+								}
+								#society
+								1 = {
+									modifier = { factor = 0 NOT = { has_technology = tech_galactic_bureaucracy } }
+									add_research_option = tech_repeatable_improved_core_system_cap add_tech_progress = { tech = tech_repeatable_improved_core_system_cap progress = 0.10 } 
+								}
+								1 = {
+									modifier = { factor = 0 NOT = { has_technology = tech_combat_training } }
+									add_research_option = tech_repeatable_improved_army_damage add_tech_progress = { tech = tech_repeatable_improved_army_damage progress = 0.10 } 
+								}
+								1 = {
+									modifier = { factor = 0 NOT = { has_technology = tech_combat_training } }
+									add_research_option = tech_repeatable_improved_army_health add_tech_progress = { tech = tech_repeatable_improved_army_health progress = 0.10 } 
+								}
+								1 = {
+									modifier = { factor = 0 NOT = { has_technology = tech_doctrine_navy_size_4 } }
+									add_research_option = tech_repeatable_naval_cap add_tech_progress = { tech = tech_repeatable_naval_cap progress = 0.10 } 
+								}
+								1 = {
+									modifier = { factor = 0 NOT = { has_technology = tech_doctrine_fleet_size_5 } }
+									add_research_option = tech_repeatable_command_limit add_tech_progress = { tech = tech_repeatable_command_limit progress = 0.10 } 
+								}
+								1 = {
+									modifier = { factor = 0 NOT = { has_technology = tech_galactic_ambitions } }
+									add_research_option = tech_repeatable_improved_starbase_capacity add_tech_progress = { tech = tech_repeatable_improved_starbase_capacity progress = 0.10 } 
+								}
+								#engineering
+								1 = {
+									modifier = { factor = 0 NOT = { has_technology = tech_mineral_purification_2 } }
+									add_research_option = tech_repeatable_improved_tile_mineral_output add_tech_progress = { tech = tech_repeatable_improved_tile_mineral_output progress = 0.10 } 
+								}
+								1 = {
+									modifier = { factor = 0 NOT = { has_technology = tech_defense_platform_hull_1 } }
+									add_research_option = tech_repeatable_improved_military_station_damage add_tech_progress = { tech = tech_repeatable_improved_military_station_damage progress = 0.10 } 
+								}
+								1 = {
+									modifier = { factor = 0 NOT = { has_technology = tech_defense_platform_hull_1 } }
+									add_research_option = tech_repeatable_improved_military_station_health add_tech_progress = { tech = tech_repeatable_improved_military_station_health progress = 0.10 } 
+								}
+								1 = {
+									modifier = { factor = 0 NOT = { has_technology = tech_ship_armor_3 } }
+									add_research_option = tech_repeatable_improved_armor_output add_tech_progress = { tech = tech_repeatable_improved_armor_output progress = 0.10 } 
+								}
+								1 = {
+									modifier = { factor = 0 NOT = { has_technology = tech_missiles_3 } }
+									add_research_option = tech_repeatable_weapon_type_explosive_damage add_tech_progress = { tech = tech_repeatable_weapon_type_explosive_damage progress = 0.10 } 
+								}
+								1 = {
+									modifier = { factor = 0 NOT = { has_technology = tech_missiles_3 } }
+									add_research_option = tech_repeatable_weapon_type_explosive_fire_rate add_tech_progress = { tech = tech_repeatable_weapon_type_explosive_fire_rate progress = 0.10 } 
+								}
+								1 = {
+									modifier = { factor = 0 NOT = { has_technology = tech_mass_drivers_3 } }
+									add_research_option = tech_repeatable_weapon_type_kinetic_damage add_tech_progress = { tech = tech_repeatable_weapon_type_kinetic_damage progress = 0.10 } 
+								}
+								1 = {
+									modifier = { factor = 0 NOT = { has_technology = tech_mass_drivers_3 } }
+									add_research_option = tech_repeatable_weapon_type_kinetic_fire_rate add_tech_progress = { tech = tech_repeatable_weapon_type_kinetic_fire_rate progress = 0.10 } 
+								}
+								1 = {
+									modifier = { factor = 0 NOT = { has_technology = tech_strike_craft_3 } }
+									add_research_option = tech_repeatable_weapon_type_strike_craft_fire_damage add_tech_progress = { tech = tech_repeatable_weapon_type_strike_craft_fire_damage progress = 0.10 } 
+								}
+								1 = {
+									modifier = { factor = 0 NOT = { has_technology = tech_strike_craft_3 } }
+									add_research_option = tech_repeatable_weapon_type_strike_craft_fire_rate add_tech_progress = { tech = tech_repeatable_weapon_type_strike_craft_fire_rate progress = 0.10 } 
+								}
+								1 = {
+									modifier = { factor = 0 NOT = { has_technology = tech_construction_templates } }
+									add_research_option = tech_repeatable_reduced_building_time add_tech_progress = { tech = tech_repeatable_reduced_building_time progress = 0.10 } 
+								}
+							}
+						}
+					}
+					if = {
+						limit = { has_country_flag = xvcv_mdlc_r_unknown_core_message_on }
+						create_message = { type = XVCV_MDLC_R_UNKNOWN_CORE_ACTIVATION_MESSAGE_TYPE localization = XVCV_MDLC_R_UNKNOWN_CORE_RANDOM_BONUS_8 days = 10 target = this.capital_scope }
+					}
+				}
+			}
+		}
+	}
+
+	# Possible check for activation
+	possible = {
+		custom_tooltip = {
+			fail_text = "requires_relic_no_cooldown"
+			NOT = { has_modifier = relic_activation_cooldown }
+		}
+	}
+}

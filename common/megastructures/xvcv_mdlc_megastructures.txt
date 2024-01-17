@@ -1,0 +1,96 @@
+xvcv_mdlc_planet_cracker_incomplete = {
+	entity = "construction_platform_entity"
+	construction_entity = "construction_platform_entity"
+	portrait = "GFX_megastructure_xvcv_mdlc_planet_cracker"
+	place_entity_on_planet_plane = no
+	show_galactic_map_icon = no
+
+	construction_blocks_and_blocked_by = none
+
+	potential = {
+		always = no
+	}
+}
+xvcv_mdlc_planet_cracker = {
+	entity = "xvcv_mdlc_planet_cracker_entity"
+	portrait = "GFX_megastructure_xvcv_mdlc_planet_cracker"
+	place_entity_on_planet_plane = yes
+	show_galactic_map_icon = no
+	show_in_outliner = no
+
+	build_time = 720
+
+	construction_blocks_and_blocked_by = none
+
+	upgrade_from = {
+		xvcv_mdlc_planet_cracker_incomplete
+	}
+	
+	on_build_complete = {
+		fromfrom.planet = {
+			if = {
+				limit = { planet_size > 10 }
+				set_planet_size = 10
+			}
+			if = {
+				limit = {
+					NOR = {
+						is_planet_class = pc_shattered
+						is_planet_class = pc_habitat
+						is_planet_class = pc_ringworld_habitable
+						is_planet_class = pc_ringworld_habitable_damaged
+						is_planet_class = pc_ringworld_tech
+						is_planet_class = pc_ringworld_tech_damaged
+						is_planet_class = pc_ringworld_seam
+						is_planet_class = pc_ringworld_seam_damaged
+					}
+				}
+				change_pc = pc_shattered
+			}
+			else_if = {
+				limit = { is_planet_class = pc_habitat }
+				remove_planet = yes
+				spawn_habitat_cracker_effect = yes
+			}
+			else_if = {
+				limit = { is_planet_class = pc_ringworld_habitable }
+				change_pc = pc_ringworld_habitable_damaged
+				spawn_ringworld_cracker_effect = yes
+			}
+			else_if = {
+				limit = { is_planet_class = pc_ringworld_tech }
+				change_pc = pc_ringworld_tech_damaged
+				spawn_ringworld_cracker_effect = yes
+			}
+			else_if = {
+				limit = { is_planet_class = pc_ringworld_seam }
+				change_pc = pc_ringworld_seam_damaged
+				spawn_ringworld_cracker_effect = yes
+			}
+		}
+	}
+
+	resources = {
+		category = station_gatherers
+		produces = { minerals = 10 }
+		upkeep = { energy = 5 }
+		#with tech 1
+		produces = {
+			trigger = { owner = { has_technology = xvcv_mdlc_tech_orbital_cracker_upgrade_1 } }
+			minerals = 4
+		}
+		upkeep = {
+			trigger = { owner = { has_technology = xvcv_mdlc_tech_orbital_cracker_upgrade_1 } }
+			energy = 2
+		}
+		#with tech 2
+		produces = {
+			trigger = { owner = { has_technology = xvcv_mdlc_tech_orbital_cracker_upgrade_2 } }
+			minerals = 6
+		}
+		upkeep = {
+			trigger = { owner = { has_technology = xvcv_mdlc_tech_orbital_cracker_upgrade_2 } }
+			energy = 3
+		}
+	}
+}

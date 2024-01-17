@@ -1,0 +1,56 @@
+xvcv_mdlc_leader_making = {
+	length = 1 #setting this to '0' can cause a CTD #stellaris v3.8.2
+	icon = "GFX_edict_xvcv_mdlc_leader_making"
+
+	effect = {
+		hidden_effect = {
+			#set_country_flag = xvcv_mdlc_leader_making_in_progress #disabled due to a bug report #stellaris v3.9.3
+			country_event = { id = xvcv_mdlc_customgui.1 }
+		}
+		custom_tooltip = edict_xvcv_mdlc_leader_making_tooltip
+	}
+
+	potential = {
+		is_ai = no
+		has_technology = xvcv_mdlc_tech_leader_making
+	}
+
+	allow = {
+		custom_tooltip_fail = {
+            text = edict_xvcv_mdlc_leader_making_tooltip.fail
+            NOT = { has_country_flag = xvcv_mdlc_leader_making_in_progress }
+        }
+	}
+
+	ai_weight = {
+		weight = 0
+	}
+}
+xvcv_mdlc_core_modifying = {
+	length = 1
+	icon = "GFX_edict_xvcv_mdlc_leader_making"
+
+	effect = {
+		hidden_effect = {
+			#set_country_flag = xvcv_mdlc_core_modifying_in_progress
+			country_event = { id = xvcv_mdlc_customgui.3 }
+		}
+		custom_tooltip = edict_xvcv_mdlc_core_modifying_tooltip
+	}
+
+	potential = {
+		is_ai = no
+		has_technology = xvcv_mdlc_tech_core_modifying
+	}
+
+	allow = {
+		custom_tooltip_fail = {
+            text = edict_xvcv_mdlc_leader_making_tooltip.fail
+            NOT = { has_country_flag = xvcv_mdlc_core_modifying_in_progress }
+        }
+	}
+
+	ai_weight = {
+		weight = 0
+	}
+}

@@ -1,0 +1,614 @@
+xvcv_mdlc_leader_making_dummy_button_effect = {
+    potential = { always = yes }
+    allow = { always = yes }
+}
+xvcv_mdlc_leader_making_close_button_effect = {
+    potential = { always = yes }
+    allow = { always = yes }
+    effect = {
+        custom_tooltip = CLOSE_TITLE
+        hidden_effect = {
+            from = {
+                xvcv_mdlc_leader_making_clear_values_effect = yes
+                remove_country_flag = xvcv_mdlc_leader_making_in_progress
+            }
+        }
+    }
+}
+xvcv_mdlc_leader_making_reset_button_effect = {
+    potential = { always = yes }
+    allow = {
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_making_should_pick_any_trait_or_skill_level.fail
+            OR = {
+                xvcv_mdlc_leader_making_picked_any_class_trigger = yes
+                xvcv_mdlc_leader_making_picked_any_skill_level_trigger = yes
+            }
+        }
+    }
+    effect = {
+        custom_tooltip = tooltip_reset_xvcv_mdlc_leader_trait
+        hidden_effect = { xvcv_mdlc_leader_making_clear_values_effect = yes }
+    }
+}
+xvcv_mdlc_leader_making_start_number_up_button_effect = {
+    potential = { always = yes }
+    allow = {
+        custom_tooltip = xvcv_mdlc_leader_making_start_number_up_button_effect_tooltip
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_making_should_pick_any_trait.fail
+            xvcv_mdlc_leader_making_picked_any_class_trigger = yes
+        }
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_making_should_pick_any_skill_level.fail
+            xvcv_mdlc_leader_making_picked_any_skill_level_trigger = yes
+        }
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_making_start_number_up_button_effect.fail
+            check_variable = { which = xvcv_mdlc_leader_making_start_number value < 10 }
+        }
+    }
+    effect = {
+        custom_tooltip = xvcv_mdlc_leader_making_start_number_up_button_effect_tooltip
+        hidden_effect = {
+            change_variable = { which = xvcv_mdlc_leader_making_start_number value = 1 }
+            set_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy_for_displaying value = xvcv_mdlc_leader_making_trait_costs_count_energy }
+            multiply_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy_for_displaying value = xvcv_mdlc_leader_making_start_number }
+            set_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys_for_displaying value = xvcv_mdlc_leader_making_trait_costs_count_alloys }
+            multiply_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys_for_displaying value = xvcv_mdlc_leader_making_start_number }
+        }
+    }
+}
+xvcv_mdlc_leader_making_start_number_down_button_effect = {
+    potential = { always = yes }
+    allow = {
+        custom_tooltip = xvcv_mdlc_leader_making_start_number_down_button_effect_tooltip
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_making_should_pick_any_trait.fail
+            xvcv_mdlc_leader_making_picked_any_class_trigger = yes
+        }
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_making_should_pick_any_skill_level.fail
+            xvcv_mdlc_leader_making_picked_any_skill_level_trigger = yes
+        }
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_making_start_number_down_button_effect.fail
+            check_variable = { which = xvcv_mdlc_leader_making_start_number value > 1 }
+        }
+    }
+    effect = {
+        custom_tooltip = xvcv_mdlc_leader_making_start_number_down_button_effect_tooltip
+        hidden_effect = {
+            change_variable = { which = xvcv_mdlc_leader_making_start_number value = -1 }
+            set_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy_for_displaying value = xvcv_mdlc_leader_making_trait_costs_count_energy }
+            multiply_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy_for_displaying value = xvcv_mdlc_leader_making_start_number }
+            set_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys_for_displaying value = xvcv_mdlc_leader_making_trait_costs_count_alloys }
+            multiply_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys_for_displaying value = xvcv_mdlc_leader_making_start_number }
+        }
+    }
+}
+xvcv_mdlc_leader_making_start_button_effect = {
+    potential = { always = yes }
+    allow = {
+        custom_tooltip = tooltip_xvcv_mdlc_leader_making_trait_points_left
+        custom_tooltip = tooltip_xvcv_mdlc_leader_making_max_traits_number_left
+        custom_tooltip = tooltip_xvcv_mdlc_leader_making_total_cost
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_making_should_pick_any_trait.fail
+            xvcv_mdlc_leader_making_picked_any_class_trigger = yes
+        }
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_making_should_pick_any_skill_level.fail
+            xvcv_mdlc_leader_making_picked_any_skill_level_trigger = yes
+        }
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_making_not_enough_resources_to_pay_cost.fail
+            resource_stockpile_compare = { resource = energy value >= 1 mult = xvcv_mdlc_leader_making_trait_costs_count_energy }
+            resource_stockpile_compare = { resource = alloys value >= 1 mult = xvcv_mdlc_leader_making_trait_costs_count_alloys }
+        }
+    }
+    effect = {
+        custom_tooltip = tooltip_xvcv_mdlc_leader_making_trait_points_left
+        custom_tooltip = tooltip_xvcv_mdlc_leader_making_max_traits_number_left
+        custom_tooltip = tooltip_xvcv_mdlc_leader_making_total_cost
+        custom_tooltip = tooltip_xvcv_mdlc_leader_making_start_number
+        hidden_effect = {
+            while = {
+                add_resource = { energy = -1 mult = xvcv_mdlc_leader_making_trait_costs_count_energy }
+                add_resource = { alloys = -1 mult = xvcv_mdlc_leader_making_trait_costs_count_alloys }
+                if = {
+                    limit = { has_country_flag = xvcv_mdlc_leader_class_set_to_governor }
+                    create_leader = {
+                        class = governor #set the leader's class first
+                        species = this.species
+                        set_age = 1
+                        randomize_traits = no #remove randomized traits of the newly created leader
+                        custom_description = xvcv_mdlc_leader_making_backstory
+                        effect = { save_event_target_as = xvcv_mdlc_leader_making_target }
+                    }
+                    #and add traits for the leader
+                    event_target:xvcv_mdlc_leader_making_target = {
+                        #governor subclass traits (total 3)
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_subclass_governor_pioneer } } add_trait_no_notify = subclass_governor_pioneer }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_subclass_governor_economist } } add_trait_no_notify = subclass_governor_economist }
+                        #generic traits (total 8)
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_xvcv_mdlc_leader_trait_shared_memory } } add_trait_no_notify = xvcv_mdlc_leader_trait_shared_memory }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_xvcv_mdlc_leader_trait_memory_backup } } add_trait_no_notify = xvcv_mdlc_leader_trait_memory_backup }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_adventurous_spirit_3 } } add_trait_no_notify = leader_trait_adventurous_spirit_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_resilient_2 } } add_trait_no_notify = leader_trait_resilient_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_adaptable_2 } } add_trait_no_notify = leader_trait_adaptable_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_capitalist_2 } } add_trait_no_notify = leader_trait_capitalist_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_private_mines_2 } } add_trait_no_notify = leader_trait_private_mines_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_gifted_2 } } add_trait_no_notify = leader_trait_gifted_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_scrapper_2 } } add_trait_no_notify = leader_trait_scrapper_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_venerated_2 } } add_trait_no_notify = leader_trait_venerated_2 }
+                        #governor traits (total 23)
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_bureaucrat_2 } } add_trait_no_notify = leader_trait_bureaucrat_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_agrarian_upbringing_2 } } add_trait_no_notify = leader_trait_agrarian_upbringing_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_righteous_2 } } add_trait_no_notify = leader_trait_righteous_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_environmental_engineer_2 } } add_trait_no_notify = leader_trait_environmental_engineer_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_enlister_2 } } add_trait_no_notify = leader_trait_enlister_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_shipwright_2 } } add_trait_no_notify = leader_trait_shipwright_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_architectural_interest_2 } } add_trait_no_notify = leader_trait_architectural_interest_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_generator_focus_3 } } add_trait_no_notify = leader_trait_generator_focus_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_mining_focus_3 } } add_trait_no_notify = leader_trait_mining_focus_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_farming_focus_3 } } add_trait_no_notify = leader_trait_farming_focus_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_settler_3 } } add_trait_no_notify = leader_trait_settler_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_cartographer_3 } } add_trait_no_notify = leader_trait_cartographer_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_expeditionist_3 } } add_trait_no_notify = leader_trait_expeditionist_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_geologist_3 } } add_trait_no_notify = leader_trait_geologist_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_naturalist_3 } } add_trait_no_notify = leader_trait_naturalist_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_forge_focus_3 } } add_trait_no_notify = leader_trait_forge_focus_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_refinement_focus_3 } } add_trait_no_notify = leader_trait_refinement_focus_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_urbanist_3 } } add_trait_no_notify = leader_trait_urbanist_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_assembler_3 } } add_trait_no_notify = leader_trait_assembler_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_pop_focused_3 } } add_trait_no_notify = leader_trait_pop_focused_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_intellectual } } add_trait_no_notify = leader_trait_intellectual }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_academic_3 } } add_trait_no_notify = leader_trait_academic_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_distribution_lines_3 } } add_trait_no_notify = leader_trait_distribution_lines_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_automation_champion } } add_trait_no_notify = leader_trait_automation_champion }
+                    }
+                }
+                else_if = {
+                    limit = { has_country_flag = xvcv_mdlc_leader_class_set_to_scientist }
+                    create_leader = {
+                        class = scientist
+                        species = this.species
+                        set_age = 1
+                        randomize_traits = no
+                        custom_description = xvcv_mdlc_leader_making_backstory
+                        effect = { save_event_target_as = xvcv_mdlc_leader_making_target }
+                    }
+                    event_target:xvcv_mdlc_leader_making_target = {
+                        #scientist subclass traits (total 3)
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_subclass_scientist_explorer } } add_trait_no_notify = subclass_scientist_explorer }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_subclass_scientist_analyst } } add_trait_no_notify = subclass_scientist_analyst }
+                        #generic traits (total 8)
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_xvcv_mdlc_leader_trait_shared_memory } } add_trait_no_notify = xvcv_mdlc_leader_trait_shared_memory }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_xvcv_mdlc_leader_trait_memory_backup } } add_trait_no_notify = xvcv_mdlc_leader_trait_memory_backup }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_adventurous_spirit_3 } } add_trait_no_notify = leader_trait_adventurous_spirit_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_resilient_2 } } add_trait_no_notify = leader_trait_resilient_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_adaptable_2 } } add_trait_no_notify = leader_trait_adaptable_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_capitalist_2 } } add_trait_no_notify = leader_trait_capitalist_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_private_mines_2 } } add_trait_no_notify = leader_trait_private_mines_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_gifted_2 } } add_trait_no_notify = leader_trait_gifted_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_scrapper_2 } } add_trait_no_notify = leader_trait_scrapper_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_venerated_2 } } add_trait_no_notify = leader_trait_venerated_2 }
+                        #scientist traits (total 20)
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_carefree_2 } } add_trait_no_notify = leader_trait_carefree_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_roamer_2 } } add_trait_no_notify = leader_trait_roamer_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_archaeologist_2 } } add_trait_no_notify = leader_trait_archaeologist_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_meticulous_2 } } add_trait_no_notify = leader_trait_meticulous_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_slippery_3 } } add_trait_no_notify = leader_trait_slippery_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_prospector_3 } } add_trait_no_notify = leader_trait_prospector_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_observant_3 } } add_trait_no_notify = leader_trait_observant_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_collective_wisdom_3 } } add_trait_no_notify = leader_trait_collective_wisdom_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_tuner_3 } } add_trait_no_notify = leader_trait_tuner_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_insightful_3 } } add_trait_no_notify = leader_trait_insightful_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_collaborator_3 } } add_trait_no_notify = leader_trait_collaborator_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_experimenter_3 } } add_trait_no_notify = leader_trait_experimenter_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_civil_engineer_3 } } add_trait_no_notify = leader_trait_civil_engineer_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_manufacturer_3 } } add_trait_no_notify = leader_trait_manufacturer_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_salvager_3 } } add_trait_no_notify = leader_trait_salvager_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_space_miner_3 } } add_trait_no_notify = leader_trait_space_miner_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_surveyor } } add_trait_no_notify = leader_trait_surveyor }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_midas_touch } } add_trait_no_notify = leader_trait_midas_touch }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_repair_crew } } add_trait_no_notify = leader_trait_repair_crew }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_great_researcher } } add_trait_no_notify = leader_trait_great_researcher }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_deep_space_explorer } } add_trait_no_notify = leader_trait_deep_space_explorer }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_fleet_logistician } } add_trait_no_notify = leader_trait_fleet_logistician }
+                    }
+                }
+                else_if = {
+                    limit = { has_country_flag = xvcv_mdlc_leader_class_set_to_admiral }
+                    create_leader = {
+                        class = admiral
+                        species = this.species
+                        set_age = 1
+                        randomize_traits = no
+                        custom_description = xvcv_mdlc_leader_making_backstory
+                        effect = { save_event_target_as = xvcv_mdlc_leader_making_target }
+                    }
+                    event_target:xvcv_mdlc_leader_making_target = {
+                        #admiral subclass traits (total 3)
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_subclass_admiral_aggressor } } add_trait_no_notify = subclass_admiral_aggressor }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_subclass_admiral_tactician } } add_trait_no_notify = subclass_admiral_tactician }
+                        #generic traits (total 8)
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_xvcv_mdlc_leader_trait_shared_memory } } add_trait_no_notify = xvcv_mdlc_leader_trait_shared_memory }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_xvcv_mdlc_leader_trait_memory_backup } } add_trait_no_notify = xvcv_mdlc_leader_trait_memory_backup }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_adventurous_spirit_3 } } add_trait_no_notify = leader_trait_adventurous_spirit_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_resilient_2 } } add_trait_no_notify = leader_trait_resilient_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_adaptable_2 } } add_trait_no_notify = leader_trait_adaptable_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_capitalist_2 } } add_trait_no_notify = leader_trait_capitalist_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_private_mines_2 } } add_trait_no_notify = leader_trait_private_mines_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_gifted_2 } } add_trait_no_notify = leader_trait_gifted_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_scrapper_2 } } add_trait_no_notify = leader_trait_scrapper_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_venerated_2 } } add_trait_no_notify = leader_trait_venerated_2 }
+                        #admiral traits (total 25)
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_aggressive_2 } } add_trait_no_notify = leader_trait_aggressive_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_cautious_2 } } add_trait_no_notify = leader_trait_cautious_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_unyielding_2 } } add_trait_no_notify = leader_trait_unyielding_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_engineer_2 } } add_trait_no_notify = leader_trait_engineer_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_trickster_2 } } add_trait_no_notify = leader_trait_trickster_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_wrecker_3 } } add_trait_no_notify = leader_trait_wrecker_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_annihilator_3 } } add_trait_no_notify = leader_trait_annihilator_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_artillerist_3 } } add_trait_no_notify = leader_trait_artillerist_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_commanding_presence_3 } } add_trait_no_notify = leader_trait_commanding_presence_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_corsair_3 } } add_trait_no_notify = leader_trait_corsair_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_demolisher_3 } } add_trait_no_notify = leader_trait_demolisher_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_shipbreaker_3 } } add_trait_no_notify = leader_trait_shipbreaker_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_artillery_specialization_3 } } add_trait_no_notify = leader_trait_artillery_specialization_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_carrier_specialization_3 } } add_trait_no_notify = leader_trait_carrier_specialization_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_rocketry_specialization_3 } } add_trait_no_notify = leader_trait_rocketry_specialization_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_gunship_specialization_3 } } add_trait_no_notify = leader_trait_gunship_specialization_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_juryrigger_3 } } add_trait_no_notify = leader_trait_juryrigger_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_surgical_bombardment_3 } } add_trait_no_notify = leader_trait_surgical_bombardment_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_scout_3 } } add_trait_no_notify = leader_trait_scout_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_watchdog_3 } } add_trait_no_notify = leader_trait_watchdog_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_scholar_of_war_3 } } add_trait_no_notify = leader_trait_scholar_of_war_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_master_gunner } } add_trait_no_notify = leader_trait_master_gunner }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_supreme_admiral } } add_trait_no_notify = leader_trait_supreme_admiral }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_destiny_engineer } } add_trait_no_notify = leader_trait_destiny_engineer }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_guerilla_tactics } } add_trait_no_notify = leader_trait_guerilla_tactics }
+                    }
+                }
+                else_if = {
+                    limit = { has_country_flag = xvcv_mdlc_leader_class_set_to_general }
+                    create_leader = {
+                        class = general
+                        species = this.species
+                        set_age = 1
+                        event_leader = no #look for: xvcv_mdlc.30, 'is_event_leader = no' code
+                        randomize_traits = no
+                        custom_description = xvcv_mdlc_leader_making_backstory
+                        effect = { save_event_target_as = xvcv_mdlc_leader_making_target }
+                    }
+                    event_target:xvcv_mdlc_leader_making_target = {
+                        #general subclass traits (total 3)
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_subclass_general_invader } } add_trait_no_notify = subclass_general_invader }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_subclass_general_protector } } add_trait_no_notify = subclass_general_protector }
+                        #generic traits (total 8)
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_xvcv_mdlc_leader_trait_shared_memory } } add_trait_no_notify = xvcv_mdlc_leader_trait_shared_memory }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_xvcv_mdlc_leader_trait_memory_backup } } add_trait_no_notify = xvcv_mdlc_leader_trait_memory_backup }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_adventurous_spirit_3 } } add_trait_no_notify = leader_trait_adventurous_spirit_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_resilient_2 } } add_trait_no_notify = leader_trait_resilient_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_adaptable_2 } } add_trait_no_notify = leader_trait_adaptable_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_capitalist_2 } } add_trait_no_notify = leader_trait_capitalist_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_private_mines_2 } } add_trait_no_notify = leader_trait_private_mines_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_gifted_2 } } add_trait_no_notify = leader_trait_gifted_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_scrapper_2 } } add_trait_no_notify = leader_trait_scrapper_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_venerated_2 } } add_trait_no_notify = leader_trait_venerated_2 }
+                        #general traits (total 17)
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_butcher_2 } } add_trait_no_notify = leader_trait_butcher_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_army_logistician_2 } } add_trait_no_notify = leader_trait_army_logistician_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_restrained_2 } } add_trait_no_notify = leader_trait_restrained_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_glory_seeker_2 } } add_trait_no_notify = leader_trait_glory_seeker_2 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_dreaded_3 } } add_trait_no_notify = leader_trait_dreaded_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_heavy_hitter_3 } } add_trait_no_notify = leader_trait_heavy_hitter_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_kidnapper_3 } } add_trait_no_notify = leader_trait_kidnapper_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_interrogator_3 } } add_trait_no_notify = leader_trait_interrogator_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_industrial_espionage_3 } } add_trait_no_notify = leader_trait_industrial_espionage_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_crusader_3 } } add_trait_no_notify = leader_trait_crusader_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_hardy_3 } } add_trait_no_notify = leader_trait_hardy_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_martinet_3 } } add_trait_no_notify = leader_trait_martinet_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_warden_3 } } add_trait_no_notify = leader_trait_warden_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_reinforcer_3 } } add_trait_no_notify = leader_trait_reinforcer_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_conscripter_3 } } add_trait_no_notify = leader_trait_conscripter_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_taskmaster } } add_trait_no_notify = leader_trait_taskmaster }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_fortress_cracker } } add_trait_no_notify = leader_trait_fortress_cracker }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_supreme_warrior } } add_trait_no_notify = leader_trait_supreme_warrior }
+                    }
+                }
+                #then the skill level and other things at last
+                event_target:xvcv_mdlc_leader_making_target = {
+                    prev = {
+                        switch = {
+                            trigger = has_country_flag
+                            xvcv_mdlc_leader_skill_level_set_1 = { prev = { set_skill = 1 } }
+                            xvcv_mdlc_leader_skill_level_set_2 = { prev = { set_skill = 2 } }
+                            xvcv_mdlc_leader_skill_level_set_3 = { prev = { set_skill = 3 } }
+                            xvcv_mdlc_leader_skill_level_set_4 = { prev = { set_skill = 4 } }
+                            xvcv_mdlc_leader_skill_level_set_5 = { prev = { set_skill = 5 } }
+                            xvcv_mdlc_leader_skill_level_set_6 = { prev = { set_skill = 6 } }
+                            xvcv_mdlc_leader_skill_level_set_7 = { prev = { set_skill = 7 } }
+                            xvcv_mdlc_leader_skill_level_set_8 = { prev = { set_skill = 8 } }
+                            xvcv_mdlc_leader_skill_level_set_9 = { prev = { set_skill = 9 } }
+                            xvcv_mdlc_leader_skill_level_set_10 = { prev = { set_skill = 10 } }
+                        }
+                    }
+                    set_leader_flag = xvcv_mdlc_leader_making_target_leader
+                }
+                count = xvcv_mdlc_leader_making_start_number
+            }
+            xvcv_mdlc_leader_making_clear_values_effect = yes
+            xvcv_mdlc_leader_tied_traits_add_effect = yes
+            xvcv_mdlc_leader_tied_traits_remove_effect = yes
+        }
+    }
+}
+xvcv_mdlc_set_skill_level_1_button_effect = {
+    potential = { always = yes }
+    allow = {
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_skill_cost.fail.1
+            has_country_resource = { type = energy amount >= 100 }
+            has_country_resource = { type = alloys amount >= 100 }
+        }
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_making_already_set_skill_level.fail
+            NOT = { has_country_flag = xvcv_mdlc_leader_skill_level_set_1 }
+        }
+    }
+    effect = {
+        custom_tooltip = tooltip_xvcv_mdlc_leader_skill_level_set_1
+        hidden_effect = {
+            xvcv_mdlc_leader_making_clear_skill_levels_effect = yes
+            set_country_flag = xvcv_mdlc_leader_skill_level_set_1
+            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = 100 }
+            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = 100 }
+        }
+    }
+}
+xvcv_mdlc_set_skill_level_2_button_effect = {
+    potential = { always = yes }
+    allow = {
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_skill_cost.fail.2
+            has_country_resource = { type = energy amount >= 200 }
+            has_country_resource = { type = alloys amount >= 200 }
+        }
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_making_already_set_skill_level.fail
+            NOT = { has_country_flag = xvcv_mdlc_leader_skill_level_set_2 }
+        }
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_skill_level.fail.2
+            has_country_flag = xvcv_mdlc_leader_making_set_skill_level_2_granted
+        }
+    }
+    effect = {
+        custom_tooltip = tooltip_xvcv_mdlc_leader_skill_level_set_2
+        hidden_effect = {
+            xvcv_mdlc_leader_making_clear_skill_levels_effect = yes
+            set_country_flag = xvcv_mdlc_leader_skill_level_set_2
+            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = 200 }
+            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = 200 }
+        }
+    }
+}
+xvcv_mdlc_set_skill_level_3_button_effect = {
+    potential = { always = yes }
+    allow = {
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_skill_cost.fail.3
+            has_country_resource = { type = energy amount >= 300 }
+            has_country_resource = { type = alloys amount >= 300 }
+        }
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_making_already_set_skill_level.fail
+            NOT = { has_country_flag = xvcv_mdlc_leader_skill_level_set_3 }
+        }
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_skill_level.fail.3
+            has_country_flag = xvcv_mdlc_leader_making_set_skill_level_3_granted
+        }
+    }
+    effect = {
+        custom_tooltip = tooltip_xvcv_mdlc_leader_skill_level_set_3
+        hidden_effect = {
+            xvcv_mdlc_leader_making_clear_skill_levels_effect = yes
+            set_country_flag = xvcv_mdlc_leader_skill_level_set_3
+            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = 300 }
+            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = 300 }
+        }
+    }
+}
+xvcv_mdlc_set_skill_level_4_button_effect = {
+    potential = { always = yes }
+    allow = {
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_skill_cost.fail.4
+            has_country_resource = { type = energy amount >= 400 }
+            has_country_resource = { type = alloys amount >= 400 }
+        }
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_making_already_set_skill_level.fail
+            NOT = { has_country_flag = xvcv_mdlc_leader_skill_level_set_4 }
+        }
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_skill_level.fail.4
+            has_country_flag = xvcv_mdlc_leader_making_set_skill_level_4_granted
+        }
+    }
+    effect = {
+        custom_tooltip = tooltip_xvcv_mdlc_leader_skill_level_set_4
+        hidden_effect = {
+            xvcv_mdlc_leader_making_clear_skill_levels_effect = yes
+            set_country_flag = xvcv_mdlc_leader_skill_level_set_4
+            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = 400 }
+            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = 400 }
+        }
+    }
+}
+xvcv_mdlc_set_skill_level_5_button_effect = {
+    potential = { always = yes }
+    allow = {
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_skill_cost.fail.5
+            has_country_resource = { type = energy amount >= 500 }
+            has_country_resource = { type = alloys amount >= 500 }
+        }
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_making_already_set_skill_level.fail
+            NOT = { has_country_flag = xvcv_mdlc_leader_skill_level_set_5 }
+        }
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_skill_level.fail.5
+            has_country_flag = xvcv_mdlc_leader_making_set_skill_level_5_granted
+        }
+    }
+    effect = {
+        custom_tooltip = tooltip_xvcv_mdlc_leader_skill_level_set_5
+        hidden_effect = {
+            xvcv_mdlc_leader_making_clear_skill_levels_effect = yes
+            set_country_flag = xvcv_mdlc_leader_skill_level_set_5
+            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = 500 }
+            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = 500 }
+        }
+    }
+}
+xvcv_mdlc_set_skill_level_6_button_effect = {
+    potential = { always = yes }
+    allow = {
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_skill_cost.fail.6
+            has_country_resource = { type = energy amount >= 600 }
+            has_country_resource = { type = alloys amount >= 600 }
+        }
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_making_already_set_skill_level.fail
+            NOT = { has_country_flag = xvcv_mdlc_leader_skill_level_set_6 }
+        }
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_skill_level.fail.6
+            has_country_flag = xvcv_mdlc_leader_making_set_skill_level_6_granted
+        }
+    }
+    effect = {
+        custom_tooltip = tooltip_xvcv_mdlc_leader_skill_level_set_6
+        hidden_effect = {
+            xvcv_mdlc_leader_making_clear_skill_levels_effect = yes
+            set_country_flag = xvcv_mdlc_leader_skill_level_set_6
+            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = 600 }
+            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = 600 }
+        }
+    }
+}
+xvcv_mdlc_set_skill_level_7_button_effect = {
+    potential = { always = yes }
+    allow = {
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_skill_cost.fail.7
+            has_country_resource = { type = energy amount >= 700 }
+            has_country_resource = { type = alloys amount >= 700 }
+        }
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_making_already_set_skill_level.fail
+            NOT = { has_country_flag = xvcv_mdlc_leader_skill_level_set_7 }
+        }
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_skill_level.fail.7
+            has_country_flag = xvcv_mdlc_leader_making_set_skill_level_7_granted
+        }
+    }
+    effect = {
+        custom_tooltip = tooltip_xvcv_mdlc_leader_skill_level_set_7
+        hidden_effect = {
+            xvcv_mdlc_leader_making_clear_skill_levels_effect = yes
+            set_country_flag = xvcv_mdlc_leader_skill_level_set_7
+            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = 700 }
+            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = 700 }
+        }
+    }
+}
+xvcv_mdlc_set_skill_level_8_button_effect = {
+    potential = { always = yes }
+    allow = {
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_skill_cost.fail.8
+            has_country_resource = { type = energy amount >= 800 }
+            has_country_resource = { type = alloys amount >= 800 }
+        }
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_making_already_set_skill_level.fail
+            NOT = { has_country_flag = xvcv_mdlc_leader_skill_level_set_8 }
+        }
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_skill_level.fail.8
+            has_country_flag = xvcv_mdlc_leader_making_set_skill_level_8_granted
+        }
+    }
+    effect = {
+        custom_tooltip = tooltip_xvcv_mdlc_leader_skill_level_set_8
+        hidden_effect = {
+            xvcv_mdlc_leader_making_clear_skill_levels_effect = yes
+            set_country_flag = xvcv_mdlc_leader_skill_level_set_8
+            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = 800 }
+            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = 800 }
+        }
+    }
+}
+xvcv_mdlc_set_skill_level_9_button_effect = {
+    potential = { always = yes }
+    allow = {
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_skill_cost.fail.9
+            has_country_resource = { type = energy amount >= 900 }
+            has_country_resource = { type = alloys amount >= 900 }
+        }
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_making_already_set_skill_level.fail
+            NOT = { has_country_flag = xvcv_mdlc_leader_skill_level_set_9 }
+        }
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_skill_level.fail.9
+            has_country_flag = xvcv_mdlc_leader_making_set_skill_level_9_granted
+        }
+    }
+    effect = {
+        custom_tooltip = tooltip_xvcv_mdlc_leader_skill_level_set_9
+        hidden_effect = {
+            xvcv_mdlc_leader_making_clear_skill_levels_effect = yes
+            set_country_flag = xvcv_mdlc_leader_skill_level_set_9
+            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = 900 }
+            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = 900 }
+        }
+    }
+}
+xvcv_mdlc_set_skill_level_10_button_effect = {
+    potential = { always = yes }
+    allow = {
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_skill_cost.fail.10
+            has_country_resource = { type = energy amount >= 1000 }
+            has_country_resource = { type = alloys amount >= 1000 }
+        }
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_making_already_set_skill_level.fail
+            NOT = { has_country_flag = xvcv_mdlc_leader_skill_level_set_10 }
+        }
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_skill_level.fail.10
+            has_country_flag = xvcv_mdlc_leader_making_set_skill_level_10_granted
+        }
+    }
+    effect = {
+        custom_tooltip = tooltip_xvcv_mdlc_leader_skill_level_set_10
+        hidden_effect = {
+            xvcv_mdlc_leader_making_clear_skill_levels_effect = yes
+            set_country_flag = xvcv_mdlc_leader_skill_level_set_10
+            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = 1000 }
+            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = 1000 }
+        }
+    }
+}

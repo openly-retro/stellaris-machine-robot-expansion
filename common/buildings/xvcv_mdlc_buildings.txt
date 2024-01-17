@@ -1,0 +1,1893 @@
+#for 'xvcv_mdlc_civic_emotion_emulator' civic
+xvcv_mdlc_building_automated_goods_fabricator = {
+	base_buildtime = @b1_time
+	category = manufacturing
+
+	potential = {
+		exists = owner
+		owner = { has_valid_civic = xvcv_mdlc_civic_emotion_emulator }
+	}
+
+	allow = {
+		has_upgraded_capital = yes
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = { NOT = { has_valid_civic = xvcv_mdlc_civic_emotion_emulator } }
+	}
+
+	resources = {
+		category = planet_artisans
+		cost = { minerals = @b1_minerals }
+		upkeep = { energy = @b1_upkeep }
+		produces = { consumer_goods = 16 }
+		upkeep = { minerals = 16 }
+		produces = {
+			trigger = { owner = { has_technology = xvcv_mdlc_tech_automated_goods_manufacturing_1 } }
+			consumer_goods = 24 #change 'xvcv_mdlc_tech_automated_goods_manufacturing_1_tooltip' when this value is changed
+		}
+		upkeep = {
+			trigger = {
+				owner = {
+					is_ai = no
+					has_technology = xvcv_mdlc_tech_automated_goods_manufacturing_1
+				}
+			}
+			minerals = 24
+		}
+		produces = {
+			trigger = { owner = { has_technology = xvcv_mdlc_tech_automated_goods_manufacturing_2 } }
+			consumer_goods = 24 #change 'xvcv_mdlc_tech_automated_goods_manufacturing_2_tooltip' when this value is changed
+		}
+		upkeep = {
+			trigger = {
+				owner = {
+					is_ai = no
+					has_technology = xvcv_mdlc_tech_automated_goods_manufacturing_2
+				}
+			}
+			minerals = 24
+		}
+	}
+
+	ai_resource_production = {
+		consumer_goods = 10
+		trigger = { always = yes }
+	}
+}
+#for 'xvcv_mdlc_civic_maintenance_depot' civic
+xvcv_mdlc_building_maintenance_depot = {
+	base_buildtime = @b2_time
+
+	category = amenity
+
+	potential = {
+		exists = owner
+		owner = { has_valid_civic = xvcv_mdlc_civic_maintenance_depot }
+	}
+
+	allow = {
+		has_upgraded_capital = yes
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = { NOT = { has_valid_civic = xvcv_mdlc_civic_maintenance_depot } }
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			minerals = @b2_minerals
+			rare_crystals = @b2_rare_cost
+		}
+		upkeep = {
+			energy = @b2_upkeep
+			rare_crystals = @b2_rare_upkeep
+		}
+	}
+
+	planet_modifier = {
+		job_maintenance_drone_add = @b2_jobs
+	}
+}
+xvcv_mdlc_building_maintenance_spire = {
+	base_buildtime = @b3_time
+	base_cap_amount = 1
+	category = amenity
+
+	potential = {
+		exists = owner
+		owner = { has_valid_civic = xvcv_mdlc_civic_maintenance_depot }
+	}
+
+	allow = {
+		has_upgraded_capital = yes
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = { NOT = { has_valid_civic = xvcv_mdlc_civic_maintenance_depot } }
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			minerals = @b3_minerals
+			rare_crystals = @b3_rare_cost
+		}
+		upkeep = {
+			energy = @b3_upkeep
+			rare_crystals = @b3_rare_upkeep
+		}
+	}
+
+	triggered_planet_modifier = {
+		planet_housing_add = 1
+		mult = value:xvcv_mdlc_count_maintenance_drone
+	}
+
+	triggered_desc = {
+		text = xvcv_mdlc_building_maintenance_spire_effect_desc
+	}
+}
+#for 'xvcv_mdlc_civic_uplink_node' civic
+xvcv_mdlc_building_uplink_node_facility = {
+	base_buildtime = @b3_time
+	base_cap_amount = 1
+
+	category = government
+
+	potential = {
+		exists = owner
+		owner = { has_valid_civic = xvcv_mdlc_civic_uplink_node }
+	}
+
+	allow = {
+		has_upgraded_capital = yes
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = { NOT = { has_valid_civic = xvcv_mdlc_civic_uplink_node } }
+	}
+
+	convert_to = {
+		building_noble_estates
+	}
+
+	planet_modifier = {
+		job_xvcv_mdlc_uplink_node_coordinator_add = 1
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = { minerals = @b3_minerals }
+		upkeep = { energy = @b3_upkeep }
+	}
+
+	triggered_desc = {
+		text = job_xvcv_mdlc_uplink_node_coordinator_effect_desc
+	}
+
+	ai_resource_production = {
+		energy = 10
+		trigger = { always = yes }
+	}
+}
+#for 'xvcv_mdlc_ap_bio_robot' ascension perk
+xvcv_mdlc_building_bio_robot_clone_plants = {
+	base_buildtime = @b2_time
+	base_cap_amount = 1
+	icon = building_clone_vats
+
+	category = pop_assembly
+
+	potential = {
+		exists = owner
+		owner = {
+			is_ai = no
+			has_ascension_perk = xvcv_mdlc_ap_bio_robot
+		}
+	}
+
+	allow = {
+		custom_tooltip_fail = {
+			text = xvcv_mdlc_building_bio_robot_clone_plants_tooltip.fail
+			exists = owner
+			owner = { NOT = { has_special_project = XVCV_MDLC_AP_BIO_ROBOT_PROJECT } }
+		}
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = { NOT = { has_ascension_perk = xvcv_mdlc_ap_bio_robot } }
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_authority = auth_machine_intelligence }
+		}
+		job_xvcv_mdlc_bio_robot_clone_drone_add = @b2_jobs #also see: xvcv_mdlc.42
+	}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { NOT = { has_authority = auth_machine_intelligence } }
+		}
+		job_xvcv_mdlc_bio_robot_clone_technician_add = @b2_jobs
+	}
+
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = { has_authority = auth_machine_intelligence }
+		}
+		text = job_xvcv_mdlc_bio_robot_clone_drone_effect_desc
+	}
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = { NOT = { has_authority = auth_machine_intelligence } }
+		}
+		text = job_xvcv_mdlc_bio_robot_clone_technician_effect_desc
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			minerals = @b2_minerals
+			exotic_gases = @b2_rare_cost
+		}
+		upkeep = {
+			energy = @b2_upkeep
+			exotic_gases = @b2_rare_upkeep
+		}
+	}
+
+	ai_resource_production = {
+		society_research = 10
+		trigger = { always = yes }
+	}
+}
+#for 'xvcv_mdlc_ap_organic_work' ascension perk
+xvcv_mdlc_building_organic_foundry = {
+	base_buildtime = @b1_time
+	category = manufacturing
+
+	potential = {
+		exists = owner
+		owner = {
+			has_authority = auth_machine_intelligence
+			has_ascension_perk = xvcv_mdlc_ap_organic_work
+		}
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = {
+			NAND = { #wait until the 1st day of next month in game time to see it's removed
+				has_authority = auth_machine_intelligence
+				has_ascension_perk = xvcv_mdlc_ap_organic_work
+			}
+		}
+	}
+
+	convert_to = {
+		building_foundry_2
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = { minerals = @b2_minerals }
+		upkeep = { energy = @b2_upkeep }
+	}
+
+	upgrades = {
+		"xvcv_mdlc_building_organic_foundry_2"
+	}
+
+	planet_modifier = {
+		job_xvcv_mdlc_organic_foundry_add = @xvcv_mdlc_ap_organic_work_tier_1_buildings_jobs
+	}
+
+	triggered_desc = {
+		text = job_xvcv_mdlc_organic_foundry_effect_desc
+	}
+
+	ai_resource_production = {
+		alloys = 10
+		trigger = { always = yes }
+	}
+}
+xvcv_mdlc_building_organic_foundry_2 = {
+	base_buildtime = @b2_time
+	can_build = no
+	category = manufacturing
+
+	potential = {
+		exists = owner
+		owner = {
+			has_authority = auth_machine_intelligence
+			has_ascension_perk = xvcv_mdlc_ap_organic_work
+		}
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = {
+			NAND = {
+				has_authority = auth_machine_intelligence
+				has_ascension_perk = xvcv_mdlc_ap_organic_work
+			}
+		}
+	}
+
+	convert_to = {
+		building_foundry_3
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			minerals = @b3_minerals
+			volatile_motes = @b4_rare_cost
+		}
+		upkeep = {
+			energy = @b3_upkeep
+			volatile_motes = @b4_rare_upkeep
+		}
+	}
+
+	prerequisites = { "tech_paradise_dome" }
+
+	show_tech_unlock_if = {
+		owner = { has_ascension_perk = xvcv_mdlc_ap_organic_work }
+	}
+
+	planet_modifier = {
+		job_xvcv_mdlc_organic_foundry_add = @xvcv_mdlc_ap_organic_work_tier_2_buildings_jobs
+	}
+
+	triggered_desc = {
+		text = job_xvcv_mdlc_organic_foundry_effect_desc
+	}
+
+	ai_resource_production = {
+		alloys = 20
+		trigger = { always = yes }
+	}
+}
+xvcv_mdlc_building_organic_factory = {
+	base_buildtime = @b1_time
+	category = manufacturing
+
+	potential = {
+		exists = owner
+		owner = {
+			has_authority = auth_machine_intelligence
+			has_ascension_perk = xvcv_mdlc_ap_organic_work
+		}
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = {
+			NAND = {
+				has_authority = auth_machine_intelligence
+				has_ascension_perk = xvcv_mdlc_ap_organic_work
+			}
+		}
+	}
+
+	convert_to = {
+		building_factory_2
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = { minerals = @b2_minerals }
+		upkeep = { energy = @b2_upkeep }
+	}
+
+	upgrades = {
+		"xvcv_mdlc_building_organic_factory_2"
+	}
+
+	planet_modifier = {
+		job_xvcv_mdlc_organic_artisan_add = @xvcv_mdlc_ap_organic_work_tier_1_buildings_jobs
+	}
+
+	triggered_desc = {
+		text = job_xvcv_mdlc_organic_artisan_effect_desc
+	}
+
+	ai_resource_production = {
+		consumer_goods = 10
+		trigger = { always = yes }
+	}
+}
+xvcv_mdlc_building_organic_factory_2 = {
+	base_buildtime = @b2_time
+	can_build = no
+	category = manufacturing
+
+	potential = {
+		exists = owner
+		owner = {
+			has_authority = auth_machine_intelligence
+			has_ascension_perk = xvcv_mdlc_ap_organic_work
+		}
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = {
+			NAND = {
+				has_authority = auth_machine_intelligence
+				has_ascension_perk = xvcv_mdlc_ap_organic_work
+			}
+		}
+	}
+
+	convert_to = {
+		building_factory_3
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			minerals = @b3_minerals
+			rare_crystals = @b4_rare_cost
+		}
+		upkeep = {
+			energy = @b3_upkeep
+			rare_crystals = @b4_rare_upkeep
+		}
+	}
+
+	prerequisites = { "tech_paradise_dome" }
+
+	show_tech_unlock_if = {
+		owner = { has_ascension_perk = xvcv_mdlc_ap_organic_work }
+	}
+
+	planet_modifier = {
+		job_xvcv_mdlc_organic_artisan_add = @xvcv_mdlc_ap_organic_work_tier_2_buildings_jobs
+	}
+
+	triggered_desc = {
+		text = job_xvcv_mdlc_organic_artisan_effect_desc
+	}
+
+	ai_resource_production = {
+		consumer_goods = 20
+		trigger = { always = yes }
+	}
+}
+xvcv_mdlc_building_organic_research = {
+	base_buildtime = @b1_time
+	category = research
+
+	potential = {
+		exists = owner
+		owner = {
+			has_authority = auth_machine_intelligence
+			has_ascension_perk = xvcv_mdlc_ap_organic_work
+		}
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = {
+			NAND = {
+				has_authority = auth_machine_intelligence
+				has_ascension_perk = xvcv_mdlc_ap_organic_work
+			}
+		}
+	}
+
+	allow = {
+		has_upgraded_capital = yes
+	}
+
+	convert_to = {
+		building_research_lab_2
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = { minerals = @b2_minerals }
+		upkeep = { energy = @b2_upkeep }
+	}
+
+	upgrades = {
+		"xvcv_mdlc_building_organic_research_2"
+	}
+
+	planet_modifier = {
+		job_xvcv_mdlc_organic_researcher_add = @xvcv_mdlc_ap_organic_work_tier_1_buildings_jobs
+	}
+
+	triggered_desc = {
+		text = job_xvcv_mdlc_organic_researcher_effect_desc
+	}
+
+	ai_resource_production = {
+		physics_research = 10
+		trigger = { always = yes }
+	}
+	ai_resource_production = {
+		society_research = 10
+		trigger = { always = yes }
+	}
+	ai_resource_production = {
+		engineering_research = 10
+		trigger = { always = yes }
+	}
+}
+xvcv_mdlc_building_organic_research_2 = {
+	base_buildtime = @b2_time
+	can_build = no
+	category = research
+
+	potential = {
+		exists = owner
+		owner = {
+			has_authority = auth_machine_intelligence
+			has_ascension_perk = xvcv_mdlc_ap_organic_work
+		}
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = {
+			NAND = {
+				has_authority = auth_machine_intelligence
+				has_ascension_perk = xvcv_mdlc_ap_organic_work
+			}
+		}
+	}
+
+	allow = {
+		has_upgraded_capital = yes
+	}
+
+	convert_to = {
+		building_research_lab_3
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			minerals = @b3_minerals
+			exotic_gases = @b3_rare_cost
+		}
+		upkeep = {
+			energy = @b3_upkeep
+			exotic_gases = @b3_rare_upkeep
+		}
+	}
+
+	prerequisites = { "tech_paradise_dome" }
+
+	show_tech_unlock_if = {
+		owner = { has_ascension_perk = xvcv_mdlc_ap_organic_work }
+	}
+
+	planet_modifier = {
+		job_xvcv_mdlc_organic_researcher_add = @xvcv_mdlc_ap_organic_work_tier_2_buildings_jobs
+	}
+
+	triggered_desc = {
+		text = job_xvcv_mdlc_organic_researcher_effect_desc
+	}
+
+	ai_resource_production = {
+		physics_research = 20
+		trigger = { always = yes }
+	}
+	ai_resource_production = {
+		society_research = 20
+		trigger = { always = yes }
+	}
+	ai_resource_production = {
+		engineering_research = 20
+		trigger = { always = yes }
+	}
+}
+xvcv_mdlc_building_organic_bureaucratic = {
+	base_buildtime = @b1_time
+	category = government
+
+	potential = {
+		exists = owner
+		owner = {
+			has_authority = auth_machine_intelligence
+			has_ascension_perk = xvcv_mdlc_ap_organic_work
+		}
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = {
+			NAND = {
+				has_authority = auth_machine_intelligence
+				has_ascension_perk = xvcv_mdlc_ap_organic_work
+			}
+		}
+	}
+
+	convert_to = {
+		building_bureaucratic_2
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = { minerals = @b2_minerals }
+		upkeep = { energy = @b2_upkeep }
+	}
+
+	upgrades = {
+		"xvcv_mdlc_building_organic_bureaucratic_2"
+	}
+
+	planet_modifier = {
+		job_xvcv_mdlc_organic_bureaucrat_add = @xvcv_mdlc_ap_organic_work_tier_1_buildings_jobs
+	}
+
+	triggered_desc = {
+		text = job_xvcv_mdlc_organic_bureaucrat_effect_desc
+	}
+}
+xvcv_mdlc_building_organic_bureaucratic_2 = {
+	base_buildtime = @b2_time
+	can_build = no
+	category = government
+
+	potential = {
+		exists = owner
+		owner = {
+			has_authority = auth_machine_intelligence
+			has_ascension_perk = xvcv_mdlc_ap_organic_work
+		}
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = {
+			NAND = {
+				has_authority = auth_machine_intelligence
+				has_ascension_perk = xvcv_mdlc_ap_organic_work
+			}
+		}
+	}
+
+	convert_to = {
+		building_bureaucratic_3
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			minerals = @b3_minerals
+			rare_crystals = @b3_rare_cost
+		}
+		upkeep = {
+			energy = @b3_upkeep
+			rare_crystals = @b3_rare_upkeep
+		}
+	}
+
+	prerequisites = { "tech_paradise_dome" }
+
+	show_tech_unlock_if = {
+		owner = { has_ascension_perk = xvcv_mdlc_ap_organic_work }
+	}
+
+	planet_modifier = {
+		job_xvcv_mdlc_organic_bureaucrat_add = @xvcv_mdlc_ap_organic_work_tier_2_buildings_jobs
+	}
+
+	triggered_desc = {
+		text = job_xvcv_mdlc_organic_bureaucrat_effect_desc
+	}
+}
+xvcv_mdlc_building_organic_clinic = {
+	base_buildtime = @b1_time
+	base_cap_amount = 1
+	category = amenity
+
+	potential = {
+		exists = owner
+		owner = {
+			has_authority = auth_machine_intelligence
+			has_ascension_perk = xvcv_mdlc_ap_organic_work
+		}
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = {
+			NAND = {
+				has_authority = auth_machine_intelligence
+				has_ascension_perk = xvcv_mdlc_ap_organic_work
+			}
+		}
+	}
+
+	convert_to = {
+		building_clinic
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = { minerals = @b2_minerals }
+		upkeep = { energy = @b2_upkeep }
+	}
+
+	upgrades = {
+		"xvcv_mdlc_building_organic_clinic_2"
+	}
+
+	planet_modifier = {
+		job_xvcv_mdlc_organic_healthcare_add = @xvcv_mdlc_ap_organic_work_tier_1_buildings_jobs
+	}
+
+	triggered_desc = {
+		text = job_xvcv_mdlc_organic_healthcare_effect_desc
+	}
+
+	ai_resource_production = {
+		society_research = 10
+		trigger = { always = yes }
+	}
+}
+xvcv_mdlc_building_organic_clinic_2 = {
+	base_buildtime = @b2_time
+	can_build = no
+	category = amenity
+
+	potential = {
+		exists = owner
+		owner = {
+			has_authority = auth_machine_intelligence
+			has_ascension_perk = xvcv_mdlc_ap_organic_work
+		}
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = {
+			NAND = {
+				has_authority = auth_machine_intelligence
+				has_ascension_perk = xvcv_mdlc_ap_organic_work
+			}
+		}
+	}
+
+	convert_to = {
+		building_hospital
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			minerals = @b3_minerals
+			rare_crystals = @b3_rare_cost
+		}
+		upkeep = {
+			energy = @b3_upkeep
+			rare_crystals = @b3_rare_upkeep
+		}
+	}
+
+	prerequisites = { "tech_paradise_dome" }
+
+	show_tech_unlock_if = {
+		owner = { has_ascension_perk = xvcv_mdlc_ap_organic_work }
+	}
+
+	planet_modifier = {
+		job_xvcv_mdlc_organic_healthcare_add = @xvcv_mdlc_ap_organic_work_tier_2_buildings_jobs
+	}
+
+	triggered_desc = {
+		text = job_xvcv_mdlc_organic_healthcare_effect_desc
+	}
+
+	ai_resource_production = {
+		society_research = 20
+		trigger = { always = yes }
+	}
+}
+xvcv_mdlc_building_organic_chemical_plant = {
+	base_buildtime = @b1_time
+	category = manufacturing
+
+	potential = {
+		exists = owner
+		owner = {
+			has_authority = auth_machine_intelligence
+			has_ascension_perk = xvcv_mdlc_ap_organic_work
+		}
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = {
+			NAND = {
+				has_authority = auth_machine_intelligence
+				has_ascension_perk = xvcv_mdlc_ap_organic_work
+			}
+		}
+	}
+
+	convert_to = {
+		building_chemical_plant
+	}
+
+	planet_modifier = {
+		job_xvcv_mdlc_organic_chemist_add = @b1_jobs
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = { minerals = @b2_minerals }
+		upkeep = { energy = @b2_upkeep }
+	}
+
+	upgrades = {
+		"xvcv_mdlc_building_organic_chemical_plant_2"
+	}
+
+	triggered_desc = {
+		text = job_xvcv_mdlc_organic_chemist_effect_desc
+	}
+
+	ai_resource_production = {
+		volatile_motes = 5
+		trigger = { always = yes }
+	}
+}
+xvcv_mdlc_building_organic_chemical_plant_2 = {
+	base_buildtime = @b2_time
+	can_build = no
+	category = manufacturing
+
+	potential = {
+		exists = owner
+		owner = {
+			has_authority = auth_machine_intelligence
+			has_ascension_perk = xvcv_mdlc_ap_organic_work
+		}
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = {
+			NAND = {
+				has_authority = auth_machine_intelligence
+				has_ascension_perk = xvcv_mdlc_ap_organic_work
+			}
+		}
+	}
+
+	convert_to = {
+		building_chemical_plant
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = { minerals = @b3_minerals }
+		upkeep = { energy = @b3_upkeep }
+	}
+
+	prerequisites = { "tech_paradise_dome" }
+
+	show_tech_unlock_if = {
+		owner = { has_ascension_perk = xvcv_mdlc_ap_organic_work }
+	}
+
+	planet_modifier = {
+		job_xvcv_mdlc_organic_chemist_add = @b2_jobs
+	}
+
+	triggered_desc = {
+		text = job_xvcv_mdlc_organic_chemist_effect_desc
+	}
+
+	ai_resource_production = {
+		volatile_motes = 10
+		trigger = { always = yes }
+	}
+}
+xvcv_mdlc_building_organic_refinery = {
+	base_buildtime = @b1_time
+	category = manufacturing
+
+	potential = {
+		exists = owner
+		owner = {
+			has_authority = auth_machine_intelligence
+			has_ascension_perk = xvcv_mdlc_ap_organic_work
+		}
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = {
+			NAND = {
+				has_authority = auth_machine_intelligence
+				has_ascension_perk = xvcv_mdlc_ap_organic_work
+			}
+		}
+	}
+
+	convert_to = {
+		building_refinery
+	}
+
+	planet_modifier = {
+		job_xvcv_mdlc_organic_gas_refiner_add = @b1_jobs
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = { minerals = @b2_minerals }
+		upkeep = { energy = @b2_upkeep }
+	}
+
+	upgrades = {
+		"xvcv_mdlc_building_organic_refinery_2"
+	}
+
+	triggered_desc = {
+		text = job_xvcv_mdlc_organic_gas_refiner_effect_desc
+	}
+
+	ai_resource_production = {
+		exotic_gases = 5
+		trigger = { always = yes }
+	}
+}
+xvcv_mdlc_building_organic_refinery_2 = {
+	base_buildtime = @b2_time
+	can_build = no
+	category = manufacturing
+
+	potential = {
+		exists = owner
+		owner = {
+			has_authority = auth_machine_intelligence
+			has_ascension_perk = xvcv_mdlc_ap_organic_work
+		}
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = {
+			NAND = {
+				has_authority = auth_machine_intelligence
+				has_ascension_perk = xvcv_mdlc_ap_organic_work
+			}
+		}
+	}
+
+	convert_to = {
+		building_refinery
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = { minerals = @b3_minerals }
+		upkeep = { energy = @b3_upkeep }
+	}
+
+	prerequisites = { "tech_paradise_dome" }
+
+	show_tech_unlock_if = {
+		owner = { has_ascension_perk = xvcv_mdlc_ap_organic_work }
+	}
+
+	planet_modifier = {
+		job_xvcv_mdlc_organic_gas_refiner_add = @b2_jobs
+	}
+
+	triggered_desc = {
+		text = job_xvcv_mdlc_organic_gas_refiner_effect_desc
+	}
+
+	ai_resource_production = {
+		exotic_gases = 10
+		trigger = { always = yes }
+	}
+}
+xvcv_mdlc_building_organic_crystal_plant = {
+	base_buildtime = @b1_time
+	category = manufacturing
+
+	potential = {
+		exists = owner
+		owner = {
+			has_authority = auth_machine_intelligence
+			has_ascension_perk = xvcv_mdlc_ap_organic_work
+		}
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = {
+			NAND = {
+				has_authority = auth_machine_intelligence
+				has_ascension_perk = xvcv_mdlc_ap_organic_work
+			}
+		}
+	}
+
+	convert_to = {
+		building_crystal_plant
+	}
+
+	planet_modifier = {
+		job_xvcv_mdlc_organic_translucer_add = @b1_jobs
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = { minerals = @b2_minerals }
+		upkeep = { energy = @b2_upkeep }
+	}
+
+	upgrades = {
+		"xvcv_mdlc_building_organic_crystal_plant_2"
+	}
+
+	triggered_desc = {
+		text = job_xvcv_mdlc_organic_translucer_effect_desc
+	}
+
+	ai_resource_production = {
+		rare_crystals = 5
+		trigger = { always = yes }
+	}
+}
+xvcv_mdlc_building_organic_crystal_plant_2 = {
+	base_buildtime = @b2_time
+	can_build = no
+	category = manufacturing
+
+	potential = {
+		exists = owner
+		owner = {
+			has_authority = auth_machine_intelligence
+			has_ascension_perk = xvcv_mdlc_ap_organic_work
+		}
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = {
+			NAND = {
+				has_authority = auth_machine_intelligence
+				has_ascension_perk = xvcv_mdlc_ap_organic_work
+			}
+		}
+	}
+
+	convert_to = {
+		building_crystal_plant
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = { minerals = @b3_minerals }
+		upkeep = { energy = @b3_upkeep }
+	}
+
+	prerequisites = { "tech_paradise_dome" }
+
+	show_tech_unlock_if = {
+		owner = { has_ascension_perk = xvcv_mdlc_ap_organic_work }
+	}
+
+	planet_modifier = {
+		job_xvcv_mdlc_organic_translucer_add = @b2_jobs
+	}
+
+	triggered_desc = {
+		text = job_xvcv_mdlc_organic_translucer_effect_desc
+	}
+
+	ai_resource_production = {
+		rare_crystals = 10
+		trigger = { always = yes }
+	}
+}
+xvcv_mdlc_building_organic_machine_assembly_plant = {
+	base_buildtime = @b1_time
+	base_cap_amount = 1
+	category = pop_assembly
+
+	potential = {
+		exists = owner
+		owner = {
+			has_authority = auth_machine_intelligence
+			has_ascension_perk = xvcv_mdlc_ap_organic_work
+		}
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = {
+			NAND = {
+				has_authority = auth_machine_intelligence
+				has_ascension_perk = xvcv_mdlc_ap_organic_work
+			}
+		}
+	}
+
+	convert_to = {
+		building_robot_assembly_plant
+		building_machine_assembly_plant
+	}
+
+	planet_modifier = {
+		job_xvcv_mdlc_organic_roboticist_add = 1
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = { minerals = @b2_minerals }
+		upkeep = { energy = @b2_upkeep }
+	}
+
+	upgrades = {
+		"xvcv_mdlc_building_organic_machine_assembly_plant_2"
+	}
+
+	triggered_desc = {
+		text = job_xvcv_mdlc_organic_roboticist_effect_desc
+	}
+
+	ai_resource_production = {
+		volatile_motes = 5
+		trigger = { always = yes }
+	}
+}
+xvcv_mdlc_building_organic_machine_assembly_plant_2 = {
+	base_buildtime = @b2_time
+	can_build = no
+	category = pop_assembly
+
+	potential = {
+		exists = owner
+		owner = {
+			has_authority = auth_machine_intelligence
+			has_ascension_perk = xvcv_mdlc_ap_organic_work
+		}
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = {
+			NAND = {
+				has_authority = auth_machine_intelligence
+				has_ascension_perk = xvcv_mdlc_ap_organic_work
+			}
+		}
+	}
+
+	convert_to = {
+		building_robot_assembly_plant
+		building_machine_assembly_complex
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			minerals = @b3_minerals
+			rare_crystals = @b3_rare_cost
+		}
+		upkeep = {
+			energy = @b3_upkeep
+			rare_crystals = @b3_rare_upkeep
+		}
+	}
+
+	prerequisites = { "tech_paradise_dome" }
+
+	show_tech_unlock_if = {
+		owner = { has_ascension_perk = xvcv_mdlc_ap_organic_work }
+	}
+
+	planet_modifier = {
+		job_xvcv_mdlc_organic_roboticist_add = 2
+	}
+
+	triggered_desc = {
+		text = job_xvcv_mdlc_organic_roboticist_effect_desc
+	}
+
+	ai_resource_production = {
+		volatile_motes = 10
+		trigger = { always = yes }
+	}
+}
+xvcv_mdlc_building_organic_production_center = {
+	base_buildtime = @b2_time
+	base_cap_amount = 1
+	category = manufacturing
+
+	potential = {
+		exists = owner
+		owner = {
+			has_authority = auth_machine_intelligence
+			has_ascension_perk = xvcv_mdlc_ap_organic_work
+		}
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = {
+			NAND = {
+				has_authority = auth_machine_intelligence
+				has_ascension_perk = xvcv_mdlc_ap_organic_work
+			}
+		}
+	}
+
+	convert_to = {
+		building_ministry_production
+		building_production_center
+	}
+
+	planet_modifier = {
+		job_xvcv_mdlc_organic_administrator_add = 1
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			minerals = @b2_minerals
+			volatile_motes = @b2_rare_cost
+		}
+		upkeep = {
+			energy = @b2_upkeep
+			volatile_motes = @b2_rare_upkeep
+		}
+	}
+
+	upgrades = {
+		"xvcv_mdlc_building_organic_production_center_2"
+	}
+
+	triggered_desc = {
+		text = job_xvcv_mdlc_organic_administrator_effect_desc
+	}
+
+	ai_resource_production = {
+		alloys = 6
+		trigger = { always = yes }
+	}
+	ai_resource_production = {
+		consumer_goods = 8
+		trigger = { always = yes }
+	}
+}
+xvcv_mdlc_building_organic_production_center_2 = {
+	base_buildtime = @b3_time
+	can_build = no
+	category = manufacturing
+
+	potential = {
+		exists = owner
+		owner = {
+			has_authority = auth_machine_intelligence
+			has_ascension_perk = xvcv_mdlc_ap_organic_work
+		}
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = {
+			NAND = {
+				has_authority = auth_machine_intelligence
+				has_ascension_perk = xvcv_mdlc_ap_organic_work
+			}
+		}
+	}
+
+	convert_to = {
+		building_ministry_production
+		building_production_center
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			minerals = @b3_minerals
+			volatile_motes = @b3_rare_cost
+		}
+		upkeep = {
+			energy = @b3_upkeep
+			volatile_motes = @b3_rare_upkeep
+		}
+	}
+
+	prerequisites = { "tech_paradise_dome" }
+
+	show_tech_unlock_if = {
+		owner = { has_ascension_perk = xvcv_mdlc_ap_organic_work }
+	}
+
+	planet_modifier = {
+		job_xvcv_mdlc_organic_administrator_add = 2
+	}
+
+	triggered_desc = {
+		text = job_xvcv_mdlc_organic_administrator_effect_desc
+	}
+
+	ai_resource_production = {
+		alloys = 12
+		trigger = { always = yes }
+	}
+	ai_resource_production = {
+		consumer_goods = 16
+		trigger = { always = yes }
+	}
+}
+xvcv_mdlc_building_precinct_house = {
+	base_buildtime = @b1_time
+	category = government
+
+	potential = {
+		exists = owner
+		owner = {
+			has_authority = auth_machine_intelligence
+			has_ascension_perk = xvcv_mdlc_ap_organic_work
+		}
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = {
+			NAND = {
+				has_authority = auth_machine_intelligence
+				has_ascension_perk = xvcv_mdlc_ap_organic_work
+			}
+		}
+	}
+
+	convert_to = {
+		building_heritage_site
+		building_holotemple
+		building_simulation_2
+		building_hive_cluster
+		building_corporate_site
+		building_galactic_memorial_2
+	}
+
+	planet_modifier = {
+		job_xvcv_mdlc_organic_enforcer_add = @b1_jobs
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = { minerals = @b2_minerals }
+		upkeep = { energy = @b2_upkeep }
+	}
+
+	upgrades = {
+		"xvcv_mdlc_building_precinct_house_2"
+	}
+
+	triggered_desc = {
+		text = job_xvcv_mdlc_organic_enforcer_effect_desc
+	}
+}
+xvcv_mdlc_building_precinct_house_2 = {
+	base_buildtime = @b2_time
+	can_build = no
+	category = government
+
+	potential = {
+		exists = owner
+		owner = {
+			has_authority = auth_machine_intelligence
+			has_ascension_perk = xvcv_mdlc_ap_organic_work
+		}
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = {
+			NAND = {
+				has_authority = auth_machine_intelligence
+				has_ascension_perk = xvcv_mdlc_ap_organic_work
+			}
+		}
+	}
+
+	convert_to = {
+		building_hypercomms_forum
+		building_sacred_nexus
+		building_hive_confluence
+		building_simulation_3
+		building_corporate_forum
+		building_galactic_memorial_3
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			minerals = @b2_minerals
+			volatile_motes = @b2_rare_cost
+		}
+		upkeep = {
+			energy = @b1_upkeep
+			volatile_motes = @b2_rare_upkeep
+		}
+	}
+
+	prerequisites = { "tech_paradise_dome" }
+
+	show_tech_unlock_if = {
+		owner = { has_ascension_perk = xvcv_mdlc_ap_organic_work }
+	}
+
+	planet_modifier = {
+		job_xvcv_mdlc_organic_enforcer_add = @b2_jobs
+	}
+
+	triggered_desc = {
+		text = job_xvcv_mdlc_organic_enforcer_effect_desc
+	}
+}
+xvcv_mdlc_building_abyss_gateway = {
+	base_buildtime = @b2_time
+	base_cap_amount = 1
+	category = government
+
+	potential = {
+		exists = owner
+		owner = {
+			has_ascension_perk = xvcv_mdlc_ap_abyss
+			NOT = {
+				any_owned_planet = {
+					OR = {
+						has_building = xvcv_mdlc_building_abyss_gateway
+						has_building_construction = xvcv_mdlc_building_abyss_gateway
+					}
+				}
+			}
+		}
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = { NOT = { has_ascension_perk = xvcv_mdlc_ap_abyss } }
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			trigger = { owner = { is_ai = no } }
+			minerals = @b2_minerals
+			exotic_gases = @b2_rare_cost
+		}
+		upkeep = {
+			trigger = { owner = { is_ai = no } }
+			energy = @b2_upkeep
+			exotic_gases = @b2_rare_upkeep
+		}
+		produces = { physics_research = 40 }
+	}
+
+	planet_modifier = {
+		planet_jobs_physics_research_produces_mult = 0.25 #quite a good bonus, right? #hope you build this building on your research planet :)
+	}
+
+	triggered_desc = {
+		text = xvcv_mdlc_building_abyss_gateway_effect_desc
+	}
+}
+xvcv_mdlc_building_sentinel_complex = {
+	base_buildtime = @b2_time
+	category = government
+
+	potential = {
+		exists = owner
+		owner = { has_authority = auth_machine_intelligence }
+	}
+
+	allow = {
+		has_upgraded_capital = yes
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = { NOT = { has_authority = auth_machine_intelligence } }
+	}
+
+	convert_to = {
+		building_hall_judgment
+	}
+
+	planet_modifier = {
+		job_patrol_drone_add = @b2_jobs
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			minerals = @b2_minerals
+			exotic_gases = @b2_rare_cost
+		}
+		upkeep = {
+			energy = @b2_upkeep
+			exotic_gases = @b2_rare_upkeep
+		}
+	}
+
+	prerequisites = {
+		"tech_colonial_centralization"
+	}
+
+	triggered_desc = {
+		text = job_patrol_drone_effect_desc
+	}
+
+	show_tech_unlock_if = {
+		has_authority = auth_machine_intelligence
+	}
+}
+xvcv_mdlc_building_district_slot = {
+	base_buildtime = @b2_time
+	category = government
+
+	potential = {
+		OR = {
+			xvcv_mdlc_world_machines_planet_classes_trigger = yes
+			is_planet_class = xvcv_mdlc_pc_virtual
+		}
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = 1
+	}
+
+	on_destroy = {
+		if = {
+			limit = { free_district_slots < 1 }
+			remove_last_built_district = yes
+		}
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			minerals = @b2_minerals
+			volatile_motes = @b2_rare_cost
+			exotic_gases = @b2_rare_cost
+			rare_crystals = @b2_rare_cost
+		}
+		upkeep = {
+			energy = @b1_upkeep
+			volatile_motes = @b2_rare_upkeep
+			exotic_gases = @b2_rare_upkeep
+			rare_crystals = @b2_rare_upkeep
+		}
+	}
+}
+#abyss patrons
+xvcv_mdlc_building_whisperers_sanctum = {
+	base_buildtime = @b3_time
+	icon = building_whisperers_sanctum
+	category = government
+
+	empire_limit = {
+		base = 1
+	}
+
+	potential = {
+		owner = { has_country_flag = xvcv_mdlc_abyss_patron_whisperers_rank_1 }
+		NOR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+		}
+	}
+
+	allow = {
+		has_major_upgraded_capital = yes
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = { NOT = { has_country_flag = xvcv_mdlc_abyss_patron_whisperers_rank_1 } }
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_ethic = ethic_gestalt_consciousness }
+		}
+		job_evaluator_add = 3
+	}
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = { has_ethic = ethic_gestalt_consciousness }
+		}
+		text = job_evaluator_effect_desc
+	}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { NOT = { has_ethic = ethic_gestalt_consciousness } }
+		}
+		job_culture_worker_add = 3
+	}
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = { NOT = { has_ethic = ethic_gestalt_consciousness } }
+		}
+		text = job_culture_worker_effect_desc
+	}
+
+	country_modifier = {
+		envoys_add = 1
+		spy_network_daily_value_mult = 0.15
+	}
+
+	triggered_desc = {
+		trigger = { has_first_contact_dlc = yes }
+		text = xvcv_mdlc_covenant_detection_first_contact_effect
+	}
+
+	on_built = {
+		if = {
+			limit = { has_first_contact_dlc = yes }
+			planet.solar_system.starbase.fleet = { add_modifier = { modifier = xvcv_mdlc_covenant_detection_first_contact days = -1 } }
+		}
+	}
+	
+	on_destroy = {
+		if = {
+			limit = { has_first_contact_dlc = yes }
+			planet.solar_system.starbase.fleet = { remove_modifier = xvcv_mdlc_covenant_detection_first_contact }
+		}
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			minerals = @b3_minerals
+			exotic_gases = @b3_rare_cost
+		}
+		upkeep = {
+			energy = @b3_upkeep
+			exotic_gases = @b3_rare_upkeep
+		}
+	}
+}
+xvcv_mdlc_building_composer_sanctum = {
+	base_buildtime = @b3_time
+	icon = building_composer_sanctum
+	category = government
+
+	empire_limit = {
+		base = 1
+	}
+
+	potential = {
+		owner = { has_country_flag = xvcv_mdlc_abyss_patron_composer_rank_1 }
+		NOR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+		}
+	}
+
+	allow = {
+		has_major_upgraded_capital = yes
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = { NOT = { has_country_flag = xvcv_mdlc_abyss_patron_composer_rank_1 } }
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_ethic = ethic_gestalt_consciousness }
+		}
+		job_evaluator_add = 3
+	}
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = { has_ethic = ethic_gestalt_consciousness }
+		}
+		text = job_evaluator_effect_desc
+	}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { NOT = { has_ethic = ethic_gestalt_consciousness } }
+		}
+		job_culture_worker_add = 3
+	}
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = { NOT = { has_ethic = ethic_gestalt_consciousness } }
+		}
+		text = job_culture_worker_effect_desc
+	}
+
+	country_modifier = {
+		planet_pops_upkeep_mult = -0.1
+		planet_jobs_produces_mult = 0.05
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			minerals = @b3_minerals
+			exotic_gases = @b3_rare_cost
+		}
+		upkeep = {
+			energy = @b3_upkeep
+			exotic_gases = @b3_rare_upkeep
+		}
+	}
+}
+xvcv_mdlc_building_instrument_sanctum = {
+	base_buildtime = @b3_time
+	icon = building_instrument_sanctum
+	category = government
+
+	empire_limit = {
+		base = 1
+	}
+
+	potential = {
+		owner = { has_country_flag = xvcv_mdlc_abyss_patron_instrument_rank_1 }
+		NOR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+		}
+	}
+
+	allow = {
+		has_major_upgraded_capital = yes
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = { NOT = { has_country_flag = xvcv_mdlc_abyss_patron_instrument_rank_1 } }
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_ethic = ethic_gestalt_consciousness }
+		}
+		job_evaluator_add = 3
+	}
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = { has_ethic = ethic_gestalt_consciousness }
+		}
+		text = job_evaluator_effect_desc
+	}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { NOT = { has_ethic = ethic_gestalt_consciousness } }
+		}
+		job_culture_worker_add = 3
+	}
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = { NOT = { has_ethic = ethic_gestalt_consciousness } }
+		}
+		text = job_culture_worker_effect_desc
+	}
+
+	country_modifier = {
+		planet_crime_no_happiness_mult = -0.05
+		planet_jobs_energy_produces_mult = 0.1
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			minerals = @b3_minerals
+			exotic_gases = @b3_rare_cost
+		}
+		upkeep = {
+			energy = @b3_upkeep
+			exotic_gases = @b3_rare_upkeep
+		}
+	}
+}
+xvcv_mdlc_building_eater_sanctum = {
+	base_buildtime = @b3_time
+	icon = building_eater_sanctum
+	category = government
+
+	empire_limit = {
+		base = 1
+	}
+
+	potential = {
+		owner = { has_country_flag = xvcv_mdlc_abyss_patron_eater_rank_1 }
+		NOR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+		}
+	}
+
+	allow = {
+		has_major_upgraded_capital = yes
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = { NOT = { has_country_flag = xvcv_mdlc_abyss_patron_eater_rank_1 } }
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_ethic = ethic_gestalt_consciousness }
+		}
+		job_evaluator_add = 3
+	}
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = { has_ethic = ethic_gestalt_consciousness }
+		}
+		text = job_evaluator_effect_desc
+	}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { NOT = { has_ethic = ethic_gestalt_consciousness } }
+		}
+		job_culture_worker_add = 3
+	}
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = { NOT = { has_ethic = ethic_gestalt_consciousness } }
+		}
+		text = job_culture_worker_effect_desc
+	}
+
+	country_modifier = {
+		ship_weapon_range_mult = 0.1
+		ships_upkeep_mult = -0.1
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			minerals = @b3_minerals
+			exotic_gases = @b3_rare_cost
+		}
+		upkeep = {
+			energy = @b3_upkeep
+			exotic_gases = @b3_rare_upkeep
+		}
+	}
+}

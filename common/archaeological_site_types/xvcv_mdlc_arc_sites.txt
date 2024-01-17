@@ -1,0 +1,79 @@
+# site_type_name = {				# Key of the site, used for name lookup etc.
+#	picture = <sprite key>		# GFX_* sprite key for the sites image
+#	desc = <triggered event desc>	# Description generator for the site, with scope this=archaeological site.
+#	max_instances = <int>			# Max instances of this type a galaxy can have, only checked when using 'create_archaeological_site = random'
+#	weight = <scriptable value>		# Weight used for random weight, only used when using 'create_archaeological_site = random'. scriptable value type is defined either by '<int>' or '<mean time to happen>'.
+#	stages = <int>					# Should match number of defined stages below.
+#	potential = <trigger>			# Trigger checking if a scope with this=fleet ,from=archaeological site is potential to excavate (this will add/remove this option without giving the player a reason).
+#	allow = <trigger>				# Trigger checking if a scope with this=fleet ,from=archaeological site is allowed to excavate (this will toggle enable/disabled mode on buttons etc).
+#	visible = <trigger>				# Trigger that checks if a scope with this=country can see the from=archaeological site
+#	stage = {						# Stage definition, order dependent.
+#		difficulty = <interval int>	# min max interval type. interval is defined either by '<int>' or '{ min = <int> max=<int> }' where the later will randomize a value between min and max.
+#		icon = <string>				# rune icon gfx type.
+#		event = <string>			# event to fire when finished the state.
+#	}
+#	stage = {...}					# Second stage, the total number of 'stage' entries should match value of 'stages'
+#	on_roll_failed = <effect>			# Effect to fire when a roll fails, with scope this=fleet ,from=archaeological site.
+#	on_create = <effect>			# Effect to fire upon site creation, with scope this=archaeological site.
+#	on_visible = <effect>			# Effect to fire upon site visible, with scope this=country, from=archaeological site.
+#}
+xvcv_mdlc_primitive_machine_site = {
+	desc = "xvcv_mdlc_primitive_machine_site_desc"
+	picture = GFX_evt_city_ruins
+	stages = 4
+	weight = { base = 0 }
+
+	allow = {
+		custom_tooltip_fail = {
+			text = xvcv_mdlc_primitive_machine_site_tooltip.fail
+			exists = leader
+			leader = { leader_class = admiral } #this works! #stellaris v3.4.3
+		}
+		custom_tooltip_fail = {
+			text = xvcv_mdlc_primitive_machine_site_tooltip.fail.2
+			exists = from.planet
+			from.planet = {
+				OR = {
+					NOT = { exists = controller }
+					AND = {
+						exists = controller #remember it's not 'owner'
+						controller = { is_same_value = prev.space_owner }
+					}
+				}
+			}
+		}
+		custom_tooltip_fail = {
+			text = xvcv_mdlc_primitive_machine_site_tooltip.fail.3
+			exists = from.planet
+			from.planet = { has_ground_combat = no }
+		}
+	}
+
+	visible = {
+		exists = from
+		default_site_visible_trigger = yes
+	}
+
+	stage = {
+		difficulty = 1
+		event = xvcv_mdlc_archaeology.10
+		icon = GFX_archaeology_runes_A1
+	}
+	stage = {
+		difficulty = 2
+		event = xvcv_mdlc_archaeology.11
+		icon = GFX_archaeology_runes_A2
+	}
+	stage = {
+		difficulty = 2
+		event = xvcv_mdlc_archaeology.12
+		icon = GFX_archaeology_runes_A3
+	}
+	stage = {
+		difficulty = 3
+		event = xvcv_mdlc_archaeology.13
+		icon = GFX_archaeology_runes_A4
+	}
+
+	on_roll_failed = { from = { standard_archaeological_site_on_roll_failed = { RANDOM_EVENTS = all_random_events } } }
+}

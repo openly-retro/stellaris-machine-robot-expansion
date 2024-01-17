@@ -1,0 +1,498 @@
+xvcv_mdlc_dominant_species_changing_effect = {
+	optimize_memory #see the '99_advanced_documentation.txt', 'Memory Management' section
+	every_owned_pop = {
+		limit = { is_same_species = prev.species }
+		change_species = last_created_species
+	}
+	every_owned_leader = {
+		limit = { is_same_species = prev.species }
+		change_species = last_created_species
+	}
+	every_owned_leader = {
+		limit = {
+			is_councilor = yes
+			is_ruler = no
+		}
+		set_gestalt_node_protrait_effect = yes
+	}
+	every_envoy = {
+		limit = { is_same_species = prev.species }
+		change_species = last_created_species
+	}
+	every_pool_leader = {
+		limit = { is_same_species = prev.species }
+		change_species = last_created_species
+	}
+	every_controlled_ship = {
+		limit = {
+			is_ship_class = shipclass_colonizer
+			is_same_species = prev.species
+		}
+		change_species = last_created_species
+	}
+	every_owned_army = {
+		limit = {
+			exists = species
+			is_same_species = prev.species
+		}
+		change_species = last_created_species
+	}
+	change_dominant_species = { species = last_created_species }
+	set_built_species = last_created_species
+}
+xvcv_mdlc_machine_species_rights_adjustments_effect = {
+	optimize_memory
+	set_citizenship_type = { country = prev type = citizenship_full_machine cooldown = no }
+	set_living_standard = { country = prev type = living_standard_hive_mind cooldown = no }
+	set_population_controls = { country = prev type = population_control_no cooldown = no }
+	set_colonization_controls = { country = prev type = colonization_control_no cooldown = no }
+	set_migration_controls = { country = prev type = migration_control_yes cooldown = no }
+	set_military_service_type = { country = prev type = military_service_full cooldown = no }
+}
+xvcv_mdlc_robot_species_rights_adjustments_effect = {
+	optimize_memory
+	set_citizenship_type = { country = prev type = citizenship_full cooldown = no }
+	set_living_standard = { country = prev type = living_standard_good cooldown = no }
+	set_population_controls = { country = prev type = population_control_no cooldown = no }
+	set_colonization_controls = { country = prev type = colonization_control_no cooldown = no }
+	set_migration_controls = { country = prev type = migration_control_no cooldown = no }
+	set_military_service_type = { country = prev type = military_service_full cooldown = no }
+}
+xvcv_mdlc_organic_trophy_species_rights_adjustments_effect = {
+	optimize_memory
+	set_citizenship_type = { country = prev type = citizenship_organic_trophy cooldown = no }
+	set_living_standard = { country = prev type = living_standard_organic_trophy cooldown = no }
+	set_population_controls = { country = prev type = population_control_no cooldown = no }
+	set_colonization_controls = { country = prev type = colonization_control_no cooldown = no }
+	set_migration_controls = { country = prev type = migration_control_no cooldown = no }
+	set_military_service_type = { country = prev type = military_service_none cooldown = no }
+}
+xvcv_mdlc_modify_species_clear_pc_preference_traits_effect = {
+	optimize_memory
+	switch = {
+		trigger = has_trait
+		trait_pc_desert_preference = { modify_species = { base = none remove_trait = trait_pc_desert_preference } }
+		trait_pc_arid_preference = { modify_species = { base = none remove_trait = trait_pc_arid_preference } }
+		trait_pc_savannah_preference = { modify_species = { base = none remove_trait = trait_pc_savannah_preference } }
+
+		trait_pc_tropical_preference = { modify_species = { base = none remove_trait = trait_pc_tropical_preference } }
+		trait_pc_continental_preference = { modify_species = { base = none remove_trait = trait_pc_continental_preference } }
+		trait_pc_ocean_preference = { modify_species = { base = none remove_trait = trait_pc_ocean_preference } }
+
+		trait_pc_arctic_preference = { modify_species = { base = none remove_trait = trait_pc_arctic_preference } }
+		trait_pc_tundra_preference = { modify_species = { base = none remove_trait = trait_pc_tundra_preference } }
+		trait_pc_alpine_preference = { modify_species = { base = none remove_trait = trait_pc_alpine_preference } }
+
+		trait_pc_machine_preference = { modify_species = { base = none remove_trait = trait_pc_machine_preference } }
+		trait_pc_ai_preference = { modify_species = { base = none remove_trait = trait_pc_ai_preference } }
+		trait_pc_hive_preference = { modify_species = { base = none remove_trait = trait_pc_hive_preference } }
+
+		trait_pc_ringworld_habitable_preference = { modify_species = { base = none remove_trait = trait_pc_ringworld_habitable_preference } }
+		trait_pc_shattered_ring_habitable_preference = { modify_species = { base = none remove_trait = trait_pc_shattered_ring_habitable_preference } }
+		trait_pc_habitat_preference = { modify_species = { base = none remove_trait = trait_pc_habitat_preference } }
+
+		trait_pc_gaia_preference = { modify_species = { base = none remove_trait = trait_pc_gaia_preference } }
+		trait_pc_gaia_preference_terraforming = { modify_species = { base = none remove_trait = trait_pc_gaia_preference_terraforming } }
+		trait_pc_relic_preference = { modify_species = { base = none remove_trait = trait_pc_relic_preference } }
+
+		trait_pc_city_preference = { modify_species = { base = none remove_trait = trait_pc_city_preference } }
+		trait_pc_nuked_preference = { modify_species = { base = none remove_trait = trait_pc_nuked_preference } }
+		#add more planet classes here when vanilla updates
+	}
+}
+xvcv_mdlc_modify_species_change_traits_for_lithoid_effect = {
+	optimize_memory
+	if = { limit = { has_trait = trait_lithoid } modify_species = { base = none remove_trait = trait_lithoid add_trait = xvcv_mdlc_trait_rock_body } }
+
+	if = { limit = { has_trait = trait_lithoid_scintillating } modify_species = { base = none remove_trait = trait_lithoid_scintillating add_trait = xvcv_mdlc_trait_lithoid_scintillating } }
+	if = { limit = { has_trait = trait_lithoid_gaseous_byproducts } modify_species = { base = none remove_trait = trait_lithoid_gaseous_byproducts add_trait = xvcv_mdlc_trait_lithoid_gaseous_byproducts } }
+	if = { limit = { has_trait = trait_lithoid_volatile_excretions } modify_species = { base = none remove_trait = trait_lithoid_volatile_excretions add_trait = xvcv_mdlc_trait_lithoid_volatile_excretions } }
+}
+xvcv_mdlc_civic_trading_machine_target_all_trade_value_calc_effect = {
+	optimize_memory
+	#clear the variable for recalculating it again
+	event_target:xvcv_mdlc_trading_machine_owner = {
+		if = {
+			limit = { is_variable_set = xvcv_mdlc_target_$ID$_trade_value }
+			clear_variable = xvcv_mdlc_target_$ID$_trade_value
+		}
+	}
+	every_system_within_border = {
+		limit = { has_system_trade_value > 0 }
+		event_target:xvcv_mdlc_trading_machine_owner = { change_variable = { which = xvcv_mdlc_target_$ID$_trade_value value = prev.trigger:has_system_trade_value } }
+	}
+	event_target:xvcv_mdlc_trading_machine_owner = {
+		divide_variable = { which = xvcv_mdlc_target_$ID$_trade_value value = 10 } #10% of the total trade value
+		if = { limit = { has_technology = xvcv_mdlc_tech_negotiation_algorithms } multiply_variable = { which = xvcv_mdlc_target_$ID$_trade_value value = 2 } } #20% of the total trade value, with the required tech
+		round_variable = xvcv_mdlc_target_$ID$_trade_value #rounds the variable to the closest integer
+	}
+}
+xvcv_mdlc_civic_trading_machine_target_all_energy_income_calc_effect = {
+	optimize_memory
+	export_resource_income_to_variable = { resource = energy variable = xvcv_mdlc_energy_income_from_target_$ID$ }
+	event_target:xvcv_mdlc_trading_machine_owner = {
+		#this will reset the previous value to new one
+		set_variable = { which = xvcv_mdlc_target_$ID$_energy_income value = prev.xvcv_mdlc_energy_income_from_target_$ID$ }
+		divide_variable = { which = xvcv_mdlc_target_$ID$_energy_income value = 10 }
+		if = { limit = { has_technology = xvcv_mdlc_tech_negotiation_algorithms } multiply_variable = { which = xvcv_mdlc_target_$ID$_energy_income value = 2 } }
+		round_variable = xvcv_mdlc_target_$ID$_energy_income
+	}
+}
+xvcv_mdlc_civic_trading_machine_reset_variables_flags_effect = {
+	optimize_memory
+	if = {
+		limit = { is_variable_set = xvcv_mdlc_target_$ID$_trade_value }
+		clear_variable = xvcv_mdlc_target_$ID$_trade_value
+	}
+	if = {
+		limit = { is_variable_set = xvcv_mdlc_target_$ID$_energy_income }
+		clear_variable = xvcv_mdlc_target_$ID$_energy_income
+	}
+	if = {
+		limit = { has_country_flag = xvcv_mdlc_target_$ID$_trade_value_added_to_all_trade_value }
+		remove_country_flag = xvcv_mdlc_target_$ID$_trade_value_added_to_all_trade_value
+	}
+	if = {
+		limit = { has_country_flag = xvcv_mdlc_target_$ID$_energy_income_is_added_to_all_energy_income_from_trade }
+		remove_country_flag = xvcv_mdlc_target_$ID$_energy_income_is_added_to_all_energy_income_from_trade
+	}
+}
+xvcv_mdlc_civic_trading_machine_trade_stop_effect = {
+	optimize_memory
+	random_country = {
+		limit = { is_country_type = xvcv_mdlc_trading_machine_controller }
+		random_owned_fleet = {
+			limit = { has_fleet_flag = xvcv_mdlc_civic_trading_machine_fleet_$ID$_owner_id_@root }
+			random_country = {
+				limit = { has_country_flag = xvcv_mdlc_civic_trading_machine_target_country_@prev }
+				root = {
+					if = {
+						limit = { prev = { NOT = { has_ethic = ethic_gestalt_consciousness } } }
+						subtract_variable = { which = xvcv_mdlc_all_trade_value_from_trade value = xvcv_mdlc_target_$ID$_trade_value }
+						else = { subtract_variable = { which = xvcv_mdlc_all_energy_income_from_trade value = xvcv_mdlc_target_$ID$_energy_income } }
+					}
+					xvcv_mdlc_civic_trading_machine_resource_deposit_calc_effect = yes
+					remove_country_flag = xvcv_mdlc_civic_trading_machine_owner_country_@prevprev #unassign the fleet's id
+					xvcv_mdlc_civic_trading_machine_reset_variables_flags_effect = { ID = $ID$ }
+				}
+				remove_country_flag = xvcv_mdlc_civic_trading_machine_target_country_@prev #unassign the fleet's id
+				remove_country_flag = xvcv_mdlc_civic_trading_machine_saved_target_$ID$_@root #unassign the fleet owner's id
+			}
+			destroy_fleet = this
+		}
+	}
+}
+xvcv_mdlc_civic_trading_machine_ship_build_project_abort_effect = {
+	optimize_memory
+	add_resource = { energy = 300 alloys = 700 }
+	random_country = {
+		limit = { has_country_flag = xvcv_mdlc_civic_trading_machine_saved_target_$ID$_@prev }
+		remove_country_flag = xvcv_mdlc_civic_trading_machine_saved_target_$ID$_@prev
+	}
+}
+xvcv_mdlc_civic_trading_machine_all_trade_value_or_energy_income_from_trade_calc_effect = {
+	optimize_memory
+	if = {
+		limit = { NOT = { has_ethic = ethic_gestalt_consciousness } }
+		event_target:xvcv_mdlc_trading_machine_owner = { set_variable = { which = xvcv_mdlc_target_$ID$_trade_value_old value = xvcv_mdlc_target_$ID$_trade_value } }
+		xvcv_mdlc_civic_trading_machine_target_all_trade_value_calc_effect = { ID = $ID$ }
+		event_target:xvcv_mdlc_trading_machine_owner = {
+			change_variable = { which = xvcv_mdlc_all_trade_value_from_trade value = xvcv_mdlc_target_$ID$_trade_value }
+			if = {
+				limit = { NOT = { has_country_flag = xvcv_mdlc_target_$ID$_trade_value_added_to_all_trade_value } }
+				set_country_flag = xvcv_mdlc_target_$ID$_trade_value_added_to_all_trade_value
+				else = { subtract_variable = { which = xvcv_mdlc_all_trade_value_from_trade value = xvcv_mdlc_target_$ID$_trade_value_old } }
+			}
+		}
+		else = {
+			event_target:xvcv_mdlc_trading_machine_owner = { set_variable = { which = xvcv_mdlc_target_$ID$_energy_income_old value = xvcv_mdlc_target_$ID$_energy_income } }
+			xvcv_mdlc_civic_trading_machine_target_all_energy_income_calc_effect = { ID = $ID$ }
+			event_target:xvcv_mdlc_trading_machine_owner = {
+				change_variable = { which = xvcv_mdlc_all_energy_income_from_trade value = xvcv_mdlc_target_$ID$_energy_income }
+				if = {
+					limit = { NOT = { has_country_flag = xvcv_mdlc_target_$ID$_energy_income_is_added_to_all_energy_income_from_trade } }
+					set_country_flag = xvcv_mdlc_target_$ID$_energy_income_is_added_to_all_energy_income_from_trade
+					else = { subtract_variable = { which = xvcv_mdlc_all_energy_income_from_trade value = xvcv_mdlc_target_$ID$_energy_income_old } }
+				}
+			}
+		}
+	}
+}
+xvcv_mdlc_civic_trading_machine_resource_deposit_clear_effect = {
+	optimize_memory
+	capital_scope = {
+		#clear deposits
+		every_deposit = { limit = { is_deposit_type = xvcv_mdlc_d_civic_trading_machine_energy } remove_deposit = yes }
+		every_deposit = { limit = { is_deposit_type = xvcv_mdlc_d_civic_trading_machine_minerals } remove_deposit = yes }
+		every_deposit = { limit = { is_deposit_type = xvcv_mdlc_d_civic_trading_machine_alloys } remove_deposit = yes }
+		every_deposit = { limit = { is_deposit_type = xvcv_mdlc_d_civic_trading_machine_influence } remove_deposit = yes }
+		every_deposit = { limit = { is_deposit_type = xvcv_mdlc_d_civic_trading_machine_unity } remove_deposit = yes }
+		every_deposit = { limit = { is_deposit_type = xvcv_mdlc_d_civic_trading_machine_rares } remove_deposit = yes }
+		every_deposit = { limit = { is_deposit_type = xvcv_mdlc_d_civic_trading_machine_energy_alt } remove_deposit = yes }
+	}
+}
+xvcv_mdlc_civic_trading_machine_resource_deposit_calc_effect = {
+	optimize_memory
+	xvcv_mdlc_civic_trading_machine_resource_deposit_clear_effect = yes
+	switch = {
+		trigger = has_policy_flag
+		xvcv_mdlc_civic_trading_machine_trade_energy = { while = { count = xvcv_mdlc_all_trade_value_from_trade capital_scope = { add_deposit = xvcv_mdlc_d_civic_trading_machine_energy } } }
+		xvcv_mdlc_civic_trading_machine_trade_minerals = { while = { count = xvcv_mdlc_all_trade_value_from_trade capital_scope = { add_deposit = xvcv_mdlc_d_civic_trading_machine_minerals } } }
+		xvcv_mdlc_civic_trading_machine_trade_alloys = { while = { count = xvcv_mdlc_all_trade_value_from_trade capital_scope = { add_deposit = xvcv_mdlc_d_civic_trading_machine_alloys } } }
+		xvcv_mdlc_civic_trading_machine_trade_influence = { while = { count = xvcv_mdlc_all_trade_value_from_trade capital_scope = { add_deposit = xvcv_mdlc_d_civic_trading_machine_influence } } }
+		xvcv_mdlc_civic_trading_machine_trade_unity = { while = { count = xvcv_mdlc_all_trade_value_from_trade capital_scope = { add_deposit = xvcv_mdlc_d_civic_trading_machine_unity } } }
+		xvcv_mdlc_civic_trading_machine_trade_rares = { while = { count = xvcv_mdlc_all_trade_value_from_trade capital_scope = { add_deposit = xvcv_mdlc_d_civic_trading_machine_rares } } }			
+	}
+	while = { count = xvcv_mdlc_all_energy_income_from_trade capital_scope = { add_deposit = xvcv_mdlc_d_civic_trading_machine_energy_alt } }
+}
+xvcv_mdlc_leader_tied_traits_add_effect = {
+	optimize_memory
+	every_owned_leader = {
+		limit = {
+			is_councilor = no
+			xvcv_mdlc_leader_tied_traits_add_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_shared_memory LEADER_TRAIT = xvcv_mdlc_leader_trait_shared_memory }
+		}
+		add_trait_no_notify = xvcv_mdlc_leader_trait_shared_memory
+	}
+	every_pool_leader = {
+		limit = {
+			is_councilor = no
+			xvcv_mdlc_leader_tied_traits_add_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_shared_memory LEADER_TRAIT = xvcv_mdlc_leader_trait_shared_memory }
+		}
+		add_trait_no_notify = xvcv_mdlc_leader_trait_shared_memory
+	}
+	every_owned_leader = {
+		limit = {
+			is_councilor = no
+			xvcv_mdlc_leader_tied_traits_add_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_memory_backup LEADER_TRAIT = xvcv_mdlc_leader_trait_memory_backup }
+		}
+		add_trait_no_notify = xvcv_mdlc_leader_trait_memory_backup
+	}
+	every_pool_leader = {
+		limit = {
+			is_councilor = no
+			xvcv_mdlc_leader_tied_traits_add_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_memory_backup LEADER_TRAIT = xvcv_mdlc_leader_trait_memory_backup }
+		}
+		add_trait_no_notify = xvcv_mdlc_leader_trait_memory_backup
+	}
+	every_owned_leader = {
+		limit = { xvcv_mdlc_leader_tied_traits_add_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_bio_robot LEADER_TRAIT = xvcv_mdlc_leader_trait_bio_robot } }
+		add_trait_no_notify = xvcv_mdlc_leader_trait_bio_robot
+	}
+	every_pool_leader = {
+		limit = { xvcv_mdlc_leader_tied_traits_add_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_bio_robot LEADER_TRAIT = xvcv_mdlc_leader_trait_bio_robot } }
+		add_trait_no_notify = xvcv_mdlc_leader_trait_bio_robot
+	}
+}
+xvcv_mdlc_leader_tied_traits_remove_effect = {
+	optimize_memory
+	every_owned_leader = {
+		limit = { xvcv_mdlc_leader_tied_traits_remove_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_shared_memory LEADER_TRAIT = xvcv_mdlc_leader_trait_shared_memory } }
+		remove_trait = xvcv_mdlc_leader_trait_shared_memory
+	}
+	every_pool_leader = {
+		limit = { xvcv_mdlc_leader_tied_traits_remove_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_shared_memory LEADER_TRAIT = xvcv_mdlc_leader_trait_shared_memory } }
+		remove_trait = xvcv_mdlc_leader_trait_shared_memory
+	}
+	every_owned_leader = {
+		limit = { xvcv_mdlc_leader_tied_traits_remove_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_memory_backup LEADER_TRAIT = xvcv_mdlc_leader_trait_memory_backup } }
+		remove_trait = xvcv_mdlc_leader_trait_memory_backup
+	}
+	every_pool_leader = {
+		limit = { xvcv_mdlc_leader_tied_traits_remove_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_memory_backup LEADER_TRAIT = xvcv_mdlc_leader_trait_memory_backup } }
+		remove_trait = xvcv_mdlc_leader_trait_memory_backup
+	}
+	#usually the bio robot trait will remain under most circumstances but just in case...
+	every_owned_leader = {
+		limit = { xvcv_mdlc_leader_tied_traits_remove_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_bio_robot LEADER_TRAIT = xvcv_mdlc_leader_trait_bio_robot } }
+		remove_trait = xvcv_mdlc_leader_trait_bio_robot
+	}
+	every_pool_leader = {
+		limit = { xvcv_mdlc_leader_tied_traits_remove_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_bio_robot LEADER_TRAIT = xvcv_mdlc_leader_trait_bio_robot } }
+		remove_trait = xvcv_mdlc_leader_trait_bio_robot
+	}
+}
+xvcv_mdlc_servitor_morale_calc_main_effect = {
+	optimize_memory
+	if = {
+		limit = { pop_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage < 0.1 } }
+		add_modifier = { modifier = xvcv_mdlc_servitor_morale_abysmal days = -1 }
+	}
+	else_if = {
+		limit = {
+			pop_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage < 0.2 }
+			pop_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage >= 0.1 }
+		}
+		add_modifier = { modifier = xvcv_mdlc_servitor_morale_low days = -1 }
+	}
+	else_if = {
+		limit = {
+			pop_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage < 0.3 }
+			pop_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage >= 0.2 }
+		}
+		add_modifier = { modifier = xvcv_mdlc_servitor_morale_average days = -1 }
+	}
+	else_if = {
+		limit = {
+			pop_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage < 0.4 }
+			pop_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage >= 0.3 }
+		}
+		add_modifier = { modifier = xvcv_mdlc_servitor_morale_high days = -1 }
+	}
+	else_if = {
+		limit = { pop_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage >= 0.4 } }
+		add_modifier = { modifier = xvcv_mdlc_servitor_morale_max days = -1 }
+	}
+}
+xvcv_mdlc_servitor_morale_clear_effect = {
+	optimize_memory
+	switch = {
+		trigger = has_modifier
+		xvcv_mdlc_servitor_morale_max = { remove_modifier = xvcv_mdlc_servitor_morale_max }
+		xvcv_mdlc_servitor_morale_high = { remove_modifier = xvcv_mdlc_servitor_morale_high }
+		xvcv_mdlc_servitor_morale_average = { remove_modifier = xvcv_mdlc_servitor_morale_average }
+		xvcv_mdlc_servitor_morale_low = { remove_modifier = xvcv_mdlc_servitor_morale_low }
+		xvcv_mdlc_servitor_morale_abysmal = { remove_modifier = xvcv_mdlc_servitor_morale_abysmal }
+	}
+}
+xvcv_mdlc_bio_robot_auto_growth_stop_effect = {
+	optimize_memory
+	remove_modifier = xvcv_mdlc_bio_robot_growth_progress_percent
+	#clear variables for using it later
+	clear_variable = xvcv_mdlc_bio_robot_growth_progress_var 
+	clear_variable = xvcv_mdlc_bio_robot_growth_rate_per_month_var
+	clear_variable = xvcv_mdlc_bio_robot_remaining_time_to_finish_growth_var
+	clear_variable = xvcv_mdlc_bio_robot_growth_requirement_var 
+}
+xvcv_mdlc_planet_terraforming_resolution_breached_effect = {
+	optimize_memory
+	if = {
+		limit = {
+			OR = {
+				is_active_resolution = "resolution_ecology_environmental_control_board"
+				is_active_resolution = "resolution_ecology_paradise_initiative"
+			}
+		}
+		owner = { set_timed_country_flag = { flag = resolution_breached_terraformed days = 3600 } }
+	}
+}
+xvcv_mdlc_world_machines_output_value_calc_effect = {
+	optimize_memory
+	#for 'xvcv_mdlc_world_machines_districts_heat_indicator_tooltip' tooltips too
+	export_modifier_to_variable = { modifier = xvcv_mdlc_world_machines_districts_produces_mult variable = xvcv_mdlc_world_machines_districts_output_var }
+	xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect = yes
+}
+xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect = {
+	optimize_memory
+	switch = {
+		trigger = has_modifier
+		xvcv_mdlc_world_machines_districts_heat_indicator_good = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_good }
+		xvcv_mdlc_world_machines_districts_heat_indicator_neutral = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral }
+		xvcv_mdlc_world_machines_districts_heat_indicator_bad = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad }
+	}
+	if = {
+		limit = { check_variable = { which = xvcv_mdlc_world_machines_districts_output_var value > 0 } }
+		add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_good days = -1 }
+	}
+	else_if = {
+		limit = { check_variable = { which = xvcv_mdlc_world_machines_districts_output_var value = 0 } }
+		add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral days = -1 }
+	}
+	else_if = {
+		limit = { check_variable = { which = xvcv_mdlc_world_machines_districts_output_var value < 0 } }
+		add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad days = -1 }
+	}
+	set_variable = { which = xvcv_mdlc_world_machines_districts_current_output_for_display_var value = 1 }
+	change_variable = { which = xvcv_mdlc_world_machines_districts_current_output_for_display_var value = xvcv_mdlc_world_machines_districts_output_var }
+	multiply_variable = { which = xvcv_mdlc_world_machines_districts_current_output_for_display_var value = 100 }
+}
+xvcv_mdlc_civic_emotion_emulator_pop_bonus_effect = {
+	optimize_memory
+	if = {
+		limit = { has_modifier = xvcv_mdlc_goods_for_pop_unity_bonus }
+		remove_modifier = xvcv_mdlc_goods_for_pop_unity_bonus
+	}
+	export_resource_income_to_variable = {
+		resource = consumer_goods
+		variable = xvcv_mdlc_civic_emotion_emulator_income_var
+	}
+	if = {
+		limit = { is_ai = no }
+		add_resource = {
+			consumer_goods = -1
+			mult = xvcv_mdlc_civic_emotion_emulator_income_var
+		}
+	}
+	export_trigger_value_to_variable = {
+		trigger = count_owned_pop
+		parameters = {
+			limit = {
+				OR = {
+					is_pop_category = complex_drone
+					is_pop_category = simple_drone
+				}
+			}
+		}
+		variable = xvcv_mdlc_civic_emotion_emulator_pop_var
+	}
+	#calculation e.g.
+	#the total income = 19
+	#the total pop = 33
+	#19 / 33 = 0.5757575757575758
+	#and this means about 0.57 more goods can be distributed per drone pop for additional unity creation
+	#so it's 0.57 more unity per pop
+	divide_variable = {
+		which = xvcv_mdlc_civic_emotion_emulator_income_var
+		value = xvcv_mdlc_civic_emotion_emulator_pop_var
+	}
+	add_modifier = { modifier = xvcv_mdlc_goods_for_pop_unity_bonus days = -1 multiplier = xvcv_mdlc_civic_emotion_emulator_income_var }
+}
+xvcv_mdlc_situation_machine_learning_add_progress_effect = {
+	optimize_memory
+	random_situation = {
+		limit = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+		add_situation_progress = $VALUE$
+	}
+	create_message = {
+		type = XVCV_MDLC_SITUATION_MACHINE_LEARNING_PROGRESS_TYPE
+		localization = xvcv_mdlc_situation_machine_learning_$ON_ACTION_TYPE$
+		target = this.capital_scope #it seems that the target should be a planet #or the error occurs #[11:48:15][effect_impl.cpp:21052]: Error in create_message effect, target scope is invalid
+		days = 10
+	}
+	change_variable = { which = xvcv_mdlc_situation_machine_learning_$ON_ACTION_TYPE$_var value = 1 }
+}
+xvcv_mdlc_situation_machine_learning_add_progress_alt_effect = {
+	optimize_memory
+	random_situation = {
+		limit = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+		add_situation_progress = $VALUE$
+	}
+	create_message = {
+		type = XVCV_MDLC_SITUATION_MACHINE_LEARNING_PROGRESS_TYPE
+		localization = xvcv_mdlc_situation_machine_learning_$ON_ACTION_TYPE$_alt
+		target = this.capital_scope
+		days = 10
+	}
+	change_variable = { which = xvcv_mdlc_situation_machine_learning_$ON_ACTION_TYPE$_alt_var value = 1 }
+}
+xvcv_mdlc_ap_genetics_mastery_species_new_template_create_effect = {
+	#the default scope here should be a species
+	create_species = {
+		is_mod = yes
+		adjective = this
+		name = this
+		namelist = prev
+		plural = this
+		class = this
+		portrait = this
+		traits = { trait = trait_cybernetic }
+		homeworld = this.home_planet
+	}
+	prev = {
+		random_owned_pop = {
+			limit = { is_same_species = prevprev }
+			change_species = last_created_species
+			xvcv_mdlc_machine_species_rights_adjustments_effect = yes
+		}
+	}
+}

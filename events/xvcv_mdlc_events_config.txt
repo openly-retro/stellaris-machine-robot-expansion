@@ -1,0 +1,533 @@
+namespace = xvcv_mdlc_active
+
+#set a global flag to detect this mod
+event = {
+	id = xvcv_mdlc_active.1
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { has_global_flag = xvcv_machine_robot_expansion_active }
+	}
+
+	immediate = {
+		set_global_flag = xvcv_machine_robot_expansion_active
+	}
+}
+
+namespace = xvcv_mdlc_config
+
+country_event = {
+	id = xvcv_mdlc_config.1
+	title = "xvcv_mdlc_config.1.name"
+	desc = "xvcv_mdlc_config.1.desc"
+	picture = GFX_evt_xvcv_mdlc
+	#don't add sound here #players will constantly hear it while changing the settings
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = { NOT = { has_country_flag = xvcv_mdlc_config_value_counts_locked } } #prevent counting until the player reopens the window
+			#xvcv_mdlc_config_free_jobs_count_effect
+			if = {
+				limit = { is_variable_set = xvcv_mdlc_empire_all_free_jobs_count_var }
+				clear_variable = xvcv_mdlc_empire_all_free_jobs_count_var
+			}
+			every_owned_planet = {
+				limit = { free_jobs > 0 }
+				export_trigger_value_to_variable = { trigger = free_jobs variable = xvcv_mdlc_planet_free_jobs_count_var }
+				root = { change_variable = { which = xvcv_mdlc_empire_all_free_jobs_count_var value = prev.xvcv_mdlc_planet_free_jobs_count_var } }
+			}
+			if = {
+				limit = { NOT = { is_variable_set = xvcv_mdlc_empire_all_free_jobs_count_var } }
+				set_variable = { which = xvcv_mdlc_empire_all_free_jobs_count_var value = 0 } #to show the player that the value is 0 #better than displaying an empty space
+			}
+			#xvcv_mdlc_config_free_housing_count_effect
+			if = {
+				limit = { is_variable_set = xvcv_mdlc_empire_all_free_housing_count_var }
+				clear_variable = xvcv_mdlc_empire_all_free_housing_count_var
+			}
+			every_owned_planet = {
+				limit = { free_housing > 0 }
+				export_trigger_value_to_variable = { trigger = free_housing variable = xvcv_mdlc_planet_free_housing_count_var }
+				root = { change_variable = { which = xvcv_mdlc_empire_all_free_housing_count_var value = prev.xvcv_mdlc_planet_free_housing_count_var } }
+			}
+			if = {
+				limit = { NOT = { is_variable_set = xvcv_mdlc_empire_all_free_housing_count_var } }
+				set_variable = { which = xvcv_mdlc_empire_all_free_housing_count_var value = 0 }
+			}
+			export_trigger_value_to_variable = {
+				trigger = num_assigned_jobs
+				parameters = { job = unemployed }
+				variable = xvcv_mdlc_empire_all_unemployed_pops_count_var
+			}
+			set_country_flag = xvcv_mdlc_config_value_counts_locked
+		}
+	}
+
+	#from robot to machine species conversion
+	option = {
+		name = xvcv_mdlc_config.1.1.on #click this to turn off
+		custom_tooltip = xvcv_mdlc_config.message.on.tooltip
+		trigger = { has_country_flag = xvcv_mdlc_config_1_on } #it was global_flag but what if it's a multiplayer game?
+		hidden_effect = {
+			remove_country_flag = xvcv_mdlc_config_1_on
+			country_event = { id = xvcv_mdlc_config.1 }
+		}
+	}
+	option = {
+		name = xvcv_mdlc_config.1.1.off #click this to turn on
+		custom_tooltip = xvcv_mdlc_config.message.off.tooltip
+		trigger = { NOT = { has_country_flag = xvcv_mdlc_config_1_on } }
+		hidden_effect = {
+			set_country_flag = xvcv_mdlc_config_1_on
+			country_event = { id = xvcv_mdlc_config.1 }
+		}
+	}
+	#from machine to robot species conversion
+	option = {
+		name = xvcv_mdlc_config.1.2.on
+		custom_tooltip = xvcv_mdlc_config.message.on.tooltip
+		trigger = { has_country_flag = xvcv_mdlc_config_2_on }
+		hidden_effect = {
+			remove_country_flag = xvcv_mdlc_config_2_on
+			country_event = { id = xvcv_mdlc_config.1 }
+		}
+	}
+	option = {
+		name = xvcv_mdlc_config.1.2.off
+		custom_tooltip = xvcv_mdlc_config.message.off.tooltip
+		trigger = { NOT = { has_country_flag = xvcv_mdlc_config_2_on } }
+		hidden_effect = {
+			set_country_flag = xvcv_mdlc_config_2_on
+			country_event = { id = xvcv_mdlc_config.1 }
+		}
+	}
+	#species assimilation
+	option = {
+		name = xvcv_mdlc_config.1.3.on
+		custom_tooltip = xvcv_mdlc_config.message.on.tooltip
+		trigger = { has_country_flag = xvcv_mdlc_config_3_on }
+		hidden_effect = {
+			remove_country_flag = xvcv_mdlc_config_3_on
+			country_event = { id = xvcv_mdlc_config.1 }
+		}
+	}
+	option = {
+		name = xvcv_mdlc_config.1.3.off
+		custom_tooltip = xvcv_mdlc_config.message.off.tooltip
+		trigger = { NOT = { has_country_flag = xvcv_mdlc_config_3_on } }
+		hidden_effect = {
+			set_country_flag = xvcv_mdlc_config_3_on
+			country_event = { id = xvcv_mdlc_config.1 }
+		}
+	}
+	#auto pop migration
+	option = {
+		name = xvcv_mdlc_config.1.4.on
+		custom_tooltip = xvcv_mdlc_config.message.on.tooltip
+		trigger = { has_country_flag = xvcv_mdlc_config_4_on }
+		hidden_effect = {
+			remove_country_flag = xvcv_mdlc_config_4_on
+			country_event = { id = xvcv_mdlc_config.1 }
+		}
+	}
+	option = {
+		name = xvcv_mdlc_config.1.4.off
+		custom_tooltip = xvcv_mdlc_config.message.off.tooltip
+		trigger = { NOT = { has_country_flag = xvcv_mdlc_config_4_on } }
+		hidden_effect = {
+			set_country_flag = xvcv_mdlc_config_4_on
+			country_event = { id = xvcv_mdlc_config.1 }
+		}
+	}
+	option = {
+		name = xvcv_mdlc_config.1.to_2nd_page
+		hidden_effect = { country_event = { id = xvcv_mdlc_config.2 } }
+	}
+	option = {
+		name = xvcv_mdlc_close_evt_window
+		hidden_effect = { remove_country_flag = xvcv_mdlc_config_value_counts_locked }
+	}
+}
+country_event = {
+	id = xvcv_mdlc_config.2
+	title = "xvcv_mdlc_config.2.name"
+	desc = "xvcv_mdlc_config.2.desc"
+	picture = GFX_evt_xvcv_mdlc
+	#no sound here as well
+	is_triggered_only = yes
+
+	#'xvcv_mdlc_civic_assimilating_swarm' civic notification message
+	option = {
+		name = xvcv_mdlc_civic_assimilating_swarm.message.on
+		custom_tooltip = xvcv_mdlc_config.message.on.tooltip
+		trigger = { has_country_flag = xvcv_mdlc_civic_assimilating_swarm_message_on }
+		hidden_effect = {
+			remove_country_flag = xvcv_mdlc_civic_assimilating_swarm_message_on
+			country_event = { id = xvcv_mdlc_config.2 }
+		}
+	}
+	option = {
+		name = xvcv_mdlc_civic_assimilating_swarm.message.off
+		custom_tooltip = xvcv_mdlc_config.message.off.tooltip
+		trigger = { NOT = { has_country_flag = xvcv_mdlc_civic_assimilating_swarm_message_on } }
+		hidden_effect = {
+			set_country_flag = xvcv_mdlc_civic_assimilating_swarm_message_on
+			country_event = { id = xvcv_mdlc_config.2 }
+		}
+	}
+	#'xvcv_mdlc_r_unknown_core' relic notification message
+	option = {
+		name = xvcv_mdlc_r_unknown_core.message.on
+		custom_tooltip = xvcv_mdlc_config.message.on.tooltip
+		trigger = { has_country_flag = xvcv_mdlc_r_unknown_core_message_on }
+		hidden_effect = {
+			remove_country_flag = xvcv_mdlc_r_unknown_core_message_on
+			country_event = { id = xvcv_mdlc_config.2 }
+		}
+	}
+	option = {
+		name = xvcv_mdlc_r_unknown_core.message.off
+		custom_tooltip = xvcv_mdlc_config.message.off.tooltip
+		trigger = { NOT = { has_country_flag = xvcv_mdlc_r_unknown_core_message_on } }
+		hidden_effect = {
+			set_country_flag = xvcv_mdlc_r_unknown_core_message_on
+			country_event = { id = xvcv_mdlc_config.2 }
+		}
+	}
+	#'xvcv_mdlc_decision_machine_ecu_project' decision notification message
+	option = {
+		name = xvcv_mdlc_decision_machine_ecu_project.message.on
+		custom_tooltip = xvcv_mdlc_config.message.on.tooltip
+		trigger = { has_country_flag = xvcv_mdlc_decision_machine_ecu_project_message_on }
+		hidden_effect = {
+			remove_country_flag = xvcv_mdlc_decision_machine_ecu_project_message_on
+			country_event = { id = xvcv_mdlc_config.2 }
+		}
+	}
+	option = {
+		name = xvcv_mdlc_decision_machine_ecu_project.message.off
+		custom_tooltip = xvcv_mdlc_config.message.off.tooltip
+		trigger = { NOT = { has_country_flag = xvcv_mdlc_decision_machine_ecu_project_message_on } }
+		hidden_effect = {
+			set_country_flag = xvcv_mdlc_decision_machine_ecu_project_message_on
+			country_event = { id = xvcv_mdlc_config.2 }
+		}
+	}
+	#'xvcv_mdlc_decision_machine_cpu_project' decision notification message
+	option = {
+		name = xvcv_mdlc_decision_machine_cpu_project.message.on
+		custom_tooltip = xvcv_mdlc_config.message.on.tooltip
+		trigger = { has_country_flag = xvcv_mdlc_decision_machine_cpu_project_message_on }
+		hidden_effect = {
+			remove_country_flag = xvcv_mdlc_decision_machine_cpu_project_message_on
+			country_event = { id = xvcv_mdlc_config.2 }
+		}
+	}
+	option = {
+		name = xvcv_mdlc_decision_machine_cpu_project.message.off
+		custom_tooltip = xvcv_mdlc_config.message.off.tooltip
+		trigger = { NOT = { has_country_flag = xvcv_mdlc_decision_machine_cpu_project_message_on } }
+		hidden_effect = {
+			set_country_flag = xvcv_mdlc_decision_machine_cpu_project_message_on
+			country_event = { id = xvcv_mdlc_config.2 }
+		}
+	}
+	#'xvcv_mdlc_decision_machine_ser_project' decision notification message
+	option = {
+		name = xvcv_mdlc_decision_machine_ser_project.message.on
+		custom_tooltip = xvcv_mdlc_config.message.on.tooltip
+		trigger = { has_country_flag = xvcv_mdlc_decision_machine_ser_project_message_on }
+		hidden_effect = {
+			remove_country_flag = xvcv_mdlc_decision_machine_ser_project_message_on
+			country_event = { id = xvcv_mdlc_config.2 }
+		}
+	}
+	option = {
+		name = xvcv_mdlc_decision_machine_ser_project.message.off
+		custom_tooltip = xvcv_mdlc_config.message.off.tooltip
+		trigger = { NOT = { has_country_flag = xvcv_mdlc_decision_machine_ser_project_message_on } }
+		hidden_effect = {
+			set_country_flag = xvcv_mdlc_decision_machine_ser_project_message_on
+			country_event = { id = xvcv_mdlc_config.2 }
+		}
+	}
+	#'xvcv_mdlc_decision_virtual_world_project' decision notification message
+	option = {
+		name = xvcv_mdlc_decision_virtual_world_project.message.on
+		custom_tooltip = xvcv_mdlc_config.message.on.tooltip
+		trigger = { has_country_flag = xvcv_mdlc_decision_virtual_world_project_message_on }
+		hidden_effect = {
+			remove_country_flag = xvcv_mdlc_decision_virtual_world_project_message_on
+			country_event = { id = xvcv_mdlc_config.2 }
+		}
+	}
+	option = {
+		name = xvcv_mdlc_decision_virtual_world_project.message.off
+		custom_tooltip = xvcv_mdlc_config.message.off.tooltip
+		trigger = { NOT = { has_country_flag = xvcv_mdlc_decision_virtual_world_project_message_on } }
+		hidden_effect = {
+			set_country_flag = xvcv_mdlc_decision_virtual_world_project_message_on
+			country_event = { id = xvcv_mdlc_config.2 }
+		}
+	}
+	#abyss access possible notification message
+	option = {
+		name = xvcv_mdlc_abyss_access_possible.message.on
+		custom_tooltip = xvcv_mdlc_config.message.on.tooltip
+		trigger = { has_country_flag = xvcv_mdlc_abyss_access_possible_message_on }
+		hidden_effect = {
+			remove_country_flag = xvcv_mdlc_abyss_access_possible_message_on
+			country_event = { id = xvcv_mdlc_config.2 }
+		}
+	}
+	option = {
+		name = xvcv_mdlc_abyss_access_possible.message.off
+		custom_tooltip = xvcv_mdlc_config.message.off.tooltip
+		trigger = { NOT = { has_country_flag = xvcv_mdlc_abyss_access_possible_message_on } }
+		hidden_effect = {
+			set_country_flag = xvcv_mdlc_abyss_access_possible_message_on
+			country_event = { id = xvcv_mdlc_config.2 }
+		}
+	}
+	option = {
+		name = xvcv_mdlc_config.2.to_1st_page
+		hidden_effect = { country_event = { id = xvcv_mdlc_config.1 } }
+	}
+	option = {
+		name = xvcv_mdlc_close_evt_window
+	}
+}
+
+namespace = xvcv_mdlc_config_effect
+
+#set country flags for mod configurations
+country_event = {
+	id = xvcv_mdlc_config_effect.1
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		is_ai = no
+		is_robot_empire = yes
+	}
+
+	immediate = {
+		set_country_flag = xvcv_mdlc_civic_assimilating_swarm_message_on
+		set_country_flag = xvcv_mdlc_r_unknown_core_message_on
+		#set_country_flag = xvcv_mdlc_config_2_3_on #use this flag first!
+		set_country_flag = xvcv_mdlc_decision_machine_ecu_project_message_on
+		set_country_flag = xvcv_mdlc_decision_machine_cpu_project_message_on
+		set_country_flag = xvcv_mdlc_decision_machine_ser_project_message_on
+		set_country_flag = xvcv_mdlc_abyss_access_possible_message_on
+		set_country_flag = xvcv_mdlc_decision_virtual_world_project_message_on
+	}
+}
+#from robot to machine species conversion
+country_event = {
+	id = xvcv_mdlc_config_effect.2
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		is_ai = no
+		has_country_flag = xvcv_mdlc_config_1_on
+		has_authority = auth_machine_intelligence
+	}
+
+	immediate = {
+		every_owned_species = {
+			limit = { has_trait = trait_mechanical }
+			if = {
+				limit = { root = { has_country_flag = xvcv_mdlc_config_3_on } }
+				root = {
+					every_owned_pop = {
+						limit = { is_same_species = prevprev }
+						change_species = prev.species
+					}
+				}
+				else = {
+					create_species = {
+						adjective = this
+						name = this
+						namelist = root
+						plural = this
+						class = "MACHINE"
+						portrait = this
+						traits = { trait = trait_machine_unit }
+						traits = this
+						homeworld = root.capital_scope
+						effect = {
+							modify_species = {
+								change_scoped_species = no
+								remove_trait = trait_mechanical
+							}
+						}
+					}
+					root = {
+						every_owned_pop = {
+							limit = { is_same_species = prevprev }
+							change_species = last_created_species
+						}
+					}
+					xvcv_mdlc_machine_species_rights_adjustments_effect = yes
+				}
+			}
+		}
+	}
+}
+#from machine to robot species conversion
+country_event = {
+	id = xvcv_mdlc_config_effect.3
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		is_ai = no
+		has_country_flag = xvcv_mdlc_config_2_on
+		is_mechanical_empire = yes
+	}
+
+	immediate = {
+		every_owned_species = {
+			limit = { has_trait = trait_machine_unit }
+			if = {
+				limit = { root = { has_country_flag = xvcv_mdlc_config_3_on } }
+				root = {
+					every_owned_pop = {
+						limit = { is_same_species = prevprev }
+						change_species = prev.species
+					}
+				}
+				else = {
+					create_species = {
+						adjective = this
+						name = this
+						namelist = root
+						plural = this
+						class = "ROBOT"
+						portrait = this
+						traits = { trait = trait_mechanical }
+						traits = this
+						homeworld = root.capital_scope
+						effect = {
+							modify_species = {
+								change_scoped_species = no
+								remove_trait = trait_machine_unit
+							}
+						}
+					}
+					root = {
+						every_owned_pop = {
+							limit = { is_same_species = prevprev }
+							change_species = last_created_species
+						}
+					}
+					xvcv_mdlc_robot_species_rights_adjustments_effect = yes
+				}
+			}
+		}
+	}
+}
+#species assimilation
+country_event = {
+	id = xvcv_mdlc_config_effect.4
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		is_ai = no
+		has_country_flag = xvcv_mdlc_config_3_on
+		is_robot_empire = yes
+		any_owned_species = {
+			NOT = { is_same_species = prev.species }
+			OR = {
+				has_trait = trait_machine_unit
+				has_trait = trait_mechanical
+			}
+		}
+	}
+
+	immediate = {
+		every_owned_species = {
+			limit = {
+				NOT = { is_same_species = prev.species }
+				OR = {
+					has_trait = trait_machine_unit
+					has_trait = trait_mechanical
+				}
+			}
+			root = {
+				random_owned_pop = {
+					limit = { is_same_species = prevprev }
+					modify_species = {
+						species = this
+						base = prev.species
+					}
+				}
+				every_owned_pop = {
+					limit = { is_same_species = prevprev }
+					change_species = last_created_species
+				}
+			}
+		}
+	}
+}
+#auto pop migration
+country_event = {
+	id = xvcv_mdlc_config_effect.5
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		is_ai = no
+		has_country_flag = xvcv_mdlc_config_4_on
+		count_owned_planet = { count > 1 }
+		is_robot_empire = yes
+		any_owned_pop = { is_unemployed = yes }
+		any_owned_planet = {
+			free_jobs > 0
+			is_under_colonization = no
+			has_orbital_bombardment = no
+			is_controlled_by = owner #owner must be controller
+		}
+	}
+
+	immediate = {
+		while = {
+			limit = {
+				any_owned_pop = { is_unemployed = yes }
+				any_owned_planet = {
+					free_jobs > 0
+					is_under_colonization = no
+					has_orbital_bombardment = no
+					is_controlled_by = owner
+				}
+			}
+			random_owned_pop = {
+				limit = { is_unemployed = yes }
+				if = {
+					limit = {
+						OR = {
+							is_pop_category = specialist
+							is_pop_category = ruler
+						}
+					}
+					clear_pop_category = yes
+				}
+				prev = {
+					random_owned_planet = {
+						limit = {
+							free_jobs > 0
+							is_under_colonization = no
+							has_orbital_bombardment = no
+							is_controlled_by = owner
+						}
+						resettle_pop = { pop = prevprev planet = this }
+					}
+				}
+			}
+		}
+	}
+}

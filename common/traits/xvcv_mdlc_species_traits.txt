@@ -1,0 +1,351 @@
+### Normal Traits ###
+#good traits
+xvcv_mdlc_trait_shared_memory = {
+	cost = 3
+	initial = yes
+	randomized = no
+    allowed_archetypes = { MACHINE ROBOT XVCV_MDLC_BIO_ROBOT }
+	custom_tooltip = xvcv_mdlc_trait_shared_memory_tooltip
+
+	slave_cost = { energy = 500 }
+}
+xvcv_mdlc_trait_memory_backup = {
+	cost = 3
+	initial = yes
+	randomized = no
+    allowed_archetypes = { MACHINE ROBOT XVCV_MDLC_BIO_ROBOT }
+	custom_tooltip = xvcv_mdlc_trait_memory_backup_tooltip
+
+	slave_cost = { energy = 500 }
+}
+xvcv_mdlc_trait_warbot = {
+	cost = 1
+	initial = yes
+	allowed_archetypes = { MACHINE ROBOT XVCV_MDLC_BIO_ROBOT }
+
+	modifier = {
+		army_damage_mult = 0.2
+		planet_pops_upkeep_mult = -0.05
+	}
+
+	slave_cost = { energy = 150 }
+}
+xvcv_mdlc_trait_enhanced_cooling = {
+	cost = 2
+	initial = yes
+	allowed_archetypes = { MACHINE ROBOT XVCV_MDLC_BIO_ROBOT }
+
+	modifier = {
+		planet_jobs_alloys_produces_mult = 0.1
+		planet_pops_upkeep_mult = -0.05
+	}
+
+	slave_cost = { energy = 150 }
+}
+xvcv_mdlc_trait_self_replicating_microbot = {
+	cost = 2
+	initial = yes
+	allowed_archetypes = { MACHINE ROBOT XVCV_MDLC_BIO_ROBOT }
+
+	custom_tooltip = xvcv_mdlc_trait_self_replicating_microbot_tooltip #look for: xvcv_mdlc.80
+
+	slave_cost = { energy = 2000 }
+}
+#machine only
+xvcv_mdlc_trait_traditional = {
+	cost = 1
+	initial = yes
+	allowed_archetypes = { MACHINE }
+
+	species_potential_add = {
+		exists = from
+		from = { has_authority = auth_machine_intelligence }
+	}
+
+	modifier = {
+		planet_jobs_unity_produces_mult = 0.15
+	}
+
+	slave_cost = { energy = 150 }
+}
+#bad traits
+xvcv_mdlc_trait_sensitive_body = {
+	cost = -1
+	initial = yes
+	allowed_archetypes = { MACHINE ROBOT }
+	opposites = { "trait_robot_durable" }
+
+	modifier = {
+		pop_environment_tolerance = -1.0
+	}
+
+	slave_cost = { energy = 100 }
+}
+xvcv_mdlc_trait_low_cost_joints = {
+	cost = -3
+	initial = yes
+	allowed_archetypes = { MACHINE ROBOT }
+
+	modifier = {
+		planet_jobs_produces_mult = -0.05
+		planet_jobs_upkeep_mult = 0.05
+	}
+
+	slave_cost = { energy = 200 }
+}
+xvcv_mdlc_trait_low_cost_processor = {
+	cost = -2
+	initial = yes
+	allowed_archetypes = { MACHINE ROBOT }
+
+	modifier = {
+		planet_jobs_physics_research_produces_mult = -0.1
+		planet_jobs_society_research_produces_mult = -0.1
+		planet_jobs_engineering_research_produces_mult = -0.1
+	}
+
+	slave_cost = { energy = 200 }
+}
+#for 'xvcv_mdlc_ap_base_code_recompositions' ascension perk
+xvcv_mdlc_trait_engineered_organics = {
+	cost = 0
+	allowed_archetypes = { BIOLOGICAL }
+    sorting_priority = 20
+	initial = no
+	randomized = no
+
+	species_potential_add = { always = no }
+
+	modifier = {
+		pop_environment_tolerance = 0.60
+	}
+}
+xvcv_mdlc_trait_engineered_organics_alt = {
+	cost = 0
+	allowed_archetypes = { BIOLOGICAL }
+    sorting_priority = 20
+	initial = no
+	randomized = no
+	icon = "gfx/interface/icons/traits/xvcv_mdlc_trait_engineered_organics.dds"
+
+	species_potential_add = { always = no }
+
+	modifier = {
+		pop_environment_tolerance = 0.70
+	}
+}
+#for 'xvcv_mdlc_ap_genetics_mastery' ascension perk
+#'xvcv_mdlc_tech_genetic_resequencing' tech traits
+xvcv_mdlc_trait_erudite = {
+	cost = 4
+	potential_crossbreeding_chance = 0.5
+	initial = no
+	randomized = no
+	allowed_archetypes = { BIOLOGICAL LITHOID }
+	icon = "gfx/interface/icons/traits/trait_erudite.dds"
+
+	species_potential_add = {
+		exists = from
+		from = { has_technology = xvcv_mdlc_tech_genetic_resequencing }
+	}
+
+	modifier = {
+		planet_jobs_physics_research_produces_mult = 0.2
+		planet_jobs_society_research_produces_mult = 0.2
+		planet_jobs_engineering_research_produces_mult = 0.2
+		negative_leader_traits_species = -1
+		leaders_upkeep_mult = -0.1
+	}
+
+	slave_cost = { energy = 2000 }
+
+	assembly_score = {
+		modifier = {
+			add = 2.5
+			from = { has_research_designation = yes }
+		}
+		modifier = {
+			add = 2.5
+			from = { has_building = building_order_keep }
+		}
+	}
+}
+xvcv_mdlc_trait_fertile = {
+	cost = 4
+	potential_crossbreeding_chance = 0.5
+	initial = no
+	randomized = no
+	allowed_archetypes = { BIOLOGICAL }
+	icon = "gfx/interface/icons/traits/trait_fertile.dds"
+
+	species_potential_add = {
+		exists = from
+		from = { has_technology = xvcv_mdlc_tech_genetic_resequencing }
+	}
+
+	modifier = {
+		pop_growth_speed = 0.3
+		pop_housing_usage_mult = -0.1
+	}
+
+	slave_cost = { energy = 2000 }
+}
+xvcv_mdlc_trait_robust = {
+	cost = 4
+	potential_crossbreeding_chance = 0.5
+	initial = no
+	randomized = no
+	allowed_archetypes = { BIOLOGICAL }
+	icon = "gfx/interface/icons/traits/trait_robust.dds"
+
+	species_potential_add = {
+		exists = from
+		from = { has_technology = xvcv_mdlc_tech_genetic_resequencing }
+	}
+
+	modifier = {
+		pop_environment_tolerance = 0.30
+		planet_jobs_produces_mult = 0.05
+		leader_age = 50
+	}
+
+	slave_cost = { energy = 2000 }
+
+	assembly_score = { modifier = { add = 0.5 } } #always good
+}
+xvcv_mdlc_trait_delicious = {
+	cost = 2
+	potential_crossbreeding_chance = 0.5
+	initial = no
+	randomized = no
+	allowed_archetypes = { BIOLOGICAL }
+	icon = "gfx/interface/icons/traits/trait_delicious.dds"
+
+	species_potential_add = {
+		exists = from
+		from = { has_technology = xvcv_mdlc_tech_genetic_resequencing }
+	}
+
+	modifier = {
+		planet_livestock_food_produces_add = 2
+	}
+
+	slave_cost = { energy = 1000 }
+}
+#'xvcv_mdlc_tech_bio_unique_case_analysis' tech traits
+#trait_erudite
+xvcv_mdlc_trait_adv_logic_algorithm = {
+	cost = 4
+	initial = no
+	randomized = no
+	allowed_archetypes = { MACHINE ROBOT XVCV_MDLC_BIO_ROBOT }
+	icon = "gfx/interface/icons/traits/trait_erudite.dds"
+
+	species_potential_add = {
+		exists = from
+		from = { has_technology = xvcv_mdlc_tech_bio_unique_case_analysis }
+	}
+
+	modifier = {
+		planet_jobs_physics_research_produces_mult = 0.2
+		planet_jobs_society_research_produces_mult = 0.2
+		planet_jobs_engineering_research_produces_mult = 0.2
+		negative_leader_traits_species = -1
+		leaders_upkeep_mult = -0.1
+	}
+
+	slave_cost = { energy = 200 }
+
+	assembly_score = {
+		modifier = {
+			add = 2.5
+			from = { has_research_designation = yes }
+		}
+		modifier = {
+			add = 2.5
+			from = { has_building = building_order_keep }
+		}
+	}
+}
+#trait_fertile
+xvcv_mdlc_trait_org_body_copy_design = {
+	cost = 4
+	initial = no
+	randomized = no
+	allowed_archetypes = { MACHINE ROBOT XVCV_MDLC_BIO_ROBOT }
+	icon = "gfx/interface/icons/traits/trait_fertile.dds"
+
+	species_potential_add = {
+		exists = from
+		from = { has_technology = xvcv_mdlc_tech_bio_unique_case_analysis }
+	}
+
+	modifier = {
+		planet_pop_assembly_mult = 0.3
+		pop_housing_usage_mult = -0.1
+	}
+
+	slave_cost = { energy = 200 }
+}
+#trait_robust
+xvcv_mdlc_trait_high_solidity_org = {
+	cost = 4
+	initial = no
+	randomized = no
+	allowed_archetypes = { MACHINE ROBOT XVCV_MDLC_BIO_ROBOT }
+	icon = "gfx/interface/icons/traits/trait_robust.dds"
+
+	species_potential_add = {
+		exists = from
+		from = { has_technology = xvcv_mdlc_tech_bio_unique_case_analysis }
+	}
+
+	modifier = {
+		planet_pops_upkeep_mult = -0.15
+		pop_amenities_usage_mult = -0.15
+		planet_jobs_produces_mult = 0.05
+	}
+
+	slave_cost = { energy = 200 }
+
+	assembly_score = { modifier = { add = 0.5 } } #always good
+}
+#trait_delicious
+xvcv_mdlc_trait_engineered_speciality = {
+	cost = 4
+	initial = no
+	randomized = no
+	allowed_archetypes = { MACHINE ROBOT XVCV_MDLC_BIO_ROBOT }
+	icon = "gfx/interface/icons/traits/trait_delicious.dds"
+
+	species_potential_add = {
+		exists = from
+		from = { has_technology = xvcv_mdlc_tech_bio_unique_case_analysis }
+	}
+
+	modifier = {
+		planet_technician_energy_produces_add = 2
+	}
+
+	slave_cost = { energy = 200 }
+}
+#for 'xvcv_mdlc_ap_abyss' ascension perk
+xvcv_mdlc_trait_abyss_psi_emulator = {
+	cost = 0
+	allowed_archetypes = { MACHINE ROBOT XVCV_MDLC_BIO_ROBOT }
+	sorting_priority = 20
+	initial = no
+	randomized = no
+	improves_leaders = yes
+	
+	species_potential_add = {
+		exists = from
+		from = { has_country_flag = xvcv_mdlc_trait_abyss_psi_emulator_possible }
+	}
+
+	modifier = {
+		planet_jobs_produces_mult = 0.15
+	}
+
+	slave_cost = { energy = 500 }
+}

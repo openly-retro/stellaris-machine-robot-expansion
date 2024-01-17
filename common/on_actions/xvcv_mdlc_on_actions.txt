@@ -1,0 +1,357 @@
+# this = country
+on_monthly_pulse_country = {
+	events = {
+		xvcv_mdlc_config_effect.5 #auto pop migration
+		xvcv_mdlc.42 #bio robot auto growth effect event
+		xvcv_mdlc.43 #variables for bio robot auto growth reset effect event
+		xvcv_mdlc.60 #'xvcv_mdlc_goods_for_pop_unity_bonus' modifier add effect event
+		xvcv_mdlc.61 #remove the 'xvcv_mdlc_goods_for_pop_unity_bonus' modifier when its requirements are unfulfilled
+		xvcv_mdlc.80 #'xvcv_mdlc_trait_self_replicating_microbot' trait effect event
+		xvcv_mdlc.81 #clear 'xvcv_mdlc_d_trait_self_replicating_microbot' deposit when its requirement is not met
+	}
+}
+# this = country
+on_yearly_pulse_country = {
+	events = {
+		xvcv_mdlc_config_effect.4 #species assimilation #execute this first
+		xvcv_mdlc_config_effect.2 #from robot to machine species conversion
+		xvcv_mdlc_config_effect.3 #from machine to robot species conversion
+		xvcv_mdlc.1000 #'xvcv_mdlc_servitor_morale' empire modifiers calculations event
+	}
+}
+# Triggers when the game starts
+on_game_start_country = {
+	events = {
+		xvcv_mdlc.1 #on game start: starting condition adjustment
+		xvcv_mdlc_espionage.1 #add 'xvcv_mdlc_leader_trait_civic_malware_machine' leader trait for a gestalt node when the game starts
+		xvcv_mdlc_config_effect.1 #set country flags for mod configurations
+		xvcv_mdlc_situation.1 #start the 'xvcv_mdlc_situation_machine_learning' situation
+		xvcv_mdlc.1000 #'xvcv_mdlc_servitor_morale' empire modifiers calculations
+	}
+}
+# Called during empire initialization when starting a new game if has_secondary_species game rule is true.
+# Called before empire_init_create_capital_pops.
+# scope: planet
+# from: founder species
+# fromfrom: secondary species (if exists)
+empire_init_capital_planet = {
+	events = {
+		xvcv_mdlc.2 #on_game_start: dominant species modification
+	}
+}
+# Triggers when the game starts
+on_game_start = {
+	events = {
+		xvcv_mdlc_active.1 #set a global flag to detect this mod
+		xvcv_mdlc.3 #on_game_start / on_single_player_save_game_load: creating invisible countries
+		xvcv_mdlc_archaeology.1 #create a primitive empire with a digsite
+	}
+}
+# No scope, like on_game_start
+# Does not run when loading MP saves due to OOS concerns
+on_single_player_save_game_load = {
+	events = {
+		xvcv_mdlc_active.1 #set a global flag to detect this mod
+		xvcv_mdlc.3 #on_game_start / on_single_player_save_game_load: creating invisible countries
+	}
+}
+# A pop has finished purging
+# This = Planet scope
+# From = Country
+# FromFrom = Pop
+on_pop_purged = {
+	events = {
+		xvcv_mdlc.1003 #'xvcv_mdlc_civic_assimilating_swarm' civic effect event
+	}
+}
+# A country has increased the level of a tech, use last_increased_tech trigger to check tech and level.
+# This = Country
+on_tech_increased = {
+	events = {
+		xvcv_mdlc_customgui.2 #'xvcv_mdlc_tech_leader_making_improvement' techs effect event
+		xvcv_mdlc_customgui.4 #'xvcv_mdlc_tech_core_modifying_improvement' techs effect event
+		xvcv_mdlc.73 #'xvcv_mdlc_tech_world_machines_districts_produces' tech effect event
+	}
+}
+# Executed as a leader has died
+# This = Country
+# From = Leader
+on_leader_death = {
+	events = {
+		xvcv_mdlc.52 #'xvcv_mdlc_leader_trait_memory_backup' trait effect event
+	}
+}
+# This = owner of fleet
+# From = fleet
+# FromFrom = planet (if any)
+on_fleet_auto_move_arrival = {
+	events = {
+		xvcv_mdlc.12 #when a trading ship arrives at the opponent empire's capital world
+		xvcv_mdlc.13 #when a trading ship arrives at the player empire's capital world
+	}
+}
+# This = owner of ship 1 (destroyed)
+# From = owner of ship 2 (combatant)
+# FromFrom = ship 1
+# FromFromFrom = ship 2
+on_ship_destroyed_victim = {
+	events = {
+		xvcv_mdlc.14 #the effect event for a trading ship destroyed while transit
+	}
+}
+# Executes after a policy has been changed
+# use last_changed_policy to identify which policy it was
+# This = Country
+on_policy_changed = {
+	events = {
+		xvcv_mdlc.16 #'xvcv_mdlc_civic_trading_machine_trade' policy change effect event
+	}
+}
+#You have changed the location of your capital. Also called when a country's capital is first set e.g. during galaxy creation (but then FROM is not set)
+#this/root = new capital
+#from = old capital
+on_capital_changed = {
+	events = {
+		xvcv_mdlc.17 #when the trade ship owner's capital is lost or sold somehow
+	}
+}
+# Triggers when a Special Project to apply a species modification template has completed.
+# Note that this will trigger once for each combination of planet & original species.
+# This = Country
+# From = Species ( Post Modification )
+on_modification_complete = {
+	events = {
+		xvcv_mdlc_abyss.5 #add / remove a new leader trait when their species have 'xvcv_mdlc_trait_abyss_psi_emulator' trait
+		xvcv_mdlc.45 #when the xvcv_mdlc_trait_bio_robot trait is added or removed
+		xvcv_mdlc.50 #add / remove new leader traits when their species have required traits
+	}
+}
+# a new leader is generated for an empire, to be available for recruitment
+# scope: country, from: leader
+on_leader_spawned = {
+	events = {
+		xvcv_mdlc_abyss.5 #add / remove a new leader trait when their species have 'xvcv_mdlc_trait_abyss_psi_emulator' trait
+		xvcv_mdlc.50 #add / remove new leader traits when their species have required traits
+	}
+}
+# A leader leveled up.
+# Scope = Country
+# From = Leader
+on_leader_level_up = {
+	events = {
+		xvcv_mdlc.51 #'xvcv_mdlc_leader_trait_shared_memory' trait effect event
+	}
+}
+# Planet has been terraformed
+# This = Planet
+# From = Terraforming country
+on_terraforming_complete = {
+	events = {
+		xvcv_mdlc.1001 #'xvcv_mdlc_pc_mechanical' planet class terraforming complete effect event
+	}
+}
+#A district construction has been completed.
+# This = Planet
+on_district_complete = {
+	events = {
+		xvcv_mdlc.70 #'xvcv_mdlc_world_machines_districts' variable value count
+		xvcv_mdlc.72 #'xvcv_mdlc_d_pc_machine_ser_crime' or 'xvcv_mdlc_d_pc_machine_ser_admin_cap' deposits count
+	}
+}
+# A district construction has demolished.
+# This = Planet
+on_district_demolished = {
+	events = {
+		xvcv_mdlc.71 #'xvcv_mdlc_world_machines_districts' variable value count
+		xvcv_mdlc.72 #'xvcv_mdlc_d_pc_machine_ser_crime' or 'xvcv_mdlc_d_pc_machine_ser_admin_cap' deposits count
+	}
+}
+# A planet has been colonized.
+# Scope = Planet
+on_colonized = {
+	events = {
+		xvcv_mdlc.1004 #'xvcv_mdlc_ap_self_assembling_colony_ship' ascension perk effect event
+		xvcv_mdlc.1002 #'xvcv_mdlc_ap_robotic_age' ascension perk effect event
+	}
+}
+#This = destroyed country
+#From = optional, destroyer (country)
+on_country_destroyed = {
+	events = {
+		xvcv_mdlc.18 #abort special projects when the trade ship owner's opponent is destroyed
+		xvcv_mdlc.19 #destroy the trading ship and remove country flags when the trade ship owner's opponent is destroyed
+		xvcv_mdlc_espionage.26 #abort 'XVCV_MDLC_OPERATION_MACHINE_UPRISING_PROJECT' special project when its target is destroyed
+	}
+}
+# Triggers when trying to open the diplomacy view for countries with custom diplomacy.
+# Country scope
+# This = target country (player)
+# From = source country
+on_custom_diplomacy = {
+	events = {
+		xvcv_mdlc_abyss.10 #abyss main lobby
+		xvcv_mdlc_abyss.11 #when the lobby is unavailable
+	}
+}
+#this = owner country, from = spynetwork scope
+on_spynetwork_formed = {
+	events = {
+		xvcv_mdlc_espionage.2 #add 'xvcv_mdlc_asset_malware' asset when a spynetwork is formed
+	}
+}
+# THIS = Espionage operation
+# FROM = Operation target
+on_operation_chapter_finished = {
+	events = {
+		xvcv_mdlc_espionage.3 #add 'xvcv_mdlc_asset_malware' asset when it's destroyed
+	}
+}
+# THIS = Espionage operation
+on_operation_cancelled = {
+	events = {
+		xvcv_mdlc_espionage.3 #add 'xvcv_mdlc_asset_malware' asset when it's destroyed
+	}
+}
+# Executed just as country is changing its government, after the new one is applied
+# THIS = country
+on_post_government_changed = {
+	events = {
+		xvcv_mdlc.21 #clear variables and country flags for 'xvcv_mdlc_civic_trading_machine' civic when an empire doesn't have it
+		xvcv_mdlc.53 #add / remove a unique leader trait for gestalt nodes when the empire does have certain civics or does not
+		xvcv_mdlc_espionage.4 #add / remove 'xvcv_mdlc_asset_malware' asset when an empire does have the required civic or does not
+		xvcv_mdlc_espionage.5 #add / remove a unique leader trait for gestalt nodes when the empire does have 'xvcv_mdlc_civic_malware_machine' civic or does not
+	}
+}
+#'on_operation_cancelled' on_action trigger doesn't seem to work so I use this instead #don't know why #stellaris v3.4.3
+# A war is beginning, executed for every country in the war.
+# Root = Country
+# From = War
+on_war_beginning = {
+	events = {
+		xvcv_mdlc_espionage.27 #abort the 'xvcv_mdlc_operation_machine_uprising' operation when machine uprising happens to the target
+		xvcv_mdlc.22 #suspend trade when the trade ship owner enters a war against the trade opponent
+		xvcv_mdlc.23 #abort trade ship build special projects when the trade ship owner enters a war against the trade opponent
+		xvcv_mdlc_abyss.140 #abyss patron eater buff at war
+	}
+}
+# A war has been won
+# Root = Winner Warleader
+# From = Loser Warleader
+# FromFrom = War
+on_war_won = {
+	events = {
+		xvcv_mdlc_abyss.141 #abyss patron eater debuff at peace
+	}
+}
+# A status quo has been signed
+# Root = Actor
+# From = Recipient
+# FromFrom = Main Attacker
+# FromFromFrom = Main Defender
+# FromFromFromFrom = War
+on_status_quo = {
+	events = {
+		xvcv_mdlc_abyss.141 #abyss patron eater debuff at peace
+	}
+}
+# A status quo has been signed, by force
+# Root = Recipient
+# From = Actor
+# FromFrom = Main Attacker
+# FromFromFrom = Main Defender
+# FromFromFromFrom = War
+on_status_quo_forced = {
+	events = {
+		xvcv_mdlc_abyss.141 #abyss patron eater debuff at peace
+	}
+}
+# Executed as new ruler has been set
+# This = Country
+on_ruler_set = {
+	events = {
+		xvcv_mdlc_customgui.5 #reset core modifying variables when a new ruler drone is set
+	}
+}
+#From = Planet/Starbase/Megastructure scope
+#This = Fleet scope
+on_fleet_enter_orbit = {
+	events = {
+		xvcv_mdlc_archaeology.3 #attack a ship on the orbit of the primitive machine world
+	}
+}
+#From = Country scope
+#This = Planet scope
+on_planet_ownerless = {
+	events = {
+		xvcv_mdlc.44 #reset variables for bio robot auto growth when the planet becomes ownerless or has the new owner
+	}
+}
+#Fired whenever a new owner is set for a planet,
+#be it after a war or through a trade
+#From = Country scope (new owner)
+#This = Planet scope
+on_planet_transfer = {
+	events = {
+		xvcv_mdlc.44 #reset variables for bio robot auto growth when the planet becomes ownerless or has the new owner
+	}
+}
+# Triggers country_event for the defender upon victory
+# Root = country, planet owner
+# From = country, attack leader
+# FromFrom = planet
+on_planet_defenders_win = {
+	events = {
+		xvcv_mdlc_archaeology.5 #when the player defended the planet against the 'xvcv_mdlc_primitive_machine_country' country
+	}
+}
+# Triggers country_event for the defender upon defeat
+# This = country, planet owner
+# From = country, attack leader
+# FromFrom = planet
+on_planet_defenders_lose = {
+	events = {
+		xvcv_mdlc_archaeology.7 #when the player failed to defend the planet against the 'xvcv_mdlc_primitive_machine_country' country
+	}
+}
+# Triggers country_event for the attacker upon victory
+# (Before controller is switched)
+# This = country, leader attacker
+# From = country, planet owner
+# FromFrom = planet
+# IDENTITIES: attacker is the side that "IsHostile" to
+# the planet controller; e.g. spawned monster armies
+# are attackers, but if they win and the player attempts
+# to retake the planet, the player is the attacker
+on_planet_attackers_win = {
+	events = {
+		xvcv_mdlc_archaeology.9	#when the player recaptured or conquered the 'xvcv_mdlc_primitive_machine_planet' planet
+	}
+}
+#A building construction has been completed.
+# This = Planet
+on_building_complete = {
+	events = {
+		xvcv_mdlc.1002 #'xvcv_mdlc_ap_robotic_age' ascension perk effect event
+	}
+}
+# A building construction has been completed, which is an upgrade of previous building.
+# This = Planet
+on_building_upgraded = {
+	events = {
+		xvcv_mdlc.1002 #'xvcv_mdlc_ap_robotic_age' ascension perk effect event
+	}
+}
+# A building construction has demolished.
+# This = Planet
+on_building_demolished = {
+	events = {
+		xvcv_mdlc.1002 #'xvcv_mdlc_ap_robotic_age' ascension perk effect event
+	}
+}
+# A building construction has finished, replacing another building.
+# This = Planet
+on_building_replaced = {
+	events = {
+		xvcv_mdlc.1002 #'xvcv_mdlc_ap_robotic_age' ascension perk effect event
+	}
+}

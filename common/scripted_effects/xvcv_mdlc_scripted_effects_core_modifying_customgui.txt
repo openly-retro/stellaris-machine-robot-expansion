@@ -1,0 +1,186 @@
+xvcv_mdlc_core_modifying_trait_pick_effect = {
+	optimize_memory
+	custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_$CLASS$_$ID$
+	hidden_effect = {
+		ruler = {
+			if = {
+				limit = { NOT = { leader_class = $CLASS$ } }
+				change_leader_class = $CLASS$
+			}
+			add_trait_no_notify = $ID$
+			#revert the ruler's leader class
+			prev = {
+				switch = {
+					trigger = has_country_flag
+					xvcv_mdlc_core_modifying_ruler_leader_class_governor = { prev = { change_leader_class = governor } }
+					xvcv_mdlc_core_modifying_ruler_leader_class_scientist = { prev = { change_leader_class = scientist } }
+					xvcv_mdlc_core_modifying_ruler_leader_class_admiral = { prev = { change_leader_class = admiral } }
+					xvcv_mdlc_core_modifying_ruler_leader_class_general = { prev = { change_leader_class = general } }
+				}
+			}
+		}
+	}
+}
+xvcv_mdlc_core_modifying_set_subclass_effect = {
+	optimize_memory
+	custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_$CLASS$_$ID$
+	hidden_effect = {
+		#clear the previous flag
+		switch = {
+			trigger = has_country_flag
+			xvcv_mdlc_core_modifying_ruler_leader_class_governor = { remove_country_flag = xvcv_mdlc_core_modifying_ruler_leader_class_governor }
+			xvcv_mdlc_core_modifying_ruler_leader_class_scientist = { remove_country_flag = xvcv_mdlc_core_modifying_ruler_leader_class_scientist }
+			xvcv_mdlc_core_modifying_ruler_leader_class_admiral = { remove_country_flag = xvcv_mdlc_core_modifying_ruler_leader_class_admiral }
+			xvcv_mdlc_core_modifying_ruler_leader_class_general = { remove_country_flag = xvcv_mdlc_core_modifying_ruler_leader_class_general }
+		}
+		#change the leader class
+		ruler = {
+			if = {
+				limit = { NOT = { leader_class = $CLASS$ } }
+				change_leader_class = $CLASS$
+			}
+			add_trait_no_notify = $ID$
+		}
+		#and set the country flag
+		set_country_flag = xvcv_mdlc_core_modifying_ruler_leader_class_$CLASS$
+	}
+}
+xvcv_mdlc_core_modifying_remove_tier_1_or_2_traits_effect = {
+	optimize_memory
+	hidden_effect = {
+		ruler = {
+			if = {
+				limit = { has_trait = $ID$ }
+				remove_trait = $ID$
+			}
+			if = { #don't use 'else_if' here #a ruler can have both tier 1 and tier 2 traits at the same time #it's rare but not impossible
+				limit = { has_trait = $ID$_2 }
+				remove_trait = $ID$_2
+			}
+		}
+	}
+}
+xvcv_mdlc_core_modifying_clear_trait_variables_effect = {
+	optimize_memory
+	set_variable = { which = xvcv_mdlc_core_modifying_trait_points value = 4 } #max trait points
+	set_variable = { which = xvcv_mdlc_core_modifying_max_traits_number value = 3 } #max traits number
+	if = {
+		limit = { has_technology = xvcv_mdlc_tech_core_modifying_improvement }
+		change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = 1 }
+		change_variable = { which = xvcv_mdlc_core_modifying_max_traits_number value = 1 }
+	}
+	if = {
+		limit = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 } #both techs increase the same amount of trait modification points
+		change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = 1 }
+		change_variable = { which = xvcv_mdlc_core_modifying_max_traits_number value = 1 }
+	}
+}
+#for common traits
+xvcv_mdlc_core_modifying_trait_add_effect = {
+	optimize_memory
+	add_resource = { energy = -200 alloys = -200 }
+	change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = -1 }
+	change_variable = { which = xvcv_mdlc_core_modifying_max_traits_number value = -1 }
+}
+xvcv_mdlc_core_modifying_trait_remove_effect = {
+	optimize_memory
+	xvcv_mdlc_core_modifying_trait_return_cost_effect = yes
+	#xvcv_mdlc_core_modifying_trait_return_points_effect
+	if = {
+		limit = {
+			OR = {
+				check_variable = { which = xvcv_mdlc_core_modifying_trait_points value > 6 }
+				AND = {
+					NOT = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 }
+					check_variable = { which = xvcv_mdlc_core_modifying_trait_points value > 5 }
+				}
+				AND = {
+					NOT = { has_technology = xvcv_mdlc_tech_core_modifying_improvement }
+					check_variable = { which = xvcv_mdlc_core_modifying_trait_points value > 4 }
+				}
+			}
+		}
+		xvcv_mdlc_core_modifying_clear_trait_variables_effect = yes
+		else = {
+			change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = 1 }
+			change_variable = { which = xvcv_mdlc_core_modifying_max_traits_number value = 1 }
+		}
+	}
+}
+xvcv_mdlc_core_modifying_trait_return_cost_effect = {
+	optimize_memory
+	add_resource = { energy = 100 alloys = 100 }
+}
+#for veteran traits
+xvcv_mdlc_core_modifying_trait_add_alt_effect = {
+	optimize_memory
+	add_resource = { energy = -500 alloys = -500 }
+	change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = -2 }
+	change_variable = { which = xvcv_mdlc_core_modifying_max_traits_number value = -1 }
+}
+xvcv_mdlc_core_modifying_trait_remove_alt_effect = {
+	optimize_memory
+	xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes
+	#xvcv_mdlc_core_modifying_trait_return_points_alt_effect
+	if = {
+		limit = {
+			OR = {
+				check_variable = { which = xvcv_mdlc_core_modifying_trait_points value > 6 }
+				AND = {
+					NOT = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 }
+					check_variable = { which = xvcv_mdlc_core_modifying_trait_points value > 5 }
+				}
+				AND = {
+					NOT = { has_technology = xvcv_mdlc_tech_core_modifying_improvement }
+					check_variable = { which = xvcv_mdlc_core_modifying_trait_points value > 4 }
+				}
+			}
+		}
+		xvcv_mdlc_core_modifying_clear_trait_variables_effect = yes
+		else = {
+			change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = 2 }
+			change_variable = { which = xvcv_mdlc_core_modifying_max_traits_number value = 1 }
+		}
+	}
+}
+xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = {
+	optimize_memory
+	add_resource = { energy = 250 alloys = 250 }
+}
+#for destiny traits
+xvcv_mdlc_core_modifying_trait_add_alt_2_effect = {
+	optimize_memory
+	add_resource = { energy = -1000 alloys = -1000 }
+	change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = -3 }
+	change_variable = { which = xvcv_mdlc_core_modifying_max_traits_number value = -1 }
+}
+xvcv_mdlc_core_modifying_trait_remove_alt_2_effect = {
+	optimize_memory
+	xvcv_mdlc_core_modifying_trait_return_cost_alt_2_effect = yes
+	#xvcv_mdlc_core_modifying_trait_return_points_alt_2_effect
+	if = {
+		limit = {
+			OR = {
+				check_variable = { which = xvcv_mdlc_core_modifying_trait_points value > 6 }
+				AND = {
+					NOT = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 }
+					check_variable = { which = xvcv_mdlc_core_modifying_trait_points value > 5 }
+				}
+				AND = {
+					NOT = { has_technology = xvcv_mdlc_tech_core_modifying_improvement }
+					check_variable = { which = xvcv_mdlc_core_modifying_trait_points value > 4 }
+				}
+			}
+		}
+		xvcv_mdlc_core_modifying_clear_trait_variables_effect = yes
+		else = {
+			change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = 3 }
+			change_variable = { which = xvcv_mdlc_core_modifying_max_traits_number value = 1 }
+		}
+	}
+}
+xvcv_mdlc_core_modifying_trait_return_cost_alt_2_effect = {
+	optimize_memory
+	add_resource = { energy = 500 alloys = 500 }
+}
+#and that ends here

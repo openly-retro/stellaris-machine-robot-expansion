@@ -1,0 +1,778 @@
+xvcv_mdlc_decision_civic_planet_cracker = {
+	icon = decision_shattered_planet
+
+	resources = {
+		category = decisions
+		cost = {
+			alloys = 500
+			unity = 20
+		}
+		cost = {
+			trigger = {
+				exists = space_owner
+				space_owner = {
+					is_ai = no
+					has_technology = xvcv_mdlc_tech_orbital_cracker_upgrade_1
+				}
+			}
+			alloys = 200
+			unity = 10
+		}
+		cost = {
+			trigger = {
+				exists = space_owner
+				space_owner = {
+					is_ai = no
+					has_technology = xvcv_mdlc_tech_orbital_cracker_upgrade_2
+				}
+			}
+			alloys = 300
+			unity = 20
+		}
+	}
+
+	potential = {
+		exists = space_owner
+		space_owner = { has_valid_civic = xvcv_mdlc_civic_planet_cracker }
+	}
+
+	allow = {
+		is_star = no
+		custom_tooltip_fail = {
+			text = xvcv_mdlc_decision_civic_planet_cracker_tooltip.fail
+			is_colony = no #why the hell it's still displayed as 'IS_NOT_COLONY'? #it's not pretty
+		}
+		custom_tooltip_fail = {
+			text = xvcv_mdlc_decision_civic_planet_cracker_tooltip.fail_alt
+			NOT = { has_planet_flag = xvcv_mdlc_planet_cracker_placed }
+		}
+	}
+
+	effect = {
+		custom_tooltip = xvcv_mdlc_decision_civic_planet_cracker_tooltip
+		hidden_effect = {
+			set_planet_flag = xvcv_mdlc_planet_cracker_placed
+			solar_system = {
+				spawn_megastructure = {
+					type = xvcv_mdlc_planet_cracker_incomplete
+					planet = root
+					orbit_distance = 0
+					owner = space_owner
+					init_effect = { upgrade_megastructure_to = xvcv_mdlc_planet_cracker }
+				}
+			}
+			clear_deposits = yes
+			if = {
+				limit = { exists = orbital_station }
+				orbital_station = { dismantle = yes }
+			}
+		}
+	}
+
+	ai_weight = {
+		weight = 0
+		modifier = {
+			weight = 100
+			space_owner = {
+				resource_income_compare = {
+					resource = minerals
+					value <= 20
+				}
+				resource_income_compare = {
+					resource = energy
+					value >= 10
+				}
+				resource_stockpile_compare = {
+					resource = alloys
+					value >= 1000
+				}
+				resource_stockpile_compare = {
+					resource = influence
+					value >= 6
+				}
+			}
+			is_colonizable = no
+		}
+	}
+}
+xvcv_mdlc_decision_hunter_killer_protocol = {
+	owned_planets_only = yes
+
+	resources = {
+		category = decisions
+		cost = { unity = 250 }
+	}
+	
+	potential = {
+		exists = owner
+		owner = { is_machine_empire = yes }
+		NOT = { has_modifier = xvcv_mdlc_hunter_killer_protocol }
+	}
+
+	allow = {
+		planet_crime >= 15
+	}
+	
+	effect = {
+		add_modifier = { modifier = xvcv_mdlc_hunter_killer_protocol days = -1 }
+	}
+	
+	ai_weight = {
+		weight = 0
+	}
+}
+xvcv_mdlc_decision_hunter_killer_protocol_end = {
+	owned_planets_only = yes
+	icon = xvcv_mdlc_decision_hunter_killer_protocol
+
+	resources = {
+		category = decisions
+	}
+	
+	potential = {
+		has_modifier = xvcv_mdlc_hunter_killer_protocol
+	}
+	
+	effect = {
+		remove_modifier = xvcv_mdlc_hunter_killer_protocol
+	}
+	
+	ai_weight = {
+		weight = 0
+	}
+}
+xvcv_mdlc_decision_remove_unemployed = {
+	owned_planets_only = yes
+	enactment_time = 360
+
+	resources = {
+		category = decisions
+		cost = { energy = 100 }
+	}
+
+	potential = {
+		exists = owner
+		owner = { has_ascension_perk = xvcv_mdlc_ap_world_machines }
+	}
+
+	allow = {
+		custom_tooltip_fail = {
+			text = xvcv_mdlc_decision_remove_unemployed_tooltip.fail
+			num_assigned_jobs = { job = unemployed value > 0 }
+		}
+	}
+
+	effect = {
+		custom_tooltip = xvcv_mdlc_decision_remove_unemployed_tooltip
+		hidden_effect = {
+			while = {
+				limit = { num_assigned_jobs = { job = unemployed value > 0 } }
+				random_owned_pop = {
+					limit = { is_unemployed = yes }
+					owner = { add_resource = { alloys = 100 } } #1 replicator = 1 pop assembly = 1 alloys upkeep per month #need 100 months for 1 pop #total 100 alloys per 1 pop
+					kill_pop = yes
+				}
+			}
+		}
+	}
+
+	ai_weight = {
+		weight = 0
+	}
+}
+xvcv_mdlc_decision_machine_world_automation = {
+	owned_planets_only = yes
+	enactment_time = 720
+
+	resources = {
+		category = decisions
+		cost = {
+			energy = 2000
+			minerals = 2000
+		}
+	}
+
+	potential = {
+		exists = owner
+		owner = { has_ascension_perk = xvcv_mdlc_ap_world_machines }
+		is_planet_class = pc_machine
+	}
+
+	effect = {
+		if = {
+			limit = { owner = { has_authority = auth_machine_intelligence } }
+			custom_tooltip = xvcv_mdlc_decision_machine_world_automation_tooltip
+			else = { custom_tooltip = xvcv_mdlc_decision_machine_world_automation_tooltip_alt }
+		}
+		custom_tooltip = xvcv_mdlc_decision_machine_world_automation_tooltip_2
+		hidden_effect = {
+			while = {
+				limit = { has_district = district_city }
+				remove_district = district_city
+				change_variable = { which = xvcv_mdlc_pc_machine_auto_district_city_var value = 1 }
+			}
+			while = {
+				limit = { has_district = district_nexus }
+				remove_district = district_nexus
+				change_variable = { which = xvcv_mdlc_pc_machine_auto_district_city_var value = 1 }
+			}
+			while = {
+				limit = { has_district = district_industrial }
+				remove_district = district_industrial
+				change_variable = { which = xvcv_mdlc_pc_machine_auto_district_industrial_var value = 1 }
+			}
+			while = {
+				limit = { has_district = district_generator_uncapped }
+				remove_district = district_generator_uncapped
+				change_variable = { which = xvcv_mdlc_pc_machine_auto_district_generator_var value = 1 }
+			}
+			while = {
+				limit = { has_district = district_mining_uncapped }
+				remove_district = district_mining_uncapped
+				change_variable = { which = xvcv_mdlc_pc_machine_auto_district_mining_var value = 1 }
+			}
+			change_pc = xvcv_mdlc_pc_machine_auto
+			if = {
+				limit = { NOT = { has_modifier = planet_population_control_gestalt } }
+				add_modifier = { modifier = planet_population_control_gestalt days = -1 }
+			}
+			if = {
+				limit = { owner = { has_authority = auth_machine_intelligence } }
+				while = {
+					limit = { check_variable = { which = xvcv_mdlc_pc_machine_auto_district_city_var value > 0 } }
+					subtract_variable = { which = xvcv_mdlc_pc_machine_auto_district_city_var value = 1 }
+					add_district = xvcv_mdlc_pc_machine_auto_district_nexus
+				}
+				else = {
+					while = {
+						limit = { check_variable = { which = xvcv_mdlc_pc_machine_auto_district_city_var value > 0 } }
+						subtract_variable = { which = xvcv_mdlc_pc_machine_auto_district_city_var value = 1 }
+						add_district = xvcv_mdlc_pc_machine_auto_district_city
+					}
+				}
+			}
+			while = {
+				limit = { check_variable = { which = xvcv_mdlc_pc_machine_auto_district_industrial_var value > 0 } }
+				subtract_variable = { which = xvcv_mdlc_pc_machine_auto_district_industrial_var value = 1 }
+				add_district = xvcv_mdlc_pc_machine_auto_district_industrial
+			}
+			while = {
+				limit = { check_variable = { which = xvcv_mdlc_pc_machine_auto_district_generator_var value > 0 } }
+				subtract_variable = { which = xvcv_mdlc_pc_machine_auto_district_generator_var value = 1 }
+				add_district = xvcv_mdlc_pc_machine_auto_district_generator
+			}
+			while = {
+				limit = { check_variable = { which = xvcv_mdlc_pc_machine_auto_district_mining_var value > 0 } }
+				subtract_variable = { which = xvcv_mdlc_pc_machine_auto_district_mining_var value = 1 }
+				add_district = xvcv_mdlc_pc_machine_auto_district_mining
+			}
+		}
+		xvcv_mdlc_planet_terraforming_resolution_breached_effect = yes
+	}
+
+	ai_weight = {
+		weight = 0
+		modifier = {
+			weight = 100
+			owner = { NOT = { any_owned_planet = { is_planet_class = xvcv_mdlc_pc_machine_auto } } }
+		}
+	}
+}
+xvcv_mdlc_decision_machine_ecu_project = {
+	owned_planets_only = yes
+	enactment_time = 3600
+
+	resources = {
+		category = decisions
+		cost = {
+			influence = 200
+			minerals = 20000
+		}
+	}
+
+	potential = {
+		exists = owner
+		owner = { has_ascension_perk = xvcv_mdlc_ap_world_machines }
+		xvcv_mdlc_world_machines_planet_classes_trigger = no
+		habitable_structure = no
+	}
+
+	allow = {
+		custom_tooltip_fail = {
+			text = xvcv_mdlc_world_machines_decisions_tooltip.fail
+			num_districts = { type = any value < 1 }
+		}
+		num_uncleared_blockers < 1
+	}
+
+	effect = {
+		custom_tooltip = xvcv_mdlc_decision_machine_ecu_project_tooltip
+		hidden_effect = {
+			clear_deposits = yes
+			change_pc = xvcv_mdlc_pc_machine_ecu
+			owner = {
+				if = {
+					limit = { has_country_flag = xvcv_mdlc_decision_machine_ecu_project_message_on }
+					create_message = {
+						type = XVCV_MDLC_WORLD_MACHINES_COMPLETION_MESSAGE_TYPE
+						localization = XVCV_MDLC_DECISION_MACHINE_ECU_PROJECT_DONE_MESSAGE
+						days = 10
+						target = prev
+						variable = {
+							type = name
+							localization = XVCV_MDLC_DECISION_MACHINE_ECU_PROJECT_PLANET
+							scope = prev
+						}
+					}
+				}
+			}
+			if = {
+				limit = { NOT = { has_modifier = planet_population_control_gestalt } }
+				add_modifier = { modifier = planet_population_control_gestalt days = -1 }
+			}
+			add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral days = -1 }
+			xvcv_mdlc_planet_terraforming_resolution_breached_effect = yes
+		}
+		owner = {
+			if = {
+				limit = {
+					#one time only #wait until it appears in the tech option list if you are to research it further
+					NOR = {
+						has_tech_option = xvcv_mdlc_tech_world_machines_districts_produces
+						has_technology = xvcv_mdlc_tech_world_machines_districts_produces
+					}
+				}
+				add_research_option = xvcv_mdlc_tech_world_machines_districts_produces
+			}
+		}
+	}
+
+	ai_weight = {
+		weight = 0
+		modifier = {
+			weight = 100
+			owner = { NOT = { any_owned_planet = { is_planet_class = xvcv_mdlc_pc_machine_ecu } } }
+		}
+	}
+}
+xvcv_mdlc_decision_machine_cpu_project = {
+	owned_planets_only = yes
+	enactment_time = 3600
+
+	resources = {
+		category = decisions
+		cost = {
+			influence = 200
+			minerals = 20000
+		}
+	}
+
+	potential = {
+		exists = owner
+		owner = { has_ascension_perk = xvcv_mdlc_ap_world_machines }
+		xvcv_mdlc_world_machines_planet_classes_trigger = no
+		habitable_structure = no
+	}
+
+	allow = {
+		custom_tooltip_fail = {
+			text = xvcv_mdlc_world_machines_decisions_tooltip.fail
+			num_districts = { type = any value < 1 }
+		}
+		num_uncleared_blockers < 1
+	}
+
+	effect = {
+		custom_tooltip = xvcv_mdlc_decision_machine_cpu_project_tooltip
+		hidden_effect = {
+			clear_deposits = yes
+			change_pc = xvcv_mdlc_pc_machine_cpu
+			owner = {
+				if = {
+					limit = { has_country_flag = xvcv_mdlc_decision_machine_cpu_project_message_on }
+					create_message = {
+						type = XVCV_MDLC_WORLD_MACHINES_COMPLETION_MESSAGE_TYPE
+						localization = XVCV_MDLC_DECISION_MACHINE_CPU_PROJECT_DONE_MESSAGE
+						days = 10
+						target = prev
+						variable = {
+							type = name
+							localization = XVCV_MDLC_DECISION_MACHINE_CPU_PROJECT_PLANET
+							scope = prev
+						}
+					}
+				}
+			}
+			if = {
+				limit = { NOT = { has_modifier = planet_population_control_gestalt } }
+				add_modifier = { modifier = planet_population_control_gestalt days = -1 }
+			}
+			add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral days = -1 }
+			xvcv_mdlc_planet_terraforming_resolution_breached_effect = yes
+		}
+		owner = {
+			if = {
+				limit = {
+					NOR = {
+						has_tech_option = xvcv_mdlc_tech_world_machines_districts_produces
+						has_technology = xvcv_mdlc_tech_world_machines_districts_produces
+					}
+				}
+				add_research_option = xvcv_mdlc_tech_world_machines_districts_produces
+			}
+		}
+	}
+
+	ai_weight = {
+		weight = 0
+		modifier = {
+			weight = 100
+			owner = { NOT = { any_owned_planet = { is_planet_class = xvcv_mdlc_pc_machine_cpu } } }
+		}
+	}
+}
+xvcv_mdlc_decision_machine_ser_project = {
+	owned_planets_only = yes
+	enactment_time = 3600
+
+	resources = {
+		category = decisions
+		cost = {
+			influence = 200
+			minerals = 20000
+		}
+	}
+
+	potential = {
+		exists = owner
+		owner = { has_ascension_perk = xvcv_mdlc_ap_world_machines }
+		xvcv_mdlc_world_machines_planet_classes_trigger = no
+		habitable_structure = no
+	}
+
+	allow = {
+		custom_tooltip_fail = {
+			text = xvcv_mdlc_world_machines_decisions_tooltip.fail
+			num_districts = { type = any value < 1 }
+		}
+		num_uncleared_blockers < 1
+	}
+
+	effect = {
+		custom_tooltip = xvcv_mdlc_decision_machine_ser_project_tooltip
+		hidden_effect = {
+			clear_deposits = yes
+			change_pc = xvcv_mdlc_pc_machine_ser
+			owner = {
+				if = {
+					limit = { has_country_flag = xvcv_mdlc_decision_machine_ser_project_message_on }
+					create_message = {
+						type = XVCV_MDLC_WORLD_MACHINES_COMPLETION_MESSAGE_TYPE
+						localization = XVCV_MDLC_DECISION_MACHINE_SER_PROJECT_DONE_MESSAGE
+						days = 10
+						target = prev
+						variable = {
+							type = name
+							localization = XVCV_MDLC_DECISION_MACHINE_SER_PROJECT_PLANET
+							scope = prev
+						}
+					}
+				}
+			}
+			if = {
+				limit = { NOT = { has_modifier = planet_population_control_gestalt } }
+				add_modifier = { modifier = planet_population_control_gestalt days = -1 }
+			}
+			add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral days = -1 }
+			xvcv_mdlc_planet_terraforming_resolution_breached_effect = yes
+		}
+		owner = {
+			if = {
+				limit = {
+					NOR = {
+						has_tech_option = xvcv_mdlc_tech_world_machines_districts_produces
+						has_technology = xvcv_mdlc_tech_world_machines_districts_produces
+					}
+				}
+				add_research_option = xvcv_mdlc_tech_world_machines_districts_produces
+			}
+		}
+	}
+
+	ai_weight = {
+		weight = 0
+		modifier = {
+			weight = 100
+			owner = { NOT = { any_owned_planet = { is_planet_class = xvcv_mdlc_pc_machine_ser } } }
+		}
+	}
+}
+xvcv_mdlc_decision_mechanical_worlds_terraforming_project = {
+	icon = decision_drilling_for_gas
+	owned_planets_only = yes
+	enactment_time = 7200
+
+	resources = {
+		category = decisions
+		cost = {
+			energy = @xvcv_mdlc_pc_mechanical_cost
+			minerals = @xvcv_mdlc_pc_mechanical_cost
+		}
+	}
+
+	potential = {
+		exists = owner
+		owner = { has_ascension_perk = xvcv_mdlc_ap_mechanical_worlds }
+		NOR = {
+			is_planet_class = xvcv_mdlc_pc_mechanical
+			is_planet_class = xvcv_mdlc_pc_machine_auto
+		}
+		xvcv_mdlc_world_machines_planet_classes_trigger = no
+		habitable_structure = no
+	}
+
+	effect = {
+		change_pc = xvcv_mdlc_pc_mechanical_dummy_for_district_conversion
+		hidden_effect = {
+			owner = {
+				create_message = {
+					type = TERRAFORM_MESSAGE_TYPE
+					localization = XVCV_PC_MECHANICAL_TERRAFORM_DONE_MESSAGE
+					days = 10
+					target = prev
+					variable = {
+						type = name
+						localization = XVCV_PC_MECHANICAL_TERRAFORM_DONE_MESSAGE_PLANET
+						scope = prev
+					}
+				}
+			}
+			planet_event = { id = xvcv_mdlc.1001 }
+		}
+	}
+
+	ai_weight = {
+		weight = 0
+		modifier = {
+			weight = 100
+			owner = { NOT = { any_owned_planet = { is_planet_class = xvcv_mdlc_pc_mechanical } } }
+		}
+	}
+}
+xvcv_mdlc_decision_virtual_world_project = {
+	owned_planets_only = yes
+	enactment_time = 3600
+
+	resources = {
+		category = decisions
+		cost = {
+			influence = 200
+			minerals = 20000
+		}
+	}
+
+	potential = {
+		exists = owner
+		owner = { has_ascension_perk = xvcv_mdlc_ap_virtual_worlds }
+		habitable_structure = no
+	}
+
+	allow = {
+		custom_tooltip_fail = {
+			text = xvcv_mdlc_world_machines_decisions_tooltip.fail
+			num_districts = { type = any value < 1 }
+		}
+		num_uncleared_blockers < 1
+	}
+
+	effect = {
+		custom_tooltip = xvcv_mdlc_decision_virtual_world_project_tooltip
+		hidden_effect = {
+			clear_deposits = yes
+			change_pc = xvcv_mdlc_pc_virtual
+			add_deposit = xvcv_mdlc_d_pc_virtual_district_essential_slot
+			owner = {
+				if = {
+					limit = { has_country_flag = xvcv_mdlc_decision_virtual_world_project_message_on }
+					create_message = {
+						type = XVCV_MDLC_VIRTUAL_WORLD_COMPLETION_MESSAGE_TYPE
+						localization = XVCV_MDLC_VIRTUAL_WORLD_PROJECT_DONE_MESSAGE
+						days = 10
+						target = prev
+						variable = {
+							type = name
+							localization = XVCV_MDLC_VIRTUAL_WORLD_PROJECT_PLANET
+							scope = prev
+						}
+					}
+				}
+			}
+			xvcv_mdlc_planet_terraforming_resolution_breached_effect = yes
+		}
+	}
+
+	ai_weight = {
+		weight = 0
+		modifier = {
+			weight = 100
+			owner = { NOT = { any_owned_planet = { is_planet_class = xvcv_mdlc_pc_virtual } } }
+		}
+	}
+}
+xvcv_mdlc_decision_pop_commoditization = {
+	owned_planets_only = yes
+
+	resources = {
+		category = decisions
+		cost = {
+			unity = 200
+			energy = 200
+		}
+	}
+
+	potential = {
+		is_planet_class = xvcv_mdlc_pc_virtual
+	}
+
+	allow = {
+		has_district = xvcv_mdlc_pc_virtual_district_essential
+		num_pops > 1
+	}
+
+	effect = {
+		custom_tooltip = xvcv_mdlc_decision_pop_commoditization_tooltip
+		hidden_effect = {
+			random_owned_pop = { kill_pop = yes }
+			add_deposit = xvcv_mdlc_d_pc_virtual_commoditized_pop
+		}
+	}
+
+	ai_weight = {
+		weight = 0
+	}
+}
+xvcv_mdlc_decision_goods_for_research_bonus = {
+	owned_planets_only = yes
+
+	resources = {
+		category = decisions
+		cost = {
+			trigger = { count_owned_pop = { limit = { has_job = calculator } count <= 10 } }
+			consumer_goods = 200
+		}
+		cost = {
+			trigger = {
+				count_owned_pop = { limit = { has_job = calculator } count > 10 }
+				count_owned_pop = { limit = { has_job = calculator } count <= 20 }
+			}
+			consumer_goods = 400
+		}
+		cost = {
+			trigger = {
+				count_owned_pop = { limit = { has_job = calculator } count > 20 }
+				count_owned_pop = { limit = { has_job = calculator } count <= 30 }
+			}
+			consumer_goods = 600
+		}
+		cost = {
+			trigger = {
+				count_owned_pop = { limit = { has_job = calculator } count > 30 }
+				count_owned_pop = { limit = { has_job = calculator } count <= 40 }
+			}
+			consumer_goods = 800
+		}
+		cost = {
+			trigger = {
+				count_owned_pop = { limit = { has_job = calculator } count > 40 }
+				count_owned_pop = { limit = { has_job = calculator } count <= 50 }
+			}
+			consumer_goods = 1000
+		}
+		cost = {
+			trigger = {
+				count_owned_pop = { limit = { has_job = calculator } count > 50 }
+				count_owned_pop = { limit = { has_job = calculator } count <= 60 }
+			}
+			consumer_goods = 1200
+		}
+		cost = {
+			trigger = {
+				count_owned_pop = { limit = { has_job = calculator } count > 60 }
+				count_owned_pop = { limit = { has_job = calculator } count <= 70 }
+			}
+			consumer_goods = 1400
+		}
+		cost = {
+			trigger = {
+				count_owned_pop = { limit = { has_job = calculator } count > 70 }
+				count_owned_pop = { limit = { has_job = calculator } count <= 80 }
+			}
+			consumer_goods = 1600
+		}
+		cost = {
+			trigger = {
+				count_owned_pop = { limit = { has_job = calculator } count > 80 }
+				count_owned_pop = { limit = { has_job = calculator } count <= 90 }
+			}
+			consumer_goods = 1800
+		}
+		cost = {
+			trigger = { count_owned_pop = { limit = { has_job = calculator } count > 90 } }
+			consumer_goods = 2000
+		}
+	}
+
+	potential = {
+		owner = { has_valid_civic = xvcv_mdlc_civic_emotion_emulator }
+	}
+
+	allow = {
+		NOT = { has_modifier = xvcv_mdlc_goods_for_research_bonus }
+	}
+
+	effect = {
+		add_modifier = { modifier = xvcv_mdlc_goods_for_research_bonus days = 3600 }
+	}
+
+	ai_weight = {
+		weight = 0
+		modifier = {
+			weight = 10
+			count_owned_pop = {
+				limit = { has_job = calculator }
+				count > 0
+			}
+			count_owned_pop = {
+				limit = { has_job = calculator }
+				count < 20
+			}
+			owner = {
+				resource_income_compare = {
+					resource = consumer_goods
+					value > 10
+				}
+				resource_stockpile_compare = {
+					resource = consumer_goods
+					value > 2000
+				}
+			}
+		}
+		modifier = {
+			weight = 20
+			count_owned_pop = {
+				limit = { has_job = calculator }
+				count >= 20
+			}
+			owner = {
+				resource_income_compare = {
+					resource = consumer_goods
+					value > 20
+				}
+				resource_stockpile_compare = {
+					resource = consumer_goods
+					value > 4000
+				}
+			}
+		}
+	}
+}

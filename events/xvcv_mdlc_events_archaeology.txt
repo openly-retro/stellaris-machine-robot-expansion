@@ -1,0 +1,618 @@
+namespace = xvcv_mdlc_archaeology
+
+#xvcv_mdlc_primitive_machine_site digsite events
+#wait a day until the capital's location is set and fixed
+event = {
+	id = xvcv_mdlc_archaeology.1
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		#spawn only when there is a player machine intelligence empire
+		any_country = {
+			is_ai = no
+			has_authority = auth_machine_intelligence
+		}
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				is_ai = no
+				has_authority = auth_machine_intelligence
+			}
+			random_list = {
+				65 = {} #no spawn
+				35 = { country_event = { id = xvcv_mdlc_archaeology.2 days = 1 } }
+			}
+		}
+	}
+}
+#create a primitive empire with a digsite 
+country_event = {
+	id = xvcv_mdlc_archaeology.2
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		random_system = {
+			limit = {
+				has_owner = no
+				distance = {
+					source = prev.capital_scope.solar_system
+					min_jumps = 1
+					max_jumps = 20
+					type = hyperlane
+				}
+				any_system_planet = {
+					colonizable_planet = yes
+					NOR = {
+						has_planet_flag = prescripted_ideal
+						exists = archaeological_site
+					}
+					has_anomaly = no
+				}
+			}
+			random_system_planet = {
+				limit = {
+					colonizable_planet = yes
+					NOR = {
+						has_planet_flag = prescripted_ideal
+						exists = archaeological_site
+					}
+					has_anomaly = no
+				}
+				create_species = {
+					name = random
+					class = "MACHINE"
+					portrait = random
+					traits = { trait = trait_machine_unit }
+					traits = random
+					homeworld = this
+				}
+				while = { create_pop = { species = last_created_species ethos = { ethic = ethic_gestalt_consciousness } } count = 5 }
+
+				prevent_anomaly = yes
+				remove_all_buildings = yes
+				add_modifier = { modifier = xvcv_mdlc_primitive_machine_unknown_structure days = -1 }
+				create_archaeological_site = xvcv_mdlc_primitive_machine_site
+				add_blocker = { type = d_archaeological_site }
+
+				create_ambient_object = {
+					type = "medium_debris_01_object"
+					location = this
+					use_3d_location = yes
+					entity_offset = 0
+					entity_offset_angle = 0
+					entity_offset_height = 10
+				}
+				create_ambient_object = {
+					type = "abandoned_ship_2_object"
+					location = this
+					use_3d_location = yes
+					entity_offset = 0
+					entity_offset_angle = 0
+					entity_offset_height = 10
+				}
+			}
+		}
+	}
+}
+#attack a ship on the orbit of the primitive machine world
+fleet_event = {
+	id = xvcv_mdlc_archaeology.3
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = from
+		from = {
+			is_scope_type = planet
+			OR = {
+				has_modifier = xvcv_mdlc_primitive_machine_hostile_defense_cannon
+				AND = {
+					has_modifier = xvcv_mdlc_primitive_machine_planet_defense_network
+					exists = prev.controller
+					prev.controller = { is_hostile = prev.controller } #the fleet controller should be hostile to the planet controller
+				}
+			}
+		}
+	}
+
+	immediate = {
+		from = { save_event_target_as = xvcv_mdlc_primitive_machine_planet }
+		fleet_event = { id = xvcv_mdlc_archaeology.4 }
+	}
+}
+fleet_event = {
+	id = xvcv_mdlc_archaeology.4
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		#end the event when the fleet stops orbiting the planet
+		exists = orbit
+		orbit = {
+			is_same_value = event_target:xvcv_mdlc_primitive_machine_planet
+			OR = {
+				has_modifier = xvcv_mdlc_primitive_machine_hostile_defense_cannon
+				AND = {
+					has_modifier = xvcv_mdlc_primitive_machine_planet_defense_network
+					exists = prev.controller
+					prev.controller = { is_hostile = prev.controller }
+				}
+			}
+		}
+	}
+
+	immediate = {
+		if = {
+			limit = { NOT = { has_fleet_flag = xvcv_mdlc_planet_defense_cannon_message_delayed } }
+			create_message = {
+				type = XVCV_MDLC_PLANET_DEFENSE_CANNON_TYPE
+				localization = XVCV_MDLC_PLANET_DEFENSE_CANNON_ATTACK_MESSAGE
+				target = event_target:xvcv_mdlc_primitive_machine_planet
+				days = 180
+				variable = {
+					type = name
+					localization = XVCV_MDLC_PLANET_DEFENSE_CANNON_LOCATION_PLANET
+					scope = event_target:xvcv_mdlc_primitive_machine_planet
+				}
+			}
+			set_timed_fleet_flag = { flag = xvcv_mdlc_planet_defense_cannon_message_delayed days = 180 }
+		}
+		random_controlled_ship = {
+			reduce_hp = 50
+			if = {
+				limit = { event_target:xvcv_mdlc_primitive_machine_planet = { has_modifier = xvcv_mdlc_primitive_machine_planet_defense_network } }
+				reduce_hp = 150
+			}
+			create_ambient_object = {
+				type = xvcv_mdlc_ship_hit_object
+				scale = 0.075
+				location = this
+				use_3d_location = yes
+				entity_offset = 0
+				entity_offset_angle = 0
+				entity_offset_height = 0
+				entity_scale_to_size = yes
+				play_animation_once = yes
+				duration = 5
+			}
+		}
+		fleet_event = { id = xvcv_mdlc_archaeology.4 days = 5 } #takes damage per 5 days
+	}
+}
+#when the player defended the planet against the 'xvcv_mdlc_primitive_machine_country' country
+country_event = {
+	id = xvcv_mdlc_archaeology.5
+	title = "xvcv_mdlc_archaeology.5.name"
+	desc = "xvcv_mdlc_archaeology.5.desc"
+	picture = GFX_evt_victorious_army
+	show_sound = event_ground_battle
+	location = fromfrom
+
+	is_triggered_only = yes
+
+	trigger = {
+		exists = from
+		exists = fromfrom
+		from = { has_country_flag = xvcv_mdlc_primitive_machine_country_type }
+		fromfrom = {
+			exists = archaeological_site
+			archaeological_site = { is_site_type = xvcv_mdlc_primitive_machine_site }
+		}
+	}
+
+	option = {
+		name = xvcv_mdlc_archaeology.5.a
+		enable_special_project = { name = XVCV_MDLC_PRIMITIVE_MACHINE_SITE_PROJECT_1 owner = this location = fromfrom }
+		fromfrom = {
+			remove_modifier = xvcv_mdlc_primitive_machine_unknown_structure
+			add_modifier = { modifier = xvcv_mdlc_primitive_machine_deactivated_defense_cannon days = -1 }
+		}
+	}
+}
+#'XVCV_MDLC_PRIMITIVE_MACHINE_SITE_PROJECT_1' completion event
+planet_event = {
+	id = xvcv_mdlc_archaeology.6
+	title = "xvcv_mdlc_archaeology.6.name"
+	desc = "xvcv_mdlc_archaeology.6.desc"
+	picture = GFX_evt_synth_sabotage
+	show_sound = event_ai_started
+	location = this
+
+	is_triggered_only = yes
+
+	after = {
+		remove_modifier = xvcv_mdlc_primitive_machine_deactivated_defense_cannon
+	}
+
+	option = {
+		name = xvcv_mdlc_archaeology.6.a
+		add_modifier = { modifier = xvcv_mdlc_primitive_machine_planet_defense_network days = -1 }
+	}
+	option = {
+		name = xvcv_mdlc_archaeology.6.b
+		owner = { add_resource = { alloys = 2000 } }
+	}
+}
+#when the player failed to defend the planet against the 'xvcv_mdlc_primitive_machine_country' country
+country_event = {
+	id = xvcv_mdlc_archaeology.7
+	title = "xvcv_mdlc_archaeology.7.name"
+	desc = "xvcv_mdlc_archaeology.7.desc" #attachment image moved from 'xvcv_mdlc_archaeology.11.desc' to here as it is not properly displayed there
+	picture = GFX_evt_burning_settlement
+	show_sound = event_red_alert
+	location = fromfrom
+
+	is_triggered_only = yes
+
+	trigger = {
+		exists = from
+		exists = fromfrom
+		from = { has_country_flag = xvcv_mdlc_primitive_machine_country_type }
+		fromfrom = {
+			exists = archaeological_site
+			archaeological_site = { is_site_type = xvcv_mdlc_primitive_machine_site }
+		}
+	}
+
+	immediate = {
+		fromfrom = { save_event_target_as = xvcv_mdlc_primitive_machine_planet }
+	}
+
+	option = {
+		name = xvcv_mdlc_archaeology.7.a
+		custom_tooltip = xvcv_mdlc_archaeology.7.a.tooltip
+		enable_special_project = { name = XVCV_MDLC_PRIMITIVE_MACHINE_SITE_PROJECT_2 owner = this location = fromfrom }
+		fromfrom = {
+			remove_modifier = xvcv_mdlc_primitive_machine_unknown_structure
+			add_modifier = { modifier = xvcv_mdlc_primitive_machine_hostile_defense_cannon days = -1 }
+		}
+		hidden_effect = { fromfrom = { every_fleet_in_orbit = { fleet_event = { id = xvcv_mdlc_archaeology.4 } } } }
+	}
+}
+#'XVCV_MDLC_PRIMITIVE_MACHINE_SITE_PROJECT_2' completion event
+country_event = {
+	id = xvcv_mdlc_archaeology.8
+	title = "xvcv_mdlc_archaeology.8.name"
+	desc = "xvcv_mdlc_archaeology.8.desc"
+	picture = GFX_evt_death_from_above
+	show_sound = event_space_battle
+	location = event_target:xvcv_mdlc_primitive_machine_planet
+
+	is_triggered_only = yes
+
+	immediate = {
+		event_target:xvcv_mdlc_primitive_machine_planet = {
+			if = {
+				limit = { owner = { has_country_flag = xvcv_mdlc_primitive_machine_country_type } }
+				owner = {
+					every_owned_army = { remove_army = yes }
+					destroy_country = yes
+				}
+			}
+			else_if = {
+				limit = { controller = { has_country_flag = xvcv_mdlc_primitive_machine_country_type } }
+				controller = {
+					every_owned_army = { remove_army = yes }
+					destroy_country = yes
+				}
+			}
+		}
+	}
+
+	option = {
+		name = xvcv_mdlc_archaeology.8.a
+		event_target:xvcv_mdlc_primitive_machine_planet = { remove_modifier = xvcv_mdlc_primitive_machine_hostile_defense_cannon }
+	}
+}
+#when the player recaptured or conquered the 'xvcv_mdlc_primitive_machine_planet' planet
+country_event = {
+	id = xvcv_mdlc_archaeology.9
+	title = "xvcv_mdlc_archaeology.9.name"
+	desc = "xvcv_mdlc_archaeology.9.desc"
+	picture = GFX_evt_victorious_army
+	show_sound = event_ground_battle
+	location = fromfrom
+
+	is_triggered_only = yes
+
+	trigger = {
+		exists = fromfrom
+		OR = {
+			AND = {
+				exists = from #fromfrom.owner
+				from = { has_country_flag = xvcv_mdlc_primitive_machine_country_type }
+			}
+			AND = {
+				exists = fromfrom.controller
+				fromfrom.controller = { has_country_flag = xvcv_mdlc_primitive_machine_country_type }
+			}
+		}
+		fromfrom = {
+			exists = archaeological_site
+			archaeological_site = { is_site_type = xvcv_mdlc_primitive_machine_site }
+		}
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				exists = from
+				from = { has_country_flag = xvcv_mdlc_primitive_machine_country_type }
+			}
+			from = { destroy_country = yes }
+			fromfrom = {
+				set_owner = prev
+				if = {
+					limit = { prev = { has_ascension_perk = xvcv_mdlc_ap_self_assembling_colony_ship } }
+					add_building = building_machine_capital
+					else = { add_building = building_deployment_post }
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				exists = fromfrom.controller
+				fromfrom.controller = { has_country_flag = xvcv_mdlc_primitive_machine_country_type }
+			}
+			fromfrom.controller = { destroy_country = yes }
+		}
+		abort_special_project = { type = XVCV_MDLC_PRIMITIVE_MACHINE_SITE_PROJECT_2 location = fromfrom }
+	}
+
+	option = {
+		name = xvcv_mdlc_archaeology.9.a
+		fromfrom = { remove_modifier = xvcv_mdlc_primitive_machine_hostile_defense_cannon }
+	}
+}
+#dig site events
+#stage 1
+fleet_event = {
+	id = xvcv_mdlc_archaeology.10
+	title = "xvcv_mdlc_archaeology.10.name"
+	desc = "xvcv_mdlc_archaeology.10.desc"
+	picture = GFX_evt_relic_world_building
+	show_sound = event_wind_ruins
+	location = from
+
+	is_triggered_only = yes
+
+	archaeology = yes
+
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = {
+		from = { set_site_progress_locked = no }
+	}
+
+	option = {
+		name = xvcv_mdlc_archaeology.10.a
+		#trigger = {
+		#	owner = {
+		#		NOR = {
+		#			has_valid_civic = civic_machine_terminator
+		#			has_valid_civic = civic_machine_assimilator
+		#			has_valid_civic = civic_machine_servitor
+		#		}
+		#	}
+		#}
+	}
+	#option = {
+	#	name = xvcv_mdlc_archaeology.10.b
+	#	trigger = { owner = { has_valid_civic = civic_machine_terminator } }
+	#}
+	#option = {
+	#	name = xvcv_mdlc_archaeology.10.c
+	#	trigger = { owner = { has_valid_civic = civic_machine_assimilator } }
+	#}
+	#option = {
+	#	name = xvcv_mdlc_archaeology.10.d
+	#	trigger = { owner = { has_valid_civic = civic_machine_servitor } }
+	#}
+}
+#stage 2
+fleet_event = {
+	id = xvcv_mdlc_archaeology.11
+	title = "xvcv_mdlc_archaeology.11.name"
+	desc = "xvcv_mdlc_archaeology.11.desc"
+	picture = GFX_evt_exploding_ship
+	show_sound = event_bad_omen
+	location = from
+
+	is_triggered_only = yes
+
+	archaeology = yes
+
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = {
+		from = { set_site_progress_locked = no }
+		hidden_effect = {
+			create_country = {
+				name = "xvcv_mdlc_primitive_machine_country"
+				type = faction
+				flag = {
+					icon = {
+						category = "special"
+						file = "primitive.dds"
+					}
+					background = {
+						category = "backgrounds"
+						file = "new_dawn.dds"
+					}
+					colors = {
+						"grey"
+						"dark_grey"
+						"null"
+						"null"
+					}
+				}
+				effect = {
+					set_country_flag = xvcv_mdlc_primitive_machine_country_type
+					establish_communications_no_message = prev.owner
+				}
+			}
+		}
+		from.planet = {
+			#start ground battle
+			hidden_effect = {
+				while = {
+					create_army = {
+						name = "xvcv_mdlc_primitive_machine_army_name"
+						owner = last_created_country
+						type = xvcv_mdlc_primitive_machine_army
+					}
+					count = 10
+				}
+			}
+			if = {
+				limit = { is_colony = yes }
+				custom_tooltip = xvcv_mdlc_archaeology.11.a.tooltip
+				else = { #skip the battle
+					custom_tooltip = xvcv_mdlc_archaeology.11.a.tooltip_alt
+					hidden_effect = { save_event_target_as = xvcv_mdlc_primitive_machine_planet } #don't move this line's position to below
+					enable_special_project = { name = XVCV_MDLC_PRIMITIVE_MACHINE_SITE_PROJECT_2 owner = prev.owner location = this } #than this line
+					remove_modifier = xvcv_mdlc_primitive_machine_unknown_structure
+					add_modifier = { modifier = xvcv_mdlc_primitive_machine_hostile_defense_cannon days = -1 }
+					hidden_effect = {
+						set_owner = last_created_country
+						every_fleet_in_orbit = { fleet_event = { id = xvcv_mdlc_archaeology.4 } }
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = xvcv_mdlc_archaeology.11.a
+		trigger = {
+			owner = {
+				NOR = {
+					has_valid_civic = civic_machine_terminator
+					has_valid_civic = civic_machine_assimilator
+					#has_valid_civic = civic_machine_servitor
+				}
+			}
+		}
+	}
+	option = {
+		name = xvcv_mdlc_archaeology.11.b
+		trigger = { owner = { has_valid_civic = civic_machine_terminator } }
+	}
+	option = {
+		name = xvcv_mdlc_archaeology.11.c
+		trigger = { owner = { has_valid_civic = civic_machine_assimilator } }
+	}
+	#option = {
+	#	name = xvcv_mdlc_archaeology.11.d
+	#	trigger = { owner = { has_valid_civic = civic_machine_servitor } }
+	#}
+}
+#stage 3
+fleet_event = {
+	id = xvcv_mdlc_archaeology.12
+	title = "xvcv_mdlc_archaeology.12.name"
+	desc = "xvcv_mdlc_archaeology.12.desc"
+	picture = GFX_evt_disease_outbreak
+	show_sound = event_planetary_riot
+	location = from
+
+	is_triggered_only = yes
+
+	archaeology = yes
+
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = {
+		from = { set_site_progress_locked = no }
+	}
+
+	option = {
+		name = xvcv_mdlc_archaeology.12.a
+		trigger = {
+			owner = {
+				NOR = {
+					has_valid_civic = civic_machine_terminator
+					#has_valid_civic = civic_machine_assimilator
+					has_valid_civic = civic_machine_servitor
+				}
+			}
+		}
+	}
+	#option = {
+	#	name = xvcv_mdlc_archaeology.12.b
+	#	trigger = { owner = { has_valid_civic = civic_machine_terminator } }
+	#}
+	option = {
+		name = xvcv_mdlc_archaeology.12.c
+		trigger = { owner = { has_valid_civic = civic_machine_assimilator } }
+	}
+	option = {
+		name = xvcv_mdlc_archaeology.12.d
+		trigger = { owner = { has_valid_civic = civic_machine_servitor } }
+	}
+}
+#stage 4
+fleet_event = {
+	id = xvcv_mdlc_archaeology.13
+	title = "xvcv_mdlc_archaeology.13.name"
+	desc = "xvcv_mdlc_archaeology.13.desc"
+	picture = GFX_evt_ground_combat
+	show_sound = event_ground_battle
+	location = from
+
+	is_triggered_only = yes
+
+	archaeology = yes
+
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = {
+		from = { set_site_progress_locked = no }
+		#[8:58 PM] XVCV: So, if I make new (not vanilla overwritten) dig sites, I don't have to lock them behind the DLC. Right? 
+		#[8:59 PM] Alfray Stryke: Unless you're using other DLC content, no
+		#[8:59 PM] Alfray Stryke: e.g. minor artefacts
+		#[9:00 PM] Alfray Stryke: I dunno why we DLC-locked minor artefacts
+		if = {
+			limit = { has_ancrel = yes }
+			large_artifact_reward = yes
+		}
+		hidden_effect = { from.planet = { remove_deposit = d_archaeological_site } }
+	}
+
+	option = {
+		name = xvcv_mdlc_archaeology.13.a
+		trigger = {
+			owner = {
+				NOR = {
+					has_valid_civic = civic_machine_terminator
+					#has_valid_civic = civic_machine_assimilator
+					has_valid_civic = civic_machine_servitor
+				}
+			}
+		}
+	}
+	option = {
+		name = xvcv_mdlc_archaeology.13.b
+		trigger = { owner = { has_valid_civic = civic_machine_terminator } }
+	}
+	#option = {
+	#	name = xvcv_mdlc_archaeology.13.c
+	#	trigger = { owner = { has_valid_civic = civic_machine_assimilator } }
+	#}
+	option = {
+		name = xvcv_mdlc_archaeology.13.d
+		trigger = { owner = { has_valid_civic = civic_machine_servitor } }
+	}
+}

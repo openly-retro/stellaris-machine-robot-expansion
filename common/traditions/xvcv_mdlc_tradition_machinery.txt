@@ -1,0 +1,155 @@
+xvcv_mdlc_tr_machinery_adopt = {
+	unlocks_agenda = xvcv_mdlc_agenda_assembly_engineering
+	possible = {
+		is_robot_empire = yes
+	}
+	modifier = {
+		empire_size_colonies_mult = -0.5
+	}
+	tradition_swap = {
+		name = xvcv_mdlc_tr_machinery_adopt_robot
+		inherit_name = yes
+		trigger = { is_mechanical_empire = yes }
+		custom_tooltip = xvcv_mdlc_tr_machinery_adopt_robot_tooltip
+		weight = { factor = 1 }
+	}
+}
+xvcv_mdlc_tr_machinery_finish = {
+	#if the empire is not machine nor synth, only this will have effect
+	modifier = {
+		ascension_perks_add = 1
+	}
+
+	tradition_swap = {
+		name = xvcv_mdlc_tr_machinery_finish_machine
+		inherit_name = yes
+		trigger = {
+			has_authority = auth_machine_intelligence
+			NOT = { has_ascension_perk = xvcv_mdlc_ap_bio_robot }
+		}
+		modifier = {
+			ascension_perks_add = 1
+			MACHINE_species_trait_picks_add = 1
+		}
+		weight = { factor = 1 }
+	}
+	tradition_swap = {
+		name = xvcv_mdlc_tr_machinery_finish_machine_with_bio_robot
+		inherit_name = yes
+		trigger = {
+			has_authority = auth_machine_intelligence
+			has_ascension_perk = xvcv_mdlc_ap_bio_robot
+		}
+		modifier = {
+			ascension_perks_add = 1
+			MACHINE_species_trait_picks_add = 1
+			XVCV_MDLC_BIO_ROBOT_species_trait_picks_add = 1
+		}
+		weight = { factor = 1 }
+	}
+	tradition_swap = {
+		name = xvcv_mdlc_tr_machinery_finish_robot
+		inherit_name = yes
+		trigger = {
+			is_mechanical_empire = yes
+			NOT = { has_ascension_perk = xvcv_mdlc_ap_bio_robot }
+		}
+		modifier = {
+			ascension_perks_add = 1
+			ROBOT_species_trait_picks_add = 1
+		}
+		weight = { factor = 1 }
+	}
+	tradition_swap = {
+		name = xvcv_mdlc_tr_machinery_finish_robot_with_bio_robot
+		inherit_name = yes
+		trigger = {
+			is_mechanical_empire = yes
+			has_ascension_perk = xvcv_mdlc_ap_bio_robot
+		}
+		modifier = {
+			ascension_perks_add = 1
+			ROBOT_species_trait_picks_add = 1
+			XVCV_MDLC_BIO_ROBOT_species_trait_picks_add = 1
+		}
+		weight = { factor = 1 }
+	}
+}
+#look tradition category file to see 'tree_template'
+#1st tradition (1st tradition -> 3rd tradition or 4th tradition)
+xvcv_mdlc_tr_machinery_self_portrait = {
+	modifier = {
+		planet_jobs_engineering_research_produces_mult = 0.2
+	}
+
+	ai_weight = {
+		factor = 100
+	}
+}
+#3rd tradition
+xvcv_mdlc_tr_machinery_self_diagnosis_protocol = {
+	possible = {
+		has_tradition = xvcv_mdlc_tr_machinery_self_portrait
+	}
+
+	modifier = {
+		pop_job_amenities_mult = 0.2
+	}
+	#[19:21:57][tradition_type.cpp:170]: Missing effects tradition xvcv_mdlc_tr_machinery_self_diagnosis_protocol, expected either custom_tooltip or custom_tooltip_with_modifiers or modifier or on_enabled
+	#I don't know why this error occurs #maybe it's because 'pop_job_amenities_mult' modifier is a scripted modifier and do nothing basically?
+	custom_tooltip = xvcv_mdlc_tr_machinery_self_diagnosis_protocol_tooltip
+
+	tradition_swap = {
+		name = xvcv_mdlc_tr_machinery_joywire
+		trigger = { is_mechanical_empire = yes }
+		modifier = {
+			pop_job_amenities_mult = 0.1
+			pop_happiness = 0.1
+		}
+		weight = { factor = 1 }
+	}
+
+	ai_weight = {
+		factor = 100
+	}
+}
+#4th tradition
+xvcv_mdlc_tr_machinery_parallelized_upgrade_solution = {
+	possible = {
+		has_tradition = xvcv_mdlc_tr_machinery_self_portrait
+	}
+
+	modifier = {
+		planet_pop_assemblers_upkeep_mult = -0.2
+	}
+
+	ai_weight = {
+		factor = 100
+	}
+}
+#2nd tradition (2nd tradition -> 5th tradition)
+xvcv_mdlc_tr_machinery_development_of_nature = {
+	modifier = {
+		terraform_speed_mult = 0.33
+		planet_decision_enact_speed_mult = 0.33
+	}
+
+	ai_weight = {
+		factor = 100
+	}
+}
+#5th tradition
+xvcv_mdlc_tr_machinery_conquest_of_nature = {
+	possible = {
+		has_tradition = xvcv_mdlc_tr_machinery_development_of_nature
+	}
+
+	modifier = {
+		planet_max_buildings_add = 1
+		planet_non_artificial_max_districts_add = 1
+	}
+
+	ai_weight = {
+		factor = 100
+	}
+}

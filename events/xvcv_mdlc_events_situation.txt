@@ -1,0 +1,1400 @@
+namespace = xvcv_mdlc_situation
+
+#start the 'xvcv_mdlc_situation_machine_learning' situation
+country_event = {
+	id = xvcv_mdlc_situation.1
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		has_valid_civic = xvcv_mdlc_civic_machine_learning
+	}
+
+	immediate = {
+		start_situation = {
+			type = xvcv_mdlc_situation_machine_learning
+			target = capital_scope
+		}
+		random_situation = {
+			limit = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+			set_situation_approach = xvcv_mdlc_situation_machine_learning_approach
+		}
+	}
+}
+#'xvcv_mdlc_situation_machine_learning' situation finish event
+situation_event = {
+	id = xvcv_mdlc_situation.2
+	title = "xvcv_mdlc_situation.2.name"
+	desc = "xvcv_mdlc_situation.2.desc"
+	picture = GFX_evt_society_cache
+	show_sound = evn_ove_scholarium_cache_society
+	is_triggered_only = yes
+
+	situation = this
+
+	option = {
+		name = xvcv_mdlc_situation.2.a
+		destroy_situation = this
+	}
+}
+#'xvcv_mdlc_situation_machine_learning' situation on_action events
+### Exploration ###
+namespace = xvcv_mdlc_situation_exploration
+
+#on_planet_surveyed
+planet_event = {
+	id = xvcv_mdlc_situation_exploration.1
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = from
+		from = {
+			any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+			xvcv_mdlc_situation_machine_learning_add_progress_trigger = { ON_ACTION_TYPE = on_planet_surveyed }
+		}
+	}
+
+	immediate = {
+		from = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_unique ON_ACTION_TYPE = on_planet_surveyed } }
+	}
+}
+#on_system_survey
+country_event = {
+	id = xvcv_mdlc_situation_exploration.2
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_3 ON_ACTION_TYPE = on_system_survey }
+	}
+}
+#on_entering_gateway
+fleet_event = {
+	id = xvcv_mdlc_situation_exploration.3
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = owner
+		owner = {
+			any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+			xvcv_mdlc_situation_machine_learning_add_progress_trigger = { ON_ACTION_TYPE = on_entering_gateway }
+		}
+	}
+
+	immediate = {
+		owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_unique ON_ACTION_TYPE = on_entering_gateway } }
+	}
+}
+#on_entering_wormhole
+fleet_event = {
+	id = xvcv_mdlc_situation_exploration.4
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = owner
+		owner = {
+			any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+			xvcv_mdlc_situation_machine_learning_add_progress_trigger = { ON_ACTION_TYPE = on_entering_wormhole }
+		}
+	}
+
+	immediate = {
+		owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_unique ON_ACTION_TYPE = on_entering_wormhole } }
+	}
+}
+#on_entering_shroud_tunnel
+fleet_event = {
+	id = xvcv_mdlc_situation_exploration.5
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = owner
+		owner = {
+			any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+			xvcv_mdlc_situation_machine_learning_add_progress_trigger = { ON_ACTION_TYPE = on_entering_shroud_tunnel }
+		}
+	}
+
+	immediate = {
+		owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_unique ON_ACTION_TYPE = on_entering_shroud_tunnel } }
+	}
+}
+#on_awareness_level_increase
+country_event = {
+	id = xvcv_mdlc_situation_exploration.6
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = from
+		from = { any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning } }
+	}
+
+	immediate = {
+		from = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_3 ON_ACTION_TYPE = on_awareness_level_increase } }
+	}
+}
+#on_awareness_level_decrease
+country_event = {
+	id = xvcv_mdlc_situation_exploration.7
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = from
+		from = { any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning } }
+	}
+
+	immediate = {
+		from = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_3 ON_ACTION_TYPE = on_awareness_level_decrease } }
+	}
+}
+### Governance ###
+namespace = xvcv_mdlc_situation_governance
+
+#on_colonized
+planet_event = {
+	id = xvcv_mdlc_situation_governance.1
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = owner
+		owner = { any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning } }
+	}
+
+	immediate = {
+		owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_6 ON_ACTION_TYPE = on_colonized } }
+	}
+}
+#on_fleet_disbanded
+country_event = {
+	id = xvcv_mdlc_situation_governance.2
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+		xvcv_mdlc_situation_machine_learning_add_progress_trigger = { ON_ACTION_TYPE = on_fleet_disbanded }
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_6 ON_ACTION_TYPE = on_fleet_disbanded }
+	}
+}
+#on_building_starbase_outpost
+ship_event = {
+	id = xvcv_mdlc_situation_governance.3
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = owner
+		owner = { any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning } }
+	}
+
+	immediate = {
+		owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_4 ON_ACTION_TYPE = on_building_starbase_outpost } }
+	}
+}
+#on_uplift_completion
+planet_event = {
+	id = xvcv_mdlc_situation_governance.4
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = owner
+		owner = {
+			any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+			xvcv_mdlc_situation_machine_learning_add_progress_trigger = { ON_ACTION_TYPE = on_uplift_completion }
+		}
+	}
+
+	immediate = {
+		owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_5 ON_ACTION_TYPE = on_uplift_completion } }
+	}
+}
+#on_terraforming_complete
+planet_event = {
+	id = xvcv_mdlc_situation_governance.5
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = { #[20:11:39][trigger_impl.cpp:1192]: Script Error: Invalid context switch [owner] from Hojjam I [planet], file: events/xvcv_mdlc_events_situation.txt line: 192
+		exists = space_owner
+		space_owner = { any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning } } #I think it's because terraforming can happen to uncolonized planets
+	}
+
+	immediate = {
+		space_owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_6 ON_ACTION_TYPE = on_terraforming_complete } }
+	}
+}
+#on_leader_death
+country_event = {
+	id = xvcv_mdlc_situation_governance.6
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+		exists = from
+		from = { NOT = { prev = { any_pool_leader = { is_same_value = prevprev } } } } #leaders in the recruit pool are replaced per year #this triggers the 'on_leader_death' on_action
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_4 ON_ACTION_TYPE = on_leader_death }
+	}
+}
+#on_leader_fired
+country_event = {
+	id = xvcv_mdlc_situation_governance.7
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+		xvcv_mdlc_situation_machine_learning_add_progress_trigger = { ON_ACTION_TYPE = on_leader_fired }
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_unique ON_ACTION_TYPE = on_leader_fired }
+	}
+}
+#on_leader_level_up
+country_event = {
+	id = xvcv_mdlc_situation_governance.8
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+		exists = from
+		any_owned_leader = { is_same_value = prev.from } #added to fix a bug that 'Machine Learning' Situation's progress increases when the empire's leader pool is refreshed
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_3 ON_ACTION_TYPE = on_leader_level_up }
+	}
+}
+#on_leader_assigned
+leader_event = {
+	id = xvcv_mdlc_situation_governance.9
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = owner
+		owner = {
+			any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+			xvcv_mdlc_situation_machine_learning_add_progress_trigger = { ON_ACTION_TYPE = on_leader_assigned }
+		}
+	}
+
+	immediate = {
+		owner = {
+			xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_unique ON_ACTION_TYPE = on_leader_assigned }
+		}
+	}
+}
+#on_leader_unassigned
+leader_event = {
+	id = xvcv_mdlc_situation_governance.10
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = owner
+		owner = {
+			any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+			xvcv_mdlc_situation_machine_learning_add_progress_trigger = { ON_ACTION_TYPE = on_leader_unassigned }
+		}
+	}
+
+	immediate = {
+		owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_unique ON_ACTION_TYPE = on_leader_unassigned } }
+	}
+}
+#on_blocker_cleared
+planet_event = {
+	id = xvcv_mdlc_situation_governance.11
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = owner
+		owner = { any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning } }
+	}
+
+	immediate = {
+		owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_4 ON_ACTION_TYPE = on_blocker_cleared } }
+	}
+}
+#on_policy_changed
+country_event = {
+	id = xvcv_mdlc_situation_governance.12
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+		xvcv_mdlc_situation_machine_learning_add_progress_trigger = { ON_ACTION_TYPE = on_policy_changed }
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_unique ON_ACTION_TYPE = on_policy_changed }
+	}
+}
+#on_modification_complete
+country_event = {
+	id = xvcv_mdlc_situation_governance.13
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+		xvcv_mdlc_situation_machine_learning_add_progress_trigger = { ON_ACTION_TYPE = on_modification_complete }
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_unique ON_ACTION_TYPE = on_modification_complete }
+	}
+}
+#on_pop_purged
+planet_event = {
+	id = xvcv_mdlc_situation_governance.14
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = owner
+		owner = { any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning } }
+	}
+
+	immediate = {
+		owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_1 ON_ACTION_TYPE = on_pop_purged } }
+	}
+}
+#on_jump_drive
+ship_event = {
+	id = xvcv_mdlc_situation_governance.15
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = owner
+		owner = {
+			any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+			xvcv_mdlc_situation_machine_learning_add_progress_trigger = { ON_ACTION_TYPE = on_jump_drive }
+		}
+	}
+
+	immediate = {
+		owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_unique ON_ACTION_TYPE = on_jump_drive } }
+	}
+}
+#on_fleet_quantum_catapult
+fleet_event = {
+	id = xvcv_mdlc_situation_governance.16
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = owner
+		owner = {
+			any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+			xvcv_mdlc_situation_machine_learning_add_progress_trigger = { ON_ACTION_TYPE = on_fleet_quantum_catapult }
+		}
+	}
+
+	immediate = {
+		owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_unique ON_ACTION_TYPE = on_fleet_quantum_catapult } }
+	}
+}
+#on_relic_activated
+country_event = {
+	id = xvcv_mdlc_situation_governance.17
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_2 ON_ACTION_TYPE = on_relic_activated }
+	}
+}
+#on_arch_site_finished
+fleet_event = {
+	id = xvcv_mdlc_situation_governance.18
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = owner
+		owner = { any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning } }
+	}
+
+	immediate = {
+		owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_5 ON_ACTION_TYPE = on_arch_site_finished } }
+	}
+}
+#on_post_government_changed
+country_event = {
+	id = xvcv_mdlc_situation_governance.19
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_3 ON_ACTION_TYPE = on_post_government_changed }
+	}
+}
+#on_tradition_picked
+country_event = {
+	id = xvcv_mdlc_situation_governance.20
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_5 ON_ACTION_TYPE = on_tradition_picked }
+	}
+}
+#on_ascension_perk_picked
+country_event = {
+	id = xvcv_mdlc_situation_governance.21
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_7 ON_ACTION_TYPE = on_ascension_perk_picked }
+	}
+}
+#on_agenda_finished
+country_event = {
+	id = xvcv_mdlc_situation_governance.22
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_3 ON_ACTION_TYPE = on_agenda_finished }
+	}
+}
+### Economy ###
+namespace = xvcv_mdlc_situation_economy
+
+#on_tech_increased
+country_event = {
+	id = xvcv_mdlc_situation_economy.1
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_3 ON_ACTION_TYPE = on_tech_increased }
+	}
+}
+#on_building_complete
+planet_event = {
+	id = xvcv_mdlc_situation_economy.2
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = owner
+		owner = {
+			any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+			xvcv_mdlc_situation_machine_learning_add_progress_trigger = { ON_ACTION_TYPE = on_building_complete }
+		}
+	}
+
+	immediate = {
+		owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_unique ON_ACTION_TYPE = on_building_complete } }
+	}
+}
+#on_building_demolished
+planet_event = {
+	id = xvcv_mdlc_situation_economy.3
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = owner
+		owner = {
+			any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+			xvcv_mdlc_situation_machine_learning_add_progress_trigger = { ON_ACTION_TYPE = on_building_demolished }
+		}
+	}
+
+	immediate = {
+		owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_unique ON_ACTION_TYPE = on_building_demolished } }
+	}
+}
+#on_district_complete
+planet_event = {
+	id = xvcv_mdlc_situation_economy.4
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = owner
+		owner = {
+			any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+			xvcv_mdlc_situation_machine_learning_add_progress_trigger = { ON_ACTION_TYPE = on_district_complete }
+		}
+	}
+
+	immediate = {
+		owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_unique ON_ACTION_TYPE = on_district_complete } }
+	}
+}
+#on_district_demolished
+planet_event = {
+	id = xvcv_mdlc_situation_economy.5
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = owner
+		owner = {
+			any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+			xvcv_mdlc_situation_machine_learning_add_progress_trigger = { ON_ACTION_TYPE = on_district_demolished }
+		}
+	}
+
+	immediate = {
+		owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_unique ON_ACTION_TYPE = on_district_demolished } }
+	}
+}
+#on_pop_grown
+planet_event = {
+	id = xvcv_mdlc_situation_economy.6
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = owner
+		owner = { any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning } }
+	}
+
+	immediate = {
+		owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_1 ON_ACTION_TYPE = on_pop_grown } }
+	}
+}
+#on_pop_assembled
+planet_event = {
+	id = xvcv_mdlc_situation_economy.7
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = owner
+		owner = { any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning } }
+	}
+
+	immediate = {
+		owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_1 ON_ACTION_TYPE = on_pop_assembled } }
+	}
+}
+#on_building_mining_station
+ship_event = {
+	id = xvcv_mdlc_situation_economy.8
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = owner
+		owner = { any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning } }
+	}
+
+	immediate = {
+		owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_2 ON_ACTION_TYPE = on_building_mining_station } }
+	}
+}
+#on_building_research_station
+ship_event = {
+	id = xvcv_mdlc_situation_economy.9
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = owner
+		owner = { any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning } }
+	}
+
+	immediate = {
+		owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_2 ON_ACTION_TYPE = on_building_research_station } }
+	}
+}
+#on_building_wormhole_station
+ship_event = {
+	id = xvcv_mdlc_situation_economy.10
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = owner
+		owner = { any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning } }
+	}
+
+	immediate = {
+		owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_3 ON_ACTION_TYPE = on_building_wormhole_station } }
+	}
+}
+#on_building_observation_station
+ship_event = {
+	id = xvcv_mdlc_situation_economy.11
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = owner
+		owner = { any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning } }
+	}
+
+	immediate = {
+		owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_3 ON_ACTION_TYPE = on_building_observation_station } }
+	}
+}
+#on_megastructure_built
+country_event = {
+	id = xvcv_mdlc_situation_economy.12
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_7 ON_ACTION_TYPE = on_megastructure_built }
+	}
+}
+### Diplomacy ###
+namespace = xvcv_mdlc_situation_diplomacy
+
+#on_first_contact_finished
+first_contact_event = {
+	id = xvcv_mdlc_situation_diplomacy.1
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = owner
+		owner = { any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning } }
+	}
+
+	immediate = {
+		owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_5 ON_ACTION_TYPE = on_first_contact_finished } }
+	}
+}
+#on_post_communications_established
+country_event = {
+	id = xvcv_mdlc_situation_diplomacy.2
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		OR = {
+			any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+			AND = {
+				exists = from
+				from = { any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning } }
+			}
+		}
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_6 ON_ACTION_TYPE = on_post_communications_established }
+		from = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_6 ON_ACTION_TYPE = on_post_communications_established } }
+	}
+}
+#on_join_federation
+country_event = {
+	id = xvcv_mdlc_situation_diplomacy.3
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		OR = {
+			any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+			AND = {
+				exists = from
+				from = { any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning } }
+			}
+		}
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_alt_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_7 ON_ACTION_TYPE = on_join_federation }
+		from = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_7 ON_ACTION_TYPE = on_join_federation } }
+	}
+}
+#on_leave_federation
+country_event = {
+	id = xvcv_mdlc_situation_diplomacy.4
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		OR = {
+			any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+			AND = {
+				exists = from
+				from = { any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning } }
+			}
+		}
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_alt_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_7 ON_ACTION_TYPE = on_leave_federation }
+		from = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_7 ON_ACTION_TYPE = on_leave_federation } }
+	}
+}
+#on_federation_law_vote_succeed
+country_event = {
+	id = xvcv_mdlc_situation_diplomacy.5
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		from = { any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning } }
+	}
+
+	immediate = {
+		from = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_6 ON_ACTION_TYPE = on_federation_law_vote_succeed } }
+	}
+}
+#on_federation_law_vote_failed
+country_event = {
+	id = xvcv_mdlc_situation_diplomacy.6
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		from = { any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning } }
+	}
+
+	immediate = {
+		from = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_6 ON_ACTION_TYPE = on_federation_law_vote_failed } }
+	}
+}
+#on_federation_new_leader
+country_event = {
+	id = xvcv_mdlc_situation_diplomacy.7
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_7 ON_ACTION_TYPE = on_federation_new_leader }
+	}
+}
+#on_add_community_member
+country_event = {
+	id = xvcv_mdlc_situation_diplomacy.8
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+		xvcv_mdlc_situation_machine_learning_add_progress_trigger = { ON_ACTION_TYPE = on_add_community_member }
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_unique ON_ACTION_TYPE = on_add_community_member }
+	}
+}
+#on_remove_community_member
+country_event = {
+	id = xvcv_mdlc_situation_diplomacy.9
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+		xvcv_mdlc_situation_machine_learning_add_progress_trigger = { ON_ACTION_TYPE = on_remove_community_member }
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_unique ON_ACTION_TYPE = on_remove_community_member }
+	}
+}
+#on_add_to_council
+country_event = {
+	id = xvcv_mdlc_situation_diplomacy.10
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_7 ON_ACTION_TYPE = on_add_to_council }
+	}
+}
+#on_remove_from_council
+country_event = {
+	id = xvcv_mdlc_situation_diplomacy.11
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_7 ON_ACTION_TYPE = on_remove_from_council }
+	}
+}
+#on_becoming_subject
+country_event = {
+	id = xvcv_mdlc_situation_diplomacy.12
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		OR = {
+			any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+			AND = {
+				exists = from
+				from = { any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning } }
+			}
+		}
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_6 ON_ACTION_TYPE = on_becoming_subject }
+		from = { xvcv_mdlc_situation_machine_learning_add_progress_alt_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_6 ON_ACTION_TYPE = on_becoming_subject } }
+	}
+}
+#on_spynetwork_formed
+country_event = {
+	id = xvcv_mdlc_situation_diplomacy.13
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+		xvcv_mdlc_situation_machine_learning_add_progress_trigger = { ON_ACTION_TYPE = on_spynetwork_formed }
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_unique ON_ACTION_TYPE = on_spynetwork_formed }
+	}
+}
+#on_add_to_imperial_council
+country_event = {
+	id = xvcv_mdlc_situation_diplomacy.14
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		OR = {
+			any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+			AND = {
+				exists = from
+				from = { any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning } }
+			}
+		}
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_alt_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_7 ON_ACTION_TYPE = on_add_to_imperial_council }
+		from = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_7 ON_ACTION_TYPE = on_add_to_imperial_council } }
+	}
+}
+#on_remove_from_imperial_council
+country_event = {
+	id = xvcv_mdlc_situation_diplomacy.15
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		OR = {
+			any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+			AND = {
+				exists = from
+				from = { any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning } }
+			}
+		}
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_alt_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_7 ON_ACTION_TYPE = on_remove_from_imperial_council }
+		from = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_7 ON_ACTION_TYPE = on_remove_from_imperial_council } }
+	}
+}
+#on_operation_finished
+espionage_operation_event = {
+	id = xvcv_mdlc_situation_diplomacy.16
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = owner
+		owner = {
+			any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+			xvcv_mdlc_situation_machine_learning_add_progress_trigger = { ON_ACTION_TYPE = on_operation_finished }
+		}
+	}
+
+	immediate = {
+		owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_unique ON_ACTION_TYPE = on_operation_finished } }
+	}
+}
+#on_specialist_subject_conversion_finished
+agreement_event = {
+	id = xvcv_mdlc_situation_diplomacy.17
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		OR = {
+			AND = {
+				exists = owner
+				owner = {
+					any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+					xvcv_mdlc_situation_machine_learning_add_progress_trigger = { ON_ACTION_TYPE = on_specialist_subject_conversion_finished }
+				}
+			}
+			AND = {
+				exists = target
+				target = {
+					any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+					xvcv_mdlc_situation_machine_learning_add_progress_trigger = { ON_ACTION_TYPE = on_specialist_subject_conversion_finished }
+				}
+			}
+		}
+	}
+
+	immediate = {
+		owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_unique ON_ACTION_TYPE = on_specialist_subject_conversion_finished } }
+		target = { xvcv_mdlc_situation_machine_learning_add_progress_alt_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_unique ON_ACTION_TYPE = on_specialist_subject_conversion_finished } }
+	}
+}
+#on_agreement_change_accepted
+agreement_event = {
+	id = xvcv_mdlc_situation_diplomacy.18
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		OR = {
+			AND = {
+				exists = owner
+				owner = {
+					any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+					xvcv_mdlc_situation_machine_learning_add_progress_trigger = { ON_ACTION_TYPE = on_agreement_change_accepted }
+				}
+			}
+			AND = {
+				exists = target
+				target = {
+					any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+					xvcv_mdlc_situation_machine_learning_add_progress_trigger = { ON_ACTION_TYPE = on_agreement_change_accepted }
+				}
+			}
+		}
+	}
+
+	immediate = {
+		owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_unique ON_ACTION_TYPE = on_agreement_change_accepted } }
+		target = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_unique ON_ACTION_TYPE = on_agreement_change_accepted } }
+	}
+}
+### Warfare ###
+namespace = xvcv_mdlc_situation_warfare
+
+#on_planet_attackers_win
+country_event = {
+	id = xvcv_mdlc_situation_warfare.1
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_5 ON_ACTION_TYPE = on_planet_attackers_win }
+	}
+}
+#on_planet_defenders_win
+country_event = {
+	id = xvcv_mdlc_situation_warfare.2
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_5 ON_ACTION_TYPE = on_planet_defenders_win }
+	}
+}
+#on_space_battle_won
+country_event = {
+	id = xvcv_mdlc_situation_warfare.3
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_4 ON_ACTION_TYPE = on_space_battle_won }
+	}
+}
+#on_space_battle_lost
+country_event = {
+	id = xvcv_mdlc_situation_warfare.4
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_4 ON_ACTION_TYPE = on_space_battle_lost }
+	}
+}
+#on_pop_abducted
+pop_event = {
+	id = xvcv_mdlc_situation_warfare.5
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = owner
+		owner = { any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning } }
+	}
+
+	immediate = {
+		owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_2 ON_ACTION_TYPE = on_pop_abducted } }
+	}
+}
+#on_ship_built
+ship_event = {
+	id = xvcv_mdlc_situation_warfare.6
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = owner
+		owner = {
+			any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+			xvcv_mdlc_situation_machine_learning_add_progress_trigger = { ON_ACTION_TYPE = on_ship_built }
+		}
+	}
+
+	immediate = {
+		owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_unique ON_ACTION_TYPE = on_ship_built } }
+	}
+}
+#on_ship_designed
+country_event = {
+	id = xvcv_mdlc_situation_warfare.7
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+		xvcv_mdlc_situation_machine_learning_add_progress_trigger = { ON_ACTION_TYPE = on_ship_designed }
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_unique ON_ACTION_TYPE = on_ship_designed }
+	}
+}
+#on_ship_upgraded
+ship_event = {
+	id = xvcv_mdlc_situation_warfare.8
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = owner
+		owner = {
+			any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+			xvcv_mdlc_situation_machine_learning_add_progress_trigger = { ON_ACTION_TYPE = on_ship_upgraded }
+		}
+	}
+
+	immediate = {
+		owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_unique ON_ACTION_TYPE = on_ship_upgraded } }
+	}
+}
+#on_war_beginning
+country_event = {
+	id = xvcv_mdlc_situation_warfare.9
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_6 ON_ACTION_TYPE = on_war_beginning }
+	}
+}
+#on_war_ended
+country_event = {
+	id = xvcv_mdlc_situation_warfare.10
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		OR = {
+			any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+			AND = {
+				exists = from
+				from = { any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning } }
+			}
+		}
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_6 ON_ACTION_TYPE = on_war_ended }
+		from = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_6 ON_ACTION_TYPE = on_war_ended } }
+	}
+}
+#on_planet_occupied
+planet_event = {
+	id = xvcv_mdlc_situation_warfare.11
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = owner
+		owner = { any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning } }
+	}
+
+	immediate = {
+		owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_5 ON_ACTION_TYPE = on_planet_occupied } }
+	}
+}
+#on_emergency_ftl
+fleet_event = {
+	id = xvcv_mdlc_situation_warfare.12
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = owner
+		owner = {
+			any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+			xvcv_mdlc_situation_machine_learning_add_progress_trigger = { ON_ACTION_TYPE = on_emergency_ftl }
+		}
+	}
+
+	immediate = {
+		owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_unique ON_ACTION_TYPE = on_emergency_ftl } }
+	}
+}
+#on_army_recruited
+planet_event = {
+	id = xvcv_mdlc_situation_warfare.13
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = owner
+		owner = {
+			any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+			xvcv_mdlc_situation_machine_learning_add_progress_trigger = { ON_ACTION_TYPE = on_army_recruited }
+		}
+	}
+
+	immediate = {
+		owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_unique ON_ACTION_TYPE = on_army_recruited } }
+	}
+}
+#on_army_killed_in_combat
+country_event = {
+	id = xvcv_mdlc_situation_warfare.14
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+		xvcv_mdlc_situation_machine_learning_add_progress_trigger = { ON_ACTION_TYPE = on_army_killed_in_combat }
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_unique ON_ACTION_TYPE = on_army_killed_in_combat }
+	}
+}
+#on_planet_conquer
+planet_event = {
+	id = xvcv_mdlc_situation_warfare.15
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = owner
+		owner = { any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning } }
+	}
+
+	immediate = {
+		owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_5 ON_ACTION_TYPE = on_planet_conquer } }
+	}
+}
+#on_country_destroyed
+country_event = {
+	id = xvcv_mdlc_situation_warfare.16
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = from
+		from = { any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning } }
+	}
+
+	immediate = {
+		from = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_6 ON_ACTION_TYPE = on_country_destroyed } }
+	}
+}
+#on_destroy_star_system
+system_event = {
+	id = xvcv_mdlc_situation_warfare.17
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = from.owner
+		from.owner = { any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning } }
+	}
+
+	immediate = {
+		from.owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_6 ON_ACTION_TYPE = on_destroy_star_system } }
+	}
+}
+#on_destroy_planet_with_PLANET_KILLER
+planet_event = {
+	id = xvcv_mdlc_situation_warfare.18
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = from.owner
+		from.owner = { any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning } }
+	}
+
+	immediate = {
+		from.owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_6 ON_ACTION_TYPE = on_destroy_planet_with_planet_killer } }
+	}
+}
+#on_debris_researched
+country_event = {
+	id = xvcv_mdlc_situation_warfare.19
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_2 ON_ACTION_TYPE = on_debris_researched }
+	}
+}
+#on_debris_scavenged
+country_event = {
+	id = xvcv_mdlc_situation_warfare.20
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_2 ON_ACTION_TYPE = on_debris_scavenged }
+	}
+}
+#on_debris_scavenged_and_researched
+country_event = {
+	id = xvcv_mdlc_situation_warfare.21
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+	}
+
+	immediate = {
+		xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_4 ON_ACTION_TYPE = on_debris_scavenged_and_researched }
+	}
+}
+#on_cloaking_activated
+fleet_event = {
+	id = xvcv_mdlc_situation_warfare.22
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = owner
+		owner = {
+			any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+			xvcv_mdlc_situation_machine_learning_add_progress_trigger = { ON_ACTION_TYPE = on_cloaking_activated }
+		}
+	}
+
+	immediate = {
+		owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_unique ON_ACTION_TYPE = on_cloaking_activated } }
+	}
+}
+#on_cloaking_deactivated
+fleet_event = {
+	id = xvcv_mdlc_situation_warfare.23
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = owner
+		owner = {
+			any_situation = { is_situation_type = xvcv_mdlc_situation_machine_learning }
+			xvcv_mdlc_situation_machine_learning_add_progress_trigger = { ON_ACTION_TYPE = on_cloaking_deactivated }
+		}
+	}
+
+	immediate = {
+		owner = { xvcv_mdlc_situation_machine_learning_add_progress_effect = { VALUE = @xvcv_mdlc_situation_machine_learning_add_progress_unique ON_ACTION_TYPE = on_cloaking_deactivated } }
+	}
+}

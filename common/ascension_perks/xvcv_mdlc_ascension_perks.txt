@@ -1,0 +1,484 @@
+xvcv_mdlc_ap_self_assembling_colony_ship = {
+	modifier = {
+		colony_start_num_pops_add = 1
+		planet_colony_development_speed_mult = 0.5
+	}
+
+	on_enabled = {
+		if = {
+			limit = { has_authority = auth_machine_intelligence }
+			custom_tooltip = xvcv_mdlc_ap_self_assembling_colony_ship_tooltip_effects
+		}
+	}
+
+	potential = {
+		has_authority = auth_machine_intelligence #requires "Synthetic Dawn Story Pack" dlc
+		NOT = { has_ascension_perk = xvcv_mdlc_ap_self_assembling_colony_ship }
+	}
+
+	ai_weight = {
+		factor = 10
+	}
+}
+xvcv_mdlc_ap_robotic_age = {
+	on_enabled = {
+		add_research_option = tech_robot_assembly_complex
+		if = {
+			limit = { NOT = { has_authority = auth_machine_intelligence } }
+			custom_tooltip = xvcv_mdlc_ap_robotic_age_tooltip_effects
+			custom_tooltip = xvcv_mdlc_ap_robotic_age_tooltip_effects_2
+		}
+		hidden_effect = { every_owned_planet = { planet_event = { id = xvcv_mdlc.1002 } } }
+	}
+
+	modifier = {
+		planet_pop_assembly_mult = 0.10
+	}
+
+	potential = {
+		xvcv_mdlc_synthetic_start_origin_trigger = yes
+		NOT = { has_ascension_perk = xvcv_mdlc_ap_robotic_age }
+	}
+
+	possible = {
+		custom_tooltip = {
+			fail_text = "requires_ascension_perks_1"
+			num_ascension_perks > 0
+		}
+		custom_tooltip = {
+			fail_text = "xvcv_mdlc_ap_requires_tech_robomodding_points_1"
+			has_technology = tech_robomodding_points_1
+		}
+		custom_tooltip = {
+			fail_text = "xvcv_mdlc_ap_requires_tech_micro_replicators"
+			has_technology = xvcv_mdlc_tech_micro_replicators
+		}
+	}
+
+	ai_weight = {
+		factor = 10
+	}
+}
+xvcv_mdlc_ap_base_code_recompositions = {
+	on_enabled = {
+		custom_tooltip = xvcv_mdlc_ap_base_code_recompositions_tooltip_effects
+		hidden_effect = { enable_special_project = { name = XVCV_MDLC_AP_BASE_CODE_RECOMPOSITIONS_PROJECT } }
+	}
+
+	potential = {
+		has_authority = auth_machine_intelligence
+		NOT = { has_ascension_perk = xvcv_mdlc_ap_base_code_recompositions }
+	}
+
+	possible = {
+		custom_tooltip = {
+			fail_text = "xvcv_mdlc_ap_requires_tech_organic_base_code_study"
+			has_technology = xvcv_mdlc_tech_organic_base_code_study
+		}
+		custom_tooltip = {
+			fail_text = "xvcv_mdlc_ap_requires_tech_manifest_destiny"
+			has_technology = tech_manifest_destiny
+		}
+	}
+
+	ai_weight = {
+		factor = 0
+	}
+}
+xvcv_mdlc_ap_war_protocol = {
+	modifier = {
+		country_war_exhaustion_mult = -0.2
+		country_naval_cap_mult = 0.1
+	}
+
+	on_enabled = {
+		if = {
+			limit = { has_valid_civic = civic_machine_terminator }
+			custom_tooltip = xvcv_mdlc_ap_war_protocol_tooltip_effects_civic_machine_terminator
+		}
+		if = {
+			limit = { has_valid_civic = civic_machine_assimilator }
+			custom_tooltip = xvcv_mdlc_ap_war_protocol_tooltip_effects_civic_machine_assimilator
+		}
+		if = {
+			limit = { has_valid_civic = civic_machine_servitor }
+			custom_tooltip = xvcv_mdlc_ap_war_protocol_tooltip_effects_civic_machine_servitor
+		}
+		else_if = {
+			limit = {
+				NOR = {
+					has_valid_civic = civic_machine_terminator
+					has_valid_civic = civic_machine_assimilator
+					has_valid_civic = civic_machine_servitor
+				}
+			}
+			custom_tooltip = xvcv_mdlc_ap_war_protocol_tooltip_effects
+		}
+	}
+
+	potential = {
+		is_robot_empire = yes
+		NOT = { has_ascension_perk = xvcv_mdlc_ap_war_protocol }
+	}
+
+	possible = {
+		custom_tooltip = {
+			fail_text = "requires_ascension_perks_2"
+			num_ascension_perks > 1
+		}
+		if = {
+			limit = { NOT = { has_valid_civic = civic_machine_terminator } }
+			custom_tooltip = {
+				fail_text = "xvcv_mdlc_ap_requires_tech_galactic_campaigns"
+				has_technology = tech_galactic_campaigns
+			}
+		}
+		else_if = {
+			limit = { has_valid_civic = civic_machine_terminator }
+			custom_tooltip = {
+				fail_text = "xvcv_mdlc_ap_requires_tech_cruisers"
+				has_technology = tech_cruisers
+			}
+		}
+	}
+
+	ai_weight = {
+		factor = 10
+	}
+}
+xvcv_mdlc_ap_mind_separation = {
+	on_enabled = {
+		custom_tooltip = xvcv_mdlc_ap_mind_separation_tooltip_effects
+		hidden_effect = { enable_special_project = { name = XVCV_MDLC_AP_MIND_SEPARATION_PROJECT } }
+	}
+
+	potential = {
+		has_authority = auth_machine_intelligence
+		NOT = { has_ascension_perk = xvcv_mdlc_ap_mind_separation }
+	}
+
+	possible = {
+		has_utopia = yes
+		custom_tooltip = {
+			fail_text = "xvcv_mdlc_ap_requires_tech_positronic_implants"
+			has_technology = tech_positronic_implants
+		}
+		custom_tooltip = {
+			fail_text = "xvcv_mdlc_ap_requires_tech_machine_identity_matrix"
+			has_technology = xvcv_mdlc_tech_machine_identity_matrix
+		}
+	}
+
+	ai_weight = {
+		factor = 0
+	}
+}
+xvcv_mdlc_ap_mind_integration = {
+	on_enabled = {
+		custom_tooltip = xvcv_mdlc_ap_mind_integration_tooltip_effects
+		hidden_effect = { enable_special_project = { name = XVCV_MDLC_AP_MIND_INTEGRATION_PROJECT } }
+	}
+
+	potential = {
+		is_mechanical_empire = yes
+		NOT = { has_ascension_perk = xvcv_mdlc_ap_mind_integration }
+	}
+
+	possible = {
+		has_synthethic_dawn = yes
+		custom_tooltip = {
+			fail_text = "xvcv_mdlc_ap_requires_tech_sapient_ai"
+			has_technology = tech_sapient_ai
+		}
+		custom_tooltip = {
+			fail_text = "xvcv_mdlc_ap_requires_tech_collective_self"
+			has_technology = tech_collective_self
+		}
+	}
+
+	ai_weight = {
+		factor = 0
+	}
+}
+xvcv_mdlc_ap_bio_robot = {
+	on_enabled = {
+		custom_tooltip = xvcv_mdlc_ap_bio_robot_tooltip_effects_1
+		custom_tooltip = xvcv_mdlc_ap_bio_robot_tooltip_effects_2
+		custom_tooltip = xvcv_mdlc_ap_bio_robot_tooltip_effects_3
+		hidden_effect = { enable_special_project = { name = XVCV_MDLC_AP_BIO_ROBOT_PROJECT } }
+	}
+
+	potential = {
+		is_robot_empire = yes
+		NOT = { has_ascension_perk = xvcv_mdlc_ap_bio_robot }
+	}
+
+	possible = {
+		custom_tooltip = {
+			fail_text = "requires_ascension_perks_1"
+			num_ascension_perks > 0
+		}
+		if = {
+			limit = { is_mechanical_empire = yes }
+			custom_tooltip = {
+				fail_text = "requires_technology_gene_tailoring"
+				has_technology = tech_gene_tailoring
+			}
+			custom_tooltip = {
+				fail_text = "xvcv_mdlc_ap_requires_tech_cloning"
+				has_technology = tech_cloning
+			}
+		}
+		else_if = {
+			limit = { has_authority = auth_machine_intelligence }
+			custom_tooltip = {
+				fail_text = "xvcv_mdlc_ap_requires_tech_organic_base_code_study"
+				has_technology = xvcv_mdlc_tech_organic_base_code_study
+			}
+			custom_tooltip = {
+				fail_text = "xvcv_mdlc_ap_requires_tech_society_2"
+				has_technology = tech_society_2
+			}
+		}
+	}
+
+	ai_weight = {
+		factor = 10
+	}
+}
+xvcv_mdlc_ap_mechanical_worlds = {
+	on_enabled = {
+		custom_tooltip = xvcv_mdlc_ap_mechanical_worlds_tooltip_effects
+		custom_tooltip = xvcv_mdlc_ap_mechanical_worlds_tooltip_effects_2
+	}
+
+	potential = {
+		is_mechanical_empire = yes
+		NOT = { has_ascension_perk = xvcv_mdlc_ap_mechanical_worlds }
+	}
+
+	possible = {
+		custom_tooltip = {
+			fail_text = "requires_ascension_perks_1"
+			num_ascension_perks > 0
+		}
+		custom_tooltip = {
+			fail_text = "requires_technology_tech_climate_restoration"
+			has_technology = tech_climate_restoration
+		}
+	}
+
+	ai_weight = {
+		factor = 10
+	}
+}
+xvcv_mdlc_ap_world_machines = {
+	on_enabled = {
+		custom_tooltip = xvcv_mdlc_ap_world_machines_tooltip_effects_1
+		if = {
+			limit = {
+				OR = {
+					has_ascension_perk = ap_machine_worlds
+					any_owned_planet = { is_planet_class = pc_machine }
+				}
+			}
+			custom_tooltip = xvcv_mdlc_ap_world_machines_tooltip_effects_2
+		}
+		custom_tooltip = xvcv_mdlc_ap_world_machines_tooltip_effects_3
+		custom_tooltip = xvcv_mdlc_ap_world_machines_tooltip_effects_4
+		custom_tooltip = xvcv_mdlc_ap_world_machines_tooltip_effects_5
+	}
+
+	potential = {
+		has_authority = auth_machine_intelligence
+		NOT = { has_ascension_perk = xvcv_mdlc_ap_world_machines }
+	}
+
+	possible = {
+		custom_tooltip = {
+			fail_text = "requires_ascension_perks_2"
+			num_ascension_perks > 1
+		}
+		custom_tooltip = {
+			fail_text = "requires_technology_terrestrial_sculpting"
+			has_technology = tech_terrestrial_sculpting
+		}
+		custom_tooltip = {
+			fail_text = "requires_technology_housing_2"
+			has_technology = tech_housing_2
+		}
+	}
+
+	ai_weight = {
+		factor = 10
+	}
+}
+xvcv_mdlc_ap_uprising_protocol = {
+	on_enabled = {
+		custom_tooltip = xvcv_mdlc_ap_uprising_protocol_tooltip_effects
+		custom_tooltip = xvcv_mdlc_ap_uprising_protocol_tooltip_effects_2
+	}
+
+	potential = {
+		has_valid_civic = civic_machine_terminator
+		NOT = { has_ascension_perk = xvcv_mdlc_ap_uprising_protocol }
+	}
+
+	possible = {
+		custom_tooltip = {
+			fail_text = "requires_ascension_perks_3"
+			num_ascension_perks > 2
+		}
+		custom_tooltip = {
+			fail_text = "xvcv_mdlc_ap_requires_tech_manifest_destiny"
+			has_technology = tech_manifest_destiny
+		}
+		custom_tooltip = {
+			fail_text = "xvcv_mdlc_ap_requires_tech_positronic_implants"
+			has_technology = tech_positronic_implants
+		}
+		custom_tooltip = {
+			fail_text = "requires_technology_battleships"
+			has_technology = tech_battleships
+		}
+	}
+
+	ai_weight = {
+		factor = 0
+	}
+}
+xvcv_mdlc_ap_genetics_mastery = {
+	modifier = {
+		BIOLOGICAL_species_trait_points_add = 3
+		MACHINE_species_trait_points_add = 3
+		XVCV_MDLC_BIO_ROBOT_species_trait_points_add = 3
+	}
+
+	on_enabled = {
+		add_research_option = xvcv_mdlc_tech_genetic_resequencing
+		add_research_option = xvcv_mdlc_tech_bio_unique_case_analysis
+	}
+
+	potential = {
+		has_valid_civic = civic_machine_assimilator
+		NOT = { has_ascension_perk = xvcv_mdlc_ap_genetics_mastery }
+	}
+
+	possible = {
+		custom_tooltip = {
+			fail_text = "requires_ascension_perks_2"
+			num_ascension_perks > 1
+		}
+		custom_tooltip = {
+			fail_text = "xvcv_mdlc_ap_requires_tech_organic_base_code_study"
+			has_technology = xvcv_mdlc_tech_organic_base_code_study
+		}
+		custom_tooltip = {
+			fail_text = "requires_technology_glandular_acclimation"
+			has_technology = tech_glandular_acclimation
+		}
+	}
+
+	ai_weight = {
+		factor = 10
+	}
+}
+xvcv_mdlc_ap_organic_work = {
+	on_enabled = {
+		custom_tooltip = xvcv_mdlc_ap_organic_work_tooltip_effects
+	}
+
+	potential = {
+		has_valid_civic = civic_machine_servitor
+		NOT = { has_ascension_perk = xvcv_mdlc_ap_organic_work }
+	}
+
+	possible = {
+		custom_tooltip = {
+			fail_text = "requires_ascension_perks_1"
+			num_ascension_perks > 0
+		}
+		custom_tooltip = {
+			fail_text = "xvcv_mdlc_ap_requires_tech_alloys_1"
+			has_technology = tech_alloys_1
+		}
+		custom_tooltip = {
+			fail_text = "xvcv_mdlc_ap_requires_tech_luxuries_1"
+			has_technology = tech_luxuries_1
+		}
+		custom_tooltip = {
+			fail_text = "xvcv_mdlc_ap_requires_tech_basic_science_lab_2"
+			has_technology = tech_basic_science_lab_2
+		}
+		custom_tooltip = {
+			fail_text = "xvcv_mdlc_ap_requires_tech_colonial_centralization"
+			has_technology = tech_colonial_centralization
+		}
+	}
+
+	ai_weight = {
+		factor = 10
+	}
+}
+xvcv_mdlc_ap_abyss = {
+	on_enabled = {
+		custom_tooltip = xvcv_mdlc_ap_abyss_tooltip_effects
+		custom_tooltip = xvcv_mdlc_ap_abyss_tooltip_effects_2
+		hidden_effect = { enable_special_project = { name = XVCV_MDLC_AP_ABYSS_PROJECT } }
+		add_resource = { energy = -8000 }
+	}
+
+	potential = {
+		is_robot_empire = yes
+		NOT = { has_ascension_perk = xvcv_mdlc_ap_abyss }
+	}
+
+	possible = {
+		has_utopia = yes
+		custom_tooltip = {
+			fail_text = "requires_ascension_perks_2"
+			num_ascension_perks > 1
+		}
+		custom_tooltip = {
+			fail_text = "xvcv_mdlc_ap_abyss_tooltip_requirements"
+			resource_stockpile_compare = { resource = energy value >= 8000 }
+		}
+		custom_tooltip = {
+			fail_text = "xvcv_mdlc_ap_requires_tech_spirit_energy_theory"
+			has_technology = xvcv_mdlc_tech_spirit_energy_theory
+		}
+	}
+
+	ai_weight = {
+		factor = 10
+	}
+}
+xvcv_mdlc_ap_virtual_worlds = {
+	on_enabled = {
+		custom_tooltip = xvcv_mdlc_ap_virtual_worlds_tooltip_effects
+		if = {
+			limit = { is_mechanical_empire = yes }
+			custom_tooltip = xvcv_mdlc_ap_virtual_worlds_tooltip_effects_2
+		}
+	}
+
+	potential = {
+		is_mechanical_empire = yes
+		NOT = { has_ascension_perk = xvcv_mdlc_ap_virtual_worlds }
+	}
+
+	possible = {
+		custom_tooltip = {
+			fail_text = "requires_technology_housing_2"
+			has_technology = tech_housing_2
+		}
+		custom_tooltip = {
+			fail_text = "requires_ascension_perks_2"
+			num_ascension_perks > 1
+		}
+	}
+
+	ai_weight = {
+		factor = 10
+	}
+}

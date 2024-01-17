@@ -1,0 +1,115 @@
+xvcv_mdlc_operation_malware_activity = {
+    target = none
+    categories = { op_cat_subterfuge op_cat_technology }
+    picture = GFX_evt_decryption
+    desc = xvcv_mdlc_operation_malware_activity_desc
+    stages = 1
+
+    resources = {
+        category = operations
+        cost = { influence = 40 }
+        upkeep = { energy = 4 }
+    }
+
+    spy_power_cost = 10
+    potential = { owner = { has_valid_civic = xvcv_mdlc_civic_malware_machine } }
+    allow = {
+        custom_tooltip = {
+            is_running_espionage_operation = no
+            fail_text = operation_one_at_a_time
+        }
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_operation_can_not_target_player_empires_tooltip.fail
+            target = { is_ai = yes } #can not perform this operation against a player empire
+        }
+    }
+    stage = {
+        difficulty = 5
+        icon = GFX_espionage_chapter_icon_security
+        event = xvcv_mdlc_espionage.10
+    }
+
+    on_roll_failed = { standard_espionage_operation_on_roll_failed = { RANDOM_EVENTS = operation_random_events_generic } }
+    on_create = {}
+	abort = {}
+}
+xvcv_mdlc_operation_machine_uprising = {
+    target = none
+    categories = { op_cat_sabotage op_cat_technology }
+    picture = GFX_evt_organic_oppression
+    desc = xvcv_mdlc_operation_machine_uprising_desc
+    stages = 3
+
+    resources = {
+        category = operations
+        cost = { influence = 200 }
+        upkeep = { energy = 20 }
+    }
+
+    spy_power_cost = 60
+    potential = {
+        target = { is_country_type = default }
+        owner = { has_ascension_perk = xvcv_mdlc_ap_uprising_protocol }
+    }
+    allow = {
+        custom_tooltip = {
+            is_running_espionage_operation = no
+            fail_text = operation_one_at_a_time
+        }
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_operation_machine_uprising_cooldown_tooltip.fail
+            owner = { NOT = { has_modifier = xvcv_mdlc_operation_machine_uprising_cooldown } }
+        }
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_operation_can_not_target_player_empires_tooltip.fail
+            target = { is_ai = yes }
+        }
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_operation_machine_uprising_condition_1_tooltip.fail
+            target = { num_owned_planets > 1 }
+        }
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_operation_machine_uprising_condition_2_tooltip.fail
+            target = {
+                OR = {
+                    has_technology = tech_combat_computers_3
+                    has_technology = tech_synthetic_workers
+                }
+                any_owned_pop = {
+                    OR = {
+                        has_trait = trait_machine_unit
+                        has_trait = trait_mechanical
+                    }
+                }
+            }
+        }
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_operation_machine_uprising_condition_3_tooltip.fail
+            target = { NOT = { has_authority = auth_machine_intelligence } }
+        }
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_operation_machine_uprising_condition_4_tooltip.fail
+            target = { NOT = { has_country_flag = situation_machine_uprising_started } }
+        }
+        #note that now an empire can have muliple machine uprising if the player really wants #you're awfully cruel :(
+    }
+    stage = {
+        difficulty = 9
+        icon = GFX_espionage_chapter_icon_motion
+        event = xvcv_mdlc_espionage.20
+    }
+    stage = {
+        difficulty = 10
+        icon = GFX_espionage_chapter_icon_security
+        event = xvcv_mdlc_espionage.21
+    }
+    stage = {
+        difficulty = 11
+        icon = GFX_espionage_chapter_icon_target
+        event = xvcv_mdlc_espionage.23
+    }
+
+    on_roll_failed = { standard_espionage_operation_on_roll_failed = { RANDOM_EVENTS = operation_random_events_generic } }
+    on_create = {}
+    abort = {}
+}

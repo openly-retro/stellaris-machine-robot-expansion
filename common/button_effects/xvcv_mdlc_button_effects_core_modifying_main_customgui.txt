@@ -1,0 +1,121 @@
+close_xvcv_mdlc_core_modifying_button_effect = {
+    potential = { always = yes }
+    allow = { always = yes }
+    effect = {
+        custom_tooltip = CLOSE_TITLE
+        #Stellaris\common\button_effects\example.txt # From = player country
+        hidden_effect = { from = { remove_country_flag = xvcv_mdlc_core_modifying_in_progress } }
+    }
+}
+#I did some tests with 'From' scope... and I think I just gotta use this method instead of adding the scope all over the place
+xvcv_mdlc_core_modifying_stopped_working_effect = {
+    potential = { NOT = { is_scope_type = country } }
+    allow = { always = yes }
+}
+xvcv_mdlc_core_modifying_reset_traits_button_effect = {
+    potential = { always = yes }
+    allow = { xvcv_mdlc_core_modifying_reset_traits_trigger = yes }
+    effect = {
+        custom_tooltip = xvcv_mdlc_core_modifying_reset_traits_button_effect_tooltip
+        if = {
+            limit = { check_variable = { which = xvcv_mdlc_core_modifying_trait_points value = 0 } }
+            custom_tooltip = effect_xvcv_mdlc_core_modifying_trait_points_tooltip
+            else = { custom_tooltip = effect_xvcv_mdlc_core_modifying_trait_points_tooltip_alt }
+        }
+        if = {
+            limit = { check_variable = { which = xvcv_mdlc_core_modifying_max_traits_number value = 0 } }
+            custom_tooltip = effect_xvcv_mdlc_core_modifying_max_traits_number_tooltip
+            else = { custom_tooltip = effect_xvcv_mdlc_core_modifying_max_traits_number_tooltip_alt }
+        }
+        custom_tooltip = xvcv_mdlc_core_modifying_reset_traits_button_effect_tooltip_2
+        hidden_effect = {
+            ruler = {
+                #generic ruler traits (total 3)
+                if = { limit = { has_trait = leader_trait_politician_2 } remove_trait = leader_trait_politician_2 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = leader_trait_educator } remove_trait = leader_trait_educator prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_2_effect = yes } }
+                if = { limit = { has_trait = leader_trait_master_bureaucrat } remove_trait = leader_trait_master_bureaucrat prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_2_effect = yes } }
+                #governor ruler subclass trait (total 1)
+                if = { limit = { has_trait = subclass_governor_visionary } remove_trait = subclass_governor_visionary prev = { xvcv_mdlc_core_modifying_trait_return_cost_effect = yes } }
+                #governor ruler traits (total 17)
+                if = { limit = { has_trait = leader_trait_army_veteran_2 } remove_trait = leader_trait_army_veteran_2 prev = { xvcv_mdlc_core_modifying_trait_return_cost_effect = yes } }
+                if = { limit = { has_trait = leader_trait_retired_fleet_officer_2 } remove_trait = leader_trait_retired_fleet_officer_2 prev = { xvcv_mdlc_core_modifying_trait_return_cost_effect = yes } }
+                if = { limit = { has_trait = trait_ruler_fertility_preacher_2 } remove_trait = trait_ruler_fertility_preacher_2 prev = { xvcv_mdlc_core_modifying_trait_return_cost_effect = yes } }
+                if = { limit = { has_trait = leader_trait_principled_2 } remove_trait = leader_trait_principled_2 prev = { xvcv_mdlc_core_modifying_trait_return_cost_effect = yes } }
+                if = { limit = { has_trait = trait_ruler_industrialist_2 } remove_trait = trait_ruler_industrialist_2 prev = { xvcv_mdlc_core_modifying_trait_return_cost_effect = yes } }
+                if = { limit = { has_trait = trait_ruler_charismatic_2 } remove_trait = trait_ruler_charismatic_2 prev = { xvcv_mdlc_core_modifying_trait_return_cost_effect = yes } }
+                if = { limit = { has_trait = trait_ruler_feedback_loop_2 } remove_trait = trait_ruler_feedback_loop_2 prev = { xvcv_mdlc_core_modifying_trait_return_cost_effect = yes } }
+                if = { limit = { has_trait = trait_ruler_logistic_understanding_2 } remove_trait = trait_ruler_logistic_understanding_2 prev = { xvcv_mdlc_core_modifying_trait_return_cost_effect = yes } }
+                if = { limit = { has_trait = trait_ruler_eye_for_talent_2 } remove_trait = trait_ruler_eye_for_talent_2 prev = { xvcv_mdlc_core_modifying_trait_return_cost_effect = yes } }
+                if = { limit = { has_trait = trait_ruler_frontier_spirit } remove_trait = trait_ruler_frontier_spirit prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = leader_trait_frontier_spirit_3 } remove_trait = leader_trait_frontier_spirit_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = leader_trait_cultural_focus_3 } remove_trait = leader_trait_cultural_focus_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = trait_ruler_investor_3 } remove_trait = trait_ruler_investor_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = trait_ruler_architectural_sense_3 } remove_trait = trait_ruler_architectural_sense_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = trait_ruler_deep_connections_3 } remove_trait = trait_ruler_deep_connections_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = leader_trait_reformer_3 } remove_trait = leader_trait_reformer_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = leader_trait_courtroom_training_3 } remove_trait = leader_trait_courtroom_training_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }	
+                #scientist ruler subclass trait (total 1)
+                if = { limit = { has_trait = subclass_scientist_researcher } remove_trait = subclass_scientist_researcher prev = { xvcv_mdlc_core_modifying_trait_return_cost_effect = yes } }
+                #scientist ruler traits (total 25)
+                if = { limit = { has_trait = leader_trait_spark_of_genius_2 } remove_trait = leader_trait_spark_of_genius_2 prev = { xvcv_mdlc_core_modifying_trait_return_cost_effect = yes } }
+                if = { limit = { has_trait = trait_ruler_home_in_the_sky } remove_trait = trait_ruler_home_in_the_sky prev = { xvcv_mdlc_core_modifying_trait_return_cost_effect = yes } }
+                if = { limit = { has_trait = trait_ruler_space_miner } remove_trait = trait_ruler_space_miner prev = { xvcv_mdlc_core_modifying_trait_return_cost_effect = yes } }
+                if = { limit = { has_trait = leader_trait_inquisitive_3 } remove_trait = leader_trait_inquisitive_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = leader_trait_maniacal_3 } remove_trait = leader_trait_maniacal_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = trait_ruler_explorer_3 } remove_trait = trait_ruler_explorer_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = trait_ruler_expansionist_3 } remove_trait = trait_ruler_expansionist_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = trait_ruler_world_shaper_3 } remove_trait = trait_ruler_world_shaper_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = leader_trait_science_communicator_3 } remove_trait = leader_trait_science_communicator_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = leader_trait_engineering_focus_3 } remove_trait = leader_trait_engineering_focus_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = leader_trait_physics_focus_3 } remove_trait = leader_trait_physics_focus_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = leader_trait_society_focus_3 } remove_trait = leader_trait_society_focus_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = leader_trait_expertise_materials_3 } remove_trait = leader_trait_expertise_materials_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = leader_trait_expertise_propulsion_3 } remove_trait = leader_trait_expertise_propulsion_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = leader_trait_expertise_voidcraft_3 } remove_trait = leader_trait_expertise_voidcraft_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = leader_trait_expertise_industry_3 } remove_trait = leader_trait_expertise_industry_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = leader_trait_expertise_field_manipulation_3 } remove_trait = leader_trait_expertise_field_manipulation_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = leader_trait_expertise_particles_3 } remove_trait = leader_trait_expertise_particles_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = leader_trait_expertise_computing_3 } remove_trait = leader_trait_expertise_computing_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = leader_trait_expertise_psionics_3 } remove_trait = leader_trait_expertise_psionics_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = leader_trait_expertise_new_worlds_3 } remove_trait = leader_trait_expertise_new_worlds_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = leader_trait_expertise_statecraft_3 } remove_trait = leader_trait_expertise_statecraft_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = leader_trait_expertise_biology_3 } remove_trait = leader_trait_expertise_biology_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = leader_trait_expertise_military_theory_3 } remove_trait = leader_trait_expertise_military_theory_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = leader_trait_expertise_archaeostudies_3 } remove_trait = leader_trait_expertise_archaeostudies_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                #admiral ruler subclass trait (total 1)
+                if = { limit = { has_trait = subclass_admiral_strategist } remove_trait = subclass_admiral_strategist prev = { xvcv_mdlc_core_modifying_trait_return_cost_effect = yes } }
+                #admiral ruler traits (total 15)
+                if = { limit = { has_trait = leader_trait_fleet_organizer_2 } remove_trait = leader_trait_fleet_organizer_2 prev = { xvcv_mdlc_core_modifying_trait_return_cost_effect = yes } }
+                if = { limit = { has_trait = trait_ruler_warlike_2 } remove_trait = trait_ruler_warlike_2 prev = { xvcv_mdlc_core_modifying_trait_return_cost_effect = yes } }
+                if = { limit = { has_trait = leader_trait_skirmisher_2 } remove_trait = leader_trait_skirmisher_2 prev = { xvcv_mdlc_core_modifying_trait_return_cost_effect = yes } }
+                if = { limit = { has_trait = trait_ruler_corvette_focus } remove_trait = trait_ruler_corvette_focus prev = { xvcv_mdlc_core_modifying_trait_return_cost_effect = yes } }
+                if = { limit = { has_trait = trait_ruler_destroyer_focus } remove_trait = trait_ruler_destroyer_focus prev = { xvcv_mdlc_core_modifying_trait_return_cost_effect = yes } }
+                if = { limit = { has_trait = trait_ruler_cruiser_focus } remove_trait = trait_ruler_cruiser_focus prev = { xvcv_mdlc_core_modifying_trait_return_cost_effect = yes } }
+                if = { limit = { has_trait = trait_ruler_battleship_focus } remove_trait = trait_ruler_battleship_focus prev = { xvcv_mdlc_core_modifying_trait_return_cost_effect = yes } }
+                if = { limit = { has_trait = leader_trait_gale_speed_3 } remove_trait = leader_trait_gale_speed_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = trait_ruler_fortifier_3 } remove_trait = trait_ruler_fortifier_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = leader_trait_armada_logistician_3 } remove_trait = leader_trait_armada_logistician_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = trait_ruler_military_pioneer_3 } remove_trait = trait_ruler_military_pioneer_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = leader_trait_intimidator_3 } remove_trait = leader_trait_intimidator_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = leader_trait_border_guard_3 } remove_trait = leader_trait_border_guard_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = leader_trait_crew_trainer_3 } remove_trait = leader_trait_crew_trainer_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = leader_trait_armorer } remove_trait = leader_trait_armorer prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_2_effect = yes } }
+                #general ruler subclass trait (total 1)
+                if = { limit = { has_trait = subclass_general_marshall } remove_trait = subclass_general_marshall prev = { xvcv_mdlc_core_modifying_trait_return_cost_effect = yes } }
+                #general ruler traits (total 11)
+                if = { limit = { has_trait = leader_trait_defence_engineer_2 } remove_trait = leader_trait_defence_engineer_2 prev = { xvcv_mdlc_core_modifying_trait_return_cost_effect = yes } }
+                if = { limit = { has_trait = leader_trait_spycraft_2 } remove_trait = leader_trait_spycraft_2 prev = { xvcv_mdlc_core_modifying_trait_return_cost_effect = yes } }
+                if = { limit = { has_trait = leader_trait_overseer_3 } remove_trait = leader_trait_overseer_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = trait_ruler_from_the_ranks_3 } remove_trait = trait_ruler_from_the_ranks_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = trait_ruler_recruiter_3 } remove_trait = trait_ruler_recruiter_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = leader_trait_consul_general_3 } remove_trait = leader_trait_consul_general_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = leader_trait_shadow_broker_3 } remove_trait = leader_trait_shadow_broker_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = leader_trait_home_guard_3 } remove_trait = leader_trait_home_guard_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = leader_trait_guardian_3 } remove_trait = leader_trait_guardian_3 prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes } }
+                if = { limit = { has_trait = leader_trait_spymaster } remove_trait = leader_trait_spymaster prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_2_effect = yes } }
+                if = { limit = { has_trait = leader_trait_bellicose } remove_trait = leader_trait_bellicose prev = { xvcv_mdlc_core_modifying_trait_return_cost_alt_2_effect = yes } }
+            }
+            xvcv_mdlc_core_modifying_clear_trait_variables_effect = yes
+        }
+    }
+}
