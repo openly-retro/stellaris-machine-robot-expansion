@@ -119,7 +119,7 @@ xvcv_mdlc_leader_making_start_button_effect = {
                 if = {
                     limit = { has_country_flag = xvcv_mdlc_leader_class_set_to_governor }
                     create_leader = {
-                        class = governor #set the leader's class first
+                        class = official #set the leader's class first
                         species = this.species
                         set_age = 1
                         randomize_traits = no #remove randomized traits of the newly created leader
@@ -129,8 +129,8 @@ xvcv_mdlc_leader_making_start_button_effect = {
                     #and add traits for the leader
                     event_target:xvcv_mdlc_leader_making_target = {
                         #governor subclass traits (total 3)
-                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_subclass_governor_pioneer } } add_trait_no_notify = subclass_governor_pioneer }
-                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_subclass_governor_economist } } add_trait_no_notify = subclass_governor_economist }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_subclass_governor_pioneer } } add_trait_no_notify = subclass_commander_councilor }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_subclass_governor_economist } } add_trait_no_notify = subclass_official_economy_councilor }
                         #generic traits (total 8)
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_xvcv_mdlc_leader_trait_shared_memory } } add_trait_no_notify = xvcv_mdlc_leader_trait_shared_memory }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_xvcv_mdlc_leader_trait_memory_backup } } add_trait_no_notify = xvcv_mdlc_leader_trait_memory_backup }
@@ -156,17 +156,15 @@ xvcv_mdlc_leader_making_start_button_effect = {
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_settler_3 } } add_trait_no_notify = leader_trait_settler_3 }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_cartographer_3 } } add_trait_no_notify = leader_trait_cartographer_3 }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_expeditionist_3 } } add_trait_no_notify = leader_trait_expeditionist_3 }
-                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_geologist_3 } } add_trait_no_notify = leader_trait_geologist_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_mining_focus_3 } } add_trait_no_notify = leader_trait_mining_focus_3 }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_naturalist_3 } } add_trait_no_notify = leader_trait_naturalist_3 }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_forge_focus_3 } } add_trait_no_notify = leader_trait_forge_focus_3 }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_refinement_focus_3 } } add_trait_no_notify = leader_trait_refinement_focus_3 }
-                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_urbanist_3 } } add_trait_no_notify = leader_trait_urbanist_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_urbanist } } add_trait_no_notify = leader_trait_urbanist }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_assembler_3 } } add_trait_no_notify = leader_trait_assembler_3 }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_pop_focused_3 } } add_trait_no_notify = leader_trait_pop_focused_3 }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_intellectual } } add_trait_no_notify = leader_trait_intellectual }
-                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_academic_3 } } add_trait_no_notify = leader_trait_academic_3 }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_distribution_lines_3 } } add_trait_no_notify = leader_trait_distribution_lines_3 }
-                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_automation_champion } } add_trait_no_notify = leader_trait_automation_champion }
                     }
                 }
                 else_if = {
@@ -182,7 +180,6 @@ xvcv_mdlc_leader_making_start_button_effect = {
                     event_target:xvcv_mdlc_leader_making_target = {
                         #scientist subclass traits (total 3)
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_subclass_scientist_explorer } } add_trait_no_notify = subclass_scientist_explorer }
-                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_subclass_scientist_analyst } } add_trait_no_notify = subclass_scientist_analyst }
                         #generic traits (total 8)
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_xvcv_mdlc_leader_trait_shared_memory } } add_trait_no_notify = xvcv_mdlc_leader_trait_shared_memory }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_xvcv_mdlc_leader_trait_memory_backup } } add_trait_no_notify = xvcv_mdlc_leader_trait_memory_backup }
@@ -202,27 +199,22 @@ xvcv_mdlc_leader_making_start_button_effect = {
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_slippery_3 } } add_trait_no_notify = leader_trait_slippery_3 }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_prospector_3 } } add_trait_no_notify = leader_trait_prospector_3 }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_observant_3 } } add_trait_no_notify = leader_trait_observant_3 }
-                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_collective_wisdom_3 } } add_trait_no_notify = leader_trait_collective_wisdom_3 }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_collective_wisdom } } add_trait_no_notify = leader_trait_collective_wisdom }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_tuner_3 } } add_trait_no_notify = leader_trait_tuner_3 }
-                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_insightful_3 } } add_trait_no_notify = leader_trait_insightful_3 }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_collaborator_3 } } add_trait_no_notify = leader_trait_collaborator_3 }
-                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_experimenter_3 } } add_trait_no_notify = leader_trait_experimenter_3 }
-                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_civil_engineer_3 } } add_trait_no_notify = leader_trait_civil_engineer_3 }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_manufacturer_3 } } add_trait_no_notify = leader_trait_manufacturer_3 }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_salvager_3 } } add_trait_no_notify = leader_trait_salvager_3 }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_space_miner_3 } } add_trait_no_notify = leader_trait_space_miner_3 }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_surveyor } } add_trait_no_notify = leader_trait_surveyor }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_midas_touch } } add_trait_no_notify = leader_trait_midas_touch }
-                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_repair_crew } } add_trait_no_notify = leader_trait_repair_crew }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_great_researcher } } add_trait_no_notify = leader_trait_great_researcher }
-                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_deep_space_explorer } } add_trait_no_notify = leader_trait_deep_space_explorer }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_fleet_logistician } } add_trait_no_notify = leader_trait_fleet_logistician }
                     }
                 }
                 else_if = {
                     limit = { has_country_flag = xvcv_mdlc_leader_class_set_to_admiral }
                     create_leader = {
-                        class = admiral
+                        class = commander
                         species = this.species
                         set_age = 1
                         randomize_traits = no
@@ -231,8 +223,7 @@ xvcv_mdlc_leader_making_start_button_effect = {
                     }
                     event_target:xvcv_mdlc_leader_making_target = {
                         #admiral subclass traits (total 3)
-                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_subclass_admiral_aggressor } } add_trait_no_notify = subclass_admiral_aggressor }
-                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_subclass_admiral_tactician } } add_trait_no_notify = subclass_admiral_tactician }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_subclass_commander_admiral } } add_trait_no_notify = subclass_commander_admiral }
                         #generic traits (total 8)
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_xvcv_mdlc_leader_trait_shared_memory } } add_trait_no_notify = xvcv_mdlc_leader_trait_shared_memory }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_xvcv_mdlc_leader_trait_memory_backup } } add_trait_no_notify = xvcv_mdlc_leader_trait_memory_backup }
@@ -264,10 +255,7 @@ xvcv_mdlc_leader_making_start_button_effect = {
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_juryrigger_3 } } add_trait_no_notify = leader_trait_juryrigger_3 }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_surgical_bombardment_3 } } add_trait_no_notify = leader_trait_surgical_bombardment_3 }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_scout_3 } } add_trait_no_notify = leader_trait_scout_3 }
-                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_watchdog_3 } } add_trait_no_notify = leader_trait_watchdog_3 }
-                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_scholar_of_war_3 } } add_trait_no_notify = leader_trait_scholar_of_war_3 }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_master_gunner } } add_trait_no_notify = leader_trait_master_gunner }
-                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_supreme_admiral } } add_trait_no_notify = leader_trait_supreme_admiral }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_destiny_engineer } } add_trait_no_notify = leader_trait_destiny_engineer }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_guerilla_tactics } } add_trait_no_notify = leader_trait_guerilla_tactics }
                     }
@@ -275,7 +263,7 @@ xvcv_mdlc_leader_making_start_button_effect = {
                 else_if = {
                     limit = { has_country_flag = xvcv_mdlc_leader_class_set_to_general }
                     create_leader = {
-                        class = general
+                        class = commander
                         species = this.species
                         set_age = 1
                         event_leader = no #look for: xvcv_mdlc.30, 'is_event_leader = no' code
@@ -285,8 +273,8 @@ xvcv_mdlc_leader_making_start_button_effect = {
                     }
                     event_target:xvcv_mdlc_leader_making_target = {
                         #general subclass traits (total 3)
-                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_subclass_general_invader } } add_trait_no_notify = subclass_general_invader }
-                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_subclass_general_protector } } add_trait_no_notify = subclass_general_protector }
+                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_subclass_commander_general } } add_trait_no_notify = subclass_commander_general }
+                        # if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_subclass_general_protector } } add_trait_no_notify = subclass_general_protector }
                         #generic traits (total 8)
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_xvcv_mdlc_leader_trait_shared_memory } } add_trait_no_notify = xvcv_mdlc_leader_trait_shared_memory }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_xvcv_mdlc_leader_trait_memory_backup } } add_trait_no_notify = xvcv_mdlc_leader_trait_memory_backup }
@@ -300,14 +288,12 @@ xvcv_mdlc_leader_making_start_button_effect = {
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_venerated_2 } } add_trait_no_notify = leader_trait_venerated_2 }
                         #general traits (total 17)
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_butcher_2 } } add_trait_no_notify = leader_trait_butcher_2 }
-                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_army_logistician_2 } } add_trait_no_notify = leader_trait_army_logistician_2 }
+                        # if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_army_logistician_2 } } add_trait_no_notify = leader_trait_army_logistician_2 }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_restrained_2 } } add_trait_no_notify = leader_trait_restrained_2 }
-                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_glory_seeker_2 } } add_trait_no_notify = leader_trait_glory_seeker_2 }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_dreaded_3 } } add_trait_no_notify = leader_trait_dreaded_3 }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_heavy_hitter_3 } } add_trait_no_notify = leader_trait_heavy_hitter_3 }
-                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_kidnapper_3 } } add_trait_no_notify = leader_trait_kidnapper_3 }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_interrogator_3 } } add_trait_no_notify = leader_trait_interrogator_3 }
-                        if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_industrial_espionage_3 } } add_trait_no_notify = leader_trait_industrial_espionage_3 }
+                        # if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_industrial_espionage_3 } } add_trait_no_notify = leader_trait_industrial_espionage_3 }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_crusader_3 } } add_trait_no_notify = leader_trait_crusader_3 }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_hardy_3 } } add_trait_no_notify = leader_trait_hardy_3 }
                         if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_martinet_3 } } add_trait_no_notify = leader_trait_martinet_3 }
