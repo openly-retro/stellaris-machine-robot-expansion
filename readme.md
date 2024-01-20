@@ -7,7 +7,7 @@ The original author has abandoned the work and is no longer available for contac
 ## GUI, Generally
 
 - Go through all the .gui files, and look up quadTextureSprite references. Usually the file name can be derived from the naming pattern. In any case, there are some references to texture files that no longer exist. Those references should get updated to what their counterpart now is
-- Also copy those texture files (probably?) to this mod for future safekeeping, in case Paradox delete them or make them unavailable
+- Also copy those texture files (probably?) to this mod for future safekeeping, in case Paradox delete them or make them unavailable, so we dont end up with broken dependencies.
 
 ## Leader subclasses
 
@@ -18,10 +18,15 @@ The original author has abandoned the work and is no longer available for contac
 -- Do away with subclasses
 -- Match the names of the subclasses the author originally used, as closely as possible with the subclasses available in the Paragons DLC
 
+## Tooltips
+
+- Some tooltips refer to subclasses, dynamically. Fix em.
+
 ## Translations needed
 
 These languages are filled with English content and aren't useful to native speakers of those languages:
 
+- Brazilian Portuguese
 - French
 - German
 - Japanese
@@ -42,3 +47,8 @@ This doc will be continually expanded.
 # Mod design patterns
 
 TBD.. I want to have notes here for future maintainers.
+
+# Resources
+
+Graphics: Use paint.net
+Code: VSCode with cwtools extension
