@@ -57,3 +57,16 @@ TBD.. I want to have notes here for future maintainers.
 
 Graphics: Use paint.net
 Code: VSCode with cwtools extension
+
+# Quick references for renames:
+
+Placeholders for monkeypatching the plumbing so it works again
+
+3.9 -> 3.10
+subclass_admiral_aggressor -> subclass_commander_admiral
+subclass_admiral_tactician -> subclass_commander_councilor
+subclass_general_invader -> subclass_commander_general
+subclass_general_protector -> subclass_commander_governor
+subclass_scientist_analyst -> subclass_scientist_scholar
+subclass_governor_pioneer -> subclass_official_governor
+subclass_governor_economist -> subclass_official_economy_councilor
