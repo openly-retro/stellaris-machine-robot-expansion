@@ -48,6 +48,11 @@ This doc will be continually expanded.
 
 TBD.. I want to have notes here for future maintainers.
 
+# Maintenance / update guidelines
+
+- Avoid renaming files
+- Avoid renaming custom variables where possible
+
 # Resources
 
 Graphics: Use paint.net
