@@ -61,12 +61,16 @@ Code: VSCode with cwtools extension
 # Quick references for renames:
 
 Placeholders for monkeypatching the plumbing so it works again
+There are only 4 subclasses per class to go around, some of the previous ones
+will have to go. 
 
 3.9 -> 3.10
 subclass_admiral_aggressor -> subclass_commander_admiral
 subclass_admiral_tactician -> subclass_commander_councilor
+subclass_admiral_strategist -> subclass_commander_councilor
 subclass_general_invader -> subclass_commander_general
 subclass_general_protector -> subclass_commander_governor
+subclass_general_marshall -> subclass_commander_councilor
 subclass_scientist_analyst -> subclass_scientist_scholar
 subclass_governor_pioneer -> subclass_official_governor
 subclass_governor_economist -> subclass_official_economy_councilor
