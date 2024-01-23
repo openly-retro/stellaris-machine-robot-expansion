@@ -65,14 +65,34 @@ There are only 4 subclasses per class to go around, some of the previous ones
 will have to go. 
 
 3.9 -> 3.10
-subclass_admiral_aggressor -> subclass_commander_admiral
-subclass_admiral_tactician -> subclass_commander_councilor
-subclass_admiral_strategist -> subclass_commander_councilor
-subclass_general_invader -> subclass_commander_general
-subclass_general_protector -> subclass_commander_governor
-subclass_general_marshall -> subclass_commander_councilor
+
 subclass_scientist_analyst -> subclass_scientist_scholar
+subclass_scientist_explorer -> (same)
 subclass_governor_pioneer -> subclass_official_governor
 subclass_governor_economist -> subclass_official_economy_councilor
 subclass_governor_visionary -> subclass_official_diplomacy_councilor
 subclass_governor_? -> subclass_official_delegate
+
+COMMANDER
+
+3.10 veteran classes:
+subclass_commander_general      subclass_scientist_explorer
+subclass_commander_councilor    subclass_scientist_councilor
+subclass_commander_governor     subclass_scientist_governor
+subclass_commander_admiral      subclass_scientist_scholar
+
+subclass_official_economy_councilor
+subclass_official_diplomacy_councilor
+subclass_official_governor
+subclass_official_delegate
+
+3.9 veteran classes:
+subclass_general_invader    -> subclass_commander_general
+subclass_general_protector  -> subclass_commander_governor
+subclass_general_none       -> subclass_commander_none  <- check for dupes
+subclass_general_marshall   -> X (subclass_commander_general) <- dupes
+
+subclass_admiral_strategist -> subclass_commander_councilor
+subclass_admiral_aggressor  -> X (subclass_commander_admiral) <- dupes
+subclass_admiral_none       -> subclass_commander_none  <- check for dupes
+subclass_admiral_tactician  -> subclass_commander_admiral
