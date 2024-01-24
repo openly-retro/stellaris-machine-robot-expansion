@@ -68,6 +68,7 @@ will have to go.
 
 subclass_scientist_analyst -> subclass_scientist_scholar
 subclass_scientist_explorer -> (same)
+
 subclass_governor_pioneer -> subclass_official_governor
 subclass_governor_economist -> subclass_official_economy_councilor
 subclass_governor_visionary -> subclass_official_diplomacy_councilor
