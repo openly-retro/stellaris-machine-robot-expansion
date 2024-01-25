@@ -97,3 +97,12 @@ subclass_admiral_strategist -> subclass_commander_councilor
 subclass_admiral_aggressor  -> X (subclass_commander_admiral) <- dupes
 subclass_admiral_none       -> subclass_commander_none  <- check for dupes
 subclass_admiral_tactician  -> subclass_commander_admiral
+
+# Leader-making feature
+## Veteran-class bonuses
+
+The commander subclasses all have bonuses because there were two General subclasses from the 3.9 version that got converted to Commander subclasses.
+
+See https://stellaris.paradoxwikis.com/Leader#Leader_classes
+
+
