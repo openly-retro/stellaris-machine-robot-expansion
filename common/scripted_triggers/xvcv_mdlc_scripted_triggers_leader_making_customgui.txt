@@ -6,6 +6,8 @@ xvcv_mdlc_leader_making_trait_pick_trigger = {
         NOT = { has_country_flag = xvcv_mdlc_leader_$CLASS$_$ID$ }
     }
 }
+
+# This is used to script in extra checks. For example if the player has Ancient Realms DLC (has_ancrel)
 xvcv_mdlc_leader_making_trait_pick_alt_trigger = {
     optimize_memory
     if = {
@@ -135,21 +137,18 @@ xvcv_mdlc_leader_making_picked_any_skill_level_trigger = {
 xvcv_mdlc_leader_making_picked_any_class_trigger = {
     optimize_memory
     OR = {
-        has_country_flag = xvcv_mdlc_leader_class_set_to_governor
+        has_country_flag = xvcv_mdlc_leader_class_set_to_official
         has_country_flag = xvcv_mdlc_leader_class_set_to_scientist
-        has_country_flag = xvcv_mdlc_leader_class_set_to_admiral
-        has_country_flag = xvcv_mdlc_leader_class_set_to_general
+        has_country_flag = xvcv_mdlc_leader_class_set_to_commander
     }
 }
-xvcv_mdlc_leader_making_picked_class_governor_trigger = {
+xvcv_mdlc_leader_making_picked_class_official_trigger = {
     optimize_memory
     custom_tooltip_fail = {
         text = xvcv_mdlc_leader_making_already_picked_class.fail
         NOR = {
-
             has_country_flag = xvcv_mdlc_leader_class_set_to_scientist
-            has_country_flag = xvcv_mdlc_leader_class_set_to_admiral
-            has_country_flag = xvcv_mdlc_leader_class_set_to_general
+            has_country_flag = xvcv_mdlc_leader_class_set_to_commander
         }
     }
 }
@@ -158,44 +157,30 @@ xvcv_mdlc_leader_making_picked_class_scientist_trigger = {
     custom_tooltip_fail = {
         text = xvcv_mdlc_leader_making_already_picked_class.fail
         NOR = {
-            has_country_flag = xvcv_mdlc_leader_class_set_to_governor
-
-            has_country_flag = xvcv_mdlc_leader_class_set_to_admiral
-            has_country_flag = xvcv_mdlc_leader_class_set_to_general
+            has_country_flag = xvcv_mdlc_leader_class_set_to_official
+            has_country_flag = xvcv_mdlc_leader_class_set_to_commander
         }
     }
 }
-xvcv_mdlc_leader_making_picked_class_admiral_trigger = {
+xvcv_mdlc_leader_making_picked_class_commander_trigger = {
     optimize_memory
     custom_tooltip_fail = {
         text = xvcv_mdlc_leader_making_already_picked_class.fail
         NOR = {
-            has_country_flag = xvcv_mdlc_leader_class_set_to_governor
+            has_country_flag = xvcv_mdlc_leader_class_set_to_official
             has_country_flag = xvcv_mdlc_leader_class_set_to_scientist
-
-            has_country_flag = xvcv_mdlc_leader_class_set_to_general
         }
     }
 }
-xvcv_mdlc_leader_making_picked_class_general_trigger = {
-    optimize_memory
-    custom_tooltip_fail = {
-        text = xvcv_mdlc_leader_making_already_picked_class.fail
-        NOR = {
-            has_country_flag = xvcv_mdlc_leader_class_set_to_governor
-            has_country_flag = xvcv_mdlc_leader_class_set_to_scientist
-            has_country_flag = xvcv_mdlc_leader_class_set_to_admiral
-
-        }
-    }
-}
-xvcv_mdlc_leader_making_governor_subclass_traits = {
+xvcv_mdlc_leader_making_official_subclass_traits = {
     optimize_memory
     OR = {
-        #governor
-        has_country_flag = xvcv_mdlc_leader_governor_subclass_governor_pioneer
-        has_country_flag = xvcv_mdlc_leader_governor_subclass_governor_economist
-        has_country_flag = xvcv_mdlc_leader_governor_xvcv_mdlc_subclass_governor_none #no subclass
+        #official
+        has_country_flag = xvcv_mdlc_leader_official_subclass_official_governor
+        has_country_flag = xvcv_mdlc_leader_official_subclass_official_economy_councilor
+        has_country_flag = xvcv_mdlc_leader_official_subclass_official_diplomacy_councilor
+        has_country_flag = xvcv_mdlc_leader_official_subclass_official_delegate
+        has_country_flag = xvcv_mdlc_leader_official_xvcv_mdlc_subclass_official_none #no subclass
     }
 }
 xvcv_mdlc_leader_making_scientist_subclass_traits = {
@@ -203,28 +188,24 @@ xvcv_mdlc_leader_making_scientist_subclass_traits = {
     OR = {
         #scientist
         has_country_flag = xvcv_mdlc_leader_scientist_subclass_scientist_explorer
-        has_country_flag = xvcv_mdlc_leader_scientist_subclass_scientist_analyst
+        has_country_flag = xvcv_mdlc_leader_scientist_subclass_scientist_councilor
+        has_country_flag = xvcv_mdlc_leader_scientist_subclass_scientist_governor
+        has_country_flag = xvcv_mdlc_leader_scientist_subclass_scientist_scholar
         has_country_flag = xvcv_mdlc_leader_scientist_xvcv_mdlc_subclass_scientist_none #no subclass
     }
 }
-xvcv_mdlc_leader_making_admiral_subclass_traits = {
+xvcv_mdlc_leader_making_commander_subclass_traits = {
     optimize_memory
     OR = {
-        #admiral
-        has_country_flag = xvcv_mdlc_leader_admiral_subclass_admiral_aggressor
-        has_country_flag = xvcv_mdlc_leader_admiral_subclass_admiral_tactician
-        has_country_flag = xvcv_mdlc_leader_admiral_xvcv_mdlc_subclass_admiral_none #no subclass
+        #commander
+        has_country_flag = xvcv_mdlc_leader_commander_subclass_commander_general
+        has_country_flag = xvcv_mdlc_leader_commander_subclass_commander_councilor
+        has_country_flag = xvcv_mdlc_leader_commander_subclass_commander_governor
+        has_country_flag = xvcv_mdlc_leader_commander_subclass_commander_admiral
+        has_country_flag = xvcv_mdlc_leader_commander_xvcv_mdlc_subclass_commander_none #no subclass
     }
 }
-xvcv_mdlc_leader_making_general_subclass_traits = {
-    optimize_memory
-    OR = {
-        #general
-        has_country_flag = xvcv_mdlc_leader_general_subclass_general_invader
-        has_country_flag = xvcv_mdlc_leader_general_subclass_general_protector
-        has_country_flag = xvcv_mdlc_leader_general_xvcv_mdlc_subclass_general_none #no subclass
-    }
-}
+
 xvcv_mdlc_leader_making_requires_leader_subclass_trigger = {
     optimize_memory
     custom_tooltip_fail = {
