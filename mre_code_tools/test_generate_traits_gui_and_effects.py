@@ -14,10 +14,9 @@ def test_gen_core_modifying_button_effects_code__common_trait():
     )
     
     expected_effect_trait_ruler_feedback_2 = """
-#trait_ruler_feedback_loop_2
+#trait_ruler_feedback_loop_2 #common trait
 xvcv_mdlc_core_modifying_traits_official_trait_ruler_feedback_loop_2_add_button_effect = {
     potential = {
-        #has_paragon_dlc = no
         ruler = { NOT = { has_trait = trait_ruler_feedback_loop_2 } }
     }
     allow = {
@@ -25,7 +24,7 @@ xvcv_mdlc_core_modifying_traits_official_trait_ruler_feedback_loop_2_add_button_
         #xvcv_mdlc_core_modifying_requires_ruler_subclass_or_focus_trigger = { CLASS = official ID = None }
         xvcv_mdlc_core_modifying_trait_cost_trigger = yes
         xvcv_mdlc_core_modifying_trait_points_trigger = yes
-        #xvcv_mdlc_core_modifying_trait_skill_level_alt_trigger = yes
+        #xvcv_mdlc_core_modifying_trait_skill_level_trigger = yes
         xvcv_mdlc_core_modifying_trait_max_number_trigger = yes
         #has_paragon_dlc = no
     }
@@ -37,7 +36,6 @@ xvcv_mdlc_core_modifying_traits_official_trait_ruler_feedback_loop_2_add_button_
 }
 xvcv_mdlc_core_modifying_traits_official_trait_ruler_feedback_loop_2_remove_button_effect = {
     potential = {
-        #has_paragon_dlc = no
         ruler = { has_trait = trait_ruler_feedback_loop_2 }
     }
     allow = { always = yes }
@@ -64,7 +62,6 @@ def test_gen_core_modifying_button_effects_code__veteran_trait():
 #leader_trait_frontier_spirit_3 #veteran trait
 xvcv_mdlc_core_modifying_traits_official_leader_trait_frontier_spirit_3_add_button_effect = {
     potential = {
-        has_paragon_dlc = yes
         ruler = { NOT = { has_trait = leader_trait_frontier_spirit_3 } }
     }
     allow = {
@@ -84,7 +81,6 @@ xvcv_mdlc_core_modifying_traits_official_leader_trait_frontier_spirit_3_add_butt
 }
 xvcv_mdlc_core_modifying_traits_official_leader_trait_frontier_spirit_3_remove_button_effect = {
     potential = {
-        has_paragon_dlc = yes
         ruler = { has_trait = leader_trait_frontier_spirit_3 }
     }
     allow = { always = yes }
@@ -99,3 +95,47 @@ xvcv_mdlc_core_modifying_traits_official_leader_trait_frontier_spirit_3_remove_b
 """
 
     assert leader_trait_frontier_spirit_3_code == expected_effects_code
+
+def test_gen_core_modifying_button_effects_code__destiny_trait():
+    
+    leader_trait_bellicose_code = gen_core_modifying_button_effects_code(
+        "commander", "leader_trait_bellicose", is_destiny_trait=True,
+        required_subclass="subclass_commander_general", needs_paragon_dlc=True
+    )
+
+    expected_code = """
+#leader_trait_bellicose #destiny trait
+xvcv_mdlc_core_modifying_traits_commander_leader_trait_bellicose_add_button_effect = {
+    potential = {
+        ruler = { NOT = { has_trait = leader_trait_bellicose } }
+    }
+    allow = {
+        custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_commander_leader_trait_bellicose
+        xvcv_mdlc_core_modifying_requires_ruler_subclass_or_focus_trigger = { CLASS = commander ID = subclass_commander_general }
+        xvcv_mdlc_core_modifying_trait_cost_alt_2_trigger = yes
+        xvcv_mdlc_core_modifying_trait_points_alt_2_trigger = yes
+        xvcv_mdlc_core_modifying_trait_skill_level_alt_2_trigger = yes
+        xvcv_mdlc_core_modifying_trait_max_number_trigger = yes
+        has_paragon_dlc = yes
+    }
+    effect = {
+        #xvcv_mdlc_core_modifying_remove_tier_1_or_2_traits_effect = { ID = leader_trait_bellicose }
+        xvcv_mdlc_core_modifying_trait_pick_effect = { CLASS = commander ID = leader_trait_bellicose }
+		hidden_effect = { xvcv_mdlc_core_modifying_trait_add_alt_2_effect = yes }
+    }
+}
+xvcv_mdlc_core_modifying_traits_commander_leader_trait_bellicose_remove_button_effect = {
+    potential = {
+        ruler = { has_trait = leader_trait_bellicose }
+    }
+    allow = { always = yes }
+    effect = {
+        custom_tooltip = xvcv_mdlc_core_modifying_tooltip_remove_commander_leader_trait_bellicose
+		hidden_effect = {
+            ruler = { remove_trait = leader_trait_bellicose }
+            xvcv_mdlc_core_modifying_trait_remove_alt_2_effect = yes
+		}
+    }
+}
+"""
+    assert leader_trait_bellicose_code == expected_code

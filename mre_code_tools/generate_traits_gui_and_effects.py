@@ -104,7 +104,7 @@ def gen_leader_making_button_effects_code(
     # commend out skill level trigger if it's not a veteran trait
     requires_skill_lvl_trigger = "" if is_veteran_trait or is_destiny_trait else "#"
     return f"""
-# {leader_class}: {trait_name}
+# {leader_class} #{trait_name}
 xvcv_mdlc_leader_making_trait_{trait_name}_add_button_effect = {{
     potential = {{ xvcv_mdlc_leader_making_{leader_class}_subclass_traits = no }}
     allow = {{
@@ -139,38 +139,46 @@ def gen_core_modifying_button_effects_code(
         trait_name_no_tier = trait_name.rsplit('_',1)[0]
     else:
         trait_name_no_tier = trait_name
-    use_alt_trigger = "alt_" if is_veteran_trait or is_destiny_trait else ""
+    # Veteran & destinty traits need slightly altered trigger names
+    alt_trigger_name = ""
+    if is_veteran_trait:
+        alt_trigger_name = "alt_"
+    elif is_destiny_trait:
+        alt_trigger_name = "alt_2_"
     # Comment out the 'requires_leader_subclass_trigger` if it's not a veteran trait'
     requires_subclass_trigger = "" if is_veteran_trait or is_destiny_trait or required_subclass == "any" else "#"
     # commend out skill level trigger if it's not a veteran trait
     requires_skill_lvl_trigger = "" if is_veteran_trait or is_destiny_trait else "#"
-    veteran_trait_comment = " #veteran trait" if is_veteran_trait else ""
+    trait_class = "common"
+    if is_veteran_trait:
+        trait_class = "veteran"
+    elif is_destiny_trait:
+        trait_class = "destiny"
+    trait_comment = f"#{trait_class} trait"
 
     return f"""
-#{trait_name}{veteran_trait_comment}
+#{trait_name} {trait_comment}
 xvcv_mdlc_core_modifying_traits_{leader_class}_{trait_name}_add_button_effect = {{
     potential = {{
-        {comment_out_paragon_dlc}has_paragon_dlc = {has_paragon_dlc_answer}
         ruler = {{ NOT = {{ has_trait = {trait_name} }} }}
     }}
     allow = {{
         custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_{leader_class}_{trait_name}
         {requires_subclass_trigger}xvcv_mdlc_core_modifying_requires_ruler_subclass_or_focus_trigger = {{ CLASS = {leader_class} ID = {required_subclass} }}
-        xvcv_mdlc_core_modifying_trait_cost_{use_alt_trigger}trigger = yes
-        xvcv_mdlc_core_modifying_trait_points_{use_alt_trigger}trigger = yes
-        {requires_skill_lvl_trigger}xvcv_mdlc_core_modifying_trait_skill_level_alt_trigger = yes
+        xvcv_mdlc_core_modifying_trait_cost_{alt_trigger_name}trigger = yes
+        xvcv_mdlc_core_modifying_trait_points_{alt_trigger_name}trigger = yes
+        {requires_skill_lvl_trigger}xvcv_mdlc_core_modifying_trait_skill_level_{alt_trigger_name}trigger = yes
         xvcv_mdlc_core_modifying_trait_max_number_trigger = yes
         {comment_out_paragon_dlc}has_paragon_dlc = {has_paragon_dlc_answer}
     }}
     effect = {{
         {needs_remove_tier_num_trait_effect}xvcv_mdlc_core_modifying_remove_tier_1_or_2_traits_effect = {{ ID = {trait_name_no_tier} }}
         xvcv_mdlc_core_modifying_trait_pick_effect = {{ CLASS = {leader_class} ID = {trait_name} }}
-		hidden_effect = {{ xvcv_mdlc_core_modifying_trait_add_{use_alt_trigger}effect = yes }}
+		hidden_effect = {{ xvcv_mdlc_core_modifying_trait_add_{alt_trigger_name}effect = yes }}
     }}
 }}
 xvcv_mdlc_core_modifying_traits_{leader_class}_{trait_name}_remove_button_effect = {{
     potential = {{
-        {comment_out_paragon_dlc}has_paragon_dlc = {has_paragon_dlc_answer}
         ruler = {{ has_trait = {trait_name} }}
     }}
     allow = {{ always = yes }}
@@ -178,7 +186,7 @@ xvcv_mdlc_core_modifying_traits_{leader_class}_{trait_name}_remove_button_effect
         custom_tooltip = xvcv_mdlc_core_modifying_tooltip_remove_{leader_class}_{trait_name}
 		hidden_effect = {{
             ruler = {{ remove_trait = {trait_name} }}
-            xvcv_mdlc_core_modifying_trait_remove_{use_alt_trigger}effect = yes
+            xvcv_mdlc_core_modifying_trait_remove_{alt_trigger_name}effect = yes
 		}}
     }}
 }}
