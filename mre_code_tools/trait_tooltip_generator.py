@@ -81,38 +81,3 @@ def create_tooltip_for_leader(
         f"{tooltip_base}_{tooltip_stem}_{leader_class}_{trait_name}:0 \"{trait_title}{trait_cost_tt}\n"
         f"{trait_bonuses}\n{separator_ruler}\n{trait_desc_brown_text}\"\n"
     )
-
-
-def convert_stellaris_script_to_standard_yaml(input_string):
-    # NOT aren't used in trait description anyway
-    convert_tabs_to_spaces = re.sub('\t', '  ', input_string)
-    remove_comment_blocks = re.sub('\n#.*', '', convert_tabs_to_spaces)
-    comment_nots = re.sub('NOT', '#NOT', remove_comment_blocks)
-    convert_blocks = re.sub('(?<!NOT) = \{\n', ':\n', comment_nots)
-    convert_sameline_blocks = re.sub('(?<!NOT) = \{', ':', convert_blocks)
-    remove_closing_braces = re.sub('\s*\}\n', '\n', convert_sameline_blocks)
-    create_key_value_pairs = re.sub(' = ', ': ', remove_closing_braces)
-    clean_closing_brace_no_newline = re.sub('\s*\}', '', create_key_value_pairs)
-    remove_extralines = re.sub('\n{2,}', '\n', clean_closing_brace_no_newline)
-    # One-liners with multiple nested {} don't cleanly replace, so comment those lines
-    # since we are doing traits anyway.. dont need those lines
-    comment_nested_multiline = re.sub('\n(\s)(?=((.*:){2,4}))', '\n#', remove_extralines)
-    # leftover_multiline_comment = re.sub('#{2,}', '', comment_nested_multiline)
-    return comment_nested_multiline
-
-
-if __name__=="__main__":
-    parser = argparse.ArgumentParser(
-        prog="0xRetro Stellaris->>YAML",
-        description="Mostly converts Stellaris script to standard YAML"
-    )
-    parser.add_argument('-i', '--infile', help='Stellaris traits file to read')
-    args = parser.parse_args()
-    buffer = ''
-    if not args.infile:
-        sys.exit('Need to specify an input file with --infile <filename>')
-    with open(args.infile, "r") as infile:
-        buffer = convert_stellaris_script_to_standard_yaml(
-            infile.read()
-        )
-    print(buffer)
