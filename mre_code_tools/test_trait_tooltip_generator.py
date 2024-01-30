@@ -112,7 +112,7 @@ leader_trait_private_mines_2:
                 exists: owner
                 owner:
                     is_same_value: root.owner
-                #NOT: { is_planet_class: pc_shattered_ring_habitable
+#               #NOT: { is_planet_class: pc_shattered_ring_habitable
             trait_is_gestalt_check: no
         job_miner_add: 4
     triggered_background_planet_modifier:
@@ -122,7 +122,7 @@ leader_trait_private_mines_2:
                 exists: owner
                 owner:
                     is_same_value: root.owner
-                #NOT: { is_planet_class: pc_shattered_ring_habitable
+#               #NOT: { is_planet_class: pc_shattered_ring_habitable
             trait_is_gestalt_check: yes
         job_mining_drone_add: 4
     triggered_background_planet_modifier:

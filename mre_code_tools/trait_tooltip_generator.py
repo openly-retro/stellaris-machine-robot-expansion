@@ -1,6 +1,8 @@
 # Given Stellaris leader trait info as YAML, generate Stellaris tooltip game code from it
 import re
+import sys
 from yaml import safe_load
+import argparse
 
 COLOR_CODES = {
     # https://steamcommunity.com/sharedfiles/filedetails/?id=1955978558
@@ -83,13 +85,34 @@ def create_tooltip_for_leader(
 
 def convert_stellaris_script_to_standard_yaml(input_string):
     # NOT aren't used in trait description anyway
-    comment_nots = re.sub('NOT', '#NOT', input_string)
+    convert_tabs_to_spaces = re.sub('\t', '  ', input_string)
+    remove_comment_blocks = re.sub('\n#.*', '', convert_tabs_to_spaces)
+    comment_nots = re.sub('NOT', '#NOT', remove_comment_blocks)
     convert_blocks = re.sub('(?<!NOT) = \{\n', ':\n', comment_nots)
     convert_sameline_blocks = re.sub('(?<!NOT) = \{', ':', convert_blocks)
     remove_closing_braces = re.sub('\s*\}\n', '\n', convert_sameline_blocks)
-    # remove_empty_lines = re.sub('\n\s\n', '\n', remove_closing_braces)
-    remove_whitespace = re.sub('\n\n', '\n', remove_closing_braces)
-    create_key_value_pairs = re.sub(' = ', ': ', remove_whitespace)
+    create_key_value_pairs = re.sub(' = ', ': ', remove_closing_braces)
     clean_closing_brace_no_newline = re.sub('\s*\}', '', create_key_value_pairs)
-    convert_tabs_to_spaces = re.sub('\t', '  ', clean_closing_brace_no_newline)
-    return convert_tabs_to_spaces
+    remove_extralines = re.sub('\n{2,}', '\n', clean_closing_brace_no_newline)
+    # One-liners with multiple nested {} don't cleanly replace, so comment those lines
+    # since we are doing traits anyway.. dont need those lines
+    comment_nested_multiline = re.sub('\n(\s)(?=((.*:){2,4}))', '\n#', remove_extralines)
+    # leftover_multiline_comment = re.sub('#{2,}', '', comment_nested_multiline)
+    return comment_nested_multiline
+
+
+if __name__=="__main__":
+    parser = argparse.ArgumentParser(
+        prog="0xRetro Stellaris->>YAML",
+        description="Mostly converts Stellaris script to standard YAML"
+    )
+    parser.add_argument('-i', '--infile', help='Stellaris traits file to read')
+    args = parser.parse_args()
+    buffer = ''
+    if not args.infile:
+        sys.exit('Need to specify an input file with --infile <filename>')
+    with open(args.infile, "r") as infile:
+        buffer = convert_stellaris_script_to_standard_yaml(
+            infile.read()
+        )
+    print(buffer)
