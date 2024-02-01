@@ -1,5 +1,6 @@
 from stellaris_trait_cruncher import (
-    filter_trait_info
+    filter_trait_info,
+    sort_traits_by_leader_class
 )
 
 def test_filter_trait_info():
@@ -199,5 +200,50 @@ def test_crunch__leader_trait_arbiter():
         },
         "requires_paragon_dlc": True,
         "required_subclass": "subclass_commander_governor"
+    }
+    assert expected == actual
+
+def test_sort_traits_by_leader_class():
+
+    test_data = {
+        "trait_foo1": {
+            "trait_name": "trait_foo1",
+            "leader_class": ["official"]
+        },
+        "trait_foo2": {
+            "trait_name": "trait_foo2",
+            "leader_class": ["commander", "official", "scientist"]
+        },
+        "trait_foo3": {
+            "trait_name": "trait_foo3",
+            "leader_class": ["commander", "scientist"]
+        }
+    }
+    actual = sort_traits_by_leader_class(test_data)
+    expected = {
+        "commander": [
+            {
+                "trait_name": "trait_foo3",
+                "leader_class": ["commander", "scientist"]
+            }
+        ],
+        "official": [
+            {
+                "trait_name": "trait_foo1",
+                "leader_class": ["official"]
+            }
+        ],
+        "scientist": [
+            {
+                "trait_name": "trait_foo3",
+                "leader_class": ["commander", "scientist"]
+            }
+        ],
+        "any": [
+            {
+                "trait_name": "trait_foo2",
+                "leader_class": ["commander", "official", "scientist"]
+            }
+        ]
     }
     assert expected == actual
