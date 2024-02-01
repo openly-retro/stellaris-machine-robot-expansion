@@ -1,5 +1,6 @@
 import re
 import sys
+import argparse
 from tempfile import NamedTemporaryFile
 
 def convert_stellaris_script_to_standard_yaml(input_string):
@@ -24,10 +25,35 @@ def convert_stellaris_script_to_standard_yaml(input_string):
     # official scientist commander
     # official commander scientist
     # Carefully go through leader_class definitions
-    structured_leader_class_lists = convert_leader_class_definitions_to_lists(comment_nested_multiline)
+    # TODO: Fix bug where list of fewer elements is patched before long list
+    structured_leader_class_lists3 = convert_leader_class_definitions_to_lists(comment_nested_multiline, 3)
+    structured_leader_class_lists2 = convert_leader_class_definitions_to_lists(structured_leader_class_lists3, 2)
+    structured_leader_class_lists = convert_leader_class_definitions_to_lists(structured_leader_class_lists2)
     return structured_leader_class_lists
 
-def convert_leader_class_definitions_to_lists(input_string):
+def convert_leader_class_definitions_to_lists(input_string, min_classes_length: int=1):
+    # convert like 'leader_class: commander official' to
+    # 'leader_class: ["commander", "official"]' which is valid yaml
+    # min_classes_length means crunch N number of sequential leader class names into a list.
+    leader_class_query = re.compile(f"(leader_class:(\s(commander|official|scientist)){{{min_classes_length},}})")
+    results = re.findall(leader_class_query, input_string)
+    # we get a list of tuples like [('leader_class: commander official scientist', ' scientist', 'scientist'),
+    # ('leader_class: commander official', ' official', 'official'), etc
+    input_string_copy = input_string
+    for result in results:
+        complete_line = result[0]
+        parts = complete_line.split(': ')
+        unformatted_classes = parts[1]
+        classes_as_list = unformatted_classes.split(' ')
+        # now we have ["commander", "official", "scientist"]
+        # the trick is directly insert the str version of the list
+        # breakpoint()
+        line_with_structured_data = f"{parts[0]}: {str(classes_as_list)}"
+        # oh the horror
+        input_string_copy = re.sub(complete_line, line_with_structured_data, input_string_copy)
+    return input_string_copy
+
+def convert_leader_class_definitions_to_lists_1(input_string):
     # convert like 'leader_class: commander official' to
     # 'leader_class: ["commander", "official"]' which is valid yaml
     leader_class_query = re.compile("(leader_class:(\s(commander|official|scientist)){1,})")
