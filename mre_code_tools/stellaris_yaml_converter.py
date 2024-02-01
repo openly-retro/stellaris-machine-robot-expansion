@@ -2,6 +2,7 @@ import re
 import sys
 import argparse
 from tempfile import NamedTemporaryFile
+import argparse
 from yaml import safe_load
 
 def convert_stellaris_script_to_standard_yaml(input_string):
@@ -86,7 +87,6 @@ if __name__=="__main__":
     if not args.infile:
         sys.exit('Need to specify an input file with --infile <filename>')
     sys.stdout.write('0xRetro Stellaris script chopper.. spinning up blades\n')
-    # breakpoint()
     with open(args.infile, "r") as infile:
         buffer = convert_stellaris_script_to_standard_yaml(
             infile.read()
