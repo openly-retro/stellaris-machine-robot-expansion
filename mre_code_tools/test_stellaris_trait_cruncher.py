@@ -221,29 +221,36 @@ def test_sort_traits_by_leader_class():
     }
     actual = sort_traits_by_leader_class(test_data)
     expected = {
-        "commander": [
-            {
-                "trait_name": "trait_foo3",
-                "leader_class": ["commander", "scientist"]
-            }
-        ],
         "official": [
             {
                 "trait_name": "trait_foo1",
-                "leader_class": ["official"]
+                "leader_class": "official"
+            },
+            {
+                "trait_name": "trait_foo2",
+                "leader_class": "official"
+            }
+        ],
+        "commander": [
+            {
+                "trait_name": "trait_foo2",
+                "leader_class": "commander"
+            },
+            {
+                "trait_name": "trait_foo3",
+                "leader_class": "commander"
             }
         ],
         "scientist": [
             {
-                "trait_name": "trait_foo3",
-                "leader_class": ["commander", "scientist"]
-            }
-        ],
-        "any": [
-            {
                 "trait_name": "trait_foo2",
-                "leader_class": ["commander", "official", "scientist"]
+                "leader_class": "scientist"
+            },
+            {
+                "trait_name": "trait_foo3",
+                "leader_class": "scientist"
             }
         ]
     }
     assert expected == actual
+

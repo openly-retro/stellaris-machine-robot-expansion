@@ -1,5 +1,6 @@
 # Read a traits file which has been hacked up into standard YAML, print out only info we care about
 import argparse
+from copy import copy
 from pprint import pprint
 import sys
 from yaml import safe_load
@@ -9,35 +10,40 @@ def sort_traits_asc():
     pass
 
 def sort_traits_by_leader_class(filtered_trait_data: dict):
-    """ Return 4 categories of leader classes:
-        - official (1), scientist (2), and commander (3)
-        - "any" (4) if the trait can be assigned to all three
-        - if a trait can be assigned to two classes, duplicate that trait for both classes
-    
-        Data that reaches this point should have been run through the `filter_trait_info` function
+    """ Return 3 categories of leader classes:
+        - official (1), scientist (2), commander (3)
+        - All traits get sorted into their respective classes
+        If a trait can be assigned to multiple classes, then it gets copied to each class
+        
+        Data that reaches this point will have been run through the `filter_trait_info` function
     """
     trait_collection = {
         "commander": [],
         "official": [],
-        "scientist": [],
-        "any": []
+        "scientist": []
     }
     official = []
     scientist = []
     commander = []
     anyclass_traits = []
+    # Iterate the trait names (the dict keys)
     for trait_name in filtered_trait_data:
         filtered_trait = filtered_trait_data[trait_name]
-        if "official" in filtered_trait["leader_class"] and \
-        "scientist" in filtered_trait["leader_class"] and \
-        "commander" in filtered_trait["leader_class"]:
-            trait_collection["any"].append(filtered_trait)
-        else:
-            for leader_class in filtered_trait["leader_class"]:
-                trait_collection[leader_class].append(filtered_trait)
+        # Go thru each allowed leader class, and copy the trait to the respective collection
+        for leader_class in filtered_trait["leader_class"]:
+            # When appending to a class-specific list, drop the other class names
+            # So we can create gui, effects, etc, which all only use one name
+            class_specific_trait = copy(filtered_trait)
+            class_specific_trait["leader_class"] = leader_class
+            trait_collection[leader_class].append(class_specific_trait)
+            del class_specific_trait
     return trait_collection
 
 def populate_subclasses_for_related_traits():
+    """ We often see subclass requirements in the tier 1 of a trait, but not in tier 2 or 3
+    since the game assumes the tier 1 is the gatekeeper for tier 2. so there will be subclass
+    information usually missing from some higher-tier traits.
+    """
     pass
 
 def filter_trait_info(given_trait_dict: dict):
