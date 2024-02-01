@@ -1,6 +1,7 @@
 from stellaris_trait_cruncher import (
     filter_trait_info,
-    sort_traits_by_leader_class
+    sort_traits_by_leader_class,
+    sort_traits_asc
 )
 
 def test_filter_trait_info():
@@ -253,4 +254,45 @@ def test_sort_traits_by_leader_class():
         ]
     }
     assert expected == actual
+
+def test_sort_traits_asc():
+    test_data = [
+            {
+                "trait_name": "trait_foo4",
+                "leader_class": "official"
+            },
+            {
+                "trait_name": "trait_foo3",
+                "leader_class": "official"
+            },
+            {
+                "trait_name": "trait_foo2",
+                "leader_class": "official"
+            },
+            {
+                "trait_name": "trait_foo1",
+                "leader_class": "official"
+            },
+        ]
+    expected = [
+            {
+                "trait_name": "trait_foo1",
+                "leader_class": "official"
+            },
+            {
+                "trait_name": "trait_foo2",
+                "leader_class": "official"
+            },
+            {
+                "trait_name": "trait_foo3",
+                "leader_class": "official"
+            },
+            {
+                "trait_name": "trait_foo4",
+                "leader_class": "official"
+            },
+        ]
+    actual = sort_traits_asc(test_data)
+    assert expected == actual
+
 

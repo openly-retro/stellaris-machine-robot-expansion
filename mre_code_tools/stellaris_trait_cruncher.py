@@ -6,8 +6,9 @@ import sys
 from yaml import safe_load
 from stellaris_yaml_converter import convert_stellaris_script_to_standard_yaml
 
-def sort_traits_asc():
-    pass
+def sort_traits_asc(list_of_class_specific_traits: list):
+    """ Sort traits alphabetically, starting from A, after they've been sorted by class """
+    return sorted(list_of_class_specific_traits, key=lambda t: t['trait_name']) 
 
 def sort_traits_by_leader_class(filtered_trait_data: dict):
     """ Return 3 categories of leader classes:
