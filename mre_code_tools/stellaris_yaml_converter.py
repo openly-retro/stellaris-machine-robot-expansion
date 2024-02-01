@@ -2,6 +2,7 @@ import re
 import sys
 import argparse
 from tempfile import NamedTemporaryFile
+from yaml import safe_load
 
 def convert_stellaris_script_to_standard_yaml(input_string):
     # NOT aren't used in trait description anyway
@@ -18,15 +19,10 @@ def convert_stellaris_script_to_standard_yaml(input_string):
     # since we are doing traits anyway.. dont need those lines
     comment_nested_multiline = re.sub('\n(\s)(?=((.*:){2,4}))', '\n#', remove_extralines)
     # leftover_multiline_comment = re.sub('#{2,}', '', comment_nested_multiline)
-
-    # official scientist
-    # commander official
-    # commander official scientist
-    # official scientist commander
-    # official commander scientist
+    comment_out_variables = re.sub('\@', 'var_', comment_nested_multiline)  # YAML doesn't like the @ symbol
     # Carefully go through leader_class definitions
     # TODO: Fix bug where list of fewer elements is patched before long list
-    structured_leader_class_lists3 = convert_leader_class_definitions_to_lists(comment_nested_multiline, 3)
+    structured_leader_class_lists3 = convert_leader_class_definitions_to_lists(comment_out_variables, 3)
     structured_leader_class_lists2 = convert_leader_class_definitions_to_lists(structured_leader_class_lists3, 2)
     structured_leader_class_lists = convert_leader_class_definitions_to_lists(structured_leader_class_lists2)
     return structured_leader_class_lists
@@ -102,12 +98,28 @@ if __name__=="__main__":
         description="Mostly converts Stellaris script to standard YAML"
     )
     parser.add_argument('-i', '--infile', help='Stellaris traits file to read')
+    parser.add_argument(
+        '-o', '--outfile', required=False,
+        help="Name of file to write the newly converted standard YAML to"
+    )
     args = parser.parse_args()
     buffer = ''
     if not args.infile:
         sys.exit('Need to specify an input file with --infile <filename>')
+    sys.stdout.write('0xRetro Stellaris script chopper.. spinning up blades\n')
+
     with open(args.infile, "r") as infile:
         buffer = convert_stellaris_script_to_standard_yaml(
             infile.read()
         )
-    print(buffer)
+    try:
+        _ = safe_load(buffer)
+    except Exception as ex:
+        sys.exit(f"There was a problem validating the YAML after chopping up the Stellaris script: {ex}")
+    if args.get('outfile'):
+        with open(args['outfile'], 'w+') as outfile:
+            outfile.write(buffer)
+    else:
+        print(buffer)
+    print("Done. There's a high change this finished correctly.")
+    sys.exit()
