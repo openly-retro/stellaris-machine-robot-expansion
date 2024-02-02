@@ -1,6 +1,7 @@
 from stellaris_yaml_converter import (
     convert_stellaris_script_to_standard_yaml,
-    convert_leader_class_definitions_to_lists
+    convert_leader_class_definitions_to_lists,
+    concatenate_multiline_has_trait_definitions
 )
 
 def test_convert_stellaris_script_to_standard_yaml():
@@ -184,6 +185,102 @@ leader_trait_naturalist_3:
     actual_output = convert_stellaris_script_to_standard_yaml(stellaris_script)
 
     assert expected_output == actual_output
+
+def test_concat_multi_has_trait_lines():
+    test_data = """
+    leader_potential_add:
+        OR:
+            has_paragon_dlc: no
+            has_trait: subclass_commander_admiral
+            has_trait: subclass_scientist_explorer
+            has_trait: subclass_scientist_councilor
+"""
+    actual = concatenate_multiline_has_trait_definitions(test_data)
+    expected = """
+    leader_potential_add:
+        OR:
+            has_paragon_dlc: no
+            has_trait: ['subclass_commander_admiral', 'subclass_scientist_explorer', 'subclass_scientist_councilor']
+"""
+    assert expected == actual
+
+def test_convert_stellaris_script__scout_double_subclass():
+    test_data = """
+
+####################################
+# SHARED TRAITS BLOCKED IN PARAGON #
+####################################
+
+leader_trait_scout = {
+    veteran_class_locked_trait = yes
+    inline_script = {
+        script = trait/icon
+        CLASS = leader
+        ICON = GFX_leader_trait_scout
+        RARITY = free_or_veteran
+        COUNCIL = no
+        TIER = 1
+    }
+    leader_potential_add = {
+        OR = {
+            has_paragon_dlc = no
+            has_trait = subclass_commander_admiral
+            has_trait = subclass_scientist_explorer
+            has_trait = subclass_scientist_councilor
+        }
+    }
+    modifier = {
+        ship_speed_mult = 0.05 # some comment
+        ship_hyperlane_range_add = 2
+        fleet_mia_time_mult = -0.1
+    }
+    triggered_modifier = {
+        potential = { has_first_contact_dlc = yes }
+        ship_cloaking_strength_add = 1
+    }
+    leader_class = { commander scientist }
+    selectable_weight = {
+        inline_script = paragon/subclass_free_trait_weight
+        inline_script = paragon/pilot_weight_mult
+        inline_script = {
+            script = paragon/dual_subclass_weight_mult
+            SUBCLASS_1 = commander_admiral
+            SUBCLASS_2 = scientist_explorer
+        }
+    }
+}
+"""
+    expected = """
+leader_trait_scout:
+    veteran_class_locked_trait: yes
+    inline_script:
+        script: trait/icon
+        CLASS: leader
+        ICON: GFX_leader_trait_scout
+        RARITY: free_or_veteran
+        COUNCIL: no
+        TIER: 1
+    leader_potential_add:
+        OR:
+            has_paragon_dlc: no
+            has_trait: ['subclass_commander_admiral', 'subclass_scientist_explorer', 'subclass_scientist_councilor']
+    modifier:
+        ship_speed_mult: 0.05 # some comment
+        ship_hyperlane_range_add: 2
+        fleet_mia_time_mult: -0.1
+    triggered_modifier:
+#        potential: has_first_contact_dlc: yes
+        ship_cloaking_strength_add: 1
+    leader_class: ['commander', 'scientist']
+    selectable_weight:
+ #       inline_script: paragon/subclass_free_trait_weight
+ #       inline_script: paragon/pilot_weight_mult
+        inline_script:
+            script: paragon/dual_subclass_weight_mult
+            SUBCLASS_1: commander_admiral
+            SUBCLASS_2: scientist_explorer
+"""
+
 
 def test_structuring_leader_class_lists():
 

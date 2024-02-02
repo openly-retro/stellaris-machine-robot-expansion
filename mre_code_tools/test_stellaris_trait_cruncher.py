@@ -204,6 +204,45 @@ def test_crunch__leader_trait_arbiter():
     }
     assert expected == actual
 
+def test_crunch__leader_trait_scout():
+    """ An example which has TWO potential subclasses """
+    test_data = {}
+    # leader_trait_scout = {
+    #     veteran_class_locked_trait = yes
+    #     inline_script = {
+    #         script = trait/icon
+    #         CLASS = leader
+    #         ICON = GFX_leader_trait_scout
+    #         RARITY = free_or_veteran
+    #         COUNCIL = no
+    #         TIER = 1
+    #     }
+    #     leader_potential_add = {
+    #         OR = {
+    #             has_paragon_dlc = no
+    #             has_trait = subclass_commander_admiral
+    #             has_trait = subclass_scientist_explorer
+    #         }
+    #     }
+    #     modifier = {
+    #         ship_speed_mult = 0.05
+    #         ship_hyperlane_range_add = 2
+    #         fleet_mia_time_mult = -0.1
+    #     }
+
+    #     leader_class = { commander scientist }
+    #     selectable_weight = {
+    #         inline_script = paragon/subclass_free_trait_weight
+    #         inline_script = paragon/pilot_weight_mult
+    #         inline_script = {
+    #             script = paragon/dual_subclass_weight_mult
+    #             SUBCLASS_1 = commander_admiral
+    #             SUBCLASS_2 = scientist_explorer
+    #         }
+    #     }
+    # }
+
+
 def test_sort_traits_by_leader_class():
 
     test_data = {
@@ -295,4 +334,20 @@ def test_sort_traits_asc():
     actual = sort_traits_asc(test_data)
     assert expected == actual
 
-
+def test_populate_subclasses_for_related_traits():
+    test_data = [
+        {
+            "trait_name": "leader_trait_wrecker",
+            "required_subclass": "subclass_commander_admiral"
+        },
+        {
+            "trait_name": "leader_trait_wrecker_2"
+        },
+        {
+            "trait_name": "leader_trait_wrecker_3"
+        },
+        {
+            "trait_name": "leader_trait_scout",
+            "required_subclass": "subclass_scientist_explorer"
+        },
+    ]

@@ -1,3 +1,4 @@
+from copy import copy
 import re
 import sys
 import argparse
@@ -22,11 +23,15 @@ def convert_stellaris_script_to_standard_yaml(input_string):
     # leftover_multiline_comment = re.sub('#{2,}', '', comment_nested_multiline)
     comment_out_variables = re.sub(r"\@", 'var_', comment_nested_multiline)  # YAML doesn't like the @ symbol
     # Carefully go through leader_class definitions
-    # TODO: Fix bug where list of fewer elements is patched before long list
     structured_leader_class_lists3 = convert_leader_class_definitions_to_lists(comment_out_variables, 3)
     structured_leader_class_lists2 = convert_leader_class_definitions_to_lists(structured_leader_class_lists3, 2)
     structured_leader_class_lists = convert_leader_class_definitions_to_lists(structured_leader_class_lists2)
-    return structured_leader_class_lists
+
+    # Take care of repeated has_trait keys >:o
+    tidy_subclass_has_trait_duplicates = concatenate_multiline_has_trait_definitions(structured_leader_class_lists)
+    
+    # Also need to comment out "inline_script = paragon" because PDX are using duplicate keys AGAIN >_<
+    return tidy_subclass_has_trait_duplicates
 
 def convert_leader_class_definitions_to_lists(input_string, min_classes_length: int=1):
     # convert like 'leader_class: commander official' to
@@ -49,6 +54,24 @@ def convert_leader_class_definitions_to_lists(input_string, min_classes_length: 
         # oh the horror
         input_string_copy = re.sub(complete_line, line_with_structured_data, input_string_copy)
     return input_string_copy
+
+def concatenate_multiline_has_trait_definitions(input_string, min_occurrences: int=1):
+    """ PDX put multiple lines with the same key definition, so we have to deal with that """
+    multiple_has_trait_lines = re.compile(r"((\s*has_trait: subclass\w*\n){1,})")
+    results = re.findall(multiple_has_trait_lines, input_string)
+    input_string_copy = copy(input_string)
+    for result in results:
+        """
+        It's going to be one big string starting with \n
+        """
+        complete_line = result[0]
+        pieces = result[0].strip().split('\n')
+        subclasses = [ piece.split(': ')[1] for piece in pieces ]
+        indentation = result[0].split('has_trait: ')[0].count(' ')
+        substitution = f"\n{indentation*" "}has_trait: {subclasses}\n"
+        input_string_copy = re.sub(complete_line, substitution, input_string_copy)
+    return input_string_copy
+
 
 def mega_resort_base_leader_traits(
     stellaris_base_traits_path

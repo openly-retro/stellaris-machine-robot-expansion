@@ -26,7 +26,6 @@ def sort_traits_by_leader_class(filtered_trait_data: dict):
     official = []
     scientist = []
     commander = []
-    anyclass_traits = []
     # Iterate the trait names (the dict keys)
     for trait_name in filtered_trait_data:
         filtered_trait = filtered_trait_data[trait_name]
