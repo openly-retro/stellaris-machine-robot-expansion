@@ -29,9 +29,10 @@ def convert_stellaris_script_to_standard_yaml(input_string):
 
     # Take care of repeated has_trait keys >:o
     tidy_subclass_has_trait_duplicates = concatenate_multiline_has_trait_definitions(structured_leader_class_lists)
-    
+
     # Also need to comment out "inline_script = paragon" because PDX are using duplicate keys AGAIN >_<
-    return tidy_subclass_has_trait_duplicates
+    comment_out_inline_scripts = comment_nested_multiline = re.sub(r"\n(\s)(?=((inline_script: \w){2,}))", '\n#', tidy_subclass_has_trait_duplicates)
+    return comment_out_inline_scripts
 
 def convert_leader_class_definitions_to_lists(input_string, min_classes_length: int=1):
     # convert like 'leader_class: commander official' to
