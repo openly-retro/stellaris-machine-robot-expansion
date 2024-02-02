@@ -3,8 +3,7 @@ import argparse
 from copy import copy
 from pprint import pprint
 import sys
-from tempfile import NamedTemporaryFile
-from yaml import safe_load
+from yaml import safe_load, safe_dump
 
 def sort_traits_asc(list_of_class_specific_traits: list):
     """ Sort traits alphabetically, starting from A, after they've been sorted by class """
@@ -24,16 +23,21 @@ def iterate_yaml_to_create_filtered_sorted_traits(safe_loaded_blob):
         trait = {
             k: v
         }
+        # breakpoint()
         if trait[k].get("negative"):
             continue
         for leader_class in ["commander", "scientist", "official"]:
-            try:
-                filtered_trait = filter_trait_info(trait, for_class=leader_class)
-                trait_collection[leader_class].append(filtered_trait)
-            except Exception as ex:
-                sys.exit(
-                    f"There was a problem processing this trait: {trait}\nReason: {ex}"
-                )
+            if leader_class in trait[k]['leader_class']:
+                try:
+                    filtered_trait = {}
+                    filtered_trait[k] = filter_trait_info(
+                        trait, for_class=leader_class
+                    )
+                    trait_collection[leader_class].append(filtered_trait)
+                except Exception as ex:
+                    sys.exit(
+                        f"There was a problem processing this trait: {trait}\nReason: {ex}"
+                    )
     return trait_collection
 
 def sort_traits_by_leader_class(filtered_trait_data: dict):
@@ -159,21 +163,23 @@ if __name__=="__main__":
         prog="0xRetro Stellaris->>YAML",
         description="Read Stellaris traits in abbreviated standard YAML"
     )
-    parser.add_argument('-i', '--infile', help='Stellaris standard YAML file to read. This should have been processed already with stellaris_yaml_converter.py.')
-    parser.add_argument(
-        '--sortall',
-        help="Read through all the trait info in the abbreviated YAML file, and sort them by leader classes. Send the output to a file or to the screen.",
-        required=False,
-        action='store_true'
-    )
+    parser.add_argument('--infile', help='Stellaris standard YAML file to read. This should have been processed already with stellaris_yaml_converter.py.', required=True)
+    parser.add_argument('--outfile', help="Write filtered traits to a YAML file.", required=False)
+
     args = parser.parse_args()
     buffer = ''
+    sorted_data = ''
     if not args.infile:
         sys.exit('Need to specify an input file with --infile <filename>')
     print("0xRetro Stellaris script chopper.. spinning up blades...")
     with open(args.infile, "r") as infile:
         buffer = safe_load(infile.read())
-        if args.sortall:
-            sorted_data = iterate_yaml_to_create_filtered_sorted_traits(buffer)
-            pprint(sorted_data)
-        else: pprint(buffer)
+    sorted_data = iterate_yaml_to_create_filtered_sorted_traits(buffer)
+    if args.outfile:
+        with open(args.outfile, "w") as useful_traits_yaml:
+            useful_traits_yaml.write(
+                safe_dump(sorted_data)
+            )
+        print(f"Wrote sorted traits data to {args.outfile}")
+    else:
+        pprint(buffer)
