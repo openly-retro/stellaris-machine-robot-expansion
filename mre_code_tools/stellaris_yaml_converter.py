@@ -32,7 +32,11 @@ def convert_stellaris_script_to_standard_yaml(input_string):
 
     # Also need to comment out "inline_script = paragon" because PDX are using duplicate keys AGAIN >_<
     comment_out_inline_scripts = comment_nested_multiline = re.sub(r"\n(\s)(?=((inline_script: \w){2,}))", '\n#', tidy_subclass_has_trait_duplicates)
-    return comment_out_inline_scripts
+    # Hello rogue operators
+    replace_greater_than = re.sub(r" > ", ': greater_than_', tidy_subclass_has_trait_duplicates)
+    # Make your time
+    replace_less_than = re.sub(r" < ", ": less_than_", replace_greater_than)
+    return replace_less_than
 
 def convert_leader_class_definitions_to_lists(input_string, min_classes_length: int=1):
     # convert like 'leader_class: commander official' to

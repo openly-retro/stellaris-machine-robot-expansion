@@ -317,3 +317,30 @@ selectable_weight:
         TRAIT: leader_trait_bureaucrat
 """
     assert expected_output == actual_output
+
+def test_replace_greater_than_less_than():
+
+    test_data = """
+selectable_weight = {
+    weight = @shared_trait_weight
+    inline_script = paragon/governor_weight_mult
+    has_skill > 1
+    value < 1
+    inline_script = {
+        script = "paragon/existing_trait_weight_mult"
+        TRAIT = leader_trait_bureaucrat
+    }
+}
+"""
+    actual_output = convert_stellaris_script_to_standard_yaml(test_data)
+    expected_output = """
+selectable_weight:
+    weight: var_shared_trait_weight
+    inline_script: paragon/governor_weight_mult
+    has_skill: greater_than_1
+    value: less_than_1
+    inline_script:
+        script: "paragon/existing_trait_weight_mult"
+        TRAIT: leader_trait_bureaucrat
+"""
+    assert expected_output == actual_output
