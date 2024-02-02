@@ -73,6 +73,11 @@ def concatenate_multiline_has_trait_definitions(input_string, min_occurrences: i
         input_string_copy = re.sub(complete_line, substitution, input_string_copy)
     return input_string_copy
 
+def validate_chopped_up_data(buffer):
+    try:
+        _ = safe_load(buffer)
+    except Exception as ex:
+        sys.exit(f"There was a problem validating the YAML after chopping up the Stellaris script: {ex}")
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser(
@@ -93,10 +98,7 @@ if __name__=="__main__":
         buffer = convert_stellaris_script_to_standard_yaml(
             infile.read()
         )
-        try:
-            _ = safe_load(buffer)
-        except Exception as ex:
-            sys.exit(f"There was a problem validating the YAML after chopping up the Stellaris script: {ex}")
+        validate_chopped_up_data(buffer)
         if args.outfile:
             with open(args.outfile, 'w') as outfile:
                 outfile.write(buffer)

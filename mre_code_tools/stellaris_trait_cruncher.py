@@ -156,6 +156,15 @@ def pick_correct_subclass_from_potential(leader_class, subclass_list):
             # Raise an exception?
     return matching_subclass
 
+def read_and_write_traits_data(infile, outfile):
+    with open(infile, "r") as infile:
+        buffer = safe_load(infile.read())
+    sorted_data = iterate_yaml_to_create_filtered_sorted_traits(buffer)
+    with open(outfile, "w") as useful_traits_yaml:
+        useful_traits_yaml.write(
+            safe_dump(sorted_data)
+        )
+    print(f"Wrote crunched traits data from {infile} to {outfile}")
 
 
 if __name__=="__main__":
@@ -172,14 +181,4 @@ if __name__=="__main__":
     if not args.infile:
         sys.exit('Need to specify an input file with --infile <filename>')
     print("0xRetro Stellaris script chopper.. spinning up blades...")
-    with open(args.infile, "r") as infile:
-        buffer = safe_load(infile.read())
-    sorted_data = iterate_yaml_to_create_filtered_sorted_traits(buffer)
-    if args.outfile:
-        with open(args.outfile, "w") as useful_traits_yaml:
-            useful_traits_yaml.write(
-                safe_dump(sorted_data)
-            )
-        print(f"Wrote sorted traits data to {args.outfile}")
-    else:
-        pprint(buffer)
+    read_and_write_traits_data(args.infile, args.outfile)
