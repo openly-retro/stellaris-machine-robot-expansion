@@ -378,6 +378,7 @@ def test_sort_traits_asc():
     actual = sort_traits_asc(test_data)
     assert expected == actual
 
+
 def test_populate_subclasses_for_related_traits():
     test_data = [
         {

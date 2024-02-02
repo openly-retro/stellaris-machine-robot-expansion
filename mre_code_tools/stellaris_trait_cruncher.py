@@ -3,12 +3,38 @@ import argparse
 from copy import copy
 from pprint import pprint
 import sys
+from tempfile import NamedTemporaryFile
 from yaml import safe_load
-from stellaris_yaml_converter import convert_stellaris_script_to_standard_yaml
 
 def sort_traits_asc(list_of_class_specific_traits: list):
     """ Sort traits alphabetically, starting from A, after they've been sorted by class """
     return sorted(list_of_class_specific_traits, key=lambda t: t['trait_name']) 
+
+def iterate_yaml_to_create_filtered_sorted_traits(safe_loaded_blob):
+    """ Run on a blob of safe_load data. Pick names, filter data, and sort it
+        safe_load gives a dictionary, with trait names in the first-level keys
+    """
+    trait_collection = {
+        "commander": [],
+        "official": [],
+        "scientist": []
+    }
+    # Create smaller trait blobs for each class the trait applies to
+    for k,v in safe_loaded_blob.items():
+        trait = {
+            k: v
+        }
+        if trait[k].get("negative"):
+            continue
+        for leader_class in ["commander", "scientist", "official"]:
+            try:
+                filtered_trait = filter_trait_info(trait, for_class=leader_class)
+                trait_collection[leader_class].append(filtered_trait)
+            except Exception as ex:
+                sys.exit(
+                    f"There was a problem processing this trait: {trait}\nReason: {ex}"
+                )
+    return trait_collection
 
 def sort_traits_by_leader_class(filtered_trait_data: dict):
     """ Return 3 categories of leader classes:
@@ -18,6 +44,7 @@ def sort_traits_by_leader_class(filtered_trait_data: dict):
         
         Data that reaches this point will have been run through the `filter_trait_info` function
     """
+
     trait_collection = {
         "commander": [],
         "official": [],
@@ -103,10 +130,12 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
     # TODO: merge modifiers,dont overwrite them
     if slim_trait.get('triggered_planet_modifier'):
         slim_trait['planet_modifier'] = slim_trait.pop('triggered_planet_modifier')
-        slim_trait['planet_modifier'].pop('potential')
+        if slim_trait["planet_modifier"].get("potential"):
+            slim_trait['planet_modifier'].pop('potential')
     if slim_trait.get('triggered_sector_modifier'):
         slim_trait['sector_modifier'] = slim_trait.pop('triggered_sector_modifier')
-        slim_trait['sector_modifier'].pop('potential')
+        if slim_trait["sector_modifier"].get("potential"):
+            slim_trait['sector_modifier'].pop('potential')
     # TODO: merge triggered_modifier and modifier
     return slim_trait
 
@@ -124,20 +153,27 @@ def pick_correct_subclass_from_potential(leader_class, subclass_list):
     return matching_subclass
 
 
+
 if __name__=="__main__":
     parser = argparse.ArgumentParser(
         prog="0xRetro Stellaris->>YAML",
         description="Read Stellaris traits in abbreviated standard YAML"
     )
     parser.add_argument('-i', '--infile', help='Stellaris standard YAML file to read. This should have been processed already with stellaris_yaml_converter.py.')
+    parser.add_argument(
+        '--sortall',
+        help="Read through all the trait info in the abbreviated YAML file, and sort them by leader classes. Send the output to a file or to the screen.",
+        required=False,
+        action='store_true'
+    )
     args = parser.parse_args()
     buffer = ''
     if not args.infile:
         sys.exit('Need to specify an input file with --infile <filename>')
     print("0xRetro Stellaris script chopper.. spinning up blades...")
     with open(args.infile, "r") as infile:
-        _tmp = convert_stellaris_script_to_standard_yaml(
-            infile.read()
-        )
-        buffer = safe_load(_tmp)
-    pprint(buffer)
+        buffer = safe_load(infile.read())
+        if args.sortall:
+            sorted_data = iterate_yaml_to_create_filtered_sorted_traits(buffer)
+            pprint(sorted_data)
+        else: pprint(buffer)
