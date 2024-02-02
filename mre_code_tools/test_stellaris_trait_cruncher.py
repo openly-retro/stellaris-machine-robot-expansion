@@ -31,10 +31,10 @@ def test_filter_trait_info():
             'leader_class': ['official', 'commander', 'scientist']
         }
     }
-    filtered_info = filter_trait_info(parsed_trait)
+    filtered_info = filter_trait_info(parsed_trait, for_class="official")
     expected_info = {
         "trait_name": "leader_trait_bureaucrat_2",
-        "leader_class": ['official', 'commander', 'scientist'],
+        "leader_class": 'official',
         "gfx": "GFX_leader_trait_bureaucrat",
         "rarity": "common",
         "planet_modifier": {
@@ -79,7 +79,7 @@ def test_crunch__trait_ruler_architectural_sense_3():
     actual = filter_trait_info(test_data)
     expected = {
         "trait_name": "trait_ruler_architectural_sense_3",
-        "leader_class": ["official"],
+        "leader_class": "official",
         "gfx": "GFX_leader_trait_architectural_sense",
         "rarity": "veteran",
         "councilor_modifier": {
@@ -89,11 +89,13 @@ def test_crunch__trait_ruler_architectural_sense_3():
             "planet_districts_upkeep_mult": -0.05,
             "planet_building_build_speed_mult": 0.25
         },
+        "is_councilor_trait": True,
         "requires_paragon_dlc": True
     }
     assert expected == actual
 
 def test_crunch__leader_trait_reformer():
+    """ Test picking out just the data we want from a standard trait blob """
     test_data = {
         "leader_trait_reformer": {
             "inline_script": {
@@ -108,7 +110,7 @@ def test_crunch__leader_trait_reformer():
                 "is_gestalt": "no",
                 "OR": {
                     "has_paragon_dlc": "no",
-                    "has_trait": "subclass_official_economy_councilor"
+                    "has_trait": ["subclass_official_economy_councilor"]
                 }
             },
             "councilor_modifier": {
@@ -135,7 +137,8 @@ def test_crunch__leader_trait_reformer():
             "country_unity_produces_mult": 0.05,
             "pop_government_ethic_attraction": 0.35
         },
-        "requires_paragon_dlc": False
+        "requires_paragon_dlc": False,
+        "required_subclass": "subclass_official_economy_councilor"
     }
 
 def test_crunch__leader_trait_arbiter():
@@ -182,7 +185,7 @@ def test_crunch__leader_trait_arbiter():
     actual = filter_trait_info(test_data)
     expected = {
         "trait_name": "leader_trait_arbiter",
-        "leader_class": ["commander"],
+        "leader_class": "commander",
         "gfx": "GFX_leader_trait_arbiter",
         "rarity": "paragon",
         "planet_modifier": {
@@ -206,42 +209,83 @@ def test_crunch__leader_trait_arbiter():
 
 def test_crunch__leader_trait_scout():
     """ An example which has TWO potential subclasses """
-    test_data = {}
-    # leader_trait_scout = {
-    #     veteran_class_locked_trait = yes
-    #     inline_script = {
-    #         script = trait/icon
-    #         CLASS = leader
-    #         ICON = GFX_leader_trait_scout
-    #         RARITY = free_or_veteran
-    #         COUNCIL = no
-    #         TIER = 1
-    #     }
-    #     leader_potential_add = {
-    #         OR = {
-    #             has_paragon_dlc = no
-    #             has_trait = subclass_commander_admiral
-    #             has_trait = subclass_scientist_explorer
-    #         }
-    #     }
-    #     modifier = {
-    #         ship_speed_mult = 0.05
-    #         ship_hyperlane_range_add = 2
-    #         fleet_mia_time_mult = -0.1
-    #     }
+    test_data = {
+        "leader_trait_scout": {
+            "veteran_class_locked_trait": "yes",
+            "inline_script": {
+                "script": "trait/icon",
+                "CLASS": "leader",
+                "ICON": "GFX_leader_trait_scout",
+                "RARITY": "free_or_veteran",
+                "COUNCIL": "no",
+                "TIER": 1
+            },
+            "leader_potential_add": {
+                "OR": {
+                    "has_paragon_dlc": "no",
+                    "has_subclass_trait": [
+                        "subclass_commander_admiral",
+                        "subclass_scientist_explorer",
+                        "subclass_scientist_councilor"
+                    ]
+                }
+            },
+            "modifier": {
+                "ship_speed_mult": 0.05,
+                "ship_hyperlane_range_add": 2,
+                "fleet_mia_time_mult": -0.1
+            },
+            "triggered_modifier": {
+                "ship_cloaking_strength_add": 1
+            },
+            "leader_class": [
+                "commander",
+                "scientist"
+            ],
+            "selectable_weight": {
+                "inline_script": {
+                    "script": "paragon/dual_subclass_weight_mult",
+                    "SUBCLASS_1": "commander_admiral",
+                    "SUBCLASS_2": "scientist_explorer"
+                }
+            }
+        }
+    }
+    # First test, process the commander version
+    expected_commander_trait_data = {
+        "trait_name": "leader_trait_scout",
+        "leader_class": "commander",
+        "gfx": "GFX_leader_trait_scout",
+        "rarity": "free_or_veteran",
+        "modifier": {
+            "ship_speed_mult": 0.05,
+            "ship_hyperlane_range_add": 2,
+            "fleet_mia_time_mult": -0.1
+        },
+        "requires_paragon_dlc": False,
+        "required_subclass": "subclass_commander_admiral"
+    }
+    actual_commander_trait_data = filter_trait_info(
+        test_data, for_class="commander")
+    assert expected_commander_trait_data == actual_commander_trait_data
 
-    #     leader_class = { commander scientist }
-    #     selectable_weight = {
-    #         inline_script = paragon/subclass_free_trait_weight
-    #         inline_script = paragon/pilot_weight_mult
-    #         inline_script = {
-    #             script = paragon/dual_subclass_weight_mult
-    #             SUBCLASS_1 = commander_admiral
-    #             SUBCLASS_2 = scientist_explorer
-    #         }
-    #     }
-    # }
-
+    expected_scientist_trait_data = {
+        "trait_name": "leader_trait_scout",
+        "leader_class": "scientist",
+        "gfx": "GFX_leader_trait_scout",
+        "rarity": "free_or_veteran",
+        "modifier": {
+            "ship_speed_mult": 0.05,
+            "ship_hyperlane_range_add": 2,
+            "fleet_mia_time_mult": -0.1
+        },
+        "requires_paragon_dlc": False,
+        "required_subclass": "subclass_scientist_explorer"
+    }
+    actual_scientist_trait_data = filter_trait_info(
+        test_data, for_class="scientist"
+    )
+    assert expected_scientist_trait_data == actual_scientist_trait_data
 
 def test_sort_traits_by_leader_class():
 

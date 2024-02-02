@@ -69,32 +69,10 @@ def concatenate_multiline_has_trait_definitions(input_string, min_occurrences: i
         pieces = result[0].strip().split('\n')
         subclasses = [ piece.split(': ')[1] for piece in pieces ]
         indentation = result[0].split('has_trait: ')[0].count(' ')
-        substitution = f"\n{indentation*" "}has_trait: {subclasses}\n"
+        substitution = f"\n{indentation*" "}has_subclass_trait: {subclasses}\n"
         input_string_copy = re.sub(complete_line, substitution, input_string_copy)
     return input_string_copy
 
-
-def mega_resort_base_leader_traits(
-    stellaris_base_traits_path
-):
-    # Just over 300 KB
-    leader_trait_files = [
-        "00_admiral_traits",
-        "00_general_traits",
-        "00_generic_leader_traits",
-        "00_governor_traits",
-        "00_scientist_traits",
-        "00_starting_ruler_traits",
-    ]
-    # super "load everything in memory and mega-sort"
-    # generic (all leader classes)
-    # commander, official, scientist
-    # FOUR files in total
-    leader_any_json = leader_commander_json = leader_scientist_json = leader_official_json
-    for stellaris_script in leader_trait_files:
-        file_contents_as_dict = convert_stellaris_script_to_standard_yaml(stellaris_script)
-        pass
-    
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser(
@@ -110,7 +88,7 @@ if __name__=="__main__":
     buffer = ''
     if not args.infile:
         sys.exit('Need to specify an input file with --infile <filename>')
-    sys.stdout.write('0xRetro Stellaris script chopper.. spinning up blades\n')
+    sys.stdout.write('0xRetro Stellaris script chopper.. spinning up blades...\n')
     with open(args.infile, "r") as infile:
         buffer = convert_stellaris_script_to_standard_yaml(
             infile.read()
@@ -120,7 +98,7 @@ if __name__=="__main__":
         except Exception as ex:
             sys.exit(f"There was a problem validating the YAML after chopping up the Stellaris script: {ex}")
         if args.outfile:
-            with open(args.outfile, 'w+') as outfile:
+            with open(args.outfile, 'w') as outfile:
                 outfile.write(buffer)
         else:
             print(buffer)

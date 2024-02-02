@@ -200,7 +200,7 @@ def test_concat_multi_has_trait_lines():
     leader_potential_add:
         OR:
             has_paragon_dlc: no
-            has_trait: ['subclass_commander_admiral', 'subclass_scientist_explorer', 'subclass_scientist_councilor']
+            has_subclass_trait: ['subclass_commander_admiral', 'subclass_scientist_explorer', 'subclass_scientist_councilor']
 """
     assert expected == actual
 
@@ -263,7 +263,7 @@ leader_trait_scout:
     leader_potential_add:
         OR:
             has_paragon_dlc: no
-            has_trait: ['subclass_commander_admiral', 'subclass_scientist_explorer', 'subclass_scientist_councilor']
+            has_subclass_trait: ['subclass_commander_admiral', 'subclass_scientist_explorer', 'subclass_scientist_councilor']
     modifier:
         ship_speed_mult: 0.05 # some comment
         ship_hyperlane_range_add: 2
@@ -280,7 +280,6 @@ leader_trait_scout:
             SUBCLASS_1: commander_admiral
             SUBCLASS_2: scientist_explorer
 """
-
 
 def test_structuring_leader_class_lists():
 
