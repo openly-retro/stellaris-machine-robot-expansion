@@ -156,7 +156,7 @@ def test_crunch__leader_trait_arbiter():
             },
             "leader_potential_add": {
                 "has_paragon_dlc": "yes",
-                "has_trait": "subclass_commander_governor"
+                "has_subclass_trait": ["subclass_commander_governor"]
             },
             "planet_modifier": {
                 "planet_jobs_worker_produces_mult": 0.5,
@@ -467,3 +467,46 @@ def test_populate_subclasses_for_related_traits():
             "required_subclass": "subclass_scientist_explorer"
         },
     ]
+
+def test_collect_custom_tooltip():
+    """ Some traits dont have modifiers, they have effect-based mods which are described in
+      a custom tooltip that PDX puts together """
+
+    # Note that 'has_subclass_trait' is something we make during yaml conversion
+    test_data = {
+        "leader_trait_bellicose": {
+            "destiny_trait": "yes",
+            "force_councilor_trait": "yes",
+            "inline_script": {
+                "script": "trait/icon",
+                "CLASS": "commander",
+                "ICON": "GFX_leader_trait_bellicose",
+                "RARITY": "paragon",
+                "COUNCIL": "yes",
+                "TIER": "none"
+            },
+            "custom_tooltip": "leader_trait_bellicose_effect",
+            "leader_potential_add": {
+                "has_paragon_dlc": "yes",
+                "has_subclass_trait": ["subclass_commander_councilor"]
+            },
+            "leader_class": [ "commander" ],
+            "selectable_weight": {
+                "weight": "@subclass_trait_weight",
+                "inline_script": "paragon/council_weight_mult"
+            },
+            "background_icon": "GFX_leader_background_destiny_1"
+        }
+    }
+    expected = {
+        "trait_name": "leader_trait_bellicose",
+        "gfx": "GFX_leader_trait_bellicose",
+        "leader_class": "commander",
+        "rarity": "paragon",
+        "requires_paragon_dlc": True,
+        "required_subclass": "subclass_commander_councilor",
+        "custom_tooltip": "leader_trait_bellicose_effect",
+        "is_councilor_trait": True
+    }
+    actual = filter_trait_info(test_data)
+    assert expected == actual
