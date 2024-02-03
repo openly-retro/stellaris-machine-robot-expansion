@@ -378,6 +378,77 @@ def test_sort_traits_asc():
     actual = sort_traits_asc(test_data)
     assert expected == actual
 
+def test_leader_trait_aggressive_2():
+    test_data = {
+        "leader_trait_aggressive_2": {
+            "replace_traits": [ "leader_trait_aggressive" ],
+            "inline_script": {
+                "script": "trait/icon",
+                "CLASS": "commander",
+                "ICON": "GFX_leader_trait_aggressive",
+                "RARITY": "common",
+                "COUNCIL": "no",
+                "TIER": 2
+            },
+            "fleet_modifier": {
+                "ship_fire_rate_mult": 0.05,
+                "ship_weapon_damage": 0.05
+            },
+            "leader_class": [ "commander" ],
+            "opposites": {
+                "leader_trait_cautious",
+                "leader_trait_cautious_2"
+            }
+        }
+    }
+    expected = {
+        "trait_name": "leader_trait_aggressive_2",
+        "gfx": "GFX_leader_trait_aggressive",
+        "leader_class": "commander",
+        "rarity": "common",
+        "fleet_modifier": {
+            "ship_fire_rate_mult": 0.05,
+            "ship_weapon_damage": 0.05
+        },
+        "requires_paragon_dlc": False
+    }
+    actual = filter_trait_info(test_data)
+    assert expected == actual
+
+def test_leader_trait_adventurous_spirit():
+    test_data = {
+        "leader_trait_adventurous_spirit": {
+            "veteran_class_locked_trait": "yes",
+            "inline_script": {
+                "script": "trait/icon",
+                "CLASS": "leader",
+                "ICON": "GFX_leader_trait_adventurous_spirit",
+                "RARITY": "veteran",
+                "COUNCIL": "no",
+                "TIER": 1
+            },
+            "triggered_self_modifier": {
+                "leaders_upkeep_mult": -0.1
+            },
+            "leader_potential_add": {
+                "has_paragon_dlc": "yes"
+            },
+            "custom_tooltip_with_modifiers": "leader_trait_adventurous_spirit_effect",
+            "leader_class": [ "commander", "scientist", "official" ]
+        }
+    }
+    expected = {
+        "trait_name": "leader_trait_adventurous_spirit",
+        "gfx": "GFX_leader_trait_adventurous_spirit",
+        "leader_class": "commander",
+        "rarity": "veteran",
+        "triggered_self_modifier": {
+            "leaders_upkeep_mult": -0.1
+        },
+        "requires_paragon_dlc": True
+    }
+    actual = filter_trait_info(test_data, for_class="commander")
+    assert expected == actual
 
 def test_populate_subclasses_for_related_traits():
     test_data = [

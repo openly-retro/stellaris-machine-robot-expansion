@@ -110,7 +110,7 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
         slim_trait['gfx'] = guess_gfx_icon_from_trait_name(trait_name)
     """ Get the trait rarity level, same issue as with ICON """
     slim_trait['rarity'] = root['inline_script'].get('RARITY', MISSING)
-    if root['inline_script'].get('COUNCIL', False):
+    if root['inline_script'].get('COUNCIL', '') == "yes":
         slim_trait["is_councilor_trait"] = True
     modifier_keys = [
         "triggered_planet_modifier",
@@ -119,6 +119,10 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
         "sector_modifier",
         "councilor_modifier",
         "modifier",
+        "fleet_modifier",
+        "triggered_self_modifier",
+        "self_modifier",
+        "triggered_fleet_modifier"
     ]
     for modifier_info in modifier_keys:
         if root.get(modifier_info):
