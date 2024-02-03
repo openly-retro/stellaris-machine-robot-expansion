@@ -19,8 +19,10 @@ BUILD_FOLDER = os.path.join(
 )
 
 def clean_up_build_folder():
-    rmtree(BUILD_FOLDER)
-    os.makedirs(BUILD_FOLDER)
+    if os.path.exists(BUILD_FOLDER):
+        rmtree(BUILD_FOLDER)
+    else:
+        os.makedirs(BUILD_FOLDER)
 
 def make_converted_filename(base_filename):
     without_ext = base_filename.split('.')[0]
@@ -31,23 +33,23 @@ def make_converted_filename(base_filename):
 
 def batch_process_base_files_into_yaml(stellaris_path: str) -> list:
     base_traits_files = [
-        "00_admiral_traits.txt"
-        "00_general_traits.txt"
-        "00_generic_leader_traits.txt"
-        "00_governor_traits.txt"
-        "00_scientist_traits.txt"
+        "00_admiral_traits.txt",
+        "00_general_traits.txt",
+        "00_generic_leader_traits.txt",
+        "00_governor_traits.txt",
+        "00_scientist_traits.txt",
         "00_starting_ruler_traits.txt"
     ]
     generated_files = []
     buffer = ''
     for base_file in base_traits_files:
         base_file_path = os.path.join(
-            stellaris_path, base_file
+            stellaris_path, 'common', 'traits', base_file
         )
         if not os.path.exists(base_file_path):
             sys.exit(
                 f"Couldnt find {base_file_path}. Check that you entered the correct "
-                "base path for Stellaris (the folder with \common\ in it)"
+                "base path for Stellaris (the folder with \\common\\ in it)"
             )
         with open(base_file_path, "r") as base_traits_file:
             buffer = convert_stellaris_script_to_standard_yaml(
@@ -56,7 +58,7 @@ def batch_process_base_files_into_yaml(stellaris_path: str) -> list:
             validate_chopped_up_data(buffer)
         target_converted_file_name = make_converted_filename(base_file)
         generated_files.append(target_converted_file_name)
-        with open(target_converted_file_name, "w") as dest_file:
+        with open(target_converted_file_name, "w+") as dest_file:
             dest_file.write(buffer)
             sys.stdout.write(
                 f"Chopped up base file {base_file} successfully. Written to {dest_file}"
@@ -100,7 +102,7 @@ def sort_merge_traits_files(useful_yaml_traits_files):
     for leader_class in ["official", "scientist", "commander"]:
         newfile_name = f"00_mre_{leader_class}_traits.yml"
         newfilepath = os.path.join(BUILD_FOLDER, newfile_name)
-        with open(newfilepath, "w") as traitsfile:
+        with open(newfilepath, "w+") as traitsfile:
             traitsfile.write(
                 safe_dump(output[leader_class])
             )
@@ -113,14 +115,14 @@ if __name__=="__main__":
     )
     parser.add_argument(
         '--stellaris_path',
-        help='Location of base Stellaris game files'
+        help='Location of base Stellaris game files',
         required=True
     )
     args = parser.parse_args()
     if not os.path.exists(args.stellaris_path):
         sys.exit(
             f"Couldnt find {args.stellaris_path}. Check that you entered the correct "
-            "base path for Stellaris (the folder with \common\ in it)"
+            "base path for Stellaris (the folder with \\common\\ in it)"
         )
     clean_up_build_folder()
     base_files_processed_to_yaml = batch_process_base_files_into_yaml(args.stellaris_path)
