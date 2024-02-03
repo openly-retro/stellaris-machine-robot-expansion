@@ -318,6 +318,19 @@ selectable_weight:
 """
     assert expected_output == actual_output
 
+    beginning_of_scientist_traits_file = """
+@categorybonus = 0.15
+
+####################################
+# SHARED TRAITS BLOCKED IN PARAGON #
+####################################
+
+"""
+    expected_beginning = ""
+    actual_beginning = convert_stellaris_script_to_standard_yaml(
+        beginning_of_scientist_traits_file
+    )
+    
 def test_replace_greater_than_less_than():
 
     test_data = """

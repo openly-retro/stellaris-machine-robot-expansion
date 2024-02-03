@@ -27,8 +27,13 @@ def convert_stellaris_script_to_standard_yaml(input_string):
     comment_nested_multiline = re.sub(r"\n(\s)(?=((.*:){2,4}))", '\n#', remove_extralines)
     # leftover_multiline_comment = re.sub('#{2,}', '', comment_nested_multiline)
     comment_out_variables = re.sub(r"\@", 'var_', comment_nested_multiline)  # YAML doesn't like the @ symbol
+
+    # Sometimes a traits file begins with a variable definition. Nuke it.
+    nuke_variable_definitions = re.sub(
+        "(var_\w*: ((-){0,}\d{1,}.{0,}\d{1,}))", '', comment_out_variables
+    )
     # Carefully go through leader_class definitions
-    structured_leader_class_lists3 = convert_leader_class_definitions_to_lists(comment_out_variables, 3)
+    structured_leader_class_lists3 = convert_leader_class_definitions_to_lists(nuke_variable_definitions, 3)
     structured_leader_class_lists2 = convert_leader_class_definitions_to_lists(structured_leader_class_lists3, 2)
     structured_leader_class_lists = convert_leader_class_definitions_to_lists(structured_leader_class_lists2)
 
