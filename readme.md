@@ -45,6 +45,8 @@ These files have sanely organized data for breakfast, lunch, dinner, or just a s
 
 **Note that LOTS OF TRAIT DATA WILL BE MISSING AND ONLY TRAIT DATA THAT'S USEFUL FOR THIS MOD WILL BE IN THOSE FILES**
 
+The sections below are for documentation. You don't have to follow those commands, because the pipeline script does all that. The doc below is for posterity.
+
 ## Collect base game traits files and convert the data to something we can iterate over (WIP)
 The traits files we will process for this mod are in base Stellaris, under `\common\traits`:
 - 00_admiral_traits.txt

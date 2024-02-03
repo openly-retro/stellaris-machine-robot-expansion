@@ -178,7 +178,7 @@ def read_and_write_traits_data(infile, outfile):
         useful_traits_yaml.write(
             safe_dump(sorted_data)
         )
-    print(f"Wrote crunched traits data from {infile} to {outfile}")
+    print(f"Wrote crunched traits data from {infile.name} to {outfile}")
 
 
 if __name__=="__main__":
