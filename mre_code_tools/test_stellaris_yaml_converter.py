@@ -344,3 +344,23 @@ selectable_weight:
         TRAIT: leader_trait_bureaucrat
 """
     assert expected_output == actual_output
+
+def test_deal_with_spacing_issues_in_replace_traits_key():
+    # Spoiler alert, PDX don't consistently format their traits data ??
+    # this is straight from the 
+    test_data = """
+leader_trait_maniacal_2 = {
+	veteran_class_locked_trait = yes
+	replace_traits = {leader_trait_maniacal}
+	ai_weight = 110
+}
+"""
+    expected = """
+leader_trait_maniacal_2:
+  veteran_class_locked_trait: yes
+  replace_traits: leader_trait_maniacal
+  ai_weight: 110
+"""
+    actual = convert_stellaris_script_to_standard_yaml(test_data)
+    assert expected == actual
+
