@@ -113,20 +113,23 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
     if root['inline_script'].get('COUNCIL', '') == "yes":
         slim_trait["is_councilor_trait"] = True
     modifier_keys = [
-        "triggered_planet_modifier",
-        "triggered_sector_modifier",
+        "councilor_modifier",
+        "fleet_modifier",
+        "modifier",
         "planet_modifier",
         "sector_modifier",
-        "councilor_modifier",
-        "modifier",
-        "fleet_modifier",
-        "triggered_self_modifier",
         "self_modifier",
-        "triggered_fleet_modifier"
+        "triggered_councilor_modifier"
+        "triggered_fleet_modifier",
+        "triggered_planet_modifier",
+        "triggered_sector_modifier",
+        "triggered_self_modifier",
     ]
     for modifier_info in modifier_keys:
         if root.get(modifier_info):
-            slim_trait[modifier_info] = root[modifier_info]
+            _modifiers = root[modifier_info]
+            _modifiers.pop('potential', None)
+            slim_trait[modifier_info] = _modifiers
     # A key will be None if the next line is a multi-nested assignment on one line, because PDX script is inconsistent
     if root.get("leader_potential_add", {}) is not None:
         slim_trait["requires_paragon_dlc"] = True if root.get("leader_potential_add", {}).get('has_paragon_dlc') == "yes" else False
@@ -145,16 +148,6 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
         # Destiny traits have a required subclass outside an OR
         elif "subclass" in root.get("leader_potential_add", {}).get("has_trait", ""):
             slim_trait["required_subclass"] = root["leader_potential_add"]["has_trait"]
-    # rename a few things
-    # TODO: merge modifiers,dont overwrite them
-    if slim_trait.get('triggered_planet_modifier'):
-        slim_trait['planet_modifier'] = slim_trait.pop('triggered_planet_modifier')
-        if slim_trait["planet_modifier"].get("potential"):
-            slim_trait['planet_modifier'].pop('potential')
-    if slim_trait.get('triggered_sector_modifier'):
-        slim_trait['sector_modifier'] = slim_trait.pop('triggered_sector_modifier')
-        if slim_trait["sector_modifier"].get("potential"):
-            slim_trait['sector_modifier'].pop('potential')
     # TODO: merge triggered_modifier and modifier
     return slim_trait
 

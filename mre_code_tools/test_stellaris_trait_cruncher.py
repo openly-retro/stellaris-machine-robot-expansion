@@ -37,10 +37,10 @@ def test_filter_trait_info():
         "leader_class": 'official',
         "gfx": "GFX_leader_trait_bureaucrat",
         "rarity": "common",
-        "planet_modifier": {
+        "triggered_planet_modifier": {
             'planet_administrators_unity_produces_mult': 0.05
         },
-        "sector_modifier": {
+        "triggered_sector_modifier": {
             'planet_administrators_unity_produces_mult': 0.025
         },
         "requires_paragon_dlc": False
