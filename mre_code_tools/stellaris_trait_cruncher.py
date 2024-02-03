@@ -113,12 +113,14 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
     if root['inline_script'].get('COUNCIL', '') == "yes":
         slim_trait["is_councilor_trait"] = True
     modifier_keys = [
+        "army_modifier",
         "councilor_modifier",
         "fleet_modifier",
         "modifier",
         "planet_modifier",
         "sector_modifier",
         "self_modifier",
+        "triggered_army_modifier",
         "triggered_councilor_modifier"
         "triggered_fleet_modifier",
         "triggered_planet_modifier",
