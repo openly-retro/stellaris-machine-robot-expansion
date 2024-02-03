@@ -5,6 +5,8 @@ from pprint import pprint
 import sys
 from yaml import safe_load, safe_dump
 
+MISSING = "MISSING_VALUE"
+
 def sort_traits_asc(list_of_class_specific_traits: list):
     """ Sort traits alphabetically, starting from A, after they've been sorted by class """
     return sorted(list_of_class_specific_traits, key=lambda t: t['trait_name']) 
@@ -36,7 +38,7 @@ def iterate_yaml_to_create_filtered_sorted_traits(safe_loaded_blob):
                     trait_collection[leader_class].append(filtered_trait)
                 except Exception as ex:
                     sys.exit(
-                        f"There was a problem processing this trait: {trait}\nReason: {ex}"
+                        f"There was a problem processing this trait: {trait}\nfor class {leader_class}.\nReason: {ex}"
                     )
     return trait_collection
 
@@ -70,18 +72,17 @@ def sort_traits_by_leader_class(filtered_trait_data: dict):
             del class_specific_trait
     return trait_collection
 
-def populate_subclasses_for_related_traits():
-    """ We often see subclass requirements in the tier 1 of a trait, but not in tier 2 or 3
-    since the game assumes the tier 1 is the gatekeeper for tier 2. so there will be subclass
-    information usually missing from some higher-tier traits.
-    """
-    pass
 
 def filter_trait_info(given_trait_dict: dict, for_class=None):
+    """ Give our best try to fight PDX script for our sanity
+        and to iterate through traits
+    """
     slim_trait = {}
     trait_name = [*given_trait_dict][0]
+    # if trait_name == "leader_trait_expertise_materials":
+    #     breakpoint()
     root = given_trait_dict.get(trait_name)
-    if root.get('negative') == 'yes':
+    if root.get('negative', '') == 'yes':
         # Skip negative traits
         return {}
     slim_trait['trait_name'] = trait_name
@@ -96,14 +97,20 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
                     f"This trait, {trait_name}, has more than one leader class, so "
                     "you need to specify which leader class to generate the trait info for."
                 )
-        # slim_trait['leader_class'] = root['leader_class']
-    # Sometimes a trait can be generated for more than one class
-    
-    slim_trait['gfx'] = root['inline_script']['ICON']
-    # Negative traits don't have a rarity
-    # Destiny trait rarity is "paragon"
-    slim_trait['rarity'] = root['inline_script']['RARITY']
-    if root['inline_script'].get('COUNCIL') == "yes":
+
+    """ Let's get the icon!
+    Oh wait, sometimes there will be more than one "inline_script" key,
+    so the second one will overwrite the first.
+    In case it's been overwritten, check in the usual place,
+    then try to guess the gfx name
+    """
+    if root['inline_script'].get('ICON'):
+        slim_trait['gfx'] = root['inline_script']['ICON']
+    else:
+        slim_trait['gfx'] = guess_gfx_icon_from_trait_name(trait_name)
+    """ Get the trait rarity level, same issue as with ICON """
+    slim_trait['rarity'] = root['inline_script'].get('RARITY', MISSING)
+    if root['inline_script'].get('COUNCIL', False):
         slim_trait["is_councilor_trait"] = True
     modifier_keys = [
         "triggered_planet_modifier",
@@ -116,20 +123,24 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
     for modifier_info in modifier_keys:
         if root.get(modifier_info):
             slim_trait[modifier_info] = root[modifier_info]
-    # Find paragon dlc requirement in leader_has_poitential
-    slim_trait["requires_paragon_dlc"] = True if root.get("leader_potential_add", {}).get('has_paragon_dlc') == "yes" else False
+    # A key will be None if the next line is a multi-nested assignment on one line, because PDX script is inconsistent
+    if root.get("leader_potential_add", {}) is not None:
+        slim_trait["requires_paragon_dlc"] = True if root.get("leader_potential_add", {}).get('has_paragon_dlc') == "yes" else False
+    else:
+        slim_trait["requires_paragon_dlc"] = False
     # Two ways to find subclasses:
     # 1) We concatenated multiple "has_trait = subclass*" into "has_subclass_trait"
     # 2) It's a single key under leader_potential_add
-    if root.get("leader_potential_add", {}).get("OR",{}).get("has_subclass_trait"):
-        subclasses_list = root['leader_potential_add']['OR']['has_subclass_trait']
-        this_trait_req_subclass = pick_correct_subclass_from_potential(
-            slim_trait['leader_class'], subclasses_list
-        )
-        slim_trait["required_subclass"] = this_trait_req_subclass
-    # Destiny traits have a required subclass outside an OR
-    elif "subclass" in root.get("leader_potential_add", {}).get("has_trait", ""):
-        slim_trait["required_subclass"] = root["leader_potential_add"]["has_trait"]
+    if root.get("leader_potential_add", {}) is not None: # sad kluge
+        if root.get("leader_potential_add", {}).get("OR",{}).get("has_subclass_trait"):
+            subclasses_list = root['leader_potential_add']['OR']['has_subclass_trait']
+            this_trait_req_subclass = pick_correct_subclass_from_potential(
+                slim_trait['leader_class'], subclasses_list
+            )
+            slim_trait["required_subclass"] = this_trait_req_subclass
+        # Destiny traits have a required subclass outside an OR
+        elif "subclass" in root.get("leader_potential_add", {}).get("has_trait", ""):
+            slim_trait["required_subclass"] = root["leader_potential_add"]["has_trait"]
     # rename a few things
     # TODO: merge modifiers,dont overwrite them
     if slim_trait.get('triggered_planet_modifier'):
@@ -156,6 +167,12 @@ def pick_correct_subclass_from_potential(leader_class, subclass_list):
             # Raise an exception?
     return matching_subclass
 
+def guess_gfx_icon_from_trait_name(trait_name):
+    base = trait_name
+    if trait_name[-1].isdigit():
+        base = trait_name.rsplit('_',1)[0]
+    return f"GFX_{base}"
+
 def read_and_write_traits_data(infile, outfile):
     with open(infile, "r") as infile:
         buffer = safe_load(infile.read())
@@ -170,7 +187,7 @@ def read_and_write_traits_data(infile, outfile):
 if __name__=="__main__":
     parser = argparse.ArgumentParser(
         prog="0xRetro Stellaris->>YAML",
-        description="Read Stellaris traits in abbreviated standard YAML"
+        description="Read Stellaris traits in abbreviated wannabe YAML"
     )
     parser.add_argument('--infile', help='Stellaris standard YAML file to read. This should have been processed already with stellaris_yaml_converter.py.', required=True)
     parser.add_argument('--outfile', help="Write filtered traits to a YAML file.", required=False)

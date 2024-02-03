@@ -330,7 +330,7 @@ selectable_weight:
     actual_beginning = convert_stellaris_script_to_standard_yaml(
         beginning_of_scientist_traits_file
     )
-    
+
 def test_replace_greater_than_less_than():
 
     test_data = """
@@ -373,6 +373,19 @@ leader_trait_maniacal_2:
   veteran_class_locked_trait: yes
   replace_traits: leader_trait_maniacal
   ai_weight: 110
+"""
+    actual = convert_stellaris_script_to_standard_yaml(test_data)
+    assert expected == actual
+
+def test_leader_trait_sapient_ai_assistant():
+    test_data = """
+    leader_potential_add = {
+        NOT = { from = { has_policy_flag = ai_outlawed } }
+    }
+"""
+    expected = """
+    leader_potential_add:
+#       #NOT: { from: has_policy_flag: ai_outlawed
 """
     actual = convert_stellaris_script_to_standard_yaml(test_data)
     assert expected == actual

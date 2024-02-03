@@ -1,6 +1,7 @@
 import os
 from shutil import rmtree
 import sys
+from operator import itemgetter
 
 import argparse
 from yaml import safe_load, safe_dump
@@ -88,15 +89,19 @@ def sort_merge_traits_files(useful_yaml_traits_files):
         "scientist": [],
         "official": []
     }
+    buffer = ''
     for file in useful_yaml_traits_files:
-        buffer = safe_load(file)
+        with open(file, "r") as input_file:
+            buffer = safe_load(input_file.read())
         for leader_class in ["official", "scientist", "commander"]:
-            output[leader_class] = [*output[leader_class], *buffer[leader_class]]
+            # breakpoint()
+            output[leader_class] = output[leader_class] + buffer[leader_class]
 
     # Now, sort all traits per class
     for leader_class in ["official", "scientist", "commander"]:
-        output[leader_class] = sorted(output[leader_class], key=lambda t: t['trait_name']) 
-    
+        # breakpoint()
+        output[leader_class] = sorted(output[leader_class], key=lambda x: [*x][0]) 
+
     # Now, write each classes' traits to a file
 
     for leader_class in ["official", "scientist", "commander"]:
