@@ -46,22 +46,32 @@ MODIFIERS = (
     "triggered_self_modifier",
 )
 
-def trait_qualifies_for_leader_making(trait_dict):
+def trait_qualifies_for_leader_making(trait_dict: dict) -> bool:
     is_leader_making_trait = False
-    if not trait_dict.get('councilor_modifier') and \
-        not trait_dict.get('triggered_councilor_modifier') and \
-        "ruler" not in trait_dict["trait_name"]:
+    if not any(
+        [
+            trait_dict.get('councilor_modifier'),
+            trait_dict.get('triggered_councilor_modifier'),
+            "ruler" in trait_dict['trait_name'],
+            trait_dict.get('is_councilor_trait'),
+        ]
+    ):
         is_leader_making_trait = True
     return is_leader_making_trait
 
-def trait_qualifies_for_core_modifying(trait_dict):
+def trait_qualifies_for_core_modifying(trait_dict: dict) -> bool:
     is_core_modifying_trait = False
     # Ruler is a type of councilor, so these modifiers will work
-    if trait_dict.get('self_modifier') or \
-        "ruler" in trait_dict['trait_name'] or \
-        trait_dict.get('councilor_modifier') or \
-        trait_dict.get('triggered_councilor_modifier'):
+    if any(
+        [
+            "ruler" in trait_dict['trait_name'],
+            trait_dict.get('self_modifier'),
+            trait_dict.get('councilor_modifier'),
+            trait_dict.get('triggered_councilor_modifier')
+        ]
+    ):
         is_core_modifying_trait = True
+    # breakpoint()
     return is_core_modifying_trait
 
 def pick_highest_tier_of_trait(list_of_traits):
@@ -96,12 +106,35 @@ def pick_highest_tier_of_trait(list_of_traits):
         position_in_list = position_in_list + 1
     return list_of_traits_copy
 
-def get_trait_series_name(trait_name):
+def get_trait_series_name(trait_name: str) -> str:
     name_series = trait_name
     if trait_name[-1].isdigit():
         name_series = trait_name.rsplit('_',1)[0]
     return name_series
-        
+
+
+def filter_traits_by_mod_feature(traits_list: list) -> dict:
+    """ Organize traits by whether it should go to the leader-making feature or core-modifying """
+
+    leader_making_traits = []
+    core_modifying_traits = []
+    outliers = []
+    for trait in traits_list:
+        trait_name = [*trait][0]
+        root = trait[trait_name]
+        if trait_qualifies_for_core_modifying(root):
+            core_modifying_traits.append(trait)
+        if trait_qualifies_for_leader_making(root):
+            leader_making_traits.append(trait)
+        if not trait_qualifies_for_core_modifying and not trait_qualifies_for_leader_making:
+            # No idea how this could happen.. but
+            outliers.append(trait)
+    return {
+        "leader_making_traits": leader_making_traits,
+        "core_modifying_traits": core_modifying_traits,
+        "outliers": outliers
+    }
+
 
 
 def do_qa_on_pipeline_files(traits_list):
@@ -112,8 +145,6 @@ def do_qa_on_pipeline_files(traits_list):
         issues = []
         trait_key = [*trait][0]
         root = trait[trait_key]
-        # if trait_key == "leader_trait_bellicose":
-        #     breakpoint()
         missing_modifiers = not any([bool(root.get(modifier)) for modifier in MODIFIERS])
         if missing_modifiers and not root.get("custom_tooltip"):
             issues.append(

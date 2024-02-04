@@ -1,5 +1,6 @@
 from mre_mod_trait_organizer import (
-    pick_highest_tier_of_trait
+    pick_highest_tier_of_trait,
+    filter_traits_by_mod_feature
 )
 
 def test_picking_highest_tier__2():
@@ -56,3 +57,74 @@ def test_picking_highest_tier__2():
     actual = pick_highest_tier_of_trait(test_data)
     assert expected == actual
 
+def test_sorting_traits_for_which_feature__1():
+    # To leader-making feature, or core modifying?
+    test_data = [
+        {
+            "leader_trait_adaptable": {
+                "trait_name": "leader_trait_adaptable",
+                "self_modifier": {  # Can go to both
+                    "species_leader_exp_gain": 0.1
+                }
+            }
+        },
+        {
+            "leader_trait_armada_logistician": {
+                "trait_name": "leader_trait_armada_logistician",
+                "is_councilor_trait": True,  # core-modifying
+                "councilor_modifier": {
+                    "ships_upkeep_mult": -0.05
+                }
+            }
+        },
+        {
+            "leader_trait_artillerist": {
+                "trait_name": "leader_trait_artillerist",
+                "fleet_modifier": {  # leader-making
+                    "ship_weapon_damage": 0.075
+                }
+            }
+        },
+    ]
+    expected = {
+        "leader_making_traits": [
+            {
+                "leader_trait_adaptable": {
+                    "trait_name": "leader_trait_adaptable",
+                    "self_modifier": {
+                        "species_leader_exp_gain": 0.1
+                    }
+                }
+            },
+            {
+                "leader_trait_artillerist": {
+                    "trait_name": "leader_trait_artillerist",
+                    "fleet_modifier": {
+                        "ship_weapon_damage": 0.075
+                    }
+                }
+            },
+        ],
+        "core_modifying_traits": [
+            {
+                "leader_trait_adaptable": {
+                    "trait_name": "leader_trait_adaptable",
+                    "self_modifier": {
+                        "species_leader_exp_gain": 0.1
+                    }
+                }
+            },
+            {
+                "leader_trait_armada_logistician": {
+                    "trait_name": "leader_trait_armada_logistician",
+                    "is_councilor_trait": True,
+                    "councilor_modifier": {
+                        "ships_upkeep_mult": -0.05
+                    }
+                }
+            },
+        ],
+        "outliers": []
+    }
+    actual = filter_traits_by_mod_feature(test_data)
+    assert expected == actual
