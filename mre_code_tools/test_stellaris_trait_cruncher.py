@@ -3,6 +3,7 @@ from stellaris_trait_cruncher import (
     sort_traits_by_leader_class,
     sort_traits_asc
 )
+from yaml import safe_load
 
 def test_filter_trait_info():
     # The YAML is loaded into a Python dict, so we will work with dict objects
@@ -57,7 +58,7 @@ def test_crunch__trait_ruler_architectural_sense_3():
                 "CLASS": "official",
                 "ICON": "GFX_leader_trait_architectural_sense",
                 "RARITY": "veteran",
-                "COUNCIL": "yes",
+                "COUNCIL": True,
                 "TIER": 3
             },
             "councilor_modifier": {
@@ -103,7 +104,7 @@ def test_crunch__leader_trait_reformer():
                 "CLASS": "official",
                 "ICON": "GFX_leader_trait_reformer",
                 "RARITY": "free_or_veteran",
-                "COUNCIL": "yes",
+                "COUNCIL": True,
                 "TIER": 1
             },
             "leader_potential_add": {
@@ -151,7 +152,7 @@ def test_crunch__leader_trait_arbiter():
                 "CLASS": "commander",
                 "ICON": "GFX_leader_trait_arbiter",
                 "RARITY": "paragon",
-                "COUNCIL": "no",
+                "COUNCIL": False,
                 "TIER": "none"
             },
             "leader_potential_add": {
@@ -217,7 +218,7 @@ def test_crunch__leader_trait_scout():
                 "CLASS": "leader",
                 "ICON": "GFX_leader_trait_scout",
                 "RARITY": "free_or_veteran",
-                "COUNCIL": "no",
+                "COUNCIL": False,
                 "TIER": 1
             },
             "leader_potential_add": {
@@ -387,7 +388,7 @@ def test_leader_trait_aggressive_2():
                 "CLASS": "commander",
                 "ICON": "GFX_leader_trait_aggressive",
                 "RARITY": "common",
-                "COUNCIL": "no",
+                "COUNCIL": False,
                 "TIER": 2
             },
             "fleet_modifier": {
@@ -424,7 +425,7 @@ def test_leader_trait_adventurous_spirit():
                 "CLASS": "leader",
                 "ICON": "GFX_leader_trait_adventurous_spirit",
                 "RARITY": "veteran",
-                "COUNCIL": "no",
+                "COUNCIL": False,
                 "TIER": 1
             },
             "triggered_self_modifier": {
@@ -482,7 +483,7 @@ def test_collect_custom_tooltip():
                 "CLASS": "commander",
                 "ICON": "GFX_leader_trait_bellicose",
                 "RARITY": "paragon",
-                "COUNCIL": "yes",
+                "COUNCIL": True,
                 "TIER": "none"
             },
             "custom_tooltip": "leader_trait_bellicose_effect",
@@ -510,3 +511,89 @@ def test_collect_custom_tooltip():
     }
     actual = filter_trait_info(test_data)
     assert expected == actual
+
+def test_trait_ruler_champion_of_the_people__from_yaml():
+    test_yaml = """
+trait_ruler_champion_of_the_people:
+  inline_script:
+    script: trait/icon
+    CLASS: leader
+    ICON: "GFX_leader_trait_champion_of_the_people"
+    RARITY: common
+    COUNCIL: yes
+    TIER: 1
+  triggered_councilor_modifier:
+    potential:
+      exists: owner
+      owner:
+#       #NOT: { has_civic: civic_dystopian_society
+    pop_happiness: 0.03
+  triggered_councilor_modifier:
+    potential:
+      exists: owner
+#     owner: has_civic: civic_dystopian_society
+    pop_cat_ruler_happiness: 0.05
+  leader_potential_add:
+    is_gestalt: no
+  leader_class: ['scientist', 'official', 'commander']
+  opposites:
+    leader_trait_tyrannical
+    leader_trait_tyrannical_2
+  selectable_weight:
+    weight: var_shared_trait_weight
+    inline_script: "paragon/council_weight_mult"
+"""
+    expected_object = {
+        "trait_ruler_champion_of_the_people": {
+            "inline_script": {
+                "script": "trait/icon",
+                "CLASS": "leader",
+                "ICON": "GFX_leader_trait_champion_of_the_people",
+                "RARITY": "common",
+                "COUNCIL": True,
+                "TIER": 1
+            },
+            "triggered_councilor_modifier": {
+                "potential": {
+                    "exists": "owner",
+                    "owner": None
+                },
+                "pop_happiness": 0.03
+            },
+            "triggered_councilor_modifier": {
+                "potential": {
+                    "exists": "owner"
+                },
+                "pop_cat_ruler_happiness": 0.05
+            },
+            "leader_potential_add": {
+                "is_gestalt": False
+            },
+            "leader_class": [
+                "scientist",
+                "official",
+                "commander"
+            ],
+            "opposites": "leader_trait_tyrannical leader_trait_tyrannical_2",
+            "selectable_weight": {
+                "weight": "var_shared_trait_weight",
+                "inline_script": "paragon/council_weight_mult"
+            }
+        }
+    }
+    actual_object = safe_load(test_yaml)
+    assert expected_object == actual_object
+
+    expected_slim_trait = {
+        "trait_name": "trait_ruler_champion_of_the_people",
+        "gfx": "GFX_leader_trait_champion_of_the_people",
+        "leader_class": "commander",
+        "rarity": "common",
+        "requires_paragon_dlc": False,
+        "is_councilor_trait": True,
+        "triggered_councilor_modifier": {
+            "pop_cat_ruler_happiness": 0.05
+        }
+    }
+    actual_slim_trait = filter_trait_info(actual_object, for_class="commander")
+    assert expected_slim_trait == actual_slim_trait

@@ -80,8 +80,6 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
     """
     slim_trait = {}
     trait_name = [*given_trait_dict][0]
-    # if trait_name == "leader_trait_expertise_materials":
-    #     breakpoint()
     root = given_trait_dict.get(trait_name)
     if root.get('negative', '') == 'yes':
         # Skip negative traits
@@ -111,7 +109,7 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
         slim_trait['gfx'] = guess_gfx_icon_from_trait_name(trait_name)
     """ Get the trait rarity level, same issue as with ICON """
     slim_trait['rarity'] = root['inline_script'].get('RARITY', MISSING)
-    if root['inline_script'].get('COUNCIL', '') == "yes":
+    if root['inline_script'].get('COUNCIL', False) == True:
         slim_trait["is_councilor_trait"] = True
     modifier_keys = [
         "army_modifier",
@@ -122,7 +120,7 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
         "sector_modifier",
         "self_modifier",
         "triggered_army_modifier",
-        "triggered_councilor_modifier"
+        "triggered_councilor_modifier",
         "triggered_fleet_modifier",
         "triggered_planet_modifier",
         "triggered_sector_modifier",
@@ -130,8 +128,8 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
     ]
     for modifier_info in modifier_keys:
         if root.get(modifier_info):
-            _modifiers = root[modifier_info]
-            _modifiers.pop('potential', None)
+            _modifiers = copy(root[modifier_info])
+            nothing = _modifiers.pop('potential', None)
             slim_trait[modifier_info] = _modifiers
     # A key will be None if the next line is a multi-nested assignment on one line, because PDX script is inconsistent
     if root.get("leader_potential_add", {}) is not None:
@@ -160,6 +158,10 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
     # TODO: merge triggered_modifier and modifier
     if root.get('custom_tooltip'):
         slim_trait["custom_tooltip"] = root["custom_tooltip"]
+    
+    # Quick lil sanity check for councilor traits
+    if slim_trait.get('councilor_modifier') or slim_trait.get('triggered_councilor_modifier'):
+        assert slim_trait["is_councilor_trait"] == True
     return slim_trait
 
 def pick_correct_subclass_from_potential(leader_class, subclass_list):
