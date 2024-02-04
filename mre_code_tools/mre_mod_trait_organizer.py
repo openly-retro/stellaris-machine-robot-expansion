@@ -75,10 +75,9 @@ def do_qa_on_pipeline_files(traits_list):
         # if trait_key == "leader_trait_bellicose":
         #     breakpoint()
         missing_modifiers = not any([bool(root.get(modifier)) for modifier in MODIFIERS])
-        if missing_modifiers:
-            custom_tooltip_clue = "but has custom_tooltip (OK)" if root.get("custom_tooltip") else " and is !!missing!! custom_tooltip (BAD)"
+        if missing_modifiers and not root.get("custom_tooltip"):
             issues.append(
-                f"Trait has no modifiers, {custom_tooltip_clue}"
+                f"Trait has no modifiers, and is !!missing!! custom_tooltip (BAD)"
             )
         if root.get('councilor_modifier') or root.get('triggered_councilor_modifier'):
             if root.get("is_councilor_trait") != True:
@@ -99,7 +98,7 @@ if __name__ == "__main__":
         prog="0xRetro Machine & Robot Expansion Data Tools",
         description="Do operations on filtered data crunched from base trait files"
     )
-    parser.add_argument('-i', '--infile', help='A traits JSON file that we processed, like 00_mre_commander_traits.json, created from the pipeline script.')
+    parser.add_argument('--infile', help='A traits JSON file that we processed, like 00_mre_commander_traits.json, created from the pipeline script.')
     parser.add_argument(
         '--find_issues', required=False,
         help="Put together a list of trait names where the trait data doesn't have any known modifiers.",

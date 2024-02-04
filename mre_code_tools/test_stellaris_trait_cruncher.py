@@ -446,7 +446,8 @@ def test_leader_trait_adventurous_spirit():
         "triggered_self_modifier": {
             "leaders_upkeep_mult": -0.1
         },
-        "requires_paragon_dlc": True
+        "requires_paragon_dlc": True,
+        "custom_tooltip": "leader_trait_adventurous_spirit_effect"
     }
     actual = filter_trait_info(test_data, for_class="commander")
     assert expected == actual
