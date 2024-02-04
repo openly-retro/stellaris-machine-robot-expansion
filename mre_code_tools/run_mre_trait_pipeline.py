@@ -71,7 +71,7 @@ def batch_process_base_files_into_yaml(stellaris_path: str) -> list:
             validate_chopped_up_data(buffer)
         target_converted_file_name = make_converted_filename(base_file)
         generated_files.append(target_converted_file_name)
-        with open(target_converted_file_name, "w+") as dest_file:
+        with open(target_converted_file_name, "w") as dest_file:
             dest_file.write(buffer)
             sys.stdout.write(
                 f"Chopped up base file {base_file} successfully. Written to {dest_file.name}\n"
@@ -119,7 +119,7 @@ def sort_merge_traits_files(useful_yaml_traits_files):
     for leader_class in LEADER_CLASSES:
         newfile_name = f"00_mre_{leader_class}_traits.json"
         newfilepath = os.path.join(BUILD_FOLDER, newfile_name)
-        with open(newfilepath, "w+") as traitsfile:
+        with open(newfilepath, "w") as traitsfile:
             json_dump(output[leader_class], traitsfile, indent=4)
             print(f"Wrote {leader_class} data to {newfilepath}")
             target_filenames.append(newfilepath)

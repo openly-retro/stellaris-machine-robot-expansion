@@ -158,10 +158,7 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
     # TODO: merge triggered_modifier and modifier
     if root.get('custom_tooltip'):
         slim_trait["custom_tooltip"] = root["custom_tooltip"]
-    
-    # Quick lil sanity check for councilor traits
-    if slim_trait.get('councilor_modifier') or slim_trait.get('triggered_councilor_modifier'):
-        assert slim_trait["is_councilor_trait"] == True
+
     return slim_trait
 
 def pick_correct_subclass_from_potential(leader_class, subclass_list):
