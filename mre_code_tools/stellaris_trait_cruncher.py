@@ -4,6 +4,7 @@ from copy import copy
 from pprint import pprint
 import sys
 from yaml import safe_load, safe_dump
+from json import dump as json_dump
 
 MISSING = "MISSING_VALUE"
 
@@ -180,15 +181,20 @@ def guess_gfx_icon_from_trait_name(trait_name):
         base = trait_name.rsplit('_',1)[0]
     return f"GFX_{base}"
 
-def read_and_write_traits_data(infile, outfile):
+def read_and_write_traits_data(infile, outfile, format="yaml"):
     with open(infile, "r") as infile:
         buffer = safe_load(infile.read())
     sorted_data = iterate_yaml_to_create_filtered_sorted_traits(buffer)
-    with open(outfile, "w") as useful_traits_yaml:
-        useful_traits_yaml.write(
-            safe_dump(sorted_data)
-        )
-    print(f"Wrote crunched traits data from {infile.name} to {outfile}")
+    if format=="yaml":
+        with open(outfile, "w") as useful_traits_yaml:
+            useful_traits_yaml.write(
+                safe_dump(sorted_data)
+            )
+        print(f"Wrote crunched traits data from {infile.name} to {outfile}")
+    elif format=="json":
+        with open(outfile, "w") as useful_traits_json:
+            json_dump(sorted_data, useful_traits_json, indent=4)
+        print(f"Wrote crunched traits data from {infile.name} to {outfile}")
 
 
 if __name__=="__main__":
