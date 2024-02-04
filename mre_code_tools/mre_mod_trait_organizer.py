@@ -15,14 +15,17 @@ UI with dozens of traits.
 Thankfully, in pre-processing, traits are sorted alphabetically and
 it'll be easy to get the highest rank of that trait series.
 """
-
+import os
 import sys
 from json import load as json_load
 import argparse
 
+from run_mre_trait_pipeline import (
+    BUILD_FOLDER,
+    LEADER_CLASSES
+)
+
 TRAITS_TO_EXCLUDE = (
-    "trait_ruler_champion_of_the_people",  # Machines not affected by happiness
-    "leader_trait_aturion_organizer", # Neither happiness nor ethics are used
     "leader_trait_intemporal", # Does nothing, no effects, no custom tooltip
 )
 
@@ -100,12 +103,35 @@ if __name__ == "__main__":
     )
     parser.add_argument('--infile', help='A traits JSON file that we processed, like 00_mre_commander_traits.json, created from the pipeline script.')
     parser.add_argument(
-        '--find_issues', required=False,
+        '--qa', required=False,
         help="Put together a list of trait names where the trait data doesn't have any known modifiers.",
         action="store_true"
     )
+    parser.add_argument(
+        '--qa_all',
+        action="store_true",
+        help="Checks traits for issues, in all 3 files produced by run_me_trait_pipeline.py"
+    )
     args = parser.parse_args()
-    with open(args.infile, "r") as input_file:
-        buffer = json_load(input_file)
-        if args.find_issues:
+    if args.infile and args.qa:
+        with open(args.infile, "r") as input_file:
+            buffer = json_load(input_file)
             do_qa_on_pipeline_files(buffer)
+    elif args.qa_all:
+        if not os.path.exists(BUILD_FOLDER):
+            sys.exit(
+                'Couldnt find the build folder. Run this from within the mre_code_tools folder, '
+                'and make sure that "run_mre_trait_pipeline" was run.'
+            )
+        pipeline_output_files = [
+            f"00_mre_{leader_class}_traits.json" for leader_class in LEADER_CLASSES
+        ]
+        for filename in pipeline_output_files:
+            input_file = os.path.join('build', filename)
+            with open(input_file, "r") as input_file:
+                sys.stdout.write(
+                    f"Results for {input_file.name}:\n"
+                )
+                buffer = json_load(input_file)
+                do_qa_on_pipeline_files(buffer)
+    
