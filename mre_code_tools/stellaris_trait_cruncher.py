@@ -3,7 +3,8 @@ import argparse
 from copy import copy
 from pprint import pprint
 import sys
-from yaml import safe_load, safe_dump
+from yaml import safe_load, safe_dump, load as load_yaml, dump as dump_yaml
+from yaml import CLoader as Loader, CDumper as Dumper
 from json import dump as json_dump
 
 MISSING = "MISSING_VALUE"
@@ -96,7 +97,9 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
                     f"This trait, {trait_name}, has more than one leader class, so "
                     "you need to specify which leader class to generate the trait info for."
                 )
-
+    # Yes it's more Pythonic to drop the ==, but this is Clausewitz script, which is wildy unpredictable
+    if root.get('destiny_trait') == True:
+        slim_trait['destiny_trait'] = True
     """ Let's get the icon!
     Oh wait, sometimes there will be more than one "inline_script" key,
     so the second one will overwrite the first.
@@ -109,6 +112,8 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
         slim_trait['gfx'] = guess_gfx_icon_from_trait_name(trait_name)
     """ Get the trait rarity level, same issue as with ICON """
     slim_trait['rarity'] = root['inline_script'].get('RARITY', MISSING)
+    if slim_trait['rarity'] == MISSING:
+        slim_trait['rarity'] = guess_rarity_from_trait_data(root)
     if root['inline_script'].get('COUNCIL', False) == True:
         slim_trait["is_councilor_trait"] = True
     modifier_keys = [
@@ -133,7 +138,7 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
             slim_trait[modifier_info] = _modifiers
     # A key will be None if the next line is a multi-nested assignment on one line, because PDX script is inconsistent
     if root.get("leader_potential_add", {}) is not None:
-        slim_trait["requires_paragon_dlc"] = True if root.get("leader_potential_add", {}).get('has_paragon_dlc') == "yes" else False
+        slim_trait["requires_paragon_dlc"] = True if root.get("leader_potential_add", {}).get('has_paragon_dlc') == True else False
     else:
         slim_trait["requires_paragon_dlc"] = False
     # Two ways to find subclasses:
@@ -183,15 +188,43 @@ def guess_gfx_icon_from_trait_name(trait_name):
         base = trait_name.rsplit('_',1)[0]
     return f"GFX_{base}"
 
+def guess_rarity_from_trait_data(trait_root_data):
+    """ Guess rarity.
+        In almost all cases where rarity is missing because of a second 'inline_script' key,
+        the trait is a veteran trait
+        1) try TIER. If it's 3 or 2, veteran; 1: common
+        2) Try destiny_trait. then "paragon"
+        3) trait ends in '3'; ends in '2'
+    """
+    approximated_rarity = ''
+    # In the base game, some traits have None for the TIER value
+    if trait_root_data['inline_script'].get('TIER') is not None:
+        tier_number = int(trait_root_data['inline_script'].get('TIER', 0))
+        if tier_number:
+            if tier_number == 1:
+                approximated_rarity = "common"
+            else:
+                approximated_rarity = "veteran"
+    else:
+        # More guesswork
+        if trait_root_data.get('destiny_trait') == True:
+            approximated_rarity = "paragon"
+    if not approximated_rarity:
+        sys.exit(f"We couldnt guess rarity from {trait_root_data}!")
+    return approximated_rarity
+
+
 def read_and_write_traits_data(infile, outfile, format="yaml"):
     with open(infile, "r") as infile:
-        buffer = safe_load(infile.read())
+        # buffer = safe_load(infile.read())
+        buffer = load_yaml(infile, Loader=Loader)
     sorted_data = iterate_yaml_to_create_filtered_sorted_traits(buffer)
     if format=="yaml":
         with open(outfile, "w") as useful_traits_yaml:
-            useful_traits_yaml.write(
-                safe_dump(sorted_data)
-            )
+            # useful_traits_yaml.write(
+            #     (sorted_data)
+            # )
+            dump_yaml(sorted_data, useful_traits_yaml)
         print(f"Wrote crunched traits data from {infile.name} to {outfile}")
     elif format=="json":
         with open(outfile, "w") as useful_traits_json:
