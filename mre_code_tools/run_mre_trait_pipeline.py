@@ -10,6 +10,7 @@ from shutil import rmtree
 import sys
 from operator import itemgetter
 from random import randint
+import time
 
 import argparse
 from json import load as json_load
@@ -28,9 +29,9 @@ BUILD_FOLDER = os.path.join(
     'build'
 )
 
-LEADER_CLASSES = [
+LEADER_CLASSES = (
     "commander", "official", "scientist"
-]
+)
 
 def clean_up_build_folder():
     if os.path.exists(BUILD_FOLDER):
@@ -126,6 +127,7 @@ def sort_merge_traits_files(useful_yaml_traits_files):
     return target_filenames
 
 if __name__=="__main__":
+    start_time = time.perf_counter()
     parser = argparse.ArgumentParser(
         prog="0xRetro M&RE Trait Data Pipeline",
         description="Scrape base traits files, convert to yaml-ish format, trim & sort trait data that we want for processing later"
@@ -160,4 +162,9 @@ if __name__=="__main__":
     )
     sys.stdout.write(
         "\n".join([f"00_mre_{leader_class}_traits.json" for leader_class in LEADER_CLASSES])
+    )
+    end_time = time.perf_counter()
+    execution_time = end_time - start_time
+    sys.stdout.write(
+        f"\nDone in {str(execution_time)[:5]} seconds"
     )

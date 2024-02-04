@@ -18,17 +18,22 @@ it'll be easy to get the highest rank of that trait series.
 from copy import copy
 import os
 import sys
-from json import load as json_load
+import time
+from json import load as json_load, dump as json_dump
 import argparse
 
 from run_mre_trait_pipeline import (
     BUILD_FOLDER,
-    LEADER_CLASSES
+    LEADER_CLASSES,
 )
 
 TRAITS_TO_EXCLUDE = (
     "leader_trait_intemporal", # Does nothing, no effects, no custom tooltip
 )
+
+PIPELINE_OUTPUT_FILES = [
+    f"00_mre_{leader_class}_traits.json" for leader_class in LEADER_CLASSES
+]
 
 MODIFIERS = (
     "army_modifier",
@@ -135,6 +140,34 @@ def filter_traits_by_mod_feature(traits_list: list) -> dict:
         "outliers": outliers
     }
 
+def filter_traits_by_rarity(traits_list):
+    """ Sort by rarity after having sorted for highest tier
+        Once they are sorted this way, we can start to create game code from them
+    """
+    rarities = (
+        "common", "free_or_veteran", "veteran", "paragon"
+    )
+    traits_by_rarity = {
+        "common": [],
+        "veteran": [],
+        "paragon": []
+    }
+    for trait in traits_list:
+        trait_name = [*trait][0]
+        root = trait[trait_name]
+        rarity = root.get('rarity', "MISSING_RARITY")
+        if rarity == "common":
+            traits_by_rarity['common'].append(trait)
+        elif rarity == "veteran" or rarity == "free_or_veteran":
+            traits_by_rarity['veteran'].append(trait)
+        elif rarity == "paragon":
+            traits_by_rarity["paragon"].append(trait)
+        else:
+            sys.exit(
+                f"This trait has no rarity assigned: {trait}. That's an error."
+            )
+    return traits_by_rarity
+
 
 
 def do_qa_on_pipeline_files(traits_list):
@@ -164,12 +197,68 @@ def do_qa_on_pipeline_files(traits_list):
         for trait_name in rogue_trait_names:
             sys.stdout.write(f"{trait_name}\n")
 
+def sort_and_filter_pipeline_files() -> dict:
+    """ separate traits by feature and then organize by rarity """
+    data_to_be_written = {
+        "commander": {},
+        "official": {},
+        "scientist": {}
+    }
+    for source_filename in PIPELINE_OUTPUT_FILES:
+        buffer = ''
+        input_filename = os.path.join('build', source_filename)
+        with open(input_filename, "r") as input_file:
+            buffer = json_load(input_file)
+        traits_sorted_by_feature = filter_traits_by_mod_feature(buffer)
+        # has leader_making and core_modifying keys
+        traits_filtered_by_rarity = {
+            "leader_making_traits": [],
+            "core_modifying_traits": []
+        }
+        # Go into leader_making_traits and core_modifying_traits, filter by rarity
+        traits_filtered_by_rarity["leader_making_traits"] = filter_traits_by_rarity(
+            traits_sorted_by_feature["leader_making_traits"]
+        )
+        traits_filtered_by_rarity["core_modifying_traits"] = filter_traits_by_rarity(
+            traits_sorted_by_feature["core_modifying_traits"]
+        )
+        if "commander" in input_filename:
+            data_to_be_written["commander"] = traits_filtered_by_rarity
+        elif "official" in input_filename:
+            data_to_be_written["official"] = traits_filtered_by_rarity
+        elif "scientist" in input_filename:
+            data_to_be_written["scientist"] = traits_filtered_by_rarity
+    return data_to_be_written
+
+def write_sorted_filtered_data_to_json_files(input_data: dict):
+    """ Take data from sort_and_filter_pipeline_files and write to 3 files """
+    output_filenames = []
+    for leader_class in input_data:
+        root = input_data[leader_class]
+        output_filename = f"99_mre_{leader_class}_traits_for_codegen.json"
+        output_filepath = os.path.join('build', output_filename)
+        sys.stdout.write(f"** Writing code-ready traits for {leader_class} to {output_filename}...\n")
+        with open(output_filepath, "w") as leader_traits_dest:
+            json_dump(root, leader_traits_dest, indent=4)
+            output_filenames.append(output_filepath)
+    sys.stdout.write(
+        f"Check the output files to see they're in good shape:\n"
+    )
+    for filename in output_filenames:
+        sys.stdout.write(f"{filename}\n")
+
+
 if __name__ == "__main__":
+    start_time = time.time()
     parser = argparse.ArgumentParser(
         prog="0xRetro Machine & Robot Expansion Data Tools",
         description="Do operations on filtered data crunched from base trait files"
     )
-    parser.add_argument('--infile', help='A traits JSON file that we processed, like 00_mre_commander_traits.json, created from the pipeline script.')
+    parser.add_argument(
+        '--infile',
+        help='A traits JSON file that we processed, like 00_mre_commander_traits.json, created from the pipeline script.',
+        required=False
+    )
     parser.add_argument(
         '--qa', required=False,
         help="Put together a list of trait names where the trait data doesn't have any known modifiers.",
@@ -178,7 +267,14 @@ if __name__ == "__main__":
     parser.add_argument(
         '--qa_all',
         action="store_true",
-        help="Checks traits for issues, in all 3 files produced by run_me_trait_pipeline.py"
+        help="Checks traits for issues, in all 3 files produced by run_me_trait_pipeline.py",
+        required=False
+    )
+    parser.add_argument(
+        '--sort_filter_all',
+        action="store_true",
+        help="Load the traits pipeline files, sort and filter them further, and write them to JSON for us to use in code gen.",
+        required=False
     )
     args = parser.parse_args()
     if args.infile and args.qa:
@@ -191,10 +287,7 @@ if __name__ == "__main__":
                 'Couldnt find the build folder. Run this from within the mre_code_tools folder, '
                 'and make sure that "run_mre_trait_pipeline" was run.'
             )
-        pipeline_output_files = [
-            f"00_mre_{leader_class}_traits.json" for leader_class in LEADER_CLASSES
-        ]
-        for filename in pipeline_output_files:
+        for filename in PIPELINE_OUTPUT_FILES:
             input_file = os.path.join('build', filename)
             with open(input_file, "r") as input_file:
                 sys.stdout.write(
@@ -202,4 +295,10 @@ if __name__ == "__main__":
                 )
                 buffer = json_load(input_file)
                 do_qa_on_pipeline_files(buffer)
-    
+    elif args.sort_filter_all:
+        all_traits_processed_data = sort_and_filter_pipeline_files()
+        write_sorted_filtered_data_to_json_files(all_traits_processed_data)
+    execution_time = time.time() - start_time
+    sys.stdout.write(
+        f"\nDone in {str(execution_time)[:5]} seconds"
+    )
