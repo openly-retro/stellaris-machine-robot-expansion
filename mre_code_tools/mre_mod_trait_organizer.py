@@ -15,6 +15,7 @@ UI with dozens of traits.
 Thankfully, in pre-processing, traits are sorted alphabetically and
 it'll be easy to get the highest rank of that trait series.
 """
+from copy import copy
 import os
 import sys
 from json import load as json_load
@@ -64,7 +65,43 @@ def trait_qualifies_for_core_modifying(trait_dict):
     return is_core_modifying_trait
 
 def pick_highest_tier_of_trait(list_of_traits):
-    pass
+    # Drop traits that have a higher tier of trait
+    # Thankfully all our data is alphabetically sorted so "this will be simple" (Famous Last Words)
+    tier_tracker = {}
+    list_of_traits_copy = copy(list_of_traits)
+    position_in_list = 0
+    for trait in list_of_traits:
+        trait_level = 1
+        current_trait_name = [*trait][0]
+        if current_trait_name[-1].isdigit():
+            current_trait_name_series, trait_level = current_trait_name.rsplit('_', 1)
+            trait_level = int(trait_level)
+        else:
+            current_trait_name_series = current_trait_name
+        print(f"Evaluating {current_trait_name} in series {current_trait_name_series}")
+        # Is the next trait in the same series? If so, pop it off the copy
+        # If there is no next trait (end of list) we have evaluated the highest in the series
+        if position_in_list+1 == len(list_of_traits):
+            # Nothing to do
+            continue
+        else:
+            next_trait = list_of_traits[position_in_list+1]
+            next_trait_name = [*next_trait][0]
+            # If the next trait in the list doesn't have a number at the end, it's a new series
+            # And this trait we were looking at is the highest in its series
+            print(f"Comparing it to {next_trait_name}")
+            if current_trait_name_series == get_trait_series_name(next_trait_name):
+                print(f"Next trait is in the same series, so drop current trait")
+                list_of_traits_copy.remove(trait)
+        position_in_list = position_in_list + 1
+    return list_of_traits_copy
+
+def get_trait_series_name(trait_name):
+    name_series = trait_name
+    if trait_name[-1].isdigit():
+        name_series = trait_name.rsplit('_',1)[0]
+    return name_series
+        
 
 
 def do_qa_on_pipeline_files(traits_list):
