@@ -10,9 +10,11 @@ from shutil import rmtree
 import sys
 from operator import itemgetter
 from random import randint
+import time
 
 import argparse
-from yaml import safe_load, safe_dump
+from json import load as json_load
+from json import dump as json_dump
 
 from stellaris_yaml_converter import (
     convert_stellaris_script_to_standard_yaml,
@@ -27,9 +29,9 @@ BUILD_FOLDER = os.path.join(
     'build'
 )
 
-LEADER_CLASSES = [
+LEADER_CLASSES = (
     "commander", "official", "scientist"
-]
+)
 
 def clean_up_build_folder():
     if os.path.exists(BUILD_FOLDER):
@@ -70,7 +72,7 @@ def batch_process_base_files_into_yaml(stellaris_path: str) -> list:
             validate_chopped_up_data(buffer)
         target_converted_file_name = make_converted_filename(base_file)
         generated_files.append(target_converted_file_name)
-        with open(target_converted_file_name, "w+") as dest_file:
+        with open(target_converted_file_name, "w") as dest_file:
             dest_file.write(buffer)
             sys.stdout.write(
                 f"Chopped up base file {base_file} successfully. Written to {dest_file.name}\n"
@@ -78,20 +80,20 @@ def batch_process_base_files_into_yaml(stellaris_path: str) -> list:
     return generated_files
 
 def crunch_trait_data_from_processed_yaml(generated_files_list: list):
-    # Iterate each pseudo-yaml file, trim traits, sort into leader classes, write to real yaml
-    base_files_as_sorted_trimmed_yaml = []
+    # Iterate each pseudo-yaml file, trim traits, sort into leader classes, write to JSON
+    base_files_as_sorted_trimmed_json = []
     for source_yaml_file in generated_files_list:
         _buffer = ''
         sorted_data = ''
         base_filename = source_yaml_file.split('_as_yaml.txt')[0]
         target_filename = os.path.join(
-            BUILD_FOLDER, f"{base_filename}_useful_traits.yaml"
+            BUILD_FOLDER, f"{base_filename}_useful_traits.json"
         )
         read_and_write_traits_data(
-            source_yaml_file, target_filename
+            source_yaml_file, target_filename, format="json"
         )
-        base_files_as_sorted_trimmed_yaml.append(target_filename)
-    return base_files_as_sorted_trimmed_yaml
+        base_files_as_sorted_trimmed_json.append(target_filename)
+    return base_files_as_sorted_trimmed_json
 
 def sort_merge_traits_files(useful_yaml_traits_files):
     """ From several Stellaris traits files we mangled & filtered, merge & sort all data """
@@ -103,7 +105,7 @@ def sort_merge_traits_files(useful_yaml_traits_files):
     buffer = ''
     for file in useful_yaml_traits_files:
         with open(file, "r") as input_file:
-            buffer = safe_load(input_file.read())
+            buffer = json_load(input_file)
         for leader_class in LEADER_CLASSES:
             # breakpoint()
             output[leader_class] = output[leader_class] + buffer[leader_class]
@@ -114,17 +116,18 @@ def sort_merge_traits_files(useful_yaml_traits_files):
         output[leader_class] = sorted(output[leader_class], key=lambda x: [*x][0]) 
 
     # Now, write each classes' traits to a file
-
+    target_filenames = []
     for leader_class in LEADER_CLASSES:
-        newfile_name = f"00_mre_{leader_class}_traits.yml"
+        newfile_name = f"00_mre_{leader_class}_traits.json"
         newfilepath = os.path.join(BUILD_FOLDER, newfile_name)
-        with open(newfilepath, "w+") as traitsfile:
-            traitsfile.write(
-                safe_dump(output[leader_class])
-            )
+        with open(newfilepath, "w") as traitsfile:
+            json_dump(output[leader_class], traitsfile, indent=4)
             print(f"Wrote {leader_class} data to {newfilepath}")
+            target_filenames.append(newfilepath)
+    return target_filenames
 
 if __name__=="__main__":
+    start_time = time.perf_counter()
     parser = argparse.ArgumentParser(
         prog="0xRetro M&RE Trait Data Pipeline",
         description="Scrape base traits files, convert to yaml-ish format, trim & sort trait data that we want for processing later"
@@ -149,13 +152,19 @@ if __name__=="__main__":
     sys.stdout.write("** Reading base files & chopping them up **\n")
     base_files_processed_to_yaml = batch_process_base_files_into_yaml(args.stellaris_path)
     sys.stdout.write("** Crunching & filtering chopped-up data **\n")
-    useful_traits_yaml_files = crunch_trait_data_from_processed_yaml(base_files_processed_to_yaml)
+    # Here, we switch from fake YAML to dumping data to JSON, a reliable data standard
+    useful_traits_json_files = crunch_trait_data_from_processed_yaml(base_files_processed_to_yaml)
     sys.stdout.write("** Sorting traits data & writing files **\n")
-    just_three_traits_files = sort_merge_traits_files(useful_traits_yaml_files)
+    just_three_traits_files = sort_merge_traits_files(useful_traits_json_files)
     sys.stdout.write("**** Mm mm, delicious, sane, predictable data! ****\n")
     sys.stdout.write(
         "Let's see how we did! Inspect these files in the build folder for errors:\n"
     )
     sys.stdout.write(
-        "\n".join([f"00_mre_{leader_class}_traits.yml" for leader_class in LEADER_CLASSES])
+        "\n".join([f"00_mre_{leader_class}_traits.json" for leader_class in LEADER_CLASSES])
+    )
+    end_time = time.perf_counter()
+    execution_time = end_time - start_time
+    sys.stdout.write(
+        f"\nDone in {str(execution_time)[:5]} seconds"
     )

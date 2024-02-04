@@ -3,6 +3,7 @@ from stellaris_trait_cruncher import (
     sort_traits_by_leader_class,
     sort_traits_asc
 )
+from yaml import safe_load
 
 def test_filter_trait_info():
     # The YAML is loaded into a Python dict, so we will work with dict objects
@@ -57,7 +58,7 @@ def test_crunch__trait_ruler_architectural_sense_3():
                 "CLASS": "official",
                 "ICON": "GFX_leader_trait_architectural_sense",
                 "RARITY": "veteran",
-                "COUNCIL": "yes",
+                "COUNCIL": True,
                 "TIER": 3
             },
             "councilor_modifier": {
@@ -67,9 +68,9 @@ def test_crunch__trait_ruler_architectural_sense_3():
                 "planet_districts_upkeep_mult": -0.05,
                 "planet_building_build_speed_mult": 0.25
             },
-            "veteran_class_locked_trait": "yes",
+            "veteran_class_locked_trait": True,
             "leader_potential_add": {
-                "has_paragon_dlc": "yes"
+                "has_paragon_dlc": True
             },
             "leader_class": [
                 "official"
@@ -103,7 +104,7 @@ def test_crunch__leader_trait_reformer():
                 "CLASS": "official",
                 "ICON": "GFX_leader_trait_reformer",
                 "RARITY": "free_or_veteran",
-                "COUNCIL": "yes",
+                "COUNCIL": True,
                 "TIER": 1
             },
             "leader_potential_add": {
@@ -117,7 +118,7 @@ def test_crunch__leader_trait_reformer():
                 "country_unity_produces_mult": 0.05,
                 "pop_government_ethic_attraction": 0.35
             },
-            "veteran_class_locked_trait": "yes",
+            "veteran_class_locked_trait": True,
             "leader_class": [
                 "official"
             ],
@@ -145,18 +146,18 @@ def test_crunch__leader_trait_arbiter():
     # Destiny trait
     test_data = {
         "leader_trait_arbiter": {
-            "destiny_trait": "yes",
+            "destiny_trait": True,
             "inline_script": {
                 "script": "trait/icon",
                 "CLASS": "commander",
                 "ICON": "GFX_leader_trait_arbiter",
                 "RARITY": "paragon",
-                "COUNCIL": "no",
+                "COUNCIL": False,
                 "TIER": "none"
             },
             "leader_potential_add": {
-                "has_paragon_dlc": "yes",
-                "has_trait": "subclass_commander_governor"
+                "has_paragon_dlc": True,
+                "has_subclass_trait": ["subclass_commander_governor"]
             },
             "planet_modifier": {
                 "planet_jobs_worker_produces_mult": 0.5,
@@ -185,6 +186,7 @@ def test_crunch__leader_trait_arbiter():
     actual = filter_trait_info(test_data)
     expected = {
         "trait_name": "leader_trait_arbiter",
+        "destiny_trait": True,
         "leader_class": "commander",
         "gfx": "GFX_leader_trait_arbiter",
         "rarity": "paragon",
@@ -211,13 +213,13 @@ def test_crunch__leader_trait_scout():
     """ An example which has TWO potential subclasses """
     test_data = {
         "leader_trait_scout": {
-            "veteran_class_locked_trait": "yes",
+            "veteran_class_locked_trait": True,
             "inline_script": {
                 "script": "trait/icon",
                 "CLASS": "leader",
                 "ICON": "GFX_leader_trait_scout",
                 "RARITY": "free_or_veteran",
-                "COUNCIL": "no",
+                "COUNCIL": False,
                 "TIER": 1
             },
             "leader_potential_add": {
@@ -387,7 +389,7 @@ def test_leader_trait_aggressive_2():
                 "CLASS": "commander",
                 "ICON": "GFX_leader_trait_aggressive",
                 "RARITY": "common",
-                "COUNCIL": "no",
+                "COUNCIL": False,
                 "TIER": 2
             },
             "fleet_modifier": {
@@ -418,20 +420,20 @@ def test_leader_trait_aggressive_2():
 def test_leader_trait_adventurous_spirit():
     test_data = {
         "leader_trait_adventurous_spirit": {
-            "veteran_class_locked_trait": "yes",
+            "veteran_class_locked_trait": True,
             "inline_script": {
                 "script": "trait/icon",
                 "CLASS": "leader",
                 "ICON": "GFX_leader_trait_adventurous_spirit",
                 "RARITY": "veteran",
-                "COUNCIL": "no",
+                "COUNCIL": False,
                 "TIER": 1
             },
             "triggered_self_modifier": {
                 "leaders_upkeep_mult": -0.1
             },
             "leader_potential_add": {
-                "has_paragon_dlc": "yes"
+                "has_paragon_dlc": True
             },
             "custom_tooltip_with_modifiers": "leader_trait_adventurous_spirit_effect",
             "leader_class": [ "commander", "scientist", "official" ]
@@ -445,7 +447,8 @@ def test_leader_trait_adventurous_spirit():
         "triggered_self_modifier": {
             "leaders_upkeep_mult": -0.1
         },
-        "requires_paragon_dlc": True
+        "requires_paragon_dlc": True,
+        "custom_tooltip": "leader_trait_adventurous_spirit_effect"
     }
     actual = filter_trait_info(test_data, for_class="commander")
     assert expected == actual
@@ -467,3 +470,175 @@ def test_populate_subclasses_for_related_traits():
             "required_subclass": "subclass_scientist_explorer"
         },
     ]
+
+def test_collect_custom_tooltip():
+    """ Some traits dont have modifiers, they have effect-based mods which are described in
+      a custom tooltip that PDX puts together """
+
+    # Note that 'has_subclass_trait' is something we make during yaml conversion
+    test_data = {
+        "leader_trait_bellicose": {
+            "destiny_trait": True,
+            "force_councilor_trait": True,
+            "inline_script": {
+                "script": "trait/icon",
+                "CLASS": "commander",
+                "ICON": "GFX_leader_trait_bellicose",
+                "RARITY": "paragon",
+                "COUNCIL": True,
+                "TIER": "none"
+            },
+            "custom_tooltip": "leader_trait_bellicose_effect",
+            "leader_potential_add": {
+                "has_paragon_dlc": True,
+                "has_subclass_trait": ["subclass_commander_councilor"]
+            },
+            "leader_class": [ "commander" ],
+            "selectable_weight": {
+                "weight": "@subclass_trait_weight",
+                "inline_script": "paragon/council_weight_mult"
+            },
+            "background_icon": "GFX_leader_background_destiny_1"
+        }
+    }
+    expected = {
+        "trait_name": "leader_trait_bellicose",
+        "destiny_trait": True,
+        "gfx": "GFX_leader_trait_bellicose",
+        "leader_class": "commander",
+        "rarity": "paragon",
+        "requires_paragon_dlc": True,
+        "required_subclass": "subclass_commander_councilor",
+        "custom_tooltip": "leader_trait_bellicose_effect",
+        "is_councilor_trait": True
+    }
+    actual = filter_trait_info(test_data)
+    assert expected == actual
+
+def test_trait_ruler_champion_of_the_people__from_yaml():
+    test_yaml = """
+trait_ruler_champion_of_the_people:
+  inline_script:
+    script: trait/icon
+    CLASS: leader
+    ICON: "GFX_leader_trait_champion_of_the_people"
+    RARITY: common
+    COUNCIL: yes
+    TIER: 1
+  triggered_councilor_modifier:
+    potential:
+      exists: owner
+      owner:
+#       #NOT: { has_civic: civic_dystopian_society
+    pop_happiness: 0.03
+  triggered_councilor_modifier:
+    potential:
+      exists: owner
+#     owner: has_civic: civic_dystopian_society
+    pop_cat_ruler_happiness: 0.05
+  leader_potential_add:
+    is_gestalt: no
+  leader_class: ['scientist', 'official', 'commander']
+  opposites:
+    leader_trait_tyrannical
+    leader_trait_tyrannical_2
+  selectable_weight:
+    weight: var_shared_trait_weight
+    inline_script: "paragon/council_weight_mult"
+"""
+    expected_object = {
+        "trait_ruler_champion_of_the_people": {
+            "inline_script": {
+                "script": "trait/icon",
+                "CLASS": "leader",
+                "ICON": "GFX_leader_trait_champion_of_the_people",
+                "RARITY": "common",
+                "COUNCIL": True,
+                "TIER": 1
+            },
+            "triggered_councilor_modifier": {
+                "potential": {
+                    "exists": "owner",
+                    "owner": None
+                },
+                "pop_happiness": 0.03
+            },
+            "triggered_councilor_modifier": {
+                "potential": {
+                    "exists": "owner"
+                },
+                "pop_cat_ruler_happiness": 0.05
+            },
+            "leader_potential_add": {
+                "is_gestalt": False
+            },
+            "leader_class": [
+                "scientist",
+                "official",
+                "commander"
+            ],
+            "opposites": "leader_trait_tyrannical leader_trait_tyrannical_2",
+            "selectable_weight": {
+                "weight": "var_shared_trait_weight",
+                "inline_script": "paragon/council_weight_mult"
+            }
+        }
+    }
+    actual_object = safe_load(test_yaml)
+    assert expected_object == actual_object
+
+    expected_slim_trait = {
+        "trait_name": "trait_ruler_champion_of_the_people",
+        "gfx": "GFX_leader_trait_champion_of_the_people",
+        "leader_class": "commander",
+        "rarity": "common",
+        "requires_paragon_dlc": False,
+        "is_councilor_trait": True,
+        "triggered_councilor_modifier": {
+            "pop_cat_ruler_happiness": 0.05
+        }
+    }
+    actual_slim_trait = filter_trait_info(actual_object, for_class="commander")
+    assert expected_slim_trait == actual_slim_trait
+
+def test_guess_rarity_if_duplicate_inline_script():
+    """
+    In the wonderful world of Clausewitz script, there can be duplicate inline_script keys,
+    so we will lose things like rarity and GFX
+    """
+    # this trait has two inline_script objects, second one has no useful data for us
+    test_data = {
+        "leader_trait_frontier_adventurer": {
+            "destiny_trait": True,
+            "inline_script": {
+                "script": "trait/icon",
+            },
+            "modifier": {
+                "science_ship_survey_speed": 0.25,
+                "ship_speed_mult": 0.25,
+                "ship_evasion_add": 15,
+            },
+            "leader_potential_add": {
+                "has_paragon_dlc": True,
+                "has_ancrel": True,
+                "has_subclass_trait": ["subclass_scientist_explorer"]
+            },
+            "leader_class": [ "scientist" ]
+        }
+    }
+    expected = {
+        "trait_name": "leader_trait_frontier_adventurer",
+        "destiny_trait": True,
+        "gfx": "GFX_leader_trait_frontier_adventurer",
+        "leader_class": "scientist",
+        "rarity": "paragon",
+        "requires_paragon_dlc": True,
+        "required_subclass": "subclass_scientist_explorer",
+        "modifier": {
+            "science_ship_survey_speed": 0.25,
+            "ship_speed_mult": 0.25,
+            "ship_evasion_add": 15,
+        },
+    }
+    actual = filter_trait_info(test_data, for_class="scientist")
+    assert expected == actual
