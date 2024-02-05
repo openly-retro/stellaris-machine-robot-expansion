@@ -26,6 +26,9 @@ from run_mre_trait_pipeline import (
     BUILD_FOLDER,
     LEADER_CLASSES,
 )
+from stellaris_trait_cruncher import (
+    MISSING, PLACEHOLDER
+)
 
 TRAITS_TO_EXCLUDE = (
     "leader_trait_intemporal", # Does nothing, no effects, no custom tooltip
@@ -188,6 +191,10 @@ def do_qa_on_pipeline_files(traits_list):
                 issues.append(
                     "Trait has councilor modifiers but is_councilor_trait is NOT set"
                 )
+        if MISSING in str(trait) or PLACEHOLDER in str(trait):
+            issues.append(
+                "Trait has placeholder values/missing values"
+            )
         if len(issues):
             rogue_trait_names.append(
                 f"{trait_key} ... {','.join(issues)}"

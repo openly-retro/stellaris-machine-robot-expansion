@@ -8,6 +8,7 @@ from yaml import CLoader as Loader, CDumper as Dumper
 from json import dump as json_dump
 
 MISSING = "MISSING_VALUE"
+PLACEHOLDER = "PLACEHOLDER_VALUE"
 
 def sort_traits_asc(list_of_class_specific_traits: list):
     """ Sort traits alphabetically, starting from A, after they've been sorted by class """
