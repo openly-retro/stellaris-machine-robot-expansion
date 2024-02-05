@@ -18,9 +18,14 @@ I will also respond to comments in the Github wiki for this project.
 
 Please visit the Github repo wiki for this project: [https://github.com/openly-retro/stellaris-machine-robot-expansion/wiki](https://github.com/openly-retro/stellaris-machine-robot-expansion/wiki)
 
-Also please protect your sanity. Clausewitz Syntax (what base Stellaris traits files are written in) is UNPREDICTABLE and MAKES UP ITS OWN RULES.
+Warnings about working with Clausewitz syntax (what base Stellaris traits files are written in)
 
-After working on Clausewitz Syntax script, your mind may be forever altered.
+- It MAKES UP ITS OWN RULES
+- IT MAY NOT FOLLOW THE RULES IT MAKES
+- It wiLL DaNcE On yOuR SaNiTy
+- You may lose yourself to possession of a psionic avatar if you stare too long or try to apply your ideas of "rules" and "well this could be standardized pretty easily"
+
+
 
 # Code generation workflow (The Good Stuff)
 
@@ -39,11 +44,17 @@ Run:
 
 This will make a `build` folder with a bunch of text files.
 
-Look for: `00_mre_commander_traits.json`, `00_mre_official_traits.json`, `00_mre_scientist_traits.json`
+Look for:
+
+    build\00_mre_commander_traits.json
+    build\00_mre_official_traits.json
+    build\00_mre_scientist_traits.json
 
 These files have sanely organized data for breakfast, lunch, dinner, or just a snack.
 
 **Note that LOTS OF TRAIT DATA WILL BE MISSING AND ONLY TRAIT DATA THAT'S USEFUL FOR THIS MOD WILL BE IN THOSE FILES**
+
+### Phase 1, part 2
 
 Next up, some more data massaging before we can feed it to phase 2 scripts.
 
@@ -52,6 +63,12 @@ Run:
 `python .\mre_mod_trait_organizer.py --sort_filter_all`
 
 This will look in the build folder for the above 3 files, sort them by rarity and pick the highest tier trait in a series, discarding lower tier ones.
+
+Look for:
+
+    build\99_mre_commander_traits_for_codegen.json
+    build\99_mre_commander_traits_for_codegen.json
+    build\99_mre_commander_traits_for_codegen.json
 
 ## Phase 2 (WIP)
 
