@@ -53,6 +53,16 @@ Run:
 
 This will look in the build folder for the above 3 files, sort them by rarity and pick the highest tier trait in a series, discarding lower tier ones.
 
-## Phase 2
+## Phase 2 (WIP)
 
 Auto-generate mod code from files.
+
+WIP WIP WIP WIP
+
+Run: 
+
+`python .\generate_traits_gui_and_effects.py --infile .\build\99_mre_commander_traits_for_codegen.json > gui_auto.txt`
+
+In gui_auto, there will be interface GUI code for commander traits, just for the leader-making feature so far. 
+
+WIP WIP WIP WIP
