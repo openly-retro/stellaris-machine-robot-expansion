@@ -1,8 +1,9 @@
 # Python code to help generate all the leader-making traits code
-"""
+import argparse
+import time
+from json import load as json_load
 
-
-"""
+RARITIES = ("common", "veteran", "paragon")
 
 def gen_leader_making_trait_gui_code(
         leader_class, trait_name, column_num, row_num,
@@ -15,9 +16,9 @@ def gen_leader_making_trait_gui_code(
         ends_in_num = trait_name[-1].isdigit()
         if ends_in_num:
             trait_without_level = trait_name.rsplit('_', 1)
-            gfx_sprite_name = f"{GFX}_{trait_without_level}"
+            gfx_sprite_name = f"GFX_{trait_without_level}"
         else:
-            gfx_sprite_name = f"{GFX}_{trait_name}"  # There will be exceptions
+            gfx_sprite_name = f"GFX_{trait_name}"  # There will be exceptions
     effect_button_background_gfx = "GFX_xvcv_mdlc_leader_trait_background_green"
     if is_xvcv_custom_trait:
         effect_button_background_gfx = "GFX_xvcv_mdlc_leader_trait_background_blue"
@@ -191,3 +192,62 @@ xvcv_mdlc_core_modifying_traits_{leader_class}_{trait_name}_remove_button_effect
     }}
 }}
 """
+
+def iterate_traits_make_gui_code(organized_traits_dict, leader_class_all: str) -> str:
+    """ going thru a file like 99_mre_scientist_traits_for_codegen.json 
+        and create code which we copy/paste into the interface/gui files
+    """
+    header_classname_spaced = ' '.join([char for char in leader_class_all])
+    header = f"""
+##########################################################
+#       START COPY/PASTE GENERATED GUI TRAITS CODE FOR:  #
+#					{header_classname_spaced}						 #
+##########################################################
+"""
+    footer = f"""
+##########################################################
+#       END COPY/PASTE GENERATED GUI TRAITS CODE FOR:  #
+#					{header_classname_spaced}						 #
+##########################################################
+"""
+    leader_making_code_bloblist = [header,]
+    # 10 columns, 8 rows
+    trait_column_num = 1
+    trait_row_num = 1
+    for rarity_level in RARITIES:
+        for leader_making_trait in organized_traits_dict['leader_making_traits'][rarity_level]:
+            trait_name = [*leader_making_trait][0]
+            root = leader_making_trait[trait_name]
+            trait_gui_code = gen_leader_making_trait_gui_code(
+                trait_name=trait_name,
+                leader_class=root['leader_class'],
+                column_num=trait_column_num, row_num=trait_row_num,
+                is_veteran_trait=(root['rarity']=="veteran"),
+                is_destiny_trait=(root['rarity']=="paragon"),
+                gfx_sprite_name=root['gfx']
+            )
+            trait_column_num = trait_column_num + 1
+            if trait_column_num > 10:
+                trait_column_num = 1
+                trait_row_num = trait_row_num + 1
+            leader_making_code_bloblist.append(trait_gui_code)
+    leader_making_code_bloblist.append(footer)
+    return ''.join(leader_making_code_bloblist)
+
+if __name__ == "__main__":
+    start_time = time.time()
+    parser = argparse.ArgumentParser(
+        prog="0xRetro Machine & Robot Expansion Mod Codegen Tools",
+        description="Automatically spew out mod code"
+    )
+    parser.add_argument(
+        '--infile',
+        help='A traits JSON file that we processed, like 99_mre_commander_traits_for_codegen.json, created from mre_mod_trait_organizer.py.',
+        required=True
+    )
+    args = parser.parse_args()
+    buffer = ''
+    with open(args.infile) as organized_traits_file:
+        buffer = json_load(organized_traits_file)
+    gui_code = iterate_traits_make_gui_code(buffer, leader_class_all="commander")
+    print(gui_code)
