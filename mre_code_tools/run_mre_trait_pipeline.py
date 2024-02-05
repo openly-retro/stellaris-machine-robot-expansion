@@ -97,6 +97,11 @@ def crunch_trait_data_from_processed_yaml(generated_files_list: list):
 
 def sort_merge_traits_files(useful_yaml_traits_files):
     """ From several Stellaris traits files we mangled & filtered, merge & sort all data """
+    from mre_mod_trait_organizer import (
+        trickle_up_subclass_requirements,
+        SKIP_LIST
+    )
+    
     output = {
         "commander": [],
         "scientist": [],
@@ -112,9 +117,9 @@ def sort_merge_traits_files(useful_yaml_traits_files):
 
     # Now, sort all traits per class
     for leader_class in LEADER_CLASSES:
-        # breakpoint()
-        output[leader_class] = sorted(output[leader_class], key=lambda x: [*x][0]) 
-
+        sorted_beautiful_data = sorted(output[leader_class], key=lambda x: [*x][0]) 
+        # It just feels better having subclasses populated at the end of all this
+        output[leader_class] = trickle_up_subclass_requirements(sorted_beautiful_data, for_class=leader_class)
     # Now, write each classes' traits to a file
     target_filenames = []
     for leader_class in LEADER_CLASSES:

@@ -142,16 +142,20 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
         slim_trait["requires_paragon_dlc"] = True if root.get("leader_potential_add", {}).get('has_paragon_dlc') == True else False
     else:
         slim_trait["requires_paragon_dlc"] = False
-    # Two ways to find subclasses:
+    # Many ways to find subclasses:
     # 1) We concatenated multiple "has_trait = subclass*" into "has_subclass_trait"
     # 2) It's a single key under leader_potential_add
+    # 3) Something else we didnt account for
     if root.get("leader_potential_add") is not None: # sad kluge
         if root["leader_potential_add"].get("OR",{}).get("has_subclass_trait"):
-            subclasses_list = root['leader_potential_add']['OR']['has_subclass_trait']
-            this_trait_req_subclass = pick_correct_subclass_from_potential(
-                slim_trait['leader_class'], subclasses_list
-            )
-            slim_trait["required_subclass"] = this_trait_req_subclass
+            potential_subclass_data = root['leader_potential_add']['OR']['has_subclass_trait']
+            if type(potential_subclass_data) is list:
+                auto_picked_subclass = pick_correct_subclass_from_potential(
+                    slim_trait['leader_class'], potential_subclass_data
+                )
+                slim_trait["required_subclass"] = auto_picked_subclass
+            if type(potential_subclass_data) is str:
+                slim_trait["required_subclass"] = potential_subclass_data
         # Destiny traits have a required subclass outside an OR
         # elif "subclass" in root["leader_potential_add"].get("has_trait", ""):
         #     slim_trait["required_subclass"] = root["leader_potential_add"]["has_trait"]

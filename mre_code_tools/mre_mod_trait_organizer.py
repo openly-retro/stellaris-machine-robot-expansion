@@ -16,6 +16,7 @@ Thankfully, in pre-processing, traits are sorted alphabetically and
 it'll be easy to get the highest rank of that trait series.
 """
 from copy import copy
+import logging
 import os
 import sys
 import time
@@ -53,6 +54,15 @@ MODIFIERS = (
     "triggered_sector_modifier",
     "triggered_self_modifier",
 )
+
+""" These traits are set up in some way as to break the expectation that the tier 3 requirements
+are locked in by tier 1 and 2. These traits are serious exceptions and shouldnt be added to
+the GUI. For example maniacal_3 is fine as a scientist trait but NOT as a commander trait. """
+SKIP_LIST = {
+    "leader_trait_maniacal_3": "commander"
+}
+
+logger = logging.getLogger(__name__)
 
 def trait_qualifies_for_leader_making(trait_dict: dict) -> bool:
     is_leader_making_trait = False
@@ -96,7 +106,7 @@ def pick_highest_tier_of_trait(list_of_traits):
             trait_level = int(trait_level)
         else:
             current_trait_name_series = current_trait_name
-        print(f"Evaluating {current_trait_name} in series {current_trait_name_series}")
+        # logger.info(f"Evaluating {current_trait_name} in series {current_trait_name_series}")
         # Is the next trait in the same series? If so, pop it off the copy
         # If there is no next trait (end of list) we have evaluated the highest in the series
         if position_in_list+1 == len(list_of_traits):
@@ -107,9 +117,9 @@ def pick_highest_tier_of_trait(list_of_traits):
             next_trait_name = [*next_trait][0]
             # If the next trait in the list doesn't have a number at the end, it's a new series
             # And this trait we were looking at is the highest in its series
-            print(f"Comparing it to {next_trait_name}")
+            # print(f"Comparing it to {next_trait_name}")
             if current_trait_name_series == get_trait_series_name(next_trait_name):
-                print(f"Next trait is in the same series, so drop current trait")
+                # print(f"Next trait is in the same series, so drop current trait")
                 list_of_traits_copy.remove(trait)
         position_in_list = position_in_list + 1
     return list_of_traits_copy
@@ -171,8 +181,6 @@ def filter_traits_by_rarity(traits_list):
             )
     return traits_by_rarity
 
-
-
 def do_qa_on_pipeline_files(traits_list):
     """ Quick QA check to find potential missing data """
     rogue_trait_names = []
@@ -211,11 +219,15 @@ def sort_and_filter_pipeline_files() -> dict:
         "official": {},
         "scientist": {}
     }
-    for source_filename in PIPELINE_OUTPUT_FILES:
+    for leader_class in LEADER_CLASSES:
+        pipeline_source_file = f"00_mre_{leader_class}_traits.json"
         buffer = ''
-        input_filename = os.path.join('build', source_filename)
+        input_filename = os.path.join('build', pipeline_source_file)
         with open(input_filename, "r") as input_file:
             buffer = json_load(input_file)
+        # Subclasses are trickled up in the run_mre_trait_pipeline script
+        # traits_with_populated_subclasses = trickle_up_subclass_requirements(
+        #     buffer, for_class=leader_class)
         highest_tier_traits = pick_highest_tier_of_trait(buffer)
         traits_sorted_by_feature = filter_traits_by_mod_feature(highest_tier_traits)
         # has leader_making and core_modifying keys
@@ -230,13 +242,49 @@ def sort_and_filter_pipeline_files() -> dict:
         traits_filtered_by_rarity["core_modifying_traits"] = filter_traits_by_rarity(
             traits_sorted_by_feature["core_modifying_traits"]
         )
-        if "commander" in input_filename:
-            data_to_be_written["commander"] = traits_filtered_by_rarity
-        elif "official" in input_filename:
-            data_to_be_written["official"] = traits_filtered_by_rarity
-        elif "scientist" in input_filename:
-            data_to_be_written["scientist"] = traits_filtered_by_rarity
+        data_to_be_written[leader_class] = traits_filtered_by_rarity
+
     return data_to_be_written
+
+def trickle_up_subclass_requirements(sorted_not_filtered_traits_json, for_class="commander"):
+    # Typically the tier 1 trait will have the subclass req and its 2/3 replacement wont
+    trait_to_subclass_map = {}
+    collected_traits = []
+    for trait in sorted_not_filtered_traits_json:
+        trait_name = [*trait][0]
+        base_trait_name = trait_name
+        root = trait[trait_name]
+        if trait_name in SKIP_LIST:
+            if SKIP_LIST[trait_name] == for_class:
+                # This trait is a serious exception and shall be skipped
+                logger.warn(
+                    f"** Skipped {trait_name} as it was in the skip list for {for_class} traits."
+                )
+                continue
+        trait_is_first_of_series = not trait_name[-1].isdigit()
+        if trait_name[-1].isdigit():
+            base_trait_name = trait_name.rsplit('_',1)[0]
+        if trait_is_first_of_series:
+            if root.get('required_subclass'):
+                trait_to_subclass_map[trait_name] = root['required_subclass']
+            else:
+                trait_to_subclass_map[trait_name] = "skip"
+        else:
+            potential_subclass = trait_to_subclass_map.get(base_trait_name, MISSING)
+            if potential_subclass == "skip":
+                1
+            elif potential_subclass == MISSING:
+                sys.exit(
+                    f"We expected a subclass but didnt have one for {trait}"
+                )
+            else:
+                trait[trait_name]['required_subclass'] = potential_subclass
+                logger.debug(
+                    f"We updated {trait_name} with subclass requirement {potential_subclass}"
+                )
+        collected_traits.append(trait)
+    return collected_traits
+
 
 def write_sorted_filtered_data_to_json_files(input_data: dict):
     """ Take data from sort_and_filter_pipeline_files and write to 3 files """
