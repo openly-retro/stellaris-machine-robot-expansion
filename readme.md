@@ -39,47 +39,19 @@ Run:
 
 This will make a `build` folder with a bunch of text files.
 
-Look for: `00_mre_commander_traits.yml`, `00_mre_official_traits.yml`, `00_mre_scientist_traits.yml`
+Look for: `00_mre_commander_traits.json`, `00_mre_official_traits.json`, `00_mre_scientist_traits.json`
 
 These files have sanely organized data for breakfast, lunch, dinner, or just a snack.
 
 **Note that LOTS OF TRAIT DATA WILL BE MISSING AND ONLY TRAIT DATA THAT'S USEFUL FOR THIS MOD WILL BE IN THOSE FILES**
 
-The sections below are for documentation. You don't have to follow those commands, because the pipeline script does all that. The doc below is for posterity.
+Next up, some more data massaging before we can feed it to phase 2 scripts.
 
-## Collect base game traits files and convert the data to something we can iterate over (WIP)
-The traits files we will process for this mod are in base Stellaris, under `\common\traits`:
-- 00_admiral_traits.txt
-- 00_general_traits.txt
-- 00_generic_leader_traits.txt
-- 00_governor_traits.txt
-- 00_scientist_traits.txt
-- 00_starting_ruler_traits.txt
+Run:
 
-Open your favorite terminal. Make sure Python 3.12+, `pyyaml` are installed
+`python .\mre_mod_trait_organizer.py --sort_filter_all`
 
-1. Convert a Stellaris Clausewitz *traits* file to "something resembling YAML"
-
-If you use this converter on anything but a traits file, expect to get useless garbage back.
-
-`python .\mre_code_tools\stellaris_yaml_converter.py --infile <STEAM_INSTALL_FOLDER>\steamapps\common\Stellaris\common\traits\00_governor_traits.txt -o "00_governor_traits_parsed.txt"`
-
-We'll do this for each traits file.
-
-### Further trim down and sort data into a simple format we can later iterate over to generate GUI code, effects code, and tooltips (WIP)
-
-2. Crunch the traits in this converted file: 
-- Trim down the trait data to just the values we care about
-- Sort traits into the three classes
-- Duplicate common traits if a trait can be applied to more than one type of leader class
-- Output as YAML for smaller file size
-
-`python .\mre_code_tools\stellaris_trait_cruncher.py --infile .\00_governor_traits_parsed.txt --outfile 00_useful_governor_traits.yaml`
-
-### Sort and merge files
-
-There isn't a script for this, there is a method in the pipeline script.
-
+This will look in the build folder for the above 3 files, sort them by rarity and pick the highest tier trait in a series, discarding lower tier ones.
 
 ## Phase 2
 
