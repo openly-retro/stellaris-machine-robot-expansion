@@ -209,7 +209,8 @@ def sort_and_filter_pipeline_files() -> dict:
         input_filename = os.path.join('build', source_filename)
         with open(input_filename, "r") as input_file:
             buffer = json_load(input_file)
-        traits_sorted_by_feature = filter_traits_by_mod_feature(buffer)
+        highest_tier_traits = pick_highest_tier_of_trait(buffer)
+        traits_sorted_by_feature = filter_traits_by_mod_feature(highest_tier_traits)
         # has leader_making and core_modifying keys
         traits_filtered_by_rarity = {
             "leader_making_traits": [],

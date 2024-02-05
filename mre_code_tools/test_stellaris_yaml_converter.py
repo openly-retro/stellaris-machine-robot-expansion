@@ -390,3 +390,65 @@ def test_leader_trait_sapient_ai_assistant():
     actual = convert_stellaris_script_to_standard_yaml(test_data)
     assert expected == actual
 
+def test_leader_trait_peacekeeper():
+
+    raw_data = """
+leader_trait_peacekeeper = {
+	destiny_trait = yes
+	inline_script = {
+		script = trait/icon
+		CLASS = leader
+		ICON = GFX_leader_trait_peacekeeper
+		RARITY = paragon
+		COUNCIL = yes
+		TIER = none
+	}
+	councilor_modifier = {
+		planet_stability_add = 5
+		piracy_suppression_mult = 0.35
+		planet_crime_add = -20
+		pop_ethic_pacifist_attraction_mult = 0.40
+	}
+	leader_potential_add = {
+		has_paragon_dlc = yes
+		OR = {
+			has_trait = subclass_official_economy_councilor
+			has_trait = subclass_commander_councilor
+		}
+	}
+	leader_class = { commander official }
+	selectable_weight = {
+		weight = @subclass_trait_weight
+		inline_script = paragon/council_weight_mult
+	}
+	background_icon = GFX_leader_background_destiny_1
+}
+"""
+    expected = """
+leader_trait_peacekeeper:
+  destiny_trait: yes
+  inline_script:
+    script: trait/icon
+    CLASS: leader
+    ICON: GFX_leader_trait_peacekeeper
+    RARITY: paragon
+    COUNCIL: yes
+    TIER: none
+  councilor_modifier:
+    planet_stability_add: 5
+    piracy_suppression_mult: 0.35
+    planet_crime_add: -20
+    pop_ethic_pacifist_attraction_mult: 0.40
+  leader_potential_add:
+    has_paragon_dlc: yes
+    OR:
+      has_subclass_trait: ['subclass_official_economy_councilor', 'subclass_commander_councilor']
+  leader_class: ['commander', 'official']
+  selectable_weight:
+    weight: var_subclass_trait_weight
+    inline_script: paragon/council_weight_mult
+  background_icon: GFX_leader_background_destiny_1
+"""
+    actual = convert_stellaris_script_to_standard_yaml(raw_data)
+
+    assert expected == actual
