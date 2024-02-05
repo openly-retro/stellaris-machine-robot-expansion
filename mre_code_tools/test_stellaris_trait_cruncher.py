@@ -642,3 +642,49 @@ def test_guess_rarity_if_duplicate_inline_script():
     }
     actual = filter_trait_info(test_data, for_class="scientist")
     assert expected == actual
+
+def test_pick_subclass_from_has_trait_definition():
+    """ Some cases, we missed getting the subclass ... """
+    test_data = {
+        "leader_trait_wrecker": {
+            "veteran_class_locked_trait": True,
+            "inline_script": {
+                "script": "trait/icon",
+                "CLASS": "commander",
+                "ICON": "GFX_leader_trait_wrecker",
+                "RARITY": "veteran",
+                "COUNCIL": False,
+                "TIER": 1
+            },
+            "leader_potential_add": {
+                "has_paragon_dlc": True,
+                "has_trait": "subclass_commander_admiral"
+            },
+            "fleet_modifier": {
+                "ship_weapon_damage": 0.1,
+                "create_debris_chance": -0.25
+            },
+            "leader_class": [
+                "commander"
+            ],
+            "opposites": "leader_trait_juryrigger leader_trait_juryrigger_2 leader_trait_juryrigger_3",
+            "selectable_weight": {
+                "weight": "var_subclass_trait_weight",
+                "inline_script": "paragon/pilot_weight_mult"
+            }
+        }
+    }
+    expected = {
+        "trait_name": "leader_trait_wrecker",
+        "gfx": "GFX_leader_trait_wrecker",
+        "leader_class": "commander",
+        "rarity": "veteran",
+        "requires_paragon_dlc": True,
+        "required_subclass": "subclass_commander_admiral",
+        "fleet_modifier": {
+                "ship_weapon_damage": 0.1,
+                "create_debris_chance": -0.25
+            },
+    }
+    actual = filter_trait_info(test_data, for_class="commander")
+    assert expected == actual

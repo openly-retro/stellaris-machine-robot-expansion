@@ -161,6 +161,10 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
                 slim_trait['leader_class'], subclasses_list
             )
             slim_trait["required_subclass"] = this_trait_req_subclass
+        elif "subclass" in root['leader_potential_add'].get("has_trait", ""):
+            potential_subclass = root["leader_potential_add"]["has_trait"]
+            if for_class in potential_subclass:
+                slim_trait['required_subclass'] = potential_subclass
     # There's never just one predictable way for anything (:
     if root.get('custom_tooltip'):
         slim_trait["custom_tooltip"] = root["custom_tooltip"]
