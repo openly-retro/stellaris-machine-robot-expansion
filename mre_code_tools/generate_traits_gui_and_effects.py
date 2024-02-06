@@ -1,7 +1,10 @@
 # Python code to help generate all the leader-making traits code
 import argparse
 import time
+import sys
 from json import load as json_load
+
+from trait_tooltip_generator import create_tooltip_for_leader
 
 RARITIES = ("common", "veteran", "paragon")
 
@@ -193,11 +196,11 @@ xvcv_mdlc_core_modifying_traits_{leader_class}_{trait_name}_remove_button_effect
 }}
 """
 
-def iterate_traits_make_gui_code(organized_traits_dict, leader_class_all: str) -> str:
+def iterate_traits_make_leadermaking_gui_code(organized_traits_dict, for_class: str) -> str:
     """ going thru a file like 99_mre_scientist_traits_for_codegen.json 
         and create code which we copy/paste into the interface/gui files
     """
-    header_classname_spaced = ' '.join([char for char in leader_class_all])
+    header_classname_spaced = ' '.join([char for char in for_class])
     header = f"""
 ##########################################################
 #       START COPY/PASTE GENERATED GUI TRAITS CODE FOR:  #
@@ -234,6 +237,36 @@ def iterate_traits_make_gui_code(organized_traits_dict, leader_class_all: str) -
     leader_making_code_bloblist.append(footer)
     return ''.join(leader_making_code_bloblist)
 
+
+def iterate_traits_make_leadermaking_effects_code(organized_traits_dict, for_class):
+    leader_making_effects_copypaste_blob = []
+    for rarity_level in RARITIES:
+        for leader_making_trait in organized_traits_dict['leader_making_traits'][rarity_level]:
+            trait_name = [*leader_making_trait][0]
+            root = leader_making_trait[trait_name]
+            leadermaking_effects_code_for_trait = gen_leader_making_button_effects_code(
+                leader_class=for_class,
+                trait_name=trait_name,
+                is_veteran_trait=(root.get('rarity')=="veteran"),
+                is_destiny_trait=(root.get('rarity')=="paragon"),
+                required_subclass=root.get('required_subclass', None)
+            )
+            leader_making_effects_copypaste_blob.append(leadermaking_effects_code_for_trait)
+    return '\n'.join(leader_making_effects_copypaste_blob)
+
+
+def iterate_traits_make_leadermaking_tooltips_code(organized_traits_dict, for_class):
+    leader_making_tooltips_copypaste_blob = []
+    for rarity_level in RARITIES:
+        for leader_making_trait in organized_traits_dict['leader_making_traits'][rarity_level]:
+            # trait_name = [*leader_making_trait][0]
+            # root = leader_making_trait[trait_name]
+            tooltip_code_for_leadermaking_trait = create_tooltip_for_leader(
+                trait_dict=leader_making_trait, leader_class=for_class, feature="leader_making"
+            )
+            leader_making_tooltips_copypaste_blob.append(tooltip_code_for_leadermaking_trait)
+    return ''.join(leader_making_tooltips_copypaste_blob)
+
 if __name__ == "__main__":
     start_time = time.time()
     parser = argparse.ArgumentParser(
@@ -245,9 +278,37 @@ if __name__ == "__main__":
         help='A traits JSON file that we processed, like 99_mre_commander_traits_for_codegen.json, created from mre_mod_trait_organizer.py.',
         required=True
     )
+    parser.add_argument(
+        '--tooltips',
+        help="Generate M&RE trait tooltips, given a traits JSON file that was processed by mre_mod_trait_organizer",
+        action="store_true",
+        required=False
+    )
+    parser.add_argument(
+        '--process_all',
+        help="The Big One. Generate M&RE tooltips, GUI code, button effects code, assuming all traits files were processed by mre_mod_trait_organizer"
+    )
     args = parser.parse_args()
     buffer = ''
+    infile_no_ext = args.infile.rsplit('.',1)[0]
     with open(args.infile) as organized_traits_file:
         buffer = json_load(organized_traits_file)
-    gui_code = iterate_traits_make_gui_code(buffer, leader_class_all="commander")
-    print(gui_code)
+    if args.tooltips:
+        detected_leader_class = args.infile.split('_')[2]
+        tooltips_blob_for_writing = iterate_traits_make_leadermaking_tooltips_code(
+            buffer, for_class=detected_leader_class)
+        with open(f"{infile_no_ext}_leadermaking_tooltips.txt", "wb") as leadermaking_effects_output:
+            sys.stdout.write(f"Writing leadermaking tooltips code to {leadermaking_effects_output.name}\n")
+            leadermaking_effects_output.write(
+                tooltips_blob_for_writing.encode('utf-8')
+            )
+            sys.exit()
+    gui_code = iterate_traits_make_leadermaking_gui_code(buffer, for_class="commander")
+    leadermaking_effects_code = iterate_traits_make_leadermaking_effects_code(buffer, for_class="commander")
+    
+    with open(f"{infile_no_ext}_leadermaking_gui.txt", "w") as leadermaking_gui_output:
+        sys.stdout.write(f"Writing leadermaking GUI code to {leadermaking_gui_output.name}\n")
+        leadermaking_gui_output.write(gui_code)
+    with open(f"{infile_no_ext}_leadermaking_effects.txt", "w") as leadermaking_effects_output:
+        sys.stdout.write(f"Writing leadermaking effects code to {leadermaking_effects_output.name}\n")
+        leadermaking_effects_output.write(leadermaking_effects_code)

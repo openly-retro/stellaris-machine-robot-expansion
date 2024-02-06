@@ -7,8 +7,11 @@ from yaml import safe_load, safe_dump, load as load_yaml, dump as dump_yaml
 from yaml import CLoader as Loader, CDumper as Dumper
 from json import dump as json_dump
 
-MISSING = "MISSING_VALUE"
-PLACEHOLDER = "PLACEHOLDER_VALUE"
+from mre_common_vars import (
+    TRAIT_MODIFIER_KEYS,
+    MISSING,
+    PLACEHOLDER
+)
 
 def sort_traits_asc(list_of_class_specific_traits: list):
     """ Sort traits alphabetically, starting from A, after they've been sorted by class """
@@ -117,22 +120,8 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
         slim_trait['rarity'] = guess_rarity_from_trait_data(root)
     if root['inline_script'].get('COUNCIL', False) == True:
         slim_trait["is_councilor_trait"] = True
-    modifier_keys = [
-        "army_modifier",
-        "councilor_modifier",
-        "fleet_modifier",
-        "modifier",
-        "planet_modifier",
-        "sector_modifier",
-        "self_modifier",
-        "triggered_army_modifier",
-        "triggered_councilor_modifier",
-        "triggered_fleet_modifier",
-        "triggered_planet_modifier",
-        "triggered_sector_modifier",
-        "triggered_self_modifier",
-    ]
-    for modifier_info in modifier_keys:
+    
+    for modifier_info in TRAIT_MODIFIER_KEYS:
         if root.get(modifier_info):
             _modifiers = copy(root[modifier_info])
             nothing = _modifiers.pop('potential', None)

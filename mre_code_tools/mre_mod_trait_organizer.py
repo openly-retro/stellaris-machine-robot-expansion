@@ -23,12 +23,12 @@ import time
 from json import load as json_load, dump as json_dump
 import argparse
 
-from run_mre_trait_pipeline import (
+from mre_common_vars import (
     BUILD_FOLDER,
     LEADER_CLASSES,
-)
-from stellaris_trait_cruncher import (
-    MISSING, PLACEHOLDER
+    MISSING,
+    PLACEHOLDER,
+    TRAIT_MODIFIER_KEYS
 )
 
 TRAITS_TO_EXCLUDE = (
@@ -38,22 +38,6 @@ TRAITS_TO_EXCLUDE = (
 PIPELINE_OUTPUT_FILES = [
     f"00_mre_{leader_class}_traits.json" for leader_class in LEADER_CLASSES
 ]
-
-MODIFIERS = (
-    "army_modifier",
-    "councilor_modifier",
-    "fleet_modifier",
-    "modifier",
-    "planet_modifier",
-    "sector_modifier",
-    "self_modifier",
-    "triggered_army_modifier",
-    "triggered_councilor_modifier",
-    "triggered_fleet_modifier",
-    "triggered_planet_modifier",
-    "triggered_sector_modifier",
-    "triggered_self_modifier",
-)
 
 """ These traits are set up in some way as to break the expectation that the tier 3 requirements
 are locked in by tier 1 and 2. These traits are serious exceptions and shouldnt be added to
@@ -189,7 +173,7 @@ def do_qa_on_pipeline_files(traits_list):
         issues = []
         trait_key = [*trait][0]
         root = trait[trait_key]
-        missing_modifiers = not any([bool(root.get(modifier)) for modifier in MODIFIERS])
+        missing_modifiers = not any([bool(root.get(modifier)) for modifier in TRAIT_MODIFIER_KEYS])
         if missing_modifiers and not root.get("custom_tooltip"):
             issues.append(
                 f"Trait has no modifiers, and is !!missing!! custom_tooltip (BAD)"

@@ -24,13 +24,10 @@ from stellaris_trait_cruncher import (
     read_and_write_traits_data
 )
 
-BUILD_FOLDER = os.path.join(
-    os.getcwd(),
-    'build'
-)
-
-LEADER_CLASSES = (
-    "commander", "official", "scientist"
+from mre_common_vars import (
+    BUILD_FOLDER,
+    LEADER_CLASSES,
+    BASE_TRAIT_FILES
 )
 
 def clean_up_build_folder():
@@ -46,17 +43,9 @@ def make_converted_filename(base_filename):
     )
 
 def batch_process_base_files_into_yaml(stellaris_path: str) -> list:
-    base_traits_files = [
-        "00_admiral_traits.txt",
-        "00_general_traits.txt",
-        "00_generic_leader_traits.txt",
-        "00_governor_traits.txt",
-        "00_scientist_traits.txt",
-        "00_starting_ruler_traits.txt"
-    ]
     generated_files = []
     buffer = ''
-    for base_file in base_traits_files:
+    for base_file in BASE_TRAIT_FILES:
         base_file_path = os.path.join(
             stellaris_path, 'common', 'traits', base_file
         )
@@ -98,8 +87,7 @@ def crunch_trait_data_from_processed_yaml(generated_files_list: list):
 def sort_merge_traits_files(useful_yaml_traits_files):
     """ From several Stellaris traits files we mangled & filtered, merge & sort all data """
     from mre_mod_trait_organizer import (
-        trickle_up_subclass_requirements,
-        SKIP_LIST
+        trickle_up_subclass_requirements
     )
     
     output = {
