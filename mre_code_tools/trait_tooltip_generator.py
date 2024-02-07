@@ -111,6 +111,7 @@ paragons_modifier_replacement_map = {
     "weapon_type_strike_craft_weapon_damage_mult":1,
     "planet_soldiers_energy_produces_add":1,
     "planet_soldiers_minerals_produces_add":1,
+    "mod_ship_fire_rate_mult":1,
 }
 
 # Dicts are the fastest lookup ( O(1) ) vs searching a list ( O(n) )

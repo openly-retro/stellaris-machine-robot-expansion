@@ -162,7 +162,7 @@ def filter_traits_by_mod_feature(traits_list: list) -> dict:
     for trait in traits_list:
         trait_name = [*trait][0]
         if trait_name in str(TRAITS_TO_EXCLUDE):
-            sys.stdout.write(f"Skipped {trait_name} because it is on our exclusion list..")
+            sys.stdout.write(f"Skipped {trait_name} because it is on our exclusion list..\n")
             continue
         root = trait[trait_name]
         if trait_qualifies_for_core_modifying(root):

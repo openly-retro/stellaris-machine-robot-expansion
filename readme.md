@@ -80,6 +80,8 @@ Run:
 
 `python .\generate_traits_gui_and_effects.py --infile .\build\99_mre_commander_traits_for_codegen.json --tooltips`
 
+`python .\generate_traits_gui_and_effects.py --infile .\build\99_mre_commander_traits_for_codegen.json --effects`
+
 In gui_auto, there will be interface GUI code for commander traits, just for the leader-making feature so far. 
 
 WIP WIP WIP WIP
