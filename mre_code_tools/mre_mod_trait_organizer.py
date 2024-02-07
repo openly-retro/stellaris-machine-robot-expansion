@@ -32,8 +32,45 @@ from mre_common_vars import (
 )
 
 TRAITS_TO_EXCLUDE = (
-    "leader_trait_intemporal", # Does nothing, no effects, no custom tooltip
+    # commander
+    "leader_trait_clone_army_commander",  # Cant have clone origin with machines
+    "leader_trait_clone_army_fertile_commander",
+    "leader_trait_clone_army_full_commander",
+    "leader_trait_dragonslayer",  # Given via event
+    "leader_trait_eager_2", # Cant effect leader-building/core-mod
+    "leader_trait_entrepreneur", # consumer goods-related trait,
+    "trait_imperial_heir", # Gestalt isnt an imperial form of government (but they can form the Imperium)
+    "leader_trait_academia_recruiter",  # requires materialist ethic,
+    "leader_trait_shroud_preacher",  # requires spiritualist ethic,
+    "leader_trait_tzrynn_tithe", # given via event
 )
+
+MODIFIER_VALUES_SUBSTITUTIONS = {
+    "var_trait_surveyor_amt": 0.5,
+    "var_trait_surveyor_sector_amt": 0.25
+}
+
+""" Apply these changes to the traits after we have crunched them. Some of these traits 
+have duplicate keys in base stellaris and we lose the correct tooltip information.
+Others should be locked by certain DLCs"""
+TRAIT_PATCHES = {
+    "leader_trait_emotional_support_pet": {
+        "has_paragon_dlc": True
+    },
+    "leader_trait_enlister_2": {
+        "triggered_sector_modifier": {
+            "job_soldier_add": 1
+        },
+        "triggered_planet_modifier": {
+            "job_soldier_add": 1
+        }
+    },
+    "leader_trait_scrapper": {
+        "triggered_planet_modifier": {
+            "job_alloy_drone_add": 1
+        }
+    },
+}
 
 PIPELINE_OUTPUT_FILES = [
     f"00_mre_{leader_class}_traits.json" for leader_class in LEADER_CLASSES
@@ -116,13 +153,17 @@ def get_trait_series_name(trait_name: str) -> str:
 
 
 def filter_traits_by_mod_feature(traits_list: list) -> dict:
-    """ Organize traits by whether it should go to the leader-making feature or core-modifying """
+    """ Organize traits by whether it should go to the leader-making feature or core-modifying
+    Also take the opportunity to drop traits if they are in our exclusion list """
 
     leader_making_traits = []
     core_modifying_traits = []
     outliers = []
     for trait in traits_list:
         trait_name = [*trait][0]
+        if trait_name in str(TRAITS_TO_EXCLUDE):
+            sys.stdout.write(f"Skipped {trait_name} because it is on our exclusion list..")
+            continue
         root = trait[trait_name]
         if trait_qualifies_for_core_modifying(root):
             core_modifying_traits.append(trait)

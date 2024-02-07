@@ -86,6 +86,9 @@ def test_sorting_traits_for_which_feature__1():
                 }
             }
         },
+        {
+            "leader_trait_clone_army_commander": {}
+        }
     ]
     expected = {
         "leader_making_traits": [
