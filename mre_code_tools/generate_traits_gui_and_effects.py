@@ -294,6 +294,12 @@ if __name__ == "__main__":
         required=False
     )
     parser.add_argument(
+        '--leader_gui',
+        help="Generate GUI code for leadermaking feature, from trait files",
+        action="store_true",
+        required=False
+    )
+    parser.add_argument(
         '--process_all',
         help="The Big One. Generate M&RE tooltips, GUI code, button effects code, assuming all traits files were processed by mre_mod_trait_organizer"
     )
@@ -322,12 +328,23 @@ if __name__ == "__main__":
                 effects_blob_for_writing.encode('utf-8')
             )
             sys.exit()
-    gui_code = iterate_traits_make_leadermaking_gui_code(buffer, for_class="commander")
-    leadermaking_effects_code = iterate_traits_make_leadermaking_effects_code(buffer, for_class="commander")
+    if args.leader_gui:
+        detected_leader_class = args.infile.split('_')[2]
+        gui_blob_for_writing = iterate_traits_make_leadermaking_gui_code(
+            buffer, for_class=detected_leader_class)
+        with open(f"{infile_no_ext}_leadermaking_gui.txt", "wb") as leadermaking_gui_output:
+            sys.stdout.write(f"Writing leadermaking gui code to {leadermaking_gui_output.name}\n")
+            leadermaking_gui_output.write(
+                gui_blob_for_writing.encode('utf-8')
+            )
+            sys.exit()
+
+    # gui_code = iterate_traits_make_leadermaking_gui_code(buffer, for_class="commander")
+    # leadermaking_effects_code = iterate_traits_make_leadermaking_effects_code(buffer, for_class="commander")
     
-    with open(f"{infile_no_ext}_leadermaking_gui.txt", "w") as leadermaking_gui_output:
-        sys.stdout.write(f"Writing leadermaking GUI code to {leadermaking_gui_output.name}\n")
-        leadermaking_gui_output.write(gui_code)
-    with open(f"{infile_no_ext}_leadermaking_effects.txt", "w") as leadermaking_effects_output:
-        sys.stdout.write(f"Writing leadermaking effects code to {leadermaking_effects_output.name}\n")
-        leadermaking_effects_output.write(leadermaking_effects_code)
+    # with open(f"{infile_no_ext}_leadermaking_gui.txt", "w") as leadermaking_gui_output:
+    #     sys.stdout.write(f"Writing leadermaking GUI code to {leadermaking_gui_output.name}\n")
+    #     leadermaking_gui_output.write(gui_code)
+    # with open(f"{infile_no_ext}_leadermaking_effects.txt", "w") as leadermaking_effects_output:
+    #     sys.stdout.write(f"Writing leadermaking effects code to {leadermaking_effects_output.name}\n")
+    #     leadermaking_effects_output.write(leadermaking_effects_code)
