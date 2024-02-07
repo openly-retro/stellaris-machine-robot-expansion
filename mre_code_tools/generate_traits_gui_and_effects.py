@@ -101,25 +101,28 @@ def gen_leader_making_button_effects_code(
     # \common\button_effects\xvcv_mdlc_button_effects_leader_making_<LEADER_CLASS>_customgui.txt
     needs_paragon_dlc = "yes" if is_veteran_trait or is_destiny_trait else "no"
     # Veteran & destinty traits need slightly altered trigger names
-    alt_trigger_name = "alt_" if is_veteran_trait else ""
-    alt_trigger_name = "alt_2_" if is_destiny_trait else ""
+    alt_trigger_name = ""
+    if is_veteran_trait:
+        alt_trigger_name = "alt_"
+    if is_destiny_trait:
+        alt_trigger_name = "alt_2_"
     # Comment out the 'requires_leader_subclass_trigger` if it's not a veteran trait'
-    requires_subclass_trigger = "" if is_veteran_trait else "#"
+    requires_subclass_trigger = "" if required_subclass else "#"
     # commend out skill level trigger if it's not a veteran trait
     requires_skill_lvl_trigger = "" if is_veteran_trait or is_destiny_trait else "#"
+    show_veteran_comment = f"#veteran trait" if is_veteran_trait else ''
     return f"""
-# {leader_class} #{trait_name}
-xvcv_mdlc_leader_making_trait_{trait_name}_add_button_effect = {{
-    potential = {{ xvcv_mdlc_leader_making_{leader_class}_subclass_traits = no }}
+#{leader_class} #{trait_name} {show_veteran_comment}
+xvcv_mdlc_leader_making_trait_{leader_class}_{trait_name}_add_button_effect = {{
+    potential = {{ always = yes }}
     allow = {{
         xvcv_mdlc_leader_making_trait_pick_trigger = {{ CLASS = {leader_class} ID = {trait_name} }}
-        {requires_subclass_trigger} xvcv_mdlc_leader_making_requires_leader_subclass_trigger = {{ CLASS = {leader_class} ID = {required_subclass} }}
+        {requires_subclass_trigger}xvcv_mdlc_leader_making_requires_leader_subclass_trigger = {{ CLASS = {leader_class} ID = {required_subclass} }}
         xvcv_mdlc_leader_making_trait_cost_{alt_trigger_name}trigger = yes
         xvcv_mdlc_leader_making_trait_points_{alt_trigger_name}trigger = yes
-        {requires_skill_lvl_trigger} xvcv_mdlc_leader_making_trait_skill_level_{alt_trigger_name}trigger = yes
+        {requires_skill_lvl_trigger}xvcv_mdlc_leader_making_trait_skill_level_{alt_trigger_name}trigger = yes
         xvcv_mdlc_leader_making_trait_max_number_trigger = yes
-        xvcv_mdlc_leader_making_picked_class_official_trigger = yes
-        has_paragon_dlc = {needs_paragon_dlc}
+        xvcv_mdlc_leader_making_picked_class_{leader_class}_trigger = yes
     }}
     effect = {{
         xvcv_mdlc_leader_making_trait_pick_effect = {{ CLASS = {leader_class} ID = {trait_name} }}
@@ -285,6 +288,12 @@ if __name__ == "__main__":
         required=False
     )
     parser.add_argument(
+        '--effects',
+        help="Generate effects code from trait files",
+        action="store_true",
+        required=False
+    )
+    parser.add_argument(
         '--process_all',
         help="The Big One. Generate M&RE tooltips, GUI code, button effects code, assuming all traits files were processed by mre_mod_trait_organizer"
     )
@@ -301,6 +310,16 @@ if __name__ == "__main__":
             sys.stdout.write(f"Writing leadermaking tooltips code to {leadermaking_effects_output.name}\n")
             leadermaking_effects_output.write(
                 tooltips_blob_for_writing.encode('utf-8')
+            )
+            sys.exit()
+    if args.effects:
+        detected_leader_class = args.infile.split('_')[2]
+        effects_blob_for_writing = iterate_traits_make_leadermaking_effects_code(
+            buffer, for_class=detected_leader_class)
+        with open(f"{infile_no_ext}_leadermaking_effects.txt", "wb") as leadermaking_effects_output:
+            sys.stdout.write(f"Writing leadermaking effects code to {leadermaking_effects_output.name}\n")
+            leadermaking_effects_output.write(
+                effects_blob_for_writing.encode('utf-8')
             )
             sys.exit()
     gui_code = iterate_traits_make_leadermaking_gui_code(buffer, for_class="commander")
