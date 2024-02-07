@@ -38,6 +38,7 @@ def make_brown_text(some_text):
 def make_green_text(some_text):
     return f"{COLOR_CODES['green']}{some_text}{CLOSE_CODE}"
 
+""" Map modifier category name to tooltip """
 modifier_key_to_tooltip_prefix_var = {
     "army_modifier": "commanding_army_effect",
     "councilor_modifier": "councilor_trait",
@@ -52,6 +53,86 @@ modifier_key_to_tooltip_prefix_var = {
     "triggered_planet_modifier": "governing_planet_effect",
     "triggered_sector_modifier": "governing_sector_effect",
     "triggered_self_modifier": ""
+}
+
+""" This map is to record exceptions to PDX' pattern of naming modifiers. For a good number
+of cases, we can prepend mod_ to whatever the name of the modifier is, and that will link
+automatically to a good tooltip.
+Of course, nothing is sacred or 100% consistent in the base game data, so there are going to
+be numerous exceptions to this naming pattern, and unfortunately, there is no pattern 
+to the exceptions. So we have to individual note them all if we are ever to make our way
+to the surface here.
+
+The key name is what we thought the tooltip reference should be.
+Prepend "mre_" to the key, and that creates a link to a custom copy of the original trait text,
+which normally doesn't get shown for various reasons (like dependency on Megacorp DLC, for example)
+"""
+kludges_modifier_replacement_map = {
+    "galcom_modifier_diplo_weight_desc":1,
+    "species_leader_exp_gain":1,
+}
+
+megacorp_modifier_replacement_map = {
+    "deposit_blockers_cost_mult":1,
+    "planet_jobs_food_produces_mult":1,
+    "planet_administrators_unity_produces_mult":1,
+    "ships_upkeep_mult":1,
+    "ship_emergency_ftl_mult":1,
+    "planet_farmers_food_produces_mult":1,
+    "planet_farmers_food_produces_add":1,
+    "planet_jobs_slave_produces_mult":1,
+    "planet_miners_minerals_produces_mult":1,
+    "planet_miners_minerals_produces_add":1,
+    "planet_metallurgists_alloys_produces_mult":1,
+    "planet_metallurgists_alloys_produces_add":1,
+    "planet_jobs_energy_produces_mult":1,
+    "planet_jobs_energy_produces_add":1,
+    "s_slot_weapon_damage_mult":1,
+    "s_slot_weapon_fire_rate_mult":1,
+    "m_slot_weapon_damage_mult":1,
+    "m_slot_weapon_fire_rate_mult":1,
+    "planet_jobs_minerals_produces_mult":1,
+    "planet_jobs_minerals_produces_add":1,
+    "weapon_type_explosive_weapon_damage_mult":1,
+    "weapon_type_explosive_weapon_fire_rate_mult":1,
+    "planet_miners_minerals_produces_add":1,
+    "planet_jobs_worker_produces_mult":1,
+    "planet_jobs_slave_produces_mult":1,
+    "planet_pops_upkeep_mult":1,
+    "job_soldier_per_pop":1,
+    "planet_technician_physics_research_produces_mult":1,
+    "planet_technician_physics_research_produces_add":1,
+    "planet_farmers_society_research_produces_add":1,
+    "planet_miners_engineering_research_produces_add":1,
+    "planet_jobs_energy_produces_mult":1,
+}
+paragons_modifier_replacement_map = {
+    "weapon_role_artillery_weapon_damage_mult":1,
+    "weapon_type_strike_craft_weapon_damage_mult":1,
+    "planet_soldiers_energy_produces_add":1,
+    "planet_soldiers_minerals_produces_add":1,
+}
+
+# Dicts are the fastest lookup ( O(1) ) vs searching a list ( O(n) )
+ALL_REPLACEMENT_MAPS = kludges_modifier_replacement_map | megacorp_modifier_replacement_map | paragons_modifier_replacement_map 
+
+""" Some tooltips have localisation keys only in the yml for that DLC, and arent in 
+base stellaris. So they show up empty in the leadermaking UI because the game can't find
+them because that DLC is not enabled. And there is no DLC-required flag in the trait itself """
+hidden_dlc_requirements = {
+    "mod_planet_jobs_food_produces_mult": "Megacorp",  # implement in potential: host_has_dlc = "Megacorp"
+    "mod_planet_administrators_unity_produces_mult": "Megacorp",
+    "mod_planet_technician_energy_produces_mult": "Megacorp",
+    "mod_weapon_archaeotech_weapon_damage_mult": "Ancient Realms",  # has_ancrel
+    "mod_weapon_role_artillery_weapon_damage_mult": "Paragons",
+    "mod_weapon_type_strike_craft_weapon_damage_mult": "Paragons",
+    "mod_ships_upkeep_mult": "Megacorp",
+}
+
+""" These traits have a tooltip_tt entry in a localisation file """
+traits_with_complete_tooltips = {
+    "leader_trait_adventurous_spirit_3": "leader_trait_adventurous_spirit_3_tt",
+    "leader_trait_bureaucrat_2": "leader_trait_bureaucrat_2_tt"
 }
 
 def create_tooltip_for_leader(
@@ -82,15 +163,23 @@ def create_tooltip_for_leader(
     modifiers_list = []
     for modifier_key in TRAIT_MODIFIER_KEYS:
         if root.get(modifier_key):
-            descriptive_prefix = f"${modifier_key_to_tooltip_prefix_var[modifier_key]}$"
-            modifiers_list.append(descriptive_prefix)
+            if descriptive_prefix := modifier_key_to_tooltip_prefix_var[modifier_key]:
+                modifiers_list.append(f"${descriptive_prefix}$")
+
             for modifier_name in root[modifier_key].keys():
-                mod_tt_key = f"$mod_{modifier_name.lower()}$"
+                # Check if we have a replacement tooltip for an autogenerated one,
+                # and prepend mre_ so it matches with our custom definition
+                replacement_check = ''
+                if modifier_name in ALL_REPLACEMENT_MAPS:
+                    replacement_check = "mre_"
+                # make everything lowercase, PDX in this case doesn't care
+                mod_tt_key = f"${replacement_check}mod_{modifier_name}$".lower()
                 modified_amount = root[modifier_key][modifier_name]
                 if "." in str(modified_amount) and str(modified_amount)[-1].isdigit():
                     modified_amount = convert_decimal_to_percent_str(modified_amount)
+                number_sign = "+" if "-" not in str(modified_amount) else ""
                 modifiers_list.append(
-                    f"{mod_tt_key}: {make_green_text(f"+{modified_amount}")}"
+                    f"{mod_tt_key}: {make_green_text(f"{number_sign}{modified_amount}")}"
                 )
     trait_bonuses = '\\n'.join(modifiers_list)
     compiled_tooltip = (

@@ -3,6 +3,10 @@ from trait_tooltip_generator import (
 )
 from yaml import safe_load
 
+"""
+We do encode on the trait output to stop pytest from expanding \n
+"""
+
 def test_leader_trait_private_mines_2():
     # Common trait
     stellaris_script = """
@@ -65,3 +69,29 @@ xvcv_mdlc_leader_making_tooltip_commander_leader_trait_aggressive_2:0 "§H$leade
     actual = create_tooltip_for_leader(trait_data, leader_class="commander")
     # breakpoint()
     assert expected_output.encode('utf-8') == actual.encode('utf-8')
+
+def test_leadermaking_tooltip_leader_trait_generator_focus_3():
+    """ Check mre_ gets substituted in front of mod_ in certain cases """
+    test_data = {
+        "leader_trait_generator_focus_3": {
+            "trait_name": "leader_trait_generator_focus_3",
+            "leader_class": "commander",
+            "gfx": "GFX_leader_trait_financial",
+            "rarity": "veteran",
+            "planet_modifier": {
+                "planet_jobs_energy_produces_mult": 0.45
+            },
+            "sector_modifier": {
+                "planet_jobs_energy_produces_mult": 0.225
+            },
+            "requires_paragon_dlc": False,
+            "custom_tooltip": "only_one_governor_focus"
+        }
+    }
+    expected = """
+#leader_making #commander #leader_trait_generator_focus_3
+xvcv_mdlc_leader_making_tooltip_commander_leader_trait_generator_focus_3:0 "§H$leader_trait_generator_focus$ III§!$add_xvcv_mdlc_leader_making_traits_costs_desc_alt$\\n$governing_planet_effect$\\n$mre_mod_planet_jobs_energy_produces_mult$: §G+45%§!\\n$governing_sector_effect$\\n$mre_mod_planet_jobs_energy_produces_mult$: §G+22%§!\\n--------------\\n§L$leader_trait_generator_focus_desc$§!"
+"""
+    actual = create_tooltip_for_leader(test_data, leader_class="commander")
+    assert expected.encode('utf-8') == actual.encode('utf-8')
+
