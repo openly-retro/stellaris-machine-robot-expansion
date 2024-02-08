@@ -60,15 +60,15 @@ Next up, some more data massaging before we can feed it to phase 2 scripts.
 
 Run:
 
-`python .\mre_mod_trait_organizer.py --sort_filter_all`
+`python .\mre_process_traits_for_codegen.py --sort_filter_all`
 
 This will look in the build folder for the above 3 files, sort them by rarity and pick the highest tier trait in a series, discarding lower tier ones.
 
 Look for:
 
     build\99_mre_commander_traits_for_codegen.json
-    build\99_mre_commander_traits_for_codegen.json
-    build\99_mre_commander_traits_for_codegen.json
+    build\99_mre_official_traits_for_codegen.json
+    build\99_mre_scientist_traits_for_codegen.json
 
 ## Phase 2 (WIP)
 

@@ -1,4 +1,4 @@
-from mre_mod_trait_organizer import (
+from mre_process_traits_for_codegen import (
     pick_highest_tier_of_trait,
     filter_traits_by_mod_feature,
     trickle_up_subclass_requirements

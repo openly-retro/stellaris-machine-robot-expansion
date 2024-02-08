@@ -1,4 +1,4 @@
-from trait_tooltip_generator import (
+from generate_trait_tooltips import (
     create_tooltip_for_leader
 )
 from yaml import safe_load

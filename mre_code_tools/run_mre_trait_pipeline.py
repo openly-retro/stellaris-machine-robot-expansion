@@ -20,7 +20,7 @@ from stellaris_yaml_converter import (
     convert_stellaris_script_to_standard_yaml,
     validate_chopped_up_data
 )
-from stellaris_trait_cruncher import (
+from mre_trait_cruncher import (
     read_and_write_traits_data
 )
 
@@ -86,7 +86,7 @@ def crunch_trait_data_from_processed_yaml(generated_files_list: list):
 
 def sort_merge_traits_files(useful_yaml_traits_files):
     """ From several Stellaris traits files we mangled & filtered, merge & sort all data """
-    from mre_mod_trait_organizer import (
+    from mre_process_traits_for_codegen import (
         trickle_up_subclass_requirements
     )
     

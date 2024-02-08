@@ -157,7 +157,6 @@ xvcv_mdlc_leader_making_trait_commander_leader_trait_adventurous_spirit_3_add_bu
         xvcv_mdlc_leader_making_trait_skill_level_alt_trigger = yes
         xvcv_mdlc_leader_making_trait_max_number_trigger = yes
         xvcv_mdlc_leader_making_picked_class_commander_trigger = yes
-        has_paragon_dlc = yes
     }
     effect = {
         xvcv_mdlc_leader_making_trait_pick_effect = { CLASS = commander ID = leader_trait_adventurous_spirit_3 }

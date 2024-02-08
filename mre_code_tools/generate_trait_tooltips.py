@@ -130,6 +130,12 @@ hidden_dlc_requirements = {
     "mod_ships_upkeep_mult": "Megacorp",
 }
 
+# Mappings of modifiers whose tooltips dont match up
+# Left side is the modifier, right side is what it actually is in base Stellaris
+modifiers_dont_match_tooltip_string = {
+    "mod_science_ship_survey_speed": "MOD_SHIP_SCIENCE_SURVEY_SPEED",
+}
+
 """ These traits have a tooltip_tt entry in a localisation file """
 traits_with_complete_tooltips = {
     "leader_trait_adventurous_spirit_3": "leader_trait_adventurous_spirit_3_tt",
