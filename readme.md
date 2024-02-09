@@ -32,6 +32,14 @@ Warnings about working with Clausewitz syntax (what base Stellaris traits files 
 Phase 1: Transform base game traits data into useful data
 Phase 2: Automatically make GUI, effects, and tooltips code for this mod
 
+Run: 
+
+`python .\run_mre_trait_pipeline.py --stellaris_path <YOUR_STEAM_FOLDER>\steamapps\common\Stellaris\`
+
+It does:
+
+A LOT SO FAR: All the way up to "Make JSON maps of capitalized tooltips"!
+
 ## PHASE 1
 
 1. Collect base game trait files and reformat the PDX Script into something sane and predictable
@@ -76,19 +84,37 @@ Auto-generate mod code from files.
 
 ### Deal with uppercase modifier names in base stellaris
 
-Some auto-created modifier translation keys, like "ship_speed_mult" would have its tooltip key automatically set to `mod_ship_speed_mult`. But in base Stellaris, the translation key is actually `MOD_SHIP_SPEED_MULT` AND CAPITALIZATION MATTERS.
+Some auto-created modifier translation keys, like "ship_speed_mult" would have its tooltip key automatically set to `mod_ship_speed_mult` by our peaceful, ordinary, sane logic. But in base Stellaris, the translation key is actually `MOD_SHIP_SPEED_MULT` AND CAPITALIZATION MATTERS. And capitalization is unpredictable! Rock.. paper.. scissors, it's `random.choice('CAPITALIZED', 'not capitalized')`
 
-So, if we make keys like:
+But there is a way around this. If we make translation keys like:
 
-`mre_mod_ship_speed_mult:0 "$MOD_SHIP_SPEED_MULT$"` we can set ourselves up to never have to deal with capitalization again. And in the auto-generation of the tooltip, prepend mre_, fill up a whole yml file in localisation\english.yml ...
+`mre_mod_ship_speed_mult:0 "$MOD_SHIP_SPEED_MULT$"` we can set ourselves up to never have to deal with capitalization again. (Hahaha famous last words!) And in the auto-generation of the tooltip, prepend mre_, fill up a whole yml file in localisation\english.yml ... 
 
-Yeah it tires me to explain. Go look at `xvcv_mdlc_l_uppercase_modifiers.yml`
+For a more clear picture of what this workflow should do, go look at `xvcv_mdlc_l_uppercase_modifiers.yml`
 
-To fill that file, run
+To fill/update that file, run
 
-`python .\mre_translation_key_normalizer.py --infile <STEAM_LIBRARY_LOCATION>\steamapps\common\Stellaris\localisation\english\modifiers_l_english.yml`
+`python .\mre_translation_key_normalizer.py --infile <STEAM_LIBRARY>\steamapps\common\Stellaris\localisation\english\modifiers_l_english.yml --outfile modifiers_l_upper_map.txt`
 
-It will create a file, then you copypaste and sorry I am tired of kludge number 4796 and I dont want to explain anymore.
+`python .\mre_translation_key_normalizer.py --infile <STEAM_LIBRARY>\steamapps\common\Stellaris\localisation\english\megacorp_l_english.yml --outfile megacorp_upper_map.txt`
+
+`python .\mre_translation_key_normalizer.py --infile <STEAM_LIBRARY>\steamapps\common\Stellaris\localisation\english\paragon_2_l_english.yml --outfile paragon_2_upper_map.txt`
+
+Copy paste the contents of these output files into `xvcv_mdlc_l_english_uppercase_modifiers.yml`. You can delete the txt files after.
+
+### Make JSON maps of capitalized tooltips, so when we make our tooltips, we know when to append mre_
+
+Note: run_mre_trait_pipeline does up to and including this section of work.
+
+I know, right? so much stuff to do. If only PDX devs could have made all their data consistently one case.
+
+`python .\mre_translation_key_normalizer.py --infile <STEAM_LIBRARY>\steamapps\common\Stellaris\localisation\english\modifiers_l_english.yml --outfile .\build\modifiers_l_upper.json --list_keys`
+
+`python .\mre_translation_key_normalizer.py --infile <STEAM_LIBRARY>\steamapps\common\Stellaris\localisation\english\megacorp_l_english.yml --outfile .\build\megacorp_upper.json --list_keys`
+
+`python .\mre_translation_key_normalizer.py --infile <STEAM_LIBRARY>\steamapps\common\Stellaris\localisation\english\paragon_2_l_english.yml --outfile .\build\paragon_2_upper.json --list_keys`
+
+Now that these three JSON files are in place, our tooltip generator will look in them and know when to use our custom reference vs when it's OK to use the sanely concatenated one.
 
 ### Auto generate GUI code, and button effects code
 
@@ -106,6 +132,8 @@ Run:
 
 `python .\generate_traits_gui_and_effects.py --infile .\build\99_mre_commander_traits_for_codegen.json --effects`
 
-In gui_auto, there will be interface GUI code for commander traits, just for the leader-making feature so far. 
+WIP WIP WIP
 
-WIP WIP WIP WIP
+### Auto-generate trait tooltip localisation data
+
+
