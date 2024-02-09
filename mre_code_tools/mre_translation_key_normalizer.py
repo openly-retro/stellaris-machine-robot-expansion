@@ -15,7 +15,7 @@ def pick_uppercase_translation_keys(input_file_object, return_keys=False) -> lis
     for line in input_file_object:
         results = re.findall(translation_key, line)
         for result in results:
-            if result.isupper():
+            if result.isupper() and result.startswith("MOD"):
                 # breakpoint()
                 if return_keys:
                     uppercase_map_dict[result] = 1
