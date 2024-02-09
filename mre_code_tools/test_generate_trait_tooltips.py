@@ -1,7 +1,12 @@
+from tempfile import NamedTemporaryFile
+
 from generate_trait_tooltips import (
-    create_tooltip_for_leader
+    create_tooltip_for_leader,
+    load_modifier_keys_in_uppercase
 )
 from yaml import safe_load
+from json import dump as json_dump
+from mre_common_vars import BUILD_FOLDER
 
 """
 We do encode on the trait output to stop pytest from expanding \n
@@ -95,3 +100,23 @@ xvcv_mdlc_leader_making_tooltip_commander_leader_trait_generator_focus_3:0 "§H$
     actual = create_tooltip_for_leader(test_data, leader_class="commander")
     assert expected.encode('utf-8') == actual.encode('utf-8')
 
+def test_loading_uppercase_keys_from_files():
+    megacorp_tmpfile = NamedTemporaryFile(delete=False)
+    megacorp_data = {"MOD_BRANCH_OFFICE_VALUE_MULT": 1, "MOD_EMPIRE_SIZE_PENALTY_MULT":1}
+    modifiers_tmpfile = NamedTemporaryFile(delete=False)
+    modifiers_data = {"MOD_FEDERATION_EXPERIENCE_ADD": 1, "MOD_FEDERATION_COHESION_ADD": 1}
+    paragon_tmpfile = NamedTemporaryFile(delete=False)
+    paragon_data = {"MOD_PLANET_COMBAT_WIDTH_ADD": 1, "MOD_CREATE_DEBRIS_CHANCE": 1}
+    with open(megacorp_tmpfile.name, "w+t") as mtmp:
+        json_dump(megacorp_data, mtmp)
+    with open(modifiers_tmpfile.name, "w+t") as mtmp:
+        json_dump(modifiers_data, mtmp)
+    with open(paragon_tmpfile.name, "w+t") as mtmp:
+        json_dump(paragon_data, mtmp)
+    # This test is brittle because it depends on files in the build folder
+    sorted_data = load_modifier_keys_in_uppercase([
+        megacorp_tmpfile.name, modifiers_tmpfile.name, paragon_tmpfile.name
+    ])
+    assert "MOD_BRANCH_OFFICE_VALUE_MULT" in sorted_data
+    assert "MOD_FEDERATION_EXPERIENCE_ADD" in sorted_data
+    assert "MOD_PLANET_COMBAT_WIDTH_ADD" in sorted_data

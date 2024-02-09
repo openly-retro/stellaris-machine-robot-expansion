@@ -1,10 +1,19 @@
 # Given Stellaris leader trait info as YAML, generate Stellaris tooltip game code from it
+import logging
 import re
 import sys
 from yaml import safe_load
+from json import load as json_load
+from os import path as os_path
 import argparse
 
-from mre_common_vars import TRAIT_MODIFIER_KEYS
+from mre_common_vars import (
+    TRAIT_MODIFIER_KEYS,
+    BUILD_FOLDER,
+    INPUT_FILES_FOR_CODEGEN,
+)
+
+logger = logging.getLogger(__name__)
 
 COLOR_CODES = {
     # https://steamcommunity.com/sharedfiles/filedetails/?id=1955978558
@@ -37,6 +46,17 @@ def make_brown_text(some_text):
 
 def make_green_text(some_text):
     return f"{COLOR_CODES['green']}{some_text}{CLOSE_CODE}"
+
+def load_modifier_keys_in_uppercase(json_files_list):
+    json_data = {}
+    for json_file_name in json_files_list:
+        with open(json_file_name, "r") as json_file_object:
+            _tmp = json_load(json_file_object)
+            json_data = json_data | _tmp
+    logger.debug(
+        f"Uppercase keys data is f{sys.getsizeof(json_data)} bytes."
+    )
+    return sorted(json_data)
 
 """ Map modifier category name to tooltip """
 modifier_key_to_tooltip_prefix_var = {
@@ -202,3 +222,18 @@ def create_tooltip_for_leader(
 def convert_decimal_to_percent_str(numeric_amount: float) -> str:
     percent_float = numeric_amount * 100
     return f"{int(percent_float)}%"
+
+
+if __name__ == "__main__":
+    # start_time = time.perf_counter()
+    parser = argparse.ArgumentParser(
+        prog="0xRetro M&RE Trait Tooltip Generator",
+        description="Generate localisation tooltips for traits, using files created by mre_mod_trait_organizer.py"
+    )
+    parser.add_argument(
+        '--uppercase_datafile',
+        help='Location of a JSON file produced by mre_translation_key_normalizer.',
+        required=False,
+        nargs="+"
+    )
+    args = parser.parse_args()

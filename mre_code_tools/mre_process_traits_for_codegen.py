@@ -28,7 +28,8 @@ from mre_common_vars import (
     LEADER_CLASSES,
     MISSING,
     PLACEHOLDER,
-    TRAIT_MODIFIER_KEYS
+    TRAIT_MODIFIER_KEYS,
+    PIPELINE_OUTPUT_FILES
 )
 
 TRAITS_TO_EXCLUDE = (
@@ -71,10 +72,6 @@ TRAIT_PATCHES = {
         }
     },
 }
-
-PIPELINE_OUTPUT_FILES = [
-    f"00_mre_{leader_class}_traits.json" for leader_class in LEADER_CLASSES
-]
 
 """ These traits are set up in some way as to break the expectation that the tier 3 requirements
 are locked in by tier 1 and 2. These traits are serious exceptions and shouldnt be added to
@@ -209,7 +206,7 @@ def filter_traits_by_rarity(traits_list):
 def do_qa_on_pipeline_files(traits_list):
     """ Quick QA check to find potential missing data """
     rogue_trait_names = []
-    sys.stdout.write("** Checking for any issues with trait data ... **")
+    sys.stdout.write("** Checking for any issues with trait data ... **\n")
     for trait in traits_list:
         issues = []
         trait_key = [*trait][0]
@@ -326,8 +323,22 @@ def write_sorted_filtered_data_to_json_files(input_data: dict):
         f"Check the output files to see they're in good shape:\n"
     )
     for filename in output_filenames:
-        sys.stdout.write(f"{filename}\n")
+        sys.stdout.write(f"+ {filename}\n")
 
+def qa_pipeline_files():
+    if not os.path.exists(BUILD_FOLDER):
+        sys.exit(
+            'Couldnt find the build folder. Run this from within the mre_code_tools folder, '
+            'and make sure that "run_mre_trait_pipeline" was run.'
+        )
+    for filename in PIPELINE_OUTPUT_FILES:
+        input_file = os.path.join('build', filename)
+        with open(input_file, "r") as input_file:
+            sys.stdout.write(
+                f"Results for {input_file.name}:\n"
+            )
+            buffer = json_load(input_file)
+            do_qa_on_pipeline_files(buffer)
 
 if __name__ == "__main__":
     start_time = time.time()
@@ -363,19 +374,7 @@ if __name__ == "__main__":
             buffer = json_load(input_file)
             do_qa_on_pipeline_files(buffer)
     elif args.qa_all:
-        if not os.path.exists(BUILD_FOLDER):
-            sys.exit(
-                'Couldnt find the build folder. Run this from within the mre_code_tools folder, '
-                'and make sure that "run_mre_trait_pipeline" was run.'
-            )
-        for filename in PIPELINE_OUTPUT_FILES:
-            input_file = os.path.join('build', filename)
-            with open(input_file, "r") as input_file:
-                sys.stdout.write(
-                    f"Results for {input_file.name}:\n"
-                )
-                buffer = json_load(input_file)
-                do_qa_on_pipeline_files(buffer)
+        qa_pipeline_files()
     elif args.sort_filter_all:
         all_traits_processed_data = sort_and_filter_pipeline_files()
         write_sorted_filtered_data_to_json_files(all_traits_processed_data)

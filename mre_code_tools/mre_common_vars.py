@@ -36,3 +36,31 @@ BASE_TRAIT_FILES = (
     "00_scientist_traits.txt",
     "00_starting_ruler_traits.txt"
 )
+
+# Files created by sort_merge_traits_files
+PIPELINE_OUTPUT_FILES = [
+    f"00_mre_{leader_class}_traits.json" for leader_class in LEADER_CLASSES
+]
+
+# Files created by mre_process_traits_for_codegen
+INPUT_FILES_FOR_CODEGEN = (
+    "99_mre_commander_traits_for_codegen.json",
+    "99_mre_official_traits_for_codegen.json",
+    "99_mre_scientist_traits_for_codegen.json"
+)
+
+UNICORN = '''
+                \\
+                 \%,     ,'     , ,.
+                  \%\,';/J,";";";;,,.
+     ~.------------\%;((`);)));`;;,.,-----------,~
+    ~~:           ,`;@)((;`,`((;(;;);;,`         :~~
+   ~~ :           ;`(@```))`~ ``; );(;));;,      : ~~
+  ~~  :            `X `(( `),    (;;);;;;`       :  ~~
+ ~~~~ :            / `) `` /;~   `;;;;;;;);,     :  ~~~~
+~~~~  :           / , ` ,/` /     (`;;(;;;;,     : ~~~~
+  ~~~ :          (o  /]_/` /     ,);;;`;;;;;`,,  : ~~~
+   ~~ :           `~` `~`  `      ``;,  ``;" ';, : ~~
+    ~~:                             `'   `'  `'  :~~
+     ~`-----------------------------------------`~
+'''

@@ -23,11 +23,19 @@ from stellaris_yaml_converter import (
 from mre_trait_cruncher import (
     read_and_write_traits_data
 )
+from mre_process_traits_for_codegen import (
+    sort_and_filter_pipeline_files,
+    write_sorted_filtered_data_to_json_files,
+    qa_pipeline_files,
+)
+from mre_translation_key_normalizer import do_all_work as do_uppercase_modifier_mapping_work
 
 from mre_common_vars import (
     BUILD_FOLDER,
     LEADER_CLASSES,
-    BASE_TRAIT_FILES
+    BASE_TRAIT_FILES,
+    PIPELINE_OUTPUT_FILES,
+    UNICORN,
 )
 
 def clean_up_build_folder():
@@ -119,6 +127,12 @@ def sort_merge_traits_files(useful_yaml_traits_files):
             target_filenames.append(newfilepath)
     return target_filenames
 
+
+def sort_and_write_filtered_trait_data():
+    all_traits_processed_data = sort_and_filter_pipeline_files()
+    write_sorted_filtered_data_to_json_files(all_traits_processed_data)
+
+
 if __name__=="__main__":
     start_time = time.perf_counter()
     parser = argparse.ArgumentParser(
@@ -150,12 +164,23 @@ if __name__=="__main__":
     sys.stdout.write("** Sorting traits data & writing files **\n")
     just_three_traits_files = sort_merge_traits_files(useful_traits_json_files)
     sys.stdout.write("**** Mm mm, delicious, sane, predictable data! ****\n")
-    sys.stdout.write(
-        "Let's see how we did! Inspect these files in the build folder for errors:\n"
-    )
-    sys.stdout.write(
-        "\n".join([f"00_mre_{leader_class}_traits.json" for leader_class in LEADER_CLASSES])
-    )
+    # sys.stdout.write(
+    #     "Let's see how we did! Inspect these files in the build folder for errors:\n"
+    # )
+    # sys.stdout.write(
+    #     "\n".join([f"00_mre_{leader_class}_traits.json" for leader_class in LEADER_CLASSES])
+    # )
+    sys.stdout.write("** Doing a QA check on our shiny new datafiles ... **\n")
+    qa_pipeline_files()
+    sys.stdout.write("**** Phase 2 starting! ... ****\n")
+    sys.stdout.write("** Sorting, filtering, and getting data ready for code gen scripts ... **\n")
+    sort_and_write_filtered_trait_data()
+    sys.stdout.write("** Side quest: some modifier loc keys are in uppercase! Fixing ... **\n")
+    do_uppercase_modifier_mapping_work(args.stellaris_path)
+    sys.stdout.write("That's the end of the automation -- but there's more coming!\n")
+    sys.stdout.write("Tooltip auto-generation, button effects, and GUI.. till then -- \n")
+
+    print(UNICORN)
     end_time = time.perf_counter()
     execution_time = end_time - start_time
     sys.stdout.write(
