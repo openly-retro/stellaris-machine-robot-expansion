@@ -51,7 +51,7 @@ leader_trait_naturalist_3:
     )
     expected_output = """
 #leader_making #official #leader_trait_naturalist_3
-xvcv_mdlc_leader_making_tooltip_official_leader_trait_naturalist_3:0 "§H$leader_trait_naturalist$ III§!$add_xvcv_mdlc_leader_making_traits_costs_desc_alt$\\n$governing_planet_effect$\\n$mod_deposit_blockers_natural_unity_produces_add$: §G+12§!\\n$governing_sector_effect$\\n$mod_deposit_blockers_natural_unity_produces_add$: §G+6§!\\n--------------\\n§L$leader_trait_naturalist_desc$§!"
+xvcv_mdlc_leader_making_tooltip_official_leader_trait_naturalist_3:0 "§H$leader_trait_naturalist$ III§!$add_xvcv_mdlc_leader_making_traits_costs_desc_alt$\\n$governing_planet_effect$\\n$t$$mod_deposit_blockers_natural_unity_produces_add$: §G+12§!\\n$governing_sector_effect$\\n$t$$mod_deposit_blockers_natural_unity_produces_add$: §G+6§!\\n--------------\\n§L$leader_trait_naturalist_desc$§!"
 """
 
     assert expected_output.encode('utf-8') == trait_output.encode('utf-8')
@@ -74,7 +74,7 @@ def test_leader_trait_aggressive_2_fleet_modifier():
     }
     expected_output = """
 #leader_making #commander #leader_trait_aggressive_2
-xvcv_mdlc_leader_making_tooltip_commander_leader_trait_aggressive_2:0 "§H$leader_trait_aggressive$ II§!$add_xvcv_mdlc_leader_making_traits_costs_desc_alt$\\n$commanding_navy_effect$\\n$mre_mod_ship_fire_rate_mult$: §G+5%§!\\n$mre_mod_ship_weapon_damage$: §G+5%§!\\n--------------\\n§L$leader_trait_aggressive_desc$§!"
+xvcv_mdlc_leader_making_tooltip_commander_leader_trait_aggressive_2:0 "§H$leader_trait_aggressive$ II§!$add_xvcv_mdlc_leader_making_traits_costs_desc_alt$\\n$commanding_navy_effect$\\n$t$$mre_mod_ship_fire_rate_mult$: §G+5%§!\\n$t$$mre_mod_ship_weapon_damage$: §G+5%§!\\n--------------\\n§L$leader_trait_aggressive_desc$§!"
 """
     actual = create_tooltip_for_leader(trait_data, leader_class="commander")
     # breakpoint()
@@ -100,7 +100,7 @@ def test_leadermaking_tooltip_leader_trait_generator_focus_3():
     }
     expected = """
 #leader_making #commander #leader_trait_generator_focus_3
-xvcv_mdlc_leader_making_tooltip_commander_leader_trait_generator_focus_3:0 "§H$leader_trait_generator_focus$ III§!$add_xvcv_mdlc_leader_making_traits_costs_desc_alt$\\n$governing_planet_effect$\\n$mod_planet_jobs_energy_produces_mult$: §G+45%§!\\n$governing_sector_effect$\\n$mod_planet_jobs_energy_produces_mult$: §G+22%§!\\n--------------\\n§L$leader_trait_generator_focus_desc$§!"
+xvcv_mdlc_leader_making_tooltip_commander_leader_trait_generator_focus_3:0 "§H$leader_trait_generator_focus$ III§!$add_xvcv_mdlc_leader_making_traits_costs_desc_alt$\\n$governing_planet_effect$\\n$t$$mod_planet_jobs_energy_produces_mult$: §G+45%§!\\n$governing_sector_effect$\\n$t$$mod_planet_jobs_energy_produces_mult$: §G+22%§!\\n--------------\\n§L$leader_trait_generator_focus_desc$§!"
 """
     actual = create_tooltip_for_leader(test_data, leader_class="commander")
     assert expected.encode('utf-8') == actual.encode('utf-8')
@@ -165,7 +165,7 @@ def test_deted_wrong_word_order_modifier_key():
     }
     expected = """
 #leader_making #scientist #leader_trait_roamer_2
-xvcv_mdlc_leader_making_tooltip_scientist_leader_trait_roamer_2:0 "§H$leader_trait_roamer$ II§!$add_xvcv_mdlc_leader_making_traits_costs_desc_alt$\\n$MOD_SHIP_SCIENCE_SURVEY_SPEED$: §G+20%§!\\n--------------\\n§L$leader_trait_roamer_desc$§!"
+xvcv_mdlc_leader_making_tooltip_scientist_leader_trait_roamer_2:0 "§H$leader_trait_roamer$ II§!$add_xvcv_mdlc_leader_making_traits_costs_desc_alt$\\n$t$$MOD_SHIP_SCIENCE_SURVEY_SPEED$: §G+20%§!\\n--------------\\n§L$leader_trait_roamer_desc$§!"
 """
     actual = create_tooltip_for_leader(test_data, leader_class="scientist")
     assert expected.encode('utf-8') == actual.encode('utf-8')
@@ -202,7 +202,7 @@ def test_detect_modifier_permutation__adventurous_spirit_3():
 
     expected = """
 #leader_making #commander #leader_trait_adventurous_spirit_3
-xvcv_mdlc_leader_making_tooltip_commander_leader_trait_adventurous_spirit_3:0 "§H$leader_trait_adventurous_spirit$ III§!$add_xvcv_mdlc_leader_making_traits_costs_desc_alt$\\n$mod_leaders_upkeep_mult$: §G-25%§!\\n$MOD_LEADER_SPECIES_EXP_GAIN$: §G+10%§!\\n--------------\\n§L$leader_trait_adventurous_spirit_desc$§!"
+xvcv_mdlc_leader_making_tooltip_commander_leader_trait_adventurous_spirit_3:0 "§H$leader_trait_adventurous_spirit$ III§!$add_xvcv_mdlc_leader_making_traits_costs_desc_alt$\\n$t$$mod_leaders_upkeep_mult$: §G-25%§!\\n$t$$MOD_LEADER_SPECIES_EXP_GAIN$: §G+10%§!\\n--------------\\n§L$leader_trait_adventurous_spirit_desc$§!"
 """
     actual = create_tooltip_for_leader(trait_data, leader_class="commander")
     assert expected == actual

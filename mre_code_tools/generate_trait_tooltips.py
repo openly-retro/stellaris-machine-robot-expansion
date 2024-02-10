@@ -184,8 +184,10 @@ def create_tooltip_for_leader(
                 if "." in str(modified_amount) and str(modified_amount)[-1].isdigit():
                     modified_amount = convert_decimal_to_percent_str(modified_amount)
                 number_sign = "+" if "-" not in str(modified_amount) else ""
+                # TABBED_NEW_LINE: "\n$t$" but since we already add newlines, just add tab
+                indentation = "$t$"
                 modifiers_list.append(
-                    f"{mod_tt_key}: {make_green_text(f"{number_sign}{modified_amount}")}"
+                    f"{indentation}{mod_tt_key}: {make_green_text(f"{number_sign}{modified_amount}")}"
                 )
     trait_bonuses = '\\n'.join(modifiers_list)
     compiled_tooltip = (
