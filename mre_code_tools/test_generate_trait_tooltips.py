@@ -6,7 +6,9 @@ from generate_trait_tooltips import (
 )
 from yaml import safe_load
 from json import dump as json_dump
-from mre_common_vars import BUILD_FOLDER
+from mre_common_vars import (
+    BUILD_FOLDER,
+)
 
 """
 We do encode on the trait output to stop pytest from expanding \n
@@ -54,6 +56,8 @@ xvcv_mdlc_leader_making_tooltip_official_leader_trait_naturalist_3:0 "§H$leader
     assert expected_output.encode('utf-8') == trait_output.encode('utf-8')
 
 def test_leader_trait_aggressive_2_fleet_modifier():
+    """ This also tests our ability to check the 'uppercase localisation key map'
+    to see if we need to prepend the key with mre_ """
     trait_data = {
         "leader_trait_aggressive_2": {
             "trait_name": "leader_trait_aggressive_2",
@@ -69,7 +73,7 @@ def test_leader_trait_aggressive_2_fleet_modifier():
     }
     expected_output = """
 #leader_making #commander #leader_trait_aggressive_2
-xvcv_mdlc_leader_making_tooltip_commander_leader_trait_aggressive_2:0 "§H$leader_trait_aggressive$ II§!$add_xvcv_mdlc_leader_making_traits_costs_desc_alt$\\n$commanding_navy_effect$\\n$mod_ship_fire_rate_mult$: §G+5%§!\\n$mod_ship_weapon_damage$: §G+5%§!\\n--------------\\n§L$leader_trait_aggressive_desc$§!"
+xvcv_mdlc_leader_making_tooltip_commander_leader_trait_aggressive_2:0 "§H$leader_trait_aggressive$ II§!$add_xvcv_mdlc_leader_making_traits_costs_desc_alt$\\n$commanding_navy_effect$\\n$mre_mod_ship_fire_rate_mult$: §G+5%§!\\n$mre_mod_ship_weapon_damage$: §G+5%§!\\n--------------\\n§L$leader_trait_aggressive_desc$§!"
 """
     actual = create_tooltip_for_leader(trait_data, leader_class="commander")
     # breakpoint()
@@ -95,7 +99,7 @@ def test_leadermaking_tooltip_leader_trait_generator_focus_3():
     }
     expected = """
 #leader_making #commander #leader_trait_generator_focus_3
-xvcv_mdlc_leader_making_tooltip_commander_leader_trait_generator_focus_3:0 "§H$leader_trait_generator_focus$ III§!$add_xvcv_mdlc_leader_making_traits_costs_desc_alt$\\n$governing_planet_effect$\\n$mre_mod_planet_jobs_energy_produces_mult$: §G+45%§!\\n$governing_sector_effect$\\n$mre_mod_planet_jobs_energy_produces_mult$: §G+22%§!\\n--------------\\n§L$leader_trait_generator_focus_desc$§!"
+xvcv_mdlc_leader_making_tooltip_commander_leader_trait_generator_focus_3:0 "§H$leader_trait_generator_focus$ III§!$add_xvcv_mdlc_leader_making_traits_costs_desc_alt$\\n$governing_planet_effect$\\n$mod_planet_jobs_energy_produces_mult$: §G+45%§!\\n$governing_sector_effect$\\n$mod_planet_jobs_energy_produces_mult$: §G+22%§!\\n--------------\\n§L$leader_trait_generator_focus_desc$§!"
 """
     actual = create_tooltip_for_leader(test_data, leader_class="commander")
     assert expected.encode('utf-8') == actual.encode('utf-8')
@@ -120,3 +124,47 @@ def test_loading_uppercase_keys_from_files():
     assert "MOD_BRANCH_OFFICE_VALUE_MULT" in sorted_data
     assert "MOD_FEDERATION_EXPERIENCE_ADD" in sorted_data
     assert "MOD_PLANET_COMBAT_WIDTH_ADD" in sorted_data
+
+def test_deted_wrong_word_order_modifier_key():
+    """ Sometimes the words in the modifier arent the same order as the actual tooltip key,
+    so test that we can detect these funky word orders """
+
+    """
+     = {
+	replace_traits = { "leader_trait_roamer" }
+	inline_script = {
+		script = trait/icon
+		CLASS = scientist
+		ICON = "GFX_leader_trait_roamer"
+		RARITY = common
+		COUNCIL = no
+		TIER = 2
+	}
+	modifier = {
+		science_ship_survey_speed = 0.20
+	}
+	leader_class = { scientist }
+	opposites = {
+		leader_trait_neurotic
+		leader_trait_neurotic_2
+	}
+	ai_weight = 100
+}"""
+    test_data = {
+        "leader_trait_roamer_2": {
+            "trait_name": "leader_trait_roamer_2",
+            "leader_class": "scientist",
+            "gfx": "GFX_leader_trait_roamer",
+            "rarity": "common",
+            "modifier": {
+                "science_ship_survey_speed": 0.2
+            },
+            "requires_paragon_dlc": False,
+        }
+    }
+    expected = """
+#leader_making #scientist #leader_trait_roamer_2
+xvcv_mdlc_leader_making_tooltip_scientist_leader_trait_roamer_2:0 "§H$leader_trait_roamer$ II§!$add_xvcv_mdlc_leader_making_traits_costs_desc_alt$\\n$MOD_SHIP_SCIENCE_SURVEY_SPEED$: §G+20%§!\\n--------------\\n§L$leader_trait_roamer_desc$§!"
+"""
+    actual = create_tooltip_for_leader(test_data, leader_class="scientist")
+    assert expected.encode('utf-8') == actual.encode('utf-8')

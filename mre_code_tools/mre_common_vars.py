@@ -49,6 +49,12 @@ INPUT_FILES_FOR_CODEGEN = (
     "99_mre_scientist_traits_for_codegen.json"
 )
 
+DEFAULT_UPPERCASE_MODIFIERS_MAP_FILES = [
+    os.path.join(BUILD_FOLDER, 'modifiers_l_english_upper.json'),
+    os.path.join(BUILD_FOLDER, 'megacorp_l_english_upper.json'),
+    os.path.join(BUILD_FOLDER, 'paragon_2_l_english_upper.json')
+] 
+
 UNICORN = '''
                 \\
                  \%,     ,'     , ,.
