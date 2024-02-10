@@ -113,6 +113,7 @@ hidden_dlc_requirements = {
 # Left side is the modifier, right side is what it actually is in base Stellaris
 modifiers_dont_match_tooltip_string = {
     "mod_science_ship_survey_speed": "MOD_SHIP_SCIENCE_SURVEY_SPEED",
+    "mod_species_leader_exp_gain": "MOD_LEADER_SPECIES_EXP_GAIN",
 }
 
 """ These traits have a tooltip_tt entry in a localisation file """
@@ -120,6 +121,15 @@ traits_with_complete_tooltips = {
     "leader_trait_adventurous_spirit_3": "leader_trait_adventurous_spirit_3_tt",
     "leader_trait_bureaucrat_2": "leader_trait_bureaucrat_2_tt"
 }
+
+def detect_trait_modifier_permutation(trait_modifier: str,uppercase_key_store: dict) -> str:
+    """ run if we couldnt find the localisation key matching the standard word order """
+    trait_words = trait_modifier.split('_')
+    permutation = f"MOD_{trait_words[1]}_{trait_words[0]}_{'_'.join(trait_words[2:])}".upper()
+    match = permutation if uppercase_key_store.get(permutation) else ''
+    if match:
+        print(f"Found permutation of {trait_modifier} as {permutation}!")
+    return match
 
 def create_tooltip_for_leader(
     trait_dict, leader_class, feature="leader_making"
@@ -157,11 +167,14 @@ def create_tooltip_for_leader(
                 # and prepend mre_ so it matches with our custom definition
                 replacement_check = ''
                 uppercase_key_name = f"mod_{modifier_name}".upper()
-                if trait_name == "leader_trait_adaptable_2":
-                    breakpoint()
                 if ALL_REPLACEMENT_MAPS.get(uppercase_key_name, False):
                     # make everything lowercase, PDX in this case doesn't care
                     mod_tt_key = f"$mre_mod_{modifier_name}$".lower()
+                # check to see if the first two words have swapped order
+                elif permutated_uppercase_key_name := detect_trait_modifier_permutation(
+                    uppercase_key_name, uppercase_key_store=ALL_REPLACEMENT_MAPS
+                ):
+                    mod_tt_key = permutated_uppercase_key_name
                 elif f"mod_{modifier_name}" in modifiers_dont_match_tooltip_string:
                     replacement = modifiers_dont_match_tooltip_string[f"mod_{modifier_name}"]
                     mod_tt_key = f"${replacement}$"

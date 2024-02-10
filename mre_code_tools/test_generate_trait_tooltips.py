@@ -2,7 +2,8 @@ from tempfile import NamedTemporaryFile
 
 from generate_trait_tooltips import (
     create_tooltip_for_leader,
-    load_modifier_keys_in_uppercase
+    load_modifier_keys_in_uppercase,
+    detect_trait_modifier_permutation
 )
 from yaml import safe_load
 from json import dump as json_dump
@@ -168,3 +169,40 @@ xvcv_mdlc_leader_making_tooltip_scientist_leader_trait_roamer_2:0 "§H$leader_tr
 """
     actual = create_tooltip_for_leader(test_data, leader_class="scientist")
     assert expected.encode('utf-8') == actual.encode('utf-8')
+
+def test_detect_permutation_of_trait_modifier_in_localisation():
+    """ Check for a match of a permutation of a trait name in localisation keys """
+    modifier_name = "species_leader_exp_gain"
+    uppercase_localisation_keys = {
+        "MOD_LEADER_SPECIES_EXP_GAIN": 1,
+    }
+    expected_permutation_detection = "MOD_LEADER_SPECIES_EXP_GAIN"
+    actual = detect_trait_modifier_permutation(
+        modifier_name,
+        uppercase_key_store=uppercase_localisation_keys
+    )
+    assert expected_permutation_detection == actual
+
+
+def test_detect_modifier_permutation__adventurous_spirit_3():
+    trait_data = {
+        "leader_trait_adventurous_spirit_3": {
+            "trait_name": "leader_trait_adventurous_spirit_3",
+            "leader_class": "commander",
+            "gfx": "GFX_leader_trait_adventurous_spirit",
+            "rarity": "veteran",
+            "triggered_self_modifier": {
+                "leaders_upkeep_mult": -0.25,
+                "species_leader_exp_gain": 0.1
+            },
+            "requires_paragon_dlc": False,
+            "custom_tooltip": "leader_trait_adventurous_spirit_effect"
+        }
+    }
+
+    expected = """
+#leader_making #commander #leader_trait_adventurous_spirit_3
+xvcv_mdlc_leader_making_tooltip_commander_leader_trait_adventurous_spirit_3:0 "§H$leader_trait_adventurous_spirit$ III§!$add_xvcv_mdlc_leader_making_traits_costs_desc_alt$\\n$mod_leaders_upkeep_mult$: §G-25%§!\\n$MOD_LEADER_SPECIES_EXP_GAIN$: §G+10%§!\\n--------------\\n§L$leader_trait_adventurous_spirit_desc$§!"
+"""
+    actual = create_tooltip_for_leader(trait_data, leader_class="commander")
+    assert expected == actual
