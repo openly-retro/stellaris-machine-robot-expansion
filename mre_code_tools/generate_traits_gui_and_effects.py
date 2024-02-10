@@ -1,11 +1,13 @@
 # Python code to help generate all the leader-making traits code
 import argparse
 from datetime import datetime
+import os
 import time
 import sys
 from json import load as json_load
 
 from generate_trait_tooltips import create_tooltip_for_leader
+from mre_common_vars import BUILD_FOLDER
 
 RARITIES = ("common", "veteran", "paragon")
 
@@ -278,6 +280,77 @@ def iterate_traits_make_leadermaking_tooltips_code(organized_traits_dict, for_cl
             leader_making_tooltips_copypaste_blob.append(tooltip_code_for_leadermaking_trait)
     return ''.join(leader_making_tooltips_copypaste_blob)
 
+def write_leadermaking_tooltips_to_file(input_codegen_json_file_name: str):
+    # Open up 99_mre_<leaderclass>traits_for_codegen.json and write tooltips for a class
+    buffer = ''
+    base_filename =  input_codegen_json_file_name.rsplit('.',1)
+    leadermaking_tt_filename = f"{base_filename}_leadermaking_tooltips.txt"
+    output_file_name = os.path.join(
+        BUILD_FOLDER,
+        leadermaking_tt_filename
+    )
+    with open(input_codegen_json_file_name, "w") as source_codegen_data:
+        buffer = json_load(source_codegen_data)
+    detected_leader_class = input_codegen_json_file_name('_')[2]
+    tooltips_blob_for_writing = iterate_traits_make_leadermaking_tooltips_code(
+        buffer, for_class=detected_leader_class)
+    with open(output_file_name, "wb") as leadermaking_effects_output:
+        sys.stdout.write(f"Writing {detected_leader_class} leadermaking tooltips code to {leadermaking_effects_output.name}\n")
+        leadermaking_effects_output.write(
+            tooltips_blob_for_writing.encode('utf-8')
+        )
+
+def write_leadermaking_button_effects_to_file(input_codegen_json_file_name):
+    buffer = ''
+    base_filename =  input_codegen_json_file_name.rsplit('.',1)
+    leadermaking_button_effects_outfile = f"{base_filename}_leadermaking_tooltips.txt"
+    output_file_name = os.path.join(
+        BUILD_FOLDER,
+        leadermaking_button_effects_outfile
+    )
+    with open(input_codegen_json_file_name, "w") as source_codegen_data:
+        buffer = json_load(source_codegen_data)
+    detected_leader_class = input_codegen_json_file_name('_')[2]
+    tooltips_blob_for_writing = iterate_traits_make_leadermaking_effects_code(
+        buffer, for_class=detected_leader_class)
+    with open(output_file_name, "wb") as leadermaking_effects_output:
+        sys.stdout.write(f"Writing {detected_leader_class} leadermaking tooltips code to {leadermaking_effects_output.name}\n")
+        leadermaking_effects_output.write(
+            tooltips_blob_for_writing.encode('utf-8')
+        )
+
+def run_codegen_process_for_leadermaking_feature(input_codegen_json_file_name, generated_code_type="tooltips"):
+    """ generated_code_types are "effects","gui","tooltips" """
+    buffer = ''
+    base_filename =  input_codegen_json_file_name.rsplit('.',1)[0]
+    leadermaking_code_outfile = f"{base_filename}_leadermaking_{generated_code_type}.txt"
+    output_file_name = os.path.join(
+        BUILD_FOLDER,
+        leadermaking_code_outfile
+    )
+    input_file_path = os.path.join(BUILD_FOLDER, input_codegen_json_file_name)
+    # breakpoint()
+    with open(input_file_path, "r") as source_codegen_data:
+        buffer = json_load(source_codegen_data)
+    detected_leader_class = input_codegen_json_file_name.split('_')[2]
+    generated_leadermaking_code_blob = ''
+    if generated_code_type == "tooltips":
+        generated_leadermaking_code_blob = iterate_traits_make_leadermaking_tooltips_code(
+            buffer, for_class=detected_leader_class)
+    elif generated_code_type == "gui":
+        generated_leadermaking_code_blob = iterate_traits_make_leadermaking_gui_code(
+            buffer, for_class=detected_leader_class)
+    elif generated_code_type == "effects":
+        generated_leadermaking_code_blob = iterate_traits_make_leadermaking_effects_code(
+            buffer, for_class=detected_leader_class)
+    with open(output_file_name, "wb") as leadermaking_code_outfile:
+        sys.stdout.write(f"Writing {detected_leader_class} leadermaking {generated_code_type} code to {output_file_name}\n")
+        leadermaking_code_outfile.write(
+            generated_leadermaking_code_blob.encode('utf-8')
+        )
+
+
+
 if __name__ == "__main__":
     start_time = time.time()
     parser = argparse.ArgumentParser(
@@ -317,15 +390,16 @@ if __name__ == "__main__":
     with open(args.infile) as organized_traits_file:
         buffer = json_load(organized_traits_file)
     if args.tooltips:
+        target_file = f"{infile_no_ext}_leadermaking_tooltips.txt"
         detected_leader_class = args.infile.split('_')[2]
         tooltips_blob_for_writing = iterate_traits_make_leadermaking_tooltips_code(
             buffer, for_class=detected_leader_class)
-        with open(f"{infile_no_ext}_leadermaking_tooltips.txt", "wb") as leadermaking_effects_output:
+        with open(target_file, "wb") as leadermaking_effects_output:
             sys.stdout.write(f"Writing leadermaking tooltips code to {leadermaking_effects_output.name}\n")
             leadermaking_effects_output.write(
                 tooltips_blob_for_writing.encode('utf-8')
             )
-            sys.exit()
+        sys.exit()
     if args.effects:
         detected_leader_class = args.infile.split('_')[2]
         effects_blob_for_writing = iterate_traits_make_leadermaking_effects_code(
@@ -347,12 +421,3 @@ if __name__ == "__main__":
             )
             sys.exit()
 
-    # gui_code = iterate_traits_make_leadermaking_gui_code(buffer, for_class="commander")
-    # leadermaking_effects_code = iterate_traits_make_leadermaking_effects_code(buffer, for_class="commander")
-    
-    # with open(f"{infile_no_ext}_leadermaking_gui.txt", "w") as leadermaking_gui_output:
-    #     sys.stdout.write(f"Writing leadermaking GUI code to {leadermaking_gui_output.name}\n")
-    #     leadermaking_gui_output.write(gui_code)
-    # with open(f"{infile_no_ext}_leadermaking_effects.txt", "w") as leadermaking_effects_output:
-    #     sys.stdout.write(f"Writing leadermaking effects code to {leadermaking_effects_output.name}\n")
-    #     leadermaking_effects_output.write(leadermaking_effects_code)

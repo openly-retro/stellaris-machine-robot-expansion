@@ -114,6 +114,7 @@ hidden_dlc_requirements = {
 modifiers_dont_match_tooltip_string = {
     "mod_science_ship_survey_speed": "MOD_SHIP_SCIENCE_SURVEY_SPEED",
     "mod_species_leader_exp_gain": "MOD_LEADER_SPECIES_EXP_GAIN",
+    "mod_ship_anomaly_research_speed_mult": "MOD_SHIP_ANOMALY_RESEARCH_SPEED",
 }
 
 """ These traits have a tooltip_tt entry in a localisation file """

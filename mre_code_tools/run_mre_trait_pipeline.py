@@ -28,6 +28,9 @@ from mre_process_traits_for_codegen import (
     write_sorted_filtered_data_to_json_files,
     qa_pipeline_files,
 )
+from generate_traits_gui_and_effects import (
+    run_codegen_process_for_leadermaking_feature,
+)
 from mre_translation_key_normalizer import do_all_work as do_uppercase_modifier_mapping_work
 
 from mre_common_vars import (
@@ -36,6 +39,7 @@ from mre_common_vars import (
     BASE_TRAIT_FILES,
     PIPELINE_OUTPUT_FILES,
     UNICORN,
+    INPUT_FILES_FOR_CODEGEN,
 )
 
 def clean_up_build_folder():
@@ -127,6 +131,13 @@ def sort_merge_traits_files(useful_yaml_traits_files):
             target_filenames.append(newfilepath)
     return target_filenames
 
+def generate_leadermaking_feature_code():
+    """ TODO: Deposit localisation and button effects directly into their game code files """
+    for input_file in INPUT_FILES_FOR_CODEGEN:
+        for generated_code_type in ["effects","gui","tooltips"]:
+            run_codegen_process_for_leadermaking_feature(
+                input_file, generated_code_type=generated_code_type
+            )
 
 def sort_and_write_filtered_trait_data():
     all_traits_processed_data = sort_and_filter_pipeline_files()
@@ -177,8 +188,10 @@ if __name__=="__main__":
     sort_and_write_filtered_trait_data()
     sys.stdout.write("** Side quest: some modifier loc keys are in uppercase! Fixing ... **\n")
     do_uppercase_modifier_mapping_work(args.stellaris_path)
+    sys.stdout.write("** Firing up leader-making code generation scripts ... **\n")
+    generate_leadermaking_feature_code()
     sys.stdout.write("That's the end of the automation -- but there's more coming!\n")
-    sys.stdout.write("Tooltip auto-generation, button effects, and GUI.. till then -- \n")
+    sys.stdout.write("Core-modifying tooltip auto-generation, button effects, and GUI.. till then -- \n")
 
     print(UNICORN)
     end_time = time.perf_counter()
