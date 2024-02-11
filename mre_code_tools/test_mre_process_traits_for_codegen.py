@@ -1,6 +1,7 @@
-from mre_mod_trait_organizer import (
+from mre_process_traits_for_codegen import (
     pick_highest_tier_of_trait,
-    filter_traits_by_mod_feature
+    filter_traits_by_mod_feature,
+    trickle_up_subclass_requirements
 )
 
 def test_picking_highest_tier__2():
@@ -85,6 +86,9 @@ def test_sorting_traits_for_which_feature__1():
                 }
             }
         },
+        {
+            "leader_trait_clone_army_commander": {}
+        }
     ]
     expected = {
         "leader_making_traits": [
@@ -127,4 +131,40 @@ def test_sorting_traits_for_which_feature__1():
         "outliers": []
     }
     actual = filter_traits_by_mod_feature(test_data)
+    assert expected == actual
+
+def test_transfer_subclass_reqs_to_other_traits_in_series():
+    """ A tier-1 trait will have subclass requirements but often its tier 2/3 replacement wont """
+    test_data = [
+        {
+            "leader_trait_adaptable": {
+                "trait_name": "leader_trait_adaptable",
+                "required_subclass": "subclass_commander_councilor"
+            }
+        },
+        {
+            "leader_trait_adaptable_2": {
+                "trait_name": "leader_trait_adaptable"
+            }
+        },
+    ]
+
+    # for raw_trait in sorted_data:
+    # trait_name = [*raw_trait][0]
+    # assert raw_trait[trait_name]['required_subclass'] == "subclass_commander_admiral"
+    expected = [
+        {
+            "leader_trait_adaptable": {
+                "trait_name": "leader_trait_adaptable",
+                "required_subclass": "subclass_commander_councilor"
+            }
+        },
+        {
+            "leader_trait_adaptable_2": {
+                "trait_name": "leader_trait_adaptable",
+                "required_subclass": "subclass_commander_councilor"
+            }
+        },
+    ]
+    actual = trickle_up_subclass_requirements(test_data)
     assert expected == actual

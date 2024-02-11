@@ -2,7 +2,6 @@ from copy import copy
 import re
 import sys
 import argparse
-from tempfile import NamedTemporaryFile
 import argparse
 from yaml import safe_load
 
@@ -38,7 +37,10 @@ def convert_stellaris_script_to_standard_yaml(input_string):
     structured_leader_class_lists = convert_leader_class_definitions_to_lists(structured_leader_class_lists2)
 
     # Take care of repeated has_trait keys >:o
-    tidy_subclass_has_trait_duplicates = concatenate_multiline_has_trait_definitions(structured_leader_class_lists)
+    tidy_subclass_has_trait_duplicates_2 = concatenate_multiline_has_trait_definitions(
+        structured_leader_class_lists, min_occurrences=2)
+    tidy_subclass_has_trait_duplicates = concatenate_multiline_has_trait_definitions(
+        tidy_subclass_has_trait_duplicates_2, min_occurrences=2)
 
     # Also need to comment out "inline_script = paragon" because PDX are using duplicate keys AGAIN >_<
     comment_out_inline_scripts = comment_nested_multiline = re.sub(r"\n(\s)(?=((inline_script: \w){2,}))", '\n#', tidy_subclass_has_trait_duplicates)
@@ -72,7 +74,8 @@ def convert_leader_class_definitions_to_lists(input_string, min_classes_length: 
 
 def concatenate_multiline_has_trait_definitions(input_string, min_occurrences: int=1):
     """ PDX put multiple lines with the same key definition, so we have to deal with that """
-    multiple_has_trait_lines = re.compile(r"((\s*has_trait: subclass\w*\n){1,})")
+    multiple_has_trait_lines = re.compile(r"((\s*has_trait: subclass\w*\n){" + f"{min_occurrences}" + r",})")
+    # multiple_has_trait_lines = re.compile(r"((\s*has_trait: subclass\w*\n){1,})")
     results = re.findall(multiple_has_trait_lines, input_string)
     input_string_copy = copy(input_string)
     for result in results:

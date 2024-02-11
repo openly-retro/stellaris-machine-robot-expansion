@@ -20,17 +20,26 @@ from stellaris_yaml_converter import (
     convert_stellaris_script_to_standard_yaml,
     validate_chopped_up_data
 )
-from stellaris_trait_cruncher import (
+from mre_trait_cruncher import (
     read_and_write_traits_data
 )
-
-BUILD_FOLDER = os.path.join(
-    os.getcwd(),
-    'build'
+from mre_process_traits_for_codegen import (
+    sort_and_filter_pipeline_files,
+    write_sorted_filtered_data_to_json_files,
+    qa_pipeline_files,
 )
+from generate_traits_gui_and_effects import (
+    run_codegen_process_for_leadermaking_feature,
+)
+from mre_translation_key_normalizer import do_all_work as do_uppercase_modifier_mapping_work
 
-LEADER_CLASSES = (
-    "commander", "official", "scientist"
+from mre_common_vars import (
+    BUILD_FOLDER,
+    LEADER_CLASSES,
+    BASE_TRAIT_FILES,
+    PIPELINE_OUTPUT_FILES,
+    UNICORN,
+    INPUT_FILES_FOR_CODEGEN,
 )
 
 def clean_up_build_folder():
@@ -46,17 +55,9 @@ def make_converted_filename(base_filename):
     )
 
 def batch_process_base_files_into_yaml(stellaris_path: str) -> list:
-    base_traits_files = [
-        "00_admiral_traits.txt",
-        "00_general_traits.txt",
-        "00_generic_leader_traits.txt",
-        "00_governor_traits.txt",
-        "00_scientist_traits.txt",
-        "00_starting_ruler_traits.txt"
-    ]
     generated_files = []
     buffer = ''
-    for base_file in base_traits_files:
+    for base_file in BASE_TRAIT_FILES:
         base_file_path = os.path.join(
             stellaris_path, 'common', 'traits', base_file
         )
@@ -97,6 +98,10 @@ def crunch_trait_data_from_processed_yaml(generated_files_list: list):
 
 def sort_merge_traits_files(useful_yaml_traits_files):
     """ From several Stellaris traits files we mangled & filtered, merge & sort all data """
+    from mre_process_traits_for_codegen import (
+        trickle_up_subclass_requirements
+    )
+    
     output = {
         "commander": [],
         "scientist": [],
@@ -112,9 +117,9 @@ def sort_merge_traits_files(useful_yaml_traits_files):
 
     # Now, sort all traits per class
     for leader_class in LEADER_CLASSES:
-        # breakpoint()
-        output[leader_class] = sorted(output[leader_class], key=lambda x: [*x][0]) 
-
+        sorted_beautiful_data = sorted(output[leader_class], key=lambda x: [*x][0]) 
+        # It just feels better having subclasses populated at the end of all this
+        output[leader_class] = trickle_up_subclass_requirements(sorted_beautiful_data, for_class=leader_class)
     # Now, write each classes' traits to a file
     target_filenames = []
     for leader_class in LEADER_CLASSES:
@@ -125,6 +130,19 @@ def sort_merge_traits_files(useful_yaml_traits_files):
             print(f"Wrote {leader_class} data to {newfilepath}")
             target_filenames.append(newfilepath)
     return target_filenames
+
+def generate_leadermaking_feature_code():
+    """ TODO: Deposit localisation and button effects directly into their game code files """
+    for input_file in INPUT_FILES_FOR_CODEGEN:
+        for generated_code_type in ["effects","gui","tooltips"]:
+            run_codegen_process_for_leadermaking_feature(
+                input_file, generated_code_type=generated_code_type
+            )
+
+def sort_and_write_filtered_trait_data():
+    all_traits_processed_data = sort_and_filter_pipeline_files()
+    write_sorted_filtered_data_to_json_files(all_traits_processed_data)
+
 
 if __name__=="__main__":
     start_time = time.perf_counter()
@@ -157,12 +175,25 @@ if __name__=="__main__":
     sys.stdout.write("** Sorting traits data & writing files **\n")
     just_three_traits_files = sort_merge_traits_files(useful_traits_json_files)
     sys.stdout.write("**** Mm mm, delicious, sane, predictable data! ****\n")
-    sys.stdout.write(
-        "Let's see how we did! Inspect these files in the build folder for errors:\n"
-    )
-    sys.stdout.write(
-        "\n".join([f"00_mre_{leader_class}_traits.json" for leader_class in LEADER_CLASSES])
-    )
+    # sys.stdout.write(
+    #     "Let's see how we did! Inspect these files in the build folder for errors:\n"
+    # )
+    # sys.stdout.write(
+    #     "\n".join([f"00_mre_{leader_class}_traits.json" for leader_class in LEADER_CLASSES])
+    # )
+    sys.stdout.write("** Doing a QA check on our shiny new datafiles ... **\n")
+    qa_pipeline_files()
+    sys.stdout.write("**** Phase 2 starting! ... ****\n")
+    sys.stdout.write("** Sorting, filtering, and getting data ready for code gen scripts ... **\n")
+    sort_and_write_filtered_trait_data()
+    sys.stdout.write("** Side quest: some modifier loc keys are in uppercase! Fixing ... **\n")
+    do_uppercase_modifier_mapping_work(args.stellaris_path)
+    sys.stdout.write("** Firing up leader-making code generation scripts ... **\n")
+    generate_leadermaking_feature_code()
+    sys.stdout.write("That's the end of the automation -- but there's more coming!\n")
+    sys.stdout.write("Core-modifying tooltip auto-generation, button effects, and GUI.. till then -- \n")
+
+    print(UNICORN)
     end_time = time.perf_counter()
     execution_time = end_time - start_time
     sys.stdout.write(

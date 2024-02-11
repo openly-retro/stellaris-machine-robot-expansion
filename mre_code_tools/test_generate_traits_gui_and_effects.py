@@ -48,7 +48,7 @@ xvcv_mdlc_core_modifying_traits_official_trait_ruler_feedback_loop_2_remove_butt
     }
 }
 """
-    assert trait_ruler_feedback_loop_2_code == expected_effect_trait_ruler_feedback_2
+    assert expected_effect_trait_ruler_feedback_2 == trait_ruler_feedback_loop_2_code
 
 
 def test_gen_core_modifying_button_effects_code__veteran_trait():
@@ -94,7 +94,7 @@ xvcv_mdlc_core_modifying_traits_official_leader_trait_frontier_spirit_3_remove_b
 }
 """
 
-    assert leader_trait_frontier_spirit_3_code == expected_effects_code
+    assert expected_effects_code == leader_trait_frontier_spirit_3_code
 
 def test_gen_core_modifying_button_effects_code__destiny_trait():
     
@@ -138,4 +138,30 @@ xvcv_mdlc_core_modifying_traits_commander_leader_trait_bellicose_remove_button_e
     }
 }
 """
-    assert leader_trait_bellicose_code == expected_code
+    assert expected_code == leader_trait_bellicose_code
+
+def test_gen_leadermaking_effects_code__adventurous_spirit_3():
+    adventurous_spirit_effects_code = gen_leader_making_button_effects_code(
+        leader_class="commander", trait_name="leader_trait_adventurous_spirit_3",
+        is_veteran_trait=True
+    )
+    expected = """
+#commander #leader_trait_adventurous_spirit_3 #veteran trait
+xvcv_mdlc_leader_making_trait_commander_leader_trait_adventurous_spirit_3_add_button_effect = {
+    potential = { always = yes }
+    allow = {
+        xvcv_mdlc_leader_making_trait_pick_trigger = { CLASS = commander ID = leader_trait_adventurous_spirit_3 }
+        #xvcv_mdlc_leader_making_requires_leader_subclass_trigger = { CLASS = commander ID = None }
+        xvcv_mdlc_leader_making_trait_cost_alt_trigger = yes
+        xvcv_mdlc_leader_making_trait_points_alt_trigger = yes
+        xvcv_mdlc_leader_making_trait_skill_level_alt_trigger = yes
+        xvcv_mdlc_leader_making_trait_max_number_trigger = yes
+        xvcv_mdlc_leader_making_picked_class_commander_trigger = yes
+    }
+    effect = {
+        xvcv_mdlc_leader_making_trait_pick_effect = { CLASS = commander ID = leader_trait_adventurous_spirit_3 }
+        hidden_effect = { xvcv_mdlc_leader_making_trait_count_points_costs_alt_effect = yes }
+    }
+}
+"""
+    assert expected == adventurous_spirit_effects_code

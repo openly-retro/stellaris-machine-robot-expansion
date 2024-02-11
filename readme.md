@@ -18,14 +18,27 @@ I will also respond to comments in the Github wiki for this project.
 
 Please visit the Github repo wiki for this project: [https://github.com/openly-retro/stellaris-machine-robot-expansion/wiki](https://github.com/openly-retro/stellaris-machine-robot-expansion/wiki)
 
-Also please protect your sanity. Clausewitz Syntax (what base Stellaris traits files are written in) is UNPREDICTABLE and MAKES UP ITS OWN RULES.
+Warnings about working with Clausewitz syntax (what base Stellaris traits files are written in)
 
-After working on Clausewitz Syntax script, your mind may be forever altered.
+- It MAKES UP ITS OWN RULES
+- IT MAY NOT FOLLOW THE RULES IT MAKES
+- It wiLL DaNcE On yOuR SaNiTy
+- You may lose yourself to possession of a psionic avatar if you stare too long or try to apply your ideas of "rules" and "well this could be standardized pretty easily"
+
+
 
 # Code generation workflow (The Good Stuff)
 
 Phase 1: Transform base game traits data into useful data
 Phase 2: Automatically make GUI, effects, and tooltips code for this mod
+
+Run: 
+
+`python .\run_mre_trait_pipeline.py --stellaris_path <YOUR_STEAM_FOLDER>\steamapps\common\Stellaris\`
+
+It does:
+
+A LOT SO FAR: All the way up to "Make JSON maps of capitalized tooltips"!
 
 ## PHASE 1
 
@@ -39,48 +52,88 @@ Run:
 
 This will make a `build` folder with a bunch of text files.
 
-Look for: `00_mre_commander_traits.yml`, `00_mre_official_traits.yml`, `00_mre_scientist_traits.yml`
+Look for:
+
+    build\00_mre_commander_traits.json
+    build\00_mre_official_traits.json
+    build\00_mre_scientist_traits.json
 
 These files have sanely organized data for breakfast, lunch, dinner, or just a snack.
 
 **Note that LOTS OF TRAIT DATA WILL BE MISSING AND ONLY TRAIT DATA THAT'S USEFUL FOR THIS MOD WILL BE IN THOSE FILES**
 
-The sections below are for documentation. You don't have to follow those commands, because the pipeline script does all that. The doc below is for posterity.
+### Phase 1, part 2
 
-## Collect base game traits files and convert the data to something we can iterate over (WIP)
-The traits files we will process for this mod are in base Stellaris, under `\common\traits`:
-- 00_admiral_traits.txt
-- 00_general_traits.txt
-- 00_generic_leader_traits.txt
-- 00_governor_traits.txt
-- 00_scientist_traits.txt
-- 00_starting_ruler_traits.txt
+Next up, some more data massaging before we can feed it to phase 2 scripts.
 
-Open your favorite terminal. Make sure Python 3.12+, `pyyaml` are installed
+Run:
 
-1. Convert a Stellaris Clausewitz *traits* file to "something resembling YAML"
+`python .\mre_process_traits_for_codegen.py --sort_filter_all`
 
-If you use this converter on anything but a traits file, expect to get useless garbage back.
+This will look in the build folder for the above 3 files, sort them by rarity and pick the highest tier trait in a series, discarding lower tier ones.
 
-`python .\mre_code_tools\stellaris_yaml_converter.py --infile <STEAM_INSTALL_FOLDER>\steamapps\common\Stellaris\common\traits\00_governor_traits.txt -o "00_governor_traits_parsed.txt"`
+Look for:
 
-We'll do this for each traits file.
+    build\99_mre_commander_traits_for_codegen.json
+    build\99_mre_official_traits_for_codegen.json
+    build\99_mre_scientist_traits_for_codegen.json
 
-### Further trim down and sort data into a simple format we can later iterate over to generate GUI code, effects code, and tooltips (WIP)
-
-2. Crunch the traits in this converted file: 
-- Trim down the trait data to just the values we care about
-- Sort traits into the three classes
-- Duplicate common traits if a trait can be applied to more than one type of leader class
-- Output as YAML for smaller file size
-
-`python .\mre_code_tools\stellaris_trait_cruncher.py --infile .\00_governor_traits_parsed.txt --outfile 00_useful_governor_traits.yaml`
-
-### Sort and merge files
-
-There isn't a script for this, there is a method in the pipeline script.
-
-
-## Phase 2
+## Phase 2 (WIP)
 
 Auto-generate mod code from files.
+
+### Deal with uppercase modifier names in base stellaris
+
+Some auto-created modifier translation keys, like "ship_speed_mult" would have its tooltip key automatically set to `mod_ship_speed_mult` by our peaceful, ordinary, sane logic. But in base Stellaris, the translation key is actually `MOD_SHIP_SPEED_MULT` AND CAPITALIZATION MATTERS. And capitalization is unpredictable! Rock.. paper.. scissors, it's `random.choice('CAPITALIZED', 'not capitalized')`
+
+But there is a way around this. If we make translation keys like:
+
+`mre_mod_ship_speed_mult:0 "$MOD_SHIP_SPEED_MULT$"` we can set ourselves up to never have to deal with capitalization again. (Hahaha famous last words!) And in the auto-generation of the tooltip, prepend mre_, fill up a whole yml file in localisation\english.yml ... 
+
+For a more clear picture of what this workflow should do, go look at `xvcv_mdlc_l_uppercase_modifiers.yml`
+
+To fill/update that file, run
+
+`python .\mre_translation_key_normalizer.py --infile <STEAM_LIBRARY>\steamapps\common\Stellaris\localisation\english\modifiers_l_english.yml --outfile modifiers_l_upper_map.txt`
+
+`python .\mre_translation_key_normalizer.py --infile <STEAM_LIBRARY>\steamapps\common\Stellaris\localisation\english\megacorp_l_english.yml --outfile megacorp_upper_map.txt`
+
+`python .\mre_translation_key_normalizer.py --infile <STEAM_LIBRARY>\steamapps\common\Stellaris\localisation\english\paragon_2_l_english.yml --outfile paragon_2_upper_map.txt`
+
+Copy paste the contents of these output files into `xvcv_mdlc_l_english_uppercase_modifiers.yml`. You can delete the txt files after.
+
+### Make JSON maps of capitalized tooltips, so when we make our tooltips, we know when to append mre_
+
+Note: run_mre_trait_pipeline does up to and including this section of work.
+
+I know, right? so much stuff to do. If only PDX devs could have made all their data consistently one case.
+
+`python .\mre_translation_key_normalizer.py --infile <STEAM_LIBRARY>\steamapps\common\Stellaris\localisation\english\modifiers_l_english.yml --outfile .\build\modifiers_l_upper.json --list_keys`
+
+`python .\mre_translation_key_normalizer.py --infile <STEAM_LIBRARY>\steamapps\common\Stellaris\localisation\english\megacorp_l_english.yml --outfile .\build\megacorp_upper.json --list_keys`
+
+`python .\mre_translation_key_normalizer.py --infile <STEAM_LIBRARY>\steamapps\common\Stellaris\localisation\english\paragon_2_l_english.yml --outfile .\build\paragon_2_upper.json --list_keys`
+
+Now that these three JSON files are in place, our tooltip generator will look in them and know when to use our custom reference vs when it's OK to use the sanely concatenated one.
+
+### Auto generate GUI code, and button effects code
+
+For both leadermaking and core-modifying, the button effects code which are not automatically generated, like for subclasses, and the custom traits, those stay together in either `xvcv_mdlc_button_effects_core_modifying_main_customgui.txt` or `xvcv_mdlc_button_effects_leader_making_main_customgui.txt`
+
+These scripts will auto generate button effects code for the 3 separate classes.
+
+Each class' autogenerated code goes in their own separate file, so it's easier to update things in the future.
+
+The plan is to run the scripts, and then copy the output into their respective button effects files, without touching the stuff that isn't autogenerated.
+
+Run: 
+
+`python .\generate_traits_gui_and_effects.py --infile .\build\99_mre_commander_traits_for_codegen.json --tooltips`
+
+`python .\generate_traits_gui_and_effects.py --infile .\build\99_mre_commander_traits_for_codegen.json --effects`
+
+WIP WIP WIP
+
+### Auto-generate trait tooltip localisation data
+
+

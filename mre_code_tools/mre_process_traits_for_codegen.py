@@ -16,40 +16,71 @@ Thankfully, in pre-processing, traits are sorted alphabetically and
 it'll be easy to get the highest rank of that trait series.
 """
 from copy import copy
+import logging
 import os
 import sys
 import time
 from json import load as json_load, dump as json_dump
 import argparse
 
-from run_mre_trait_pipeline import (
+from mre_common_vars import (
     BUILD_FOLDER,
     LEADER_CLASSES,
+    MISSING,
+    PLACEHOLDER,
+    TRAIT_MODIFIER_KEYS,
+    PIPELINE_OUTPUT_FILES
 )
 
 TRAITS_TO_EXCLUDE = (
-    "leader_trait_intemporal", # Does nothing, no effects, no custom tooltip
+    # commander
+    "leader_trait_clone_army_commander",  # Cant have clone origin with machines
+    "leader_trait_clone_army_fertile_commander",
+    "leader_trait_clone_army_full_commander",
+    "leader_trait_dragonslayer",  # Given via event
+    "leader_trait_eager_2", # Cant effect leader-building/core-mod
+    "leader_trait_entrepreneur", # consumer goods-related trait,
+    "trait_imperial_heir", # Gestalt isnt an imperial form of government (but they can form the Imperium)
+    "leader_trait_academia_recruiter",  # requires materialist ethic,
+    "leader_trait_shroud_preacher",  # requires spiritualist ethic,
+    "leader_trait_tzrynn_tithe", # given via event
 )
 
-PIPELINE_OUTPUT_FILES = [
-    f"00_mre_{leader_class}_traits.json" for leader_class in LEADER_CLASSES
-]
+MODIFIER_VALUES_SUBSTITUTIONS = {
+    "var_trait_surveyor_amt": 0.5,
+    "var_trait_surveyor_sector_amt": 0.25
+}
 
-MODIFIERS = (
-    "army_modifier",
-    "councilor_modifier",
-    "fleet_modifier",
-    "modifier",
-    "planet_modifier",
-    "sector_modifier",
-    "self_modifier",
-    "triggered_army_modifier",
-    "triggered_councilor_modifier",
-    "triggered_fleet_modifier",
-    "triggered_planet_modifier",
-    "triggered_sector_modifier",
-    "triggered_self_modifier",
-)
+""" Apply these changes to the traits after we have crunched them. Some of these traits 
+have duplicate keys in base stellaris and we lose the correct tooltip information.
+Others should be locked by certain DLCs"""
+TRAIT_PATCHES = {
+    "leader_trait_emotional_support_pet": {
+        "has_paragon_dlc": True
+    },
+    "leader_trait_enlister_2": {
+        "triggered_sector_modifier": {
+            "job_soldier_add": 1
+        },
+        "triggered_planet_modifier": {
+            "job_soldier_add": 1
+        }
+    },
+    "leader_trait_scrapper": {
+        "triggered_planet_modifier": {
+            "job_alloy_drone_add": 1
+        }
+    },
+}
+
+""" These traits are set up in some way as to break the expectation that the tier 3 requirements
+are locked in by tier 1 and 2. These traits are serious exceptions and shouldnt be added to
+the GUI. For example maniacal_3 is fine as a scientist trait but NOT as a commander trait. """
+SKIP_LIST = {
+    "leader_trait_maniacal_3": "commander"
+}
+
+logger = logging.getLogger(__name__)
 
 def trait_qualifies_for_leader_making(trait_dict: dict) -> bool:
     is_leader_making_trait = False
@@ -93,7 +124,7 @@ def pick_highest_tier_of_trait(list_of_traits):
             trait_level = int(trait_level)
         else:
             current_trait_name_series = current_trait_name
-        print(f"Evaluating {current_trait_name} in series {current_trait_name_series}")
+        # logger.info(f"Evaluating {current_trait_name} in series {current_trait_name_series}")
         # Is the next trait in the same series? If so, pop it off the copy
         # If there is no next trait (end of list) we have evaluated the highest in the series
         if position_in_list+1 == len(list_of_traits):
@@ -104,9 +135,9 @@ def pick_highest_tier_of_trait(list_of_traits):
             next_trait_name = [*next_trait][0]
             # If the next trait in the list doesn't have a number at the end, it's a new series
             # And this trait we were looking at is the highest in its series
-            print(f"Comparing it to {next_trait_name}")
+            # print(f"Comparing it to {next_trait_name}")
             if current_trait_name_series == get_trait_series_name(next_trait_name):
-                print(f"Next trait is in the same series, so drop current trait")
+                # print(f"Next trait is in the same series, so drop current trait")
                 list_of_traits_copy.remove(trait)
         position_in_list = position_in_list + 1
     return list_of_traits_copy
@@ -119,13 +150,17 @@ def get_trait_series_name(trait_name: str) -> str:
 
 
 def filter_traits_by_mod_feature(traits_list: list) -> dict:
-    """ Organize traits by whether it should go to the leader-making feature or core-modifying """
+    """ Organize traits by whether it should go to the leader-making feature or core-modifying
+    Also take the opportunity to drop traits if they are in our exclusion list """
 
     leader_making_traits = []
     core_modifying_traits = []
     outliers = []
     for trait in traits_list:
         trait_name = [*trait][0]
+        if trait_name in str(TRAITS_TO_EXCLUDE):
+            sys.stdout.write(f"Skipped {trait_name} because it is on our exclusion list..\n")
+            continue
         root = trait[trait_name]
         if trait_qualifies_for_core_modifying(root):
             core_modifying_traits.append(trait)
@@ -168,17 +203,15 @@ def filter_traits_by_rarity(traits_list):
             )
     return traits_by_rarity
 
-
-
 def do_qa_on_pipeline_files(traits_list):
     """ Quick QA check to find potential missing data """
     rogue_trait_names = []
-    sys.stdout.write("** Checking for any issues with trait data ... **")
+    sys.stdout.write("** Checking for any issues with trait data ... **\n")
     for trait in traits_list:
         issues = []
         trait_key = [*trait][0]
         root = trait[trait_key]
-        missing_modifiers = not any([bool(root.get(modifier)) for modifier in MODIFIERS])
+        missing_modifiers = not any([bool(root.get(modifier)) for modifier in TRAIT_MODIFIER_KEYS])
         if missing_modifiers and not root.get("custom_tooltip"):
             issues.append(
                 f"Trait has no modifiers, and is !!missing!! custom_tooltip (BAD)"
@@ -188,6 +221,10 @@ def do_qa_on_pipeline_files(traits_list):
                 issues.append(
                     "Trait has councilor modifiers but is_councilor_trait is NOT set"
                 )
+        if MISSING in str(trait) or PLACEHOLDER in str(trait):
+            issues.append(
+                "Trait has placeholder values/missing values"
+            )
         if len(issues):
             rogue_trait_names.append(
                 f"{trait_key} ... {','.join(issues)}"
@@ -204,12 +241,17 @@ def sort_and_filter_pipeline_files() -> dict:
         "official": {},
         "scientist": {}
     }
-    for source_filename in PIPELINE_OUTPUT_FILES:
+    for leader_class in LEADER_CLASSES:
+        pipeline_source_file = f"00_mre_{leader_class}_traits.json"
         buffer = ''
-        input_filename = os.path.join('build', source_filename)
+        input_filename = os.path.join('build', pipeline_source_file)
         with open(input_filename, "r") as input_file:
             buffer = json_load(input_file)
-        traits_sorted_by_feature = filter_traits_by_mod_feature(buffer)
+        # Subclasses are trickled up in the run_mre_trait_pipeline script
+        # traits_with_populated_subclasses = trickle_up_subclass_requirements(
+        #     buffer, for_class=leader_class)
+        highest_tier_traits = pick_highest_tier_of_trait(buffer)
+        traits_sorted_by_feature = filter_traits_by_mod_feature(highest_tier_traits)
         # has leader_making and core_modifying keys
         traits_filtered_by_rarity = {
             "leader_making_traits": [],
@@ -222,13 +264,49 @@ def sort_and_filter_pipeline_files() -> dict:
         traits_filtered_by_rarity["core_modifying_traits"] = filter_traits_by_rarity(
             traits_sorted_by_feature["core_modifying_traits"]
         )
-        if "commander" in input_filename:
-            data_to_be_written["commander"] = traits_filtered_by_rarity
-        elif "official" in input_filename:
-            data_to_be_written["official"] = traits_filtered_by_rarity
-        elif "scientist" in input_filename:
-            data_to_be_written["scientist"] = traits_filtered_by_rarity
+        data_to_be_written[leader_class] = traits_filtered_by_rarity
+
     return data_to_be_written
+
+def trickle_up_subclass_requirements(sorted_not_filtered_traits_json, for_class="commander"):
+    # Typically the tier 1 trait will have the subclass req and its 2/3 replacement wont
+    trait_to_subclass_map = {}
+    collected_traits = []
+    for trait in sorted_not_filtered_traits_json:
+        trait_name = [*trait][0]
+        base_trait_name = trait_name
+        root = trait[trait_name]
+        if trait_name in SKIP_LIST:
+            if SKIP_LIST[trait_name] == for_class:
+                # This trait is a serious exception and shall be skipped
+                logger.warn(
+                    f"** Skipped {trait_name} as it was in the skip list for {for_class} traits."
+                )
+                continue
+        trait_is_first_of_series = not trait_name[-1].isdigit()
+        if trait_name[-1].isdigit():
+            base_trait_name = trait_name.rsplit('_',1)[0]
+        if trait_is_first_of_series:
+            if root.get('required_subclass'):
+                trait_to_subclass_map[trait_name] = root['required_subclass']
+            else:
+                trait_to_subclass_map[trait_name] = "skip"
+        else:
+            potential_subclass = trait_to_subclass_map.get(base_trait_name, MISSING)
+            if potential_subclass == "skip":
+                1
+            elif potential_subclass == MISSING:
+                sys.exit(
+                    f"We expected a subclass but didnt have one for {trait}"
+                )
+            else:
+                trait[trait_name]['required_subclass'] = potential_subclass
+                logger.debug(
+                    f"We updated {trait_name} with subclass requirement {potential_subclass}"
+                )
+        collected_traits.append(trait)
+    return collected_traits
+
 
 def write_sorted_filtered_data_to_json_files(input_data: dict):
     """ Take data from sort_and_filter_pipeline_files and write to 3 files """
@@ -245,8 +323,22 @@ def write_sorted_filtered_data_to_json_files(input_data: dict):
         f"Check the output files to see they're in good shape:\n"
     )
     for filename in output_filenames:
-        sys.stdout.write(f"{filename}\n")
+        sys.stdout.write(f"+ {filename}\n")
 
+def qa_pipeline_files():
+    if not os.path.exists(BUILD_FOLDER):
+        sys.exit(
+            'Couldnt find the build folder. Run this from within the mre_code_tools folder, '
+            'and make sure that "run_mre_trait_pipeline" was run.'
+        )
+    for filename in PIPELINE_OUTPUT_FILES:
+        input_file = os.path.join('build', filename)
+        with open(input_file, "r") as input_file:
+            sys.stdout.write(
+                f"Results for {input_file.name}:\n"
+            )
+            buffer = json_load(input_file)
+            do_qa_on_pipeline_files(buffer)
 
 if __name__ == "__main__":
     start_time = time.time()
@@ -282,19 +374,7 @@ if __name__ == "__main__":
             buffer = json_load(input_file)
             do_qa_on_pipeline_files(buffer)
     elif args.qa_all:
-        if not os.path.exists(BUILD_FOLDER):
-            sys.exit(
-                'Couldnt find the build folder. Run this from within the mre_code_tools folder, '
-                'and make sure that "run_mre_trait_pipeline" was run.'
-            )
-        for filename in PIPELINE_OUTPUT_FILES:
-            input_file = os.path.join('build', filename)
-            with open(input_file, "r") as input_file:
-                sys.stdout.write(
-                    f"Results for {input_file.name}:\n"
-                )
-                buffer = json_load(input_file)
-                do_qa_on_pipeline_files(buffer)
+        qa_pipeline_files()
     elif args.sort_filter_all:
         all_traits_processed_data = sort_and_filter_pipeline_files()
         write_sorted_filtered_data_to_json_files(all_traits_processed_data)
