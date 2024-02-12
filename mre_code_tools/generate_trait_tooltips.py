@@ -209,7 +209,7 @@ def create_tooltip_for_leader(
         )
     elif feature == CORE_MODIFYING:
         compiled_tooltip = (
-            f'{tooltip_base}_{tooltip_stem}_{leader_class}_{trait_name}:0 \"{trait_title}{trait_cost_tt}\\n'
+            f'{tooltip_base}_{tooltip_stem}_add_{leader_class}_{trait_name}:0 \"{trait_title}{trait_cost_tt}\\n'
             f'{trait_bonuses}\\n{separator_ruler}\\n{trait_desc_brown_text}\"'
         )
         trait_remove_cost_alt = ""

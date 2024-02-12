@@ -226,7 +226,7 @@ def test_core_modifying_tooltip__adventurous_spirit_3():
 
     expected = """
 #core_modifying #commander #leader_trait_adventurous_spirit_3
-xvcv_mdlc_core_modifying_tooltip_commander_leader_trait_adventurous_spirit_3:0 "§H$leader_trait_adventurous_spirit$ III§!$add_xvcv_mdlc_core_modifying_traits_costs_desc_alt$\\n$t$$mod_leaders_upkeep_mult$: §G-25%§!\\n$t$$MOD_LEADER_SPECIES_EXP_GAIN$: §G+10%§!\\n--------------\\n§L$leader_trait_adventurous_spirit_desc$§!"
+xvcv_mdlc_core_modifying_tooltip_add_commander_leader_trait_adventurous_spirit_3:0 "§H$leader_trait_adventurous_spirit$ III§!$add_xvcv_mdlc_core_modifying_traits_costs_desc_alt$\\n$t$$mod_leaders_upkeep_mult$: §G-25%§!\\n$t$$MOD_LEADER_SPECIES_EXP_GAIN$: §G+10%§!\\n--------------\\n§L$leader_trait_adventurous_spirit_desc$§!"
 xvcv_mdlc_core_modifying_tooltip_remove_commander_leader_trait_adventurous_spirit_3:0 "§RRemove§! Trait: §H$leader_trait_adventurous_spirit$ III§!$remove_xvcv_mdlc_core_modifying_traits_costs_desc_alt$\\n$t$$mod_leaders_upkeep_mult$: §G-25%§!\\n$t$$MOD_LEADER_SPECIES_EXP_GAIN$: §G+10%§!\\n--------------\\n§L$leader_trait_adventurous_spirit_desc$§!"
 """
     actual = create_tooltip_for_leader(trait_data, leader_class="commander", feature="core_modifying")
@@ -247,7 +247,7 @@ def test_core_modifying_tooltip__leader_trait_roamer_2():
     }
     expected = """
 #core_modifying #scientist #leader_trait_roamer_2
-xvcv_mdlc_core_modifying_tooltip_scientist_leader_trait_roamer_2:0 "§H$leader_trait_roamer$ II§!$add_xvcv_mdlc_core_modifying_traits_costs_desc$\\n$t$$MOD_SHIP_SCIENCE_SURVEY_SPEED$: §G+20%§!\\n--------------\\n§L$leader_trait_roamer_desc$§!"
+xvcv_mdlc_core_modifying_tooltip_add_scientist_leader_trait_roamer_2:0 "§H$leader_trait_roamer$ II§!$add_xvcv_mdlc_core_modifying_traits_costs_desc$\\n$t$$MOD_SHIP_SCIENCE_SURVEY_SPEED$: §G+20%§!\\n--------------\\n§L$leader_trait_roamer_desc$§!"
 xvcv_mdlc_core_modifying_tooltip_remove_scientist_leader_trait_roamer_2:0 "§RRemove§! Trait: §H$leader_trait_roamer$ II§!$remove_xvcv_mdlc_core_modifying_traits_costs_desc$\\n$t$$MOD_SHIP_SCIENCE_SURVEY_SPEED$: §G+20%§!\\n--------------\\n§L$leader_trait_roamer_desc$§!"
 """
     actual = create_tooltip_for_leader(test_data, leader_class="scientist", feature="core_modifying")
