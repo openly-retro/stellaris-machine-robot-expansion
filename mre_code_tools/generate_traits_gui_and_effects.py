@@ -111,21 +111,25 @@ def gen_leader_making_button_effects_code(
     needs_paragon_dlc = "yes" if is_veteran_trait or is_destiny_trait else "no"
     # Veteran & destinty traits need slightly altered trigger names
     alt_trigger_name = ""
+    trait_pick_trigger_alt = ""
     if is_veteran_trait:
         alt_trigger_name = "alt_"
+        trait_pick_trigger_alt = "alt_"
     if is_destiny_trait:
         alt_trigger_name = "alt_2_"
+        trait_pick_trigger_alt = "alt_"
     # Comment out the 'requires_leader_subclass_trigger` if it's not a veteran trait'
     requires_subclass_trigger = "" if required_subclass else "#"
     # commend out skill level trigger if it's not a veteran trait
     requires_skill_lvl_trigger = "" if is_veteran_trait or is_destiny_trait else "#"
     show_veteran_comment = f"#veteran trait" if is_veteran_trait else ''
+    
     return f"""
 #{leader_class} #{trait_name} {show_veteran_comment}
 xvcv_mdlc_leader_making_trait_{leader_class}_{trait_name}_add_button_effect = {{
     potential = {{ always = yes }}
     allow = {{
-        xvcv_mdlc_leader_making_trait_pick_trigger = {{ CLASS = {leader_class} ID = {trait_name} }}
+        xvcv_mdlc_leader_making_trait_pick_{trait_pick_trigger_alt}trigger = {{ CLASS = {leader_class} ID = {trait_name} }}
         {requires_subclass_trigger}xvcv_mdlc_leader_making_requires_leader_subclass_trigger = {{ CLASS = {leader_class} ID = {required_subclass} }}
         xvcv_mdlc_leader_making_trait_cost_{alt_trigger_name}trigger = yes
         xvcv_mdlc_leader_making_trait_points_{alt_trigger_name}trigger = yes
@@ -134,7 +138,7 @@ xvcv_mdlc_leader_making_trait_{leader_class}_{trait_name}_add_button_effect = {{
         xvcv_mdlc_leader_making_picked_class_{leader_class}_trigger = yes
     }}
     effect = {{
-        xvcv_mdlc_leader_making_trait_pick_effect = {{ CLASS = {leader_class} ID = {trait_name} }}
+        xvcv_mdlc_leader_making_trait_pick_{trait_pick_trigger_alt}effect = {{ CLASS = {leader_class} ID = {trait_name} }}
         hidden_effect = {{ xvcv_mdlc_leader_making_trait_count_points_costs_{alt_trigger_name}effect = yes }}
     }}
 }}
@@ -567,7 +571,7 @@ def generate_class_specific_lines_for_leader_making_clear_values_effect(organize
 {closing_lines}"""
     return class_specific_clear_values_lines
 
-def generate_coremodifying_feature_code():
+def generate_mod_ready_code_files():
     """ This process will make 3 sets of the below files for each leader class, so 18 in total:
         Replacing 'commander' with 'official and 'scientist' for the other 2 sets.
 
@@ -662,18 +666,7 @@ if __name__ == "__main__":
     parser.add_argument(
         '--infile',
         help='A traits JSON file that we processed, like 99_mre_commander_traits_for_codegen.json, created from mre_process_traits_for_codegen.py.',
-        required=True
-    )
-    parser.add_argument(
-        '--leadermaking',
-        help="Specify to make tooltips, effects, and gui code for the leadermaking feature. Use this arg by itself.",
         required=False
-    )
-    parser.add_argument(
-        '--coremodifying',
-        help="Specify to make tooltips, effects, and gui code for the 'core modifying' feature. Use this arg by itself.",
-        required=False,
-        action="store_true"
     )
     parser.add_argument(
         '--tooltips',
@@ -695,19 +688,19 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         '--process_all',
-        help="The Big One. Generate M&RE tooltips, GUI code, button effects code, assuming all traits files were processed by mre_process_traits_for_codegen"
+        help="The Big One. Generate M&RE tooltips, GUI code, button effects code, assuming all traits files were processed by mre_process_traits_for_codegen",
+        action="store_true"
     )
     args = parser.parse_args()
+    if args.process_all:
+        generate_mod_ready_code_files()
+        sys.exit()
+
     buffer = ''
     infile_no_ext = args.infile.rsplit('.',1)[0]
     with open(args.infile) as organized_traits_file:
         buffer = json_load(organized_traits_file)
-    # if args.leadermaking:
-    #     """ Generate and write all 3 types of code for the leader-making feature """
-    if args.coremodifying:
-        generate_coremodifying_feature_code()
-        sys.exit()
-        
+
     if args.tooltips:
         target_file = f"{infile_no_ext}_leadermaking_tooltips.txt"
         detected_leader_class = args.infile.split('_')[2]
