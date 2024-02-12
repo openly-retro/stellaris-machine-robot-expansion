@@ -12,6 +12,7 @@ from mre_common_vars import (
     BUILD_FOLDER,
     INPUT_FILES_FOR_CODEGEN,
     DEFAULT_UPPERCASE_MODIFIERS_MAP_FILES,
+    LEADER_MAKING, CORE_MODIFYING,
 )
 
 logger = logging.getLogger(__name__)
@@ -21,7 +22,8 @@ COLOR_CODES = {
     "orange": "§H",
     "brown": "§L",
     "yellow": "§Y",
-    "green": "§G"
+    "green": "§G",
+    "red": "§R",
 }
 CLOSE_CODE = "§!"
 
@@ -47,6 +49,9 @@ def make_brown_text(some_text):
 
 def make_green_text(some_text):
     return f"{COLOR_CODES['green']}{some_text}{CLOSE_CODE}"
+
+def make_red_text(some_text):
+    return f"{COLOR_CODES['red']}{some_text}{CLOSE_CODE}"
 
 def load_modifier_keys_in_uppercase(json_files_list):
     json_data = {}
@@ -147,16 +152,20 @@ def create_tooltip_for_leader(
     # trait_title = make_orange_text(f"${base_trait_name}_machine${trait_level}")
     trait_title = make_orange_text(f"${base_trait_name}$ {trait_level}")
     tooltip_base = "xvcv_mdlc"
-    if feature=="leader_making":
-        tooltip_stem = "leader_making_tooltip"
+    tooltip_stem = f"{feature}_tooltip"
     # leader_trait_naturalist_3 will read "Preservation Code III"
+    root = trait_dict[trait_name]
 
-    trait_cost_tt = "$add_xvcv_mdlc_leader_making_traits_costs_desc_alt$"
+    trait_cost_alt = ""
+    if root.get("rarity", "") == "veteran":
+        trait_cost_alt = "_alt"
+    if root.get("rarity", "") == "paragon":
+        trait_cost_alt = "_alt_2"
+    trait_cost_tt = f"$add_xvcv_mdlc_{feature}_traits_costs_desc{trait_cost_alt}$"
     separator_ruler = "--------------"
     # trait_desc_brown_text = make_brown_text(f"${base_trait_name}_machine_desc$")
     trait_desc_brown_text = make_brown_text(f"${base_trait_name}_desc$")
 
-    root = trait_dict[trait_name]
     modifiers_list = []
     for modifier_key in TRAIT_MODIFIER_KEYS:
         if root.get(modifier_key):
@@ -191,15 +200,42 @@ def create_tooltip_for_leader(
                     f"{indentation}{mod_tt_key}: {make_green_text(f"{number_sign}{modified_amount}")}"
                 )
     trait_bonuses = '\\n'.join(modifiers_list)
-    compiled_tooltip = (
-        f'{tooltip_base}_{tooltip_stem}_{leader_class}_{trait_name}:0 \"{trait_title}{trait_cost_tt}\\n'
-        f'{trait_bonuses}\\n{separator_ruler}\\n{trait_desc_brown_text}\"'
-    )
-    # breakpoint()
-    return f"""
+    compiled_tooltip = ''
+    remove_trait_tooltip = ''
+    if feature == LEADER_MAKING:
+        compiled_tooltip = (
+            f'{tooltip_base}_{tooltip_stem}_{leader_class}_{trait_name}:0 \"{trait_title}{trait_cost_tt}\\n'
+            f'{trait_bonuses}\\n{separator_ruler}\\n{trait_desc_brown_text}\"'
+        )
+    elif feature == CORE_MODIFYING:
+        compiled_tooltip = (
+            f'{tooltip_base}_{tooltip_stem}_{leader_class}_{trait_name}:0 \"{trait_title}{trait_cost_tt}\\n'
+            f'{trait_bonuses}\\n{separator_ruler}\\n{trait_desc_brown_text}\"'
+        )
+        trait_remove_cost_alt = ""
+        if root.get("rarity", "") == "veteran":
+            trait_remove_cost_alt = "_alt"
+        if root.get("rarity", "") == "paragon":
+            trait_remove_cost_alt = "_alt_2"
+        trait_remove_cost_tt = f"$remove_xvcv_mdlc_core_modifying_traits_costs_desc{trait_remove_cost_alt}$"
+        remove_trait_tooltip = (
+            f'{tooltip_base}_{tooltip_stem}_remove_{leader_class}_{trait_name}:0 "'
+            f'{make_red_text("Remove")} Trait: {trait_title}{trait_remove_cost_tt}\\n'
+            f'{trait_bonuses}\\n{separator_ruler}\\n{trait_desc_brown_text}\"'
+        )
+    tooltip_with_comment = 'MISSING!'
+    if feature == LEADER_MAKING:
+        tooltip_with_comment = f"""
 #{feature} #{leader_class} #{trait_name}
 {compiled_tooltip}
 """
+    elif feature == CORE_MODIFYING:
+        tooltip_with_comment = f"""
+#{feature} #{leader_class} #{trait_name}
+{compiled_tooltip}
+{remove_trait_tooltip}
+"""
+    return tooltip_with_comment
 
 def convert_decimal_to_percent_str(numeric_amount: float) -> str:
     percent_float = numeric_amount * 100

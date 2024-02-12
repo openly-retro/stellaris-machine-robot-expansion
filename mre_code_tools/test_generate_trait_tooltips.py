@@ -51,7 +51,7 @@ leader_trait_naturalist_3:
     )
     expected_output = """
 #leader_making #official #leader_trait_naturalist_3
-xvcv_mdlc_leader_making_tooltip_official_leader_trait_naturalist_3:0 "§H$leader_trait_naturalist$ III§!$add_xvcv_mdlc_leader_making_traits_costs_desc_alt$\\n$governing_planet_effect$\\n$t$$mod_deposit_blockers_natural_unity_produces_add$: §G+12§!\\n$governing_sector_effect$\\n$t$$mod_deposit_blockers_natural_unity_produces_add$: §G+6§!\\n--------------\\n§L$leader_trait_naturalist_desc$§!"
+xvcv_mdlc_leader_making_tooltip_official_leader_trait_naturalist_3:0 "§H$leader_trait_naturalist$ III§!$add_xvcv_mdlc_leader_making_traits_costs_desc$\\n$governing_planet_effect$\\n$t$$mod_deposit_blockers_natural_unity_produces_add$: §G+12§!\\n$governing_sector_effect$\\n$t$$mod_deposit_blockers_natural_unity_produces_add$: §G+6§!\\n--------------\\n§L$leader_trait_naturalist_desc$§!"
 """
 
     assert expected_output.encode('utf-8') == trait_output.encode('utf-8')
@@ -74,7 +74,7 @@ def test_leader_trait_aggressive_2_fleet_modifier():
     }
     expected_output = """
 #leader_making #commander #leader_trait_aggressive_2
-xvcv_mdlc_leader_making_tooltip_commander_leader_trait_aggressive_2:0 "§H$leader_trait_aggressive$ II§!$add_xvcv_mdlc_leader_making_traits_costs_desc_alt$\\n$commanding_navy_effect$\\n$t$$mre_mod_ship_fire_rate_mult$: §G+5%§!\\n$t$$mre_mod_ship_weapon_damage$: §G+5%§!\\n--------------\\n§L$leader_trait_aggressive_desc$§!"
+xvcv_mdlc_leader_making_tooltip_commander_leader_trait_aggressive_2:0 "§H$leader_trait_aggressive$ II§!$add_xvcv_mdlc_leader_making_traits_costs_desc$\\n$commanding_navy_effect$\\n$t$$mre_mod_ship_fire_rate_mult$: §G+5%§!\\n$t$$mre_mod_ship_weapon_damage$: §G+5%§!\\n--------------\\n§L$leader_trait_aggressive_desc$§!"
 """
     actual = create_tooltip_for_leader(trait_data, leader_class="commander")
     # breakpoint()
@@ -126,7 +126,7 @@ def test_loading_uppercase_keys_from_files():
     assert "MOD_FEDERATION_EXPERIENCE_ADD" in sorted_data
     assert "MOD_PLANET_COMBAT_WIDTH_ADD" in sorted_data
 
-def test_deted_wrong_word_order_modifier_key():
+def test_detect_wrong_word_order_modifier_key():
     """ Sometimes the words in the modifier arent the same order as the actual tooltip key,
     so test that we can detect these funky word orders """
 
@@ -165,7 +165,7 @@ def test_deted_wrong_word_order_modifier_key():
     }
     expected = """
 #leader_making #scientist #leader_trait_roamer_2
-xvcv_mdlc_leader_making_tooltip_scientist_leader_trait_roamer_2:0 "§H$leader_trait_roamer$ II§!$add_xvcv_mdlc_leader_making_traits_costs_desc_alt$\\n$t$$MOD_SHIP_SCIENCE_SURVEY_SPEED$: §G+20%§!\\n--------------\\n§L$leader_trait_roamer_desc$§!"
+xvcv_mdlc_leader_making_tooltip_scientist_leader_trait_roamer_2:0 "§H$leader_trait_roamer$ II§!$add_xvcv_mdlc_leader_making_traits_costs_desc$\\n$t$$MOD_SHIP_SCIENCE_SURVEY_SPEED$: §G+20%§!\\n--------------\\n§L$leader_trait_roamer_desc$§!"
 """
     actual = create_tooltip_for_leader(test_data, leader_class="scientist")
     assert expected.encode('utf-8') == actual.encode('utf-8')
@@ -206,3 +206,49 @@ xvcv_mdlc_leader_making_tooltip_commander_leader_trait_adventurous_spirit_3:0 "�
 """
     actual = create_tooltip_for_leader(trait_data, leader_class="commander")
     assert expected == actual
+
+
+def test_core_modifying_tooltip__adventurous_spirit_3():
+    trait_data = {
+        "leader_trait_adventurous_spirit_3": {
+            "trait_name": "leader_trait_adventurous_spirit_3",
+            "leader_class": "commander",
+            "gfx": "GFX_leader_trait_adventurous_spirit",
+            "rarity": "veteran",
+            "triggered_self_modifier": {
+                "leaders_upkeep_mult": -0.25,
+                "species_leader_exp_gain": 0.1
+            },
+            "requires_paragon_dlc": False,
+            "custom_tooltip": "leader_trait_adventurous_spirit_effect"
+        }
+    }
+
+    expected = """
+#core_modifying #commander #leader_trait_adventurous_spirit_3
+xvcv_mdlc_core_modifying_tooltip_commander_leader_trait_adventurous_spirit_3:0 "§H$leader_trait_adventurous_spirit$ III§!$add_xvcv_mdlc_core_modifying_traits_costs_desc_alt$\\n$t$$mod_leaders_upkeep_mult$: §G-25%§!\\n$t$$MOD_LEADER_SPECIES_EXP_GAIN$: §G+10%§!\\n--------------\\n§L$leader_trait_adventurous_spirit_desc$§!"
+xvcv_mdlc_core_modifying_tooltip_remove_commander_leader_trait_adventurous_spirit_3:0 "§RRemove§! Trait: §H$leader_trait_adventurous_spirit$ III§!$remove_xvcv_mdlc_core_modifying_traits_costs_desc_alt$\\n$t$$mod_leaders_upkeep_mult$: §G-25%§!\\n$t$$MOD_LEADER_SPECIES_EXP_GAIN$: §G+10%§!\\n--------------\\n§L$leader_trait_adventurous_spirit_desc$§!"
+"""
+    actual = create_tooltip_for_leader(trait_data, leader_class="commander", feature="core_modifying")
+    assert expected.encode('utf-8') == actual.encode('utf-8')
+
+def test_core_modifying_tooltip__leader_trait_roamer_2():
+    test_data = {
+        "leader_trait_roamer_2": {
+            "trait_name": "leader_trait_roamer_2",
+            "leader_class": "scientist",
+            "gfx": "GFX_leader_trait_roamer",
+            "rarity": "common",
+            "modifier": {
+                "science_ship_survey_speed": 0.2
+            },
+            "requires_paragon_dlc": False,
+        }
+    }
+    expected = """
+#core_modifying #scientist #leader_trait_roamer_2
+xvcv_mdlc_core_modifying_tooltip_scientist_leader_trait_roamer_2:0 "§H$leader_trait_roamer$ II§!$add_xvcv_mdlc_core_modifying_traits_costs_desc$\\n$t$$MOD_SHIP_SCIENCE_SURVEY_SPEED$: §G+20%§!\\n--------------\\n§L$leader_trait_roamer_desc$§!"
+xvcv_mdlc_core_modifying_tooltip_remove_scientist_leader_trait_roamer_2:0 "§RRemove§! Trait: §H$leader_trait_roamer$ II§!$remove_xvcv_mdlc_core_modifying_traits_costs_desc$\\n$t$$MOD_SHIP_SCIENCE_SURVEY_SPEED$: §G+20%§!\\n--------------\\n§L$leader_trait_roamer_desc$§!"
+"""
+    actual = create_tooltip_for_leader(test_data, leader_class="scientist", feature="core_modifying")
+    assert expected.encode('utf-8') == actual.encode('utf-8')
