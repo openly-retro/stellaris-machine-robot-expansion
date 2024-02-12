@@ -4,7 +4,8 @@ from generate_traits_gui_and_effects import (
     gen_leader_making_button_effects_code,
     gen_core_modifying_trait_gui_code,
     gen_core_modifying_button_effects_code,
-    gen_leader_making_trait_gui_code
+    gen_leader_making_trait_gui_code,
+    gen_xvcv_mdlc_core_modifying_ruler_traits_trigger
 )
 
 def test_gen_core_modifying_button_effects_code__common_trait():
@@ -165,3 +166,46 @@ xvcv_mdlc_leader_making_trait_commander_leader_trait_adventurous_spirit_3_add_bu
 }
 """
     assert expected == adventurous_spirit_effects_code
+
+
+def test_gen_xvcv_mdlc_core_modifying_ruler_traits_trigger():
+    traits_dict = {
+        "core_modifying_traits": {
+            "common": [
+                {
+                "leader_trait_roamer_2": {
+                    "trait_name": "leader_trait_roamer_2",
+                    "leader_class": "scientist",
+                    "gfx": "GFX_leader_trait_roamer",
+                    "rarity": "common",
+                    "modifier": {
+                        "science_ship_survey_speed": 0.2
+                    },
+                    "requires_paragon_dlc": False,
+                }
+            }
+            ]
+        }
+    }
+    expected = """
+xvcv_mdlc_core_modifying_ruler_traits_trigger = {
+    optimize_memory
+    OR = {
+        has_trait = leader_trait_roamer_2
+        has_trait = subclass_commander_admiral
+        has_trait = subclass_commander_councilor
+        has_trait = subclass_commander_general
+        has_trait = subclass_commander_governor
+        has_trait = subclass_official_delegate
+        has_trait = subclass_official_diplomacy_councilor
+        has_trait = subclass_official_economy_councilor
+        has_trait = subclass_official_governor
+        has_trait = subclass_scientist_councilor
+        has_trait = subclass_scientist_explorer
+        has_trait = subclass_scientist_governor
+        has_trait = subclass_scientist_scholar
+    }
+}
+"""
+    actual = gen_xvcv_mdlc_core_modifying_ruler_traits_trigger(traits_dict)
+    assert expected == actual
