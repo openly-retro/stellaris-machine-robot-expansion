@@ -24,8 +24,123 @@ BUILD_FOLDER = os.path.join(
     'build'
 )
 
+BUTTON_EFFECTS_FOLDER = os.path.join(
+    os.getcwd(),
+    'common', 'button_effects'
+)
+
+LOCALISATION_FOLDER = os.path.join(
+    os.getcwd(),
+    'localisation',
+)
+OUTPUT_FILE_BUTTON_FX_NAME = "xvcv_mdlc_button_effects_{feature}_{leader_class}_customgui.txt"
+OUTPUT_FILE_LOCALISATION_NAME = "xvcv_mdlc_l_english_{feature}_{leader_class}_customgui.yml"
+
+""" We will write directly to these files during the code generation workflow """
+OUTPUT_FILES_DESTINATIONS = {
+    "core_modifying": {
+        "effects": {
+            "commander": os.path.join(
+                BUTTON_EFFECTS_FOLDER,
+                OUTPUT_FILE_BUTTON_FX_NAME.format(
+                    feature="core_modifying", leader_class="commander"
+                )
+            ),
+            "official": os.path.join(
+                BUTTON_EFFECTS_FOLDER,
+                OUTPUT_FILE_BUTTON_FX_NAME.format(
+                    feature="core_modifying", leader_class="official"
+                )
+            ),
+            "scientist": os.path.join(
+                BUTTON_EFFECTS_FOLDER,
+                OUTPUT_FILE_BUTTON_FX_NAME.format(
+                    feature="core_modifying", leader_class="scientist"
+                )
+            ),
+        },
+        "tooltips": {
+            "commander": os.path.join(
+                BUTTON_EFFECTS_FOLDER,
+                OUTPUT_FILE_LOCALISATION_NAME.format(
+                    feature="core_modifying", leader_class="commander"
+                )
+            ),
+            "official": os.path.join(
+                BUTTON_EFFECTS_FOLDER,
+                OUTPUT_FILE_LOCALISATION_NAME.format(
+                    feature="core_modifying", leader_class="official"
+                )
+            ),
+            "scientist": os.path.join(
+                BUTTON_EFFECTS_FOLDER,
+                OUTPUT_FILE_LOCALISATION_NAME.format(
+                    feature="core_modifying", leader_class="scientist"
+                )
+            ),
+        },
+    },
+    "leader_making": {
+        "effects": {
+            "commander": os.path.join(
+                BUTTON_EFFECTS_FOLDER,
+                OUTPUT_FILE_BUTTON_FX_NAME.format(
+                    feature="leader_making", leader_class="commander"
+                )
+            ),
+            "official": os.path.join(
+                BUTTON_EFFECTS_FOLDER,
+                OUTPUT_FILE_BUTTON_FX_NAME.format(
+                    feature="leader_making", leader_class="official"
+                )
+            ),
+            "scientist": os.path.join(
+                BUTTON_EFFECTS_FOLDER,
+                OUTPUT_FILE_BUTTON_FX_NAME.format(
+                    feature="leader_making", leader_class="scientist"
+                )
+            ),
+        },
+        "tooltips": {
+            "commander": os.path.join(
+                BUTTON_EFFECTS_FOLDER,
+                OUTPUT_FILE_LOCALISATION_NAME.format(
+                    feature="leader_making", leader_class="commander"
+                )
+            ),
+            "official": os.path.join(
+                BUTTON_EFFECTS_FOLDER,
+                OUTPUT_FILE_LOCALISATION_NAME.format(
+                    feature="leader_making", leader_class="official"
+                )
+            ),
+            "scientist": os.path.join(
+                BUTTON_EFFECTS_FOLDER,
+                OUTPUT_FILE_LOCALISATION_NAME.format(
+                    feature="leader_making", leader_class="scientist"
+                )
+            ),
+        },
+    },
+}
+
 LEADER_CLASSES = (
     "commander", "official", "scientist"
+)
+
+LEADER_SUBCLASSES = (
+    "subclass_commander_general",
+    "subclass_commander_councilor",
+    "subclass_commander_governor",
+    "subclass_commander_admiral",
+    "subclass_scientist_explorer",
+    "subclass_scientist_councilor",
+    "subclass_scientist_governor",
+    "subclass_scientist_scholar",
+    "subclass_official_economy_councilor",
+    "subclass_official_diplomacy_councilor",
+    "subclass_official_governor",
+    "subclass_official_delegate",
 )
 
 BASE_TRAIT_FILES = (
@@ -53,7 +168,15 @@ DEFAULT_UPPERCASE_MODIFIERS_MAP_FILES = [
     os.path.join(BUILD_FOLDER, 'modifiers_l_english_upper.json'),
     os.path.join(BUILD_FOLDER, 'megacorp_l_english_upper.json'),
     os.path.join(BUILD_FOLDER, 'paragon_2_l_english_upper.json')
-] 
+]
+
+GENERATED_CODE_TYPES = (
+  "effects",
+  "gui",
+  "tooltips",
+)
+LEADER_MAKING = "leader_making"
+CORE_MODIFYING = "core_modifying"
 
 UNICORN = '''
                 \\
