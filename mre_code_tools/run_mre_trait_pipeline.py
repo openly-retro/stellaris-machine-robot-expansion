@@ -189,7 +189,7 @@ if __name__=="__main__":
     sys.stdout.write("** Side quest: some modifier loc keys are in uppercase! Fixing ... **\n")
     do_uppercase_modifier_mapping_work(args.stellaris_path)
     sys.stdout.write("** Firing up leader-making code generation scripts ... **\n")
-    generate_leadermaking_feature_code()
+    # generate_leadermaking_feature_code()
     sys.stdout.write("That's the end of the automation -- but there's more coming!\n")
     sys.stdout.write("Core-modifying tooltip auto-generation, button effects, and GUI.. till then -- \n")
 

@@ -13,6 +13,7 @@ from mre_common_vars import (
     LEADER_MAKING,
     CORE_MODIFYING,
     LEADER_SUBCLASSES,
+    LEADER_CLASSES,
 )
 
 RARITIES = ("common", "veteran", "paragon")
@@ -365,7 +366,7 @@ xvcv_mdlc_core_modifying_traits_{leader_class}_{trait_name}_add_button_effect = 
     effect = {{
         {needs_remove_tier_num_trait_effect}xvcv_mdlc_core_modifying_remove_tier_1_or_2_traits_effect = {{ ID = {trait_name_no_tier} }}
         xvcv_mdlc_core_modifying_trait_pick_effect = {{ CLASS = {leader_class} ID = {trait_name} }}
-		hidden_effect = {{ xvcv_mdlc_core_modifying_trait_add_{alt_trigger_name}effect = yes }}
+        hidden_effect = {{ xvcv_mdlc_core_modifying_trait_add_{alt_trigger_name}effect = yes }}
     }}
 }}
 xvcv_mdlc_core_modifying_traits_{leader_class}_{trait_name}_remove_button_effect = {{
@@ -375,10 +376,10 @@ xvcv_mdlc_core_modifying_traits_{leader_class}_{trait_name}_remove_button_effect
     allow = {{ always = yes }}
     effect = {{
         custom_tooltip = xvcv_mdlc_core_modifying_tooltip_remove_{leader_class}_{trait_name}
-		hidden_effect = {{
+        hidden_effect = {{
             ruler = {{ remove_trait = {trait_name} }}
             xvcv_mdlc_core_modifying_trait_remove_{alt_trigger_name}effect = yes
-		}}
+        }}
     }}
 }}
 """
@@ -504,49 +505,67 @@ xvcv_mdlc_core_modifying_ruler_traits_trigger = {
 {closing}"""
     return compiled_trigger
 
-def gen_xvcv_mdlc_leader_making_clear_values_effect(organized_traits_dict):
-    """ Iterate subclasses, traits, print updated trigger for copy/paste """
+def gen_xvcv_mdlc_leader_making_clear_values_effect():
+    """ Print out the entire 'xvcv_mdlc_leader_making_clear_values_effect' 
+    For this we have to iterate subclasses, traits, and print updated trigger for copy/paste
+    It's a bit much to do by hand, and we already have the data, so let's priinttttt
+    """
     preamble = """
 xvcv_mdlc_leader_making_clear_values_effect = {
     optimize_memory
-	if = {
-		limit = { xvcv_mdlc_leader_making_picked_any_skill_level_trigger = yes }
-		xvcv_mdlc_leader_making_clear_skill_levels_effect = yes
-	}
-"""
-    closing = """
-    }
+    if = {
+        limit = { xvcv_mdlc_leader_making_picked_any_skill_level_trigger = yes }
+        xvcv_mdlc_leader_making_clear_skill_levels_effect = yes
+    }"""
+    closing = """    xvcv_mdlc_leader_making_clear_traits_variables_effect = yes
 }
 """
-    # We will add this 3 times, for each class, with trait stuff sandwiched between
-    limit_country_flag_declaration = "limit = {{ has_country_flag xvcv_mdlc_leader_class_set_to_{classname} }}"
-    trait_limit_line = "if = {{ limit = {{ has_country_flag = xvcv_mdlc_leader_{classname}_{trait_name} }} remove_country_flag = xvcv_mdlc_leader_{classname}_{traitname} }}"
-    # Preserve this during autogeneration
-    add_custom_traits_class_block = """
-        if = {{ limit = {{ has_country_flag = xvcv_mdlc_leader_{classname}_xvcv_mdlc_leader_trait_memory_backup }} remove_country_flag = xvcv_mdlc_leader_{classname}_xvcv_mdlc_leader_trait_memory_backup }}
-        if = {{ limit = {{ has_country_flag = xvcv_mdlc_leader_{classname}_xvcv_mdlc_leader_trait_shared_memory }} remove_country_flag = xvcv_mdlc_leader_{classname}_xvcv_mdlc_leader_trait_shared_memory }}
-        if = {{ limit = {{ has_country_flag = xvcv_mdlc_leader_{classname}_xvcv_mdlc_subclass_{classname}_none }} remove_country_flag = xvcv_mdlc_leader_{classname}_xvcv_mdlc_subclass_{classname}_none }}
-"""
-    remove_class_flag_declaration = "remove_country_flag = xvcv_mdlc_leader_class_set_to_{classname}"
-
-    trait_conditions_list = []
-    indentation = " "*8
-    for subclass in LEADER_SUBCLASSES:
-        trait_conditions_list.append(
-            f"{indentation}has_trait = {subclass}"
+    """ This effect has 3 conditionals at the top-level, for each class,
+    and inside of each block of conditionals, it has that class' traits
+    We will have to iterate the 3 data files in this single method
+    """
+    large_if_clauses_for_all_classes = []
+    for input_codegen_json_file_name in INPUT_FILES_FOR_CODEGEN:
+        # Go over the files, do all common/veteran/paragon traits for each class
+        input_file_path = os.path.join(BUILD_FOLDER, input_codegen_json_file_name)
+        buffer = ''
+        with open(input_file_path, "r") as source_codegen_data:
+            buffer = json_load(source_codegen_data)
+        leader_class = input_codegen_json_file_name.split('_')[2]
+        class_specific_if_limit_then_clear_lines = generate_class_specific_lines_for_leader_making_clear_values_effect(
+            buffer, for_class=leader_class
         )
-    for rarity_level in RARITIES:
-        for leader_trait in organized_traits_dict['core_modifying_traits'][rarity_level]:
-            trait_name = [*leader_trait][0]
-            trait_conditions_list.append(
-                f"{indentation}has_trait = {trait_name}"
-            )
-    compiled_trigger = f"""
-{preamble}
-{"\n".join(sorted(trait_conditions_list))}
-{closing}
-"""
+        large_if_clauses_for_all_classes.append(class_specific_if_limit_then_clear_lines)
+    compiled_trigger = f"""{preamble}
+{"".join(sorted(large_if_clauses_for_all_classes))}
+{closing}"""
     return compiled_trigger
+
+def generate_class_specific_lines_for_leader_making_clear_values_effect(organized_traits_dict, for_class="commander"):
+    # TODO: Exclude core_modifying traits that we dont want ?
+
+    opening_lines = f"""
+    #{for_class}
+    if = {{
+        limit = {{ has_country_flag = xvcv_mdlc_leader_class_set_to_{for_class} }}"""
+    closing_lines = f"""        remove_country_flag = xvcv_mdlc_leader_class_set_to_{for_class}
+    }}"""
+    trait_limit_declarations = []
+    for rarity_level in RARITIES:
+        if organized_traits_dict['core_modifying_traits'].get(rarity_level):
+            for leader_trait in organized_traits_dict['core_modifying_traits'][rarity_level]:
+                trait_name = [*leader_trait][0]
+                trait_limit_line = f"        if = {{ limit = {{ has_country_flag = xvcv_mdlc_leader_{for_class}_{trait_name} }} remove_country_flag = xvcv_mdlc_leader_{for_class}_{trait_name} }}"
+                trait_limit_declarations.append(trait_limit_line)
+    # Preserve this during autogeneration
+    add_custom_traits_class_block = f"""
+        if = {{ limit = {{ has_country_flag = xvcv_mdlc_leader_{for_class}_xvcv_mdlc_leader_trait_memory_backup }} remove_country_flag = xvcv_mdlc_leader_{for_class}_xvcv_mdlc_leader_trait_memory_backup }}
+        if = {{ limit = {{ has_country_flag = xvcv_mdlc_leader_{for_class}_xvcv_mdlc_leader_trait_shared_memory }} remove_country_flag = xvcv_mdlc_leader_{for_class}_xvcv_mdlc_leader_trait_shared_memory }}
+        if = {{ limit = {{ has_country_flag = xvcv_mdlc_leader_{for_class}_xvcv_mdlc_subclass_{for_class}_none }} remove_country_flag = xvcv_mdlc_leader_{for_class}_xvcv_mdlc_subclass_{for_class}_none }}"""
+    trait_limit_declarations.append(add_custom_traits_class_block)
+    class_specific_clear_values_lines = f"""{opening_lines}{"\n".join(sorted(trait_limit_declarations))}
+{closing_lines}"""
+    return class_specific_clear_values_lines
 
 def generate_coremodifying_feature_code():
     """ This process will make 3 sets of the below files for each leader class, so 18 in total:
