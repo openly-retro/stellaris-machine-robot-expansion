@@ -231,14 +231,14 @@ def create_tooltip_for_leader(
     tooltip_with_comment = 'MISSING!'
     if feature == LEADER_MAKING:
         tooltip_with_comment = f"""
-#{feature} #{leader_class} #{trait_name}
-{compiled_tooltip}
+  #{feature} #{leader_class} #{trait_name}
+  {compiled_tooltip}
 """
     elif feature == CORE_MODIFYING:
         tooltip_with_comment = f"""
-#{feature} #{leader_class} #{trait_name}
-{compiled_tooltip}
-{remove_trait_tooltip}
+  #{feature} #{leader_class} #{trait_name}
+  {compiled_tooltip}
+  {remove_trait_tooltip}
 """
     return tooltip_with_comment
 

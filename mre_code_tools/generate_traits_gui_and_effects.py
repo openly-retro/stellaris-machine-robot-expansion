@@ -243,35 +243,35 @@ def write_leadermaking_button_effects_to_file(input_codegen_json_file_name):
             tooltips_blob_for_writing.encode('utf-8')
         )
 
-def run_codegen_process_for_leadermaking_feature(input_codegen_json_file_name, generated_code_type="tooltips"):
-    """ generated_code_types are "effects","gui","tooltips" """
-    buffer = ''
-    base_filename =  input_codegen_json_file_name.rsplit('.',1)[0]
-    leadermaking_code_outfile = f"{base_filename}_leadermaking_{generated_code_type}.txt"
-    output_file_name = os.path.join(
-        BUILD_FOLDER,
-        leadermaking_code_outfile
-    )
-    input_file_path = os.path.join(BUILD_FOLDER, input_codegen_json_file_name)
-    # breakpoint()
-    with open(input_file_path, "r") as source_codegen_data:
-        buffer = json_load(source_codegen_data)
-    detected_leader_class = input_codegen_json_file_name.split('_')[2]
-    generated_leadermaking_code_blob = ''
-    if generated_code_type == "tooltips":
-        generated_leadermaking_code_blob = iterate_traits_make_feature_tooltips_code(
-            buffer, for_class=detected_leader_class, feature="leader_making")
-    elif generated_code_type == "gui":
-        generated_leadermaking_code_blob = iterate_traits_make_leadermaking_gui_code(
-            buffer, for_class=detected_leader_class)
-    elif generated_code_type == "effects":
-        generated_leadermaking_code_blob = iterate_traits_make_leadermaking_effects_code(
-            buffer, for_class=detected_leader_class)
-    with open(output_file_name, "wb") as leadermaking_code_outfile:
-        sys.stdout.write(f"Writing {detected_leader_class} leadermaking {generated_code_type} code to {output_file_name}\n")
-        leadermaking_code_outfile.write(
-            generated_leadermaking_code_blob.encode('utf-8')
-        )
+# def run_codegen_process_for_leadermaking_feature(input_codegen_json_file_name, generated_code_type="tooltips"):
+#     """ generated_code_types are "effects","gui","tooltips" """
+#     buffer = ''
+#     base_filename =  input_codegen_json_file_name.rsplit('.',1)[0]
+#     leadermaking_code_outfile = f"{base_filename}_leadermaking_{generated_code_type}.txt"
+#     output_file_name = os.path.join(
+#         BUILD_FOLDER,
+#         leadermaking_code_outfile
+#     )
+#     input_file_path = os.path.join(BUILD_FOLDER, input_codegen_json_file_name)
+#     # breakpoint()
+#     with open(input_file_path, "r") as source_codegen_data:
+#         buffer = json_load(source_codegen_data)
+#     detected_leader_class = input_codegen_json_file_name.split('_')[2]
+#     generated_leadermaking_code_blob = ''
+#     if generated_code_type == "tooltips":
+#         generated_leadermaking_code_blob = iterate_traits_make_feature_tooltips_code(
+#             buffer, for_class=detected_leader_class, feature="leader_making")
+#     elif generated_code_type == "gui":
+#         generated_leadermaking_code_blob = iterate_traits_make_leadermaking_gui_code(
+#             buffer, for_class=detected_leader_class)
+#     elif generated_code_type == "effects":
+#         generated_leadermaking_code_blob = iterate_traits_make_leadermaking_effects_code(
+#             buffer, for_class=detected_leader_class)
+#     with open(output_file_name, "wb") as leadermaking_code_outfile:
+#         sys.stdout.write(f"Writing {detected_leader_class} leadermaking {generated_code_type} code to {output_file_name}\n")
+#         leadermaking_code_outfile.write(
+#             generated_leadermaking_code_blob.encode('utf-8')
+#         )
 
 ### CORE_MODIFYING ###
 def gen_core_modifying_trait_gui_code(
@@ -279,7 +279,7 @@ def gen_core_modifying_trait_gui_code(
     gfx_sprite_name,
     is_xvcv_custom_trait=False, is_veteran_trait=False, is_destiny_trait=False
 ):
-    root_gfx_name = "GFX_xvcv_mdlc_leader_trait_background_"
+    root_gfx_name = "GFX_xvcv_mdlc_leader_trait_background"
     effect_button_background_gfx = f"{root_gfx_name}_green"
     effect_button_background_gfx_red = f"{root_gfx_name}_red"
     if is_veteran_trait:
@@ -292,7 +292,7 @@ def gen_core_modifying_trait_gui_code(
 # {leader_class}: {trait_name}
 containerWindowType = {{
     name = "xvcv_mdlc_core_modifying_traits_{leader_class}_{trait_name}"
-    position = {{ x = @xvcv_mdlc_core_modifying_trait_position_width_{column_num} y = @xvcv_mdlc_core_modifying_trait_position_height_{row_num} }}
+    position = {{ x = @xvcv_mdlc_core_modifying_trait_position_column_{column_num} y = @xvcv_mdlc_core_modifying_trait_position_row_{row_num} }}
     effectbuttonType = {{
         name = "xvcv_mdlc_core_modifying_traits_{leader_class}_{trait_name}_add_bg"
         position = {{ x = @xvcv_mdlc_core_modifying_traits_background_offset_width y = @xvcv_mdlc_core_modifying_traits_background_offset_height }}
@@ -407,7 +407,7 @@ def iterate_traits_make_coremodifying_gui_code(organized_traits_dict, for_class:
         "2": 5
     }
     trait_column_num = 1
-    trait_row_num = 1
+    trait_row_num = 2  # Leave the entire first row for subclass pickers
     for rarity_level in RARITIES:
         for leader_trait in organized_traits_dict["core_modifying_traits"][rarity_level]:
             trait_name = [*leader_trait][0]
@@ -427,22 +427,22 @@ def iterate_traits_make_coremodifying_gui_code(organized_traits_dict, for_class:
                 # Special maths rules
                 if trait_row_num == 1:
                     # Go to the next row after 4 traits
-                    if trait_column_num > 5:
+                    if trait_column_num > 4:
                         trait_row_num = trait_row_num + 1
                         trait_column_num = 1
                 elif trait_row_num == 2:
                     # Go to the next row after 5 traits
-                    if trait_column_num > 6:
+                    if trait_column_num > 5:
                         trait_row_num = trait_row_num + 1
                         trait_column_num = 1
                 else:
                     # Permit only 6 traits in a row therafter, like normal
-                    if trait_column_num > 7:
+                    if trait_column_num > 6:
                         trait_column_num = 1
                         trait_row_num = trait_row_num + 1
             else:
                 # No special x / y rules for the other classes
-                if trait_column_num > 10:
+                if trait_column_num > 6:
                     trait_column_num = 1
                     trait_row_num = trait_row_num + 1
             gui_code_bloblist.append(trait_gui_code)
@@ -603,7 +603,7 @@ def iterate_traits_make_feature_tooltips_code(organized_traits_dict, for_class, 
                 trait_dict=leader_trait, leader_class=for_class, feature=feature
             )
             leader_tooltips_copypaste_blob.append(tooltip_code_for_leadermaking_trait)
-    return LOCALISATION_HEADER + ' '.join(leader_tooltips_copypaste_blob)
+    return LOCALISATION_HEADER + ''.join(leader_tooltips_copypaste_blob)
 
 ##################
 ### THE BIG ONE ##
