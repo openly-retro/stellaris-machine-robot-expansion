@@ -29,6 +29,8 @@ BUTTON_EFFECTS_FOLDER = os.path.join(
     'common', 'button_effects'
 )
 
+LOCALISATION_HEADER = "l_english:\n"
+
 # TODO: Write all the English localisations to all the other language folders!!
 LOCALISATION_FOLDER = os.path.join(
     os.getcwd(),

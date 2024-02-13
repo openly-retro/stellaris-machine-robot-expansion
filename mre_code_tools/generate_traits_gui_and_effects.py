@@ -15,6 +15,7 @@ from mre_common_vars import (
     LEADER_SUBCLASSES,
     LEADER_CLASSES,
     OUTPUT_FILES_DESTINATIONS,
+    LOCALISATION_HEADER,
 )
 
 RARITIES = ("common", "veteran", "paragon")
@@ -159,7 +160,7 @@ def iterate_traits_make_leadermaking_gui_code(organized_traits_dict, for_class: 
     )
     leader_making_code_bloblist = [header,]
     # 10 columns, 8 rows
-    trait_column_num = 1
+    trait_column_num = 3  # There are 2 custom traits already coded in to the gui file
     trait_row_num = 1
     for rarity_level in RARITIES:
         for leader_making_trait in organized_traits_dict['leader_making_traits'][rarity_level]:
@@ -606,7 +607,7 @@ def iterate_traits_make_feature_tooltips_code(organized_traits_dict, for_class, 
                 trait_dict=leader_trait, leader_class=for_class, feature=feature
             )
             leader_tooltips_copypaste_blob.append(tooltip_code_for_leadermaking_trait)
-    return ''.join(leader_tooltips_copypaste_blob)
+    return LOCALISATION_HEADER + ' '.join(leader_tooltips_copypaste_blob)
 
 ##################
 ### THE BIG ONE ##
@@ -672,8 +673,9 @@ def run_codegen_process_for_ingame_feature(
         )
     with open(output_file_name, "wb") as leadermaking_code_outfile:
         sys.stdout.write(f"Writing {detected_leader_class} {feature} {generated_code_type} code to {output_file_name}\n")
+        mod_file_encoding = 'utf-8-sig' if generated_code_type == 'tooltips' else 'utf-8'
         leadermaking_code_outfile.write(
-            generated_leadermaking_code_blob.encode('utf-8')
+            generated_leadermaking_code_blob.encode(mod_file_encoding)
         )
 
 
