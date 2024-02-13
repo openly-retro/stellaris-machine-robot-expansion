@@ -98,8 +98,6 @@ Logic: if our guess for a modifier localisation key is in the below map,
 preprend 'mre_' to the localisation key.
 """
 # Dicts are the fastest lookup ( O(1) ) vs searching a list ( O(n) )
-ALL_REPLACEMENT_MAPS = load_modifier_keys_in_uppercase(DEFAULT_UPPERCASE_MODIFIERS_MAP_FILES)
-
 
 """ Some tooltips have localisation keys only in the yml for that DLC, and arent in 
 base stellaris. So they show up empty in the leadermaking UI because the game can't find
@@ -141,6 +139,7 @@ def create_tooltip_for_leader(
     trait_dict, leader_class, feature="leader_making"
 ):
     # parsed = safe_load(trait_yaml)
+    ALL_REPLACEMENT_MAPS = load_modifier_keys_in_uppercase(DEFAULT_UPPERCASE_MODIFIERS_MAP_FILES)
     
     trait_name = list(trait_dict.keys())[0]
     base_trait_name = trait_name

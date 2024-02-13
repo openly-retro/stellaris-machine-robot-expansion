@@ -30,6 +30,7 @@ from mre_process_traits_for_codegen import (
 )
 from generate_traits_gui_and_effects import (
     run_codegen_process_for_leadermaking_feature,
+    generate_mod_ready_code_files
 )
 from mre_translation_key_normalizer import do_all_work as do_uppercase_modifier_mapping_work
 
@@ -165,24 +166,31 @@ if __name__=="__main__":
         "Starting the M&RE Trait Data pipeline, phase 1: Make trait data fun to play with!\n"
         f"Code by 0xRetro. Sanity levels at {randint(15,115)}% of normal.\n"
     )
-    sys.stdout.write("** Resetting the build folder **\n")
+    if not os.path.exists(
+        os.path.join(
+            os.getcwd(),
+            'common'
+        )
+    ):
+        sys.exit(
+            "!Whoops! Run this script from the mod root folder, not in the mre_code_tools folder,"
+            "because it will write to some of the mod files directly."
+        )
+    sys.stdout.write("***************************************************************\n")
+    sys.stdout.write("**** Phase 1 starting! ... ****\n")
+    sys.stdout.write("** Resetting the build folder (_boom_)**\n")
     clean_up_build_folder()
-    sys.stdout.write("** Reading base files & chopping them up **\n")
+    sys.stdout.write("** Reading base Stellaris files & gleefully chopping them up **\n")
     base_files_processed_to_yaml = batch_process_base_files_into_yaml(args.stellaris_path)
-    sys.stdout.write("** Crunching & filtering chopped-up data **\n")
+    sys.stdout.write("** Sauteeing & serving chopped-up data **\n")
     # Here, we switch from fake YAML to dumping data to JSON, a reliable data standard
     useful_traits_json_files = crunch_trait_data_from_processed_yaml(base_files_processed_to_yaml)
     sys.stdout.write("** Sorting traits data & writing files **\n")
     just_three_traits_files = sort_merge_traits_files(useful_traits_json_files)
     sys.stdout.write("**** Mm mm, delicious, sane, predictable data! ****\n")
-    # sys.stdout.write(
-    #     "Let's see how we did! Inspect these files in the build folder for errors:\n"
-    # )
-    # sys.stdout.write(
-    #     "\n".join([f"00_mre_{leader_class}_traits.json" for leader_class in LEADER_CLASSES])
-    # )
     sys.stdout.write("** Doing a QA check on our shiny new datafiles ... **\n")
     qa_pipeline_files()
+    sys.stdout.write("***************************************************************\n")
     sys.stdout.write("**** Phase 2 starting! ... ****\n")
     sys.stdout.write("** Sorting, filtering, and getting data ready for code gen scripts ... **\n")
     sort_and_write_filtered_trait_data()
@@ -190,8 +198,17 @@ if __name__=="__main__":
     do_uppercase_modifier_mapping_work(args.stellaris_path)
     sys.stdout.write("** Firing up leader-making code generation scripts ... **\n")
     # generate_leadermaking_feature_code()
-    sys.stdout.write("That's the end of the automation -- but there's more coming!\n")
-    sys.stdout.write("Core-modifying tooltip auto-generation, button effects, and GUI.. till then -- \n")
+    sys.stdout.write("***************************************************************\n")
+    sys.stdout.write("**** Phase 3 starting! ... Wait, what? there's a Phase 3?? ****\n")
+    sys.stdout.write("** Jumpin' jumpgates, time to finally crank out some working mod code! **\n")
+    generate_mod_ready_code_files()
+    sys.stdout.write(
+        "\n*burp* We just cranked out a TON of mod code! A lot of it should be in place now.\n"
+        "Button effects and localisation files don't need fixing. But go check that the contents look sane.\n"
+        "Also, GUI CODE NEEDS TO BE COPIED BY HAND INTO THE .GUI FILES IN THE INTERFACE FOLDER.\n"
+        "Look in the build folder for the files starting with 86 and ending in _gui.txt..\n"
+    )
+    sys.stdout.write("Still to do: Crank out a couple more big effects/triggers. Till then -- \n")
 
     print(UNICORN)
     end_time = time.perf_counter()

@@ -29,9 +29,11 @@ BUTTON_EFFECTS_FOLDER = os.path.join(
     'common', 'button_effects'
 )
 
+# TODO: Write all the English localisations to all the other language folders!!
 LOCALISATION_FOLDER = os.path.join(
     os.getcwd(),
     'localisation',
+    'english'
 )
 OUTPUT_FILE_BUTTON_FX_NAME = "xvcv_mdlc_button_effects_{feature}_{leader_class}_customgui.txt"
 OUTPUT_FILE_LOCALISATION_NAME = "xvcv_mdlc_l_english_{feature}_{leader_class}_customgui.yml"
@@ -61,19 +63,19 @@ OUTPUT_FILES_DESTINATIONS = {
         },
         "tooltips": {
             "commander": os.path.join(
-                BUTTON_EFFECTS_FOLDER,
+                LOCALISATION_FOLDER,
                 OUTPUT_FILE_LOCALISATION_NAME.format(
                     feature="core_modifying", leader_class="commander"
                 )
             ),
             "official": os.path.join(
-                BUTTON_EFFECTS_FOLDER,
+                LOCALISATION_FOLDER,
                 OUTPUT_FILE_LOCALISATION_NAME.format(
                     feature="core_modifying", leader_class="official"
                 )
             ),
             "scientist": os.path.join(
-                BUTTON_EFFECTS_FOLDER,
+                LOCALISATION_FOLDER,
                 OUTPUT_FILE_LOCALISATION_NAME.format(
                     feature="core_modifying", leader_class="scientist"
                 )
@@ -103,19 +105,19 @@ OUTPUT_FILES_DESTINATIONS = {
         },
         "tooltips": {
             "commander": os.path.join(
-                BUTTON_EFFECTS_FOLDER,
+                LOCALISATION_FOLDER,
                 OUTPUT_FILE_LOCALISATION_NAME.format(
                     feature="leader_making", leader_class="commander"
                 )
             ),
             "official": os.path.join(
-                BUTTON_EFFECTS_FOLDER,
+                LOCALISATION_FOLDER,
                 OUTPUT_FILE_LOCALISATION_NAME.format(
                     feature="leader_making", leader_class="official"
                 )
             ),
             "scientist": os.path.join(
-                BUTTON_EFFECTS_FOLDER,
+                LOCALISATION_FOLDER,
                 OUTPUT_FILE_LOCALISATION_NAME.format(
                     feature="leader_making", leader_class="scientist"
                 )
