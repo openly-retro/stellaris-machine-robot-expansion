@@ -27,31 +27,28 @@ def test_leader_trait_private_mines_2():
 """
     pass
 
-def test_generate_leader_trait_naturalist_3():
-    input_yaml = """
-leader_trait_naturalist_3:
-    replace_traits: "leader_trait_naturalist_2"
-    inline_script:
-        script: trait/icon
-        CLASS: official
-        ICON: "GFX_leader_trait_naturalist"
-        RARITY: veteran
-        COUNCIL: no
-        TIER: 3
-    planet_modifier:
-        deposit_blockers_natural_unity_produces_add: 12
-    sector_modifier:
-        deposit_blockers_natural_unity_produces_add: 6
-    veteran_class_locked_trait: yes
-    leader_class: official scientist
-"""
-    parsed_yaml = safe_load(input_yaml)
+def test_generate_leader_trait_naturalist_2():
+    trait_dict = {
+        "leader_trait_naturalist_2": {
+            "trait_name": "leader_trait_naturalist_2",
+            "leader_class": "official",
+            "gfx": "GFX_leader_trait_naturalist",
+            "rarity": "veteran",
+            "planet_modifier": {
+                "deposit_blockers_natural_unity_produces_add": 6
+            },
+            "sector_modifier": {
+                "deposit_blockers_natural_unity_produces_add": 3
+            },
+            "requires_paragon_dlc": False
+        }
+    }
     trait_output = create_tooltip_for_leader(
-        parsed_yaml, "official"
+        trait_dict, "official", feature="leader_making"
     )
     expected_output = """
-#leader_making #official #leader_trait_naturalist_3
-xvcv_mdlc_leader_making_tooltip_official_leader_trait_naturalist_3:0 "§H$leader_trait_naturalist$ III§!$add_xvcv_mdlc_leader_making_traits_costs_desc$\\n$governing_planet_effect$\\n$t$$mod_deposit_blockers_natural_unity_produces_add$: §G+12§!\\n$governing_sector_effect$\\n$t$$mod_deposit_blockers_natural_unity_produces_add$: §G+6§!\\n--------------\\n§L$leader_trait_naturalist_desc$§!"
+#leader_making #official #leader_trait_naturalist_2
+xvcv_mdlc_leader_making_tooltip_official_leader_trait_naturalist_2_alt:0 "§H$leader_trait_naturalist$ II§!$add_xvcv_mdlc_leader_making_traits_costs_desc_alt$\\n$governing_planet_effect$\\n$t$$mod_deposit_blockers_natural_unity_produces_add$: §G+6§!\\n$governing_sector_effect$\\n$t$$mod_deposit_blockers_natural_unity_produces_add$: §G+3§!\\n--------------\\n§L$leader_trait_naturalist_desc$§!"
 """
 
     assert expected_output.encode('utf-8') == trait_output.encode('utf-8')
@@ -100,7 +97,7 @@ def test_leadermaking_tooltip_leader_trait_generator_focus_3():
     }
     expected = """
 #leader_making #commander #leader_trait_generator_focus_3
-xvcv_mdlc_leader_making_tooltip_commander_leader_trait_generator_focus_3:0 "§H$leader_trait_generator_focus$ III§!$add_xvcv_mdlc_leader_making_traits_costs_desc_alt$\\n$governing_planet_effect$\\n$t$$mod_planet_jobs_energy_produces_mult$: §G+45%§!\\n$governing_sector_effect$\\n$t$$mod_planet_jobs_energy_produces_mult$: §G+22%§!\\n--------------\\n§L$leader_trait_generator_focus_desc$§!"
+xvcv_mdlc_leader_making_tooltip_commander_leader_trait_generator_focus_3_alt:0 "§H$leader_trait_generator_focus$ III§!$add_xvcv_mdlc_leader_making_traits_costs_desc_alt$\\n$governing_planet_effect$\\n$t$$mod_planet_jobs_energy_produces_mult$: §G+45%§!\\n$governing_sector_effect$\\n$t$$mod_planet_jobs_energy_produces_mult$: §G+22%§!\\n--------------\\n§L$leader_trait_generator_focus_desc$§!"
 """
     actual = create_tooltip_for_leader(test_data, leader_class="commander")
     assert expected.encode('utf-8') == actual.encode('utf-8')
@@ -202,7 +199,7 @@ def test_detect_modifier_permutation__adventurous_spirit_3():
 
     expected = """
 #leader_making #commander #leader_trait_adventurous_spirit_3
-xvcv_mdlc_leader_making_tooltip_commander_leader_trait_adventurous_spirit_3:0 "§H$leader_trait_adventurous_spirit$ III§!$add_xvcv_mdlc_leader_making_traits_costs_desc_alt$\\n$t$$mod_leaders_upkeep_mult$: §G-25%§!\\n$t$$MOD_LEADER_SPECIES_EXP_GAIN$: §G+10%§!\\n--------------\\n§L$leader_trait_adventurous_spirit_desc$§!"
+xvcv_mdlc_leader_making_tooltip_commander_leader_trait_adventurous_spirit_3_alt:0 "§H$leader_trait_adventurous_spirit$ III§!$add_xvcv_mdlc_leader_making_traits_costs_desc_alt$\\n$t$$mod_leaders_upkeep_mult$: §G-25%§!\\n$t$$MOD_LEADER_SPECIES_EXP_GAIN$: §G+10%§!\\n--------------\\n§L$leader_trait_adventurous_spirit_desc$§!"
 """
     actual = create_tooltip_for_leader(trait_data, leader_class="commander")
     assert expected == actual
