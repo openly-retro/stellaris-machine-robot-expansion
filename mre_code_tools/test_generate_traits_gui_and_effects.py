@@ -152,7 +152,7 @@ def test_gen_leadermaking_effects_code__adventurous_spirit_3():
 xvcv_mdlc_leader_making_trait_commander_leader_trait_adventurous_spirit_3_add_button_effect = {
     potential = { always = yes }
     allow = {
-        xvcv_mdlc_leader_making_trait_pick_alt_trigger = { CLASS = commander ID = leader_trait_adventurous_spirit_3 }
+        xvcv_mdlc_leader_making_trait_pick_trigger = { CLASS = commander ID = leader_trait_adventurous_spirit_3 }
         #xvcv_mdlc_leader_making_requires_leader_subclass_trigger = { CLASS = commander ID = None }
         xvcv_mdlc_leader_making_trait_cost_alt_trigger = yes
         xvcv_mdlc_leader_making_trait_points_alt_trigger = yes
@@ -161,7 +161,7 @@ xvcv_mdlc_leader_making_trait_commander_leader_trait_adventurous_spirit_3_add_bu
         xvcv_mdlc_leader_making_picked_class_commander_trigger = yes
     }
     effect = {
-        xvcv_mdlc_leader_making_trait_pick_alt_effect = { CLASS = commander ID = leader_trait_adventurous_spirit_3 }
+        xvcv_mdlc_leader_making_trait_pick_effect = { CLASS = commander ID = leader_trait_adventurous_spirit_3 }
         hidden_effect = { xvcv_mdlc_leader_making_trait_count_points_costs_alt_effect = yes }
     }
 }

@@ -158,13 +158,14 @@ def create_tooltip_for_leader(
     # Displays add'l costs for higher-tier traits
     trait_cost_alt = ""
     # Append only _alt to the trait name if it's vet/paragon, there is no "traitname_alt_2" scripted effect
-    trait_name_alt = ""
+    # I am WRONG!! append alt ONLY IF THERE IS A SCRIPTED EFFECT BEING ATTACHED TO IT.. see https://github.com/openly-retro/stellaris-machine-robot-expansion/issues/71
+    # trait_name_alt = ""
     if root.get("rarity", "") == "veteran":
         trait_cost_alt = "_alt"
-        trait_name_alt = "_alt"
+        # trait_name_alt = "_alt"
     if root.get("rarity", "") == "paragon":
         trait_cost_alt = "_alt_2"
-        trait_name_alt = "_alt"
+        # trait_name_alt = "_alt"
     trait_cost_tt = f"$add_xvcv_mdlc_{feature}_traits_costs_desc{trait_cost_alt}$"
     separator_ruler = "--------------"
     # trait_desc_brown_text = make_brown_text(f"${base_trait_name}_machine_desc$")
@@ -208,7 +209,7 @@ def create_tooltip_for_leader(
     remove_trait_tooltip = ''
     if feature == LEADER_MAKING:
         compiled_tooltip = (
-            f'{tooltip_base}_{tooltip_stem}_{leader_class}_{trait_name}{trait_name_alt}:0 \"{trait_title}{trait_cost_tt}\\n'
+            f'{tooltip_base}_{tooltip_stem}_{leader_class}_{trait_name}:0 \"{trait_title}{trait_cost_tt}\\n'
             f'{trait_bonuses}\\n{separator_ruler}\\n{trait_desc_brown_text}\"'
         )
     elif feature == CORE_MODIFYING:
