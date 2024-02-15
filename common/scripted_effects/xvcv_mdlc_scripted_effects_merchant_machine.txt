@@ -1,0 +1,137 @@
+xvcv_mdlc_civic_trading_machine_target_all_trade_value_calc_effect = {
+	optimize_memory
+	#clear the variable for recalculating it again
+	event_target:xvcv_mdlc_trading_machine_owner = {
+		if = {
+			limit = { is_variable_set = xvcv_mdlc_target_$ID$_trade_value }
+			clear_variable = xvcv_mdlc_target_$ID$_trade_value
+		}
+	}
+	every_system_within_border = {
+		limit = { has_system_trade_value > 0 }
+		event_target:xvcv_mdlc_trading_machine_owner = { change_variable = { which = xvcv_mdlc_target_$ID$_trade_value value = prev.trigger:has_system_trade_value } }
+	}
+	event_target:xvcv_mdlc_trading_machine_owner = {
+		divide_variable = { which = xvcv_mdlc_target_$ID$_trade_value value = 10 } #10% of the total trade value
+		if = { limit = { has_technology = xvcv_mdlc_tech_negotiation_algorithms } multiply_variable = { which = xvcv_mdlc_target_$ID$_trade_value value = 2 } } #20% of the total trade value, with the required tech
+		round_variable = xvcv_mdlc_target_$ID$_trade_value #rounds the variable to the closest integer
+	}
+}
+xvcv_mdlc_civic_trading_machine_target_all_energy_income_calc_effect = {
+	optimize_memory
+	export_resource_income_to_variable = { resource = energy variable = xvcv_mdlc_energy_income_from_target_$ID$ }
+	event_target:xvcv_mdlc_trading_machine_owner = {
+		#this will reset the previous value to new one
+		set_variable = { which = xvcv_mdlc_target_$ID$_energy_income value = prev.xvcv_mdlc_energy_income_from_target_$ID$ }
+		divide_variable = { which = xvcv_mdlc_target_$ID$_energy_income value = 10 }
+		if = { limit = { has_technology = xvcv_mdlc_tech_negotiation_algorithms } multiply_variable = { which = xvcv_mdlc_target_$ID$_energy_income value = 2 } }
+		round_variable = xvcv_mdlc_target_$ID$_energy_income
+	}
+}
+xvcv_mdlc_civic_trading_machine_reset_variables_flags_effect = {
+	optimize_memory
+	if = {
+		limit = { is_variable_set = xvcv_mdlc_target_$ID$_trade_value }
+		clear_variable = xvcv_mdlc_target_$ID$_trade_value
+	}
+	if = {
+		limit = { is_variable_set = xvcv_mdlc_target_$ID$_energy_income }
+		clear_variable = xvcv_mdlc_target_$ID$_energy_income
+	}
+	if = {
+		limit = { has_country_flag = xvcv_mdlc_target_$ID$_trade_value_added_to_all_trade_value }
+		remove_country_flag = xvcv_mdlc_target_$ID$_trade_value_added_to_all_trade_value
+	}
+	if = {
+		limit = { has_country_flag = xvcv_mdlc_target_$ID$_energy_income_is_added_to_all_energy_income_from_trade }
+		remove_country_flag = xvcv_mdlc_target_$ID$_energy_income_is_added_to_all_energy_income_from_trade
+	}
+}
+xvcv_mdlc_civic_trading_machine_trade_stop_effect = {
+	optimize_memory
+	random_country = {
+		limit = { is_country_type = xvcv_mdlc_trading_machine_controller }
+		random_owned_fleet = {
+			limit = { has_fleet_flag = xvcv_mdlc_civic_trading_machine_fleet_$ID$_owner_id_@root }
+			random_country = {
+				limit = { has_country_flag = xvcv_mdlc_civic_trading_machine_target_country_@prev }
+				root = {
+					if = {
+						limit = { prev = { NOT = { has_ethic = ethic_gestalt_consciousness } } }
+						subtract_variable = { which = xvcv_mdlc_all_trade_value_from_trade value = xvcv_mdlc_target_$ID$_trade_value }
+						else = { subtract_variable = { which = xvcv_mdlc_all_energy_income_from_trade value = xvcv_mdlc_target_$ID$_energy_income } }
+					}
+					xvcv_mdlc_civic_trading_machine_resource_deposit_calc_effect = yes
+					remove_country_flag = xvcv_mdlc_civic_trading_machine_owner_country_@prevprev #unassign the fleet's id
+					xvcv_mdlc_civic_trading_machine_reset_variables_flags_effect = { ID = $ID$ }
+				}
+				remove_country_flag = xvcv_mdlc_civic_trading_machine_target_country_@prev #unassign the fleet's id
+				remove_country_flag = xvcv_mdlc_civic_trading_machine_saved_target_$ID$_@root #unassign the fleet owner's id
+			}
+			destroy_fleet = this
+		}
+	}
+}
+xvcv_mdlc_civic_trading_machine_ship_build_project_abort_effect = {
+	optimize_memory
+	add_resource = { energy = 300 alloys = 700 }
+	random_country = {
+		limit = { has_country_flag = xvcv_mdlc_civic_trading_machine_saved_target_$ID$_@prev }
+		remove_country_flag = xvcv_mdlc_civic_trading_machine_saved_target_$ID$_@prev
+	}
+}
+xvcv_mdlc_civic_trading_machine_all_trade_value_or_energy_income_from_trade_calc_effect = {
+	optimize_memory
+	if = {
+		limit = { NOT = { has_ethic = ethic_gestalt_consciousness } }
+		event_target:xvcv_mdlc_trading_machine_owner = { set_variable = { which = xvcv_mdlc_target_$ID$_trade_value_old value = xvcv_mdlc_target_$ID$_trade_value } }
+		xvcv_mdlc_civic_trading_machine_target_all_trade_value_calc_effect = { ID = $ID$ }
+		event_target:xvcv_mdlc_trading_machine_owner = {
+			change_variable = { which = xvcv_mdlc_all_trade_value_from_trade value = xvcv_mdlc_target_$ID$_trade_value }
+			if = {
+				limit = { NOT = { has_country_flag = xvcv_mdlc_target_$ID$_trade_value_added_to_all_trade_value } }
+				set_country_flag = xvcv_mdlc_target_$ID$_trade_value_added_to_all_trade_value
+				else = { subtract_variable = { which = xvcv_mdlc_all_trade_value_from_trade value = xvcv_mdlc_target_$ID$_trade_value_old } }
+			}
+		}
+		else = {
+			event_target:xvcv_mdlc_trading_machine_owner = { set_variable = { which = xvcv_mdlc_target_$ID$_energy_income_old value = xvcv_mdlc_target_$ID$_energy_income } }
+			xvcv_mdlc_civic_trading_machine_target_all_energy_income_calc_effect = { ID = $ID$ }
+			event_target:xvcv_mdlc_trading_machine_owner = {
+				change_variable = { which = xvcv_mdlc_all_energy_income_from_trade value = xvcv_mdlc_target_$ID$_energy_income }
+				if = {
+					limit = { NOT = { has_country_flag = xvcv_mdlc_target_$ID$_energy_income_is_added_to_all_energy_income_from_trade } }
+					set_country_flag = xvcv_mdlc_target_$ID$_energy_income_is_added_to_all_energy_income_from_trade
+					else = { subtract_variable = { which = xvcv_mdlc_all_energy_income_from_trade value = xvcv_mdlc_target_$ID$_energy_income_old } }
+				}
+			}
+		}
+	}
+}
+xvcv_mdlc_civic_trading_machine_resource_deposit_clear_effect = {
+	optimize_memory
+	capital_scope = {
+		#clear deposits
+		every_deposit = { limit = { is_deposit_type = xvcv_mdlc_d_civic_trading_machine_energy } remove_deposit = yes }
+		every_deposit = { limit = { is_deposit_type = xvcv_mdlc_d_civic_trading_machine_minerals } remove_deposit = yes }
+		every_deposit = { limit = { is_deposit_type = xvcv_mdlc_d_civic_trading_machine_alloys } remove_deposit = yes }
+		every_deposit = { limit = { is_deposit_type = xvcv_mdlc_d_civic_trading_machine_influence } remove_deposit = yes }
+		every_deposit = { limit = { is_deposit_type = xvcv_mdlc_d_civic_trading_machine_unity } remove_deposit = yes }
+		every_deposit = { limit = { is_deposit_type = xvcv_mdlc_d_civic_trading_machine_rares } remove_deposit = yes }
+		every_deposit = { limit = { is_deposit_type = xvcv_mdlc_d_civic_trading_machine_energy_alt } remove_deposit = yes }
+	}
+}
+xvcv_mdlc_civic_trading_machine_resource_deposit_calc_effect = {
+	optimize_memory
+	xvcv_mdlc_civic_trading_machine_resource_deposit_clear_effect = yes
+	switch = {
+		trigger = has_policy_flag
+		xvcv_mdlc_civic_trading_machine_trade_energy = { while = { count = xvcv_mdlc_all_trade_value_from_trade capital_scope = { add_deposit = xvcv_mdlc_d_civic_trading_machine_energy } } }
+		xvcv_mdlc_civic_trading_machine_trade_minerals = { while = { count = xvcv_mdlc_all_trade_value_from_trade capital_scope = { add_deposit = xvcv_mdlc_d_civic_trading_machine_minerals } } }
+		xvcv_mdlc_civic_trading_machine_trade_alloys = { while = { count = xvcv_mdlc_all_trade_value_from_trade capital_scope = { add_deposit = xvcv_mdlc_d_civic_trading_machine_alloys } } }
+		xvcv_mdlc_civic_trading_machine_trade_influence = { while = { count = xvcv_mdlc_all_trade_value_from_trade capital_scope = { add_deposit = xvcv_mdlc_d_civic_trading_machine_influence } } }
+		xvcv_mdlc_civic_trading_machine_trade_unity = { while = { count = xvcv_mdlc_all_trade_value_from_trade capital_scope = { add_deposit = xvcv_mdlc_d_civic_trading_machine_unity } } }
+		xvcv_mdlc_civic_trading_machine_trade_rares = { while = { count = xvcv_mdlc_all_trade_value_from_trade capital_scope = { add_deposit = xvcv_mdlc_d_civic_trading_machine_rares } } }			
+	}
+	while = { count = xvcv_mdlc_all_energy_income_from_trade capital_scope = { add_deposit = xvcv_mdlc_d_civic_trading_machine_energy_alt } }
+}
