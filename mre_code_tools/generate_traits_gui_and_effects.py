@@ -504,6 +504,11 @@ xvcv_mdlc_leader_making_clear_values_effect = {
     and inside of each block of conditionals, it has that class' traits
     We will have to iterate the 3 data files in this single method
     """
+    classes_data = {
+        "commander": [],
+        "scientist": [],
+        "official": []
+    }
     large_if_clauses_for_all_classes = []
     for input_codegen_json_file_name in INPUT_FILES_FOR_CODEGEN:
         # Go over the files, do all common/veteran/paragon traits for each class
@@ -511,9 +516,17 @@ xvcv_mdlc_leader_making_clear_values_effect = {
         buffer = ''
         with open(input_file_path, "r") as source_codegen_data:
             buffer = json_load(source_codegen_data)
-        leader_class = input_codegen_json_file_name.split('_')[2]
+            # We only want leadermaking
+        file_leader_class = input_codegen_json_file_name.split('_')[2]
+        for rarity in RARITIES:
+            print(f"Looking thru {input_codegen_json_file_name} for {file_leader_class} {rarity} traits..")
+            # We have got to combine all the traits now, into one list for the class
+            classes_data[file_leader_class] = classes_data[file_leader_class] + buffer["leader_making_traits"][rarity]
+    # After collection, iterate each class' traits and make the "clear" commands 
+    breakpoint()
+    for leader_class in LEADER_CLASSES:
         class_specific_if_limit_then_clear_lines = generate_class_specific_lines_for_leader_making_clear_values_effect(
-            buffer, for_class=leader_class
+            classes_data[leader_class], for_class=leader_class
         )
         large_if_clauses_for_all_classes.append(class_specific_if_limit_then_clear_lines)
     compiled_trigger = f"""{preamble}
@@ -521,9 +534,10 @@ xvcv_mdlc_leader_making_clear_values_effect = {
 {closing}"""
     return compiled_trigger
 
-def generate_class_specific_lines_for_leader_making_clear_values_effect(organized_traits_dict, for_class="commander"):
+def generate_class_specific_lines_for_leader_making_clear_values_effect(list_of_traits, for_class):
     # TODO: Exclude core_modifying traits that we dont want ?
 
+    print(f"Generatint clear values effects for {for_class}")
     opening_lines = f"""
     #{for_class}
     if = {{
@@ -531,12 +545,10 @@ def generate_class_specific_lines_for_leader_making_clear_values_effect(organize
     closing_lines = f"""        remove_country_flag = xvcv_mdlc_leader_class_set_to_{for_class}
     }}"""
     trait_limit_declarations = []
-    for rarity_level in RARITIES:
-        if organized_traits_dict['core_modifying_traits'].get(rarity_level):
-            for leader_trait in organized_traits_dict['core_modifying_traits'][rarity_level]:
-                trait_name = [*leader_trait][0]
-                trait_limit_line = f"        if = {{ limit = {{ has_country_flag = xvcv_mdlc_leader_{for_class}_{trait_name} }} remove_country_flag = xvcv_mdlc_leader_{for_class}_{trait_name} }}"
-                trait_limit_declarations.append(trait_limit_line)
+    for leader_trait in list_of_traits:
+        trait_name = [*leader_trait][0]
+        trait_limit_line = f"        if = {{ limit = {{ has_country_flag = xvcv_mdlc_leader_{for_class}_{trait_name} }} remove_country_flag = xvcv_mdlc_leader_{for_class}_{trait_name} }}"
+        trait_limit_declarations.append(trait_limit_line)
     # Preserve this during autogeneration
     add_custom_traits_class_block = f"""
         if = {{ limit = {{ has_country_flag = xvcv_mdlc_leader_{for_class}_xvcv_mdlc_leader_trait_memory_backup }} remove_country_flag = xvcv_mdlc_leader_{for_class}_xvcv_mdlc_leader_trait_memory_backup }}
