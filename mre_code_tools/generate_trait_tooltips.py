@@ -136,10 +136,12 @@ def detect_trait_modifier_permutation(trait_modifier: str,uppercase_key_store: d
     return match
 
 def create_tooltip_for_leader(
-    trait_dict, leader_class, feature="leader_making"
+    trait_dict, leader_class, feature="leader_making", uppercase_map_files=None
 ):
-    # parsed = safe_load(trait_yaml)
-    ALL_REPLACEMENT_MAPS = load_modifier_keys_in_uppercase(DEFAULT_UPPERCASE_MODIFIERS_MAP_FILES)
+    if uppercase_map_files is None:
+        uppercase_map_files = DEFAULT_UPPERCASE_MODIFIERS_MAP_FILES
+    
+    ALL_REPLACEMENT_MAPS = load_modifier_keys_in_uppercase(uppercase_map_files)
     
     trait_name = list(trait_dict.keys())[0]
     base_trait_name = trait_name

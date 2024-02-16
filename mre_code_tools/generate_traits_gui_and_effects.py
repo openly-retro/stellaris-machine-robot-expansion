@@ -461,11 +461,12 @@ xvcv_mdlc_core_modifying_ruler_traits_trigger = {
 }
 """
     buffer = set()
-    for codegen_ready_file in input_files_list:
-        trait_json_data_path = os.path.join(BUILD_FOLDER, codegen_ready_file)
+    for trait_json_data_path in input_files_list:
         with open(trait_json_data_path, "r") as codegen_stream:
             _tmp = json_load(codegen_stream)
             for rarity in RARITIES:
+                if not _tmp['core_modifying_traits'].get(rarity):
+                    continue
                 trait_names_list = [
                     [*trait][0] for trait in _tmp['core_modifying_traits'][rarity]
                 ]
@@ -718,7 +719,11 @@ if __name__ == "__main__":
         sys.exit()
 
     if args.core_trigger:
-        trigger_blob_for_writing = gen_xvcv_mdlc_core_modifying_ruler_traits_trigger(INPUT_FILES_FOR_CODEGEN)
+        input_files_in_build_folder = [
+            os.path.join(BUILD_FOLDER, codegen_ready_file)
+            for codegen_ready_file in INPUT_FILES_FOR_CODEGEN
+        ]
+        trigger_blob_for_writing = gen_xvcv_mdlc_core_modifying_ruler_traits_trigger(input_files_in_build_folder)
         outfile_path = os.path.join(
             BUILD_FOLDER,
             "85_core_modifying_modifying_ruler_trait_trigger.txt"

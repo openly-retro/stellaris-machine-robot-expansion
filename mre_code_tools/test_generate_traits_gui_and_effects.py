@@ -1,5 +1,6 @@
 # Unit tests
-
+from tempfile import NamedTemporaryFile
+from json import dump as json_dump
 from generate_traits_gui_and_effects import (
     gen_leader_making_button_effects_code,
     gen_core_modifying_trait_gui_code,
@@ -170,6 +171,7 @@ xvcv_mdlc_leader_making_trait_commander_leader_trait_adventurous_spirit_3_add_bu
 
 
 def test_gen_xvcv_mdlc_core_modifying_ruler_traits_trigger():
+    traits_json_file = NamedTemporaryFile(delete=False)
     traits_dict = {
         "core_modifying_traits": {
             "common": [
@@ -188,6 +190,9 @@ def test_gen_xvcv_mdlc_core_modifying_ruler_traits_trigger():
             ]
         }
     }
+    with open(traits_json_file.name, "w+t") as mtmp:
+        json_dump(traits_dict, mtmp)
+    test_input_files_list = [traits_json_file.name]
     expected = """
 xvcv_mdlc_core_modifying_ruler_traits_trigger = {
     optimize_memory
@@ -208,5 +213,6 @@ xvcv_mdlc_core_modifying_ruler_traits_trigger = {
     }
 }
 """
-    actual = gen_xvcv_mdlc_core_modifying_ruler_traits_trigger(traits_dict)
+    actual = gen_xvcv_mdlc_core_modifying_ruler_traits_trigger(test_input_files_list)
+    traits_json_file.close()
     assert expected == actual
