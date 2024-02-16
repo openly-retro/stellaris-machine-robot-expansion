@@ -450,7 +450,7 @@ def iterate_traits_make_feature_button_effects_code(organized_traits_dict, for_c
 
     sys.exit("iterate_traits_make_coremodifying_effects_code not implemented yet.")
 
-def gen_xvcv_mdlc_core_modifying_ruler_traits_trigger(organized_traits_dict):
+def gen_xvcv_mdlc_core_modifying_ruler_traits_trigger(input_files_list):
     """ Entire trigger with updated list of 3.10 traits for core modifying. for copy/paste """
     indentation = " "*8
     preamble = """
@@ -460,18 +460,26 @@ xvcv_mdlc_core_modifying_ruler_traits_trigger = {
     closing = """    }
 }
 """
+    buffer = set()
+    for codegen_ready_file in input_files_list:
+        trait_json_data_path = os.path.join(BUILD_FOLDER, codegen_ready_file)
+        with open(trait_json_data_path, "r") as codegen_stream:
+            _tmp = json_load(codegen_stream)
+            for rarity in RARITIES:
+                trait_names_list = [
+                    [*trait][0] for trait in _tmp['core_modifying_traits'][rarity]
+                ]
+                buffer = buffer | set(trait_names_list)
+
     trait_conditions_list = []
     for subclass in LEADER_SUBCLASSES:
         trait_conditions_list.append(
             f"{indentation}has_trait = {subclass}"
         )
-    for rarity_level in RARITIES:
-        if rarity_level in organized_traits_dict['core_modifying_traits']:
-            for leader_trait in organized_traits_dict['core_modifying_traits'][rarity_level]:
-                trait_name = [*leader_trait][0]
-                trait_conditions_list.append(
-                    f"{indentation}has_trait = {trait_name}"
-                )
+    for unique_trait in buffer:
+        trait_conditions_list.append(
+            f"{indentation}has_trait = {unique_trait}"
+        )
     compiled_trigger = f"""{preamble}
 {"\n".join(sorted(trait_conditions_list))}
 {closing}"""
@@ -675,14 +683,53 @@ if __name__ == "__main__":
         required=False
     )
     parser.add_argument(
+        '--core_trigger',
+        help="Generate xvcv_mdlc_core_modifying_ruler_traits_trigger",
+        action="store_true",
+        required=False
+    )
+    parser.add_argument(
+        '--leader_fx1',
+        help="Generate xvcv_mdlc_leader_making_clear_values_effect",
+        action="store_true",
+        required=False
+    )
+    parser.add_argument(
         '--process_all',
         help="The Big One. Generate M&RE tooltips, GUI code, button effects code, assuming all traits files were processed by mre_process_traits_for_codegen",
         action="store_true"
     )
     args = parser.parse_args()
+    # Args that dont need an infile
     if args.process_all:
         generate_mod_ready_code_files()
         sys.exit()
+
+    if args.core_trigger:
+        trigger_blob_for_writing = gen_xvcv_mdlc_core_modifying_ruler_traits_trigger(INPUT_FILES_FOR_CODEGEN)
+        outfile_path = os.path.join(
+            BUILD_FOLDER,
+            "85_core_modifying_modifying_ruler_trait_trigger.txt"
+        )
+        with open(outfile_path, "w") as trigger_file_output:
+            sys.stdout.write(f"Writing core modifying trigger code to {trigger_file_output.name}\n")
+            trigger_file_output.write(
+                trigger_blob_for_writing
+            )
+            sys.exit()
+    if args.leader_fx1:
+        blob_for_writing = gen_xvcv_mdlc_leader_making_clear_values_effect()
+        outfile_path = os.path.join(
+            BUILD_FOLDER,
+            "85_leader_making_clear_values_effect.txt"
+        )
+        with open(outfile_path, "w") as trigger_file_output:
+            sys.stdout.write(f"Writing core modifying trigger code to {trigger_file_output.name}\n")
+            trigger_file_output.write(
+                blob_for_writing
+            )
+            print("!!!Remember to add in the lines for each of the subclasses!!!")
+            sys.exit()
 
     buffer = ''
     infile_no_ext = args.infile.rsplit('.',1)[0]
@@ -720,4 +767,3 @@ if __name__ == "__main__":
                 gui_blob_for_writing.encode('utf-8')
             )
             sys.exit()
-
