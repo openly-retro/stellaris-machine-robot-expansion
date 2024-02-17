@@ -120,7 +120,9 @@ def sort_merge_traits_files(useful_yaml_traits_files):
     for leader_class in LEADER_CLASSES:
         sorted_beautiful_data = sorted(output[leader_class], key=lambda x: [*x][0]) 
         # It just feels better having subclasses populated at the end of all this
-        output[leader_class] = trickle_up_subclass_requirements(sorted_beautiful_data, for_class=leader_class)
+        output[leader_class] = trickle_up_subclass_requirements(
+            sorted_beautiful_data, for_class=leader_class
+        )
     # Now, write each classes' traits to a file
     target_filenames = []
     for leader_class in LEADER_CLASSES:

@@ -135,7 +135,7 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
     # 1) We concatenated multiple "has_trait = subclass*" into "has_subclass_trait"
     # 2) It's a single key under leader_potential_add
     # 3) Something else we didnt account for
-    if root.get("leader_potential_add") is not None: # sad kluge
+    if root.get("leader_potential_add", None) is not None: # sad kluge
         if root["leader_potential_add"].get("OR",{}).get("has_subclass_trait"):
             potential_subclass_data = root['leader_potential_add']['OR']['has_subclass_trait']
             if type(potential_subclass_data) is list:
@@ -194,21 +194,30 @@ def guess_rarity_from_trait_data(trait_root_data):
         2) Try destiny_trait. then "paragon"
         3) trait ends in '3'; ends in '2'
     """
+    # breakpoint()
     approximated_rarity = ''
-    # In the base game, some traits have None for the TIER value
-    if trait_root_data['inline_script'].get('TIER') is not None:
-        tier_number = int(trait_root_data['inline_script'].get('TIER', 0))
-        if tier_number:
-            if tier_number == 1:
-                approximated_rarity = "common"
-            else:
-                approximated_rarity = "veteran"
+    if trait_root_data.get('veteran_class_locked_trait', False) or trait_root_data.get('has_subclass_trait', False):
+        approximated_rarity = "veteran"
+    elif trait_root_data.get('destiny_trait', False):
+        approximated_rarity = "paragon"
     else:
-        # More guesswork
-        if trait_root_data.get('destiny_trait') == True:
-            approximated_rarity = "paragon"
-    if not approximated_rarity:
-        sys.exit(f"We couldnt guess rarity from {trait_root_data}!")
+        approximated_rarity = "common"
+    # approximated_rarity = ''
+    # # In the base game, some traits have None for the TIER value
+    # if trait_root_data['inline_script'].get('TIER') is not None:
+    #     tier_number = int(trait_root_data['inline_script'].get('TIER', 0))
+    #     if tier_number:
+    #         # TODO: This logic is wrong. There can be T1 veteran traits.
+    #         if tier_number == 1:
+    #             approximated_rarity = "common"
+    #         elif tier_number > 1:
+    #             approximated_rarity = "veteran"
+    # else:
+    #     # More guesswork
+    #     if trait_root_data.get('destiny_trait') == True:
+    #         approximated_rarity = "paragon"
+    # if not approximated_rarity:
+    #     sys.exit(f"We couldnt guess rarity from {trait_root_data}!")
     return approximated_rarity
 
 

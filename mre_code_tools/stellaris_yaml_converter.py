@@ -40,7 +40,7 @@ def convert_stellaris_script_to_standard_yaml(input_string):
     tidy_subclass_has_trait_duplicates_2 = concatenate_multiline_has_trait_definitions(
         structured_leader_class_lists, min_occurrences=2)
     tidy_subclass_has_trait_duplicates = concatenate_multiline_has_trait_definitions(
-        tidy_subclass_has_trait_duplicates_2, min_occurrences=2)
+        tidy_subclass_has_trait_duplicates_2, min_occurrences=1)
 
     # Also need to comment out "inline_script = paragon" because PDX are using duplicate keys AGAIN >_<
     comment_out_inline_scripts = comment_nested_multiline = re.sub(r"\n(\s)(?=((inline_script: \w){2,}))", '\n#', tidy_subclass_has_trait_duplicates)

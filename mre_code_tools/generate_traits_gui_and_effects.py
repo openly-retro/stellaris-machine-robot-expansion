@@ -2,6 +2,7 @@
 import argparse
 from datetime import datetime
 import os
+from typing import List
 import time
 import sys
 from json import load as json_load
@@ -310,7 +311,15 @@ def gen_core_modifying_button_effects_code(
     elif is_destiny_trait:
         alt_trigger_name = "alt_2_"
     # Comment out the 'requires_leader_subclass_trigger` if it's not a veteran trait'
-    requires_subclass_trigger = "" if is_veteran_trait or is_destiny_trait or required_subclass == "any" else "#"
+    # requires_subclass_trigger = "" if is_veteran_trait or is_destiny_trait or required_subclass == "any" else "#"
+    requires_subclass_trigger = "" if required_subclass is not None else "#"
+    # if requires_subclass_trigger and required_subclass is None:
+    #     breakpoint()
+    #     sys.exit(
+    #         f"There was a problem generating core-modifying button effects code.\n"
+    #         f"{trait_name} was expected to have a subclass, but it doesn't have a value assigned.\n"
+    #         "This means there was a problem earlier in the pipeline with 'trickle_up_subclass_requirements'."
+    #     )
     # commend out skill level trigger if it's not a veteran trait
     requires_skill_lvl_trigger = "" if is_veteran_trait or is_destiny_trait else "#"
     trait_class = "common"

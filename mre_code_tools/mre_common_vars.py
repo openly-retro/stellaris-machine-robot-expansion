@@ -148,9 +148,9 @@ LEADER_SUBCLASSES = (
 )
 
 BASE_TRAIT_FILES = (
+    "00_generic_leader_traits.txt",
     "00_admiral_traits.txt",
     "00_general_traits.txt",
-    "00_generic_leader_traits.txt",
     "00_governor_traits.txt",
     "00_scientist_traits.txt",
     "00_starting_ruler_traits.txt"
