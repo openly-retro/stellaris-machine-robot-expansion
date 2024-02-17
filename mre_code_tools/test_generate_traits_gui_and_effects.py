@@ -1,10 +1,15 @@
 # Unit tests
-
+from tempfile import NamedTemporaryFile
+from json import dump as json_dump
 from generate_traits_gui_and_effects import (
     gen_leader_making_button_effects_code,
     gen_core_modifying_trait_gui_code,
     gen_core_modifying_button_effects_code,
-    gen_leader_making_trait_gui_code
+    gen_leader_making_trait_gui_code,
+    gen_xvcv_mdlc_core_modifying_ruler_traits_trigger,
+    gen_xvcv_mdlc_leader_making_clear_values_effect,
+    gen_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines,
+    gen_core_modifying_leader_subclass_gui_code,
 )
 
 def test_gen_core_modifying_button_effects_code__common_trait():
@@ -31,7 +36,7 @@ xvcv_mdlc_core_modifying_traits_official_trait_ruler_feedback_loop_2_add_button_
     effect = {
         xvcv_mdlc_core_modifying_remove_tier_1_or_2_traits_effect = { ID = trait_ruler_feedback_loop }
         xvcv_mdlc_core_modifying_trait_pick_effect = { CLASS = official ID = trait_ruler_feedback_loop_2 }
-		hidden_effect = { xvcv_mdlc_core_modifying_trait_add_effect = yes }
+        hidden_effect = { xvcv_mdlc_core_modifying_trait_add_effect = yes }
     }
 }
 xvcv_mdlc_core_modifying_traits_official_trait_ruler_feedback_loop_2_remove_button_effect = {
@@ -41,10 +46,10 @@ xvcv_mdlc_core_modifying_traits_official_trait_ruler_feedback_loop_2_remove_butt
     allow = { always = yes }
     effect = {
         custom_tooltip = xvcv_mdlc_core_modifying_tooltip_remove_official_trait_ruler_feedback_loop_2
-		hidden_effect = {
+        hidden_effect = {
             ruler = { remove_trait = trait_ruler_feedback_loop_2 }
             xvcv_mdlc_core_modifying_trait_remove_effect = yes
-		}
+        }
     }
 }
 """
@@ -76,7 +81,7 @@ xvcv_mdlc_core_modifying_traits_official_leader_trait_frontier_spirit_3_add_butt
     effect = {
         xvcv_mdlc_core_modifying_remove_tier_1_or_2_traits_effect = { ID = leader_trait_frontier_spirit }
         xvcv_mdlc_core_modifying_trait_pick_effect = { CLASS = official ID = leader_trait_frontier_spirit_3 }
-		hidden_effect = { xvcv_mdlc_core_modifying_trait_add_alt_effect = yes }
+        hidden_effect = { xvcv_mdlc_core_modifying_trait_add_alt_effect = yes }
     }
 }
 xvcv_mdlc_core_modifying_traits_official_leader_trait_frontier_spirit_3_remove_button_effect = {
@@ -86,10 +91,10 @@ xvcv_mdlc_core_modifying_traits_official_leader_trait_frontier_spirit_3_remove_b
     allow = { always = yes }
     effect = {
         custom_tooltip = xvcv_mdlc_core_modifying_tooltip_remove_official_leader_trait_frontier_spirit_3
-		hidden_effect = {
+        hidden_effect = {
             ruler = { remove_trait = leader_trait_frontier_spirit_3 }
             xvcv_mdlc_core_modifying_trait_remove_alt_effect = yes
-		}
+        }
     }
 }
 """
@@ -121,7 +126,7 @@ xvcv_mdlc_core_modifying_traits_commander_leader_trait_bellicose_add_button_effe
     effect = {
         #xvcv_mdlc_core_modifying_remove_tier_1_or_2_traits_effect = { ID = leader_trait_bellicose }
         xvcv_mdlc_core_modifying_trait_pick_effect = { CLASS = commander ID = leader_trait_bellicose }
-		hidden_effect = { xvcv_mdlc_core_modifying_trait_add_alt_2_effect = yes }
+        hidden_effect = { xvcv_mdlc_core_modifying_trait_add_alt_2_effect = yes }
     }
 }
 xvcv_mdlc_core_modifying_traits_commander_leader_trait_bellicose_remove_button_effect = {
@@ -131,10 +136,10 @@ xvcv_mdlc_core_modifying_traits_commander_leader_trait_bellicose_remove_button_e
     allow = { always = yes }
     effect = {
         custom_tooltip = xvcv_mdlc_core_modifying_tooltip_remove_commander_leader_trait_bellicose
-		hidden_effect = {
+        hidden_effect = {
             ruler = { remove_trait = leader_trait_bellicose }
             xvcv_mdlc_core_modifying_trait_remove_alt_2_effect = yes
-		}
+        }
     }
 }
 """
@@ -165,3 +170,80 @@ xvcv_mdlc_leader_making_trait_commander_leader_trait_adventurous_spirit_3_add_bu
 }
 """
     assert expected == adventurous_spirit_effects_code
+
+
+def test_gen_xvcv_mdlc_core_modifying_ruler_traits_trigger():
+    traits_json_file = NamedTemporaryFile(delete=False)
+    traits_dict = {
+        "core_modifying_traits": {
+            "common": [
+                {
+                "leader_trait_roamer_2": {
+                    "trait_name": "leader_trait_roamer_2",
+                    "leader_class": "scientist",
+                    "gfx": "GFX_leader_trait_roamer",
+                    "rarity": "common",
+                    "modifier": {
+                        "science_ship_survey_speed": 0.2
+                    },
+                    "requires_paragon_dlc": False,
+                }
+            }
+            ]
+        }
+    }
+    with open(traits_json_file.name, "w+t") as mtmp:
+        json_dump(traits_dict, mtmp)
+    test_input_files_list = [traits_json_file.name]
+    expected = """
+xvcv_mdlc_core_modifying_ruler_traits_trigger = {
+    optimize_memory
+    OR = {
+        has_trait = leader_trait_roamer_2
+        has_trait = subclass_commander_admiral
+        has_trait = subclass_commander_councilor
+        has_trait = subclass_commander_general
+        has_trait = subclass_commander_governor
+        has_trait = subclass_official_delegate
+        has_trait = subclass_official_diplomacy_councilor
+        has_trait = subclass_official_economy_councilor
+        has_trait = subclass_official_governor
+        has_trait = subclass_scientist_councilor
+        has_trait = subclass_scientist_explorer
+        has_trait = subclass_scientist_governor
+        has_trait = subclass_scientist_scholar
+    }
+}
+"""
+    actual = gen_xvcv_mdlc_core_modifying_ruler_traits_trigger(test_input_files_list)
+    traits_json_file.close()
+    assert expected == actual
+
+def test_gen_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines():
+    1
+
+def test_iterate_core_modifying_leader_subclass_gui_code():
+    # test_data = "subclass_official_economy_councilor"
+    expected_result = """
+#official #subclass_official_economy_councilor #advisor
+containerWindowType = {
+    name = "xvcv_mdlc_core_modifying_traits_official_subclass_official_economy_councilor"
+    position = { x = @xvcv_mdlc_core_modifying_trait_position_column_1 y = @xvcv_mdlc_core_modifying_trait_position_row_1 }
+    effectbuttonType = {
+        name = "xvcv_mdlc_core_modifying_traits_official_subclass_official_economy_councilor_add"
+        position = { x = @xvcv_mdlc_core_modifying_subclass_traits_offset_width y = @xvcv_mdlc_core_modifying_subclass_traits_offset_height }
+        spriteType = "GFX_leader_subclass_official_economy_councilor_medium"
+        effect = "xvcv_mdlc_core_modifying_traits_official_subclass_official_economy_councilor_add_button_effect"
+    }
+    effectbuttonType = {
+        name = "xvcv_mdlc_core_modifying_traits_official_subclass_official_economy_councilor_remove"
+        position = { x = @xvcv_mdlc_core_modifying_subclass_traits_offset_width y = @xvcv_mdlc_core_modifying_subclass_traits_offset_height }
+        spriteType = "GFX_leader_subclass_official_economy_councilor_medium_red"
+        effect = "xvcv_mdlc_core_modifying_traits_official_subclass_official_economy_councilor_remove_button_effect"
+    }
+}
+"""
+    actual = gen_core_modifying_leader_subclass_gui_code(
+        "subclass_official_economy_councilor", 1, 1
+    )
+    assert expected_result == actual

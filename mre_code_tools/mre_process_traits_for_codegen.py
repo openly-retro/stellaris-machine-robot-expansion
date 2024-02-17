@@ -268,7 +268,7 @@ def sort_and_filter_pipeline_files() -> dict:
 
     return data_to_be_written
 
-def trickle_up_subclass_requirements(sorted_not_filtered_traits_json, for_class="commander"):
+def trickle_up_subclass_requirements(sorted_not_filtered_traits_json, for_class):
     # Typically the tier 1 trait will have the subclass req and its 2/3 replacement wont
     trait_to_subclass_map = {}
     collected_traits = []
@@ -288,9 +288,9 @@ def trickle_up_subclass_requirements(sorted_not_filtered_traits_json, for_class=
             base_trait_name = trait_name.rsplit('_',1)[0]
         if trait_is_first_of_series:
             if root.get('required_subclass'):
-                trait_to_subclass_map[trait_name] = root['required_subclass']
+                trait_to_subclass_map[base_trait_name] = root['required_subclass']
             else:
-                trait_to_subclass_map[trait_name] = "skip"
+                trait_to_subclass_map[base_trait_name] = "skip"
         else:
             potential_subclass = trait_to_subclass_map.get(base_trait_name, MISSING)
             if potential_subclass == "skip":
