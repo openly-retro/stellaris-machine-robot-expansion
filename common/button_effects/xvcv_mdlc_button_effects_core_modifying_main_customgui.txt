@@ -165,13 +165,27 @@ xvcv_mdlc_core_modifying_reset_traits_button_effect = {
 # SUBCLASS BUTTON EFFECTS #
 ###########################
 
+xvcv_mdlc_core_modifying_remove_subclass_button_effect = {
+    # Takes $CLASS$ and $SUBCLASS$ vars
+    potential = { ruler = { has_trait = $SUBCLASS$ } }
+    allow = { always = yes }
+    effect = {
+        custom_tooltip = xvcv_mdlc_core_modifying_tooltip_remove_$CLASS$_$SUBCLASS$
+		hidden_effect = {
+            ruler = { remove_trait = $SUBCLASS$ }
+            xvcv_mdlc_core_modifying_trait_remove_effect = yes
+		}
+        log = "Removed $SUBCLASS$ from ruler "
+    }
+}
+
 ### COMMANDER ###
 
 #subclass_commander_general
 xvcv_mdlc_core_modifying_traits_commander_subclass_commander_general_add_button_effect = {
     potential = { ruler = { NOT = { has_trait = subclass_commander_general } } }
     allow = {
-        custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_admiral_subclass_commander_generalt
+        custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_commander_subclass_commander_general
         xvcv_mdlc_core_modifying_requires_no_ruler_subclass_or_focus_trigger = { CLASS = commander ID = subclass_commander_councilor }
         xvcv_mdlc_core_modifying_requires_no_ruler_subclass_or_focus_trigger = { CLASS = commander ID = subclass_commander_governor }
         xvcv_mdlc_core_modifying_requires_no_ruler_subclass_or_focus_trigger = { CLASS = commander ID = subclass_commander_admiral }
@@ -197,7 +211,7 @@ xvcv_mdlc_core_modifying_traits_commander_subclass_commander_general_remove_butt
     potential = { ruler = { has_trait = subclass_commander_general } }
     allow = { always = yes }
     effect = {
-        custom_tooltip = xvcv_mdlc_core_modifying_tooltip_remove_admiral_subclass_commander_general
+        custom_tooltip = xvcv_mdlc_core_modifying_tooltip_remove_commander_subclass_commander_general
 		hidden_effect = {
             ruler = { remove_trait = subclass_commander_general }
             xvcv_mdlc_core_modifying_trait_remove_effect = yes
@@ -320,44 +334,7 @@ xvcv_mdlc_core_modifying_traits_commander_subclass_commander_admiral_remove_butt
 ### OFFICIAL ###
 ################
 
-#subclass_official_governor
-xvcv_mdlc_core_modifying_traits_official_subclass_official_governor_add_button_effect = {
-    potential = { ruler = { NOT = { has_trait = subclass_official_governor } } }
-    allow = {
-        custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_official_subclass_official_governor
-        xvcv_mdlc_core_modifying_requires_no_ruler_subclass_or_focus_trigger = { CLASS = official ID = subclass_official_diplomacy_councilor }
-        xvcv_mdlc_core_modifying_requires_no_ruler_subclass_or_focus_trigger = { CLASS = official ID = subclass_official_economy_councilor }
-        xvcv_mdlc_core_modifying_requires_no_ruler_subclass_or_focus_trigger = { CLASS = official ID = subclass_official_delegate }
-        xvcv_mdlc_core_modifying_requires_no_ruler_subclass_or_focus_trigger = { CLASS = scientist ID = subclass_scientist_explorer }
-        xvcv_mdlc_core_modifying_requires_no_ruler_subclass_or_focus_trigger = { CLASS = scientist ID = subclass_scientist_councilor }
-        xvcv_mdlc_core_modifying_requires_no_ruler_subclass_or_focus_trigger = { CLASS = scientist ID = subclass_scientist_governor }
-        xvcv_mdlc_core_modifying_requires_no_ruler_subclass_or_focus_trigger = { CLASS = scientist ID = subclass_scientist_scholar }
-        xvcv_mdlc_core_modifying_requires_no_ruler_subclass_or_focus_trigger = { CLASS = commander ID = subclass_commander_councilor }
-        xvcv_mdlc_core_modifying_requires_no_ruler_subclass_or_focus_trigger = { CLASS = commander ID = subclass_commander_governor }
-        xvcv_mdlc_core_modifying_requires_no_ruler_subclass_or_focus_trigger = { CLASS = commander ID = subclass_commander_admiral }
-        xvcv_mdlc_core_modifying_requires_no_ruler_subclass_or_focus_trigger = { CLASS = commander ID = subclass_commander_general }
-        xvcv_mdlc_core_modifying_trait_cost_trigger = yes
-        xvcv_mdlc_core_modifying_trait_points_trigger = yes
-        xvcv_mdlc_core_modifying_trait_max_number_trigger = yes
-        has_paragon_dlc = yes
-    }
-    effect = {
-        xvcv_mdlc_core_modifying_set_subclass_effect = { CLASS = official ID = subclass_official_governor }
-		hidden_effect = { xvcv_mdlc_core_modifying_trait_add_effect = yes }
-    }
-}
-xvcv_mdlc_core_modifying_traits_official_subclass_official_governor_remove_button_effect = {
-    potential = { ruler = { has_trait = subclass_official_governor } }
-    allow = { always = yes }
-    effect = {
-        custom_tooltip = xvcv_mdlc_core_modifying_tooltip_remove_official_subclass_official_governor
-		hidden_effect = {
-            ruler = { remove_trait = subclass_official_governor }
-            xvcv_mdlc_core_modifying_trait_remove_effect = yes
-		}
-    }
-}
-#subclass_official_economy_councilor
+#subclass_official_economy_councilor #advisor
 xvcv_mdlc_core_modifying_traits_official_subclass_official_economy_councilor_add_button_effect = {
     potential = { ruler = { NOT = { has_trait = subclass_official_economy_councilor } } }
     allow = {
@@ -427,6 +404,43 @@ xvcv_mdlc_core_modifying_traits_official_subclass_official_diplomacy_councilor_r
         custom_tooltip = xvcv_mdlc_core_modifying_tooltip_remove_official_subclass_official_diplomacy_councilor
 		hidden_effect = {
             ruler = { remove_trait = subclass_official_diplomacy_councilor }
+            xvcv_mdlc_core_modifying_trait_remove_effect = yes
+		}
+    }
+}
+#subclass_official_governor #industrialist
+xvcv_mdlc_core_modifying_traits_official_subclass_official_governor_add_button_effect = {
+    potential = { ruler = { NOT = { has_trait = subclass_official_governor } } }
+    allow = {
+        custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_official_subclass_official_governor
+        xvcv_mdlc_core_modifying_requires_no_ruler_subclass_or_focus_trigger = { CLASS = official ID = subclass_official_diplomacy_councilor }
+        xvcv_mdlc_core_modifying_requires_no_ruler_subclass_or_focus_trigger = { CLASS = official ID = subclass_official_economy_councilor }
+        xvcv_mdlc_core_modifying_requires_no_ruler_subclass_or_focus_trigger = { CLASS = official ID = subclass_official_delegate }
+        xvcv_mdlc_core_modifying_requires_no_ruler_subclass_or_focus_trigger = { CLASS = scientist ID = subclass_scientist_explorer }
+        xvcv_mdlc_core_modifying_requires_no_ruler_subclass_or_focus_trigger = { CLASS = scientist ID = subclass_scientist_councilor }
+        xvcv_mdlc_core_modifying_requires_no_ruler_subclass_or_focus_trigger = { CLASS = scientist ID = subclass_scientist_governor }
+        xvcv_mdlc_core_modifying_requires_no_ruler_subclass_or_focus_trigger = { CLASS = scientist ID = subclass_scientist_scholar }
+        xvcv_mdlc_core_modifying_requires_no_ruler_subclass_or_focus_trigger = { CLASS = commander ID = subclass_commander_councilor }
+        xvcv_mdlc_core_modifying_requires_no_ruler_subclass_or_focus_trigger = { CLASS = commander ID = subclass_commander_governor }
+        xvcv_mdlc_core_modifying_requires_no_ruler_subclass_or_focus_trigger = { CLASS = commander ID = subclass_commander_admiral }
+        xvcv_mdlc_core_modifying_requires_no_ruler_subclass_or_focus_trigger = { CLASS = commander ID = subclass_commander_general }
+        xvcv_mdlc_core_modifying_trait_cost_trigger = yes
+        xvcv_mdlc_core_modifying_trait_points_trigger = yes
+        xvcv_mdlc_core_modifying_trait_max_number_trigger = yes
+        has_paragon_dlc = yes
+    }
+    effect = {
+        xvcv_mdlc_core_modifying_set_subclass_effect = { CLASS = official ID = subclass_official_governor }
+		hidden_effect = { xvcv_mdlc_core_modifying_trait_add_effect = yes }
+    }
+}
+xvcv_mdlc_core_modifying_traits_official_subclass_official_governor_remove_button_effect = {
+    potential = { ruler = { has_trait = subclass_official_governor } }
+    allow = { always = yes }
+    effect = {
+        custom_tooltip = xvcv_mdlc_core_modifying_tooltip_remove_official_subclass_official_governor
+		hidden_effect = {
+            ruler = { remove_trait = subclass_official_governor }
             xvcv_mdlc_core_modifying_trait_remove_effect = yes
 		}
     }
