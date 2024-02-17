@@ -17,6 +17,8 @@ from mre_common_vars import (
     LEADER_CLASSES,
     OUTPUT_FILES_DESTINATIONS,
     LOCALISATION_HEADER,
+    LEADER_SUBCLASSES_NAMES,
+    EXCLUDE_SUBCLASSES_FROM_CORE_MODIFYING,
 )
 
 RARITIES = ("common", "veteran", "paragon")
@@ -244,6 +246,81 @@ def write_leadermaking_button_effects_to_file(input_codegen_json_file_name):
             tooltips_blob_for_writing.encode('utf-8')
         )
 
+def gen_xvcv_mdlc_leader_making_clear_values_effect():
+    """ Print out the entire 'xvcv_mdlc_leader_making_clear_values_effect' 
+    For this we have to iterate subclasses, traits, and print updated trigger for copy/paste
+    It's a bit much to do by hand, and we already have the data, so let's priinttttt
+    """
+    preamble = """
+xvcv_mdlc_leader_making_clear_values_effect = {
+    optimize_memory
+    if = {
+        limit = { xvcv_mdlc_leader_making_picked_any_skill_level_trigger = yes }
+        xvcv_mdlc_leader_making_clear_skill_levels_effect = yes
+    }"""
+    closing = """    xvcv_mdlc_leader_making_clear_traits_variables_effect = yes
+}
+"""
+    """ This effect has 3 conditionals at the top-level, for each class,
+    and inside of each block of conditionals, it has that class' traits
+    We will have to iterate the 3 data files in this single method
+    """
+    classes_data = {
+        "commander": [],
+        "scientist": [],
+        "official": []
+    }
+    large_if_clauses_for_all_classes = []
+    for input_codegen_json_file_name in INPUT_FILES_FOR_CODEGEN:
+        # Go over the files, do all common/veteran/paragon traits for each class
+        input_file_path = os.path.join(BUILD_FOLDER, input_codegen_json_file_name)
+        buffer = ''
+        with open(input_file_path, "r") as source_codegen_data:
+            buffer = json_load(source_codegen_data)
+            # We only want leadermaking
+        file_leader_class = input_codegen_json_file_name.split('_')[2]
+        for rarity in RARITIES:
+            print(f"Looking thru {input_codegen_json_file_name} for {file_leader_class} {rarity} traits..")
+            # We have got to combine all the traits now, into one list for the class
+            classes_data[file_leader_class] = classes_data[file_leader_class] + buffer["leader_making_traits"][rarity]
+    # After collection, iterate each class' traits and make the "clear" commands 
+    breakpoint()
+    for leader_class in LEADER_CLASSES:
+        class_specific_if_limit_then_clear_lines = generate_class_specific_lines_for_leader_making_clear_values_effect(
+            classes_data[leader_class], for_class=leader_class
+        )
+        large_if_clauses_for_all_classes.append(class_specific_if_limit_then_clear_lines)
+    compiled_trigger = f"""{preamble}
+{"".join(sorted(large_if_clauses_for_all_classes))}
+{closing}"""
+    return compiled_trigger
+
+def generate_class_specific_lines_for_leader_making_clear_values_effect(list_of_traits, for_class):
+    # TODO: Exclude core_modifying traits that we dont want ?
+
+    print(f"Generatint clear values effects for {for_class}")
+    opening_lines = f"""
+    #{for_class}
+    if = {{
+        limit = {{ has_country_flag = xvcv_mdlc_leader_class_set_to_{for_class} }}"""
+    closing_lines = f"""        remove_country_flag = xvcv_mdlc_leader_class_set_to_{for_class}
+    }}"""
+    trait_limit_declarations = []
+    for leader_trait in list_of_traits:
+        trait_name = [*leader_trait][0]
+        trait_limit_line = f"        if = {{ limit = {{ has_country_flag = xvcv_mdlc_leader_{for_class}_{trait_name} }} remove_country_flag = xvcv_mdlc_leader_{for_class}_{trait_name} }}"
+        trait_limit_declarations.append(trait_limit_line)
+    # Preserve this during autogeneration
+    add_custom_traits_class_block = f"""
+        if = {{ limit = {{ has_country_flag = xvcv_mdlc_leader_{for_class}_xvcv_mdlc_leader_trait_memory_backup }} remove_country_flag = xvcv_mdlc_leader_{for_class}_xvcv_mdlc_leader_trait_memory_backup }}
+        if = {{ limit = {{ has_country_flag = xvcv_mdlc_leader_{for_class}_xvcv_mdlc_leader_trait_shared_memory }} remove_country_flag = xvcv_mdlc_leader_{for_class}_xvcv_mdlc_leader_trait_shared_memory }}
+        if = {{ limit = {{ has_country_flag = xvcv_mdlc_leader_{for_class}_xvcv_mdlc_subclass_{for_class}_none }} remove_country_flag = xvcv_mdlc_leader_{for_class}_xvcv_mdlc_subclass_{for_class}_none }}"""
+    trait_limit_declarations.append(add_custom_traits_class_block)
+    class_specific_clear_values_lines = f"""{opening_lines}{"\n".join(sorted(trait_limit_declarations))}
+{closing_lines}"""
+    return class_specific_clear_values_lines
+
+
 ### CORE_MODIFYING ###
 def gen_core_modifying_trait_gui_code(
     leader_class, trait_name, column_num, row_num,
@@ -285,6 +362,31 @@ containerWindowType = {{
         name = "xvcv_mdlc_core_modifying_traits_{leader_class}_{trait_name}_remove"
         spriteType = "{gfx_sprite_name}"
         effect = "xvcv_mdlc_core_modifying_traits_{leader_class}_{trait_name}_remove_button_effect"
+    }}
+}}
+"""
+
+def gen_core_modifying_leader_subclass_gui_code(
+    subclass: str, column_num: int, row_num: int
+) -> str:
+    """ Subclass pickers for the core-modifying GUI"""
+    leader_class = subclass.split('_')[1]
+    return f"""
+#{leader_class} #{subclass} #{LEADER_SUBCLASSES_NAMES[subclass]}
+containerWindowType = {{
+    name = "xvcv_mdlc_core_modifying_traits_{leader_class}_{subclass}"
+    position = {{ x = @xvcv_mdlc_core_modifying_trait_position_column_{column_num} y = @xvcv_mdlc_core_modifying_trait_position_row_{row_num} }}
+    effectbuttonType = {{
+        name = "xvcv_mdlc_core_modifying_traits_{leader_class}_{subclass}_add"
+        position = {{ x = @xvcv_mdlc_core_modifying_subclass_traits_offset_width y = @xvcv_mdlc_core_modifying_subclass_traits_offset_height }}
+        spriteType = "GFX_leader_{subclass}_medium"
+        effect = "xvcv_mdlc_core_modifying_traits_{leader_class}_{subclass}_add_button_effect"
+    }}
+    effectbuttonType = {{
+        name = "xvcv_mdlc_core_modifying_traits_{leader_class}_{subclass}_remove"
+        position = {{ x = @xvcv_mdlc_core_modifying_subclass_traits_offset_width y = @xvcv_mdlc_core_modifying_subclass_traits_offset_height }}
+        spriteType = "GFX_leader_{subclass}_medium_red"
+        effect = "xvcv_mdlc_core_modifying_traits_{leader_class}_{subclass}_remove_button_effect"
     }}
 }}
 """
@@ -385,8 +487,8 @@ def iterate_traits_make_coremodifying_gui_code(organized_traits_dict, for_class:
         "1": 4,
         "2": 5
     }
-    trait_column_num = 1
-    trait_row_num = 2  # Leave the entire first row for subclass pickers
+    trait_column_num = 3 if for_class == "official" else 2  # offset for the subclass pickers
+    trait_row_num = 1
     for rarity_level in RARITIES:
         for leader_trait in organized_traits_dict["core_modifying_traits"][rarity_level]:
             trait_name = [*leader_trait][0]
@@ -429,6 +531,37 @@ def iterate_traits_make_coremodifying_gui_code(organized_traits_dict, for_class:
     gui_code_bloblist.append(footer)
     return ''.join(gui_code_bloblist)
 
+def iterate_subclasses_make_core_modifying_subclasses_gui_code(subclasses_list: List[str]) -> str:
+    """ Iterate over a SORTED LIST of subclasses, 4 each per class
+    I'm too tired to divide subclasses by classes and then iterate leader classes
+    to do each subclass, so here just make gui code for 4 subclasses and
+    reset the column number after every 4
+    """
+    header = """
+############################
+## {leader_class} SUBCLASSES
+############################
+"""
+    gui_blob_list = []
+    row_num = 1
+    column_num = 1
+    for subclass in subclasses_list:
+        # Cheat a little, for every 4 subclasses, reset the column, but keep the same row number
+        # Then we just carefully copy/paste the subclasses into their respective spots in the GUI file
+        if subclass in EXCLUDE_SUBCLASSES_FROM_CORE_MODIFYING:
+            continue
+        if column_num == 1:
+            gui_blob_list.append(
+                header.format(leader_class=subclass.split('_')[1])
+            )
+        subclass_gui_code = gen_core_modifying_leader_subclass_gui_code(
+            subclass, column_num=column_num, row_num=row_num
+        )
+        gui_blob_list.append(subclass_gui_code)
+        column_num = column_num + 1
+        if column_num > 4:
+            column_num = 1
+    return "".join(gui_blob_list)
 
 def gen_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines(input_files_list):
     """ Print the lines that get pasted in the middle so all the new traits and subclasses get reset
@@ -533,80 +666,6 @@ xvcv_mdlc_core_modifying_ruler_traits_trigger = {
 {closing}"""
     return compiled_trigger
 
-
-def gen_xvcv_mdlc_leader_making_clear_values_effect():
-    """ Print out the entire 'xvcv_mdlc_leader_making_clear_values_effect' 
-    For this we have to iterate subclasses, traits, and print updated trigger for copy/paste
-    It's a bit much to do by hand, and we already have the data, so let's priinttttt
-    """
-    preamble = """
-xvcv_mdlc_leader_making_clear_values_effect = {
-    optimize_memory
-    if = {
-        limit = { xvcv_mdlc_leader_making_picked_any_skill_level_trigger = yes }
-        xvcv_mdlc_leader_making_clear_skill_levels_effect = yes
-    }"""
-    closing = """    xvcv_mdlc_leader_making_clear_traits_variables_effect = yes
-}
-"""
-    """ This effect has 3 conditionals at the top-level, for each class,
-    and inside of each block of conditionals, it has that class' traits
-    We will have to iterate the 3 data files in this single method
-    """
-    classes_data = {
-        "commander": [],
-        "scientist": [],
-        "official": []
-    }
-    large_if_clauses_for_all_classes = []
-    for input_codegen_json_file_name in INPUT_FILES_FOR_CODEGEN:
-        # Go over the files, do all common/veteran/paragon traits for each class
-        input_file_path = os.path.join(BUILD_FOLDER, input_codegen_json_file_name)
-        buffer = ''
-        with open(input_file_path, "r") as source_codegen_data:
-            buffer = json_load(source_codegen_data)
-            # We only want leadermaking
-        file_leader_class = input_codegen_json_file_name.split('_')[2]
-        for rarity in RARITIES:
-            print(f"Looking thru {input_codegen_json_file_name} for {file_leader_class} {rarity} traits..")
-            # We have got to combine all the traits now, into one list for the class
-            classes_data[file_leader_class] = classes_data[file_leader_class] + buffer["leader_making_traits"][rarity]
-    # After collection, iterate each class' traits and make the "clear" commands 
-    breakpoint()
-    for leader_class in LEADER_CLASSES:
-        class_specific_if_limit_then_clear_lines = generate_class_specific_lines_for_leader_making_clear_values_effect(
-            classes_data[leader_class], for_class=leader_class
-        )
-        large_if_clauses_for_all_classes.append(class_specific_if_limit_then_clear_lines)
-    compiled_trigger = f"""{preamble}
-{"".join(sorted(large_if_clauses_for_all_classes))}
-{closing}"""
-    return compiled_trigger
-
-def generate_class_specific_lines_for_leader_making_clear_values_effect(list_of_traits, for_class):
-    # TODO: Exclude core_modifying traits that we dont want ?
-
-    print(f"Generatint clear values effects for {for_class}")
-    opening_lines = f"""
-    #{for_class}
-    if = {{
-        limit = {{ has_country_flag = xvcv_mdlc_leader_class_set_to_{for_class} }}"""
-    closing_lines = f"""        remove_country_flag = xvcv_mdlc_leader_class_set_to_{for_class}
-    }}"""
-    trait_limit_declarations = []
-    for leader_trait in list_of_traits:
-        trait_name = [*leader_trait][0]
-        trait_limit_line = f"        if = {{ limit = {{ has_country_flag = xvcv_mdlc_leader_{for_class}_{trait_name} }} remove_country_flag = xvcv_mdlc_leader_{for_class}_{trait_name} }}"
-        trait_limit_declarations.append(trait_limit_line)
-    # Preserve this during autogeneration
-    add_custom_traits_class_block = f"""
-        if = {{ limit = {{ has_country_flag = xvcv_mdlc_leader_{for_class}_xvcv_mdlc_leader_trait_memory_backup }} remove_country_flag = xvcv_mdlc_leader_{for_class}_xvcv_mdlc_leader_trait_memory_backup }}
-        if = {{ limit = {{ has_country_flag = xvcv_mdlc_leader_{for_class}_xvcv_mdlc_leader_trait_shared_memory }} remove_country_flag = xvcv_mdlc_leader_{for_class}_xvcv_mdlc_leader_trait_shared_memory }}
-        if = {{ limit = {{ has_country_flag = xvcv_mdlc_leader_{for_class}_xvcv_mdlc_subclass_{for_class}_none }} remove_country_flag = xvcv_mdlc_leader_{for_class}_xvcv_mdlc_subclass_{for_class}_none }}"""
-    trait_limit_declarations.append(add_custom_traits_class_block)
-    class_specific_clear_values_lines = f"""{opening_lines}{"\n".join(sorted(trait_limit_declarations))}
-{closing_lines}"""
-    return class_specific_clear_values_lines
 
 def generate_mod_ready_code_files():
     """ This process will make 3 sets of the below files for each leader class, so 18 in total:
@@ -762,6 +821,12 @@ if __name__ == "__main__":
         required=False
     )
     parser.add_argument(
+        "--core_subclasses_gui",
+        help="Generate GUI code for subclass pickers for core-modifying feature",
+        action="store_true",
+        required=False
+    )
+    parser.add_argument(
         '--process_all',
         help="The Big One. Generate M&RE tooltips, GUI code, button effects code, assuming all traits files were processed by mre_process_traits_for_codegen",
         action="store_true"
@@ -817,6 +882,16 @@ if __name__ == "__main__":
                 blob_for_writing
             )
             sys.exit()
+    if args.core_subclasses_gui:
+        target_file = "85_core_modifying_subclasses_gui_code.txt"
+        build_path_target = os.path.join(
+            BUILD_FOLDER, target_file
+        )
+        gui_blob_for_writing = iterate_subclasses_make_core_modifying_subclasses_gui_code(LEADER_SUBCLASSES)
+        with open(build_path_target, "w") as subclasses_gui_outfile:
+            subclasses_gui_outfile.write(gui_blob_for_writing)
+        print(f"Wrote CORE MODIFYING SUBCLASSES GUI code to {build_path_target}")
+        sys.exit()
 
     buffer = ''
     infile_no_ext = args.infile.rsplit('.',1)[0]

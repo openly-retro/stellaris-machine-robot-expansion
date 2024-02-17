@@ -147,6 +147,22 @@ LEADER_SUBCLASSES = (
     "subclass_official_delegate",
 )
 
+# Used to add a comment in code to refer to the in-game name for the subclass
+LEADER_SUBCLASSES_NAMES = {
+    "subclass_commander_general": "general",
+    "subclass_commander_councilor": "strategist",
+    "subclass_commander_governor": "commissioner",
+    "subclass_commander_admiral": "admiral",
+    "subclass_scientist_explorer": "explorer",
+    "subclass_scientist_councilor": "statistician",
+    "subclass_scientist_governor": "analyst",
+    "subclass_scientist_scholar": "scholar",
+    "subclass_official_economy_councilor": "advisor",
+    "subclass_official_diplomacy_councilor": "ambassador",
+    "subclass_official_governor": "industrialist",
+    "subclass_official_delegate": "delegate"
+}
+
 BASE_TRAIT_FILES = (
     "00_generic_leader_traits.txt",
     "00_admiral_traits.txt",
@@ -156,6 +172,18 @@ BASE_TRAIT_FILES = (
     "00_starting_ruler_traits.txt"
 )
 
+# These subclasses can't be added to the ruler because of a NAND with gestalt consciousness
+# Or they just don't work (ruler can't be admiral/general)
+EXCLUDE_SUBCLASSES_FROM_CORE_MODIFYING = {
+    "subclass_official_governor": 1,
+    "subclass_official_delegate":1,
+    "subclass_scientist_explorer":1,
+    "subclass_scientist_governor":1,
+    "subclass_scientist_scholar":1,
+    "subclass_commander_general": 1,
+    "subclass_commander_governor": 1,
+    "subclass_commander_admiral": 1,
+}
 # Files created by sort_merge_traits_files
 PIPELINE_OUTPUT_FILES = [
     f"00_mre_{leader_class}_traits.json" for leader_class in LEADER_CLASSES

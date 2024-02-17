@@ -9,6 +9,7 @@ from generate_traits_gui_and_effects import (
     gen_xvcv_mdlc_core_modifying_ruler_traits_trigger,
     gen_xvcv_mdlc_leader_making_clear_values_effect,
     gen_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines,
+    gen_core_modifying_leader_subclass_gui_code,
 )
 
 def test_gen_core_modifying_button_effects_code__common_trait():
@@ -220,3 +221,29 @@ xvcv_mdlc_core_modifying_ruler_traits_trigger = {
 
 def test_gen_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines():
     1
+
+def test_iterate_core_modifying_leader_subclass_gui_code():
+    # test_data = "subclass_official_economy_councilor"
+    expected_result = """
+#official #subclass_official_economy_councilor #advisor
+containerWindowType = {
+    name = "xvcv_mdlc_core_modifying_traits_official_subclass_official_economy_councilor"
+    position = { x = @xvcv_mdlc_core_modifying_trait_position_column_1 y = @xvcv_mdlc_core_modifying_trait_position_row_1 }
+    effectbuttonType = {
+        name = "xvcv_mdlc_core_modifying_traits_official_subclass_official_economy_councilor_add"
+        position = { x = @xvcv_mdlc_core_modifying_subclass_traits_offset_width y = @xvcv_mdlc_core_modifying_subclass_traits_offset_height }
+        spriteType = "GFX_leader_subclass_official_economy_councilor_medium"
+        effect = "xvcv_mdlc_core_modifying_traits_official_subclass_official_economy_councilor_add_button_effect"
+    }
+    effectbuttonType = {
+        name = "xvcv_mdlc_core_modifying_traits_official_subclass_official_economy_councilor_remove"
+        position = { x = @xvcv_mdlc_core_modifying_subclass_traits_offset_width y = @xvcv_mdlc_core_modifying_subclass_traits_offset_height }
+        spriteType = "GFX_leader_subclass_official_economy_councilor_medium_red"
+        effect = "xvcv_mdlc_core_modifying_traits_official_subclass_official_economy_councilor_remove_button_effect"
+    }
+}
+"""
+    actual = gen_core_modifying_leader_subclass_gui_code(
+        "subclass_official_economy_councilor", 1, 1
+    )
+    assert expected_result == actual
