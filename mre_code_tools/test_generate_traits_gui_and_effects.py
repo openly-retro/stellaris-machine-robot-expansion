@@ -8,6 +8,7 @@ from generate_traits_gui_and_effects import (
     gen_leader_making_trait_gui_code,
     gen_xvcv_mdlc_core_modifying_ruler_traits_trigger,
     gen_xvcv_mdlc_leader_making_clear_values_effect,
+    gen_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines,
 )
 
 def test_gen_core_modifying_button_effects_code__common_trait():
@@ -216,3 +217,6 @@ xvcv_mdlc_core_modifying_ruler_traits_trigger = {
     actual = gen_xvcv_mdlc_core_modifying_ruler_traits_trigger(test_input_files_list)
     traits_json_file.close()
     assert expected == actual
+
+def test_gen_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines():
+    1
