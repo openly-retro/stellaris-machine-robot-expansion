@@ -210,6 +210,82 @@ GENERATED_CODE_TYPES = (
 LEADER_MAKING = "leader_making"
 CORE_MODIFYING = "core_modifying"
 
+""" These traits are set up in some way as to break the expectation that the tier 3 requirements
+are locked in by tier 1 and 2. These traits are serious exceptions and shouldnt be added to
+the GUI. For example maniacal_3 is fine as a scientist trait but NOT as a commander trait. """
+SKIP_TRAIT_FOR_SUBCLASS_LIST = {
+    "leader_trait_maniacal_3": "commander",
+}
+
+""" These traits are skipped entirely during the logic that decides whether a trait
+should go to leader-making or core-modifying """
+TRAITS_TO_EXCLUDE = {
+    # commander
+    "leader_trait_clone_army_commander":1,  # Cant have clone origin with machines
+    "leader_trait_clone_army_fertile_commander":1,
+    "leader_trait_clone_army_full_commander":1,
+    "leader_trait_dragonslayer":1,  # Given via event
+    "leader_trait_eager_2":1, # Cant effect leader-building/core-mod
+    "leader_trait_entrepreneur":1, # consumer goods-related trait,
+    "trait_imperial_heir":1, # Gestalt isnt an imperial form of government (but they can form the Imperium)
+    "leader_trait_academia_recruiter":1,  # requires materialist ethic,
+    "leader_trait_shroud_preacher":1,  # requires spiritualist ethic,
+    "leader_trait_tzrynn_tithe":1, # given via event
+    "leader_trait_emotional_support_pet":1,
+}
+
+""" Our trick to prepend mre_ to modifier names doesn't always work automatically.
+Some of these modifiers weren't in the default files,
+so these are special exceptions. Or they just have different tooltip names
+than what the modifier is.
+TODO: hook these into tooltip code gen """
+TOOLTIP_LOOKUP_MAP = {
+    "mod_leader_lifespan_add": "MOD_LEADER_LIFESPAN_ADD",
+    "mod_spy_network_daily_value_mult": "MOD_SPY_NETWORK_DAILY_VALUE_MULT",
+    "mod_terraform_speed_mult": "MOD_COUNTRY_TERRAFORM_SPEED_MULT",
+    "mod_monthly_loyalty_from_subjects": "MOD_MONTHLY_LOYALTY_GAIN_FROM_SUBJECTS",
+    "mod_intel_decryption_add": "MOD_INTEL_DECRYPTION_ADD",
+    "mod_intel_encryption_add": "MOD_INTEL_ENCRYPTION_ADD",
+    "mod_envoys_add": "MOD_COUNTRY_ENVOYS_ADD",
+    "mod_ship_archaeological_site_excavation_speed_mult": "MOD_SHIP_ARCHAEOLOGICAL_SITE_EXCAVATION_SPEED_MULT",
+    "mod_all_technology_research_speed": "MOD_COUNTRY_ALL_TECH_RESEARCH_SPEED",
+    "mod_num_tech_alternatives_add": "MOD_COUNTRY_NUM_TECH_ALTERNATIVES_ADD",  # leader_trait_inquisitive_3
+    "mod_ship_archaeological_site_clues_add": "MOD_SHIP_ARCHAEOLOGICAL_SITE_CLUES_ADD",
+}
+
+""" Some tooltips have localisation keys only in the yml for that DLC, and arent in 
+base stellaris. So they show up empty in the leadermaking UI because the game can't find
+them because that DLC is not enabled. And there is no DLC-required flag in the trait itself
+
+Use this information when building button effects for a trait, somehow"""
+HIDDEN_DLC_REQUIREMENTS = {
+    "mod_planet_jobs_food_produces_mult": "Megacorp",  # implement in potential: host_has_dlc = "Megacorp"
+    "mod_planet_administrators_unity_produces_mult": "Megacorp",
+    "mod_planet_technician_energy_produces_mult": "Megacorp",
+    "mod_weapon_archaeotech_weapon_damage_mult": "Ancient Realms",  # has_ancrel
+    "mod_weapon_role_artillery_weapon_damage_mult": "Paragons",
+    "mod_weapon_type_strike_craft_weapon_damage_mult": "Paragons",
+    "mod_ships_upkeep_mult": "Megacorp",
+    "mod_spy_network_daily_value_mult": "Nemesis",  # leader_trait_spycraft_2
+    "mod_intel_decryption_add": "Nemesis",  # leader_trait_shadow_broker_3
+    "mod_intel_encryption_add": "Nemesis",  # leader_trait_shadow_broker_3
+    "mod_ship_archaeological_site_clues_add": "Ancient Realms",
+}
+""" On a bad yaml merge there will be other random stuff in the modifier dict
+on occasion. so make a list of what should get kicked out of modifiers """
+GARBAGE_MODIFIERS = (
+    "inline_script",
+    "script",
+    "FIELD",
+    "TIER",
+)
+
+""" These traits are known to have garbage in the modifiers
+I don't mean the traits are terrible, I mean they have GARBAGE_MODIFIERS """
+TRAITS_WITH_GARBAGE_MODIFIERS = {
+    "leader_trait_expertise_new_worlds_3":1,
+}
+
 UNICORN = '''
                 \\
                  \%,     ,'     , ,.

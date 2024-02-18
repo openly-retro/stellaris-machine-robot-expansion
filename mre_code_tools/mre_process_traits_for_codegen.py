@@ -27,23 +27,11 @@ from mre_common_vars import (
     BUILD_FOLDER,
     LEADER_CLASSES,
     MISSING,
+    PIPELINE_OUTPUT_FILES,
     PLACEHOLDER,
+    SKIP_TRAIT_FOR_SUBCLASS_LIST,
     TRAIT_MODIFIER_KEYS,
-    PIPELINE_OUTPUT_FILES
-)
-
-TRAITS_TO_EXCLUDE = (
-    # commander
-    "leader_trait_clone_army_commander",  # Cant have clone origin with machines
-    "leader_trait_clone_army_fertile_commander",
-    "leader_trait_clone_army_full_commander",
-    "leader_trait_dragonslayer",  # Given via event
-    "leader_trait_eager_2", # Cant effect leader-building/core-mod
-    "leader_trait_entrepreneur", # consumer goods-related trait,
-    "trait_imperial_heir", # Gestalt isnt an imperial form of government (but they can form the Imperium)
-    "leader_trait_academia_recruiter",  # requires materialist ethic,
-    "leader_trait_shroud_preacher",  # requires spiritualist ethic,
-    "leader_trait_tzrynn_tithe", # given via event
+    TRAITS_TO_EXCLUDE,
 )
 
 MODIFIER_VALUES_SUBSTITUTIONS = {
@@ -71,13 +59,6 @@ TRAIT_PATCHES = {
             "job_alloy_drone_add": 1
         }
     },
-}
-
-""" These traits are set up in some way as to break the expectation that the tier 3 requirements
-are locked in by tier 1 and 2. These traits are serious exceptions and shouldnt be added to
-the GUI. For example maniacal_3 is fine as a scientist trait but NOT as a commander trait. """
-SKIP_LIST = {
-    "leader_trait_maniacal_3": "commander"
 }
 
 logger = logging.getLogger(__name__)
@@ -158,7 +139,7 @@ def filter_traits_by_mod_feature(traits_list: list) -> dict:
     outliers = []
     for trait in traits_list:
         trait_name = [*trait][0]
-        if trait_name in str(TRAITS_TO_EXCLUDE):
+        if TRAITS_TO_EXCLUDE.get(trait_name):
             sys.stdout.write(f"Skipped {trait_name} because it is on our exclusion list..\n")
             continue
         root = trait[trait_name]
@@ -276,8 +257,8 @@ def trickle_up_subclass_requirements(sorted_not_filtered_traits_json, for_class)
         trait_name = [*trait][0]
         base_trait_name = trait_name
         root = trait[trait_name]
-        if trait_name in SKIP_LIST:
-            if SKIP_LIST[trait_name] == for_class:
+        if trait_name in SKIP_TRAIT_FOR_SUBCLASS_LIST:
+            if SKIP_TRAIT_FOR_SUBCLASS_LIST[trait_name] == for_class:
                 # This trait is a serious exception and shall be skipped
                 logger.warn(
                     f"** Skipped {trait_name} as it was in the skip list for {for_class} traits."
