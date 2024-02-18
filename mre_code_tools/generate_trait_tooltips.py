@@ -194,7 +194,18 @@ def create_tooltip_for_leader(
                     mod_tt_key = f"${replacement}$"
                 else:
                     mod_tt_key = f"$mod_{modifier_name}$".lower()
+                # Modifiers
                 modified_amount = root[modifier_key][modifier_name]
+                # Fix having to sub variable @ with 'var'
+                # Only 3 cases so far..
+                # TODO: Scale up to a method or lookup table if this continues to be a problem
+                # TODO: Go map all the trait variables in advance
+                if modified_amount == "var_trait_surveyor_amt":
+                    modified_amount = 0.5
+                elif modified_amount == "var_trait_surveyor_sector_amt":
+                    modified_amount = 0.25
+                elif modified_amount == "var_trait_collective_wisdom_ma_amt":
+                    modified_amount = 5
                 if "." in str(modified_amount) and str(modified_amount)[-1].isdigit():
                     modified_amount = convert_decimal_to_percent_str(modified_amount)
                 number_sign = "+" if "-" not in str(modified_amount) else ""

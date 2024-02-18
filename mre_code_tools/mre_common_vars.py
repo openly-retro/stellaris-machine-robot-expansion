@@ -251,6 +251,12 @@ TOOLTIP_LOOKUP_MAP = {
     "mod_all_technology_research_speed": "MOD_COUNTRY_ALL_TECH_RESEARCH_SPEED",
     "mod_num_tech_alternatives_add": "MOD_COUNTRY_NUM_TECH_ALTERNATIVES_ADD",  # leader_trait_inquisitive_3
     "mod_ship_archaeological_site_clues_add": "MOD_SHIP_ARCHAEOLOGICAL_SITE_CLUES_ADD",
+    "mod_ship_hyperlane_range_add": "MOD_SHIP_HYPERLANE_RANGE_ADD",
+    "mod_fleet_mia_time_mult": "MOD_FLEET_MIA_TIME_MULT",
+    "mod_ship_friendly_territory_evasion_mult": "MOD_SHIP_FRIENDLY_TERRITORY_EVASION_MULT",
+    "mod_ship_friendly_territory_fire_rate_mult": "MOD_SHIP_FRIENDLY_TERRITORY_FIRE_RATE_MULT",
+    "mod_ship_friendly_territory_shield_add": "MOD_SHIP_FRIENDLY_TERRITORY_SHIELD_ADD",
+    "mod_damage_vs_rival_mult": "MOD_DAMAGE_VS_RIVAL_MULT",
 }
 
 """ Some tooltips have localisation keys only in the yml for that DLC, and arent in 
@@ -270,6 +276,11 @@ HIDDEN_DLC_REQUIREMENTS = {
     "mod_intel_decryption_add": "Nemesis",  # leader_trait_shadow_broker_3
     "mod_intel_encryption_add": "Nemesis",  # leader_trait_shadow_broker_3
     "mod_ship_archaeological_site_clues_add": "Ancient Realms",
+    "mod_ship_friendly_territory_evasion_mult": "Overlord",
+    "mod_ship_friendly_territory_fire_rate_mult": "Overlord",
+    "mod_ship_friendly_territory_shield_add": "Overlord",
+    
+
 }
 """ On a bad yaml merge there will be other random stuff in the modifier dict
 on occasion. so make a list of what should get kicked out of modifiers """
