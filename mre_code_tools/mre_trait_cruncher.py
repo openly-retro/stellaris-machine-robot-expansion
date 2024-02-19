@@ -158,6 +158,10 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
             potential_subclass = root["leader_potential_add"]["has_trait"]
             if for_class in potential_subclass:
                 slim_trait['required_subclass'] = potential_subclass
+
+        # Look for a rule that says the trait shouldnt be permitted to be added to rulers
+        if root["leader_potential_add"].get('is_ruler', None) is not None:
+            slim_trait['allow_for_ruler'] = root["leader_potential_add"]['is_ruler']
     # There's never just one predictable way for anything (:
     if root.get('custom_tooltip'):
         slim_trait["custom_tooltip"] = root["custom_tooltip"]
@@ -165,6 +169,8 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
         slim_trait['custom_tooltip'] = root['custom_tooltip_with_modifiers']
     if root.get('triggered_councilor_modifier') or root.get('councilor_modifier'):
         slim_trait["is_councilor_trait"] = True
+    
+    
     return slim_trait
 
 def pick_correct_subclass_from_potential(leader_class, subclass_list):
