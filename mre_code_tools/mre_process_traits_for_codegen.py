@@ -84,7 +84,8 @@ def trait_qualifies_for_core_modifying(trait_dict: dict) -> bool:
             "ruler" in trait_dict['trait_name'],
             trait_dict.get('self_modifier'),
             trait_dict.get('councilor_modifier'),
-            trait_dict.get('triggered_councilor_modifier')
+            trait_dict.get('triggered_councilor_modifier'),
+            trait_dict.get('allow_for_ruler'),
         ]
     ):
         is_core_modifying_trait = True
