@@ -320,6 +320,42 @@ def generate_class_specific_lines_for_leader_making_clear_values_effect(list_of_
 {closing_lines}"""
     return class_specific_clear_values_lines
 
+def gen_xvcv_mdlc_leader_making_start_button_effect(organized_traits_dict, for_class):
+    """ Write out event_target:xvcv_mdlc_leader_making_target values for each leader class """
+    wrapper_indentation = "                    "
+    indentation = "                        "
+    leader_making_target_conditional = (
+        "    if = {{ limit = {{ prev = {{ has_country_flag = xvcv_mdlc_leader_{for_class}_{trait_name} }} }} "
+        "add_trait_no_notify = {trait_name} }}"
+    )
+    header = """
+#{leader_class}
+event_target:xvcv_mdlc_leader_making_target = {{"""
+    closing = "}\n"
+    conditional_statement_list = []
+    for rarity_level in RARITIES:
+        if not organized_traits_dict['leader_making_traits'].get(rarity_level):
+            continue
+        for leader_making_trait in organized_traits_dict['leader_making_traits'][rarity_level]:
+            trait_name = [*leader_making_trait][0]
+            conditional_statement_list.append(
+                leader_making_target_conditional.format(for_class=for_class, trait_name=trait_name)
+            )
+    for subclass in LEADER_SUBCLASSES:
+        # Make the add_trait expression for this leader class, so 4 items in total
+        # The game is checking country flags to see if the subclass flag is set ("picked")
+        # And then adds the subclass to the leader
+        if for_class in subclass:
+            conditional_statement_list.append(
+                leader_making_target_conditional.format(for_class=for_class, trait_name=subclass)
+            )
+    # Append memory backup and shared memory
+    conditional_statement_list.append(f"""    if = {{ limit = {{ prev = {{ has_country_flag = xvcv_mdlc_leader_{for_class}_xvcv_mdlc_leader_trait_memory_backup }} }} add_trait_no_notify = xvcv_mdlc_leader_trait_memory_backup }}
+    if = {{ limit = {{ prev = {{ has_country_flag = xvcv_mdlc_leader_{for_class}_xvcv_mdlc_leader_trait_shared_memory }} }} add_trait_no_notify = xvcv_mdlc_leader_trait_shared_memory }}""")
+
+    return f"""{header.format(leader_class=for_class)}
+{"\n".join(conditional_statement_list)}
+{closing}"""
 
 ### CORE_MODIFYING ###
 def gen_core_modifying_trait_gui_code(
@@ -827,6 +863,12 @@ if __name__ == "__main__":
         required=False
     )
     parser.add_argument(
+        "--leader_start_button",
+        help="Generate contents for leader_making_start_button effect. Three effects blocks per leader class",
+        action="store_true",
+        required=False
+    )
+    parser.add_argument(
         '--process_all',
         help="The Big One. Generate M&RE tooltips, GUI code, button effects code, assuming all traits files were processed by mre_process_traits_for_codegen",
         action="store_true"
@@ -837,6 +879,28 @@ if __name__ == "__main__":
         generate_mod_ready_code_files()
         sys.exit()
 
+    if args.leader_start_button:
+        """ Iterate the 99_ files, emit blocks of code for each leader class
+        that then gets copy/pasted by a hum0n into xvcv_mdlc_button_effects_leader_making_main_customgui.txt"""
+        content_blob = []
+        for codegen_ready_file in INPUT_FILES_FOR_CODEGEN:
+            leader_class = codegen_ready_file.split('_')[2]
+            input_filepath = os.path.join(BUILD_FOLDER, codegen_ready_file)
+            with open(input_filepath, "r") as traits_json_file:
+                buffer = json_load(traits_json_file)
+            trigger_blob_for_writing = gen_xvcv_mdlc_leader_making_start_button_effect(
+                buffer, for_class=leader_class)
+            content_blob.append(trigger_blob_for_writing)
+        outfile_path = os.path.join(
+            BUILD_FOLDER,
+            "85_leader_making_start_button_effect.txt"
+        )
+        with open(outfile_path, "w") as trigger_file_output:
+            sys.stdout.write(f"Writing leader_making_start_button_effect code to {trigger_file_output.name}\n")
+            trigger_file_output.write(
+                "\n".join(content_blob)
+            )
+            sys.exit()
     if args.core_trigger:
         input_files_in_build_folder = [
             os.path.join(BUILD_FOLDER, codegen_ready_file)
