@@ -257,6 +257,8 @@ TOOLTIP_LOOKUP_MAP = {
     "mod_ship_friendly_territory_fire_rate_mult": "MOD_SHIP_FRIENDLY_TERRITORY_FIRE_RATE_MULT",
     "mod_ship_friendly_territory_shield_add": "MOD_SHIP_FRIENDLY_TERRITORY_SHIELD_ADD",
     "mod_damage_vs_rival_mult": "MOD_DAMAGE_VS_RIVAL_MULT",
+    "mod_empire_size_districts_mult": "MOD_EMPIRE_SIZE_DISTRICTS_MULT", #official #leader_trait_urbanist
+    "mod_ship_emergency_ftl_mult": "MOD_SHIP_EMERGENCY_FTL_MIN_DAYS_ADD",
 }
 
 """ Some tooltips have localisation keys only in the yml for that DLC, and arent in 
@@ -279,8 +281,11 @@ HIDDEN_DLC_REQUIREMENTS = {
     "mod_ship_friendly_territory_evasion_mult": "Overlord",
     "mod_ship_friendly_territory_fire_rate_mult": "Overlord",
     "mod_ship_friendly_territory_shield_add": "Overlord",
-    
+}
 
+DLC_REQUIREMENT_KEYS = {
+    "has_overlord_dlc",
+    "has_ancrel",
 }
 """ On a bad yaml merge there will be other random stuff in the modifier dict
 on occasion. so make a list of what should get kicked out of modifiers """
