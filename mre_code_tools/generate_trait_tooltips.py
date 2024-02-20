@@ -13,6 +13,9 @@ from mre_common_vars import (
     INPUT_FILES_FOR_CODEGEN,
     DEFAULT_UPPERCASE_MODIFIERS_MAP_FILES,
     LEADER_MAKING, CORE_MODIFYING,
+    TOOLTIP_LOOKUP_MAP,
+    GARBAGE_MODIFIERS,
+    MACHINE_LOCALISATIONS_MAPFILE
 )
 
 logger = logging.getLogger(__name__)
@@ -64,15 +67,15 @@ def load_modifier_keys_in_uppercase(json_files_list):
     )
     return json_data
 
-""" Map modifier category name to tooltip """
+""" Look for a type of modifier, and add some descriptive text before it """
 modifier_key_to_tooltip_prefix_var = {
     "army_modifier": "commanding_army_effect",
     "councilor_modifier": "councilor_trait",
     "fleet_modifier": "commanding_navy_effect",
-    "modifier": "",
+    # "modifier": "",
     "planet_modifier": "governing_planet_effect",
     "sector_modifier": "governing_sector_effect",
-    "self_modifier": "",
+    # "self_modifier": "",
     "triggered_army_effect": "commanding_army_effect",
     "triggered_councilor_modifier": "councilor_trait",
     "triggered_fleet_modifier": "commanding_navy_effect",
@@ -99,19 +102,6 @@ preprend 'mre_' to the localisation key.
 """
 # Dicts are the fastest lookup ( O(1) ) vs searching a list ( O(n) )
 
-""" Some tooltips have localisation keys only in the yml for that DLC, and arent in 
-base stellaris. So they show up empty in the leadermaking UI because the game can't find
-them because that DLC is not enabled. And there is no DLC-required flag in the trait itself """
-hidden_dlc_requirements = {
-    "mod_planet_jobs_food_produces_mult": "Megacorp",  # implement in potential: host_has_dlc = "Megacorp"
-    "mod_planet_administrators_unity_produces_mult": "Megacorp",
-    "mod_planet_technician_energy_produces_mult": "Megacorp",
-    "mod_weapon_archaeotech_weapon_damage_mult": "Ancient Realms",  # has_ancrel
-    "mod_weapon_role_artillery_weapon_damage_mult": "Paragons",
-    "mod_weapon_type_strike_craft_weapon_damage_mult": "Paragons",
-    "mod_ships_upkeep_mult": "Megacorp",
-}
-
 # Mappings of modifiers whose tooltips dont match up
 # Left side is the modifier, right side is what it actually is in base Stellaris
 modifiers_dont_match_tooltip_string = {
@@ -136,7 +126,8 @@ def detect_trait_modifier_permutation(trait_modifier: str,uppercase_key_store: d
     return match
 
 def create_tooltip_for_leader(
-    trait_dict, leader_class, feature="leader_making", uppercase_map_files=None
+    trait_dict, leader_class, feature="leader_making", uppercase_map_files=None,
+    machine_localisations_map=None
 ):
     if uppercase_map_files is None:
         uppercase_map_files = DEFAULT_UPPERCASE_MODIFIERS_MAP_FILES
@@ -150,8 +141,6 @@ def create_tooltip_for_leader(
         base_trait_name = trait_name.rsplit('_',1)[0]
         ending_num = trait_name.rsplit('_',1)[1]
         trait_level = f"{DIGIT_TO_LATIN[ending_num]}"
-    # trait_title = make_orange_text(f"${base_trait_name}_machine${trait_level}")
-    trait_title = make_orange_text(f"${base_trait_name}$ {trait_level}")
     tooltip_base = "xvcv_mdlc"
     tooltip_stem = f"{feature}_tooltip"
     # leader_trait_naturalist_3 will read "Preservation Code III"
@@ -170,16 +159,28 @@ def create_tooltip_for_leader(
         # trait_name_alt = "_alt"
     trait_cost_tt = f"$add_xvcv_mdlc_{feature}_traits_costs_desc{trait_cost_alt}$"
     separator_ruler = "--------------"
-    # trait_desc_brown_text = make_brown_text(f"${base_trait_name}_machine_desc$")
+
+    trait_title = make_orange_text(f"${base_trait_name}$ {trait_level}")
     trait_desc_brown_text = make_brown_text(f"${base_trait_name}_desc$")
+    # Reap the harvest of machine tooltips
+    if machine_localisations_map is not None:
+        if machine_localisations_map.get(base_trait_name, False):
+            trait_title = make_orange_text(f"${base_trait_name}_machine$ {trait_level}")
+            trait_desc_brown_text = make_brown_text(f"${base_trait_name}_machine_desc$")
 
     modifiers_list = []
     for modifier_key in TRAIT_MODIFIER_KEYS:
         if root.get(modifier_key):
-            if descriptive_prefix := modifier_key_to_tooltip_prefix_var[modifier_key]:
+            if descriptive_prefix := modifier_key_to_tooltip_prefix_var.get(modifier_key, None):
                 modifiers_list.append(f"${descriptive_prefix}$")
-
-            for modifier_name in root[modifier_key].keys():
+            # Remove any garbage modifiers from the trait's modifiers
+            modifier_subkeys = root[modifier_key].keys()
+            if trait_name == "leader_trait_expertise_new_worlds_3":
+                # TODO: Scale to apply to all traits if enough crud is found later
+                # TODO: Make this a function
+                modifiers_subset = set([ name for name in root[modifier_key].keys() ])
+                modifier_subkeys = sorted(list(modifiers_subset.difference(GARBAGE_MODIFIERS)))
+            for modifier_name in modifier_subkeys:
                 # Check if we have a replacement tooltip for an autogenerated one,
                 # and prepend mre_ so it matches with our custom definition
                 replacement_check = ''
@@ -187,6 +188,8 @@ def create_tooltip_for_leader(
                 if ALL_REPLACEMENT_MAPS.get(uppercase_key_name, False):
                     # make everything lowercase, PDX in this case doesn't care
                     mod_tt_key = f"$mre_mod_{modifier_name}$".lower()
+                elif chaos_variation := TOOLTIP_LOOKUP_MAP.get(f"mod_{modifier_name}", None):
+                    mod_tt_key = f"${chaos_variation}$"
                 # check to see if the first two words have swapped order
                 elif permutated_uppercase_key_name := detect_trait_modifier_permutation(
                     uppercase_key_name, uppercase_key_store=ALL_REPLACEMENT_MAPS
@@ -197,7 +200,18 @@ def create_tooltip_for_leader(
                     mod_tt_key = f"${replacement}$"
                 else:
                     mod_tt_key = f"$mod_{modifier_name}$".lower()
+                # Modifiers
                 modified_amount = root[modifier_key][modifier_name]
+                # Fix having to sub variable @ with 'var'
+                # Only 3 cases so far..
+                # TODO: Scale up to a method or lookup table if this continues to be a problem
+                # TODO: Go map all the trait variables in advance
+                if modified_amount == "var_trait_surveyor_amt":
+                    modified_amount = 0.5
+                elif modified_amount == "var_trait_surveyor_sector_amt":
+                    modified_amount = 0.25
+                elif modified_amount == "var_trait_collective_wisdom_ma_amt":
+                    modified_amount = 5
                 if "." in str(modified_amount) and str(modified_amount)[-1].isdigit():
                     modified_amount = convert_decimal_to_percent_str(modified_amount)
                 number_sign = "+" if "-" not in str(modified_amount) else ""

@@ -88,6 +88,13 @@ def test_sorting_traits_for_which_feature__1():
         },
         {
             "leader_trait_clone_army_commander": {}
+        },
+        {
+            "leader_trait_carefree": {
+                "trait_name": "leader_trait_carefree",
+                "gfx": "GFX_leader_trait_carefree",
+                "allow_for_ruler": False
+            }
         }
     ]
     expected = {
@@ -108,6 +115,13 @@ def test_sorting_traits_for_which_feature__1():
                     }
                 }
             },
+            {
+                "leader_trait_carefree": {
+                    "trait_name": "leader_trait_carefree",
+                    "gfx": "GFX_leader_trait_carefree",
+                    "allow_for_ruler": False
+                }
+            }
         ],
         "core_modifying_traits": [
             {
@@ -166,5 +180,5 @@ def test_transfer_subclass_reqs_to_other_traits_in_series():
             }
         },
     ]
-    actual = trickle_up_subclass_requirements(test_data)
+    actual = trickle_up_subclass_requirements(test_data, for_class="commander")
     assert expected == actual

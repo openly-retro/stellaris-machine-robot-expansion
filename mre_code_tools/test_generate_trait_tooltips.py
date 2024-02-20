@@ -254,3 +254,90 @@ def test_core_modifying_tooltip__leader_trait_roamer_2(make_uppercase_mapping_fi
         uppercase_map_files=make_uppercase_mapping_files
     )
     assert expected.encode('utf-8') == actual.encode('utf-8')
+
+def test_remove_garbage_modifiers_from_trait(make_uppercase_mapping_files):
+    test_data = {
+        "leader_trait_expertise_new_worlds_3": {
+            "trait_name": "leader_trait_expertise_new_worlds_3",
+            "leader_class": "scientist",
+            "gfx": "GFX_leader_trait_expertise_new_worlds",
+            "rarity": "veteran",
+            "councilor_modifier": {
+                "category_new_worlds_research_speed_mult": 0.35,
+                "category_new_worlds_draw_chance_mult": 0.75,
+                "inline_script": None,
+                "script": "traits/technocracy_expertise_effects",
+                "FIELD": "society",
+                "TIER": 3
+            },
+            "requires_paragon_dlc": True,
+            "is_councilor_trait": True,
+            "required_subclass": "subclass_scientist_councilor"
+        }
+    }
+    expected = """
+  #core_modifying #scientist #leader_trait_expertise_new_worlds_3
+  xvcv_mdlc_core_modifying_tooltip_add_scientist_leader_trait_expertise_new_worlds_3:0 "§H$leader_trait_expertise_new_worlds$ III§!$add_xvcv_mdlc_core_modifying_traits_costs_desc_alt$\\n$councilor_trait$\\n$t$$mod_category_new_worlds_draw_chance_mult$: §G+75%§!\\n$t$$mod_category_new_worlds_research_speed_mult$: §G+35%§!\\n--------------\\n§L$leader_trait_expertise_new_worlds_desc$§!"
+  xvcv_mdlc_core_modifying_tooltip_remove_scientist_leader_trait_expertise_new_worlds_3:0 "§RRemove§! Trait: §H$leader_trait_expertise_new_worlds$ III§!$remove_xvcv_mdlc_core_modifying_traits_costs_desc_alt$\\n$councilor_trait$\\n$t$$mod_category_new_worlds_draw_chance_mult$: §G+75%§!\\n$t$$mod_category_new_worlds_research_speed_mult$: §G+35%§!\\n--------------\\n§L$leader_trait_expertise_new_worlds_desc$§!"
+"""
+    actual = create_tooltip_for_leader(
+        test_data, leader_class="scientist", feature="core_modifying",
+        uppercase_map_files=make_uppercase_mapping_files
+    )
+    assert expected == actual
+
+def test_find_and_map_abberant_modifiers(make_uppercase_mapping_files):
+    test_data = {
+        "leader_trait_overseer_3": {
+            "trait_name": "leader_trait_overseer_3",
+            "leader_class": "official",
+            "gfx": "GFX_leader_trait_overseer",
+            "rarity": "veteran",
+            "is_councilor_trait": True,
+            "councilor_modifier": {
+                "monthly_loyalty_from_subjects": 0.5
+            },
+            "requires_paragon_dlc": False,
+            "required_subclass": "subclass_official_diplomacy_councilor"
+        }
+    }
+    expected = """
+  #core_modifying #scientist #leader_trait_overseer_3
+  xvcv_mdlc_core_modifying_tooltip_add_scientist_leader_trait_overseer_3:0 "§H$leader_trait_overseer$ III§!$add_xvcv_mdlc_core_modifying_traits_costs_desc_alt$\\n$councilor_trait$\\n$t$$MOD_MONTHLY_LOYALTY_GAIN_FROM_SUBJECTS$: §G+50%§!\\n--------------\\n§L$leader_trait_overseer_desc$§!"
+  xvcv_mdlc_core_modifying_tooltip_remove_scientist_leader_trait_overseer_3:0 "§RRemove§! Trait: §H$leader_trait_overseer$ III§!$remove_xvcv_mdlc_core_modifying_traits_costs_desc_alt$\\n$councilor_trait$\\n$t$$MOD_MONTHLY_LOYALTY_GAIN_FROM_SUBJECTS$: §G+50%§!\\n--------------\\n§L$leader_trait_overseer_desc$§!"
+"""
+    actual = create_tooltip_for_leader(
+        test_data, leader_class="scientist", feature="core_modifying",
+        uppercase_map_files=make_uppercase_mapping_files
+    )
+    assert expected == actual
+
+def test_find_trait_with_machine_variant_tooltip(make_uppercase_mapping_files):
+    traits_with_machine_desc = {
+        "leader_trait_overseer": 1,
+    }
+    test_data = {
+        "leader_trait_overseer_3": {
+            "trait_name": "leader_trait_overseer_3",
+            "leader_class": "official",
+            "gfx": "GFX_leader_trait_overseer",
+            "rarity": "veteran",
+            "is_councilor_trait": True,
+            "councilor_modifier": {
+                "monthly_loyalty_from_subjects": 0.5
+            },
+            "requires_paragon_dlc": False,
+            "required_subclass": "subclass_official_diplomacy_councilor"
+        }
+    }
+    expected = """
+  #core_modifying #scientist #leader_trait_overseer_3
+  xvcv_mdlc_core_modifying_tooltip_add_scientist_leader_trait_overseer_3:0 "§H$leader_trait_overseer_machine$ III§!$add_xvcv_mdlc_core_modifying_traits_costs_desc_alt$\\n$councilor_trait$\\n$t$$MOD_MONTHLY_LOYALTY_GAIN_FROM_SUBJECTS$: §G+50%§!\\n--------------\\n§L$leader_trait_overseer_machine_desc$§!"
+  xvcv_mdlc_core_modifying_tooltip_remove_scientist_leader_trait_overseer_3:0 "§RRemove§! Trait: §H$leader_trait_overseer_machine$ III§!$remove_xvcv_mdlc_core_modifying_traits_costs_desc_alt$\\n$councilor_trait$\\n$t$$MOD_MONTHLY_LOYALTY_GAIN_FROM_SUBJECTS$: §G+50%§!\\n--------------\\n§L$leader_trait_overseer_machine_desc$§!"
+"""
+    actual = create_tooltip_for_leader(
+        test_data, leader_class="scientist", feature="core_modifying",
+        uppercase_map_files=make_uppercase_mapping_files,
+        machine_localisations_map=traits_with_machine_desc
+    )
+    assert expected == actual

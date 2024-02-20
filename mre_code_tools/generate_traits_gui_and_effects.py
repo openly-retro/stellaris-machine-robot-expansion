@@ -19,6 +19,7 @@ from mre_common_vars import (
     LOCALISATION_HEADER,
     LEADER_SUBCLASSES_NAMES,
     EXCLUDE_SUBCLASSES_FROM_CORE_MODIFYING,
+    MACHINE_LOCALISATIONS_MAPFILE,
 )
 
 RARITIES = ("common", "veteran", "paragon")
@@ -125,6 +126,10 @@ def gen_leader_making_button_effects_code(
     requires_skill_lvl_trigger = "" if is_veteran_trait or is_destiny_trait else "#"
     show_veteran_comment = f"#veteran trait" if is_veteran_trait else ''
     
+    # Special cases ... I don't like doing these
+    requires_ancrel = ""
+    if trait_name == "leader_trait_expertise_archaeostudies_3":
+        requires_ancrel = "\n        has_ancrel = yes\n"
     return f"""
 #{leader_class} #{trait_name} {show_veteran_comment}
 xvcv_mdlc_leader_making_trait_{leader_class}_{trait_name}_add_button_effect = {{
@@ -136,7 +141,7 @@ xvcv_mdlc_leader_making_trait_{leader_class}_{trait_name}_add_button_effect = {{
         xvcv_mdlc_leader_making_trait_points_{alt_trigger_name}trigger = yes
         {requires_skill_lvl_trigger}xvcv_mdlc_leader_making_trait_skill_level_{alt_trigger_name}trigger = yes
         xvcv_mdlc_leader_making_trait_max_number_trigger = yes
-        xvcv_mdlc_leader_making_picked_class_{leader_class}_trigger = yes
+        xvcv_mdlc_leader_making_picked_class_{leader_class}_trigger = yes{requires_ancrel}
     }}
     effect = {{
         xvcv_mdlc_leader_making_trait_pick_effect = {{ CLASS = {leader_class} ID = {trait_name} }}
@@ -280,11 +285,10 @@ xvcv_mdlc_leader_making_clear_values_effect = {
             # We only want leadermaking
         file_leader_class = input_codegen_json_file_name.split('_')[2]
         for rarity in RARITIES:
-            print(f"Looking thru {input_codegen_json_file_name} for {file_leader_class} {rarity} traits..")
+            # print(f"Looking thru {input_codegen_json_file_name} for {file_leader_class} {rarity} traits..")
             # We have got to combine all the traits now, into one list for the class
             classes_data[file_leader_class] = classes_data[file_leader_class] + buffer["leader_making_traits"][rarity]
     # After collection, iterate each class' traits and make the "clear" commands 
-    breakpoint()
     for leader_class in LEADER_CLASSES:
         class_specific_if_limit_then_clear_lines = generate_class_specific_lines_for_leader_making_clear_values_effect(
             classes_data[leader_class], for_class=leader_class
@@ -320,6 +324,42 @@ def generate_class_specific_lines_for_leader_making_clear_values_effect(list_of_
 {closing_lines}"""
     return class_specific_clear_values_lines
 
+def gen_xvcv_mdlc_leader_making_start_button_effect(organized_traits_dict, for_class):
+    """ Write out event_target:xvcv_mdlc_leader_making_target values for each leader class """
+    wrapper_indentation = "                    "
+    indentation = "                        "
+    leader_making_target_conditional = (
+        "    if = {{ limit = {{ prev = {{ has_country_flag = xvcv_mdlc_leader_{for_class}_{trait_name} }} }} "
+        "add_trait_no_notify = {trait_name} }}"
+    )
+    header = """
+#{leader_class}
+event_target:xvcv_mdlc_leader_making_target = {{"""
+    closing = "}\n"
+    conditional_statement_list = []
+    for rarity_level in RARITIES:
+        if not organized_traits_dict['leader_making_traits'].get(rarity_level):
+            continue
+        for leader_making_trait in organized_traits_dict['leader_making_traits'][rarity_level]:
+            trait_name = [*leader_making_trait][0]
+            conditional_statement_list.append(
+                leader_making_target_conditional.format(for_class=for_class, trait_name=trait_name)
+            )
+    for subclass in LEADER_SUBCLASSES:
+        # Make the add_trait expression for this leader class, so 4 items in total
+        # The game is checking country flags to see if the subclass flag is set ("picked")
+        # And then adds the subclass to the leader
+        if for_class in subclass:
+            conditional_statement_list.append(
+                leader_making_target_conditional.format(for_class=for_class, trait_name=subclass)
+            )
+    # Append memory backup and shared memory
+    conditional_statement_list.append(f"""    if = {{ limit = {{ prev = {{ has_country_flag = xvcv_mdlc_leader_{for_class}_xvcv_mdlc_leader_trait_memory_backup }} }} add_trait_no_notify = xvcv_mdlc_leader_trait_memory_backup }}
+    if = {{ limit = {{ prev = {{ has_country_flag = xvcv_mdlc_leader_{for_class}_xvcv_mdlc_leader_trait_shared_memory }} }} add_trait_no_notify = xvcv_mdlc_leader_trait_shared_memory }}""")
+
+    return f"""{header.format(leader_class=for_class)}
+{"\n".join(conditional_statement_list)}
+{closing}"""
 
 ### CORE_MODIFYING ###
 def gen_core_modifying_trait_gui_code(
@@ -431,6 +471,10 @@ def gen_core_modifying_button_effects_code(
         trait_class = "destiny"
     trait_comment = f"#{trait_class} trait"
 
+    # Special cases ... I don't like doing these
+    requires_ancrel = ""
+    if trait_name == "leader_trait_expertise_archaeostudies_3":
+        requires_ancrel = "\n        has_ancrel = yes"
     return f"""
 #{trait_name} {trait_comment}
 xvcv_mdlc_core_modifying_traits_{leader_class}_{trait_name}_add_button_effect = {{
@@ -444,7 +488,7 @@ xvcv_mdlc_core_modifying_traits_{leader_class}_{trait_name}_add_button_effect = 
         xvcv_mdlc_core_modifying_trait_points_{alt_trigger_name}trigger = yes
         {requires_skill_lvl_trigger}xvcv_mdlc_core_modifying_trait_skill_level_{alt_trigger_name}trigger = yes
         xvcv_mdlc_core_modifying_trait_max_number_trigger = yes
-        {comment_out_paragon_dlc}has_paragon_dlc = {has_paragon_dlc_answer}
+        {comment_out_paragon_dlc}has_paragon_dlc = {has_paragon_dlc_answer}{requires_ancrel}
     }}
     effect = {{
         {needs_remove_tier_num_trait_effect}xvcv_mdlc_core_modifying_remove_tier_1_or_2_traits_effect = {{ ID = {trait_name_no_tier} }}
@@ -692,16 +736,97 @@ def generate_mod_ready_code_files():
 
 
 # Generic version
-def iterate_traits_make_feature_tooltips_code(organized_traits_dict, for_class, feature="leader_making"):
+def iterate_traits_make_feature_tooltips_code(
+        organized_traits_dict, for_class, feature="leader_making", machine_localisations_map=None
+    ):
     """ Generate tooltips code for either 'leader_making' or 'core_modifying' feature """
     leader_tooltips_copypaste_blob = [AUTOGENERATED_HEADER]
     for rarity_level in RARITIES:
         for leader_trait in organized_traits_dict[f"{feature}_traits"][rarity_level]:
             tooltip_code_for_leadermaking_trait = create_tooltip_for_leader(
-                trait_dict=leader_trait, leader_class=for_class, feature=feature
+                trait_dict=leader_trait, leader_class=for_class, feature=feature,
+                machine_localisations_map=machine_localisations_map
             )
             leader_tooltips_copypaste_blob.append(tooltip_code_for_leadermaking_trait)
     return LOCALISATION_HEADER + ''.join(leader_tooltips_copypaste_blob)
+
+## These methods are wrappers so we can run more things from mre_run_trait_pipeline
+def pipeline_make_leader_start_button_code():
+    """ Wrapper for making leader start button code from run_mre_trait_pipeline """
+    content_blob = []
+    for codegen_ready_file in INPUT_FILES_FOR_CODEGEN:
+        leader_class = codegen_ready_file.split('_')[2]
+        input_filepath = os.path.join(BUILD_FOLDER, codegen_ready_file)
+        with open(input_filepath, "r") as traits_json_file:
+            buffer = json_load(traits_json_file)
+        trigger_blob_for_writing = gen_xvcv_mdlc_leader_making_start_button_effect(
+            buffer, for_class=leader_class)
+        content_blob.append(trigger_blob_for_writing)
+    outfile_path = os.path.join(
+        BUILD_FOLDER,
+        "85_leader_making_start_button_effect.txt"
+    )
+    with open(outfile_path, "w") as trigger_file_output:
+        sys.stdout.write(f"Writing leader_making_start_button_effect code to {trigger_file_output.name}\n")
+        trigger_file_output.write(
+            "\n".join(content_blob)
+        )
+
+def pipeline_make_xvcv_mdlc_core_modifying_ruler_traits_trigger():
+    input_files_in_build_folder = [
+        os.path.join(BUILD_FOLDER, codegen_ready_file)
+        for codegen_ready_file in INPUT_FILES_FOR_CODEGEN
+    ]
+    trigger_blob_for_writing = gen_xvcv_mdlc_core_modifying_ruler_traits_trigger(input_files_in_build_folder)
+    outfile_path = os.path.join(
+        BUILD_FOLDER,
+        "85_core_modifying_modifying_ruler_trait_trigger.txt"
+    )
+    with open(outfile_path, "w") as trigger_file_output:
+        sys.stdout.write(f"Writing core modifying trigger code to {trigger_file_output.name}\n")
+        trigger_file_output.write(
+            trigger_blob_for_writing
+        )
+
+def pipeline_make_leader_making_clear_values_effect():
+    blob_for_writing = gen_xvcv_mdlc_leader_making_clear_values_effect()
+    outfile_path = os.path.join(
+        BUILD_FOLDER,
+        "85_leader_making_clear_values_effect.txt"
+    )
+    with open(outfile_path, "w") as trigger_file_output:
+        sys.stdout.write(f"Writing leader making trigger code to {trigger_file_output.name}\n")
+        trigger_file_output.write(
+            blob_for_writing
+        )
+        print("!!!Remember to add in the lines for each of the subclasses!!!")
+
+def pipeline_make_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines():
+    input_files_in_build_folder = [
+        os.path.join(BUILD_FOLDER, codegen_ready_file)
+        for codegen_ready_file in INPUT_FILES_FOR_CODEGEN
+    ]
+    blob_for_writing = gen_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines(input_files_in_build_folder)
+    outfile_path = os.path.join(
+        BUILD_FOLDER,
+        "85_core_modifying_reset_traits_button_effect.txt"
+    )
+    with open(outfile_path, "w") as trigger_file_output:
+        sys.stdout.write(f"Writing core modifying trigger code to {trigger_file_output.name}\n")
+        trigger_file_output.write(
+            blob_for_writing
+        )
+
+def pipeline_make_core_modifying_subclasses_gui_code():
+    target_file = "85_core_modifying_subclasses_gui_code.txt"
+    build_path_target = os.path.join(
+        BUILD_FOLDER, target_file
+    )
+    gui_blob_for_writing = iterate_subclasses_make_core_modifying_subclasses_gui_code(LEADER_SUBCLASSES)
+    with open(build_path_target, "w") as subclasses_gui_outfile:
+        subclasses_gui_outfile.write(gui_blob_for_writing)
+    print(f"Wrote CORE MODIFYING SUBCLASSES GUI code to {build_path_target}")
+    print("This needs to be copy/pasted into the core modifying gui file")
 
 ##################
 ### THE BIG ONE ##
@@ -742,11 +867,18 @@ def run_codegen_process_for_ingame_feature(
     
     generated_leadermaking_code_blob = ''
     if generated_code_type == "tooltips":
+        machine_localisations_file_path = os.path.join(
+            BUILD_FOLDER, MACHINE_LOCALISATIONS_MAPFILE
+        )
+        localisations_buffer = {}
+        with open(machine_localisations_file_path, "r") as machine_map_data:
+            localisations_buffer = json_load(machine_map_data)
         # This method works for both core_modifying and leader_making
         generated_leadermaking_code_blob = iterate_traits_make_feature_tooltips_code(
             buffer,
             for_class=detected_leader_class,
-            feature=feature
+            feature=feature,
+            machine_localisations_map=localisations_buffer
         )
     elif generated_code_type == "gui":
         if feature == CORE_MODIFYING:
@@ -827,6 +959,12 @@ if __name__ == "__main__":
         required=False
     )
     parser.add_argument(
+        "--leader_start_button",
+        help="Generate contents for leader_making_start_button effect. Three effects blocks per leader class",
+        action="store_true",
+        required=False
+    )
+    parser.add_argument(
         '--process_all',
         help="The Big One. Generate M&RE tooltips, GUI code, button effects code, assuming all traits files were processed by mre_process_traits_for_codegen",
         action="store_true"
@@ -837,60 +975,22 @@ if __name__ == "__main__":
         generate_mod_ready_code_files()
         sys.exit()
 
+    if args.leader_start_button:
+        """ Iterate the 99_ files, emit blocks of code for each leader class
+        that then gets copy/pasted by a hum0n into xvcv_mdlc_button_effects_leader_making_main_customgui.txt"""
+        pipeline_make_leader_start_button_code()
+        sys.exit()
     if args.core_trigger:
-        input_files_in_build_folder = [
-            os.path.join(BUILD_FOLDER, codegen_ready_file)
-            for codegen_ready_file in INPUT_FILES_FOR_CODEGEN
-        ]
-        trigger_blob_for_writing = gen_xvcv_mdlc_core_modifying_ruler_traits_trigger(input_files_in_build_folder)
-        outfile_path = os.path.join(
-            BUILD_FOLDER,
-            "85_core_modifying_modifying_ruler_trait_trigger.txt"
-        )
-        with open(outfile_path, "w") as trigger_file_output:
-            sys.stdout.write(f"Writing core modifying trigger code to {trigger_file_output.name}\n")
-            trigger_file_output.write(
-                trigger_blob_for_writing
-            )
-            sys.exit()
+        pipeline_make_xvcv_mdlc_core_modifying_ruler_traits_trigger()
+        sys.exit()
     if args.leader_fx1:
-        blob_for_writing = gen_xvcv_mdlc_leader_making_clear_values_effect()
-        outfile_path = os.path.join(
-            BUILD_FOLDER,
-            "85_leader_making_clear_values_effect.txt"
-        )
-        with open(outfile_path, "w") as trigger_file_output:
-            sys.stdout.write(f"Writing leader making trigger code to {trigger_file_output.name}\n")
-            trigger_file_output.write(
-                blob_for_writing
-            )
-            print("!!!Remember to add in the lines for each of the subclasses!!!")
-            sys.exit()
+        pipeline_make_leader_making_clear_values_effect()
+        sys.exit()
     if args.core_reset:
-        input_files_in_build_folder = [
-            os.path.join(BUILD_FOLDER, codegen_ready_file)
-            for codegen_ready_file in INPUT_FILES_FOR_CODEGEN
-        ]
-        blob_for_writing = gen_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines(input_files_in_build_folder)
-        outfile_path = os.path.join(
-            BUILD_FOLDER,
-            "85_core_modifying_reset_traits_button_effect.txt"
-        )
-        with open(outfile_path, "w") as trigger_file_output:
-            sys.stdout.write(f"Writing core modifying trigger code to {trigger_file_output.name}\n")
-            trigger_file_output.write(
-                blob_for_writing
-            )
-            sys.exit()
+        pipeline_make_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines()
+        sys.exit()
     if args.core_subclasses_gui:
-        target_file = "85_core_modifying_subclasses_gui_code.txt"
-        build_path_target = os.path.join(
-            BUILD_FOLDER, target_file
-        )
-        gui_blob_for_writing = iterate_subclasses_make_core_modifying_subclasses_gui_code(LEADER_SUBCLASSES)
-        with open(build_path_target, "w") as subclasses_gui_outfile:
-            subclasses_gui_outfile.write(gui_blob_for_writing)
-        print(f"Wrote CORE MODIFYING SUBCLASSES GUI code to {build_path_target}")
+        pipeline_make_core_modifying_subclasses_gui_code()
         sys.exit()
 
     buffer = ''

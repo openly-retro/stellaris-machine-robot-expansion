@@ -688,3 +688,46 @@ def test_pick_subclass_from_has_trait_definition():
     }
     actual = filter_trait_info(test_data, for_class="commander")
     assert expected == actual
+
+def test_filter_trait_identify_is_ruler_allowance():
+    test_data = {
+        "leader_trait_carefree": {
+        'trait_name': 'leader_trait_carefree',
+        'inline_script': {
+            'script': 'trait/icon',
+            'CLASS': 'scientist',
+            'ICON': 'GFX_leader_trait_carefree',
+            'RARITY': 'common',
+            'COUNCIL': False,
+            'TIER': 1
+        },
+        'modifier': {
+            'ship_anomaly_research_speed_mult': 0.1
+        },
+        'leader_potential_add': {
+            'is_ruler': False
+        },
+        'leader_class': ['scientist'],
+        'opposites': 'leader_trait_meticulous leader_trait_meticulous_2 leader_trait_neurotic leader_trait_neurotic_2', 
+        'selectable_weight': {
+            'weight': 'var_class_trait_weight',
+            'inline_script': {
+                'script': 'paragon/subclass_weight_mult',
+                'SUBCLASS': 'scientist_scholar'
+                }
+            }, 'ai_weight': 50
+        }
+    }
+    expected = {
+        "trait_name": "leader_trait_carefree",
+        "gfx": "GFX_leader_trait_carefree",
+        "leader_class": "scientist",
+        "rarity": "common",
+        "requires_paragon_dlc": False,
+        "modifier": {
+            "ship_anomaly_research_speed_mult": 0.1
+        },
+        "allow_for_ruler": False
+    }
+    actual = filter_trait_info(test_data, for_class="scientist")
+    assert expected == actual

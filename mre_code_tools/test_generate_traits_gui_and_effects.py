@@ -10,6 +10,7 @@ from generate_traits_gui_and_effects import (
     gen_xvcv_mdlc_leader_making_clear_values_effect,
     gen_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines,
     gen_core_modifying_leader_subclass_gui_code,
+    gen_xvcv_mdlc_leader_making_start_button_effect,
 )
 
 def test_gen_core_modifying_button_effects_code__common_trait():
@@ -247,3 +248,37 @@ containerWindowType = {
         "subclass_official_economy_councilor", 1, 1
     )
     assert expected_result == actual
+
+def test_gen_xvcv_mdlc_leader_making_start_button_effect():
+    mock_json_data_from_file = {
+        "leader_making_traits": {
+            "common": [
+                {
+                "leader_trait_roamer_2": {
+                    "trait_name": "leader_trait_roamer_2",
+                    "leader_class": "official",
+                    "gfx": "GFX_leader_trait_roamer",
+                    "rarity": "common",
+                    "modifier": {
+                        "science_ship_survey_speed": 0.2
+                    },
+                    "requires_paragon_dlc": False,
+                }
+            }
+            ]
+        }
+    }
+    expected = """
+#official
+event_target:xvcv_mdlc_leader_making_target = {
+    if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_official_leader_trait_roamer_2 } } add_trait_no_notify = leader_trait_roamer_2 }
+    if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_official_subclass_official_economy_councilor } } add_trait_no_notify = subclass_official_economy_councilor }
+    if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_official_subclass_official_diplomacy_councilor } } add_trait_no_notify = subclass_official_diplomacy_councilor }
+    if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_official_subclass_official_governor } } add_trait_no_notify = subclass_official_governor }
+    if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_official_subclass_official_delegate } } add_trait_no_notify = subclass_official_delegate }
+    if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_official_xvcv_mdlc_leader_trait_memory_backup } } add_trait_no_notify = xvcv_mdlc_leader_trait_memory_backup }
+    if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_official_xvcv_mdlc_leader_trait_shared_memory } } add_trait_no_notify = xvcv_mdlc_leader_trait_shared_memory }
+}
+"""
+    actual = gen_xvcv_mdlc_leader_making_start_button_effect(mock_json_data_from_file, for_class="official")
+    assert expected == actual
