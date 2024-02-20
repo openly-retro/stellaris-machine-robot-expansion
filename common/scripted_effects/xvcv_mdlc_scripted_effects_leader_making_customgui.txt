@@ -1,3 +1,8 @@
+# How many traits can be picked
+@xvcv_mdlc_leader_making_base_num_trait_picks = 3
+# How many points the player has for picking
+@xvcv_mdlc_leader_making_base_num_trait_points = 4
+
 xvcv_mdlc_leader_making_trait_pick_effect = {
     optimize_memory
     custom_tooltip = xvcv_mdlc_leader_making_tooltip_$CLASS$_$ID$
@@ -10,6 +15,7 @@ xvcv_mdlc_leader_making_trait_pick_effect = {
     }
 }
 xvcv_mdlc_leader_making_trait_pick_alt_effect = {
+    # Use this trigger to set additional limits on when a trait can be picked
     optimize_memory
     if = {
         limit = { $SCRIPTED_TRIGGER$ = $BOOLEAN$ }
@@ -81,9 +87,17 @@ xvcv_mdlc_leader_making_clear_skill_levels_effect = {
     }
 }
 xvcv_mdlc_leader_making_clear_traits_variables_effect = {
+    # This effect is called when the leader-making GUI is opened,
+    # and when a player clicks the reset button
     optimize_memory
-	set_variable = { which = xvcv_mdlc_leader_making_trait_points value = 4 } #max trait points
-    set_variable = { which = xvcv_mdlc_leader_making_max_traits_number value = 3 } #max traits number
+	set_variable = {
+        which = xvcv_mdlc_leader_making_trait_points
+        value = @xvcv_mdlc_leader_making_base_num_trait_points
+    } #max trait points
+    set_variable = { 
+        which = xvcv_mdlc_leader_making_max_traits_number
+        value = @xvcv_mdlc_leader_making_base_num_trait_picks
+    } #max traits number
     if = {
         limit = { has_technology = xvcv_mdlc_tech_leader_making_improvement }
         change_variable = { which = xvcv_mdlc_leader_making_trait_points value = 1 } #increase max trait points by 1
