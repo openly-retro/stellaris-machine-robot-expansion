@@ -15,6 +15,7 @@ from mre_common_vars import (
     LEADER_MAKING, CORE_MODIFYING,
     TOOLTIP_LOOKUP_MAP,
     GARBAGE_MODIFIERS,
+    MACHINE_LOCALISATIONS_MAPFILE
 )
 
 logger = logging.getLogger(__name__)
@@ -125,7 +126,8 @@ def detect_trait_modifier_permutation(trait_modifier: str,uppercase_key_store: d
     return match
 
 def create_tooltip_for_leader(
-    trait_dict, leader_class, feature="leader_making", uppercase_map_files=None
+    trait_dict, leader_class, feature="leader_making", uppercase_map_files=None,
+    machine_localisations_map=None
 ):
     if uppercase_map_files is None:
         uppercase_map_files = DEFAULT_UPPERCASE_MODIFIERS_MAP_FILES
@@ -139,8 +141,6 @@ def create_tooltip_for_leader(
         base_trait_name = trait_name.rsplit('_',1)[0]
         ending_num = trait_name.rsplit('_',1)[1]
         trait_level = f"{DIGIT_TO_LATIN[ending_num]}"
-    # trait_title = make_orange_text(f"${base_trait_name}_machine${trait_level}")
-    trait_title = make_orange_text(f"${base_trait_name}$ {trait_level}")
     tooltip_base = "xvcv_mdlc"
     tooltip_stem = f"{feature}_tooltip"
     # leader_trait_naturalist_3 will read "Preservation Code III"
@@ -159,8 +159,14 @@ def create_tooltip_for_leader(
         # trait_name_alt = "_alt"
     trait_cost_tt = f"$add_xvcv_mdlc_{feature}_traits_costs_desc{trait_cost_alt}$"
     separator_ruler = "--------------"
-    # trait_desc_brown_text = make_brown_text(f"${base_trait_name}_machine_desc$")
+
+    trait_title = make_orange_text(f"${base_trait_name}$ {trait_level}")
     trait_desc_brown_text = make_brown_text(f"${base_trait_name}_desc$")
+    # Reap the harvest of machine tooltips
+    if machine_localisations_map is not None:
+        if machine_localisations_map.get(base_trait_name, False):
+            trait_title = make_orange_text(f"${base_trait_name}_machine$ {trait_level}")
+            trait_desc_brown_text = make_brown_text(f"${base_trait_name}_machine_desc$")
 
     modifiers_list = []
     for modifier_key in TRAIT_MODIFIER_KEYS:

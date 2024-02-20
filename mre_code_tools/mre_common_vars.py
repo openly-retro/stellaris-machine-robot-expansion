@@ -132,6 +132,8 @@ LEADER_CLASSES = (
     "commander", "official", "scientist"
 )
 
+MACHINE_LOCALISATIONS_MAPFILE = "98_traits_with_machine_localisations.json"
+
 LEADER_SUBCLASSES = (
     "subclass_commander_general",
     "subclass_commander_councilor",

@@ -312,5 +312,32 @@ def test_find_and_map_abberant_modifiers(make_uppercase_mapping_files):
     )
     assert expected == actual
 
-def test_find_trait_with_machine_variant_tooltip():
-    pass
+def test_find_trait_with_machine_variant_tooltip(make_uppercase_mapping_files):
+    traits_with_machine_desc = {
+        "leader_trait_overseer": 1,
+    }
+    test_data = {
+        "leader_trait_overseer_3": {
+            "trait_name": "leader_trait_overseer_3",
+            "leader_class": "official",
+            "gfx": "GFX_leader_trait_overseer",
+            "rarity": "veteran",
+            "is_councilor_trait": True,
+            "councilor_modifier": {
+                "monthly_loyalty_from_subjects": 0.5
+            },
+            "requires_paragon_dlc": False,
+            "required_subclass": "subclass_official_diplomacy_councilor"
+        }
+    }
+    expected = """
+  #core_modifying #scientist #leader_trait_overseer_3
+  xvcv_mdlc_core_modifying_tooltip_add_scientist_leader_trait_overseer_3:0 "§H$leader_trait_overseer_machine$ III§!$add_xvcv_mdlc_core_modifying_traits_costs_desc_alt$\\n$councilor_trait$\\n$t$$MOD_MONTHLY_LOYALTY_GAIN_FROM_SUBJECTS$: §G+50%§!\\n--------------\\n§L$leader_trait_overseer_machine_desc$§!"
+  xvcv_mdlc_core_modifying_tooltip_remove_scientist_leader_trait_overseer_3:0 "§RRemove§! Trait: §H$leader_trait_overseer_machine$ III§!$remove_xvcv_mdlc_core_modifying_traits_costs_desc_alt$\\n$councilor_trait$\\n$t$$MOD_MONTHLY_LOYALTY_GAIN_FROM_SUBJECTS$: §G+50%§!\\n--------------\\n§L$leader_trait_overseer_machine_desc$§!"
+"""
+    actual = create_tooltip_for_leader(
+        test_data, leader_class="scientist", feature="core_modifying",
+        uppercase_map_files=make_uppercase_mapping_files,
+        machine_localisations_map=traits_with_machine_desc
+    )
+    assert expected == actual

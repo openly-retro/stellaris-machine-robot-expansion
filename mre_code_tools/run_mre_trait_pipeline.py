@@ -38,6 +38,7 @@ from generate_traits_gui_and_effects import (
     pipeline_make_core_modifying_subclasses_gui_code,
 )
 from mre_translation_key_normalizer import do_all_work as do_uppercase_modifier_mapping_work
+from mre_harvest_machine_tooltips import do_all_work as harvest_machine_tooltips
 
 from mre_common_vars import (
     BUILD_FOLDER,
@@ -206,6 +207,8 @@ if __name__=="__main__":
     sys.stdout.write("***************************************************************\n")
     sys.stdout.write("**** Phase 3 starting! ... Wait, what? there's a Phase 3?? ****\n")
     sys.stdout.write("** Jumpin' jumpgates, time to finally crank out some working mod code! **\n")
+    sys.stdout.write("** Side quest: Harvest machine-specific trait localisations >:D ... **\n")
+    harvest_machine_tooltips(args.stellaris_path)
     generate_mod_ready_code_files()
     sys.stdout.write("**** Making copy/pasta for dinner! ****\n")
     sys.stdout.write("** Making lines of EFFECTS code for xvcv_mdlc_leader_making_start_button_effect ... **\n")
