@@ -126,6 +126,10 @@ def gen_leader_making_button_effects_code(
     requires_skill_lvl_trigger = "" if is_veteran_trait or is_destiny_trait else "#"
     show_veteran_comment = f"#veteran trait" if is_veteran_trait else ''
     
+    # Special cases ... I don't like doing these
+    requires_ancrel = ""
+    if trait_name == "leader_trait_expertise_archaeostudies_3":
+        requires_ancrel = "\n        has_ancrel = yes\n"
     return f"""
 #{leader_class} #{trait_name} {show_veteran_comment}
 xvcv_mdlc_leader_making_trait_{leader_class}_{trait_name}_add_button_effect = {{
@@ -137,7 +141,7 @@ xvcv_mdlc_leader_making_trait_{leader_class}_{trait_name}_add_button_effect = {{
         xvcv_mdlc_leader_making_trait_points_{alt_trigger_name}trigger = yes
         {requires_skill_lvl_trigger}xvcv_mdlc_leader_making_trait_skill_level_{alt_trigger_name}trigger = yes
         xvcv_mdlc_leader_making_trait_max_number_trigger = yes
-        xvcv_mdlc_leader_making_picked_class_{leader_class}_trigger = yes
+        xvcv_mdlc_leader_making_picked_class_{leader_class}_trigger = yes{requires_ancrel}
     }}
     effect = {{
         xvcv_mdlc_leader_making_trait_pick_effect = {{ CLASS = {leader_class} ID = {trait_name} }}
@@ -467,6 +471,10 @@ def gen_core_modifying_button_effects_code(
         trait_class = "destiny"
     trait_comment = f"#{trait_class} trait"
 
+    # Special cases ... I don't like doing these
+    requires_ancrel = ""
+    if trait_name == "leader_trait_expertise_archaeostudies_3":
+        requires_ancrel = "\n        has_ancrel = yes"
     return f"""
 #{trait_name} {trait_comment}
 xvcv_mdlc_core_modifying_traits_{leader_class}_{trait_name}_add_button_effect = {{
@@ -480,7 +488,7 @@ xvcv_mdlc_core_modifying_traits_{leader_class}_{trait_name}_add_button_effect = 
         xvcv_mdlc_core_modifying_trait_points_{alt_trigger_name}trigger = yes
         {requires_skill_lvl_trigger}xvcv_mdlc_core_modifying_trait_skill_level_{alt_trigger_name}trigger = yes
         xvcv_mdlc_core_modifying_trait_max_number_trigger = yes
-        {comment_out_paragon_dlc}has_paragon_dlc = {has_paragon_dlc_answer}
+        {comment_out_paragon_dlc}has_paragon_dlc = {has_paragon_dlc_answer}{requires_ancrel}
     }}
     effect = {{
         {needs_remove_tier_num_trait_effect}xvcv_mdlc_core_modifying_remove_tier_1_or_2_traits_effect = {{ ID = {trait_name_no_tier} }}
