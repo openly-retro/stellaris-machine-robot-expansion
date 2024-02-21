@@ -1,3 +1,22 @@
+# Default amount of trait points
+@xvcv_mdlc_core_modifying_base_num_trait_points = 4
+# Default number of trait picks
+@xvcv_mdlc_core_modifying_base_num_trait_picks = 3
+
+# How many trait points does each tier of trait cost to apply to the ruler
+@xvcv_mdlc_core_modifying_common_trait_points_cost = 1
+@xvcv_mdlc_core_modifying_veteran_trait_points_cost = 2
+@xvcv_mdlc_core_modifying_destiny_trait_points_cost = 3
+
+# These numbers are applied to both energy costs, and alloy costs
+@xvcv_mdlc_core_modifying_common_trait_cost = 200
+@xvcv_mdlc_core_modifying_common_trait_refund = 100
+@xvcv_mdlc_core_modifying_veteran_trait_cost = 500
+@xvcv_mdlc_core_modifying_veteran_trait_refund = 250
+@xvcv_mdlc_core_modifying_destiny_trait_cost = 1000
+@xvcv_mdlc_core_modifying_destiny_trait_refund = 500
+
+
 xvcv_mdlc_core_modifying_trait_pick_effect = {
 	optimize_memory
 	custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_$CLASS$_$ID$
@@ -45,6 +64,7 @@ xvcv_mdlc_core_modifying_set_subclass_effect = {
 	}
 }
 xvcv_mdlc_core_modifying_remove_tier_1_or_2_traits_effect = {
+	# Adding the T2 version of a T1 replaces the T1; same for T3 which replaces T2 and T1
 	optimize_memory
 	hidden_effect = {
 		ruler = {
@@ -61,31 +81,66 @@ xvcv_mdlc_core_modifying_remove_tier_1_or_2_traits_effect = {
 }
 xvcv_mdlc_core_modifying_clear_trait_variables_effect = {
 	optimize_memory
-	set_variable = { which = xvcv_mdlc_core_modifying_trait_points value = 4 } #max trait points
-	set_variable = { which = xvcv_mdlc_core_modifying_max_traits_number value = 3 } #max traits number
+	#max trait points
+	set_variable = {
+		which = xvcv_mdlc_core_modifying_trait_points
+		value = @xvcv_mdlc_core_modifying_base_num_trait_points
+	}
+	#max traits number 
+	set_variable = {
+		which = xvcv_mdlc_core_modifying_max_traits_number
+		value = @xvcv_mdlc_core_modifying_base_num_trait_picks
+	}
+	# Increase the number of trait points available, for T1 of this tech
 	if = {
 		limit = { has_technology = xvcv_mdlc_tech_core_modifying_improvement }
-		change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = 1 }
-		change_variable = { which = xvcv_mdlc_core_modifying_max_traits_number value = 1 }
+		change_variable = {
+			which = xvcv_mdlc_core_modifying_trait_points
+			value = 1
+		}
+		change_variable = {
+			which = xvcv_mdlc_core_modifying_max_traits_number
+			value = 1
+		}
 	}
+	# Give additional points for having T2, so it's a compound effect
+	# Having T1 and T2 of this tech awards +2 trait points total
 	if = {
-		limit = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 } #both techs increase the same amount of trait modification points
+		limit = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 } 
 		change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = 1 }
 		change_variable = { which = xvcv_mdlc_core_modifying_max_traits_number value = 1 }
 	}
 }
+######################
+# Adding and refunding
+# Whatever is the added cost, the refunded cost is half of that
+######################
+
 #for common traits
 xvcv_mdlc_core_modifying_trait_add_effect = {
 	optimize_memory
-	add_resource = { energy = -200 alloys = -200 }
-	change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = -1 }
+	add_resource = { energy = -1 mult = @xvcv_mdlc_core_modifying_common_trait_cost }
+	add_resource = { alloys = -1 mult = @xvcv_mdlc_core_modifying_common_trait_cost }
+	change_variable = {
+		which = xvcv_mdlc_core_modifying_trait_points
+		value = -1  # Not significant enough to use @xvcv_mdlc_core_modifying_common_trait_points_cost
+	}
 	change_variable = { which = xvcv_mdlc_core_modifying_max_traits_number value = -1 }
+}
+xvcv_mdlc_core_modifying_trait_return_cost_effect = {
+	optimize_memory
+	add_resource = {
+		energy = @xvcv_mdlc_core_modifying_common_trait_refund
+		alloys = @xvcv_mdlc_core_modifying_common_trait_refund
+	}
 }
 xvcv_mdlc_core_modifying_trait_remove_effect = {
 	optimize_memory
 	xvcv_mdlc_core_modifying_trait_return_cost_effect = yes
 	#xvcv_mdlc_core_modifying_trait_return_points_effect
 	if = {
+		# Refund trait points and picks up to a certain level
+		# Ex: with T2 of the core modifying improvement, refund up to 6 points
 		limit = {
 			OR = {
 				check_variable = { which = xvcv_mdlc_core_modifying_trait_points value > 6 }
@@ -100,20 +155,20 @@ xvcv_mdlc_core_modifying_trait_remove_effect = {
 			}
 		}
 		xvcv_mdlc_core_modifying_clear_trait_variables_effect = yes
+		# For each trait removed, increment points and picks by 1
 		else = {
 			change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = 1 }
 			change_variable = { which = xvcv_mdlc_core_modifying_max_traits_number value = 1 }
 		}
 	}
 }
-xvcv_mdlc_core_modifying_trait_return_cost_effect = {
-	optimize_memory
-	add_resource = { energy = 100 alloys = 100 }
-}
+
 #for veteran traits
 xvcv_mdlc_core_modifying_trait_add_alt_effect = {
 	optimize_memory
-	add_resource = { energy = -500 alloys = -500 }
+	# add_resource = { energy = -500 alloys = -500 }
+	add_resource = { energy = -1 mult = @xvcv_mdlc_core_modifying_veteran_trait_cost }
+	add_resource = { alloys = -1 mult = @xvcv_mdlc_core_modifying_veteran_trait_cost }
 	change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = -2 }
 	change_variable = { which = xvcv_mdlc_core_modifying_max_traits_number value = -1 }
 }
@@ -144,13 +199,21 @@ xvcv_mdlc_core_modifying_trait_remove_alt_effect = {
 }
 xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = {
 	optimize_memory
-	add_resource = { energy = 250 alloys = 250 }
+	add_resource = {
+		energy = @xvcv_mdlc_core_modifying_veteran_trait_refund
+		alloys = @xvcv_mdlc_core_modifying_veteran_trait_refund
+	}
 }
 #for destiny traits
 xvcv_mdlc_core_modifying_trait_add_alt_2_effect = {
 	optimize_memory
-	add_resource = { energy = -1000 alloys = -1000 }
-	change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = -3 }
+	# add_resource = { energy = -1000 alloys = -1000 }
+	add_resource = { energy = -1 mult = @xvcv_mdlc_core_modifying_destiny_trait_cost }
+	add_resource = { alloys = -1 mult = @xvcv_mdlc_core_modifying_destiny_trait_cost }
+	change_variable = {
+		which = xvcv_mdlc_core_modifying_trait_points
+		value = -3
+	}
 	change_variable = { which = xvcv_mdlc_core_modifying_max_traits_number value = -1 }
 }
 xvcv_mdlc_core_modifying_trait_remove_alt_2_effect = {
@@ -180,6 +243,40 @@ xvcv_mdlc_core_modifying_trait_remove_alt_2_effect = {
 }
 xvcv_mdlc_core_modifying_trait_return_cost_alt_2_effect = {
 	optimize_memory
-	add_resource = { energy = 500 alloys = 500 }
+	add_resource = {
+		energy = @xvcv_mdlc_core_modifying_destiny_trait_refund
+		alloys = @xvcv_mdlc_core_modifying_destiny_trait_refund
+	}
 }
+
+# Check what traits are already on the ruler, and deduct from total available trait picks + points
+xvcv_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
+    optimize_memory
+	# count_traits is a script value from vanilla stellaris
+	set_variable = {
+		which = xvcv_mdlc_core_modifying_num_active_ruler_traits
+		value = value:count_traits
+	}
+	log = "The ruler has \\[This.xvcv_mdlc_core_modifying_num_active_ruler_traits] active traits."
+}
+
+# If a player leveled up to 10, don't let them pile on more traits (for now!)
+# Maybe the T1 and T2 techs can let a player surpass this
+# xvcv_mdlc_core_modifying_somethingsomething = {
+	# Look at where the player is with how many trait picks they used via core modifying GUI
+	# Then compare that with traits already on the leader
+	# However ... what if a player took a low-lvl leader and applied traits via core gui
+	# This leader will be able to lvl up with the bonus traits from the core gui
+	# And at level 10, have traits from lvling up and from the core modifying GUI
+	# If a leader is lv 3 with two traits, does that mean core gui can only add 2-3 more?
+	# How to distinguish between traits that were picked via lvl up,
+	# and traits which were added via core modifying GUI?
+	# In the end, all traits pickable via lvl-up will be removable with core gui
+	# Still the player is currently able to slap on more traits from another class
+	# Which is fun, and probably not balanced.
+	# So which is more important.. balance.. or fun?
+# }
+
+
 #and that ends here
+#or does it? (:
