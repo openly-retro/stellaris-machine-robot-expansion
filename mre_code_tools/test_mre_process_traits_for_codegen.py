@@ -62,11 +62,21 @@ def test_sorting_traits_for_which_feature__1():
     # To leader-making feature, or core modifying?
     test_data = [
         {
-            "leader_trait_adaptable": {
-                "trait_name": "leader_trait_adaptable",
-                "self_modifier": {  # Can go to both
-                    "species_leader_exp_gain": 0.1
-                }
+            "leader_trait_adaptable_2": {
+                "trait_name": "leader_trait_adaptable_2",
+                "leader_class": "commander",
+                "gfx": "GFX_leader_trait_adaptable",
+                "rarity": "common",
+                "self_modifier": {
+                    "species_leader_exp_gain": 0.2
+                },
+                "requires_paragon_dlc": False,
+                "is_councilor_trait": False
+            }
+        },
+        {
+            "trait_ruler_eye_for_talent_2": {
+                "trait_name": "trait_ruler_eye_for_talent_2"
             }
         },
         {
@@ -100,11 +110,16 @@ def test_sorting_traits_for_which_feature__1():
     expected = {
         "leader_making_traits": [
             {
-                "leader_trait_adaptable": {
-                    "trait_name": "leader_trait_adaptable",
+                "leader_trait_adaptable_2": {
+                    "trait_name": "leader_trait_adaptable_2",
+                    "leader_class": "commander",
+                    "gfx": "GFX_leader_trait_adaptable",
+                    "rarity": "common",
                     "self_modifier": {
-                        "species_leader_exp_gain": 0.1
-                    }
+                        "species_leader_exp_gain": 0.2
+                    },
+                    "requires_paragon_dlc": False,
+                    "is_councilor_trait": False
                 }
             },
             {
@@ -124,14 +139,6 @@ def test_sorting_traits_for_which_feature__1():
             }
         ],
         "core_modifying_traits": [
-            {
-                "leader_trait_adaptable": {
-                    "trait_name": "leader_trait_adaptable",
-                    "self_modifier": {
-                        "species_leader_exp_gain": 0.1
-                    }
-                }
-            },
             {
                 "leader_trait_armada_logistician": {
                     "trait_name": "leader_trait_armada_logistician",

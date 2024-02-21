@@ -169,8 +169,7 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
         slim_trait['custom_tooltip'] = root['custom_tooltip_with_modifiers']
     if root.get('triggered_councilor_modifier') or root.get('councilor_modifier'):
         slim_trait["is_councilor_trait"] = True
-    
-    
+
     return slim_trait
 
 def pick_correct_subclass_from_potential(leader_class, subclass_list):
@@ -227,7 +226,7 @@ def guess_rarity_from_trait_data(trait_root_data):
     return approximated_rarity
 
 
-def read_and_write_traits_data(infile, outfile, format="yaml"):
+def read_and_write_traits_data(infile, outfile, format):
     with open(infile, "r") as infile:
         # buffer = safe_load(infile.read())
         buffer = load_yaml(infile, Loader=Loader)

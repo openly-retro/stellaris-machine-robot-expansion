@@ -20,6 +20,7 @@ from mre_common_vars import (
     LEADER_SUBCLASSES_NAMES,
     EXCLUDE_SUBCLASSES_FROM_CORE_MODIFYING,
     MACHINE_LOCALISATIONS_MAPFILE,
+    EXCLUDE_TRAITS_FROM_CORE_MODIFYING,
 )
 
 RARITIES = ("common", "veteran", "paragon")
@@ -660,6 +661,8 @@ def iterate_traits_make_feature_button_effects_code(organized_traits_dict, for_c
                     required_subclass=root.get('required_subclass', None)
                 )
             elif feature == CORE_MODIFYING:
+                if EXCLUDE_TRAITS_FROM_CORE_MODIFYING.get(trait_name):
+                    continue
                 feature_button_effects_code = gen_core_modifying_button_effects_code(
                     leader_class=for_class,
                     trait_name=trait_name,
