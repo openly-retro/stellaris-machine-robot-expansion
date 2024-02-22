@@ -19,7 +19,7 @@ COLOR_CODES = {
 CLOSE_CODE = "§!"
 
 def make_color_text(color, some_text: str) -> str:
-    return f"{COLOR_CODES[color]}{some_text}{CLOSE_CODE}"
+    return f"\"{COLOR_CODES[color]}{some_text}{CLOSE_CODE}\""
 
 if __name__ == "__main__":
     # start_time = time.perf_counter()
