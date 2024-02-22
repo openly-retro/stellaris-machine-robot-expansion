@@ -1,7 +1,14 @@
 # Default amount of trait points
 @xvcv_mdlc_core_modifying_base_num_trait_points = 4
+# Values with T1 and T2 core modifying techs, respectively
+@xvcv_mdlc_core_modifying_base_num_trait_points_t1 = 5
+@xvcv_mdlc_core_modifying_base_num_trait_points_t2 = 6
+
 # Default number of trait picks
 @xvcv_mdlc_core_modifying_base_num_trait_picks = 3
+# Values with T1 and T2 core modifying techs, respectively
+@xvcv_mdlc_core_modifying_base_num_trait_picks_t1 = 4
+@xvcv_mdlc_core_modifying_base_num_trait_picks_t2 = 5
 
 # How many trait points does each tier of trait cost to apply to the ruler
 @xvcv_mdlc_core_modifying_common_trait_points_cost = 1
@@ -163,7 +170,7 @@ xvcv_mdlc_core_modifying_trait_remove_effect = {
 	}
 }
 
-#for veteran traits
+#VETERAN # Add/Remove points and picks
 xvcv_mdlc_core_modifying_trait_add_alt_effect = {
 	optimize_memory
 	# add_resource = { energy = -500 alloys = -500 }
@@ -172,11 +179,14 @@ xvcv_mdlc_core_modifying_trait_add_alt_effect = {
 	change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = -2 }
 	change_variable = { which = xvcv_mdlc_core_modifying_max_traits_number value = -1 }
 }
+
 xvcv_mdlc_core_modifying_trait_remove_alt_effect = {
 	optimize_memory
 	xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes
 	#xvcv_mdlc_core_modifying_trait_return_points_alt_effect
 	if = {
+		# Same as above, Refund trait points and picks up to a certain level
+		# Ex: with T2 of the core modifying improvement, refund up to 6 points
 		limit = {
 			OR = {
 				check_variable = { which = xvcv_mdlc_core_modifying_trait_points value > 6 }
@@ -204,7 +214,8 @@ xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = {
 		alloys = @xvcv_mdlc_core_modifying_veteran_trait_refund
 	}
 }
-#for destiny traits
+
+#DESTINY # Add/Remove points and picks
 xvcv_mdlc_core_modifying_trait_add_alt_2_effect = {
 	optimize_memory
 	# add_resource = { energy = -1000 alloys = -1000 }
@@ -223,21 +234,36 @@ xvcv_mdlc_core_modifying_trait_remove_alt_2_effect = {
 	if = {
 		limit = {
 			OR = {
-				check_variable = { which = xvcv_mdlc_core_modifying_trait_points value > 6 }
+				check_variable = {
+					which = xvcv_mdlc_core_modifying_trait_points
+					value > 6
+				}
 				AND = {
-					NOT = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 }
-					check_variable = { which = xvcv_mdlc_core_modifying_trait_points value > 5 }
+					NOT = {has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 }
+					check_variable = {
+						which = xvcv_mdlc_core_modifying_trait_points
+						value > 5
+					}
 				}
 				AND = {
 					NOT = { has_technology = xvcv_mdlc_tech_core_modifying_improvement }
-					check_variable = { which = xvcv_mdlc_core_modifying_trait_points value > 4 }
+					check_variable = {
+						which = xvcv_mdlc_core_modifying_trait_points
+						value > @xvcv_mdlc_core_modifying_base_num_trait_points
+					}
 				}
 			}
 		}
 		xvcv_mdlc_core_modifying_clear_trait_variables_effect = yes
 		else = {
-			change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = 3 }
-			change_variable = { which = xvcv_mdlc_core_modifying_max_traits_number value = 1 }
+			change_variable = {
+				which = xvcv_mdlc_core_modifying_trait_points
+				value = 3
+			}
+			change_variable = {
+				which = xvcv_mdlc_core_modifying_max_traits_number
+				value = 1
+			}
 		}
 	}
 }
@@ -259,24 +285,6 @@ xvcv_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 	}
 	log = "The ruler has \\[This.xvcv_mdlc_core_modifying_num_active_ruler_traits] active traits."
 }
-
-# If a player leveled up to 10, don't let them pile on more traits (for now!)
-# Maybe the T1 and T2 techs can let a player surpass this
-# xvcv_mdlc_core_modifying_somethingsomething = {
-	# Look at where the player is with how many trait picks they used via core modifying GUI
-	# Then compare that with traits already on the leader
-	# However ... what if a player took a low-lvl leader and applied traits via core gui
-	# This leader will be able to lvl up with the bonus traits from the core gui
-	# And at level 10, have traits from lvling up and from the core modifying GUI
-	# If a leader is lv 3 with two traits, does that mean core gui can only add 2-3 more?
-	# How to distinguish between traits that were picked via lvl up,
-	# and traits which were added via core modifying GUI?
-	# In the end, all traits pickable via lvl-up will be removable with core gui
-	# Still the player is currently able to slap on more traits from another class
-	# Which is fun, and probably not balanced.
-	# So which is more important.. balance.. or fun?
-# }
-
 
 #and that ends here
 #or does it? (:
