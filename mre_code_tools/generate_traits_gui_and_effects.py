@@ -853,7 +853,9 @@ def pipeline_make_core_modifying_list_traits_by_class():
                     trait_name = [*leader_trait][0]
                     root = leader_trait[trait_name]
                     if root.get('required_subclass'):
-                        subtraits_names[leader_class].append(trait_name)
+                        subtraits_names[leader_class].append(
+                            f"has_trait = {trait_name}"
+                        )
     outfile_name = "85_core_modifying_subclass_dependent_traits.txt"
     outfile_path = os.path.join(
         BUILD_FOLDER, outfile_name
