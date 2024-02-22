@@ -831,6 +831,44 @@ def pipeline_make_core_modifying_subclasses_gui_code():
     print(f"Wrote CORE MODIFYING SUBCLASSES GUI code to {build_path_target}")
     print("This needs to be copy/pasted into the core modifying gui file")
 
+def pipeline_make_core_modifying_list_traits_by_class():
+    """ Collect & list traits for a class which have subclass requirements
+        These are used to check in the core modifying gui
+        to prevent players from removing a subclass while depdendent traits are picked
+    """
+    subtraits_names = {
+        "commander": [],
+        "official": [],
+        "scientist": []
+    }
+    buffer = ''
+    for codegen_ready_file in INPUT_FILES_FOR_CODEGEN:
+        leader_class = codegen_ready_file.split('_')[2]
+        input_filepath = os.path.join(BUILD_FOLDER, codegen_ready_file)
+        with open(input_filepath, "r") as traits_json_file:
+            buffer = json_load(traits_json_file)
+        for rarity_level in RARITIES:
+            # iterate common, veteran, paragon
+                for leader_trait in buffer[f"core_modifying_traits"][rarity_level]:
+                    trait_name = [*leader_trait][0]
+                    root = leader_trait[trait_name]
+                    if root.get('required_subclass'):
+                        subtraits_names[leader_class].append(trait_name)
+    outfile_name = "85_core_modifying_subclass_dependent_traits.txt"
+    outfile_path = os.path.join(
+        BUILD_FOLDER, outfile_name
+    )
+    with open(outfile_path, "w") as outfile_object:
+        for ruler_class in LEADER_CLASSES:
+            a_blob_00 = f"""#{ruler_class} traits requiring subclasses:
+{"\n".join(sorted(subtraits_names[ruler_class]))}
+"""
+            outfile_object.write(a_blob_00)
+    print("I am so tired")
+    print(f"Look in {outfile_name}")
+
+
+
 ##################
 ### THE BIG ONE ##
 ##################
@@ -968,6 +1006,12 @@ if __name__ == "__main__":
         required=False
     )
     parser.add_argument(
+        '--core_ruler_subclass_traits',
+        help="Make a list of traits that require subclasses, for the core modifying GUI",
+        action="store_true",
+        required=False
+    )
+    parser.add_argument(
         '--process_all',
         help="The Big One. Generate M&RE tooltips, GUI code, button effects code, assuming all traits files were processed by mre_process_traits_for_codegen",
         action="store_true"
@@ -994,6 +1038,9 @@ if __name__ == "__main__":
         sys.exit()
     if args.core_subclasses_gui:
         pipeline_make_core_modifying_subclasses_gui_code()
+        sys.exit()
+    if args.core_ruler_subclass_traits:
+        pipeline_make_core_modifying_list_traits_by_class()
         sys.exit()
 
     buffer = ''
