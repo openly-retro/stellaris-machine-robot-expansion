@@ -208,6 +208,15 @@ EXCLUDE_TRAITS_FROM_CORE_MODIFYING = {
     "leader_trait_expertise_statecraft_3":1,
     "leader_trait_expertise_voidcraft_3":1,
 }
+
+# Some traits have tech prerequisites, which in turns means the trait
+# should not be pickable unless the player has that DLC, or tech
+TECH_PREREQUISITES = {
+    "tech_cloaking_1": "has_technology = tech_cloaking_1",
+    "tech_destroyers": "has_technology = tech_destroyers",
+    "tech_cruisers": "has_technology = tech_cruisers",
+    "tech_battleships": "has_technology = tech_battleships",
+}
 # Files created by sort_merge_traits_files
 PIPELINE_OUTPUT_FILES = [
     f"00_mre_{leader_class}_traits.json" for leader_class in LEADER_CLASSES

@@ -111,38 +111,55 @@ containerWindowType = {{
 def gen_leader_making_button_effects_code(
     leader_class, trait_name,
     is_veteran_trait=False, is_destiny_trait=False,
-    required_subclass=None
+    required_subclass: str='', prerequisites: list=[],
+    requires_paragon_dlc: bool=False  # Kluge to take advantage of 'requires_paragon_dlc' key
 ):
     # This can be used for each leader class
     # \common\button_effects\xvcv_mdlc_button_effects_leader_making_<LEADER_CLASS>_customgui.txt
-    needs_paragon_dlc = "yes" if is_veteran_trait or is_destiny_trait else "no"
     alt_trigger_name = ""
     if is_veteran_trait:
         alt_trigger_name = "alt_"
     if is_destiny_trait:
         alt_trigger_name = "alt_2_"
-    # Comment out the 'requires_leader_subclass_trigger` if it's not a veteran trait'
-    requires_subclass_trigger = "" if required_subclass else "#"
-    # commend out skill level trigger if it's not a veteran trait
-    requires_skill_lvl_trigger = "" if is_veteran_trait or is_destiny_trait else "#"
-    show_veteran_comment = f"#veteran trait" if is_veteran_trait else ''
+    vet_or_destiny_trait_comment = ''
+    if is_veteran_trait:
+        vet_or_destiny_trait_comment = "#veteran trait"
+    if is_destiny_trait:
+        vet_or_destiny_trait_comment = "#destiny trait"
     
     # Special cases ... I don't like doing these
-    requires_ancrel = ""
+    requires_ancrel = False
     if trait_name == "leader_trait_expertise_archaeostudies_3":
-        requires_ancrel = "\n        has_ancrel = yes\n"
+        requires_ancrel = True
+    allowances = []
+    allowances.append(
+        f"xvcv_mdlc_leader_making_trait_pick_trigger = {{ CLASS = {leader_class} ID = {trait_name} }}"
+    )
+    if required_subclass:
+        allowances.append(
+            f"xvcv_mdlc_leader_making_requires_leader_subclass_trigger = {{ CLASS = {leader_class} ID = {required_subclass} }}"
+        )
+    allowances.append(f"xvcv_mdlc_leader_making_trait_cost_{alt_trigger_name}trigger = yes")
+    allowances.append(f"xvcv_mdlc_leader_making_trait_points_{alt_trigger_name}trigger = yes")
+    if is_veteran_trait or is_destiny_trait:
+        allowances.append(f"xvcv_mdlc_leader_making_trait_skill_level_{alt_trigger_name}trigger = yes")
+    allowances.append("xvcv_mdlc_leader_making_trait_max_number_trigger = yes")
+    allowances.append(f"xvcv_mdlc_leader_making_picked_class_{leader_class}_trigger = yes")
+    if requires_ancrel:
+        allowances.append("has_ancrel = yes")
+    if requires_paragon_dlc:
+        allowances.append("has_paragon_dlc = yes")
+    # Assuming that prerequisites will always be tech *fingers crossed*
+    if len(prerequisites):
+        for tech in prerequisites:
+            allowances.append(f"has_technology = {tech}")
+
     return f"""
-#{leader_class} #{trait_name} {show_veteran_comment}
+#{leader_class} #{trait_name} {vet_or_destiny_trait_comment}
 xvcv_mdlc_leader_making_trait_{leader_class}_{trait_name}_add_button_effect = {{
     potential = {{ always = yes }}
     allow = {{
-        xvcv_mdlc_leader_making_trait_pick_trigger = {{ CLASS = {leader_class} ID = {trait_name} }}
-        {requires_subclass_trigger}xvcv_mdlc_leader_making_requires_leader_subclass_trigger = {{ CLASS = {leader_class} ID = {required_subclass} }}
-        xvcv_mdlc_leader_making_trait_cost_{alt_trigger_name}trigger = yes
-        xvcv_mdlc_leader_making_trait_points_{alt_trigger_name}trigger = yes
-        {requires_skill_lvl_trigger}xvcv_mdlc_leader_making_trait_skill_level_{alt_trigger_name}trigger = yes
-        xvcv_mdlc_leader_making_trait_max_number_trigger = yes
-        xvcv_mdlc_leader_making_picked_class_{leader_class}_trigger = yes{requires_ancrel}
+        {"\n        ".join(allowances)}
     }}
     effect = {{
         xvcv_mdlc_leader_making_trait_pick_effect = {{ CLASS = {leader_class} ID = {trait_name} }}
@@ -208,7 +225,8 @@ def iterate_traits_make_leadermaking_effects_code(organized_traits_dict, for_cla
                 trait_name=trait_name,
                 is_veteran_trait=(root.get('rarity')=="veteran"),
                 is_destiny_trait=(root.get('rarity')=="paragon"),
-                required_subclass=root.get('required_subclass', None)
+                required_subclass=root.get('required_subclass', None),
+                prerequisites=root.get('prerequisites', [])
             )
             leader_making_effects_copypaste_blob.append(leadermaking_effects_code_for_trait)
     return '\n'.join(leader_making_effects_copypaste_blob)
@@ -456,13 +474,7 @@ def gen_core_modifying_button_effects_code(
     # Comment out the 'requires_leader_subclass_trigger` if it's not a veteran trait'
     # requires_subclass_trigger = "" if is_veteran_trait or is_destiny_trait or required_subclass == "any" else "#"
     requires_subclass_trigger = "" if required_subclass is not None else "#"
-    # if requires_subclass_trigger and required_subclass is None:
-    #     breakpoint()
-    #     sys.exit(
-    #         f"There was a problem generating core-modifying button effects code.\n"
-    #         f"{trait_name} was expected to have a subclass, but it doesn't have a value assigned.\n"
-    #         "This means there was a problem earlier in the pipeline with 'trickle_up_subclass_requirements'."
-    #     )
+
     # commend out skill level trigger if it's not a veteran trait
     requires_skill_lvl_trigger = "" if is_veteran_trait or is_destiny_trait else "#"
     trait_class = "common"
@@ -658,7 +670,8 @@ def iterate_traits_make_feature_button_effects_code(organized_traits_dict, for_c
                     trait_name=trait_name,
                     is_veteran_trait=(root.get('rarity')=="veteran"),
                     is_destiny_trait=(root.get('rarity')=="paragon"),
-                    required_subclass=root.get('required_subclass', None)
+                    required_subclass=root.get('required_subclass', None),
+                    prerequisites=root.get('prerequisites', [])
                 )
             elif feature == CORE_MODIFYING:
                 if EXCLUDE_TRAITS_FROM_CORE_MODIFYING.get(trait_name):
