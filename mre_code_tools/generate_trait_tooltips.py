@@ -15,7 +15,8 @@ from mre_common_vars import (
     LEADER_MAKING, CORE_MODIFYING,
     TOOLTIP_LOOKUP_MAP,
     GARBAGE_MODIFIERS,
-    MACHINE_LOCALISATIONS_MAPFILE
+    MACHINE_LOCALISATIONS_MAPFILE,
+    SPECIAL_HELP_TEXT
 )
 
 logger = logging.getLogger(__name__)
@@ -231,17 +232,21 @@ def create_tooltip_for_leader(
                     )
         trait_bonuses = '\\n'.join(modifiers_list)
 
+    special_help_text = ''
+    if trait_extra_desc := SPECIAL_HELP_TEXT.get(trait_name):
+        special_text = make_brown_text(f"* Note: {trait_extra_desc}")
+        special_help_text = f"\\n{special_text}"
     compiled_tooltip = ''
     remove_trait_tooltip = ''
     if feature == LEADER_MAKING:
         compiled_tooltip = (
             f'{tooltip_base}_{tooltip_stem}_{leader_class}_{trait_name}:0 \"{trait_title}{trait_cost_tt}\\n'
-            f'{trait_bonuses}\\n{separator_ruler}\\n{trait_desc_brown_text}\"'
+            f'{trait_bonuses}\\n{separator_ruler}\\n{trait_desc_brown_text}{special_help_text}\"'
         )
     elif feature == CORE_MODIFYING:
         compiled_tooltip = (
             f'{tooltip_base}_{tooltip_stem}_add_{leader_class}_{trait_name}:0 \"{trait_title}{trait_cost_tt}\\n'
-            f'{trait_bonuses}\\n{separator_ruler}\\n{trait_desc_brown_text}\"'
+            f'{trait_bonuses}\\n{separator_ruler}\\n{trait_desc_brown_text}{special_help_text}\"'
         )
         trait_remove_cost_alt = ""
         if root.get("rarity", "") == "veteran":
@@ -252,7 +257,7 @@ def create_tooltip_for_leader(
         remove_trait_tooltip = (
             f'{tooltip_base}_{tooltip_stem}_remove_{leader_class}_{trait_name}:0 "'
             f'{make_red_text("Remove")} Trait: {trait_title}{trait_remove_cost_tt}\\n'
-            f'{trait_bonuses}\\n{separator_ruler}\\n{trait_desc_brown_text}\"'
+            f'{trait_bonuses}\\n{separator_ruler}\\n{trait_desc_brown_text}{special_help_text}\"'
         )
     tooltip_with_comment = 'MISSING!'
     if feature == LEADER_MAKING:

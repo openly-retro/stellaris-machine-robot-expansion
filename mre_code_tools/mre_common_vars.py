@@ -314,6 +314,12 @@ TRAITS_REQUIRING_DLC = {
     "leader_trait_explorer_cloaking_focus_3": "has_first_contact_dlc",
 }
 
+# The descriptions for some traits isn't obvious, like the trait which adds
+# +2 picks, some people thought it meant 2 more traits total
+SPECIAL_HELP_TEXT = {
+    "leader_trait_gifted_2": "This trait increases the number of trait pick options at level up. It does not raise the maximum number of traits that can be stacked on a leader."
+}
+
 DLC_REQUIREMENT_KEYS = {
     "has_overlord_dlc",
     "has_ancrel",
