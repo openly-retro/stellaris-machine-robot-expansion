@@ -7,24 +7,57 @@ xvcv_mdlc_civic_trading_machine_target_all_trade_value_calc_effect = {
 			clear_variable = xvcv_mdlc_target_$ID$_trade_value
 		}
 	}
+	# TODO: Add logic to find the system with the highest trade value
 	every_system_within_border = {
 		limit = { has_system_trade_value > 0 }
-		event_target:xvcv_mdlc_trading_machine_owner = { change_variable = { which = xvcv_mdlc_target_$ID$_trade_value value = prev.trigger:has_system_trade_value } }
+		event_target:xvcv_mdlc_trading_machine_owner = { 
+			change_variable = { 
+				which = xvcv_mdlc_target_$ID$_trade_value 
+				value = prev.trigger:has_system_trade_value 
+			} 
+		}
 	}
 	event_target:xvcv_mdlc_trading_machine_owner = {
-		divide_variable = { which = xvcv_mdlc_target_$ID$_trade_value value = 10 } #10% of the total trade value
-		if = { limit = { has_technology = xvcv_mdlc_tech_negotiation_algorithms } multiply_variable = { which = xvcv_mdlc_target_$ID$_trade_value value = 2 } } #20% of the total trade value, with the required tech
+		divide_variable = {
+			which = xvcv_mdlc_target_$ID$_trade_value value = 10
+		} #10% of the total trade value
+		if = {
+			limit = { has_technology = xvcv_mdlc_tech_negotiation_algorithms }
+			multiply_variable = {
+				which = xvcv_mdlc_target_$ID$_trade_value
+				value = 2
+			}
+			log = "TRADE: Player has negotiation tech, multiply trade value by 20%"
+		} #20% of the total trade value, with the required tech
 		round_variable = xvcv_mdlc_target_$ID$_trade_value #rounds the variable to the closest integer
+		log = "Trade value is calculated to be [xvcv_mdlc_target_$ID$_trade_value]"
 	}
 }
 xvcv_mdlc_civic_trading_machine_target_all_energy_income_calc_effect = {
+	# Calculate trade value from a gestalt empire's energy income (since they don't have trade)
 	optimize_memory
-	export_resource_income_to_variable = { resource = energy variable = xvcv_mdlc_energy_income_from_target_$ID$ }
+	export_resource_income_to_variable = {
+		resource = energy
+		variable = xvcv_mdlc_energy_income_from_target_$ID$
+	}
 	event_target:xvcv_mdlc_trading_machine_owner = {
 		#this will reset the previous value to new one
-		set_variable = { which = xvcv_mdlc_target_$ID$_energy_income value = prev.xvcv_mdlc_energy_income_from_target_$ID$ }
-		divide_variable = { which = xvcv_mdlc_target_$ID$_energy_income value = 10 }
-		if = { limit = { has_technology = xvcv_mdlc_tech_negotiation_algorithms } multiply_variable = { which = xvcv_mdlc_target_$ID$_energy_income value = 2 } }
+		set_variable = {
+			which = xvcv_mdlc_target_$ID$_energy_income
+			value = prev.xvcv_mdlc_energy_income_from_target_$ID$
+		}
+		divide_variable = {
+			which = xvcv_mdlc_target_$ID$_energy_income
+			value = 10
+		}
+		if = {
+			limit = {
+				has_technology = xvcv_mdlc_tech_negotiation_algorithms
+			}
+			multiply_variable = {
+				which = xvcv_mdlc_target_$ID$_energy_income value = 2
+			}
+		}
 		round_variable = xvcv_mdlc_target_$ID$_energy_income
 	}
 }
@@ -58,8 +91,16 @@ xvcv_mdlc_civic_trading_machine_trade_stop_effect = {
 				root = {
 					if = {
 						limit = { prev = { NOT = { has_ethic = ethic_gestalt_consciousness } } }
-						subtract_variable = { which = xvcv_mdlc_all_trade_value_from_trade value = xvcv_mdlc_target_$ID$_trade_value }
-						else = { subtract_variable = { which = xvcv_mdlc_all_energy_income_from_trade value = xvcv_mdlc_target_$ID$_energy_income } }
+						subtract_variable = {
+							which = xvcv_mdlc_all_trade_value_from_trade
+							value = xvcv_mdlc_target_$ID$_trade_value
+						}
+						else = {
+							subtract_variable = {
+								which = xvcv_mdlc_all_energy_income_from_trade
+								value = xvcv_mdlc_target_$ID$_energy_income
+							}
+						}
 					}
 					xvcv_mdlc_civic_trading_machine_resource_deposit_calc_effect = yes
 					remove_country_flag = xvcv_mdlc_civic_trading_machine_owner_country_@prevprev #unassign the fleet's id
@@ -84,18 +125,33 @@ xvcv_mdlc_civic_trading_machine_all_trade_value_or_energy_income_from_trade_calc
 	optimize_memory
 	if = {
 		limit = { NOT = { has_ethic = ethic_gestalt_consciousness } }
-		event_target:xvcv_mdlc_trading_machine_owner = { set_variable = { which = xvcv_mdlc_target_$ID$_trade_value_old value = xvcv_mdlc_target_$ID$_trade_value } }
+		event_target:xvcv_mdlc_trading_machine_owner = { 
+			set_variable = { 
+				which = xvcv_mdlc_target_$ID$_trade_value_old 
+				value = xvcv_mdlc_target_$ID$_trade_value 
+			}
+		}
 		xvcv_mdlc_civic_trading_machine_target_all_trade_value_calc_effect = { ID = $ID$ }
 		event_target:xvcv_mdlc_trading_machine_owner = {
-			change_variable = { which = xvcv_mdlc_all_trade_value_from_trade value = xvcv_mdlc_target_$ID$_trade_value }
+			change_variable = { 
+				which = xvcv_mdlc_all_trade_value_from_trade
+				value = xvcv_mdlc_target_$ID$_trade_value
+			}
 			if = {
 				limit = { NOT = { has_country_flag = xvcv_mdlc_target_$ID$_trade_value_added_to_all_trade_value } }
 				set_country_flag = xvcv_mdlc_target_$ID$_trade_value_added_to_all_trade_value
-				else = { subtract_variable = { which = xvcv_mdlc_all_trade_value_from_trade value = xvcv_mdlc_target_$ID$_trade_value_old } }
+				else = { subtract_variable = {
+					which = xvcv_mdlc_all_trade_value_from_trade
+					value = xvcv_mdlc_target_$ID$_trade_value_old
+				}
+			}
 			}
 		}
 		else = {
-			event_target:xvcv_mdlc_trading_machine_owner = { set_variable = { which = xvcv_mdlc_target_$ID$_energy_income_old value = xvcv_mdlc_target_$ID$_energy_income } }
+			event_target:xvcv_mdlc_trading_machine_owner = {
+				set_variable = {
+					which = xvcv_mdlc_target_$ID$_energy_income_old
+					value = xvcv_mdlc_target_$ID$_energy_income } }
 			xvcv_mdlc_civic_trading_machine_target_all_energy_income_calc_effect = { ID = $ID$ }
 			event_target:xvcv_mdlc_trading_machine_owner = {
 				change_variable = { which = xvcv_mdlc_all_energy_income_from_trade value = xvcv_mdlc_target_$ID$_energy_income }
@@ -118,7 +174,7 @@ xvcv_mdlc_civic_trading_machine_resource_deposit_clear_effect = {
 		every_deposit = { limit = { is_deposit_type = xvcv_mdlc_d_civic_trading_machine_influence } remove_deposit = yes }
 		every_deposit = { limit = { is_deposit_type = xvcv_mdlc_d_civic_trading_machine_unity } remove_deposit = yes }
 		every_deposit = { limit = { is_deposit_type = xvcv_mdlc_d_civic_trading_machine_rares } remove_deposit = yes }
-		every_deposit = { limit = { is_deposit_type = xvcv_mdlc_d_civic_trading_machine_energy_alt } remove_deposit = yes }
+		# every_deposit = { limit = { is_deposit_type = xvcv_mdlc_d_civic_trading_machine_energy_alt } remove_deposit = yes }
 	}
 }
 xvcv_mdlc_civic_trading_machine_resource_deposit_calc_effect = {
@@ -126,12 +182,63 @@ xvcv_mdlc_civic_trading_machine_resource_deposit_calc_effect = {
 	xvcv_mdlc_civic_trading_machine_resource_deposit_clear_effect = yes
 	switch = {
 		trigger = has_policy_flag
-		xvcv_mdlc_civic_trading_machine_trade_energy = { while = { count = xvcv_mdlc_all_trade_value_from_trade capital_scope = { add_deposit = xvcv_mdlc_d_civic_trading_machine_energy } } }
-		xvcv_mdlc_civic_trading_machine_trade_minerals = { while = { count = xvcv_mdlc_all_trade_value_from_trade capital_scope = { add_deposit = xvcv_mdlc_d_civic_trading_machine_minerals } } }
-		xvcv_mdlc_civic_trading_machine_trade_alloys = { while = { count = xvcv_mdlc_all_trade_value_from_trade capital_scope = { add_deposit = xvcv_mdlc_d_civic_trading_machine_alloys } } }
-		xvcv_mdlc_civic_trading_machine_trade_influence = { while = { count = xvcv_mdlc_all_trade_value_from_trade capital_scope = { add_deposit = xvcv_mdlc_d_civic_trading_machine_influence } } }
-		xvcv_mdlc_civic_trading_machine_trade_unity = { while = { count = xvcv_mdlc_all_trade_value_from_trade capital_scope = { add_deposit = xvcv_mdlc_d_civic_trading_machine_unity } } }
-		xvcv_mdlc_civic_trading_machine_trade_rares = { while = { count = xvcv_mdlc_all_trade_value_from_trade capital_scope = { add_deposit = xvcv_mdlc_d_civic_trading_machine_rares } } }			
+		xvcv_mdlc_civic_trading_machine_trade_energy = {
+			while = {
+				count = xvcv_mdlc_all_trade_value_from_trade
+				capital_scope = {
+					add_deposit = xvcv_mdlc_d_civic_trading_machine_energy
+				}
+			}
+			log = "Trade calculated adding \\[This.xvcv_mdlc_all_trade_value_from_trade] energy deposits."
+		}
+		xvcv_mdlc_civic_trading_machine_trade_minerals = {
+			while = {
+				count = xvcv_mdlc_all_trade_value_from_trade
+				capital_scope = {
+					add_deposit = xvcv_mdlc_d_civic_trading_machine_minerals
+				}
+			}
+		}
+		xvcv_mdlc_civic_trading_machine_trade_alloys = {
+			while = {
+				count = xvcv_mdlc_all_trade_value_from_trade
+				capital_scope = {
+					add_deposit = xvcv_mdlc_d_civic_trading_machine_alloys
+				}
+			}
+		}
+		xvcv_mdlc_civic_trading_machine_trade_influence = {
+			while = {
+				count = xvcv_mdlc_all_trade_value_from_trade
+				capital_scope = {
+					add_deposit = xvcv_mdlc_d_civic_trading_machine_influence
+				}
+			}
+		}
+		xvcv_mdlc_civic_trading_machine_trade_unity = {
+			while = {
+				count = xvcv_mdlc_all_trade_value_from_trade
+				capital_scope = {
+					add_deposit = xvcv_mdlc_d_civic_trading_machine_unity
+				}
+			}
+		}
+		xvcv_mdlc_civic_trading_machine_trade_rares = {
+			while = {
+				count = xvcv_mdlc_all_trade_value_from_trade
+				capital_scope = {
+					add_deposit = xvcv_mdlc_d_civic_trading_machine_rares
+				}
+			}
+		}			
 	}
-	while = { count = xvcv_mdlc_all_energy_income_from_trade capital_scope = { add_deposit = xvcv_mdlc_d_civic_trading_machine_energy_alt } }
+	# How is this calculated and why is it being added?
+	# And why is it outside the other loops? this policy 'xvcv_mdlc_d_civic_trading_machine_energy_alt' isn't defined anywhere
+	# Seems to be giving bonus income
+	# while = {
+	# 	count = xvcv_mdlc_all_energy_income_from_trade
+	# 	capital_scope = {
+	# 		add_deposit = xvcv_mdlc_d_civic_trading_machine_energy_alt
+	# 	}
+	# }
 }
