@@ -315,6 +315,10 @@ HIDDEN_DLC_REQUIREMENTS = {
     "mod_ship_friendly_territory_fire_rate_mult": "Overlord",
     "mod_ship_friendly_territory_shield_add": "Overlord",
 }
+# Can make special cases this way
+TRAITS_REQUIRING_DLC = {
+    "leader_trait_expertise_archaeostudies_3": "has_ancrel",
+}
 
 DLC_REQUIREMENT_KEYS = {
     "has_overlord_dlc",

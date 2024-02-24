@@ -21,6 +21,7 @@ from mre_common_vars import (
     EXCLUDE_SUBCLASSES_FROM_CORE_MODIFYING,
     MACHINE_LOCALISATIONS_MAPFILE,
     EXCLUDE_TRAITS_FROM_CORE_MODIFYING,
+    TRAITS_REQUIRING_DLC,
 )
 
 RARITIES = ("common", "veteran", "paragon")
@@ -127,10 +128,6 @@ def gen_leader_making_button_effects_code(
     if is_destiny_trait:
         vet_or_destiny_trait_comment = "#destiny trait"
     
-    # Special cases ... I don't like doing these
-    requires_ancrel = False
-    if trait_name == "leader_trait_expertise_archaeostudies_3":
-        requires_ancrel = True
     allowances = []
     allowances.append(
         f"xvcv_mdlc_leader_making_trait_pick_trigger = {{ CLASS = {leader_class} ID = {trait_name} }}"
@@ -145,14 +142,15 @@ def gen_leader_making_button_effects_code(
         allowances.append(f"xvcv_mdlc_leader_making_trait_skill_level_{alt_trigger_name}trigger = yes")
     allowances.append("xvcv_mdlc_leader_making_trait_max_number_trigger = yes")
     allowances.append(f"xvcv_mdlc_leader_making_picked_class_{leader_class}_trigger = yes")
-    if requires_ancrel:
-        allowances.append("has_ancrel = yes")
     if requires_paragon_dlc:
         allowances.append("has_paragon_dlc = yes")
     # Assuming that prerequisites will always be tech *fingers crossed*
     if len(prerequisites):
         for tech in prerequisites:
             allowances.append(f"has_technology = {tech}")
+    # Get fancy about picking up DLC requirements per trait ^^
+    if dlc_dependecy := TRAITS_REQUIRING_DLC.get(trait_name):
+        allowances.append(f"{dlc_dependecy} = yes")
 
     return f"""
 #{leader_class} #{trait_name} {vet_or_destiny_trait_comment}
@@ -451,16 +449,15 @@ containerWindowType = {{
 """
 
 def gen_core_modifying_button_effects_code(
-    leader_class, trait_name, needs_paragon_dlc=False, 
+    leader_class, trait_name,
     is_veteran_trait=False, is_destiny_trait=False,
-    required_subclass=None
+    required_subclass: str='', prerequisites: list = [],
+    requires_paragon_dlc: bool=False
 ):
     # This needs to generate two effects: add, and remove
     # xvcv_mdls_button_effects_core_modifying_traits_<LEADER_CLASS>_customgui.txt
-    has_paragon_dlc_answer = "yes" if needs_paragon_dlc else "no"
-    comment_out_paragon_dlc = "" if needs_paragon_dlc else "#"
     trait_ends_in_num = trait_name[-1].isdigit()
-    needs_remove_tier_num_trait_effect = "" if trait_ends_in_num else "#"
+    needs_remove_tier_num_trait_effect = True if trait_ends_in_num else False
     if trait_ends_in_num:
         trait_name_no_tier = trait_name.rsplit('_',1)[0]
     else:
@@ -471,12 +468,8 @@ def gen_core_modifying_button_effects_code(
         alt_trigger_name = "alt_"
     elif is_destiny_trait:
         alt_trigger_name = "alt_2_"
-    # Comment out the 'requires_leader_subclass_trigger` if it's not a veteran trait'
-    # requires_subclass_trigger = "" if is_veteran_trait or is_destiny_trait or required_subclass == "any" else "#"
-    requires_subclass_trigger = "" if required_subclass is not None else "#"
 
     # commend out skill level trigger if it's not a veteran trait
-    requires_skill_lvl_trigger = "" if is_veteran_trait or is_destiny_trait else "#"
     trait_class = "common"
     if is_veteran_trait:
         trait_class = "veteran"
@@ -484,10 +477,41 @@ def gen_core_modifying_button_effects_code(
         trait_class = "destiny"
     trait_comment = f"#{trait_class} trait"
 
-    # Special cases ... I don't like doing these
-    requires_ancrel = ""
-    if trait_name == "leader_trait_expertise_archaeostudies_3":
-        requires_ancrel = "\n        has_ancrel = yes"
+    allowances = []
+    allowances.append(f"custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_{leader_class}_{trait_name}")
+    if required_subclass:
+        allowances.append(
+            "xvcv_mdlc_core_modifying_requires_ruler_subclass_or_focus_trigger = "
+            f"{{ CLASS = {leader_class} ID = {required_subclass} }}"
+        )
+    allowances.append(f"xvcv_mdlc_core_modifying_trait_cost_{alt_trigger_name}trigger = yes")
+    allowances.append(f"xvcv_mdlc_core_modifying_trait_points_{alt_trigger_name}trigger = yes")
+    # requires skill level trigger
+    if is_veteran_trait or is_destiny_trait:
+        allowances.append(f"xvcv_mdlc_core_modifying_trait_skill_level_{alt_trigger_name}trigger = yes")
+    allowances.append("xvcv_mdlc_core_modifying_trait_max_number_trigger = yes")
+    if requires_paragon_dlc:
+        allowances.append("has_paragon_dlc = yes")
+    # Get fancy about picking up DLC requirements per trait
+    if dlc_dependecy := TRAITS_REQUIRING_DLC.get(trait_name):
+        allowances.append(f"{dlc_dependecy} = yes")
+    # Assuming that prerequisites will always be tech *fingers crossed*
+    if len(prerequisites):
+        for tech in prerequisites:
+            allowances.append(f"has_technology = {tech}")
+
+    effects = []
+    if needs_remove_tier_num_trait_effect:
+        effects.append(
+            f"xvcv_mdlc_core_modifying_remove_tier_1_or_2_traits_effect = {{ ID = {trait_name_no_tier} }}"
+        )
+    effects.append(
+        f"xvcv_mdlc_core_modifying_trait_pick_effect = {{ CLASS = {leader_class} ID = {trait_name} }}"
+    )
+    effects.append(
+        f"hidden_effect = {{ xvcv_mdlc_core_modifying_trait_add_{alt_trigger_name}effect = yes }}"
+    )
+
     return f"""
 #{trait_name} {trait_comment}
 xvcv_mdlc_core_modifying_traits_{leader_class}_{trait_name}_add_button_effect = {{
@@ -495,18 +519,10 @@ xvcv_mdlc_core_modifying_traits_{leader_class}_{trait_name}_add_button_effect = 
         ruler = {{ NOT = {{ has_trait = {trait_name} }} }}
     }}
     allow = {{
-        custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_{leader_class}_{trait_name}
-        {requires_subclass_trigger}xvcv_mdlc_core_modifying_requires_ruler_subclass_or_focus_trigger = {{ CLASS = {leader_class} ID = {required_subclass} }}
-        xvcv_mdlc_core_modifying_trait_cost_{alt_trigger_name}trigger = yes
-        xvcv_mdlc_core_modifying_trait_points_{alt_trigger_name}trigger = yes
-        {requires_skill_lvl_trigger}xvcv_mdlc_core_modifying_trait_skill_level_{alt_trigger_name}trigger = yes
-        xvcv_mdlc_core_modifying_trait_max_number_trigger = yes
-        {comment_out_paragon_dlc}has_paragon_dlc = {has_paragon_dlc_answer}{requires_ancrel}
+        {"\n        ".join(allowances)}
     }}
     effect = {{
-        {needs_remove_tier_num_trait_effect}xvcv_mdlc_core_modifying_remove_tier_1_or_2_traits_effect = {{ ID = {trait_name_no_tier} }}
-        xvcv_mdlc_core_modifying_trait_pick_effect = {{ CLASS = {leader_class} ID = {trait_name} }}
-        hidden_effect = {{ xvcv_mdlc_core_modifying_trait_add_{alt_trigger_name}effect = yes }}
+        {"\n        ".join(effects)}
     }}
 }}
 xvcv_mdlc_core_modifying_traits_{leader_class}_{trait_name}_remove_button_effect = {{
