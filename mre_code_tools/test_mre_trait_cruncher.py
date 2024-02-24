@@ -731,3 +731,40 @@ def test_filter_trait_identify_is_ruler_allowance():
     }
     actual = filter_trait_info(test_data, for_class="scientist")
     assert expected == actual
+
+def test_collect_trait_prerequisites():
+    test_data = {
+        "leader_trait_explorer_cloaking_focus_3": {
+            "veteran_class_locked_trait": True,
+            "replace_traits": "leader_trait_explorer_cloaking_focus_2",
+            "inline_script": {
+                "script": "trait/icon",
+                "CLASS": "scientist",
+                "ICON": "GFX_leader_trait_explorer_cloaking_focus",
+                "RARITY": "veteran",
+                "COUNCIL": False,
+                "TIER": 3,
+            },
+            "modifier": {
+                "ship_cloaking_strength_add": 2
+            },
+            "custom_tooltip_with_modifiers": "leader_trait_explorer_cloaking_focus_3_tt",
+            "prerequisites": "tech_cloaking_1",
+            "leader_class": [ "scientist" ]
+        }
+    }
+    expected = {
+            "trait_name": "leader_trait_explorer_cloaking_focus_3",
+            "gfx": "GFX_leader_trait_explorer_cloaking_focus",
+            "leader_class": "scientist",
+            "rarity": "veteran",
+            "requires_paragon_dlc": False,
+            "modifier": {
+                "ship_cloaking_strength_add": 2
+            },
+            "prerequisites": [ "tech_cloaking_1" ],
+            "custom_tooltip": "leader_trait_explorer_cloaking_focus_3_tt",
+
+    }
+    actual = filter_trait_info(test_data, for_class="scientist")
+    assert expected == actual

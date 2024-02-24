@@ -169,7 +169,11 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
         slim_trait['custom_tooltip'] = root['custom_tooltip_with_modifiers']
     if root.get('triggered_councilor_modifier') or root.get('councilor_modifier'):
         slim_trait["is_councilor_trait"] = True
-
+    
+    # Collect prerequisites in order to determine certain DLC requirements
+    if root.get('prerequisites'):
+        # Simple convert to list, also captures just 1 string
+        slim_trait['prerequisites'] = root['prerequisites'].split(' ')
     return slim_trait
 
 def pick_correct_subclass_from_potential(leader_class, subclass_list):
