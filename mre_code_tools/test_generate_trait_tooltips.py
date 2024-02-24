@@ -190,7 +190,6 @@ def test_detect_modifier_permutation__adventurous_spirit_3(make_uppercase_mappin
                 "species_leader_exp_gain": 0.1
             },
             "requires_paragon_dlc": False,
-            "custom_tooltip": "leader_trait_adventurous_spirit_effect"
         }
     }
 
@@ -216,7 +215,6 @@ def test_core_modifying_tooltip__adventurous_spirit_3(make_uppercase_mapping_fil
                 "species_leader_exp_gain": 0.1
             },
             "requires_paragon_dlc": False,
-            "custom_tooltip": "leader_trait_adventurous_spirit_effect"
         }
     }
 
@@ -334,6 +332,33 @@ def test_find_trait_with_machine_variant_tooltip(make_uppercase_mapping_files):
   #core_modifying #scientist #leader_trait_overseer_3
   xvcv_mdlc_core_modifying_tooltip_add_scientist_leader_trait_overseer_3:0 "§H$leader_trait_overseer_machine$ III§!$add_xvcv_mdlc_core_modifying_traits_costs_desc_alt$\\n$councilor_trait$\\n$t$$MOD_MONTHLY_LOYALTY_GAIN_FROM_SUBJECTS$: §G+50%§!\\n--------------\\n§L$leader_trait_overseer_machine_desc$§!"
   xvcv_mdlc_core_modifying_tooltip_remove_scientist_leader_trait_overseer_3:0 "§RRemove§! Trait: §H$leader_trait_overseer_machine$ III§!$remove_xvcv_mdlc_core_modifying_traits_costs_desc_alt$\\n$councilor_trait$\\n$t$$MOD_MONTHLY_LOYALTY_GAIN_FROM_SUBJECTS$: §G+50%§!\\n--------------\\n§L$leader_trait_overseer_machine_desc$§!"
+"""
+    actual = create_tooltip_for_leader(
+        test_data, leader_class="scientist", feature="core_modifying",
+        uppercase_map_files=make_uppercase_mapping_files,
+        machine_localisations_map=traits_with_machine_desc
+    )
+    assert expected == actual
+
+def test_use_custom_tt_replacement_string(make_uppercase_mapping_files):
+    traits_with_machine_desc = {
+        "leader_trait_overseer": 1,
+    }
+    test_data = {
+        "leader_trait_prospector_3": {
+            "trait_name": "leader_trait_prospector_3",
+            "leader_class": "scientist",
+            "gfx": "GFX_leader_trait_prospector",
+            "rarity": "veteran",
+            "requires_paragon_dlc": False,
+            "custom_tooltip": "leader_trait_prospector_3_effect",
+            "required_subclass": "subclass_scientist_explorer"
+        }
+    }
+    expected = """
+  #core_modifying #scientist #leader_trait_prospector_3
+  xvcv_mdlc_core_modifying_tooltip_add_scientist_leader_trait_prospector_3:0 "§H$leader_trait_prospector$ III§!$add_xvcv_mdlc_core_modifying_traits_costs_desc_alt$\\n$leader_trait_prospector_3_effect$\\n--------------\\n§L$leader_trait_prospector_desc$§!"
+  xvcv_mdlc_core_modifying_tooltip_remove_scientist_leader_trait_prospector_3:0 "§RRemove§! Trait: §H$leader_trait_prospector$ III§!$remove_xvcv_mdlc_core_modifying_traits_costs_desc_alt$\\n$leader_trait_prospector_3_effect$\\n--------------\\n§L$leader_trait_prospector_desc$§!"
 """
     actual = create_tooltip_for_leader(
         test_data, leader_class="scientist", feature="core_modifying",

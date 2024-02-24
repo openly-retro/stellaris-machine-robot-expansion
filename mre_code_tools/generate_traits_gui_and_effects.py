@@ -697,7 +697,8 @@ def iterate_traits_make_feature_button_effects_code(organized_traits_dict, for_c
                     trait_name=trait_name,
                     is_veteran_trait=(root.get('rarity')=="veteran"),
                     is_destiny_trait=(root.get('rarity')=="paragon"),
-                    required_subclass=root.get('required_subclass', None)
+                    required_subclass=root.get('required_subclass', None),
+                    prerequisites=root.get('prerequisites', [])
                 )
                 
             leader_trait_button_effects_copypaste_blob.append(feature_button_effects_code)
