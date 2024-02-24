@@ -186,6 +186,29 @@ EXCLUDE_SUBCLASSES_FROM_CORE_MODIFYING = {
     "subclass_commander_governor": 1,
     "subclass_commander_admiral": 1,
 }
+
+# The game won't let us add these traits to the ruler. I even tried using console commands.
+# All of the expertise traits don't have any effect when applied to a ruler.
+EXCLUDE_TRAITS_FROM_CORE_MODIFYING = {
+    "leader_trait_adaptable_2":1,
+    "trait_ruler_eye_for_talent_2":1,
+    "leader_trait_resilient_2":1,
+    "leader_trait_gifted_2":1,
+    "leader_trait_expertise_archaeostudies_3":1,
+    "leader_trait_expertise_biology_3":1,
+    "leader_trait_expertise_computing_3":1,
+    "leader_trait_expertise_field_manipulation_3":1,
+    "leader_trait_expertise_industry_3":1,
+    "leader_trait_expertise_materials_3":1,
+    "leader_trait_expertise_military_theory_3":1,
+    "leader_trait_expertise_new_worlds_3":1,
+    "leader_trait_expertise_particles_3":1,
+    "leader_trait_expertise_propulsion_3":1,
+    "leader_trait_expertise_psionics_3":1,
+    "leader_trait_expertise_statecraft_3":1,
+    "leader_trait_expertise_voidcraft_3":1,
+}
+
 # Files created by sort_merge_traits_files
 PIPELINE_OUTPUT_FILES = [
     f"00_mre_{leader_class}_traits.json" for leader_class in LEADER_CLASSES
@@ -283,6 +306,18 @@ HIDDEN_DLC_REQUIREMENTS = {
     "mod_ship_friendly_territory_evasion_mult": "Overlord",
     "mod_ship_friendly_territory_fire_rate_mult": "Overlord",
     "mod_ship_friendly_territory_shield_add": "Overlord",
+}
+# Can make special cases this way
+TRAITS_REQUIRING_DLC = {
+    "leader_trait_expertise_archaeostudies_3": "has_ancrel",
+    "leader_trait_archaeo_specialization_3": "has_ancrel",
+    "leader_trait_explorer_cloaking_focus_3": "has_first_contact_dlc",
+}
+
+# The descriptions for some traits isn't obvious, like the trait which adds
+# +2 picks, some people thought it meant 2 more traits total
+SPECIAL_HELP_TEXT = {
+    "leader_trait_gifted_2": "This trait increases the number of trait pick options at level up. It does not raise the maximum number of traits that can be stacked on a leader."
 }
 
 DLC_REQUIREMENT_KEYS = {

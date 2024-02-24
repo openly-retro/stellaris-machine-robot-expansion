@@ -32,6 +32,7 @@ from mre_common_vars import (
     SKIP_TRAIT_FOR_SUBCLASS_LIST,
     TRAIT_MODIFIER_KEYS,
     TRAITS_TO_EXCLUDE,
+    EXCLUDE_TRAITS_FROM_CORE_MODIFYING,
 )
 
 MODIFIER_VALUES_SUBSTITUTIONS = {
@@ -86,6 +87,7 @@ def trait_qualifies_for_core_modifying(trait_dict: dict) -> bool:
             trait_dict.get('councilor_modifier'),
             trait_dict.get('triggered_councilor_modifier'),
             trait_dict.get('allow_for_ruler'),
+            trait_dict.get('is_councilor_trait'),
         ]
     ):
         is_core_modifying_trait = True
@@ -145,7 +147,10 @@ def filter_traits_by_mod_feature(traits_list: list) -> dict:
             continue
         root = trait[trait_name]
         if trait_qualifies_for_core_modifying(root):
-            core_modifying_traits.append(trait)
+            if EXCLUDE_TRAITS_FROM_CORE_MODIFYING.get(trait_name):
+                print(f"Skipped adding {trait_name} to the core-modifying traits because the game wont let us add it. :(")
+            else:
+                core_modifying_traits.append(trait)
         if trait_qualifies_for_leader_making(root):
             leader_making_traits.append(trait)
         if not trait_qualifies_for_core_modifying and not trait_qualifies_for_leader_making:

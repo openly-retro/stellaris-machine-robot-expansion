@@ -20,6 +20,8 @@ from mre_common_vars import (
     LEADER_SUBCLASSES_NAMES,
     EXCLUDE_SUBCLASSES_FROM_CORE_MODIFYING,
     MACHINE_LOCALISATIONS_MAPFILE,
+    EXCLUDE_TRAITS_FROM_CORE_MODIFYING,
+    TRAITS_REQUIRING_DLC,
 )
 
 RARITIES = ("common", "veteran", "paragon")
@@ -110,38 +112,52 @@ containerWindowType = {{
 def gen_leader_making_button_effects_code(
     leader_class, trait_name,
     is_veteran_trait=False, is_destiny_trait=False,
-    required_subclass=None
+    required_subclass: str='', prerequisites: list=[],
+    requires_paragon_dlc: bool=False  # Kluge to take advantage of 'requires_paragon_dlc' key
 ):
     # This can be used for each leader class
     # \common\button_effects\xvcv_mdlc_button_effects_leader_making_<LEADER_CLASS>_customgui.txt
-    needs_paragon_dlc = "yes" if is_veteran_trait or is_destiny_trait else "no"
     alt_trigger_name = ""
     if is_veteran_trait:
         alt_trigger_name = "alt_"
     if is_destiny_trait:
         alt_trigger_name = "alt_2_"
-    # Comment out the 'requires_leader_subclass_trigger` if it's not a veteran trait'
-    requires_subclass_trigger = "" if required_subclass else "#"
-    # commend out skill level trigger if it's not a veteran trait
-    requires_skill_lvl_trigger = "" if is_veteran_trait or is_destiny_trait else "#"
-    show_veteran_comment = f"#veteran trait" if is_veteran_trait else ''
+    vet_or_destiny_trait_comment = ''
+    if is_veteran_trait:
+        vet_or_destiny_trait_comment = "#veteran trait"
+    if is_destiny_trait:
+        vet_or_destiny_trait_comment = "#destiny trait"
     
-    # Special cases ... I don't like doing these
-    requires_ancrel = ""
-    if trait_name == "leader_trait_expertise_archaeostudies_3":
-        requires_ancrel = "\n        has_ancrel = yes\n"
+    allowances = []
+    allowances.append(
+        f"xvcv_mdlc_leader_making_trait_pick_trigger = {{ CLASS = {leader_class} ID = {trait_name} }}"
+    )
+    if required_subclass:
+        allowances.append(
+            f"xvcv_mdlc_leader_making_requires_leader_subclass_trigger = {{ CLASS = {leader_class} ID = {required_subclass} }}"
+        )
+    allowances.append(f"xvcv_mdlc_leader_making_trait_cost_{alt_trigger_name}trigger = yes")
+    allowances.append(f"xvcv_mdlc_leader_making_trait_points_{alt_trigger_name}trigger = yes")
+    if is_veteran_trait or is_destiny_trait:
+        allowances.append(f"xvcv_mdlc_leader_making_trait_skill_level_{alt_trigger_name}trigger = yes")
+    allowances.append("xvcv_mdlc_leader_making_trait_max_number_trigger = yes")
+    allowances.append(f"xvcv_mdlc_leader_making_picked_class_{leader_class}_trigger = yes")
+    if requires_paragon_dlc:
+        allowances.append("has_paragon_dlc = yes")
+    # Assuming that prerequisites will always be tech *fingers crossed*
+    if len(prerequisites):
+        for tech in prerequisites:
+            allowances.append(f"has_technology = {tech}")
+    # Get fancy about picking up DLC requirements per trait ^^
+    if dlc_dependecy := TRAITS_REQUIRING_DLC.get(trait_name):
+        allowances.append(f"{dlc_dependecy} = yes")
+
     return f"""
-#{leader_class} #{trait_name} {show_veteran_comment}
+#{leader_class} #{trait_name} {vet_or_destiny_trait_comment}
 xvcv_mdlc_leader_making_trait_{leader_class}_{trait_name}_add_button_effect = {{
     potential = {{ always = yes }}
     allow = {{
-        xvcv_mdlc_leader_making_trait_pick_trigger = {{ CLASS = {leader_class} ID = {trait_name} }}
-        {requires_subclass_trigger}xvcv_mdlc_leader_making_requires_leader_subclass_trigger = {{ CLASS = {leader_class} ID = {required_subclass} }}
-        xvcv_mdlc_leader_making_trait_cost_{alt_trigger_name}trigger = yes
-        xvcv_mdlc_leader_making_trait_points_{alt_trigger_name}trigger = yes
-        {requires_skill_lvl_trigger}xvcv_mdlc_leader_making_trait_skill_level_{alt_trigger_name}trigger = yes
-        xvcv_mdlc_leader_making_trait_max_number_trigger = yes
-        xvcv_mdlc_leader_making_picked_class_{leader_class}_trigger = yes{requires_ancrel}
+        {"\n        ".join(allowances)}
     }}
     effect = {{
         xvcv_mdlc_leader_making_trait_pick_effect = {{ CLASS = {leader_class} ID = {trait_name} }}
@@ -207,7 +223,8 @@ def iterate_traits_make_leadermaking_effects_code(organized_traits_dict, for_cla
                 trait_name=trait_name,
                 is_veteran_trait=(root.get('rarity')=="veteran"),
                 is_destiny_trait=(root.get('rarity')=="paragon"),
-                required_subclass=root.get('required_subclass', None)
+                required_subclass=root.get('required_subclass', None),
+                prerequisites=root.get('prerequisites', [])
             )
             leader_making_effects_copypaste_blob.append(leadermaking_effects_code_for_trait)
     return '\n'.join(leader_making_effects_copypaste_blob)
@@ -432,16 +449,15 @@ containerWindowType = {{
 """
 
 def gen_core_modifying_button_effects_code(
-    leader_class, trait_name, needs_paragon_dlc=False, 
+    leader_class, trait_name,
     is_veteran_trait=False, is_destiny_trait=False,
-    required_subclass=None
+    required_subclass: str='', prerequisites: list = [],
+    requires_paragon_dlc: bool=False
 ):
     # This needs to generate two effects: add, and remove
     # xvcv_mdls_button_effects_core_modifying_traits_<LEADER_CLASS>_customgui.txt
-    has_paragon_dlc_answer = "yes" if needs_paragon_dlc else "no"
-    comment_out_paragon_dlc = "" if needs_paragon_dlc else "#"
     trait_ends_in_num = trait_name[-1].isdigit()
-    needs_remove_tier_num_trait_effect = "" if trait_ends_in_num else "#"
+    needs_remove_tier_num_trait_effect = True if trait_ends_in_num else False
     if trait_ends_in_num:
         trait_name_no_tier = trait_name.rsplit('_',1)[0]
     else:
@@ -452,18 +468,8 @@ def gen_core_modifying_button_effects_code(
         alt_trigger_name = "alt_"
     elif is_destiny_trait:
         alt_trigger_name = "alt_2_"
-    # Comment out the 'requires_leader_subclass_trigger` if it's not a veteran trait'
-    # requires_subclass_trigger = "" if is_veteran_trait or is_destiny_trait or required_subclass == "any" else "#"
-    requires_subclass_trigger = "" if required_subclass is not None else "#"
-    # if requires_subclass_trigger and required_subclass is None:
-    #     breakpoint()
-    #     sys.exit(
-    #         f"There was a problem generating core-modifying button effects code.\n"
-    #         f"{trait_name} was expected to have a subclass, but it doesn't have a value assigned.\n"
-    #         "This means there was a problem earlier in the pipeline with 'trickle_up_subclass_requirements'."
-    #     )
+
     # commend out skill level trigger if it's not a veteran trait
-    requires_skill_lvl_trigger = "" if is_veteran_trait or is_destiny_trait else "#"
     trait_class = "common"
     if is_veteran_trait:
         trait_class = "veteran"
@@ -471,10 +477,41 @@ def gen_core_modifying_button_effects_code(
         trait_class = "destiny"
     trait_comment = f"#{trait_class} trait"
 
-    # Special cases ... I don't like doing these
-    requires_ancrel = ""
-    if trait_name == "leader_trait_expertise_archaeostudies_3":
-        requires_ancrel = "\n        has_ancrel = yes"
+    allowances = []
+    allowances.append(f"custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_{leader_class}_{trait_name}")
+    if required_subclass:
+        allowances.append(
+            "xvcv_mdlc_core_modifying_requires_ruler_subclass_or_focus_trigger = "
+            f"{{ CLASS = {leader_class} ID = {required_subclass} }}"
+        )
+    allowances.append(f"xvcv_mdlc_core_modifying_trait_cost_{alt_trigger_name}trigger = yes")
+    allowances.append(f"xvcv_mdlc_core_modifying_trait_points_{alt_trigger_name}trigger = yes")
+    # requires skill level trigger
+    if is_veteran_trait or is_destiny_trait:
+        allowances.append(f"xvcv_mdlc_core_modifying_trait_skill_level_{alt_trigger_name}trigger = yes")
+    allowances.append("xvcv_mdlc_core_modifying_trait_max_number_trigger = yes")
+    if requires_paragon_dlc:
+        allowances.append("has_paragon_dlc = yes")
+    # Get fancy about picking up DLC requirements per trait
+    if dlc_dependecy := TRAITS_REQUIRING_DLC.get(trait_name):
+        allowances.append(f"{dlc_dependecy} = yes")
+    # Assuming that prerequisites will always be tech *fingers crossed*
+    if len(prerequisites):
+        for tech in prerequisites:
+            allowances.append(f"has_technology = {tech}")
+
+    effects = []
+    if needs_remove_tier_num_trait_effect:
+        effects.append(
+            f"xvcv_mdlc_core_modifying_remove_tier_1_or_2_traits_effect = {{ ID = {trait_name_no_tier} }}"
+        )
+    effects.append(
+        f"xvcv_mdlc_core_modifying_trait_pick_effect = {{ CLASS = {leader_class} ID = {trait_name} }}"
+    )
+    effects.append(
+        f"hidden_effect = {{ xvcv_mdlc_core_modifying_trait_add_{alt_trigger_name}effect = yes }}"
+    )
+
     return f"""
 #{trait_name} {trait_comment}
 xvcv_mdlc_core_modifying_traits_{leader_class}_{trait_name}_add_button_effect = {{
@@ -482,18 +519,10 @@ xvcv_mdlc_core_modifying_traits_{leader_class}_{trait_name}_add_button_effect = 
         ruler = {{ NOT = {{ has_trait = {trait_name} }} }}
     }}
     allow = {{
-        custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_{leader_class}_{trait_name}
-        {requires_subclass_trigger}xvcv_mdlc_core_modifying_requires_ruler_subclass_or_focus_trigger = {{ CLASS = {leader_class} ID = {required_subclass} }}
-        xvcv_mdlc_core_modifying_trait_cost_{alt_trigger_name}trigger = yes
-        xvcv_mdlc_core_modifying_trait_points_{alt_trigger_name}trigger = yes
-        {requires_skill_lvl_trigger}xvcv_mdlc_core_modifying_trait_skill_level_{alt_trigger_name}trigger = yes
-        xvcv_mdlc_core_modifying_trait_max_number_trigger = yes
-        {comment_out_paragon_dlc}has_paragon_dlc = {has_paragon_dlc_answer}{requires_ancrel}
+        {"\n        ".join(allowances)}
     }}
     effect = {{
-        {needs_remove_tier_num_trait_effect}xvcv_mdlc_core_modifying_remove_tier_1_or_2_traits_effect = {{ ID = {trait_name_no_tier} }}
-        xvcv_mdlc_core_modifying_trait_pick_effect = {{ CLASS = {leader_class} ID = {trait_name} }}
-        hidden_effect = {{ xvcv_mdlc_core_modifying_trait_add_{alt_trigger_name}effect = yes }}
+        {"\n        ".join(effects)}
     }}
 }}
 xvcv_mdlc_core_modifying_traits_{leader_class}_{trait_name}_remove_button_effect = {{
@@ -657,15 +686,19 @@ def iterate_traits_make_feature_button_effects_code(organized_traits_dict, for_c
                     trait_name=trait_name,
                     is_veteran_trait=(root.get('rarity')=="veteran"),
                     is_destiny_trait=(root.get('rarity')=="paragon"),
-                    required_subclass=root.get('required_subclass', None)
+                    required_subclass=root.get('required_subclass', None),
+                    prerequisites=root.get('prerequisites', [])
                 )
             elif feature == CORE_MODIFYING:
+                if EXCLUDE_TRAITS_FROM_CORE_MODIFYING.get(trait_name):
+                    continue
                 feature_button_effects_code = gen_core_modifying_button_effects_code(
                     leader_class=for_class,
                     trait_name=trait_name,
                     is_veteran_trait=(root.get('rarity')=="veteran"),
                     is_destiny_trait=(root.get('rarity')=="paragon"),
-                    required_subclass=root.get('required_subclass', None)
+                    required_subclass=root.get('required_subclass', None),
+                    prerequisites=root.get('prerequisites', [])
                 )
                 
             leader_trait_button_effects_copypaste_blob.append(feature_button_effects_code)
@@ -828,6 +861,46 @@ def pipeline_make_core_modifying_subclasses_gui_code():
     print(f"Wrote CORE MODIFYING SUBCLASSES GUI code to {build_path_target}")
     print("This needs to be copy/pasted into the core modifying gui file")
 
+def pipeline_make_core_modifying_list_traits_by_class():
+    """ Collect & list traits for a class which have subclass requirements
+        These are used to check in the core modifying gui
+        to prevent players from removing a subclass while depdendent traits are picked
+    """
+    subtraits_names = {
+        "commander": [],
+        "official": [],
+        "scientist": []
+    }
+    buffer = ''
+    for codegen_ready_file in INPUT_FILES_FOR_CODEGEN:
+        leader_class = codegen_ready_file.split('_')[2]
+        input_filepath = os.path.join(BUILD_FOLDER, codegen_ready_file)
+        with open(input_filepath, "r") as traits_json_file:
+            buffer = json_load(traits_json_file)
+        for rarity_level in RARITIES:
+            # iterate common, veteran, paragon
+                for leader_trait in buffer[f"core_modifying_traits"][rarity_level]:
+                    trait_name = [*leader_trait][0]
+                    root = leader_trait[trait_name]
+                    if root.get('required_subclass'):
+                        subtraits_names[leader_class].append(
+                            f"has_trait = {trait_name}"
+                        )
+    outfile_name = "85_core_modifying_subclass_dependent_traits.txt"
+    outfile_path = os.path.join(
+        BUILD_FOLDER, outfile_name
+    )
+    with open(outfile_path, "w") as outfile_object:
+        for ruler_class in LEADER_CLASSES:
+            a_blob_00 = f"""#{ruler_class} traits requiring subclasses:
+{"\n".join(sorted(subtraits_names[ruler_class]))}
+"""
+            outfile_object.write(a_blob_00)
+    print("I am so tired")
+    print(f"Look in {outfile_name}")
+
+
+
 ##################
 ### THE BIG ONE ##
 ##################
@@ -965,6 +1038,12 @@ if __name__ == "__main__":
         required=False
     )
     parser.add_argument(
+        '--core_ruler_subclass_traits',
+        help="Make a list of traits that require subclasses, for the core modifying GUI",
+        action="store_true",
+        required=False
+    )
+    parser.add_argument(
         '--process_all',
         help="The Big One. Generate M&RE tooltips, GUI code, button effects code, assuming all traits files were processed by mre_process_traits_for_codegen",
         action="store_true"
@@ -991,6 +1070,9 @@ if __name__ == "__main__":
         sys.exit()
     if args.core_subclasses_gui:
         pipeline_make_core_modifying_subclasses_gui_code()
+        sys.exit()
+    if args.core_ruler_subclass_traits:
+        pipeline_make_core_modifying_list_traits_by_class()
         sys.exit()
 
     buffer = ''
