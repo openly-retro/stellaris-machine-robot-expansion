@@ -1628,7 +1628,7 @@ country_event = {
 	id = xvcv_mdlc.40
 	title = "xvcv_mdlc.40.name"
 	desc = "xvcv_mdlc.40.desc"
-	picture = GFX_evt_circuitry_modification
+	picture = GFX_evt_source_code_reprogramming_red
 	show_sound = event_evolution_mastery
 	is_triggered_only = yes
 
@@ -1661,7 +1661,7 @@ country_event = {
 			}
 			force_add_civic = civic_machine_terminator
 			#etc
-			add_modifier = { modifier = xvcv_mdlc_ap_base_code_recompositions_civic_slot days = -1 }
+			# add_modifier = { modifier = xvcv_mdlc_ap_base_code_recompositions_civic_slot days = -1 }
 			#artist
 			if = {
 				limit = {
@@ -1721,6 +1721,13 @@ country_event = {
 				limit = { is_galactic_community_member = yes }
 				remove_from_galactic_community = yes
 			}
+			# prompt player to remove 3rd civic for DE/RS/DA
+			if = {
+				limit = { civics_count > 3 }
+				country_event = {
+					id = xvcv_mdlc.400
+				}
+			}
 		}
 	}
 	option = {
@@ -1748,7 +1755,7 @@ country_event = {
 			}
 			force_add_civic = civic_machine_assimilator
 			#etc
-			add_modifier = { modifier = xvcv_mdlc_ap_base_code_recompositions_civic_slot days = -1 }
+			# add_modifier = { modifier = xvcv_mdlc_ap_base_code_recompositions_civic_slot days = -1 }
 			create_species = {
 				adjective = "PRESCRIPTED_secondary_species_adjective_tebrid"
 				name = "PRESCRIPTED_secondary_species_name_tebrid"
@@ -1780,6 +1787,13 @@ country_event = {
 				limit = { has_trait = xvcv_mdlc_trait_engineered_organics }
 				xvcv_mdlc_machine_species_rights_adjustments_effect = yes
 			}
+			# prompt player to remove 3rd civic for DE/RS/DA
+			if = {
+				limit = { civics_count > 3 }
+				country_event = {
+					id = xvcv_mdlc.400
+				}
+			}
 		}
 	}
 	option = {
@@ -1810,7 +1824,7 @@ country_event = {
 			}
 			force_add_civic = civic_machine_servitor
 			#etc
-			add_modifier = { modifier = xvcv_mdlc_ap_base_code_recompositions_civic_slot days = -1 }
+			# add_modifier = { modifier = xvcv_mdlc_ap_base_code_recompositions_civic_slot days = -1 }
 			create_species = {
 				adjective = "PRESCRIPTED_species_adjective_humans1"
 				name = "PRESCRIPTED_species_name_humans1"
@@ -1843,6 +1857,13 @@ country_event = {
 				xvcv_mdlc_organic_trophy_species_rights_adjustments_effect = yes
 			}
 			xvcv_mdlc_servitor_morale_calc_main_effect = yes
+			# prompt player to remove 3rd civic for DE/RS/DA
+			if = {
+				limit = { civics_count > 3 }
+				country_event = {
+					id = xvcv_mdlc.400
+				}
+			}
 		}
 	}
 	option = {
@@ -1894,7 +1915,152 @@ country_event = {
 			xvcv_mdlc_servitor_morale_clear_effect = yes
 		}
 	}
+
 }
+
+# 'XVCV_MDLC_AP_BASE_CODE_RECOMPOSITIONS_PROJECT'
+# CIVIC changing dialogue
+# Player has more than 2 civics active, since they are adding DE/RS/DA, one of the 3 needs to be dropped
+
+country_event = {
+	id = xvcv_mdlc.400
+	title = "Base Source Code Post-Deployment Civic Configuration"
+	desc = "A civic must be removed to make space for the source code overhaul changes."
+	picture = GFX_evt_source_code_reprogramming_red
+	is_triggered_only = yes
+
+	option = {
+		name = "Remove $xvcv_mdlc_civic_central_processing$"
+		trigger = { has_civic = xvcv_mdlc_civic_central_processing }
+		force_remove_civic = xvcv_mdlc_civic_central_processing
+	}
+	option = {
+		name = "Remove $civic_machine_builder$"
+		trigger = { has_civic = civic_machine_builder }
+		force_remove_civic = civic_machine_builder
+	}
+	option = {
+		name = "Remove $xvcv_mdlc_civic_assimilating_swarm$"
+		trigger = { has_civic = xvcv_mdlc_civic_assimilating_swarm }
+		force_remove_civic = xvcv_mdlc_civic_assimilating_swarm
+	}
+	option = {
+		name = "Remove $civic_machine_delegated_functions$"
+		trigger = { has_civic = civic_machine_delegated_functions }
+		force_remove_civic = civic_machine_delegated_functions
+	}
+	option = {
+		name = "Remove $xvcv_mdlc_civic_efficient_administration$"
+		trigger = { has_civic = xvcv_mdlc_civic_efficient_administration }
+		force_remove_civic = xvcv_mdlc_civic_efficient_administration
+	}
+	option = {
+		name = "Remove $civic_machine_ascensionists$"
+		trigger = { has_civic = civic_machine_ascensionists }
+		force_remove_civic = civic_machine_ascensionists
+	}
+	option = {
+		name = "Remove $xvcv_mdlc_civic_expander$"
+		trigger = { has_civic = xvcv_mdlc_civic_expander }
+		force_remove_civic = xvcv_mdlc_civic_expander
+	}
+	option = {
+		name = "Remove $civic_memory_vault_machine$"
+		trigger = { has_civic = civic_memory_vault_machine }
+		force_remove_civic = civic_memory_vault_machine
+	}
+	option = {
+		name = "Remove $civic_machine_factory_overclock$"
+		trigger = { has_civic = civic_machine_factory_overclock }
+		force_remove_civic = civic_machine_factory_overclock
+	}
+	option = {
+		name = "Remove $xvcv_mdlc_civic_warfleet$"
+		trigger = { has_civic = xvcv_mdlc_civic_warfleet }
+		force_remove_civic = xvcv_mdlc_civic_warfleet
+	}
+	option = {
+		name = "Remove $xvcv_mdlc_civic_friendship_protocol$"
+		trigger = { has_civic = xvcv_mdlc_civic_friendship_protocol }
+		force_remove_civic = xvcv_mdlc_civic_friendship_protocol
+	}
+	option = {
+		name = "Remove $civic_machine_introspective$"
+		trigger = { has_civic = civic_machine_introspective }
+		force_remove_civic = civic_machine_introspective
+	}
+	option = {
+		name = "Remove $xvcv_mdlc_civic_maintenance_depot$"
+		trigger = { has_civic = xvcv_mdlc_civic_maintenance_depot }
+		force_remove_civic = xvcv_mdlc_civic_maintenance_depot
+	}
+	option = {
+		name = "Remove $civic_machine_maintenance_protocols$"
+		trigger = { has_civic = civic_machine_maintenance_protocols }
+		force_remove_civic = civic_machine_maintenance_protocols
+	}
+	option = {
+		name = "Remove $xvcv_mdlc_civic_malware_machine$"
+		trigger = { has_civic = xvcv_mdlc_civic_malware_machine }
+		force_remove_civic = xvcv_mdlc_civic_malware_machine
+	}
+	option = {
+		name = "Remove $xvcv_mdlc_civic_trading_machine$"
+		trigger = { has_civic = xvcv_mdlc_civic_trading_machine }
+		force_remove_civic = xvcv_mdlc_civic_trading_machine
+	}
+	option = {
+		name = "Remove $xvcv_mdlc_civic_nanobot_building$"
+		trigger = { has_civic = xvcv_mdlc_civic_nanobot_building }
+		force_remove_civic = xvcv_mdlc_civic_nanobot_building
+	}
+	option = {
+		name = "Remove $civic_machine_ota_updates$"
+		trigger = { has_civic = civic_machine_ota_updates }
+		force_remove_civic = civic_machine_ota_updates
+	}
+	option = {
+		name = "Remove $civic_machine_replication$"
+		trigger = { has_civic = civic_machine_replication }
+		force_remove_civic = civic_machine_replication
+	}
+	option = {
+		name = "Remove $civic_machine_rockbreakers$"
+		trigger = { has_civic = civic_machine_rockbreakers }
+		force_remove_civic = civic_machine_rockbreakers
+	}
+	option = {
+		name = "Remove $xvcv_mdlc_civic_uplink_node$"
+		trigger = { has_civic = xvcv_mdlc_civic_uplink_node }
+		force_remove_civic = xvcv_mdlc_civic_uplink_node
+	}
+	option = {
+		name = "Remove $civic_machine_upkeep_twister$"
+		trigger = { has_civic = civic_machine_upkeep_twister }
+		force_remove_civic = civic_machine_upkeep_twister
+	}
+	option = {
+		name = "Remove $civic_machine_predictive_analysis$"
+		trigger = { has_civic = civic_machine_predictive_analysis }
+		force_remove_civic = civic_machine_predictive_analysis
+	}
+	option = {
+		name = "Remove $civic_machine_unitary_cohesion$"
+		trigger = { has_civic = civic_machine_unitary_cohesion }
+		force_remove_civic = civic_machine_unitary_cohesion
+	}
+	option = {
+		name = "Remove $civic_machine_warbots$"
+		trigger = { has_civic = civic_machine_warbots }
+		force_remove_civic = civic_machine_warbots
+	}
+	option = {
+		name = "Remove $civic_machine_zero_waste_protocols$"
+		trigger = { has_civic = civic_machine_zero_waste_protocols }
+		force_remove_civic = civic_machine_zero_waste_protocols
+	}
+}
+
 ### 'xvcv_mdlc_ap_bio_robot' Ascension Perk Events ###
 #'XVCV_MDLC_AP_BIO_ROBOT_PROJECT' special project effect event
 country_event = {
