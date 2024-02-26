@@ -359,3 +359,37 @@ xvcv_mdlc_ap_genetics_mastery_species_new_template_create_effect = {
 		}
 	}
 }
+xvcv_mdlc_set_memory_share_level_up_happened_for_commander = {
+	owner = {
+		set_timed_country_flag = {
+			flag = xvcv_mdlc_memory_share_leveled_up_commander
+			days = 1
+		}
+	}
+	log = "Set country flag that we leveled up commanders, inside scripted effect"
+}
+
+xvcv_mdlc_iterate_leaders_level_up_classes_under_skill = {
+	# scope here is 'prev'
+	# call with CLASS and SKILL_LEVEL
+	# set_variable = {
+	# 	which = xvcv_total_class_specific_leaders_under_level_2
+	# 	# value = value:count_leaders_of_class|CLASS|commander|
+	# 	value = value:count_leaders_of_class_under_level|CLASS|$CLASS$|SKILL_LEVEL|$SKILL_LEVEL|
+	# }
+	# log = "There are \[This.xvcv_total_class_specific_leaders_under_level_2] $CLASS$ leaders to level up that are below level $SKILL_LEVEL$"
+
+	every_owned_leader = {
+		limit = {
+			is_councilor = no
+			has_trait = xvcv_mdlc_leader_trait_shared_memory
+			leader_class = $CLASS$
+			has_skill < $SKILL_LEVEL$
+			NOT = { has_leader_flag = xvcv_mdlc_leader_trait_shared_memory_target_@this }
+		}
+		# log = "Leveling \\[prev.xvcv_total_class_specific_leaders_under_level_2] scientists level below 2"
+		root = { xvcv_mdlc_set_memory_share_level_up_happened_for_scientist = yes }
+		set_timed_leader_flag = { flag = xvcv_mdlc_leader_trait_shared_memory_target_@this days = 1 }
+		add_skill_without_trait_selection = 1
+	}
+}
