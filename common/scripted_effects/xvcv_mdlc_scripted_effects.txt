@@ -269,7 +269,7 @@ xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect = {
 	change_variable = { which = xvcv_mdlc_world_machines_districts_current_output_for_display_var value = xvcv_mdlc_world_machines_districts_output_var }
 	multiply_variable = { which = xvcv_mdlc_world_machines_districts_current_output_for_display_var value = 100 }
 }
-xvcv_mdlc_civic_emotion_emulator_pop_bonus_effect = {
+xvcv_mdlc_civic_goods_distributor_pop_bonus_effect = {
 	optimize_memory
 	if = {
 		limit = { has_modifier = xvcv_mdlc_goods_for_pop_unity_bonus }
@@ -277,13 +277,13 @@ xvcv_mdlc_civic_emotion_emulator_pop_bonus_effect = {
 	}
 	export_resource_income_to_variable = {
 		resource = consumer_goods
-		variable = xvcv_mdlc_civic_emotion_emulator_income_var
+		variable = xvcv_mdlc_civic_goods_distributor_income_var
 	}
 	if = {
 		limit = { is_ai = no }
 		add_resource = {
 			consumer_goods = -1
-			mult = xvcv_mdlc_civic_emotion_emulator_income_var
+			mult = xvcv_mdlc_civic_goods_distributor_income_var
 		}
 	}
 	export_trigger_value_to_variable = {
@@ -296,7 +296,7 @@ xvcv_mdlc_civic_emotion_emulator_pop_bonus_effect = {
 				}
 			}
 		}
-		variable = xvcv_mdlc_civic_emotion_emulator_pop_var
+		variable = xvcv_mdlc_civic_goods_distributor_pop_var
 	}
 	#calculation e.g.
 	#the total income = 19
@@ -305,10 +305,10 @@ xvcv_mdlc_civic_emotion_emulator_pop_bonus_effect = {
 	#and this means about 0.57 more goods can be distributed per drone pop for additional unity creation
 	#so it's 0.57 more unity per pop
 	divide_variable = {
-		which = xvcv_mdlc_civic_emotion_emulator_income_var
-		value = xvcv_mdlc_civic_emotion_emulator_pop_var
+		which = xvcv_mdlc_civic_goods_distributor_income_var
+		value = xvcv_mdlc_civic_goods_distributor_pop_var
 	}
-	add_modifier = { modifier = xvcv_mdlc_goods_for_pop_unity_bonus days = -1 multiplier = xvcv_mdlc_civic_emotion_emulator_income_var }
+	add_modifier = { modifier = xvcv_mdlc_goods_for_pop_unity_bonus days = -1 multiplier = xvcv_mdlc_civic_goods_distributor_income_var }
 }
 xvcv_mdlc_situation_machine_learning_add_progress_effect = {
 	optimize_memory
