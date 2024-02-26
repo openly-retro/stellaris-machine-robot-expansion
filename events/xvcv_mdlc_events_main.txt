@@ -2535,9 +2535,8 @@ country_event = {
 				trigger = leader_class
 				commander = {
 					if = {
-						limit = {
-							xvcv_mdlc_check_memory_share_level_up_happened_for_commander = no
-						}
+						# Set up a country flag so the every_owned_leader doesn't get called iteratively after a leader has been leveled up by code here
+						limit = { xvcv_mdlc_check_memory_share_level_up_happened_for_commander = no }
 						switch = {
 							trigger = has_skill
 							2 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = commander has_skill < 2 NOT = { has_leader_flag = xvcv_mdlc_leader_trait_shared_memory_target_@from } } xvcv_mdlc_set_memory_share_level_up_happened_for_commander = yes add_skill_without_trait_selection = 1 } } }
@@ -2553,35 +2552,42 @@ country_event = {
 					}
 				}
 				scientist = {
-					switch = {
-						trigger = has_skill
-						2 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = scientist has_skill < 2 } add_skill_without_trait_selection = 1 } } }
-						3 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = scientist has_skill < 3 } add_skill_without_trait_selection = 1 } } }
-						4 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = scientist has_skill < 4 } add_skill_without_trait_selection = 1 } } }
-						5 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = scientist has_skill < 5 } add_skill_without_trait_selection = 1 } } }
-						6 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = scientist has_skill < 6 } add_skill_without_trait_selection = 1 } } }
-						7 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = scientist has_skill < 7 } add_skill_without_trait_selection = 1 } } }
-						8 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = scientist has_skill < 8 } add_skill_without_trait_selection = 1 } } }
-						9 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = scientist has_skill < 9 } add_skill_without_trait_selection = 1 } } }
-						10 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = scientist has_skill < 10 } add_skill_without_trait_selection = 1 } } }
+					if = {
+						limit = { xvcv_mdlc_check_memory_share_level_up_happened_for_scientist = no }
+						switch = {
+							trigger = has_skill
+							2 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = scientist has_skill < 2 NOT = { has_leader_flag = xvcv_mdlc_leader_trait_shared_memory_target_@from } } xvcv_mdlc_set_memory_share_level_up_happened_for_scientist = yes add_skill_without_trait_selection = 1 } } }
+							3 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = scientist has_skill < 3 NOT = { has_leader_flag = xvcv_mdlc_leader_trait_shared_memory_target_@from } } xvcv_mdlc_set_memory_share_level_up_happened_for_scientist = yes add_skill_without_trait_selection = 1 } } }
+							4 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = scientist has_skill < 4 NOT = { has_leader_flag = xvcv_mdlc_leader_trait_shared_memory_target_@from } } xvcv_mdlc_set_memory_share_level_up_happened_for_scientist = yes add_skill_without_trait_selection = 1 } } }
+							5 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = scientist has_skill < 5 NOT = { has_leader_flag = xvcv_mdlc_leader_trait_shared_memory_target_@from } } xvcv_mdlc_set_memory_share_level_up_happened_for_scientist = yes add_skill_without_trait_selection = 1 } } }
+							6 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = scientist has_skill < 6 NOT = { has_leader_flag = xvcv_mdlc_leader_trait_shared_memory_target_@from } } xvcv_mdlc_set_memory_share_level_up_happened_for_scientist = yes add_skill_without_trait_selection = 1 } } }
+							7 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = scientist has_skill < 7 NOT = { has_leader_flag = xvcv_mdlc_leader_trait_shared_memory_target_@from } } xvcv_mdlc_set_memory_share_level_up_happened_for_scientist = yes add_skill_without_trait_selection = 1 } } }
+							8 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = scientist has_skill < 8 NOT = { has_leader_flag = xvcv_mdlc_leader_trait_shared_memory_target_@from } } xvcv_mdlc_set_memory_share_level_up_happened_for_scientist = yes add_skill_without_trait_selection = 1 } } }
+							9 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = scientist has_skill < 9 NOT = { has_leader_flag = xvcv_mdlc_leader_trait_shared_memory_target_@from } } xvcv_mdlc_set_memory_share_level_up_happened_for_scientist = yes add_skill_without_trait_selection = 1 } } }
+							10 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = scientist has_skill < 10 NOT = { has_leader_flag = xvcv_mdlc_leader_trait_shared_memory_target_@from } } xvcv_mdlc_set_memory_share_level_up_happened_for_scientist = yes add_skill_without_trait_selection = 1 } } }
+						}
 					}
 				}
 				official = {
-					switch = {
-						trigger = has_skill
-						2 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = official has_skill < 2 } add_skill_without_trait_selection = 1 } } }
-						3 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = official has_skill < 3 } add_skill_without_trait_selection = 1 } } }
-						4 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = official has_skill < 4 } add_skill_without_trait_selection = 1 } } }
-						5 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = official has_skill < 5 } add_skill_without_trait_selection = 1 } } }
-						6 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = official has_skill < 6 } add_skill_without_trait_selection = 1 } } }
-						7 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = official has_skill < 7 } add_skill_without_trait_selection = 1 } } }
-						8 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = official has_skill < 8 } add_skill_without_trait_selection = 1 } } }
-						9 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = official has_skill < 9 } add_skill_without_trait_selection = 1 } } }
-						10 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = official has_skill < 10 } add_skill_without_trait_selection = 1 } } }
+					if = {
+						limit = { xvcv_mdlc_check_memory_share_level_up_happened_for_official = no }
+						switch = {
+							trigger = has_skill
+							2 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = official has_skill < 2 NOT = { has_leader_flag = xvcv_mdlc_leader_trait_shared_memory_target_@from } } xvcv_mdlc_set_memory_share_level_up_happened_for_official = yes add_skill_without_trait_selection = 1 } } }
+							3 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = official has_skill < 3 NOT = { has_leader_flag = xvcv_mdlc_leader_trait_shared_memory_target_@from } } xvcv_mdlc_set_memory_share_level_up_happened_for_official = yes add_skill_without_trait_selection = 1 } } }
+							4 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = official has_skill < 4 NOT = { has_leader_flag = xvcv_mdlc_leader_trait_shared_memory_target_@from } } xvcv_mdlc_set_memory_share_level_up_happened_for_official = yes add_skill_without_trait_selection = 1 } } }
+							5 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = official has_skill < 5 NOT = { has_leader_flag = xvcv_mdlc_leader_trait_shared_memory_target_@from } } xvcv_mdlc_set_memory_share_level_up_happened_for_official = yes add_skill_without_trait_selection = 1 } } }
+							6 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = official has_skill < 6 NOT = { has_leader_flag = xvcv_mdlc_leader_trait_shared_memory_target_@from } } xvcv_mdlc_set_memory_share_level_up_happened_for_official = yes add_skill_without_trait_selection = 1 } } }
+							7 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = official has_skill < 7 NOT = { has_leader_flag = xvcv_mdlc_leader_trait_shared_memory_target_@from } } xvcv_mdlc_set_memory_share_level_up_happened_for_official = yes add_skill_without_trait_selection = 1 } } }
+							8 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = official has_skill < 8 NOT = { has_leader_flag = xvcv_mdlc_leader_trait_shared_memory_target_@from } } xvcv_mdlc_set_memory_share_level_up_happened_for_official = yes add_skill_without_trait_selection = 1 } } }
+							9 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = official has_skill < 9 NOT = { has_leader_flag = xvcv_mdlc_leader_trait_shared_memory_target_@from } } xvcv_mdlc_set_memory_share_level_up_happened_for_official = yes add_skill_without_trait_selection = 1 } } }
+							10 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = official has_skill < 10 NOT = { has_leader_flag = xvcv_mdlc_leader_trait_shared_memory_target_@from } } xvcv_mdlc_set_memory_share_level_up_happened_for_official = yes add_skill_without_trait_selection = 1 } } }
+						}
 					}
 				}
 			}
 			#prevent duplicated execution of this event in short time #it's executed 27 times at once in one of my tests #omg
+			# Thank you XVCV ~~openly-retro (0xR)
 			set_timed_leader_flag = { flag = xvcv_mdlc_leader_trait_shared_memory_target_@this days = 1 }
 		}
 	}
