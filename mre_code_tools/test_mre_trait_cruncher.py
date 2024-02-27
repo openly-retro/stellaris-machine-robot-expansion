@@ -44,7 +44,8 @@ def test_filter_trait_info():
         "triggered_sector_modifier": {
             'planet_administrators_unity_produces_mult': 0.025
         },
-        "requires_paragon_dlc": False
+        "requires_paragon_dlc": False,
+        "custom_tooltip": "leader_trait_bureaucrat_2_tt"
     }
     assert expected_info == filtered_info
 
