@@ -9,11 +9,18 @@ TAB_SIZE = 2
 
 def convert_stellaris_script_to_standard_yaml(input_string):
     # NOT aren't used in trait description anyway
-    fix_that_one_poorly_formatted_trait = fix_replace_traits_no_spacing(
-        input_string
+    add_spaces_between_brace_and_text_opening = re.sub(
+        r"(\{)(?=\w)", '{ ', input_string
     )
-    convert_tabs_to_spaces = re.sub(r"\t", ' '*TAB_SIZE, fix_that_one_poorly_formatted_trait)
-    remove_comment_blocks = re.sub(r"\n#.*", '', convert_tabs_to_spaces)
+    add_spaces_between_brace_and_text_closing = re.sub(
+        r"(?<=\w)(\})", ' }', add_spaces_between_brace_and_text_opening
+    ) 
+    # fix_that_one_poorly_formatted_trait = fix_replace_traits_no_spacing(
+    #     input_string
+    # )
+
+    convert_tabs_to_spaces = re.sub(r"\t", ' '*TAB_SIZE, add_spaces_between_brace_and_text_closing)
+    remove_comment_blocks = re.sub(r"\n\s{0,}#.*", '', convert_tabs_to_spaces)
     comment_nots = re.sub("NOT", '#NOT', remove_comment_blocks)
     convert_blocks = re.sub(r"(?<!NOT) = \{\n", ':\n', comment_nots)
     convert_sameline_blocks = re.sub(r"(?<!NOT) = \{", ':', convert_blocks)
@@ -90,20 +97,20 @@ def concatenate_multiline_has_trait_definitions(input_string, min_occurrences: i
         input_string_copy = re.sub(complete_line, substitution, input_string_copy)
     return input_string_copy
 
-def fix_replace_traits_no_spacing(input_string):
-    # Placed higher up in the substitution queue
-    list_assignments_with_no_spaces = re.compile(
-        r"(\s*replace_traits = \{(\w*)\})"
-    )
-    results = re.findall(list_assignments_with_no_spaces, input_string)
-    input_string_copy = copy(input_string)
-    for result in results:
-        complete_line = result[0]
-        trait_to_replace = result[1]
-        indentation = complete_line.count("\t")*"  " 
-        replacement = f"\n{indentation}replace_traits: {trait_to_replace}"
-        input_string_copy = re.sub(complete_line, replacement, input_string_copy)
-    return input_string_copy
+# def fix_replace_traits_no_spacing(input_string):
+#     # Placed higher up in the substitution queue
+#     list_assignments_with_no_spaces = re.compile(
+#         r"(\s*replace_traits = \{(\w*)\})"
+#     )
+#     results = re.findall(list_assignments_with_no_spaces, input_string)
+#     input_string_copy = copy(input_string)
+#     for result in results:
+#         complete_line = result[0]
+#         trait_to_replace = result[1]
+#         indentation = complete_line.count("\t")*"  " 
+#         replacement = f"\n{indentation}replace_traits: {trait_to_replace}"
+#         input_string_copy = re.sub(complete_line, replacement, input_string_copy)
+#     return input_string_copy
 
 def validate_chopped_up_data(buffer):
     try:

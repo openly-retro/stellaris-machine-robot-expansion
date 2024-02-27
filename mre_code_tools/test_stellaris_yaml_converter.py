@@ -363,9 +363,9 @@ def test_deal_with_spacing_issues_in_replace_traits_key():
     # this is straight from the 
     test_data = """
 leader_trait_maniacal_2 = {
-	veteran_class_locked_trait = yes
-	replace_traits = {leader_trait_maniacal}
-	ai_weight = 110
+  veteran_class_locked_trait = yes
+  replace_traits = {leader_trait_maniacal}
+  ai_weight = 110
 }
 """
     expected = """
@@ -394,34 +394,34 @@ def test_leader_trait_peacekeeper():
 
     raw_data = """
 leader_trait_peacekeeper = {
-	destiny_trait = yes
-	inline_script = {
-		script = trait/icon
-		CLASS = leader
-		ICON = GFX_leader_trait_peacekeeper
-		RARITY = paragon
-		COUNCIL = yes
-		TIER = none
-	}
-	councilor_modifier = {
-		planet_stability_add = 5
-		piracy_suppression_mult = 0.35
-		planet_crime_add = -20
-		pop_ethic_pacifist_attraction_mult = 0.40
-	}
-	leader_potential_add = {
-		has_paragon_dlc = yes
-		OR = {
-			has_trait = subclass_official_economy_councilor
-			has_trait = subclass_commander_councilor
-		}
-	}
-	leader_class = { commander official }
-	selectable_weight = {
-		weight = @subclass_trait_weight
-		inline_script = paragon/council_weight_mult
-	}
-	background_icon = GFX_leader_background_destiny_1
+  destiny_trait = yes
+  inline_script = {
+    script = trait/icon
+    CLASS = leader
+    ICON = GFX_leader_trait_peacekeeper
+    RARITY = paragon
+    COUNCIL = yes
+    TIER = none
+  }
+  councilor_modifier = {
+    planet_stability_add = 5
+    piracy_suppression_mult = 0.35
+    planet_crime_add = -20
+    pop_ethic_pacifist_attraction_mult = 0.40
+  }
+  leader_potential_add = {
+    has_paragon_dlc = yes
+    OR = {
+      has_trait = subclass_official_economy_councilor
+      has_trait = subclass_commander_councilor
+    }
+  }
+  leader_class = { commander official }
+  selectable_weight = {
+    weight = @subclass_trait_weight
+    inline_script = paragon/council_weight_mult
+  }
+  background_icon = GFX_leader_background_destiny_1
 }
 """
     expected = """
@@ -452,3 +452,50 @@ leader_trait_peacekeeper:
     actual = convert_stellaris_script_to_standard_yaml(raw_data)
 
     assert expected == actual
+
+def test_3_11_eridanus_trait_code():
+    test_script = """
+leader_trait_corsair_3 = {
+  leader_trait_type = veteran
+  replace_traits = { leader_trait_corsair_2 }
+  inline_script = {
+    script = trait/icon
+    CLASS = commander
+    ICON = GFX_leader_trait_corsair
+    RARITY = veteran
+    COUNCIL = no
+    TIER = 3
+  }
+  # Effect in paragon_2.1005 event.
+  fleet_modifier = {
+    ship_orbit_upkeep_mult = -0.2
+  }
+  triggered_modifier = {
+    potential = { has_first_contact_dlc = yes }
+    ship_cloaking_strength_add = 1
+  }
+  leader_class = { commander }
+  custom_tooltip_with_modifiers = leader_trait_corsair_3_effect
+}
+"""
+    expected_output = """
+leader_trait_corsair_3:
+  leader_trait_type: veteran
+  replace_traits: leader_trait_corsair_2
+  inline_script:
+    script: trait/icon
+    CLASS: commander
+    ICON: GFX_leader_trait_corsair
+    RARITY: veteran
+    COUNCIL: no
+    TIER: 3
+  fleet_modifier:
+    ship_orbit_upkeep_mult: -0.2
+  triggered_modifier:
+#   potential: has_first_contact_dlc: yes
+    ship_cloaking_strength_add: 1
+  leader_class: ['commander']
+  custom_tooltip_with_modifiers: leader_trait_corsair_3_effect
+"""
+    actual = convert_stellaris_script_to_standard_yaml(test_script)
+    assert expected_output == actual
