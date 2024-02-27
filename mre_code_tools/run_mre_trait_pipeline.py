@@ -77,6 +77,7 @@ def batch_process_base_files_into_yaml(stellaris_path: str) -> list:
             buffer = convert_stellaris_script_to_standard_yaml(
                 base_traits_file.read()
             )
+            # breakpoint()
             validate_chopped_up_data(buffer)
         target_converted_file_name = make_converted_filename(base_file)
         generated_files.append(target_converted_file_name)

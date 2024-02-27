@@ -14,7 +14,8 @@ def convert_stellaris_script_to_standard_yaml(input_string):
     )
     add_spaces_between_brace_and_text_closing = re.sub(
         r"(?<=\w)(\})", ' }', add_spaces_between_brace_and_text_opening
-    ) 
+    )
+    expand_multiple_one_line_assignments = make_newlines_for_multiple_assignments(input_blob)
     # fix_that_one_poorly_formatted_trait = fix_replace_traits_no_spacing(
     #     input_string
     # )
@@ -94,6 +95,41 @@ def concatenate_multiline_has_trait_definitions(input_string, min_occurrences: i
         subclasses = [ piece.split(': ')[1] for piece in pieces ]
         indentation = result[0].split('has_trait: ')[0].count(' ')
         substitution = f"\n{indentation*" "}has_subclass_trait: {subclasses}\n"
+        input_string_copy = re.sub(complete_line, substitution, input_string_copy)
+    return input_string_copy
+
+def make_newlines_for_multiple_assignments(input_string):
+    """ convert instances of = { to \\s\\n """
+    multiple_assignments_re = re.compile(r"(^\s*(?:\w* = {){1,}.*)")
+    # ' = { ' but allow for errors in spacing
+    # assignment_block = re.compile(r"\s{0,}=\s{0,}\{\s{0,}")
+    # breakpoint()
+    results = re.findall(multiple_assignments_re, input_string)
+    input_string_copy = copy(input_string)
+    for result in results:
+        # Do operations on the complete line, goign to split this
+        complete_line = copy(result)
+        # Capture what the initial indent is bc we have to indent add'l lines
+        num_tab_indents = complete_line.count('\t')
+        existing_indendation = '\t' * num_tab_indents
+        # pieces = re.split(assignment_block, complete_line)
+        # ['\n\tNOT', 'has_trait_tier1or2', 'TRAIT = leader_trait_eager } }']
+        pieces = complete_line.split(' = { ')
+        # Clean up all pieces but the first assignment
+        new_pieces = [
+            piece.replace('{','').replace('}','')
+            for piece in pieces[1:]
+        ]
+        reconstructed_line = [pieces[0]]
+        # Starting with the 2nd depth
+        for key_definition in new_pieces:
+            new_indentation = '\t' * (new_pieces.index(key_definition)+1)
+            reconstructed_line.append(
+                f"{existing_indendation}{new_indentation}{key_definition.strip()}"
+            )
+        # reconstructed_line.append(new_pieces[-1])
+        substitution = ":\n".join(reconstructed_line)
+        # breakpoint()
         input_string_copy = re.sub(complete_line, substitution, input_string_copy)
     return input_string_copy
 
