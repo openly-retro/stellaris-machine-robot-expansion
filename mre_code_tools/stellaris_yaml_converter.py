@@ -9,23 +9,32 @@ TAB_SIZE = 2
 
 def convert_stellaris_script_to_standard_yaml(input_string):
     # NOT aren't used in trait description anyway
-    fix_that_one_poorly_formatted_trait = fix_replace_traits_no_spacing(
-        input_string
+    add_spaces_between_brace_and_text_opening = re.sub(
+        r"(\{)(?=\w)", '{ ', input_string
     )
-    convert_tabs_to_spaces = re.sub(r"\t", ' '*TAB_SIZE, fix_that_one_poorly_formatted_trait)
-    remove_comment_blocks = re.sub(r"\n#.*", '', convert_tabs_to_spaces)
-    comment_nots = re.sub("NOT", '#NOT', remove_comment_blocks)
-    convert_blocks = re.sub(r"(?<!NOT) = \{\n", ':\n', comment_nots)
-    convert_sameline_blocks = re.sub(r"(?<!NOT) = \{", ':', convert_blocks)
-    remove_closing_braces = re.sub(r"\s*\}\n", '\n', convert_sameline_blocks)
-    create_key_value_pairs = re.sub(' = ', ': ', remove_closing_braces)
+    add_spaces_between_brace_and_text_closing = re.sub(
+        r"(?<=\w)(\})", ' }', add_spaces_between_brace_and_text_opening
+    )
+    convert_tabs_after_braces = re.sub(
+        r"(\{\t)(?=\w)", '{ ', add_spaces_between_brace_and_text_closing
+    )
+    expand_multiple_one_line_assignments = make_newlines_for_multiple_assignments(convert_tabs_after_braces)
+
+    convert_tabs_to_spaces = re.sub(r"\t", ' '*TAB_SIZE, expand_multiple_one_line_assignments)
+    remove_comment_blocks = re.sub(r"\n\s{0,}#.*", '', convert_tabs_to_spaces)
+    # comment_nots = re.sub("NOT", '#NOT', remove_comment_blocks)
+    # convert_blocks = re.sub(r"(?<!NOT) = \{\n", ':\n', comment_nots)
+    # convert_sameline_blocks = re.sub(r"(?<!NOT) = \{", ':', convert_blocks)
+    remove_closing_braces = re.sub(r"\s*\}\n", '\n', remove_comment_blocks)
+    remove_opening_braces = re.sub(r"\s{0,}\{", '', remove_closing_braces)
+    create_key_value_pairs = re.sub(' = ', ': ', remove_opening_braces)
     clean_closing_brace_no_newline = re.sub(r"\s*\}", '', create_key_value_pairs)
     remove_extralines = re.sub(r"\n{2,}", '\n', clean_closing_brace_no_newline)
     # One-liners with multiple nested {} don't cleanly replace, so comment those lines
     # since we are doing traits anyway.. dont need those lines
-    comment_nested_multiline = re.sub(r"\n(\s)(?=((.*:){2,4}))", '\n#', remove_extralines)
+    # comment_nested_multiline = re.sub(r"\n(\s)(?=((.*:){2,4}))", '\n#', remove_extralines)
     # leftover_multiline_comment = re.sub('#{2,}', '', comment_nested_multiline)
-    comment_out_variables = re.sub(r"\@", 'var_', comment_nested_multiline)  # YAML doesn't like the @ symbol
+    comment_out_variables = re.sub(r"\@", 'var_', remove_extralines)  # YAML doesn't like the @ symbol
 
     # Sometimes a traits file begins with a variable definition. Nuke it.
     nuke_variable_definitions = re.sub(
@@ -43,12 +52,13 @@ def convert_stellaris_script_to_standard_yaml(input_string):
         tidy_subclass_has_trait_duplicates_2, min_occurrences=1)
 
     # Also need to comment out "inline_script = paragon" because PDX are using duplicate keys AGAIN >_<
-    comment_out_inline_scripts = comment_nested_multiline = re.sub(r"\n(\s)(?=((inline_script: \w){2,}))", '\n#', tidy_subclass_has_trait_duplicates)
+    # comment_out_inline_scripts = comment_nested_multiline = re.sub(r"\n(\s)(?=((inline_script: \w){2,}))", '\n#', tidy_subclass_has_trait_duplicates)
     # Hello rogue operators
     replace_greater_than = re.sub(r" > ", ': greater_than_', tidy_subclass_has_trait_duplicates)
     # Make your time
     replace_less_than = re.sub(r" < ", ": less_than_", replace_greater_than)
-    return replace_less_than
+    converts_equals_to_colon = re.sub(r"\s{0,}=", ":", replace_less_than)
+    return converts_equals_to_colon
 
 def convert_leader_class_definitions_to_lists(input_string, min_classes_length: int=1):
     # convert like 'leader_class: commander official' to
@@ -66,7 +76,6 @@ def convert_leader_class_definitions_to_lists(input_string, min_classes_length: 
         classes_as_list = unformatted_classes.split(' ')
         # now we have ["commander", "official", "scientist"]
         # the trick is directly insert the str version of the list
-        # breakpoint()
         line_with_structured_data = f"{parts[0]}: {str(classes_as_list)}"
         # oh the horror
         input_string_copy = re.sub(complete_line, line_with_structured_data, input_string_copy)
@@ -82,33 +91,73 @@ def concatenate_multiline_has_trait_definitions(input_string, min_occurrences: i
         """
         It's going to be one big string starting with \n
         """
+        # breakpoint()
         complete_line = result[0]
-        pieces = result[0].strip().split('\n')
-        subclasses = [ piece.split(': ')[1] for piece in pieces ]
-        indentation = result[0].split('has_trait: ')[0].count(' ')
-        substitution = f"\n{indentation*" "}has_subclass_trait: {subclasses}\n"
+        pieces = result[0].split('\n')
+        indendation = result[0].split('has_trait')[0]
+        subclasses = [ piece.strip() for piece in result[0].split('has_trait: ')[1:] ]
+        # indentation = result[0].split('has_trait: ')[0].count(' ')
+        substitution = f"{indendation}has_subclass_trait: {subclasses}\n"
         input_string_copy = re.sub(complete_line, substitution, input_string_copy)
     return input_string_copy
 
-def fix_replace_traits_no_spacing(input_string):
-    # Placed higher up in the substitution queue
-    list_assignments_with_no_spaces = re.compile(
-        r"(\s*replace_traits = \{(\w*)\})"
-    )
-    results = re.findall(list_assignments_with_no_spaces, input_string)
+def make_newlines_for_multiple_assignments(input_string):
+    """ convert instances of = { to \\s\\n """
+    # multiple_assignments_re = re.compile(r"(^\s*(?:\w* = {){1,}.*)")
+    multiple_assignments_re = re.compile(r"(\s*(?:[\w|\.]* = {).* = .*)")
+    # ' = { ' but allow for errors in spacing
+    # assignment_block = re.compile(r"\s{0,}=\s{0,}\{\s{0,}")
+    results = re.findall(multiple_assignments_re, input_string)
     input_string_copy = copy(input_string)
     for result in results:
-        complete_line = result[0]
-        trait_to_replace = result[1]
-        indentation = complete_line.count("\t")*"  " 
-        replacement = f"\n{indentation}replace_traits: {trait_to_replace}"
-        input_string_copy = re.sub(complete_line, replacement, input_string_copy)
+        # Do operations on the complete line, goign to split this
+        complete_line = copy(result)
+        # Capture what the initial indent is bc we have to indent add'l lines
+        num_tab_indents = complete_line.count('\t')
+        existing_indendation = '\t' * num_tab_indents
+        # pieces = re.split(assignment_block, complete_line)
+        # ['\n\tNOT', 'has_trait_tier1or2', 'TRAIT = leader_trait_eager } }']
+        pieces = complete_line.split(' = { ')
+        # Clean up all pieces but the first assignment
+        new_pieces = [
+            piece.replace('{','').replace('}','')
+            for piece in pieces[1:]
+        ]
+        reconstructed_line = [pieces[0]]
+        # Starting with the 2nd depth
+        for key_definition in new_pieces:
+            new_indentation = "\t" * (new_pieces.index(key_definition)+1)
+            reconstructed_line.append(
+                f"{existing_indendation}{new_indentation}{key_definition.strip()}"
+            )
+        # reconstructed_line.append(new_pieces[-1])
+        substitution = ":\n".join(reconstructed_line)
+        # breakpoint()
+        input_string_copy = re.sub(complete_line, substitution, input_string_copy)
     return input_string_copy
+
+# def fix_replace_traits_no_spacing(input_string):
+#     # Placed higher up in the substitution queue
+#     list_assignments_with_no_spaces = re.compile(
+#         r"(\s*replace_traits = \{(\w*)\})"
+#     )
+#     results = re.findall(list_assignments_with_no_spaces, input_string)
+#     input_string_copy = copy(input_string)
+#     for result in results:
+#         complete_line = result[0]
+#         trait_to_replace = result[1]
+#         indentation = complete_line.count("\t")*"  " 
+#         replacement = f"\n{indentation}replace_traits: {trait_to_replace}"
+#         input_string_copy = re.sub(complete_line, replacement, input_string_copy)
+#     return input_string_copy
 
 def validate_chopped_up_data(buffer):
     try:
         _ = safe_load(buffer)
     except Exception as ex:
+        print("******************")
+        print(buffer)
+        print("******************")
         sys.exit(f"There was a problem validating the YAML after chopping up the Stellaris script: {ex}")
 
 if __name__=="__main__":

@@ -366,3 +366,28 @@ def test_use_custom_tt_replacement_string(make_uppercase_mapping_files):
         machine_localisations_map=traits_with_machine_desc
     )
     assert expected == actual
+
+def test_3_11_eridanus_mult_in_modifiers():
+    """ exclude mult in modifier ... fuck """
+    trait_data = {
+    "leader_trait_bureaucrat_2": {
+        "trait_name": "leader_trait_bureaucrat_2",
+        "leader_class": "scientist",
+        "gfx": "GFX_leader_trait_bureaucrat",
+        "rarity": "common",
+        "triggered_planet_modifier": {
+            "planet_administrators_unity_produces_mult": 0.05,
+            "mult": "trigger:has_skill"
+        },
+        "triggered_sector_modifier": {
+            "planet_administrators_unity_produces_mult": 0.025,
+            "mult": "trigger:has_skill"
+        },
+        "requires_paragon_dlc": False,
+        "custom_tooltip": "leader_trait_bureaucrat_2_tt"
+    }
+}
+    expected = """
+  #leader_making #scientist #leader_trait_bureaucrat_2
+  xvcv_mdlc_leader_making_tooltip_scientist_leader_trait_bureaucrat_2:0 "§H$leader_trait_bureaucrat_machine$ II§!$add_xvcv_mdlc_leader_making_traits_costs_desc$\n$leader_trait_bureaucrat_2_tt$\n--------------\n§L$leader_trait_bureaucrat_machine_desc$§!
+"""

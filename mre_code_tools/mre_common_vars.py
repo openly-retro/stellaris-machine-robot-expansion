@@ -331,6 +331,7 @@ GARBAGE_MODIFIERS = (
     "script",
     "FIELD",
     "TIER",
+    "mult",
 )
 
 """ These traits are known to have garbage in the modifiers
