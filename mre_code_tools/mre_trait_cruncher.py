@@ -102,7 +102,7 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
                     "you need to specify which leader class to generate the trait info for."
                 )
     # Yes it's more Pythonic to drop the ==, but this is Clausewitz script, which is wildy unpredictable
-    if root.get('destiny_trait') == True:
+    if root.get('leader_trait_type') == "destiny":
         slim_trait['destiny_trait'] = True
     """ Let's get the icon!
     Oh wait, sometimes there will be more than one "inline_script" key,
@@ -196,37 +196,14 @@ def guess_gfx_icon_from_trait_name(trait_name):
     return f"GFX_{base}"
 
 def guess_rarity_from_trait_data(trait_root_data):
-    """ Guess rarity.
-        In almost all cases where rarity is missing because of a second 'inline_script' key,
-        the trait is a veteran trait
-        1) try TIER. If it's 3 or 2, veteran; 1: common
-        2) Try destiny_trait. then "paragon"
-        3) trait ends in '3'; ends in '2'
-    """
-    # breakpoint()
-    approximated_rarity = ''
-    if trait_root_data.get('veteran_class_locked_trait', False) or trait_root_data.get('has_subclass_trait', False):
-        approximated_rarity = "veteran"
-    elif trait_root_data.get('destiny_trait', False):
-        approximated_rarity = "paragon"
-    else:
-        approximated_rarity = "common"
-    # approximated_rarity = ''
-    # # In the base game, some traits have None for the TIER value
-    # if trait_root_data['inline_script'].get('TIER') is not None:
-    #     tier_number = int(trait_root_data['inline_script'].get('TIER', 0))
-    #     if tier_number:
-    #         # TODO: This logic is wrong. There can be T1 veteran traits.
-    #         if tier_number == 1:
-    #             approximated_rarity = "common"
-    #         elif tier_number > 1:
-    #             approximated_rarity = "veteran"
-    # else:
-    #     # More guesswork
-    #     if trait_root_data.get('destiny_trait') == True:
-    #         approximated_rarity = "paragon"
-    # if not approximated_rarity:
-    #     sys.exit(f"We couldnt guess rarity from {trait_root_data}!")
+    """ Take rarity from leader_trait_type; if not present, it's common """
+    approximated_rarity = 'common'
+    if declared_rarity := trait_root_data.get("leader_trait_type", None):
+        if declared_rarity == "destiny":
+            approximated_rarity = "paragon"
+        else:
+            approximated_rarity = declared_rarity
+
     return approximated_rarity
 
 

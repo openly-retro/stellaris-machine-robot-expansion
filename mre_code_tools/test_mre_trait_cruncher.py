@@ -69,7 +69,7 @@ def test_crunch__trait_ruler_architectural_sense_3():
                 "planet_districts_upkeep_mult": -0.05,
                 "planet_building_build_speed_mult": 0.25
             },
-            "veteran_class_locked_trait": True,
+            "leader_trait_type": "veteran",
             "leader_potential_add": {
                 "has_paragon_dlc": True
             },
@@ -119,7 +119,7 @@ def test_crunch__leader_trait_reformer():
                 "country_unity_produces_mult": 0.05,
                 "pop_government_ethic_attraction": 0.35
             },
-            "veteran_class_locked_trait": True,
+            "leader_trait_type": "veteran",
             "leader_class": [
                 "official"
             ],
@@ -147,7 +147,7 @@ def test_crunch__leader_trait_arbiter():
     # Destiny trait
     test_data = {
         "leader_trait_arbiter": {
-            "destiny_trait": True,
+            "leader_trait_type": "destiny",
             "inline_script": {
                 "script": "trait/icon",
                 "CLASS": "commander",
@@ -214,7 +214,7 @@ def test_crunch__leader_trait_scout():
     """ An example which has TWO potential subclasses """
     test_data = {
         "leader_trait_scout": {
-            "veteran_class_locked_trait": True,
+            "leader_trait_type": "veteran",
             "inline_script": {
                 "script": "trait/icon",
                 "CLASS": "leader",
@@ -421,7 +421,7 @@ def test_leader_trait_aggressive_2():
 def test_leader_trait_adventurous_spirit():
     test_data = {
         "leader_trait_adventurous_spirit": {
-            "veteran_class_locked_trait": True,
+            "leader_trait_type": "veteran",
             "inline_script": {
                 "script": "trait/icon",
                 "CLASS": "leader",
@@ -479,7 +479,7 @@ def test_collect_custom_tooltip():
     # Note that 'has_subclass_trait' is something we make during yaml conversion
     test_data = {
         "leader_trait_bellicose": {
-            "destiny_trait": True,
+            "leader_trait_type": "destiny",
             "force_councilor_trait": True,
             "inline_script": {
                 "script": "trait/icon",
@@ -610,7 +610,7 @@ def test_guess_rarity_if_duplicate_inline_script():
     # this trait has two inline_script objects, second one has no useful data for us
     test_data = {
         "leader_trait_frontier_adventurer": {
-            "destiny_trait": True,
+            "leader_trait_type": "destiny",
             "inline_script": {
                 "script": "trait/icon",
             },
@@ -648,7 +648,7 @@ def test_pick_subclass_from_has_trait_definition():
     """ Some cases, we missed getting the subclass ... """
     test_data = {
         "leader_trait_wrecker": {
-            "veteran_class_locked_trait": True,
+            "leader_trait_type": "veteran",
             "inline_script": {
                 "script": "trait/icon",
                 "CLASS": "commander",
@@ -736,7 +736,7 @@ def test_filter_trait_identify_is_ruler_allowance():
 def test_collect_trait_prerequisites():
     test_data = {
         "leader_trait_explorer_cloaking_focus_3": {
-            "veteran_class_locked_trait": True,
+            "leader_trait_type": "veteran",
             "replace_traits": "leader_trait_explorer_cloaking_focus_2",
             "inline_script": {
                 "script": "trait/icon",
