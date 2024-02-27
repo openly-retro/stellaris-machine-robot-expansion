@@ -521,47 +521,112 @@ leader_trait_adventurous_spirit:
 	assert expected_output == actual
 
 def test_deal_with_NOT_multiline():
-	""" NOT can be single-line or multiline! wheeee!!
-		Let's try expanding them? or nuking them ^(^-^)~
-	"""
-	example_2 = """
+    """ NOT can be single-line or multiline! wheeee!!
+    Let's try expanding them? or nuking them ^(^-^)~
+    """
+    example_2 = """
 	NOT = { is_planet_class = pc_shattered_ring_habitable }
 """
-	example_2_expected = """
+    example_2_expected = """
 	NOT:
 		is_planet_class = pc_shattered_ring_habitable
 """
-	example_2_actual = make_newlines_for_multiple_assignments(example_2)
-	assert example_2_expected == example_2_actual
-	example_3 = """
+    example_2_actual = make_newlines_for_multiple_assignments(example_2)
+    assert example_2_expected == example_2_actual
+    example_3 = """
 		NOT = { has_trait_tier1or2 = { TRAIT = leader_trait_eager } }
 """
-	example_3_expected = """
+    example_3_expected = """
 		NOT:
 			has_trait_tier1or2:
 				TRAIT = leader_trait_eager
 """
-	example_3_actual = make_newlines_for_multiple_assignments(example_3)
-	assert example_3_expected == example_3_actual
+    example_3_actual = make_newlines_for_multiple_assignments(example_3)
+    assert example_3_expected == example_3_actual
 
-def test_convert_math_symbols_to_gt_lt_gte_etc():
-	""" hard eye-roll here BUT I believe in me *~~<('-'<) """
-	example_1 = """
-	leader_potential_add = {
-		trait_is_crisis_faction_check = no
-		has_global_flag = game_started
-		has_skill > 1
-		NOT = {
-			has_leader_flag = block_homeworld_traits
-		}
+def test_picky_nested_assignment_in_3_11_trait():
+    troublesome_code = """
+			exists = FROM
+			FROM.owner = { is_same_value = root.owner }
+"""
+    expected = """
+			exists = FROM
+			FROM.owner:
+				is_same_value = root.owner
+"""
+    actual = make_newlines_for_multiple_assignments(troublesome_code)
+    assert expected == actual
+
+def test_3_11_eridanus_trait_imperial_heir():
+    """ this one breaks the pipeline, """
+    test_data = """
+trait_imperial_heir = {
+	force_councilor_trait = yes
+	inline_script = {
+		script = trait/icon
+		CLASS = leader
+		ICON = "GFX_leader_trait_imperial_heir"
+		RARITY = common
+		COUNCIL = triggered
+		TIER = none
 	}
+	custom_tooltip_with_modifiers = "trait_imperial_heir_effects"
+	triggered_self_modifier = {
+		potential = {
+			has_paragon_dlc = yes
+		}
+		leader_trait_selection_options_add = 1
+	}
+	triggered_background_planet_modifier = {
+		potential = {
+			is_ruler = yes
+			exists = owner
+			exists = FROM
+			FROM.owner = { is_same_value = root.owner }
+			owner = {
+				has_valid_civic = civic_imperial_cult
+			}
+		}
+		job_priest_add = 1
+		mult = trigger:has_skill
+	}
+	on_gained_effect = {
+		change_background_job = noble
+	}
+	leader_class = { commander scientist official }
+	randomized = no
+}
 """
-	expected_1_parsed = """
-	leader_potential_add:
-		trait_is_crisis_faction_check: nno
-		has_global_flag: game_started
-		has_skill: gt_1
-		NOT:
-			has_leader_flag :block_homeworld_traits
+    expected = """
+trait_imperial_heir:
+  force_councilor_trait: yes
+  inline_script:
+    script: trait/icon
+    CLASS: leader
+    ICON: "GFX_leader_trait_imperial_heir"
+    RARITY: common
+    COUNCIL: triggered
+    TIER: none
+  custom_tooltip_with_modifiers: "trait_imperial_heir_effects"
+  triggered_self_modifier:
+    potential:
+      has_paragon_dlc: yes
+    leader_trait_selection_options_add: 1
+  triggered_background_planet_modifier:
+    potential:
+      is_ruler: yes
+      exists: owner
+      exists: FROM
+      FROM.owner:
+        is_same_value: root.owner
+      owner:
+        has_valid_civic: civic_imperial_cult
+    job_priest_add: 1
+    mult: trigger:has_skill
+  on_gained_effect:
+    change_background_job: noble
+  leader_class: ['commander', 'scientist', 'official']
+  randomized: no
 """
-	pass
+    actual = convert_stellaris_script_to_standard_yaml(test_data)
+    assert expected == actual

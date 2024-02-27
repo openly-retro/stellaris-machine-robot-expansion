@@ -101,7 +101,7 @@ def concatenate_multiline_has_trait_definitions(input_string, min_occurrences: i
 def make_newlines_for_multiple_assignments(input_string):
     """ convert instances of = { to \\s\\n """
     # multiple_assignments_re = re.compile(r"(^\s*(?:\w* = {){1,}.*)")
-    multiple_assignments_re = re.compile(r"(\s*(?:\w* = {).* = .*)")
+    multiple_assignments_re = re.compile(r"(\s*(?:[\w|\.]* = {).* = .*)")
     # ' = { ' but allow for errors in spacing
     # assignment_block = re.compile(r"\s{0,}=\s{0,}\{\s{0,}")
     results = re.findall(multiple_assignments_re, input_string)
