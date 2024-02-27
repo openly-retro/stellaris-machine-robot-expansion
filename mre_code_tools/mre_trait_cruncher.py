@@ -32,7 +32,7 @@ def iterate_yaml_to_create_filtered_sorted_traits(safe_loaded_blob):
             k: v
         }
         # breakpoint()
-        if trait[k].get("negative"):
+        if trait[k].get("leader_trait_type", "") == "negative":
             continue
         for leader_class in ["commander", "scientist", "official"]:
             if leader_class in trait[k]['leader_class']:
@@ -86,7 +86,7 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
     slim_trait = {}
     trait_name = [*given_trait_dict][0]
     root = given_trait_dict.get(trait_name)
-    if root.get('negative', '') == 'yes':
+    if root.get('leader_trait_type', '') == 'negative':
         # Skip negative traits
         return {}
     slim_trait['trait_name'] = trait_name

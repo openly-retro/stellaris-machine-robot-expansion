@@ -52,6 +52,7 @@ def test_crunch__trait_ruler_architectural_sense_3():
     # Councilor traits are good candidate for core-modifying ruler traits
     test_data = {
         "trait_ruler_architectural_sense_3": {
+            "leader_trait_type": "veteran",
             "replace_traits": "trait_ruler_architectural_sense_2",
             "inline_script": {
                 "script": "trait/icon",
@@ -767,4 +768,28 @@ def test_collect_trait_prerequisites():
 
     }
     actual = filter_trait_info(test_data, for_class="scientist")
+    assert expected == actual
+
+def test_3_11_eridanus_filter_negative_traits():
+    """ leader_trait_type is where 'negative' is stored """
+    parsed_trait = {
+        'leader_trait_nervous': {
+            "leader_trait_type": "negative",
+            'replace_traits': 'leader_trait_nervous',
+            'inline_script': {
+                'script': 'trait/icon',
+                'CLASS': 'official',
+                'ICON': 'GFX_leader_trait_nervous',
+                'RARITY': 'common', 'COUNCIL': False,
+                'TIER': 2
+            },
+            'triggered_planet_modifier': {
+                'potential': {'always': True},
+                'planet_administrators_unity_produces_mult': 0.05
+            },
+            'leader_class': ['official', 'commander', 'scientist']
+        }
+    }
+    expected = {}
+    actual = filter_trait_info(parsed_trait, for_class="official")
     assert expected == actual
