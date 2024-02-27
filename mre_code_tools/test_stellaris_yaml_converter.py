@@ -86,59 +86,61 @@ leader_trait_private_mines_2 = {
 
 	expected_output = """
 leader_trait_private_mines_2:
-	replace_traits: "leader_trait_private_mines"
-	inline_script:
-		script: trait/icon
-		CLASS: leader
-		ICON: "GFX_leader_trait_private_mines"
-		RARITY: common
-		COUNCIL: no
-		TIER: 2
-	triggered_background_planet_modifier:
-		potential:
-			exists: FROM
-			FROM:
-				exists: owner
-				owner:
-					is_same_value: root.owner
-#               #NOT: { is_planet_class: pc_shattered_ring_habitable
-			trait_is_gestalt_check: no
-		job_miner_add: 4
-	triggered_background_planet_modifier:
-		potential:
-			exists: FROM
-			FROM:
-				exists: owner
-				owner:
-					is_same_value: root.owner
-#               #NOT: { is_planet_class: pc_shattered_ring_habitable
-			trait_is_gestalt_check: yes
-		job_mining_drone_add: 4
-	triggered_background_planet_modifier:
-		potential:
-			exists: FROM
-			FROM:
-				exists: owner
-				owner:
-					is_same_value: root.owner
-				is_planet_class: pc_shattered_ring_habitable
-			trait_is_gestalt_check: no
-		job_scrap_miner_add: 4
-	triggered_background_planet_modifier:
-		potential:
-			exists: FROM
-			FROM:
-				exists: owner
-				owner:
-					is_same_value: root.owner
-				is_planet_class: pc_shattered_ring_habitable
-			trait_is_gestalt_check: yes
-		job_scrap_miner_drone_add: 4
-	planet_modifier:
-		planet_miners_minerals_produces_mult: 0.10
-	sector_modifier:
-		planet_miners_minerals_produces_mult: 0.05
-	leader_class: ['commander', 'scientist', 'official']
+  replace_traits: "leader_trait_private_mines"
+  inline_script:
+    script: trait/icon
+    CLASS: leader
+    ICON: "GFX_leader_trait_private_mines"
+    RARITY: common
+    COUNCIL: no
+    TIER: 2
+  triggered_background_planet_modifier:
+    potential:
+      exists: FROM
+      FROM:
+        exists: owner
+        owner:
+          is_same_value: root.owner
+        NOT:
+          is_planet_class: pc_shattered_ring_habitable
+      trait_is_gestalt_check: no
+    job_miner_add: 4
+  triggered_background_planet_modifier:
+    potential:
+      exists: FROM
+      FROM:
+        exists: owner
+        owner:
+          is_same_value: root.owner
+        NOT:
+          is_planet_class: pc_shattered_ring_habitable
+      trait_is_gestalt_check: yes
+    job_mining_drone_add: 4
+  triggered_background_planet_modifier:
+    potential:
+      exists: FROM
+      FROM:
+        exists: owner
+        owner:
+          is_same_value: root.owner
+        is_planet_class: pc_shattered_ring_habitable
+      trait_is_gestalt_check: no
+    job_scrap_miner_add: 4
+  triggered_background_planet_modifier:
+    potential:
+      exists: FROM
+      FROM:
+        exists: owner
+        owner:
+          is_same_value: root.owner
+        is_planet_class: pc_shattered_ring_habitable
+      trait_is_gestalt_check: yes
+    job_scrap_miner_drone_add: 4
+  planet_modifier:
+    planet_miners_minerals_produces_mult: 0.10
+  sector_modifier:
+    planet_miners_minerals_produces_mult: 0.05
+  leader_class: ['commander', 'scientist', 'official']
 """
 	assert expected_output == actual_output
 
@@ -168,20 +170,20 @@ leader_trait_naturalist_3 = {
 
 	expected_output = """
 leader_trait_naturalist_3:
-	replace_traits: "leader_trait_naturalist_2"
-	inline_script:
-		script: trait/icon
-		CLASS: official
-		ICON: "GFX_leader_trait_naturalist"
-		RARITY: veteran
-		COUNCIL: no
-		TIER: 3
-	planet_modifier:
-		deposit_blockers_natural_unity_produces_add: 12
-	sector_modifier:
-		deposit_blockers_natural_unity_produces_add: 6
-	veteran_class_locked_trait: yes
-	leader_class: ['official', 'scientist']
+  replace_traits: "leader_trait_naturalist_2"
+  inline_script:
+    script: trait/icon
+    CLASS: official
+    ICON: "GFX_leader_trait_naturalist"
+    RARITY: veteran
+    COUNCIL: no
+    TIER: 3
+  planet_modifier:
+    deposit_blockers_natural_unity_produces_add: 12
+  sector_modifier:
+    deposit_blockers_natural_unity_produces_add: 6
+  veteran_class_locked_trait: yes
+  leader_class: ['official', 'scientist']
 """
 	actual_output = convert_stellaris_script_to_standard_yaml(stellaris_script)
 
@@ -189,20 +191,20 @@ leader_trait_naturalist_3:
 
 def test_concat_multi_has_trait_lines():
 	test_data = """
-	leader_potential_add:
-		OR:
-			has_paragon_dlc: no
-			has_trait: subclass_commander_admiral
-			has_trait: subclass_scientist_explorer
-			has_trait: subclass_scientist_councilor
+  leader_potential_add:
+    OR:
+      has_paragon_dlc: no
+      has_trait: subclass_commander_admiral
+      has_trait: subclass_scientist_explorer
+      has_trait: subclass_scientist_councilor
+"""
+	expected = """
+  leader_potential_add:
+    OR:
+      has_paragon_dlc: no
+      has_subclass_trait: ['subclass_commander_admiral', 'subclass_scientist_explorer', 'subclass_scientist_councilor']
 """
 	actual = concatenate_multiline_has_trait_definitions(test_data)
-	expected = """
-	leader_potential_add:
-		OR:
-			has_paragon_dlc: no
-			has_subclass_trait: ['subclass_commander_admiral', 'subclass_scientist_explorer', 'subclass_scientist_councilor']
-"""
 	assert expected == actual
 
 def test_convert_stellaris_script__scout_double_subclass():
@@ -253,33 +255,33 @@ leader_trait_scout = {
 """
 	expected = """
 leader_trait_scout:
-	veteran_class_locked_trait: yes
-	inline_script:
-		script: trait/icon
-		CLASS: leader
-		ICON: GFX_leader_trait_scout
-		RARITY: free_or_veteran
-		COUNCIL: no
-		TIER: 1
-	leader_potential_add:
-		OR:
-			has_paragon_dlc: no
-			has_subclass_trait: ['subclass_commander_admiral', 'subclass_scientist_explorer', 'subclass_scientist_councilor']
-	modifier:
-		ship_speed_mult: 0.05 # some comment
-		ship_hyperlane_range_add: 2
-		fleet_mia_time_mult: -0.1
-	triggered_modifier:
-#        potential: has_first_contact_dlc: yes
-		ship_cloaking_strength_add: 1
-	leader_class: ['commander', 'scientist']
-	selectable_weight:
- #       inline_script: paragon/subclass_free_trait_weight
- #       inline_script: paragon/pilot_weight_mult
-		inline_script:
-			script: paragon/dual_subclass_weight_mult
-			SUBCLASS_1: commander_admiral
-			SUBCLASS_2: scientist_explorer
+  veteran_class_locked_trait: yes
+  inline_script:
+    script: trait/icon
+    CLASS: leader
+    ICON: GFX_leader_trait_scout
+    RARITY: free_or_veteran
+    COUNCIL: no
+    TIER: 1
+  leader_potential_add:
+    OR:
+      has_paragon_dlc: no
+      has_subclass_trait: ['subclass_commander_admiral', 'subclass_scientist_explorer', 'subclass_scientist_councilor']
+  modifier:
+    ship_speed_mult: 0.05 # some comment
+    ship_hyperlane_range_add: 2
+    fleet_mia_time_mult: -0.1
+  triggered_modifier:
+        potential: has_first_contact_dlc: yes
+    ship_cloaking_strength_add: 1
+  leader_class: ['commander', 'scientist']
+  selectable_weight:
+    inline_script: paragon/subclass_free_trait_weight
+    inline_script: paragon/pilot_weight_mult
+    inline_script:
+      script: paragon/dual_subclass_weight_mult
+      SUBCLASS_1: commander_admiral
+      SUBCLASS_2: scientist_explorer
 """
 
 def test_structuring_leader_class_lists():
@@ -311,11 +313,11 @@ selectable_weight = {
 	actual_output = convert_stellaris_script_to_standard_yaml(test_data)
 	expected_output = """
 selectable_weight:
-	weight: var_shared_trait_weight
-	inline_script: paragon/governor_weight_mult
-	inline_script:
-		script: "paragon/existing_trait_weight_mult"
-		TRAIT: leader_trait_bureaucrat
+  weight: var_shared_trait_weight
+  inline_script: paragon/governor_weight_mult
+  inline_script:
+    script: "paragon/existing_trait_weight_mult"
+    TRAIT: leader_trait_bureaucrat
 """
 	assert expected_output == actual_output
 
@@ -349,13 +351,13 @@ selectable_weight = {
 	actual_output = convert_stellaris_script_to_standard_yaml(test_data)
 	expected_output = """
 selectable_weight:
-	weight: var_shared_trait_weight
-	inline_script: paragon/governor_weight_mult
-	has_skill: greater_than_1
-	value: less_than_1
-	inline_script:
-		script: "paragon/existing_trait_weight_mult"
-		TRAIT: leader_trait_bureaucrat
+  weight: var_shared_trait_weight
+  inline_script: paragon/governor_weight_mult
+  has_skill: greater_than_1
+  value: less_than_1
+  inline_script:
+    script: "paragon/existing_trait_weight_mult"
+    TRAIT: leader_trait_bureaucrat
 """
 	assert expected_output == actual_output
 
@@ -385,8 +387,10 @@ def test_leader_trait_sapient_ai_assistant():
 	}
 """
 	expected = """
-	leader_potential_add:
-#       #NOT: { from: has_policy_flag: ai_outlawed
+  leader_potential_add:
+    NOT:
+      from:
+        has_policy_flag: ai_outlawed
 """
 	actual = convert_stellaris_script_to_standard_yaml(test_data)
 	assert expected == actual
@@ -395,59 +399,59 @@ def test_leader_trait_peacekeeper():
 
 	raw_data = """
 leader_trait_peacekeeper = {
-  destiny_trait = yes
-  inline_script = {
-	script = trait/icon
-	CLASS = leader
-	ICON = GFX_leader_trait_peacekeeper
-	RARITY = paragon
-	COUNCIL = yes
-	TIER = none
-  }
-  councilor_modifier = {
-	planet_stability_add = 5
-	piracy_suppression_mult = 0.35
-	planet_crime_add = -20
-	pop_ethic_pacifist_attraction_mult = 0.40
-  }
-  leader_potential_add = {
-	has_paragon_dlc = yes
-	OR = {
-	  has_trait = subclass_official_economy_councilor
-	  has_trait = subclass_commander_councilor
+	destiny_trait = yes
+	inline_script = {
+		script = trait/icon
+		CLASS = leader
+		ICON = GFX_leader_trait_peacekeeper
+		RARITY = paragon
+		COUNCIL = yes
+		TIER = none
 	}
-  }
-  leader_class = { commander official }
-  selectable_weight = {
-	weight = @subclass_trait_weight
-	inline_script = paragon/council_weight_mult
-  }
-  background_icon = GFX_leader_background_destiny_1
+	councilor_modifier = {
+		planet_stability_add = 5
+		piracy_suppression_mult = 0.35
+		planet_crime_add = -20
+		pop_ethic_pacifist_attraction_mult = 0.40
+	}
+	leader_potential_add = {
+		has_paragon_dlc = yes
+		OR = {
+			has_trait = subclass_official_economy_councilor
+			has_trait = subclass_commander_councilor
+		}
+	}
+	leader_class = { commander official }
+	selectable_weight = {
+		weight = @subclass_trait_weight
+		inline_script = paragon/council_weight_mult
+	}
+	background_icon = GFX_leader_background_destiny_1
 }
 """
 	expected = """
 leader_trait_peacekeeper:
   destiny_trait: yes
   inline_script:
-	script: trait/icon
-	CLASS: leader
-	ICON: GFX_leader_trait_peacekeeper
-	RARITY: paragon
-	COUNCIL: yes
-	TIER: none
+    script: trait/icon
+    CLASS: leader
+    ICON: GFX_leader_trait_peacekeeper
+    RARITY: paragon
+    COUNCIL: yes
+    TIER: none
   councilor_modifier:
-	planet_stability_add: 5
-	piracy_suppression_mult: 0.35
-	planet_crime_add: -20
-	pop_ethic_pacifist_attraction_mult: 0.40
+    planet_stability_add: 5
+    piracy_suppression_mult: 0.35
+    planet_crime_add: -20
+    pop_ethic_pacifist_attraction_mult: 0.40
   leader_potential_add:
-	has_paragon_dlc: yes
-	OR:
-	  has_subclass_trait: ['subclass_official_economy_councilor', 'subclass_commander_councilor']
+    has_paragon_dlc: yes
+    OR:
+      has_subclass_trait: ['subclass_official_economy_councilor', 'subclass_commander_councilor']
   leader_class: ['commander', 'official']
   selectable_weight:
-	weight: var_subclass_trait_weight
-	inline_script: paragon/council_weight_mult
+    weight: var_subclass_trait_weight
+    inline_script: paragon/council_weight_mult
   background_icon: GFX_leader_background_destiny_1
 """
 	actual = convert_stellaris_script_to_standard_yaml(raw_data)
@@ -456,47 +460,62 @@ leader_trait_peacekeeper:
 
 def test_3_11_eridanus_trait_code():
 	test_script = """
-leader_trait_corsair_3 = {
-  leader_trait_type = veteran
-  replace_traits = { leader_trait_corsair_2 }
-  inline_script = {
-	script = trait/icon
-	CLASS = commander
-	ICON = GFX_leader_trait_corsair
-	RARITY = veteran
-	COUNCIL = no
-	TIER = 3
-  }
-  # Effect in paragon_2.1005 event.
-  fleet_modifier = {
-	ship_orbit_upkeep_mult = -0.2
-  }
-  triggered_modifier = {
-	potential = { has_first_contact_dlc = yes }
-	ship_cloaking_strength_add = 1
-  }
-  leader_class = { commander }
-  custom_tooltip_with_modifiers = leader_trait_corsair_3_effect
+leader_trait_adventurous_spirit = {
+	leader_trait_type = veteran
+	inline_script = {
+		script = trait/icon
+		CLASS = leader
+		ICON = "GFX_leader_trait_adventurous_spirit"
+		RARITY = veteran
+		COUNCIL = no
+		TIER = 1
+	}
+	triggered_self_modifier = {
+		potential = { is_councilor = no }
+		show_if_not_potential = yes
+		not_potential_override_text_key = adventurous_spirit_on_council
+		leaders_upkeep_mult = -0.1
+	}
+	leader_potential_add = {
+		trait_is_crisis_faction_check = no
+		has_paragon_dlc = yes
+		NOT = { has_trait_tier1or2 = { TRAIT = leader_trait_eager } }
+	}
+	custom_tooltip_with_modifiers = leader_trait_adventurous_spirit_effect
+	leader_class = { commander scientist official }
+	selectable_weight = {
+		weight = @shared_trait_weight
+		inline_script = paragon/not_council_weight_mult
+	}
 }
 """
 	expected_output = """
-leader_trait_corsair_3:
+leader_trait_adventurous_spirit:
   leader_trait_type: veteran
-  replace_traits: leader_trait_corsair_2
   inline_script:
-	script: trait/icon
-	CLASS: commander
-	ICON: GFX_leader_trait_corsair
-	RARITY: veteran
-	COUNCIL: no
-	TIER: 3
-  fleet_modifier:
-	ship_orbit_upkeep_mult: -0.2
-  triggered_modifier:
-#   potential: has_first_contact_dlc: yes
-	ship_cloaking_strength_add: 1
-  leader_class: ['commander']
-  custom_tooltip_with_modifiers: leader_trait_corsair_3_effect
+    script: trait/icon
+    CLASS: leader
+    ICON: "GFX_leader_trait_adventurous_spirit"
+    RARITY: veteran
+    COUNCIL: no
+    TIER: 1
+  triggered_self_modifier:
+    potential:
+      is_councilor: no
+    show_if_not_potential: yes
+    not_potential_override_text_key: adventurous_spirit_on_council
+    leaders_upkeep_mult: -0.1
+  leader_potential_add:
+    trait_is_crisis_faction_check: no
+    has_paragon_dlc: yes
+    NOT:
+      has_trait_tier1or2:
+        TRAIT: leader_trait_eager
+  custom_tooltip_with_modifiers: leader_trait_adventurous_spirit_effect
+  leader_class: ['commander', 'scientist', 'official']
+  selectable_weight:
+    weight: var_shared_trait_weight
+    inline_script: paragon/not_council_weight_mult
 """
 	actual = convert_stellaris_script_to_standard_yaml(test_script)
 	assert expected_output == actual
@@ -505,18 +524,6 @@ def test_deal_with_NOT_multiline():
 	""" NOT can be single-line or multiline! wheeee!!
 		Let's try expanding them? or nuking them ^(^-^)~
 	"""
-
-# 	example_1 = """
-# 	NOT = {
-# 		has_leader_flag = block_homeworld_traits
-# 	}
-# """
-# 	example_1_expected = """
-# 	NOT:
-# 		has_leader_flag = block_homeworld_traits
-# """
-# 	example_1_actual = make_newlines_for_multiple_assignments(example_1)
-	# assert example_1_expected == example_1_actual
 	example_2 = """
 	NOT = { is_planet_class = pc_shattered_ring_habitable }
 """
