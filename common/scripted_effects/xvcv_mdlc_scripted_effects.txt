@@ -269,7 +269,7 @@ xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect = {
 	change_variable = { which = xvcv_mdlc_world_machines_districts_current_output_for_display_var value = xvcv_mdlc_world_machines_districts_output_var }
 	multiply_variable = { which = xvcv_mdlc_world_machines_districts_current_output_for_display_var value = 100 }
 }
-xvcv_mdlc_civic_emotion_emulator_pop_bonus_effect = {
+xvcv_mdlc_civic_goods_distributor_pop_bonus_effect = {
 	optimize_memory
 	if = {
 		limit = { has_modifier = xvcv_mdlc_goods_for_pop_unity_bonus }
@@ -277,13 +277,13 @@ xvcv_mdlc_civic_emotion_emulator_pop_bonus_effect = {
 	}
 	export_resource_income_to_variable = {
 		resource = consumer_goods
-		variable = xvcv_mdlc_civic_emotion_emulator_income_var
+		variable = xvcv_mdlc_civic_goods_distributor_income_var
 	}
 	if = {
 		limit = { is_ai = no }
 		add_resource = {
 			consumer_goods = -1
-			mult = xvcv_mdlc_civic_emotion_emulator_income_var
+			mult = xvcv_mdlc_civic_goods_distributor_income_var
 		}
 	}
 	export_trigger_value_to_variable = {
@@ -296,7 +296,7 @@ xvcv_mdlc_civic_emotion_emulator_pop_bonus_effect = {
 				}
 			}
 		}
-		variable = xvcv_mdlc_civic_emotion_emulator_pop_var
+		variable = xvcv_mdlc_civic_goods_distributor_pop_var
 	}
 	#calculation e.g.
 	#the total income = 19
@@ -305,10 +305,10 @@ xvcv_mdlc_civic_emotion_emulator_pop_bonus_effect = {
 	#and this means about 0.57 more goods can be distributed per drone pop for additional unity creation
 	#so it's 0.57 more unity per pop
 	divide_variable = {
-		which = xvcv_mdlc_civic_emotion_emulator_income_var
-		value = xvcv_mdlc_civic_emotion_emulator_pop_var
+		which = xvcv_mdlc_civic_goods_distributor_income_var
+		value = xvcv_mdlc_civic_goods_distributor_pop_var
 	}
-	add_modifier = { modifier = xvcv_mdlc_goods_for_pop_unity_bonus days = -1 multiplier = xvcv_mdlc_civic_emotion_emulator_income_var }
+	add_modifier = { modifier = xvcv_mdlc_goods_for_pop_unity_bonus days = -1 multiplier = xvcv_mdlc_civic_goods_distributor_income_var }
 }
 xvcv_mdlc_situation_machine_learning_add_progress_effect = {
 	optimize_memory
@@ -357,5 +357,57 @@ xvcv_mdlc_ap_genetics_mastery_species_new_template_create_effect = {
 			change_species = last_created_species
 			xvcv_mdlc_machine_species_rights_adjustments_effect = yes
 		}
+	}
+}
+xvcv_mdlc_set_memory_share_level_up_happened_for_commander = {
+	owner = {
+		set_timed_country_flag = {
+			flag = xvcv_mdlc_memory_share_leveled_up_commander
+			days = 1
+		}
+	}
+	log = "Set country flag that we leveled up commanders, inside scripted effect"
+}
+xvcv_mdlc_set_memory_share_level_up_happened_for_scientist = {
+	owner = {
+		set_timed_country_flag = {
+			flag = xvcv_mdlc_memory_share_leveled_up_scientist
+			days = 1
+		}
+	}
+	log = "Set country flag that we leveled up scientists, inside scripted effect"
+}
+xvcv_mdlc_set_memory_share_level_up_happened_for_official = {
+	owner = {
+		set_timed_country_flag = {
+			flag = xvcv_mdlc_memory_share_leveled_up_official
+			days = 1
+		}
+	}
+	log = "Set country flag that we leveled up officials, inside scripted effect"
+}
+
+xvcv_mdlc_iterate_leaders_level_up_classes_under_skill = {
+	# scope here is 'prev'
+	# call with CLASS and SKILL_LEVEL
+	# set_variable = {
+	# 	which = xvcv_total_class_specific_leaders_under_level_2
+	# 	# value = value:count_leaders_of_class|CLASS|commander|
+	# 	value = value:count_leaders_of_class_under_level|CLASS|$CLASS$|SKILL_LEVEL|$SKILL_LEVEL|
+	# }
+	# log = "There are \[This.xvcv_total_class_specific_leaders_under_level_2] $CLASS$ leaders to level up that are below level $SKILL_LEVEL$"
+
+	every_owned_leader = {
+		limit = {
+			is_councilor = no
+			has_trait = xvcv_mdlc_leader_trait_shared_memory
+			leader_class = $CLASS$
+			has_skill < $SKILL_LEVEL$
+			NOT = { has_leader_flag = xvcv_mdlc_leader_trait_shared_memory_target_@this }
+		}
+		# log = "Leveling \\[prev.xvcv_total_class_specific_leaders_under_level_2] scientists level below 2"
+		root = { xvcv_mdlc_set_memory_share_level_up_happened_for_scientist = yes }
+		set_timed_leader_flag = { flag = xvcv_mdlc_leader_trait_shared_memory_target_@this days = 1 }
+		add_skill_without_trait_selection = 1
 	}
 }
