@@ -630,3 +630,73 @@ trait_imperial_heir:
 """
     actual = convert_stellaris_script_to_standard_yaml(test_data)
     assert expected == actual
+
+def test_3_11_substance_abuser_2_nested():
+    """ I FOUND A TAB WHERE THERE SHOULD BE A SPACE EHEHEE """
+    test_data = """
+		modifier = {
+			species = {	has_trait = trait_decadent }
+			factor = @species_trait_weight_mult
+"""
+    expected = """
+    modifier:
+      species:
+        has_trait: trait_decadent
+      factor: var_species_trait_weight_mult
+"""
+    actual = convert_stellaris_script_to_standard_yaml(test_data)
+    assert expected == actual
+
+def test_3_11_substance_abuser_2():
+    """ Breaks on species modifier has trait BECAUSE IT HAS A TAB IN THERE"""
+    test_data = """
+leader_trait_substance_abuser_2 = {
+	leader_trait_type = negative
+	replace_traits = { "leader_trait_substance_abuser" }
+	inline_script = {
+		script = trait/icon_negative
+		ICON = "GFX_leader_trait_substance_abuser"
+		COUNCIL = no
+		TIER = 2
+	}
+	self_modifier = {
+		leader_lifespan_add = -30
+	}
+	leader_class = { commander scientist official }
+	opposites = {
+		leader_trait_resilient
+		leader_trait_resilient_2
+	}
+	selectable_weight = {
+		weight = @tier2_negative_trait_weight
+		modifier = {
+			species = {	has_trait = trait_decadent }
+			factor = @species_trait_weight_mult
+		}
+	}
+}
+"""
+    expected = """
+leader_trait_substance_abuser_2:
+  leader_trait_type: negative
+  replace_traits: "leader_trait_substance_abuser"
+  inline_script:
+    script: trait/icon_negative
+    ICON: "GFX_leader_trait_substance_abuser"
+    COUNCIL: no
+    TIER: 2
+  self_modifier:
+    leader_lifespan_add: -30
+  leader_class: ['commander', 'scientist', 'official']
+  opposites:
+    leader_trait_resilient
+    leader_trait_resilient_2
+  selectable_weight:
+    weight: var_tier2_negative_trait_weight
+    modifier:
+      species:
+        has_trait: trait_decadent
+      factor: var_species_trait_weight_mult
+"""
+    actual = convert_stellaris_script_to_standard_yaml(test_data)
+    assert expected == actual

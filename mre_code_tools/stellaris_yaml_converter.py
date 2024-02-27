@@ -15,7 +15,10 @@ def convert_stellaris_script_to_standard_yaml(input_string):
     add_spaces_between_brace_and_text_closing = re.sub(
         r"(?<=\w)(\})", ' }', add_spaces_between_brace_and_text_opening
     )
-    expand_multiple_one_line_assignments = make_newlines_for_multiple_assignments(add_spaces_between_brace_and_text_closing)
+    convert_tabs_after_braces = re.sub(
+        r"(\{\t)(?=\w)", '{ ', add_spaces_between_brace_and_text_closing
+    )
+    expand_multiple_one_line_assignments = make_newlines_for_multiple_assignments(convert_tabs_after_braces)
 
     convert_tabs_to_spaces = re.sub(r"\t", ' '*TAB_SIZE, expand_multiple_one_line_assignments)
     remove_comment_blocks = re.sub(r"\n\s{0,}#.*", '', convert_tabs_to_spaces)
@@ -105,7 +108,6 @@ def make_newlines_for_multiple_assignments(input_string):
     # ' = { ' but allow for errors in spacing
     # assignment_block = re.compile(r"\s{0,}=\s{0,}\{\s{0,}")
     results = re.findall(multiple_assignments_re, input_string)
-    # breakpoint()
     input_string_copy = copy(input_string)
     for result in results:
         # Do operations on the complete line, goign to split this
@@ -153,6 +155,9 @@ def validate_chopped_up_data(buffer):
     try:
         _ = safe_load(buffer)
     except Exception as ex:
+        print("******************")
+        print(buffer)
+        print("******************")
         sys.exit(f"There was a problem validating the YAML after chopping up the Stellaris script: {ex}")
 
 if __name__=="__main__":
