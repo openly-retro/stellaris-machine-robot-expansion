@@ -2857,7 +2857,15 @@ planet_event = {
 			change_variable = { which = xvcv_mdlc_world_machines_districts_output_var value = -0.3 } #minus 0.3 output as a cooler is gone
 			else = { change_variable = { which = xvcv_mdlc_world_machines_districts_output_var value = 0.1 } } #plus 0.1 output as a heat source is gone
 		}
+		log = "A district was removed from a world-machine."
 		xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect = yes
+
+		if = {
+			limit = {
+				xvcv_mdlc_world_machines_planet_needs_cooling_offset = yes
+			}
+			xvcv_mdlc_world_machines_calculate_cooling_district_offset = yes
+		}
 	}
 }
 #'xvcv_mdlc_d_pc_machine_ser_crime' or 'xvcv_mdlc_d_pc_machine_ser_admin_cap' deposits count

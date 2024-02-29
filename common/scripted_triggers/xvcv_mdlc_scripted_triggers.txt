@@ -85,7 +85,6 @@ xvcv_mdlc_leader_tied_traits_remove_trigger = {
 	}
 	has_trait = $LEADER_TRAIT$
 }
-
 # Set up country-level flags so that memory share can trigger again for other class types
 # Ex: commanders were all leveled -- don't block scientists or officials from getting levels from this effect --0xR
 xvcv_mdlc_check_memory_share_level_up_happened_for_commander = {
@@ -99,4 +98,16 @@ xvcv_mdlc_check_memory_share_level_up_happened_for_scientist = {
 xvcv_mdlc_check_memory_share_level_up_happened_for_official = {
 	log = "Checking inside scripted trigger if lvl up happened for official"
 	owner = { has_country_flag = xvcv_mdlc_memory_share_leveled_up_official }
+}
+
+xvcv_mdlc_world_machines_planet_needs_cooling_offset = {
+	AND = {
+		check_variable = {
+			which = xvcv_mdlc_world_machines_districts_output_var
+			value > 0
+		}
+		has_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_good
+	}
+
+	# print_scope_trigger = yes
 }

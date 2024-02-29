@@ -242,7 +242,10 @@ xvcv_mdlc_planet_terraforming_resolution_breached_effect = {
 xvcv_mdlc_world_machines_output_value_calc_effect = {
 	optimize_memory
 	#for 'xvcv_mdlc_world_machines_districts_heat_indicator_tooltip' tooltips too
-	export_modifier_to_variable = { modifier = xvcv_mdlc_world_machines_districts_produces_mult variable = xvcv_mdlc_world_machines_districts_output_var }
+	export_modifier_to_variable = {
+		modifier = xvcv_mdlc_world_machines_districts_produces_mult
+		variable = xvcv_mdlc_world_machines_districts_output_var
+	}
 	xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect = yes
 }
 xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect = {
@@ -265,10 +268,98 @@ xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect = {
 		limit = { check_variable = { which = xvcv_mdlc_world_machines_districts_output_var value < 0 } }
 		add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad days = -1 }
 	}
-	set_variable = { which = xvcv_mdlc_world_machines_districts_current_output_for_display_var value = 1 }
-	change_variable = { which = xvcv_mdlc_world_machines_districts_current_output_for_display_var value = xvcv_mdlc_world_machines_districts_output_var }
-	multiply_variable = { which = xvcv_mdlc_world_machines_districts_current_output_for_display_var value = 100 }
+	xvcv_mdlc_world_machines_calculate_cooling_district_offset = yes
+	if = {
+		limit = { xvcv_mdlc_world_machines_planet_needs_cooling_offset = yes }
+		xvcv_mdlc_world_machines_apply_cooling_offset = yes
+	}
+	else {
+		xvcv_mdlc_world_machines_remove_cooling_offset = yes
+	}
+	set_variable = {
+		which = xvcv_mdlc_world_machines_districts_current_output_for_display_var
+		value = 1
+	}
+	change_variable = {
+		which = xvcv_mdlc_world_machines_districts_current_output_for_display_var
+		value = xvcv_mdlc_world_machines_districts_output_var
+	}
+	# convert 0.1 to 10%
+	multiply_variable = {
+		which = xvcv_mdlc_world_machines_districts_current_output_for_display_var
+		value = 100
+	}
+	# Copy over the offset which is in the 10s (1 vs 0.1)
+	set_variable = {
+		which = xvcv_mdlc_cooling_offset_total_tmp
+		value = xvcv_mdlc_cooling_offset_total
+	}
+	# Convert 1 (1 district needed) to 10 (10%)
+	multiply_variable = {
+		which = xvcv_mdlc_cooling_offset_total_tmp
+		value = 10
+	}
+	# Subtract tmp (10%) from display (110%) to get (100%)
+	subtract_variable = {
+		which = xvcv_mdlc_world_machines_districts_current_output_for_display_var
+		value = xvcv_mdlc_cooling_offset_total_tmp
+	}
+	
 }
+xvcv_mdlc_world_machines_calculate_cooling_district_offset = {
+	# If the district output is too high because there are too many cooling districts active,
+	# because a player has destroyed a lot of districts in order to drive up the value,
+	# calculate an amount to offset the bonus by and apply a negative modifier temporarily
+	log = "World machine cooling bonus is set to \\[This.xvcv_mdlc_world_machines_districts_output_var]"
+	if = {
+		limit = {
+			check_variable = {
+				which = xvcv_mdlc_world_machines_districts_output_var
+				value > 0
+			}
+		}
+		log = "Found world machine cooling output bonus to be above 100 \\[This.xvcv_mdlc_world_machines_districts_output_var], now setting it to 100"
+		# First, copy the amount of district output bonus. it will be a decimal
+		set_variable = {
+			which = xvcv_mdlc_cooling_offset_total
+			value = xvcv_mdlc_world_machines_districts_output_var
+		}
+		# Bump it to a whole integer amount (0.1 becomes 1)
+		multiply_variable = {
+			which = xvcv_mdlc_cooling_offset_total
+			value = 10
+		}
+	}
+	else = {
+		# Zero this out
+		log = "No cooling offset is needed, world machine is stable."
+		set_variable = {
+			which = xvcv_mdlc_cooling_offset_total
+			value = 0
+		}
+	}
+}
+xvcv_mdlc_world_machines_apply_cooling_offset = {
+	log = "World machine output is over 100% on \\[This.root], need to apply cooling offset deposits"
+	add_modifier = {
+		modifier = xvcv_mdlc_world_machines_cooling_districts_redundancy_indicator days = -1
+	}
+	# Clear existing deposits
+	every_deposit = { limit = { is_deposit_type = xvcv_mdlc_world_machines_cooling_district_offset } remove_deposit = yes }
+	# Re-add them
+	log = "Will attempt to add \\[This.xvcv_mdlc_cooling_offset_total] cooling offset districts"
+	while = {
+		count = xvcv_mdlc_cooling_offset_total
+		add_deposit = xvcv_mdlc_world_machines_cooling_district_offset
+	}
+	log = "Added \\[This.xvcv_mdlc_cooling_offset_total] cooling deposit offset"
+}
+xvcv_mdlc_world_machines_remove_cooling_offset = {
+	log = "Dont need cooling offsets anymore for \\[This.root], world is stable"
+	every_deposit = { limit = { is_deposit_type = xvcv_mdlc_world_machines_cooling_district_offset } remove_deposit = yes }
+	remove_modifier = xvcv_mdlc_world_machines_cooling_districts_redundancy_indicator
+}
+
 xvcv_mdlc_civic_goods_distributor_pop_bonus_effect = {
 	optimize_memory
 	if = {
