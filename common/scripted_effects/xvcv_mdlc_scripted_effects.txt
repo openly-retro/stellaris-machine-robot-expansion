@@ -313,16 +313,24 @@ xvcv_mdlc_world_machines_calculate_cooling_district_offset = {
 	log = "World machine cooling bonus is set to \\[This.xvcv_mdlc_world_machines_districts_output_var]"
 	if = {
 		limit = {
+			# Building 1 cooling district when no other districts are build
+			# bumps the cooling factor to 120%
 			check_variable = {
 				which = xvcv_mdlc_world_machines_districts_output_var
-				value > 0
+				value > @xvcv_mdlc_world_machines_cooling_redundancy_threshold
 			}
 		}
-		log = "Found world machine cooling output bonus to be above 100 \\[This.xvcv_mdlc_world_machines_districts_output_var], now setting it to 100"
+		log = "Found world machine cooling output bonus to be above 130 \\[This.xvcv_mdlc_world_machines_districts_output_var], making calculations"
 		# First, copy the amount of district output bonus. it will be a decimal
 		set_variable = {
 			which = xvcv_mdlc_cooling_offset_total
 			value = xvcv_mdlc_world_machines_districts_output_var
+		}
+		# We dont want 4 districts. We want to correct cooling bonuses above 130%
+		# subtract 0.3 (the allowance) from the current value, to get at minimum 0.1
+		subtract_variable = {
+			which = xvcv_mdlc_cooling_offset_total
+			value = @xvcv_mdlc_world_machines_cooling_redundancy_threshold
 		}
 		# Bump it to a whole integer amount (0.1 becomes 1)
 		multiply_variable = {
@@ -340,7 +348,7 @@ xvcv_mdlc_world_machines_calculate_cooling_district_offset = {
 	}
 }
 xvcv_mdlc_world_machines_apply_cooling_offset = {
-	log = "World machine output is over 100% on \\[This.root], need to apply cooling offset deposits"
+	log = "World machine output is over 130% on \\[This], need to apply cooling offset deposits"
 	add_modifier = {
 		modifier = xvcv_mdlc_world_machines_cooling_districts_redundancy_indicator days = -1
 	}
@@ -355,7 +363,7 @@ xvcv_mdlc_world_machines_apply_cooling_offset = {
 	log = "Added \\[This.xvcv_mdlc_cooling_offset_total] cooling deposit offset"
 }
 xvcv_mdlc_world_machines_remove_cooling_offset = {
-	log = "Dont need cooling offsets anymore for \\[This.root], world is stable"
+	log = "Dont need cooling offsets anymore for \\[This], world cooling bonus is OK"
 	every_deposit = { limit = { is_deposit_type = xvcv_mdlc_world_machines_cooling_district_offset } remove_deposit = yes }
 	remove_modifier = xvcv_mdlc_world_machines_cooling_districts_redundancy_indicator
 }
