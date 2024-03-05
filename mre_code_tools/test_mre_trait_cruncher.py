@@ -450,7 +450,7 @@ def test_leader_trait_adventurous_spirit():
             "leaders_upkeep_mult": -0.1
         },
         "requires_paragon_dlc": True,
-        "custom_tooltip": "leader_trait_adventurous_spirit_effect"
+        "custom_tooltip_with_modifiers": "leader_trait_adventurous_spirit_effect"
     }
     actual = filter_trait_info(test_data, for_class="commander")
     assert expected == actual
@@ -765,7 +765,7 @@ def test_collect_trait_prerequisites():
                 "ship_cloaking_strength_add": 2
             },
             "prerequisites": [ "tech_cloaking_1" ],
-            "custom_tooltip": "leader_trait_explorer_cloaking_focus_3_tt",
+            "custom_tooltip_with_modifiers": "leader_trait_explorer_cloaking_focus_3_tt",
 
     }
     actual = filter_trait_info(test_data, for_class="scientist")

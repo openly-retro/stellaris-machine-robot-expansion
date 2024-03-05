@@ -175,6 +175,11 @@ def create_tooltip_for_leader(
         if potential_custom_tooltip.endswith('tt') or potential_custom_tooltip.endswith('effect'):
             trait_bonuses = f"${potential_custom_tooltip}$"
             will_use_custom_tt = True
+    # Some custom_tooltip_with_modifiers should be appended to, and not replace,
+    # the modifiers on the trait
+    will_append_effects_tt = False
+    if append_effects_tt := root.get("custom_tooltip_with_modifiers", ''):
+        will_append_effects_tt = True 
   
     # If we're not going to use the custom tooltip ID, generate the tooltips the ol fashioned way
     if not will_use_custom_tt:
@@ -221,12 +226,17 @@ def create_tooltip_for_leader(
                         modified_amount = 5
                     if "." in str(modified_amount) and str(modified_amount)[-1].isdigit():
                         modified_amount = convert_decimal_to_percent_str(modified_amount)
+                    # Deal with -1 representing -100%
+                    if "chance" in modifier_name and type(modified_amount) is int:
+                        modified_amount = convert_decimal_to_percent_str(modified_amount)
                     number_sign = "+" if "-" not in str(modified_amount) else ""
                     # TABBED_NEW_LINE: "\n$t$" but since we already add newlines, just add tab
                     indentation = "$t$"
                     modifiers_list.append(
                         f"{indentation}{mod_tt_key}: {make_green_text(f"{number_sign}{modified_amount}")}"
                     )
+        if will_append_effects_tt:
+            modifiers_list.append(f"${append_effects_tt}$")
         trait_bonuses = '\\n'.join(modifiers_list)
 
     special_help_text = ''
