@@ -2852,13 +2852,23 @@ planet_event = {
 
 	immediate = {
 		#I've found that the 'export_modifier_to_variable' effect doesn't work proper when it's combined with the 'on_district_demolished' trigger #stellaris v3.0.3
+		# Sadly this is still an issue in 3.11 --0xRetro
 		if = {
 			limit = { last_district_changed = xvcv_mdlc_common_district_cooling }
-			change_variable = { which = xvcv_mdlc_world_machines_districts_output_var value = -0.3 } #minus 0.3 output as a cooler is gone
-			else = { change_variable = { which = xvcv_mdlc_world_machines_districts_output_var value = 0.1 } } #plus 0.1 output as a heat source is gone
+			change_variable = {
+				which = xvcv_mdlc_world_machines_districts_output_var
+				value = -0.3
+			} #minus 0.3 output as a cooler is gone
 		}
+		else = {
+			change_variable = {
+				which = xvcv_mdlc_world_machines_districts_output_var
+				value = 0.1
+			}
+		} #plus 0.1 output as a heat source is gone
 		log = "A district was removed from a world-machine."
 		xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect = yes
+		# xvcv_mdlc_world_machines_output_value_calc_effect = yes
 
 		if = {
 			limit = {
