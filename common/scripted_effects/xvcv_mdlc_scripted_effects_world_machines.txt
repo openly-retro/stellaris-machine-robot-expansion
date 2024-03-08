@@ -1,0 +1,296 @@
+xvcv_mdlc_world_machines_output_value_calc_effect = {
+	optimize_memory
+	#for 'xvcv_mdlc_world_machines_districts_heat_indicator_tooltip' tooltips too
+	export_modifier_to_variable = {
+		modifier = xvcv_mdlc_world_machines_districts_produces_mult
+		variable = xvcv_mdlc_world_machines_districts_output_var
+	}
+	xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect = yes
+}
+xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect = {
+	optimize_memory
+	switch = {
+		trigger = has_modifier
+		xvcv_mdlc_world_machines_districts_heat_indicator_good = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_good }
+		xvcv_mdlc_world_machines_districts_heat_indicator_neutral = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral }
+		xvcv_mdlc_world_machines_districts_heat_indicator_bad = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad }
+	}
+	if = {
+		limit = { check_variable = { which = xvcv_mdlc_world_machines_districts_output_var value > 0 } }
+		add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_good days = -1 }
+	}
+	else_if = {
+		limit = { check_variable = { which = xvcv_mdlc_world_machines_districts_output_var value = 0 } }
+		add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral days = -1 }
+	}
+	else_if = {
+		limit = { check_variable = { which = xvcv_mdlc_world_machines_districts_output_var value < 0 } }
+		add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad days = -1 }
+	}
+	xvcv_mdlc_world_machines_calculate_cooling_district_offset = yes
+	if = {
+		limit = { xvcv_mdlc_world_machines_planet_needs_cooling_offset = yes }
+		xvcv_mdlc_world_machines_apply_cooling_offset = yes
+	}
+	else {
+		xvcv_mdlc_world_machines_remove_cooling_offset = yes
+	}
+	set_variable = {
+		which = xvcv_mdlc_world_machines_districts_current_output_for_display_var
+		value = 1
+	}
+	change_variable = {
+		which = xvcv_mdlc_world_machines_districts_current_output_for_display_var
+		value = xvcv_mdlc_world_machines_districts_output_var
+	}
+	# convert 0.1 to 10%
+	multiply_variable = {
+		which = xvcv_mdlc_world_machines_districts_current_output_for_display_var
+		value = 100
+	}
+	# Copy over the offset which is in the 10s (1 vs 0.1)
+	set_variable = {
+		which = xvcv_mdlc_cooling_offset_total_tmp
+		value = xvcv_mdlc_cooling_offset_total
+	}
+	# Convert 1 (1 district needed) to 10 (10%)
+	multiply_variable = {
+		which = xvcv_mdlc_cooling_offset_total_tmp
+		value = 10
+	}
+	# Subtract tmp (10%) from display (110%) to get (100%)
+	subtract_variable = {
+		which = xvcv_mdlc_world_machines_districts_current_output_for_display_var
+		value = xvcv_mdlc_cooling_offset_total_tmp
+	}
+	# Hook into recalculating non-resource-district offsets
+	xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = yes
+	
+}
+xvcv_mdlc_world_machines_calculate_cooling_district_offset = {
+	# If the district output is too high because there are too many cooling districts active,
+	# because a player has destroyed a lot of districts in order to drive up the value,
+	# calculate an amount to offset the bonus by and apply a negative modifier temporarily
+	# log = "World machine cooling bonus is set to \\[This.xvcv_mdlc_world_machines_districts_output_var]"
+	if = {
+		limit = {
+			# Building 1 cooling district when no other districts are build
+			# bumps the cooling factor to 120%
+			check_variable = {
+				which = xvcv_mdlc_world_machines_districts_output_var
+				value > @xvcv_mdlc_world_machines_cooling_redundancy_threshold
+			}
+		}
+		# log = "Found world machine cooling output bonus to be above 130 \\[This.xvcv_mdlc_world_machines_districts_output_var], making calculations"
+		# First, copy the amount of district output bonus. it will be a decimal
+		set_variable = {
+			which = xvcv_mdlc_cooling_offset_total
+			value = xvcv_mdlc_world_machines_districts_output_var
+		}
+		# We dont want 4 districts. We want to correct cooling bonuses above 130%
+		# subtract 0.3 (the allowance) from the current value, to get at minimum 0.1
+		subtract_variable = {
+			which = xvcv_mdlc_cooling_offset_total
+			value = @xvcv_mdlc_world_machines_cooling_redundancy_threshold
+		}
+		# Bump it to a whole integer amount (0.1 becomes 1)
+		multiply_variable = {
+			which = xvcv_mdlc_cooling_offset_total
+			value = 10
+		}
+	}
+	else = {
+		# Zero this out
+		# log = "No cooling offset is needed, world machine is stable."
+		set_variable = {
+			which = xvcv_mdlc_cooling_offset_total
+			value = 0
+		}
+	}
+}
+xvcv_mdlc_world_machines_apply_cooling_offset = {
+	# log = "World machine output is over 130% on \\[This], need to apply cooling offset deposits"
+	add_modifier = {
+		modifier = xvcv_mdlc_world_machines_cooling_districts_redundancy_indicator days = -1
+	}
+	# Clear existing deposits
+	every_deposit = { limit = { is_deposit_type = xvcv_mdlc_world_machines_cooling_district_offset } remove_deposit = yes }
+	# Re-add them
+	# log = "Will attempt to add \\[This.xvcv_mdlc_cooling_offset_total] cooling offset districts"
+	while = {
+		count = xvcv_mdlc_cooling_offset_total
+		add_deposit = xvcv_mdlc_world_machines_cooling_district_offset
+	}
+	# log = "Added \\[This.xvcv_mdlc_cooling_offset_total] cooling deposit offset"
+}
+xvcv_mdlc_world_machines_remove_cooling_offset = {
+	# log = "Dont need cooling offsets anymore for \\[This], world cooling bonus is OK"
+	every_deposit = { limit = { is_deposit_type = xvcv_mdlc_world_machines_cooling_district_offset } remove_deposit = yes }
+	remove_modifier = xvcv_mdlc_world_machines_cooling_districts_redundancy_indicator
+}
+
+# For any non-resource district, when thermal throttling is on, add or remove offset districts
+# Takes two vars: $DISTRICT_TYPE$ and $OFFSET_DEPOSIT_TYPE$
+# Deposit type is what district to add as an offset
+xvcv_mdlc_world_machines_adjust_non_resource_district_offset_entry = {
+
+	# But what if the district was just deleted, and now there are no more of it ??
+	# has_district = $DISTRICT_TYPE$
+	log = "Going to adjust non-resource district offsets for  $DISTRICT_TYPE$ "
+	
+	# # Clear existing deposits
+	every_deposit = {
+		limit = { is_deposit_type = $OFFSET_DEPOSIT_TYPE$ }
+		remove_deposit = yes
+	}
+	# Evaluate the current xvcv_mdlc_world_machines_districts_output_var
+	# which is a decimal like -0.5 or 0.2
+	if = {
+		limit = {
+			check_variable = {
+				which = xvcv_mdlc_world_machines_districts_output_var
+				value < 0
+			}
+			# The output has a penalty, so, apply offset deposits
+		}
+		set_variable = {
+			which = xvcv_mdlc_wm_num_districts_to_add
+			value = xvcv_mdlc_world_machines_districts_output_var
+		}
+		# Do not add more offsets than there are districts of this type
+		export_trigger_value_to_variable = {
+			trigger = num_districts
+			parameters = { type = $DISTRICT_TYPE$}
+			variable = xvcv_mdlc_num_existing_districts_of_type
+		}
+		# set_variable = {
+		# 	which = xvcv_mdlc_num_existing_districts_of_type
+		# 	value = value:count_world_machines_districts_of_type|DISTRICT_NAME|$DISTRICT_TYPE$
+		# }
+		log = "There are \\[This.xvcv_mdlc_num_existing_districts_of_type] districts of this type."
+		# -0.3 becomes 3... -1.2 becomes 12
+		multiply_variable = {
+			which = xvcv_mdlc_wm_num_districts_to_add
+			value = -10
+		}
+		# There is a possible bug here, if the output is lower than -1.0, 
+		# then dont add more districts to go beyond the base of what the planet produces
+		# Ex: Don't add 12 offset districts, because then it will go beyond just offsetting the planet's
+		# non-resource production
+		if = {
+			limit = {
+				check_variable = {
+					which = xvcv_mdlc_wm_num_districts_to_add
+					value <= -1.0
+				}
+			}
+			set_variable = {
+				which = xvcv_mdlc_wm_num_districts_to_add
+				value = -1.0
+			}
+			log = "The output is below -100% so not going to reduce the num of districts beyond this."
+		}
+		# Offset is -0.2 (2) times num of districts (1) so we'll add 2 offset deposits
+		# Offset is -0.2 (2) times num of districts (4) so we'll add 8 offset deposits ... etc
+		multiply_variable = {
+			which = xvcv_mdlc_wm_num_districts_to_add
+			value = xvcv_mdlc_num_existing_districts_of_type
+		}
+		log = "Found \\[This.xvcv_mdlc_num_existing_districts_of_type] districts of type  $DISTRICT_TYPE$ "
+		# So if there are zero districts, don't add offset deposits for it
+		log = "Going to add \\[This.xvcv_mdlc_wm_num_districts_to_add] offsets."
+		while = {
+			count = xvcv_mdlc_wm_num_districts_to_add
+			add_deposit = $OFFSET_DEPOSIT_TYPE$
+		}
+		log = "Added \\[This.xvcv_mdlc_wm_num_districts_to_add]  $OFFSET_DEPOSIT_TYPE$ to this planet, \\[This.GetName]"
+	}
+}
+
+# Big one ...
+# Switch planet type and then recalculate offsets for all non-resource districts >_@
+xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = {
+	switch = {
+		trigger = is_planet_class
+		xvcv_mdlc_pc_machine_ecu = {
+			log = "Looking at world forge type ..."
+			if = {
+				limit = {
+					OR = {
+						has_deposit = xvcv_mdlc_d_pc_machine_ecu_naval_cap_offset
+						has_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad
+					}
+				}
+				xvcv_mdlc_world_machines_adjust_non_resource_district_offset_entry = {
+					DISTRICT_TYPE = xvcv_mdlc_pc_machine_ecu_district_naval_cap
+					OFFSET_DEPOSIT_TYPE = xvcv_mdlc_d_pc_machine_ecu_naval_cap_offset
+				}
+			}
+		}
+		xvcv_mdlc_pc_machine_cpu = {
+			if = {
+				limit = {
+					OR = {
+						has_deposit = xvcv_mdlc_d_pc_machine_cpu_decryption_offset
+						has_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad
+					}
+				}
+				xvcv_mdlc_world_machines_adjust_non_resource_district_offset_entry = {
+					DISTRICT_TYPE = xvcv_mdlc_pc_machine_cpu_district_decryption
+					OFFSET_DEPOSIT_TYPE = xvcv_mdlc_d_pc_machine_cpu_decryption_offset
+				}
+			}
+		}
+		# Need to do a few if statements since there are multiple non-resource districts on server
+		xvcv_mdlc_pc_machine_ser = {
+			if = {
+				limit = {
+					OR = {
+						has_deposit = xvcv_mdlc_d_pc_machine_ser_admin_cap_offset
+						has_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad
+					}
+				}
+				xvcv_mdlc_world_machines_adjust_non_resource_district_offset_entry = {
+					DISTRICT_TYPE = xvcv_mdlc_pc_machine_ser_district_admin_cap
+					OFFSET_DEPOSIT_TYPE = xvcv_mdlc_d_pc_machine_ser_admin_cap_offset
+				}
+			}
+			else_if = {
+				limit = {
+					OR = {
+						has_deposit = xvcv_mdlc_d_pc_machine_ser_crime_offset
+						has_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad
+					}
+				}
+				xvcv_mdlc_world_machines_adjust_non_resource_district_offset_entry = {
+					DISTRICT_TYPE = xvcv_mdlc_pc_machine_ser_district_crime
+					OFFSET_DEPOSIT_TYPE = xvcv_mdlc_pc_machine_ser_district_crime_offset
+				}
+			}
+			else_if = {
+				limit = {
+					OR = {
+						has_deposit = xvcv_mdlc_d_pc_machine_ser_crime_alt_offset
+						has_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad
+					}
+				}
+				xvcv_mdlc_world_machines_adjust_non_resource_district_offset_entry = {
+					DISTRICT_TYPE = xvcv_mdlc_pc_machine_ser_district_crime_alt
+					OFFSET_DEPOSIT_TYPE = xvcv_mdlc_pc_machine_ser_district_crime_alt_offset
+				}
+			}
+			else_if = {
+				limit = {
+					OR = {
+						has_deposit = xvcv_mdlc_d_pc_machine_ser_encryption_offset
+						has_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad
+					}
+				}
+				xvcv_mdlc_world_machines_adjust_non_resource_district_offset_entry = {
+					DISTRICT_TYPE = xvcv_mdlc_pc_machine_ser_district_encryption
+					OFFSET_DEPOSIT_TYPE = xvcv_mdlc_d_pc_machine_ser_encryption_offset
+				}
+			}
+		}
+	}
+}
