@@ -64,9 +64,8 @@ xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect = {
 		which = xvcv_mdlc_world_machines_districts_current_output_for_display_var
 		value = xvcv_mdlc_cooling_offset_total_tmp
 	}
-	# Hook into recalculating non-resource-district offsets
+	# # Hook into recalculating non-resource-district offsets
 	xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = yes
-	
 }
 xvcv_mdlc_world_machines_calculate_cooling_district_offset = {
 	optimize_memory
@@ -167,7 +166,7 @@ xvcv_mdlc_world_machines_adjust_non_resource_district_offset_entry = {
 		limit = {
 			check_variable = {
 				which = xvcv_mdlc_world_machines_districts_output_var
-				value <= 0
+				value < 0
 			}
 			# The output has a penalty, so, apply offset deposits
 		}
@@ -236,7 +235,7 @@ xvcv_mdlc_world_machines_adjust_non_resource_district_offset_entry = {
 	}
 }
 
-# Big one ...
+# Big one ... called from xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect
 # Switch planet type and then recalculate offsets for all non-resource districts >_@
 xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = {
 	switch = {
@@ -247,7 +246,7 @@ xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = {
 				limit = {
 					OR = {
 						has_deposit = xvcv_mdlc_d_pc_machine_ecu_naval_cap_offset
-						has_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad
+						has_district = xvcv_mdlc_pc_machine_ecu_district_naval_cap
 					}
 				}
 				xvcv_mdlc_world_machines_adjust_non_resource_district_offset_entry = {
@@ -284,7 +283,7 @@ xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = {
 					OFFSET_DEPOSIT_TYPE = xvcv_mdlc_d_pc_machine_ser_admin_cap_offset
 				}
 			}
-			else_if = {
+			if = {
 				limit = {
 					OR = {
 						has_deposit = xvcv_mdlc_d_pc_machine_ser_crime_offset
@@ -293,10 +292,10 @@ xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = {
 				}
 				xvcv_mdlc_world_machines_adjust_non_resource_district_offset_entry = {
 					DISTRICT_TYPE = xvcv_mdlc_pc_machine_ser_district_crime
-					OFFSET_DEPOSIT_TYPE = xvcv_mdlc_pc_machine_ser_district_crime_offset
+					OFFSET_DEPOSIT_TYPE = xvcv_mdlc_d_pc_machine_ser_crime_offset
 				}
 			}
-			else_if = {
+			if = {
 				limit = {
 					OR = {
 						has_deposit = xvcv_mdlc_d_pc_machine_ser_crime_alt_offset
@@ -305,10 +304,10 @@ xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = {
 				}
 				xvcv_mdlc_world_machines_adjust_non_resource_district_offset_entry = {
 					DISTRICT_TYPE = xvcv_mdlc_pc_machine_ser_district_crime_alt
-					OFFSET_DEPOSIT_TYPE = xvcv_mdlc_pc_machine_ser_district_crime_alt_offset
+					OFFSET_DEPOSIT_TYPE = xvcv_mdlc_d_pc_machine_ser_crime_alt_offset
 				}
 			}
-			else_if = {
+			if = {
 				limit = {
 					OR = {
 						has_deposit = xvcv_mdlc_d_pc_machine_ser_encryption_offset
