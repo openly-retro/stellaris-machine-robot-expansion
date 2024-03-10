@@ -116,8 +116,28 @@ xvcv_mdlc_world_machines_planet_needs_cooling_offset = {
 			which = xvcv_mdlc_world_machines_districts_output_var
 			value > @xvcv_mdlc_world_machines_cooling_redundancy_threshold
 		}
-		has_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_good
+		# has_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_good
 	}
 
 	# print_scope_trigger = yes
+}
+
+can_build_on_world_machine = {
+	custom_tooltip_fail = {
+		text = "Not buildable on world-machines"
+		NOT = { is_planet_world_machine = yes }
+	}
+}
+
+is_planet_world_machine = {
+	OR = {
+		is_planet_class = xvcv_mdlc_pc_machine_ser
+		is_planet_class = xvcv_mdlc_pc_machine_cpu
+		is_planet_class = xvcv_mdlc_pc_machine_ecu
+		is_planet_class = xvcv_mdlc_pc_machine_auto
+	}
+}
+
+xvcv_mdlc_debug_mode_on = {
+	owner = { has_country_flag = xvcv_mdlc_debug_mode_on }
 }
