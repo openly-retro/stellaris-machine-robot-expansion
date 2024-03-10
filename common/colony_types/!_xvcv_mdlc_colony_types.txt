@@ -88,6 +88,7 @@ xvcv_mdlc_col_machine_ecu = {
 		base = 20000
 	}
 }
+### CPU
 xvcv_mdlc_col_machine_cpu = {
 	icon = GFX_xvcv_mdlc_col_machine_cpu
 
@@ -106,6 +107,62 @@ xvcv_mdlc_col_machine_cpu = {
 		base = 20000
 	}
 }
+xvcv_mdlc_col_machine_cpu_engineering = {
+	icon = GFX_xvcv_mdlc_col_type_machine_cpu_engineering
+
+	potential = {
+		is_capital = no
+		xvcv_mdlc_world_machines_districts_valid_trigger = yes
+		uses_district_set = xvcv_mdlc_pc_machine_cpu_district_set
+	}
+
+	planet_modifier = {
+		planet_building_build_speed_mult = 0.25
+		xvcv_mdlc_world_machines_districts_upkeep_mult = -0.1
+	}
+
+	weight_modifier = {
+		base = 20000
+	}
+}
+xvcv_mdlc_col_machine_cpu_physics = {
+	icon = GFX_xvcv_mdlc_col_type_machine_cpu_physics
+
+	potential = {
+		is_capital = no
+		xvcv_mdlc_world_machines_districts_valid_trigger = yes
+		uses_district_set = xvcv_mdlc_pc_machine_cpu_district_set
+	}
+
+	planet_modifier = {
+		planet_building_build_speed_mult = 0.25
+		xvcv_mdlc_world_machines_districts_upkeep_mult = -0.1
+	}
+
+	weight_modifier = {
+		base = 20000
+	}
+}
+xvcv_mdlc_col_machine_cpu_society = {
+	icon = GFX_xvcv_mdlc_col_type_machine_cpu_society
+
+	potential = {
+		is_capital = no
+		xvcv_mdlc_world_machines_districts_valid_trigger = yes
+		uses_district_set = xvcv_mdlc_pc_machine_cpu_district_set
+	}
+
+	planet_modifier = {
+		planet_building_build_speed_mult = 0.25
+		xvcv_mdlc_world_machines_districts_upkeep_mult = -0.1
+	}
+
+	weight_modifier = {
+		base = 20000
+	}
+}
+
+### Server
 xvcv_mdlc_col_machine_ser = {
 	icon = GFX_xvcv_mdlc_col_machine_ser
 
@@ -239,5 +296,43 @@ xvcv_mdlc_col_virtual_admin = {
 			add = 6
 			num_buildings = { type = building_bureaucratic_2 value >= 2 }
 		}
+	}
+}
+
+### Capital planet automations
+xvcv_mdlc_col_capital_resources = {
+	# Focus on raw resources
+	icon = GFX_xvcv_mdlc_col_capital_resources
+
+	potential = {
+		is_capital = yes
+		exists = owner
+		owner = {
+			is_country_type = default
+			is_machine_empire = yes
+		}
+		xvcv_mdlc_world_machines_districts_valid_trigger = yes
+		uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
+	}
+
+	planet_modifier = {
+		planet_stability_add = 5
+		planet_amenities_no_happiness_add = 10
+		planet_crime_no_happiness_add = -20
+		planet_jobs_produces_mult = 0.15
+		planet_resettlement_unemployed_destination_mult = 0.1
+		planet_building_build_speed_mult = 0.25
+		xvcv_mdlc_world_machines_districts_upkeep_mult = -0.1
+	}
+
+	triggered_planet_modifier = {
+		potential = { uses_district_set = ring_world }
+		pop_growth_speed = 0.1
+		planet_pop_assembly_mult = 0.1
+		planet_pop_assembly_organic_mult = 0.1
+	}
+
+	weight_modifier = {
+		base = 1000
 	}
 }

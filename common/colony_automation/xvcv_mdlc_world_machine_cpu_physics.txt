@@ -1,0 +1,43 @@
+automate_xvcv_mdlc_world_machine_cpu_physics = {
+	category = "planet_automation_designation_construction"
+
+	available = {
+		has_designation = xvcv_mdlc_col_machine_cpu_physics
+		uses_district_set = xvcv_mdlc_pc_machine_cpu_district_set
+	}
+
+	prio_districts = {
+		xvcv_mdlc_pc_machine_cpu_district_physics
+		xvcv_mdlc_common_district_cooling
+	}
+
+	buildings = {
+		1 = {
+			building = building_capital
+			available = {
+				always = yes
+			}
+		}
+
+		2 = {
+			building = building_institute
+			available = {
+				NOR = {
+					owner = { has_authority = auth_hive_mind }
+					owner = { has_authority = auth_machine_intelligence }
+				}
+			}
+		}
+
+		2 = {
+			building = building_supercomputer
+			available = {
+				OR = {
+					owner = { has_authority = auth_hive_mind }
+					owner = { has_authority = auth_machine_intelligence }
+				}
+			}
+		}
+
+	}
+}
