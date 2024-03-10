@@ -28,6 +28,9 @@ xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect = {
 		limit = { check_variable = { which = xvcv_mdlc_world_machines_districts_output_var value < 0 } }
 		add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad days = -1 }
 	}
+	# # Hook into recalculating non-resource-district offsets
+	xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = yes
+
 	xvcv_mdlc_world_machines_calculate_cooling_district_offset = yes
 	if = {
 		limit = { xvcv_mdlc_world_machines_planet_needs_cooling_offset = yes }
@@ -49,24 +52,27 @@ xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect = {
 		which = xvcv_mdlc_world_machines_districts_current_output_for_display_var
 		value = 100
 	}
-	# Copy over the offset which is in the 10s (1 vs 0.1)
-	set_variable = {
-		which = xvcv_mdlc_cooling_offset_total_tmp
-		value = xvcv_mdlc_cooling_offset_total
+	if = {
+		limit = { xvcv_mdlc_world_machines_planet_needs_cooling_offset = yes }
+		# Potentially change the tooltip % based on the cooling offset
+		# Copy over the offset which is in the 10s (1 vs 0.1)
+		set_variable = {
+			which = xvcv_mdlc_cooling_offset_total_tmp
+			value = xvcv_mdlc_cooling_offset_total
+		}
+		# Convert 1 (1 district needed) to 10 (10%)
+		multiply_variable = {
+			which = xvcv_mdlc_cooling_offset_total_tmp
+			value = 10
+		}
+		# Subtract tmp (10%) from display (110%) to get (100%)
+		subtract_variable = {
+			which = xvcv_mdlc_world_machines_districts_current_output_for_display_var
+			value = xvcv_mdlc_cooling_offset_total_tmp
+		}
 	}
-	# Convert 1 (1 district needed) to 10 (10%)
-	multiply_variable = {
-		which = xvcv_mdlc_cooling_offset_total_tmp
-		value = 10
-	}
-	# Subtract tmp (10%) from display (110%) to get (100%)
-	subtract_variable = {
-		which = xvcv_mdlc_world_machines_districts_current_output_for_display_var
-		value = xvcv_mdlc_cooling_offset_total_tmp
-	}
-	# # Hook into recalculating non-resource-district offsets
-	xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = yes
 }
+
 xvcv_mdlc_world_machines_calculate_cooling_district_offset = {
 	optimize_memory
 	# If the district output is too high because there are too many cooling districts active,
@@ -76,7 +82,8 @@ xvcv_mdlc_world_machines_calculate_cooling_district_offset = {
 	if = {
 		limit = {
 			# Building 1 cooling district when no other districts are build
-			# bumps the cooling factor to 120%
+			# bumps the cooling factor to 120%.. which is OK
+			# But bumping beyond 120% (0.2) isn't
 			check_variable = {
 				which = xvcv_mdlc_world_machines_districts_output_var
 				value > @xvcv_mdlc_world_machines_cooling_redundancy_threshold
@@ -88,11 +95,26 @@ xvcv_mdlc_world_machines_calculate_cooling_district_offset = {
 			which = xvcv_mdlc_cooling_offset_total
 			value = xvcv_mdlc_world_machines_districts_output_var
 		}
-		# We dont want 4 districts. We want to correct cooling bonuses above 130%
-		# subtract 0.3 (the allowance) from the current value, to get at minimum 0.1
+		# The cooling bonus should never rise above 120%
+		# But the offset should not drop it below 120% either
+		# If output is 0.9, offset should be 0.7 (7)
+		# If output is 0.3, offset should be 0.1 (1) to get it down to 0.2
+		# What should not happen is output gets to 0.3 and then is dropped down to 0 or -1
 		subtract_variable = {
 			which = xvcv_mdlc_cooling_offset_total
 			value = @xvcv_mdlc_world_machines_cooling_redundancy_threshold
+		}
+		if = {
+			limit = {
+				check_variable = {
+					which = xvcv_mdlc_cooling_offset_total
+					value < @xvcv_mdlc_world_machines_cooling_redundancy_threshold
+				}
+				set_variable = {
+					which = xvcv_mdlc_cooling_offset_total
+					value = @xvcv_mdlc_world_machines_cooling_redundancy_threshold
+				}
+			}
 		}
 		# Bump it to a whole integer amount (0.1 becomes 1)
 		multiply_variable = {
@@ -102,7 +124,7 @@ xvcv_mdlc_world_machines_calculate_cooling_district_offset = {
 	}
 	else = {
 		# Zero this out
-		# log = "No cooling offset is needed, world machine is stable."
+		log = "No cooling offset is needed, world machine is stable."
 		set_variable = {
 			which = xvcv_mdlc_cooling_offset_total
 			value = 0
@@ -111,19 +133,19 @@ xvcv_mdlc_world_machines_calculate_cooling_district_offset = {
 }
 xvcv_mdlc_world_machines_apply_cooling_offset = {
 	optimize_memory
-	# log = "World machine output is over 130% on \\[This], need to apply cooling offset deposits"
+	log = "World machine output is over 120% on \\[This.GetName], need to apply cooling offset deposits"
 	add_modifier = {
 		modifier = xvcv_mdlc_world_machines_cooling_districts_redundancy_indicator days = -1
 	}
 	# Clear existing deposits
 	every_deposit = { limit = { is_deposit_type = xvcv_mdlc_world_machines_cooling_district_offset } remove_deposit = yes }
 	# Re-add them
-	# log = "Will attempt to add \\[This.xvcv_mdlc_cooling_offset_total] cooling offset districts"
+	log = "Will attempt to add \\[This.xvcv_mdlc_cooling_offset_total] cooling offset districts"
 	while = {
 		count = xvcv_mdlc_cooling_offset_total
 		add_deposit = xvcv_mdlc_world_machines_cooling_district_offset
 	}
-	# log = "Added \\[This.xvcv_mdlc_cooling_offset_total] cooling deposit offset"
+	log = "Added \\[This.xvcv_mdlc_cooling_offset_total] cooling deposit offset"
 }
 xvcv_mdlc_world_machines_remove_cooling_offset = {
 	# log = "Dont need cooling offsets anymore for \\[This], world cooling bonus is OK"
@@ -256,11 +278,12 @@ xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = {
 			}
 		}
 		xvcv_mdlc_pc_machine_cpu = {
+			log = "Looking at world cpu type..."
 			if = {
 				limit = {
 					OR = {
 						has_deposit = xvcv_mdlc_d_pc_machine_cpu_decryption_offset
-						has_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad
+						has_district = xvcv_mdlc_pc_machine_cpu_district_decryption
 					}
 				}
 				xvcv_mdlc_world_machines_adjust_non_resource_district_offset_entry = {
@@ -271,11 +294,12 @@ xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = {
 		}
 		# Need to do a few if statements since there are multiple non-resource districts on server
 		xvcv_mdlc_pc_machine_ser = {
+			log = "Looking at world server type ..."
 			if = {
 				limit = {
 					OR = {
 						has_deposit = xvcv_mdlc_d_pc_machine_ser_admin_cap_offset
-						has_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad
+						has_district = xvcv_mdlc_pc_machine_ser_district_admin_cap
 					}
 				}
 				xvcv_mdlc_world_machines_adjust_non_resource_district_offset_entry = {
@@ -285,25 +309,22 @@ xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = {
 			}
 			if = {
 				limit = {
-					OR = {
-						has_deposit = xvcv_mdlc_d_pc_machine_ser_crime_offset
-						has_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad
-					}
+					has_district = xvcv_mdlc_pc_machine_ser_district_crime
+					owner = { has_authority = auth_machine_intelligence }
 				}
 				xvcv_mdlc_world_machines_adjust_non_resource_district_offset_entry = {
 					DISTRICT_TYPE = xvcv_mdlc_pc_machine_ser_district_crime
 					OFFSET_DEPOSIT_TYPE = xvcv_mdlc_d_pc_machine_ser_crime_offset
 				}
 			}
-			if = {
+			# Happiness-related
+			else_if = {
 				limit = {
-					OR = {
-						has_deposit = xvcv_mdlc_d_pc_machine_ser_crime_alt_offset
-						has_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad
-					}
+					has_district = xvcv_mdlc_pc_machine_ser_district_crime
+					owner = { NOT = { has_authority = auth_machine_intelligence } }
 				}
 				xvcv_mdlc_world_machines_adjust_non_resource_district_offset_entry = {
-					DISTRICT_TYPE = xvcv_mdlc_pc_machine_ser_district_crime_alt
+					DISTRICT_TYPE = xvcv_mdlc_pc_machine_ser_district_crime
 					OFFSET_DEPOSIT_TYPE = xvcv_mdlc_d_pc_machine_ser_crime_alt_offset
 				}
 			}
@@ -311,7 +332,7 @@ xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = {
 				limit = {
 					OR = {
 						has_deposit = xvcv_mdlc_d_pc_machine_ser_encryption_offset
-						has_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad
+						has_district = xvcv_mdlc_pc_machine_ser_district_encryption
 					}
 				}
 				xvcv_mdlc_world_machines_adjust_non_resource_district_offset_entry = {
