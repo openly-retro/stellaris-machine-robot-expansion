@@ -509,8 +509,9 @@ country_event = {
 		if = {
 			limit = { has_special_project = SYNTHETIC_EVOLUTION_PROJECT }
 			abort_special_project = { type = SYNTHETIC_EVOLUTION_PROJECT }
-			else = { country_event = { id = xvcv_mdlc.4 days = 1 } } #check per day
+			# else = { country_event = { id = xvcv_mdlc.4 days = 1 } } #check per day
 		}
+		else = { country_event = { id = xvcv_mdlc.4 days = 1 } } #check per day
 	}
 }
 
@@ -2145,11 +2146,17 @@ country_event = {
 							add_trait = trait_machine_unit
 							change_scoped_species = no
 						}
-						else = {
-							modify_species = {
-								add_trait = trait_mechanical
-								change_scoped_species = no
-							}
+						# else = {
+						# 	modify_species = {
+						# 		add_trait = trait_mechanical
+						# 		change_scoped_species = no
+						# 	}
+						# }
+					}
+					else = {
+						modify_species = {
+							add_trait = trait_mechanical
+							change_scoped_species = no
 						}
 					}
 					rename_species = {
@@ -2168,8 +2175,9 @@ country_event = {
 				if = {
 					limit = { prev = { has_authority = auth_machine_intelligence } }
 					xvcv_mdlc_machine_species_rights_adjustments_effect = yes
-					else = { xvcv_mdlc_robot_species_rights_adjustments_effect = yes }
+					# else = { xvcv_mdlc_robot_species_rights_adjustments_effect = yes }
 				}
+				else = { xvcv_mdlc_robot_species_rights_adjustments_effect = yes }
 			}
 			every_pool_leader = {
 				limit = { is_same_species = last_created_species }
@@ -2199,11 +2207,17 @@ country_event = {
 								add_trait = trait_machine_unit
 								change_scoped_species = no
 							}
-							else = {
-								modify_species = {
-									add_trait = trait_mechanical
-									change_scoped_species = no
-								}
+							# else = {
+							# 	modify_species = {
+							# 		add_trait = trait_mechanical
+							# 		change_scoped_species = no
+							# 	}
+							# }
+						}
+						else = {
+							modify_species = {
+								add_trait = trait_mechanical
+								change_scoped_species = no
 							}
 						}
 						rename_species = {
@@ -2223,8 +2237,9 @@ country_event = {
 				if = {
 					limit = { prev = { has_authority = auth_machine_intelligence } }
 					xvcv_mdlc_machine_species_rights_adjustments_effect = yes
-					else = { xvcv_mdlc_robot_species_rights_adjustments_effect = yes }
+					# else = { xvcv_mdlc_robot_species_rights_adjustments_effect = yes }
 				}
+				else = { xvcv_mdlc_robot_species_rights_adjustments_effect = yes }
 			}
 			xvcv_mdlc_leader_tied_traits_add_effect = yes
 			xvcv_mdlc_leader_tied_traits_remove_effect = yes
@@ -2408,36 +2423,99 @@ country_event = {
 					homeworld = this.home_planet
 				}
 			}
-			else = {
-				if = {
-					limit = { has_authority = auth_machine_intelligence }
-					from = {
-						create_species = {
-							is_mod = yes
-							adjective = this
-							name = this
-							namelist = prev
-							plural = this
-							class = "MACHINE"
-							portrait = this
-							traits = this
-							homeworld = this.home_planet
-						}
+			# else = {
+			# 	if = {
+			# 		limit = { has_authority = auth_machine_intelligence }
+			# 		from = {
+			# 			create_species = {
+			# 				is_mod = yes
+			# 				adjective = this
+			# 				name = this
+			# 				namelist = prev
+			# 				plural = this
+			# 				class = "MACHINE"
+			# 				portrait = this
+			# 				traits = this
+			# 				homeworld = this.home_planet
+			# 			}
+			# 		}
+			# 		# else = {
+			# 		# 	from = {
+			# 		# 		create_species = {
+			# 		# 			is_mod = yes
+			# 		# 			adjective = this
+			# 		# 			name = this
+			# 		# 			namelist = prev
+			# 		# 			plural = this
+			# 		# 			class = "ROBOT"
+			# 		# 			portrait = this
+			# 		# 			traits = this
+			# 		# 			homeworld = this.home_planet
+			# 		# 		}
+			# 		# 	}
+			# 		# }
+			# 	}
+			# 	else = {
+			# 		from = {
+			# 			create_species = {
+			# 				is_mod = yes
+			# 				adjective = this
+			# 				name = this
+			# 				namelist = prev
+			# 				plural = this
+			# 				class = "ROBOT"
+			# 				portrait = this
+			# 				traits = this
+			# 				homeworld = this.home_planet
+			# 			}
+			# 		}
+			# 	}
+			# }
+		}
+		else = {
+			if = {
+				limit = { has_authority = auth_machine_intelligence }
+				from = {
+					create_species = {
+						is_mod = yes
+						adjective = this
+						name = this
+						namelist = prev
+						plural = this
+						class = "MACHINE"
+						portrait = this
+						traits = this
+						homeworld = this.home_planet
 					}
-					else = {
-						from = {
-							create_species = {
-								is_mod = yes
-								adjective = this
-								name = this
-								namelist = prev
-								plural = this
-								class = "ROBOT"
-								portrait = this
-								traits = this
-								homeworld = this.home_planet
-							}
-						}
+				}
+				# else = {
+				# 	from = {
+				# 		create_species = {
+				# 			is_mod = yes
+				# 			adjective = this
+				# 			name = this
+				# 			namelist = prev
+				# 			plural = this
+				# 			class = "ROBOT"
+				# 			portrait = this
+				# 			traits = this
+				# 			homeworld = this.home_planet
+				# 		}
+				# 	}
+				# }
+			}
+			else = {
+				from = {
+					create_species = {
+						is_mod = yes
+						adjective = this
+						name = this
+						namelist = prev
+						plural = this
+						class = "ROBOT"
+						portrait = this
+						traits = this
+						homeworld = this.home_planet
 					}
 				}
 			}
@@ -2450,8 +2528,9 @@ country_event = {
 				if = {
 					limit = { prev = { has_authority = auth_machine_intelligence } }
 					xvcv_mdlc_machine_species_rights_adjustments_effect = yes
-					else = { xvcv_mdlc_robot_species_rights_adjustments_effect = yes }
+					# else = { xvcv_mdlc_robot_species_rights_adjustments_effect = yes }
 				}
+				else = { xvcv_mdlc_robot_species_rights_adjustments_effect = yes }
 			}
 		}
 		every_owned_pop = {
@@ -2715,14 +2794,14 @@ country_event = {
 				has_valid_civic = xvcv_mdlc_civic_uplink_node
 				any_owned_leader = {
 					is_councilor = yes
-					is_councilor_type = councilor_gestalt_regulatory
+					is_councilor_type = councilor_gestalt_growth
 					NOT = { has_trait = xvcv_mdlc_leader_trait_civic_uplink_node }
 				}
 			}
 			random_owned_leader = {
 				limit = {
 					is_councilor = yes
-					is_councilor_type = councilor_gestalt_regulatory
+					is_councilor_type = councilor_gestalt_growth
 				}
 				add_trait_no_notify = xvcv_mdlc_leader_trait_civic_uplink_node
 			}
@@ -2852,12 +2931,30 @@ planet_event = {
 
 	immediate = {
 		#I've found that the 'export_modifier_to_variable' effect doesn't work proper when it's combined with the 'on_district_demolished' trigger #stellaris v3.0.3
+		# Sadly this is still an issue in 3.11 --0xRetro
 		if = {
 			limit = { last_district_changed = xvcv_mdlc_common_district_cooling }
-			change_variable = { which = xvcv_mdlc_world_machines_districts_output_var value = -0.3 } #minus 0.3 output as a cooler is gone
-			else = { change_variable = { which = xvcv_mdlc_world_machines_districts_output_var value = 0.1 } } #plus 0.1 output as a heat source is gone
+			change_variable = {
+				which = xvcv_mdlc_world_machines_districts_output_var
+				value = -0.3
+			} #minus 0.3 output as a cooler is gone
 		}
+		else = {
+			change_variable = {
+				which = xvcv_mdlc_world_machines_districts_output_var
+				value = 0.1
+			}
+		} #plus 0.1 output as a heat source is gone
+		log = "A district was removed from a world-machine."
 		xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect = yes
+		# xvcv_mdlc_world_machines_output_value_calc_effect = yes
+
+		# if = {
+		# 	limit = {
+		# 		xvcv_mdlc_world_machines_planet_needs_cooling_offset = yes
+		# 	}
+		# 	xvcv_mdlc_world_machines_calculate_cooling_district_offset = yes
+		# }
 	}
 }
 #'xvcv_mdlc_d_pc_machine_ser_crime' or 'xvcv_mdlc_d_pc_machine_ser_admin_cap' deposits count
@@ -3406,12 +3503,19 @@ planet_event = {
 				subtract_variable = { which = xvcv_mdlc_pc_mechanical_district_city_var value = 1 }
 				add_district = xvcv_mdlc_pc_mechanical_district_city
 			}
-			else = {
-				while = {
-					limit = { check_variable = { which = xvcv_mdlc_pc_mechanical_district_city_var value > 0 } }
-					subtract_variable = { which = xvcv_mdlc_pc_mechanical_district_city_var value = 1 }
-					add_district = xvcv_mdlc_pc_mechanical_district_nexus
-				}
+			# else = {
+			# 	while = {
+			# 		limit = { check_variable = { which = xvcv_mdlc_pc_mechanical_district_city_var value > 0 } }
+			# 		subtract_variable = { which = xvcv_mdlc_pc_mechanical_district_city_var value = 1 }
+			# 		add_district = xvcv_mdlc_pc_mechanical_district_nexus
+			# 	}
+			# }
+		}
+		else = {
+			while = {
+				limit = { check_variable = { which = xvcv_mdlc_pc_mechanical_district_city_var value > 0 } }
+				subtract_variable = { which = xvcv_mdlc_pc_mechanical_district_city_var value = 1 }
+				add_district = xvcv_mdlc_pc_mechanical_district_nexus
 			}
 		}
 		while = {

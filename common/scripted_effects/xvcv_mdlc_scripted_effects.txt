@@ -239,36 +239,6 @@ xvcv_mdlc_planet_terraforming_resolution_breached_effect = {
 		owner = { set_timed_country_flag = { flag = resolution_breached_terraformed days = 3600 } }
 	}
 }
-xvcv_mdlc_world_machines_output_value_calc_effect = {
-	optimize_memory
-	#for 'xvcv_mdlc_world_machines_districts_heat_indicator_tooltip' tooltips too
-	export_modifier_to_variable = { modifier = xvcv_mdlc_world_machines_districts_produces_mult variable = xvcv_mdlc_world_machines_districts_output_var }
-	xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect = yes
-}
-xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect = {
-	optimize_memory
-	switch = {
-		trigger = has_modifier
-		xvcv_mdlc_world_machines_districts_heat_indicator_good = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_good }
-		xvcv_mdlc_world_machines_districts_heat_indicator_neutral = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral }
-		xvcv_mdlc_world_machines_districts_heat_indicator_bad = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad }
-	}
-	if = {
-		limit = { check_variable = { which = xvcv_mdlc_world_machines_districts_output_var value > 0 } }
-		add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_good days = -1 }
-	}
-	else_if = {
-		limit = { check_variable = { which = xvcv_mdlc_world_machines_districts_output_var value = 0 } }
-		add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral days = -1 }
-	}
-	else_if = {
-		limit = { check_variable = { which = xvcv_mdlc_world_machines_districts_output_var value < 0 } }
-		add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad days = -1 }
-	}
-	set_variable = { which = xvcv_mdlc_world_machines_districts_current_output_for_display_var value = 1 }
-	change_variable = { which = xvcv_mdlc_world_machines_districts_current_output_for_display_var value = xvcv_mdlc_world_machines_districts_output_var }
-	multiply_variable = { which = xvcv_mdlc_world_machines_districts_current_output_for_display_var value = 100 }
-}
 xvcv_mdlc_civic_goods_distributor_pop_bonus_effect = {
 	optimize_memory
 	if = {

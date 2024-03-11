@@ -166,7 +166,7 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
     if root.get('custom_tooltip'):
         slim_trait["custom_tooltip"] = root["custom_tooltip"]
     elif root.get('custom_tooltip_with_modifiers'):
-        slim_trait['custom_tooltip'] = root['custom_tooltip_with_modifiers']
+        slim_trait['custom_tooltip_with_modifiers'] = root['custom_tooltip_with_modifiers']
     # Yet another new way in 3.11 to have custom tooltip text
     if triggered_desc_text := root.get('triggered_desc', {}).get('text', None):
         slim_trait['custom_tooltip'] = triggered_desc_text

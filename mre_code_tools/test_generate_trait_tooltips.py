@@ -22,6 +22,8 @@ def make_uppercase_mapping_files():
         "MOD_SHIP_FIRE_RATE_MULT": 1,
         "MOD_SHIP_WEAPON_DAMAGE": 1,
         "MOD_SHIP_SCIENCE_SURVEY_SPEED": 1,
+        "MOD_SHIP_HULL_MULT":1,
+        "MOD_CREATE_DEBRIS_CHANCE":1,
     }
     paragon_tmpfile = NamedTemporaryFile(delete=False)
     paragon_data = {"MOD_PLANET_COMBAT_WIDTH_ADD": 1, "MOD_CREATE_DEBRIS_CHANCE": 1}
@@ -391,3 +393,33 @@ def test_3_11_eridanus_mult_in_modifiers():
   #leader_making #scientist #leader_trait_bureaucrat_2
   xvcv_mdlc_leader_making_tooltip_scientist_leader_trait_bureaucrat_2:0 "§H$leader_trait_bureaucrat_machine$ II§!$add_xvcv_mdlc_leader_making_traits_costs_desc$\n$leader_trait_bureaucrat_2_tt$\n--------------\n§L$leader_trait_bureaucrat_machine_desc$§!
 """
+
+def test_custom_tt_with_modifiers_appended(make_uppercase_mapping_files):
+    traits_with_machine_desc = {
+        "leader_trait_juryrigger": 1,
+    }
+    test_data = {
+        "leader_trait_juryrigger_3": {
+            "trait_name": "leader_trait_juryrigger_3",
+            "leader_class": "commander",
+            "gfx": "GFX_leader_trait_juryrigger",
+            "rarity": "veteran",
+            "fleet_modifier": {
+                "create_debris_chance": -1,
+                "ship_hull_mult": 0.1
+            },
+            "requires_paragon_dlc": False,
+            "custom_tooltip_with_modifiers": "leader_trait_juryrigger_2_effect",
+            "required_subclass": "subclass_commander_admiral"
+        }
+    }
+    expected = """
+  #leader_making #commander #leader_trait_juryrigger_3
+  xvcv_mdlc_leader_making_tooltip_commander_leader_trait_juryrigger_3:0 "§H$leader_trait_juryrigger_machine$ III§!$add_xvcv_mdlc_leader_making_traits_costs_desc_alt$\\n$commanding_navy_effect$\\n$t$$mre_mod_create_debris_chance$: §G-100%§!\\n$t$$mre_mod_ship_hull_mult$: §G+10%§!\\n$leader_trait_juryrigger_2_effect$\\n--------------\\n§L$leader_trait_juryrigger_machine_desc$§!"
+"""
+    actual = create_tooltip_for_leader(
+        test_data, leader_class="commander", feature="leader_making",
+        uppercase_map_files=make_uppercase_mapping_files,
+        machine_localisations_map=traits_with_machine_desc
+    )
+    assert expected == actual
