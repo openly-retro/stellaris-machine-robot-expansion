@@ -172,7 +172,8 @@ xvcv_mdlc_tech_spirit_energy_theory = {
 	area = physics
 	tier = 3
 	category = { field_manipulation }
-	prerequisites = { "tech_physics_2" }
+	# prerequisites = { "tech_physics_2" }
+	prerequisites = { tech_hyper_drive_2 }
 	weight = @tier3weight1
 
 	potential = {
@@ -288,7 +289,8 @@ xvcv_mdlc_tech_organic_base_code_study = {
 	area = society
 	tier = 3
 	category = { biology }
-	prerequisites = { "tech_society_2" }
+	# prerequisites = { "tech_society_2" }
+	prerequisites = { xvcv_mdlc_tech_biology_bio_reactor_miniaturization }
 	weight = @tier3weight1
 
 	potential = {
@@ -663,5 +665,74 @@ xvcv_mdlc_tech_bio_robot_resource_produces = {
 			factor = 2
 			has_origin = origin_mechanists
 		}
+	}
+}
+
+xvcv_mdlc_tech_military_synth_army_upgrade = {
+	cost = @tier3cost3
+	area = society
+	tier = 4
+	category = { military_theory }
+	weight = @xvcv_mdlc_not_researchable_tech_weight
+	is_reverse_engineerable = no
+
+	potential = {
+		is_synthetic_empire = yes
+		has_technology = tech_regenerative_hull_tissue
+	}
+
+	modifier = {
+		army_health = 0.2
+		army_defense_health_mult = 0.2
+	}
+
+	ai_weight = {
+		factor = @robots_ai_tech_factor
+		modifier = {
+			factor = 2
+			OR = {
+				has_ethic = ethic_militarist
+				has_ethic = ethic_fanatic_materialist
+			}
+		}
+		modifier = {
+			factor = 2
+			has_origin = origin_mechanists
+		}
+	}
+}
+# Substitute for tech_society_2
+xvcv_mdlc_tech_biology_bio_reactor_miniaturization = {
+	cost = @tier2cost3
+	area = society
+	tier = 2
+	category = { biology }
+	prerequisites = { "tech_bio_reactor" }
+	weight = @tier2weight1
+	is_rare = yes
+
+	modifier = {
+		modify_species_cost_mult = -0.10
+	}
+
+	weight_modifier = {
+		factor = 0.1
+		modifier = {
+			factor = 20
+			OR = {
+				is_catalytic_empire = yes
+				is_machine_empire = yes
+				is_mechanical_empire = yes
+				is_lithoid_empire = yes
+			}
+		}
+		inline_script = {
+			script = technologies/rare_technologies_weight_modifiers
+			TECHNOLOGY = tech_bio_reactor_2
+		}
+	}
+
+	ai_weight = {
+
 	}
 }
