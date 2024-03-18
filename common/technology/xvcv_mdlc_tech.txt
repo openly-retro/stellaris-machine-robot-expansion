@@ -290,7 +290,7 @@ xvcv_mdlc_tech_organic_base_code_study = {
 	tier = 3
 	category = { biology }
 	# prerequisites = { "tech_society_2" }
-	prerequisites = { xvcv_mdlc_tech_biology_bio_reactor_miniaturization }
+	prerequisites = { "xvcv_mdlc_tech_biology_xenostudies_2" }
 	weight = @tier3weight1
 
 	potential = {
@@ -701,38 +701,67 @@ xvcv_mdlc_tech_military_synth_army_upgrade = {
 		}
 	}
 }
-# Substitute for tech_society_2
-xvcv_mdlc_tech_biology_bio_reactor_miniaturization = {
-	cost = @tier2cost3
+# Substitute for tech_society_1
+xvcv_mdlc_tech_biology_xenostudies_1 = {
+	cost = @tier1cost1
 	area = society
 	tier = 2
 	category = { biology }
-	prerequisites = { "tech_bio_reactor" }
+	prerequisites = {  }
 	weight = @tier2weight1
-	is_rare = yes
+	is_rare = no
 
+	potential = {
+		is_synthetic_empire = yes
+	}
 	modifier = {
-		modify_species_cost_mult = -0.10
+		planet_colony_development_speed_mult = 0.10
+		planet_pops_organics_food_upkeep_mult = -0.05
 	}
 
 	weight_modifier = {
 		factor = 0.1
 		modifier = {
-			factor = 20
+			factor = 5
 			OR = {
-				is_catalytic_empire = yes
 				is_machine_empire = yes
 				is_mechanical_empire = yes
-				is_lithoid_empire = yes
 			}
-		}
-		inline_script = {
-			script = technologies/rare_technologies_weight_modifiers
-			TECHNOLOGY = tech_bio_reactor_2
 		}
 	}
 
 	ai_weight = {
 
+	}
+}
+
+# Substitute for tech_society_2
+xvcv_mdlc_tech_biology_xenostudies_2 = {
+	cost = @tier2cost3
+	area = society
+	tier = 2
+	category = { biology }
+	prerequisites = { "xvcv_mdlc_tech_biology_xenostudies_1" }
+	weight = @tier2weight1
+	is_rare = no
+
+	modifier = {
+		modify_species_cost_mult = -0.10
+		planet_pops_organics_food_upkeep_mult = -0.05
+	}
+
+	weight_modifier = {
+		factor = 0.1
+		modifier = {
+			factor = 5
+			OR = {
+				is_machine_empire = yes
+				is_mechanical_empire = yes
+			}
+		}
+	}
+
+	ai_weight = {
+		factor = @ai_society_tech_speed_factor
 	}
 }
