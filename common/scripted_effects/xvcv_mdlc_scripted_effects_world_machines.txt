@@ -377,3 +377,28 @@ xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = {
 		}
 	}
 }
+
+# There's a bug where clearing all deposits doesn't work on the first try
+# Take CUSTOM_DEPOSIT_TYPE arg
+0xR_mdlc_clear_all_custom_deposits_of_type = {
+	optimize_memory
+	export_trigger_value_to_variable = {
+		trigger = count_deposits
+		parameters = { type = $CUSTOM_DEPOSIT_TYPE$ }
+		variable = xvcv_mdlc_num_existing_offsets_of_type_custom
+	}
+	while = {
+		limit = {
+			check_variable = {
+				which = xvcv_mdlc_num_existing_offsets_of_type_custom
+				value > 0
+			}
+		}
+		every_deposit = { limit = { is_deposit_type = $CUSTOM_DEPOSIT_TYPE$ } remove_deposit = yes }
+		export_trigger_value_to_variable = {
+			trigger = count_deposits
+			parameters = { type = $CUSTOM_DEPOSIT_TYPE$ }
+			variable = xvcv_mdlc_num_existing_offsets_of_type_custom
+		}
+	}
+}

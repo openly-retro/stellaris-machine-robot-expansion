@@ -1,3 +1,14 @@
+@diff_t0 = 4
+@diff_t1 = 5
+@diff_t2 = 6
+@diff_t3 = 7
+@diff_t4 = 8
+@diff_t5 = 9
+@diff_t6 = 10
+@diff_t7 = 11
+@diff_t8 = 12
+@diff_t9 = 13
+
 xvcv_mdlc_operation_malware_activity = {
     target = none
     categories = { op_cat_subterfuge op_cat_technology }
@@ -24,12 +35,16 @@ xvcv_mdlc_operation_malware_activity = {
         }
     }
     stage = {
-        difficulty = 5
+        difficulty = @diff_t1  # 5
         icon = GFX_espionage_chapter_icon_security
         event = xvcv_mdlc_espionage.10
     }
 
-    on_roll_failed = { standard_espionage_operation_on_roll_failed = { RANDOM_EVENTS = operation_random_events_generic } }
+    on_roll_failed = {
+        standard_espionage_operation_on_roll_failed = {
+            RANDOM_EVENTS = operation_random_events_generic
+        }
+    }
     on_create = {}
 	abort = {}
 }
