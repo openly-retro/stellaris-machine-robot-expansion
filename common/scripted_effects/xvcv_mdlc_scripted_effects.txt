@@ -381,3 +381,77 @@ xvcv_mdlc_iterate_leaders_level_up_classes_under_skill = {
 		add_skill_without_trait_selection = 1
 	}
 }
+
+0xR_mdlc_origin_world_machine_awakened_game_start_setup = {
+	prev = { set_country_flag = 0xR_mdlc_origin_world_machine_awakened }
+	# set_variable = {
+	# 	which = num_starting_city_districts
+	# 	value = value:count_districts_of_type|DISTRICT_NAME|district_city|
+	# }
+	# set_variable = {
+	# 	which = num_starting_farm_districts
+	# 	value = value:count_districts_of_type|DISTRICT_NAME|district_farming|
+	# }
+	while = {
+		limit = { has_district = district_city }
+		remove_district = district_city
+		add_district = xvcv_mdlc_pc_machine_auto_district_nexus
+	}
+	while = {
+		limit = { has_district = district_generator }
+		remove_district = district_generator
+		add_district = xvcv_mdlc_pc_machine_auto_district_generator
+	}
+	while = {
+		limit = { has_district = district_mining }
+		remove_district = district_mining
+		add_district = xvcv_mdlc_pc_machine_auto_district_mining
+	}
+	while = {
+		limit = { has_district = xvcv_mdlc_common_district_mining }
+		remove_district = district_mining
+		add_district = xvcv_mdlc_pc_machine_auto_district_mining
+		
+	}
+	while = {
+		limit = { has_district = district_farming }
+		remove_district = district_farming
+	}
+	while = {
+		limit = { has_district = district_industrial }
+		remove_district = district_industrial
+		add_district = xvcv_mdlc_pc_machine_auto_district_industrial
+	}
+	while = {
+		limit = { has_district = xvcv_mdlc_common_district_mining }
+		remove_district = xvcv_mdlc_common_district_mining
+	}
+	
+	# remove_district = xvcv_mdlc_pc_mechanical_district_generator
+	# create_pop = { species = prev.species }
+	while = {
+		limit = {
+			num_pops > 1
+		}
+		random_owned_pop = {
+			kill_pop = yes
+		}
+	}
+	add_modifier = { modifier = "planet_population_control_gestalt" days = -1 }
+
+	# give_technology
+	# notes for later ... look at these
+	# generate_start_deposits_and_blockers = yes
+	# generate_start_buildings_and_districts = yes
+	# generate_start_pops = yes
+	while = {
+		limit = { has_building = building_uplink_node }
+		remove_building = building_uplink_node
+		add_building = 0xR_mdlc_world_machines_building_cohesion_supervisor
+	}
+	while = {
+		limit = { has_building = building_research_lab_1 }
+		remove_building = building_research_lab_1
+		add_building = 0xR_mdlc_world_machines_building_fractal_sanitizer
+	}
+}

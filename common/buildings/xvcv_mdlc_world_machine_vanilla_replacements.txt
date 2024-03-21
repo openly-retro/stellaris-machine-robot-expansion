@@ -64,11 +64,9 @@ xvcv_mdlc_world_machine_auto_food_processing_facility = {
 			has_modifier = resort_colony
 			has_modifier = crucible_colony
 		}
-		OR = {
-			owner = {
-				is_ai = no
-			}
-			has_any_farming_district_or_buildings = yes
+		exists = owner
+		owner = {
+			has_origin = 0xR_mdlc_origin_world_machine_awakened
 		}
 		is_planet_world_machine = yes
 		xvcv_mdlc_debug_mode_on = yes
@@ -191,5 +189,199 @@ xvcv_mdlc_world_machine_auto_food_processing_center = {
 
 	prerequisites = {
 		"tech_food_processing_2"
+	}
+}
+# Unity
+0xR_mdlc_world_machines_building_cohesion_supervisor = {
+	base_buildtime = @b1_time
+	icon = building_autochthon_monument
+
+	exempt_from_ai_planet_specialization = no
+
+	category = unity
+
+	potential = {
+		exists = owner
+		NOR = {
+			has_modifier = resort_colony
+			has_modifier = crucible_colony
+		}
+		exists = owner
+		owner = {
+			has_origin = 0xR_mdlc_origin_world_machine_awakened
+		}
+		is_planet_world_machine = yes
+		xvcv_mdlc_debug_mode_on = yes
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = {
+			OR = {
+				is_machine_empire = no
+				has_valid_civic = civic_machine_servitor
+			}
+		}
+	}
+
+	convert_to = {
+		building_bureaucratic_1
+		building_temple
+		building_hive_node
+	}
+
+	resources = {
+		category = planet_buildings  # could also be planet_administrators
+		cost = {
+			minerals = @b1_minerals  # 400
+		}
+		upkeep = {
+			energy = 8 #@b1_upkeep
+		}
+		produces = { unity = 8 }
+	}
+
+	triggered_desc = {
+		text = job_coordinator_effect_desc
+	}
+
+	upgrades = {
+		"0xR_mdlc_world_machines_building_cohesion_hub"
+	}
+
+	prerequisites = {
+		"tech_planetary_government"
+	}
+
+	show_tech_unlock_if = {
+		is_machine_empire = yes
+		NOT = {
+			has_valid_civic = civic_machine_servitor
+		}
+	}
+}
+
+0xR_mdlc_world_machines_building_cohesion_hub = {
+	base_buildtime = @b2_time
+	can_build = no
+	icon = building_heritage_site
+
+	category = unity
+
+	potential = {
+		exists = owner
+		NOR = {
+			has_modifier = resort_colony
+			has_modifier = crucible_colony
+		}
+		exists = owner
+		owner = {
+			has_origin = 0xR_mdlc_origin_world_machine_awakened
+		}
+		is_planet_world_machine = yes
+		xvcv_mdlc_debug_mode_on = yes
+	}
+
+	# allow = {
+	# 	has_upgraded_capital = yes
+	# }
+
+	destroy_trigger = {
+		exists = owner
+		owner = {
+			OR = {
+				is_machine_empire = no
+				has_valid_civic = civic_machine_servitor
+			}
+		}
+	}
+
+	convert_to = {
+		building_bureaucratic_2
+		building_holotemple
+		building_hive_cluster
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			minerals = @b2_minerals
+			rare_crystals = @b2_rare_cost
+		}
+		upkeep = {
+			energy = 21 # @b2_upkeep is 5 + 4 jobs * 4E upkeep
+			rare_crystals = @b2_rare_upkeep
+		}
+		produces = {
+			unity = 16
+		}
+	}
+
+	upgrades = {
+		"0xR_mdlc_world_machines_building_cohesion_supervisor"
+	}
+
+	prerequisites = {
+		"tech_colonial_bureaucracy"
+	}
+
+	show_tech_unlock_if = {
+		is_machine_empire = yes
+		NOT = {
+			has_valid_civic = civic_machine_servitor
+		}
+	}
+}
+# Research
+0xR_mdlc_world_machines_building_fractal_sanitizer = {
+	base_buildtime = @b1_time
+
+	exempt_from_ai_planet_specialization = no
+
+	category = research
+
+	potential = {
+		exists = owner
+		NOR = {
+			has_modifier = resort_colony
+			has_modifier = crucible_colony
+		}
+		exists = owner
+		owner = {
+			has_origin = 0xR_mdlc_origin_world_machine_awakened
+		}
+		is_planet_world_machine = yes
+		xvcv_mdlc_debug_mode_on = yes
+	}
+
+	destroy_trigger = {
+		OR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+			has_modifier = crucible_colony
+		}
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			minerals = @b1_minerals
+		}
+		upkeep = {
+			energy = 10  # base 2 + 2 researcher jobs @ 4 each #@b1_upkeep
+		}
+		produces = {
+			engineering_research = 6 # base 2 jobs at 3 each = 6
+			physics_research = 6
+			society_research = 6
+		}
+	}
+
+	upgrades = {
+		"0xR_mdlc_world_machines_building_fractal_sanitizer_2"
+	}
+
+	prerequisites = {
+		"tech_basic_science_lab_1"
 	}
 }
