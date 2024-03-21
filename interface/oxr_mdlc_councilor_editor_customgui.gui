@@ -96,7 +96,7 @@ guiTypes = {
 			listboxType = { name = "option_list" position = { x = 500 y = 20 } size = { x = 460 y = 240 } spacing = 1 scrollbartype = "standardlistbox_slider" borderSize = { x = 0 y = 0 } Orientation = "UPPER_LEFT" }
 		}
 		################## Actually Displayed UI ##################
-		name = "oxr_mdlc_councilor_editor"
+		name = "oxr_mdlc_councilor_editor"  # What the game uses to find this gui
 		moveable = yes
 		position = { x = 0 y = 0 }
 		size = { width = @oxr_mdlc_councilor_gui_width height = @oxr_mldc_councilor_gui_height }
@@ -131,25 +131,48 @@ guiTypes = {
 		instantTextBoxType = {
 			name = "xvcv_mdlc_leader_making_header"
 			font = "malgun_goth_24"
-			text = "TEXT_XVCV_MDLC_LEADER_MAKING"
+			text = "Machine Councilor Node Editor"
 			position = { x = 15 y = 5 }
 			alwaysTransparent = yes
 		}
-		iconType = {
-			name = "xvcv_mdlc_leader_making_pic"
-			spriteType = "GFX_evt_robot_assembly_plant"
-			position = { x = 0 y = 125 }
-			orientation = center_up
-			centerPosition = yes
-			alwaystransparent = yes
-		}
-		iconType = {
-			name = "xvcv_mdlc_event_pic_frame"
-			spriteType = "GFX_event_frame"
-			position = { x = 0 y = 125 }
-			orientation = center_up
-			centerPosition = yes
-			alwaystransparent = yes
+		# iconType = {
+		# 	name = "xvcv_mdlc_leader_making_pic"
+		# 	spriteType = "GFX_evt_robot_assembly_plant"
+		# 	position = { x = 0 y = 125 }
+		# 	orientation = center_up
+		# 	centerPosition = yes
+		# 	alwaystransparent = yes
+		# }
+		# iconType = {
+		# 	name = "xvcv_mdlc_event_pic_frame"
+		# 	spriteType = "GFX_event_frame"
+		# 	position = { x = 0 y = 125 }
+		# 	orientation = center_up
+		# 	centerPosition = yes
+		# 	alwaystransparent = yes
+		# }
+		containerWindowType = {
+			name = "oxr_mdlc_councilor_editor_icon_sidebar_bg"
+			size = { width = 30 height = 104 }
+			position = { x = 15 y = 40 }
+			effectbuttonType = {
+				name = "xvcv_mdlc_leader_making_official_choose_subclass_box_bg"
+				quadTextureSprite = "GFX_xvcv_mdlc_leader_making_choose_subclass_box_bg"
+				text = "xvcv_mdlc_leader_making_choose_subclass_box_bg_tooltip"
+				multiline = yes #allows '\n' to function #I've learnt this thanks to Orrie, the Modder of UIOD #[AM 12:56]Orrie: Try adding multiline = yes
+				font = "cg_16b"
+				vertical_alignment = bottom
+				borderSize = { x = 0 y = 2 }
+				no_clicksound = yes
+				effect = "xvcv_mdlc_leader_making_official_choose_subclass_box_bg_button_effect"
+			}
+
+			effectbuttonType = {
+				name = "xvcv_mdlc_leader_making_trait_subclass_official_delegate_add"
+				position = { x = 10 y = 10 }
+				spriteType = "GFX_leader_subclass_official_delegate_large"
+				effect = "xvcv_mdlc_leader_making_trait_subclass_official_delegate_add_button_effect"
+			}
 		}
 
 	}
