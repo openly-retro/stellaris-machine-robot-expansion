@@ -6,3 +6,112 @@ oxr_mdlc_councilor_editor_always_visible_effect = {
 		always = yes
 	}
 }
+
+# Button effect to hide the "inactive" icon, and show the "active"
+# Button effect to hide the "active" icon, and show the "inactive"
+
+# Click on inactive hides inactive, shows active
+# Click on active, nothing happens
+
+# regulatory
+oxr_mdlc_councilor_editor_regulatory_active = {
+	potential = {
+		from = { has_country_flag = oxr_mdlc_councilor_editor_selected_regulatory }
+	}
+	allow = { always = yes }
+}
+oxr_mdlc_councilor_editor_regulatory_inactive = {
+	potential = {
+		from = { NOT = { has_country_flag = oxr_mdlc_councilor_editor_selected_regulatory } }
+	}
+	allow = { always = yes }
+	effect = {
+		from = { set_country_flag = oxr_mdlc_councilor_editor_selected_regulatory }
+		log = "Picked Regulatory Node"
+		from = {
+			remove_country_flag = oxr_mdlc_councilor_editor_selected_cognitive
+			remove_country_flag = oxr_mdlc_councilor_editor_selected_growth
+			remove_country_flag = oxr_mdlc_councilor_editor_selected_legion
+		}
+	}
+}
+# cognitive
+oxr_mdlc_councilor_editor_cognitive_active = {
+	potential = {
+		from = { has_country_flag = oxr_mdlc_councilor_editor_selected_cognitive }
+	}
+	allow = { always = yes }
+}
+oxr_mdlc_councilor_editor_cognitive_inactive = {
+	potential = {
+		from = { NOT = { has_country_flag = oxr_mdlc_councilor_editor_selected_cognitive } }
+	}
+	allow = { always = yes }
+	effect = {
+		from = { set_country_flag = oxr_mdlc_councilor_editor_selected_cognitive }
+		log = "Picked Cognitive Node"
+		from = {
+			remove_country_flag = oxr_mdlc_councilor_editor_selected_regulatory
+			remove_country_flag = oxr_mdlc_councilor_editor_selected_growth
+			remove_country_flag = oxr_mdlc_councilor_editor_selected_legion
+		}
+	}
+}
+# growth
+oxr_mdlc_councilor_editor_growth_active = {
+	potential = {
+		from = { has_country_flag = oxr_mdlc_councilor_editor_selected_growth }
+	}
+	allow = { always = yes }
+}
+oxr_mdlc_councilor_editor_growth_inactive = {
+	potential = {
+		from = { NOT = { has_country_flag = oxr_mdlc_councilor_editor_selected_growth } }
+	}
+	allow = { always = yes }
+	effect = {
+		from = { set_country_flag = oxr_mdlc_councilor_editor_selected_growth }
+		log = "Picked Growth Node"
+		remove_country_flag = oxr_mdlc_councilor_editor_selected_cognitive
+		remove_country_flag = oxr_mdlc_councilor_editor_selected_regulatory
+		remove_country_flag = oxr_mdlc_councilor_editor_selected_legion
+	}
+}
+# legion
+oxr_mdlc_councilor_editor_legion_active = {
+	potential = {
+		from = { has_country_flag = oxr_mdlc_councilor_editor_selected_legion }
+	}
+	allow = { always = yes }
+}
+oxr_mdlc_councilor_editor_legion_inactive = {
+	potential = {
+		from = { NOT = { has_country_flag = oxr_mdlc_councilor_editor_selected_legion } }
+	}
+	allow = { always = yes }
+	effect = {
+		from = { set_country_flag = oxr_mdlc_councilor_editor_selected_legion }
+		log = "Picked Legion Node"
+		remove_country_flag = oxr_mdlc_councilor_editor_selected_cognitive
+		remove_country_flag = oxr_mdlc_councilor_editor_selected_growth
+		remove_country_flag = oxr_mdlc_councilor_editor_selected_regulatory
+	}
+}
+
+oxr_mdlc_councilor_editor_close_button_effect = {
+	potential = { always = yes }
+	allow = { always = yes }
+	effect = {
+        custom_tooltip = CLOSE_TITLE
+        hidden_effect = {
+			from = {
+				remove_country_flag = oxr_mdlc_councilor_editor_window_open
+				remove_country_flag = oxr_mdlc_councilor_editor_selected_cognitive
+				remove_country_flag = oxr_mdlc_councilor_editor_selected_growth
+				remove_country_flag = oxr_mdlc_councilor_editor_selected_regulatory
+				remove_country_flag = oxr_mdlc_councilor_editor_selected_legion
+			}
+		}
+    }
+
+}
