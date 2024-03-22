@@ -5,8 +5,8 @@ guiTypes = {
 
 	# Large containing window, primary window
 	# Can't start varname with number
-	@oxr_mdlc_councilor_gui_width = 600
-	@oxr_mldc_councilor_gui_height = 545
+	@oxr_mdlc_councilor_gui_width = 550
+	@oxr_mldc_councilor_gui_height = 580
 
 	containerWindowType = {
 		####################### Hidden UI #########################
@@ -101,20 +101,20 @@ guiTypes = {
 		position = { x = 0 y = 0 }
 		size = { width = @oxr_mdlc_councilor_gui_width height = @oxr_mldc_councilor_gui_height }
 		show_sound = "interface"
-		background = { name = "xvcv_mdlc_leader_making_background" quadTextureSprite = "GFX_tile_outliner_bg" }
+		background = { name = "oxr_mdlc_councilor_editor_background" quadTextureSprite = "GFX_tile_outliner_bg" }
 		animation_time = 300
 		animation_type = smoothstep
 		orientation = center
 		origo = center
 
 		iconType = {
-			name = "xvcv_mdlc_leader_making_header_line_bg"
+			name = "oxr_mdlc_councilor_editor_header_line_bg"
 			spriteType = "GFX_hex_bg"
 			position = { x = -10 y = -14 }
 			alwaysTransparent = yes
 		}
 		iconType = {
-			name = "xvcv_mdlc_leader_making_header_line"
+			name = "oxr_mdlc_councilor_editor_header_line"
 			quadTextureSprite = "GFX_line_medium"
 			position = { x = 6 y = 22 }
 			alwaysTransparent = yes
@@ -129,49 +129,113 @@ guiTypes = {
 			effect = "xvcv_mdlc_leader_making_close_button_effect"
 		}
 		instantTextBoxType = {
-			name = "xvcv_mdlc_leader_making_header"
+			name = "oxr_mdlc_councilor_editor_window_title"
 			font = "malgun_goth_24"
-			text = "Machine Councilor Node Editor"
+			text = "Councilor Node Editor"
 			position = { x = 15 y = 5 }
 			alwaysTransparent = yes
 		}
-		# iconType = {
-		# 	name = "xvcv_mdlc_leader_making_pic"
-		# 	spriteType = "GFX_evt_robot_assembly_plant"
-		# 	position = { x = 0 y = 125 }
-		# 	orientation = center_up
-		# 	centerPosition = yes
-		# 	alwaystransparent = yes
-		# }
-		# iconType = {
-		# 	name = "xvcv_mdlc_event_pic_frame"
-		# 	spriteType = "GFX_event_frame"
-		# 	position = { x = 0 y = 125 }
-		# 	orientation = center_up
-		# 	centerPosition = yes
-		# 	alwaystransparent = yes
-		# }
+
+		# Use CSS-like identifiers
+		@oxr_mdlc_councilor_editor_node_icon_left = 40
+		@oxr_mdlc_councilor_editor_node_frame_inactive_left = 18
+		@oxr_mdlc_councilor_editor_node_frame_inactive_top = 18
+		@oxr_mdlc_councilor_editor_node_icon_top_1 = 40
+		@oxr_mdlc_councilor_editor_node_icon_top_2 = 156
+		@oxr_mdlc_councilor_editor_node_icon_top_3 = 282
+		@oxr_mdlc_councilor_editor_node_icon_top_3 = 408
+
 		containerWindowType = {
 			name = "oxr_mdlc_councilor_editor_icon_sidebar_bg"
-			size = { width = 30 height = 104 }
-			position = { x = 15 y = 40 }
+			size = { width = 123 height = 510 }
+			position = { x = 25 y = 50 }
+			# iconType = {
+			# 	name = "xvcv_mdlc_event_pic_frame"
+			# 	spriteType = "GFX_event_frame"
+			# 	position = { x = 0 y = 125 }
+			# 	orientation = center_up
+			# 	centerPosition = yes
+			# 	alwaystransparent = yes
+			# }
+
+			# Regulatory
 			effectbuttonType = {
-				name = "xvcv_mdlc_leader_making_official_choose_subclass_box_bg"
-				quadTextureSprite = "GFX_xvcv_mdlc_leader_making_choose_subclass_box_bg"
-				text = "xvcv_mdlc_leader_making_choose_subclass_box_bg_tooltip"
-				multiline = yes #allows '\n' to function #I've learnt this thanks to Orrie, the Modder of UIOD #[AM 12:56]Orrie: Try adding multiline = yes
-				font = "cg_16b"
-				vertical_alignment = bottom
-				borderSize = { x = 0 y = 2 }
-				no_clicksound = yes
-				effect = "xvcv_mdlc_leader_making_official_choose_subclass_box_bg_button_effect"
+				name = "oxr_mdlc_councilor_editor_regulatory_icon_frame_inactive"
+				position = { x = 18 y = 17 }
+				spriteType = "GFX_oxr_mdlc_councilor_editor_councilor_frame_inactive"
+				effect = "oxr_mdlc_councilor_editor_always_visible_effect"
+			}
+			effectbuttonType = {
+				name = "oxr_mdlc_councilor_editor_regulatory_icon_frame_active"
+				position = { x = 0 y = 0 }
+				spriteType = "GFX_oxr_mdlc_councilor_editor_councilor_frame_active"
+				effect = "oxr_mdlc_councilor_editor_always_visible_effect"
+			}
+			effectbuttonType = {
+				name = "oxr_mdlc_councilor_editor_regulatory_icon_active"
+				position = { x = 40 y = 40 }
+				spriteType = "GFX_oxr_mdlc_councilor_editor_regulatory_icon_active"
+				effect = "oxr_mdlc_councilor_editor_always_visible_effect"
 			}
 
+			# cognitive
 			effectbuttonType = {
-				name = "xvcv_mdlc_leader_making_trait_subclass_official_delegate_add"
-				position = { x = 10 y = 10 }
-				spriteType = "GFX_leader_subclass_official_delegate_large"
-				effect = "xvcv_mdlc_leader_making_trait_subclass_official_delegate_add_button_effect"
+				name = "oxr_mdlc_councilor_editor_cognitive_icon_frame_inactive"
+				position = { x = 18 y = 138 }
+				spriteType = "GFX_oxr_mdlc_councilor_editor_councilor_frame_inactive"
+				effect = "oxr_mdlc_councilor_editor_always_visible_effect"
+			}
+			effectbuttonType = {
+				name = "oxr_mdlc_councilor_editor_cognitive_icon_active_frame"
+				position = { x = 0 y = 120 }
+				spriteType = "GFX_oxr_mdlc_councilor_editor_councilor_frame_active"
+				effect = "oxr_mdlc_councilor_editor_always_visible_effect"
+			}
+			effectbuttonType = {
+				name = "oxr_mdlc_councilor_editor_cognitive_icon_active"
+				position = { x = 36 y = 156 }
+				spriteType = "GFX_oxr_mdlc_councilor_editor_cognitive_icon_active"
+				effect = "oxr_mdlc_councilor_editor_always_visible_effect"
+			}
+
+			# growth
+			effectbuttonType = {
+				name = "oxr_mdlc_councilor_editor_growth_icon_frame_inactive"
+				position = { x = 18 y = 258 }
+				spriteType = "GFX_oxr_mdlc_councilor_editor_councilor_frame_inactive"
+				effect = "oxr_mdlc_councilor_editor_always_visible_effect"
+			}
+			effectbuttonType = {
+				name = "oxr_mdlc_councilor_editor_growth_icon_active_frame"
+				position = { x = 0 y = 240 }
+				spriteType = "GFX_oxr_mdlc_councilor_editor_councilor_frame_active"
+				effect = "oxr_mdlc_councilor_editor_always_visible_effect"
+			}
+			effectbuttonType = {
+				name = "oxr_mdlc_councilor_editor_growth_icon_active"
+				position = { x = 36 y = 273 }
+				spriteType = "GFX_oxr_mdlc_councilor_editor_growth_icon_active"
+				effect = "oxr_mdlc_councilor_editor_always_visible_effect"
+			}
+
+			# legion
+			effectbuttonType = {
+				name = "oxr_mdlc_councilor_editor_legion_icon_frame_inactive"
+				position = { x = 18 y = 378 }
+				spriteType = "GFX_oxr_mdlc_councilor_editor_councilor_frame_inactive"
+				effect = "oxr_mdlc_councilor_editor_always_visible_effect"
+			}
+			effectbuttonType = {
+				name = "oxr_mdlc_councilor_editor_legion_icon_active_frame"
+				position = { x = 0 y = 360 }
+				spriteType = "GFX_oxr_mdlc_councilor_editor_councilor_frame_active"
+				effect = "oxr_mdlc_councilor_editor_always_visible_effect"
+			}
+			effectbuttonType = {
+				name = "oxr_mdlc_councilor_editor_legion_icon_active"
+				position = { x = 36 y = 398 }
+				spriteType = "GFX_oxr_mdlc_councilor_editor_legion_icon_active"
+				effect = "oxr_mdlc_councilor_editor_always_visible_effect"
 			}
 		}
 
