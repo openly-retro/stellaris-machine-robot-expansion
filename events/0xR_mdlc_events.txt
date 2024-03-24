@@ -1,0 +1,70 @@
+namespace = oxr_mdlc
+
+country_event = {
+	id = oxr_mdlc.10
+	title = oxr_mdlc.10.name
+	desc = oxr_mdlc.10.desc
+	picture = GFX_evt_source_code_reprogramming_red
+	is_triggered_only = yes
+
+	option = {
+		name = "Launch Regulatory Node editor"
+		allow = { NOT = { has_country_flag = oxr_mdlc_councilor_editor_selected_regulatory } }
+		# country_event = {
+		# 	id = xvcv_mdlc_customgui.6
+		# }
+		every_owned_leader = {
+			limit = {
+				is_councilor = yes
+				is_councilor_type = councilor_gestalt_regulatory
+			}
+			leader_event = { id = oxr_mdlc.20 }
+		}
+		# from = {
+		remove_country_flag = oxr_mdlc_councilor_editor_selected_cognitive
+		remove_country_flag = oxr_mdlc_councilor_editor_selected_growth
+		remove_country_flag = oxr_mdlc_councilor_editor_selected_legion
+		set_country_flag = oxr_mdlc_councilor_editor_window_open
+		set_country_flag = oxr_mdlc_councilor_editor_selected_regulatory
+		# }
+		# find the councilor, and fire a leader_event = { id = whatever }
+	}
+	option = {
+		name = "oxr_mdlc_10.1.name"
+		allow = { NOT = { has_country_flag = oxr_mdlc_councilor_editor_selected_cognitive } }
+	}
+	option = {
+		name = "oxr_mdlc_10.2.name"
+		allow = { NOT = { has_country_flag = oxr_mdlc_councilor_editor_selected_growth } }
+	}
+	option = {
+		name = "oxr_mdlc_10.3.name"
+		allow = { NOT = { has_country_flag = oxr_mdlc_councilor_editor_selected_growth } }
+	}
+}
+
+
+leader_event = {
+	id = oxr_mdlc.20
+	title = "oxr_mdlc_councilor_editor_window_gui_title"
+	desc = "oxr_mdlc_councilor_editor_window_gui_title_desc"
+	is_triggered_only = yes
+	diplomatic = yes
+
+	immediate = {
+		oxr_mdlc_councilor_editor_reset_trait_picks_default = yes
+		oxr_mdlc_councilor_editor_reset_trait_points_default = yes
+		print_scope_effect = yes
+	}
+	picture_event_data = {
+		# planet_background = root.owner
+		# graphical_culture = root.owner
+		portrait = this
+	}
+
+	custom_gui = oxr_mdlc_councilor_editor_regulatory
+
+	option = {
+		name = xvcv_mdlc_customgui.1.a
+	}
+}

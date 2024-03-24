@@ -115,3 +115,70 @@ oxr_mdlc_councilor_editor_close_button_effect = {
     }
 
 }
+
+
+############################
+######### traits ###########
+############################
+
+# 2 button effect per trait, per set of traits, per four councilors
+# If there are 20 traits per councilor, 80 traits makes 160 button effects.. not bad
+
+# Can store variables on the councilor leader, potentially making tracking a bit easier
+oxr_mdlc_councilor_editor_regulatory_leader_trait_army_veteran_2_add_button_effect = {
+	potential = {
+		# Double check the scope, it needs to be the leader this event was fired for
+		NOT = { has_trait = leader_trait_army_veteran_2 }
+	}
+	allow = {
+		custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_official_leader_trait_army_veteran_2
+		# Can re-use some code from the leader builder
+		# Check if player has minimum resources to add this trait
+		xvcv_mdlc_core_modifying_trait_cost_trigger = yes
+		## check if REGULATORY (NODE-SPECIFIC) traits POINTS are sufficient
+		# oxr_mdlc_councilor_editor_regulatory_has_enough_trait_points = yes
+		## check if REGULATORY (NODE-SPECIFIC) trait PICKS are sufficient
+	}
+	effect = {
+		## Since we only add T2-T3 traits, remove the T1 or T2 version if this is picked
+		## Re-use existing button effect, assuming the scope is on the specific councilor
+		xvcv_mdlc_core_modifying_remove_tier_1_or_2_traits_effect = {
+			TRAIT = leader_trait_army_veteran_2
+		}
+		## Add the picked trait to the leader
+		add_trait = leader_trait_army_veteran_2
+		# Alternately, make an effect that can be fired from a different scope
+		# oxr_mdlc_councilor_editor_add_picked_trait = {
+		# 	TRAIT = leader_trait_army_veteran_2
+		# 	COUNCILOR = councilor_gestalt_regulatory
+		# }
+		hidden_effect = {
+			## Deduct appropriate resources, points, and num picks left
+			# oxr_mdlc_councilor_editor_deduct_trait_resources_cost_common
+			# oxr_mdlc_councilor_editor_deduct_trait_points_cost_common
+			# oxr_mdlc_councilor_editor_deduct_trait_picks_cost_common
+			# veteran
+			# paragon
+		}
+	}
+}
+
+
+oxr_mdlc_councilor_editor_regulatory_leader_trait_army_veteran_2_remove_button_effect = {
+    potential = {
+        has_trait = leader_trait_army_veteran_2
+    }
+    allow = { always = yes }
+    effect = {
+        custom_tooltip = xvcv_mdlc_core_modifying_tooltip_remove_official_leader_trait_army_veteran_2
+        hidden_effect = {
+            remove_trait = leader_trait_army_veteran_2
+			## Refund trait points and picks
+			## Variables will be tracked on the particular councilor leader
+			# oxr_mdlc_councilor_editor_refund_trait_resources_cost_common
+			# oxr_mdlc_councilor_editor_refund_trait_points_cost_common
+			# oxr_mdlc_councilor_editor_refund_trait_picks_cost_common
+			# veteran version, and paragon version
+        }
+    }
+}

@@ -1,1 +1,282 @@
+# Renaming a lot of these vars to avoid any potential conflict
+# with core-modifying and leader-making vars
+# Default amount of trait points
+@oxr_mdlc_councilor_editor_base_num_trait_points = 4
+# Values with T1 and T2 core modifying techs, respectively
+@oxr_mdlc_councilor_editor_base_num_trait_points_t1 = 5
+@oxr_mdlc_councilor_editor_base_num_trait_points_t2 = 6
+
+# Default number of trait picks
+@oxr_mdlc_councilor_editor_base_num_trait_picks = 3
+# Values with T1 and T2 core modifying techs, respectively
+@oxr_mdlc_councilor_editor_base_num_trait_picks_t1 = 4  # unused
+@oxr_mdlc_councilor_editor_base_num_trait_picks_t2 = 5  # unused
+
+# How many trait points does each tier of trait cost to apply to the ruler
+@oxr_mdlc_councilor_editor_common_trait_points_cost = 1
+@oxr_mdlc_councilor_editor_veteran_trait_points_cost = 2
+@oxr_mdlc_councilor_editor_destiny_trait_points_cost = 3
+
+# These numbers are applied to both energy costs, and alloy costs
+@oxr_mdlc_councilor_editor_common_trait_cost = 200
+@oxr_mdlc_councilor_editor_common_trait_refund = 100
+@oxr_mdlc_councilor_editor_veteran_trait_cost = 500
+@oxr_mdlc_councilor_editor_veteran_trait_refund = 250
+@oxr_mdlc_councilor_editor_destiny_trait_cost = 1000
+@oxr_mdlc_councilor_editor_destiny_trait_refund = 500
+
 # Set flag based on which button has been selected
+######################
+# Adding and refunding
+# Whatever is the added cost, the refunded cost is half of that
+######################
+
+# Charge resources
+oxr_mdlc_councilor_editor_deduct_trait_resources_cost_common = {
+	optimize_memory
+	add_resource = { energy = -1 mult = @oxr_mdlc_councilor_editor_common_trait_cost }
+	add_resource = { alloys = -1 mult = @oxr_mdlc_councilor_editor_common_trait_cost }
+}
+oxr_mdlc_councilor_editor_deduct_trait_resources_cost_veteran = {
+	optimize_memory
+	add_resource = { energy = -1 mult = @oxr_mdlc_councilor_editor_veteran_trait_cost }
+	add_resource = { alloys = -1 mult = @oxr_mdlc_councilor_editor_veteran_trait_cost }
+}
+oxr_mdlc_councilor_editor_deduct_trait_resources_cost_paragon = {
+	optimize_memory
+	add_resource = { energy = -1 mult = @oxr_mdlc_councilor_editor_destiny_trait_cost }
+	add_resource = { alloys = -1 mult = @oxr_mdlc_councilor_editor_destiny_trait_cost }
+}
+# Refund resources
+oxr_mdlc_councilor_editor_refund_trait_resources_cost_common = {
+	optimize_memory
+	add_resource = {
+		energy = @oxr_mdlc_councilor_editor_common_trait_refund
+		alloys = @oxr_mdlc_councilor_editor_common_trait_refund
+	}
+}
+oxr_mdlc_councilor_editor_refund_trait_resources_cost_veteran = {
+	optimize_memory
+	add_resource = {
+		energy = @oxr_mdlc_councilor_editor_veteran_trait_refund
+		alloys = @oxr_mdlc_councilor_editor_veteran_trait_refund
+	}
+}
+oxr_mdlc_councilor_editor_refund_trait_resources_cost_paragon = {
+	optimize_memory
+	add_resource = {
+		energy = @oxr_mdlc_councilor_editor_destiny_trait_cost
+		alloys = @oxr_mdlc_councilor_editor_destiny_trait_cost
+	}
+}
+### TRAIT POINTS ###
+oxr_mdlc_councilor_editor_deduct_trait_points_cost_common = {
+	# This variable change should happen on the specific councilor being targeted
+	log = "Deducting trait points for \\[This.GetName] councilor"
+	change_variable = {
+		which = oxr_mdlc_councilor_editor_trait_points
+		value = -1
+	}
+}
+oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = {
+	# This variable change should happen on the specific councilor being targeted
+	optimize_memory
+	log = "Deducting trait points for \\[This.GetName] councilor"
+	change_variable = {
+		which = oxr_mdlc_councilor_editor_trait_points
+		value = -2
+	}
+}
+oxr_mdlc_councilor_editor_deduct_trait_points_cost_paragon = {
+	# This variable change should happen on the specific councilor being targeted
+	optimize_memory
+	log = "Deducting trait points for \\[This.GetName] councilor"
+	change_variable = {
+		which = oxr_mdlc_councilor_editor_trait_points
+		value = -3
+	}
+}
+oxr_mdlc_councilor_editor_reset_trait_points_default = {
+	# Used on GUI reset button, game start
+	optimize_memory
+	# must be called with councilor leader scope
+	set_variable = {
+		which = oxr_mdlc_councilor_editor_trait_points
+		value = @oxr_mdlc_councilor_editor_base_num_trait_picks
+	}
+	# Increase the number of trait points available, for T1 of this tech
+	if = {
+		limit = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement } }
+		change_variable = {
+			which = oxr_mdlc_councilor_editor_trait_points
+			value = 1
+		}
+	}
+	# Give additional points for having T2, so it's a compound effect
+	# Having T1 and T2 of this tech awards +2 trait points total
+	if = {
+		limit = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 } }
+		change_variable = { which = oxr_mdlc_councilor_editor_trait_points value = 1 }
+	}
+}
+oxr_mdlc_councilor_editor_refund_trait_points_cost_common = {
+	optimize_memory
+	if = {
+		# Refund trait points up to a certain level
+		# Ex: with T2 of the core modifying improvement, refund up to 6 points
+		limit = {
+			OR = {
+				check_variable = {
+					which = oxr_mdlc_councilor_editor_trait_points
+					value > @oxr_mdlc_councilor_editor_base_num_trait_points_t2
+				}
+				AND = {
+					NOT = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 } }
+					check_variable = {
+						which = oxr_mdlc_councilor_editor_trait_points
+						value > @oxr_mdlc_councilor_editor_base_num_trait_picks_t2
+					}
+				}
+				AND = {
+					NOT = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement } }
+					check_variable = {
+						which = oxr_mdlc_councilor_editor_trait_points
+						value > @oxr_mdlc_councilor_editor_base_num_trait_picks
+					}
+				}
+			}
+		}
+		# For each trait removed, increment points by 3
+		else = {
+			change_variable = {
+				which = oxr_mdlc_councilor_editor_trait_points
+				value = @oxr_mdlc_councilor_editor_common_trait_points_cost
+			}
+		}
+	}
+}
+oxr_mdlc_councilor_editor_refund_trait_points_cost_veteran = {
+	optimize_memory
+	if = {
+		# Refund trait points up to a certain level
+		# Ex: with T2 of the core modifying improvement, refund up to 6 points
+		limit = {
+			OR = {
+				check_variable = {
+					which = oxr_mdlc_councilor_editor_trait_points
+					value > @oxr_mdlc_councilor_editor_base_num_trait_points_t2
+				}
+				AND = {
+					NOT = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 } }
+					check_variable = {
+						which = oxr_mdlc_councilor_editor_trait_points
+						value > @oxr_mdlc_councilor_editor_base_num_trait_picks_t2
+					}
+				}
+				AND = {
+					NOT = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement } }
+					check_variable = {
+						which = oxr_mdlc_councilor_editor_trait_points
+						value > @oxr_mdlc_councilor_editor_base_num_trait_picks
+					}
+				}
+			}
+		}
+		# For each trait removed, increment points by 3
+		else = {
+			change_variable = {
+				which = oxr_mdlc_councilor_editor_trait_points
+				value = @oxr_mdlc_councilor_editor_veteran_trait_points_cost
+			}
+		}
+	}
+}
+oxr_mdlc_councilor_editor_refund_trait_points_cost_paragon = {
+	optimize_memory
+	if = {
+		# Refund trait points up to a certain level
+		# Ex: with T2 of the core modifying improvement, refund up to 6 points
+		limit = {
+			OR = {
+				check_variable = {
+					which = oxr_mdlc_councilor_editor_trait_points
+					value > @oxr_mdlc_councilor_editor_base_num_trait_points_t2
+				}
+				AND = {
+					NOT = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 } }
+					check_variable = {
+						which = oxr_mdlc_councilor_editor_trait_points
+						value > @oxr_mdlc_councilor_editor_base_num_trait_picks_t2
+					}
+				}
+				AND = {
+					NOT = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement } }
+					check_variable = {
+						which = oxr_mdlc_councilor_editor_trait_points
+						value > @oxr_mdlc_councilor_editor_base_num_trait_picks
+					}
+				}
+			}
+		}
+		# For each trait removed, increment points by 3
+		else = {
+			change_variable = {
+				which = oxr_mdlc_councilor_editor_trait_points
+				value = @oxr_mdlc_councilor_editor_destiny_trait_points_cost
+			}
+		}
+	}
+}
+
+### TRAIT PICKS ###
+oxr_mdlc_councilor_editor_deduct_trait_pick = {
+	change_variable = {
+		which = oxr_mdlc_councilor_editor_max_traits_number
+		value = -1
+	}
+}
+oxr_mdlc_councilor_editor_refund_trait_pick = {
+	change_variable = {
+		which = oxr_mdlc_councilor_editor_max_traits_number
+		value = 1
+	}
+}
+oxr_mdlc_councilor_editor_reset_trait_picks_default = {
+	# Used on GUI reset button, game start
+	optimize_memory
+	# must be called with councilor leader scope
+	set_variable = {
+		which = oxr_mdlc_councilor_editor_max_traits_number
+		value = @oxr_mdlc_councilor_editor_base_num_trait_picks
+	}
+	# Increase the number of trait points available, for T1 of this tech
+	if = {
+		limit = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement } }
+		change_variable = {
+			which = oxr_mdlc_councilor_editor_max_traits_number
+			value = 1
+		}
+	}
+	# Give additional points for having T2, so it's a compound effect
+	# Having T1 and T2 of this tech awards +2 trait points total
+	if = {
+		limit = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 } }
+		change_variable = { which = oxr_mdlc_councilor_editor_max_traits_number value = 1 }
+	}
+}
+
+oxr_mdlc_councilor_editor_remove_tier_1_or_2_traits_effect = {
+	# Adding the T2 version of a T1 replaces the T1; same for T3 which replaces T2 and T1
+	optimize_memory
+	hidden_effect = {
+		# verify somehow that the scope is 'leader'
+		if = {
+			limit = { has_trait = $ID$ }
+			remove_trait = $ID$
+		}
+		if = {
+			limit = { has_trait = $ID$_2 }
+			remove_trait = $ID$_2
+		}
+	}
+}
