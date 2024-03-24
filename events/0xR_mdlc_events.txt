@@ -9,37 +9,33 @@ country_event = {
 
 	option = {
 		name = "Launch Regulatory Node editor"
-		allow = { NOT = { has_country_flag = oxr_mdlc_councilor_editor_selected_regulatory } }
-		# country_event = {
-		# 	id = xvcv_mdlc_customgui.6
-		# }
-		every_owned_leader = {
-			limit = {
-				is_councilor = yes
-				is_councilor_type = councilor_gestalt_regulatory
+		allow = { NOT = { has_country_flag = oxr_mdlc_councilor_editor_in_progress } }
+		hidden_effect = {
+			every_owned_leader = {
+				limit = {
+					is_councilor_type = councilor_gestalt_regulatory
+				}
+				save_global_event_target_as = oxr_mdlc_councilor_editor_target
+				log = "Event target: [event_target:oxr_mdlc_councilor_editor_target.GetName]"
+				leader_event = { id = oxr_mdlc.20 }
 			}
-			leader_event = { id = oxr_mdlc.20 }
+			set_country_flag = oxr_mdlc_councilor_editor_in_progress
 		}
-		# from = {
-		remove_country_flag = oxr_mdlc_councilor_editor_selected_cognitive
-		remove_country_flag = oxr_mdlc_councilor_editor_selected_growth
-		remove_country_flag = oxr_mdlc_councilor_editor_selected_legion
-		set_country_flag = oxr_mdlc_councilor_editor_window_open
-		set_country_flag = oxr_mdlc_councilor_editor_selected_regulatory
-		# }
-		# find the councilor, and fire a leader_event = { id = whatever }
 	}
 	option = {
 		name = "oxr_mdlc_10.1.name"
-		allow = { NOT = { has_country_flag = oxr_mdlc_councilor_editor_selected_cognitive } }
+		# allow = { NOT = { has_country_flag = oxr_mdlc_councilor_editor_in_progress } }
+		allow = { oxr_mdlc_councilor_editor_feature_enabled = yes }
 	}
 	option = {
 		name = "oxr_mdlc_10.2.name"
-		allow = { NOT = { has_country_flag = oxr_mdlc_councilor_editor_selected_growth } }
+		# allow = { NOT = { has_country_flag = oxr_mdlc_councilor_editor_in_progress } }
+		allow = { oxr_mdlc_councilor_editor_feature_enabled = yes }
 	}
 	option = {
 		name = "oxr_mdlc_10.3.name"
-		allow = { NOT = { has_country_flag = oxr_mdlc_councilor_editor_selected_growth } }
+		# allow = { NOT = { has_country_flag = oxr_mdlc_councilor_editor_in_progress } }
+		allow = { oxr_mdlc_councilor_editor_feature_enabled = yes }
 	}
 }
 
@@ -47,7 +43,7 @@ country_event = {
 leader_event = {
 	id = oxr_mdlc.20
 	title = "oxr_mdlc_councilor_editor_window_gui_title"
-	desc = "oxr_mdlc_councilor_editor_window_gui_title_desc"
+	desc = "oxr_mdlc_councilor_editor_compound_info"
 	is_triggered_only = yes
 	diplomatic = yes
 
@@ -55,11 +51,14 @@ leader_event = {
 		oxr_mdlc_councilor_editor_reset_trait_picks_default = yes
 		oxr_mdlc_councilor_editor_reset_trait_points_default = yes
 		print_scope_effect = yes
+		# save_global_event_target_as = oxr_mdlc_councilor_editor_target
+		# log = "Event target: [event_target:oxr_mdlc_councilor_editor_target.GetName]"
 	}
+
 	picture_event_data = {
 		# planet_background = root.owner
-		# graphical_culture = root.owner
-		portrait = this
+		graphical_culture = root.owner
+		portrait = event_target:oxr_mdlc_councilor_editor_target
 	}
 
 	custom_gui = oxr_mdlc_councilor_editor_regulatory

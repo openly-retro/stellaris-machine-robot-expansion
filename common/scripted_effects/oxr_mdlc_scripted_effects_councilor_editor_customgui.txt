@@ -231,13 +231,13 @@ oxr_mdlc_councilor_editor_refund_trait_points_cost_paragon = {
 ### TRAIT PICKS ###
 oxr_mdlc_councilor_editor_deduct_trait_pick = {
 	change_variable = {
-		which = oxr_mdlc_councilor_editor_max_traits_number
+		which = oxr_mdlc_councilor_editor_trait_picks
 		value = -1
 	}
 }
 oxr_mdlc_councilor_editor_refund_trait_pick = {
 	change_variable = {
-		which = oxr_mdlc_councilor_editor_max_traits_number
+		which = oxr_mdlc_councilor_editor_trait_picks
 		value = 1
 	}
 }
@@ -246,14 +246,14 @@ oxr_mdlc_councilor_editor_reset_trait_picks_default = {
 	optimize_memory
 	# must be called with councilor leader scope
 	set_variable = {
-		which = oxr_mdlc_councilor_editor_max_traits_number
+		which = oxr_mdlc_councilor_editor_trait_picks
 		value = @oxr_mdlc_councilor_editor_base_num_trait_picks
 	}
 	# Increase the number of trait points available, for T1 of this tech
 	if = {
 		limit = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement } }
 		change_variable = {
-			which = oxr_mdlc_councilor_editor_max_traits_number
+			which = oxr_mdlc_councilor_editor_trait_picks
 			value = 1
 		}
 	}
@@ -261,22 +261,22 @@ oxr_mdlc_councilor_editor_reset_trait_picks_default = {
 	# Having T1 and T2 of this tech awards +2 trait points total
 	if = {
 		limit = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 } }
-		change_variable = { which = oxr_mdlc_councilor_editor_max_traits_number value = 1 }
+		change_variable = { which = oxr_mdlc_councilor_editor_trait_picks value = 1 }
 	}
 }
 
 oxr_mdlc_councilor_editor_remove_tier_1_or_2_traits_effect = {
+	# Edited from core-modifying effect as it was hardcoded to ruler
 	# Adding the T2 version of a T1 replaces the T1; same for T3 which replaces T2 and T1
 	optimize_memory
 	hidden_effect = {
-		# verify somehow that the scope is 'leader'
 		if = {
-			limit = { has_trait = $ID$ }
-			remove_trait = $ID$
+			limit = { has_trait = $TRAIT_NAME$ }
+			remove_trait = $TRAIT_NAME$
 		}
 		if = {
-			limit = { has_trait = $ID$_2 }
-			remove_trait = $ID$_2
+			limit = { has_trait = $TRAIT_NAME$_2 }
+			remove_trait = $TRAIT_NAME$_2
 		}
 	}
 }

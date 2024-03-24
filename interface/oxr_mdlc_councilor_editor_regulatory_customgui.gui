@@ -47,32 +47,32 @@ guiTypes = {
 			name = "alien_message_background" size = { x = 485 y = 240 } position = { x = @hidden_ui_elements_position y = @hidden_ui_elements_position }
 			spriteType = "GFX_tiles_dark_area_cut_8" alwaysTransparent = yes
 		}
+		# Points, traits, pick, etc, are fed into this element via "desc" leader_event property
+		# this cannot be relocated to another part of the GUI or the game will crash
 		instantTextBoxType = {
-			name = "alien_message" font = "cg_16b" position = { x = @hidden_ui_elements_position y = @hidden_ui_elements_position }
+			name = "alien_message" font = "cg_16b" position = { x = 180 y = 190 }
 			maxWidth = 465 maxHeight = 220 format = left scrollbartype = "standardtext_slider"
 		}
-		buttonType = {
-			name = "confirm_button" quadTextureSprite = "GFX_standard_button_142_34_button" position = { x= @hidden_ui_elements_position y = @hidden_ui_elements_position }
-			Orientation = "UPPER_RIGHT" font = "cg_16b" text = "MESSAGE_OK" clicksound = "confirmation"
-		}
+
 		### PORTRAIT ###
 		containerWindowType = {
 			name = "portrait_background"
-			position = { x = @hidden_ui_elements_position y = @hidden_ui_elements_position }
+			position = { x = @150 y = @hidden_ui_elements_position }
 			size = { width = 964 height = 350 }
 			clipping = yes
 			iconType = { name = "event_picture" spriteType = "GFX_diplomacy_portrait_frame" position = { x = -6 y = -5 } }
 			iconType = { name = "portrait" position = { x = 250 y = 0 } spriteType = "GFX_portrait_character" }	
 		}
+		# Do a lil bit of tweaking to get the gestalt councilor portrait to show in the event window
 		containerWindowType = {
 			name = "portrait"
-			position = { x = @hidden_ui_elements_position y = @hidden_ui_elements_position }
-			size = { width = 964 height = 350 }
-			clipping = yes
-			iconType = { name = "portrait" spriteType = "GFX_portrait_gamesetup_mask" alwaysTransparent = yes }
-			iconType = { name = "black_frame" spriteType = "GFX_diplomacy_portrait_shadow_frame" position = { x = -4 y = -5 } alwaysTransparent = yes }
-			iconType = { name = "stripes_1" spriteType = "GFX_diplomacy_stripes_2" alwaysTransparent = yes }
-			iconType = { name = "city_frame" spriteType = "GFX_diplomacy_portrait_frame_caravaneer" position = { x = -6 y = -5 } alwaysTransparent = yes }
+			position = { x = -200 y = -80 }
+			size = { width = 0 height = 0 }
+			clipping = no
+			iconType = { name = "portrait" spriteType = "GFX_portrait_character" alwaysTransparent = yes }
+			iconType = { name = "black_frame" spriteType = "GFX_diplomacy_portrait_shadow_frame" position = { x = @hidden_ui_elements_position y = @hidden_ui_elements_position } alwaysTransparent = yes }
+			iconType = { name = "stripes_1" spriteType = "GFX_diplomacy_stripes_2" alwaysTransparent = yes position = { x = 0 y = 270 } }
+			iconType = { name = "city_frame" spriteType = "GFX_diplomacy_portrait_frame_caravaneer" position = { x = @hidden_ui_elements_position y = @hidden_ui_elements_position } alwaysTransparent = yes }
 		}
 		### EMPIRE INFO ###
 		iconType = { name = "empire_info_bg" spriteType = "GFX_diplomacy_dark_fade_bg" position = { x = @hidden_ui_elements_position y = @hidden_ui_elements_position } alwaysTransparent = yes }
@@ -130,41 +130,6 @@ guiTypes = {
 		orientation = center
 		origo = center
 
-		iconType = {
-			name = "oxr_mdlc_councilor_editor_header_line_bg"
-			spriteType = "GFX_hex_bg"
-			position = { x = -10 y = -14 }
-			alwaysTransparent = yes
-		}
-		iconType = {
-			name = "oxr_mdlc_councilor_editor_header_line"
-			quadTextureSprite = "GFX_line_medium"
-			position = { x = 6 y = 22 }
-			alwaysTransparent = yes
-			text = "foo"
-		}
-		effectButtonType = {
-			name = "close" #no, don't change its name #it will not function at all #which means the players won't be able to close the window
-			quadTextureSprite = "GFX_close"
-			position = { x = -42 y = 13 }
-			Orientation = "UPPER_RIGHT"
-			shortcut = "ESCAPE"
-			clicksound = "back_click"
-			effect = "oxr_mdlc_councilor_editor_close_button_effect"
-		}
-		# instantTextBoxType = {
-		# 	name = "oxr_mdlc_councilor_editor_window_title"
-		# 	font = "malgun_goth_24"
-		# 	text = "Councilor Node Editor"
-		# 	position = { x = 20 y = 5 }
-		# 	alwaysTransparent = yes
-		# }
-		instantTextBoxType = {
-			name = "leader_name" position = { x = 20 y = 5 } font = "malgun_goth_24" maxWidth = 330 maxHeight = 20
-			fixedSize = yes format = left
-			text = "Regulatory Node Editor" text_color_code = "H"
-		}
-
 		# Use CSS-like identifiers
 		@oxr_mdlc_councilor_editor_node_icon_left = 40
 		@oxr_mdlc_councilor_editor_node_frame_inactive_left = 18
@@ -174,45 +139,46 @@ guiTypes = {
 		@oxr_mdlc_councilor_editor_node_icon_top_3 = 282
 		@oxr_mdlc_councilor_editor_node_icon_top_3 = 408
 
+		# This is the header text of the window
+		instantTextBoxType = {
+			name = "leader_name" position = { x = 20 y = 5 } font = "malgun_goth_24" maxWidth = 330 maxHeight = 20
+			fixedSize = yes format = left
+			text = "Regulatory Node Editor" text_color_code = "H"
+		}
+		iconType = {
+			name = "oxr_mdlc_councilor_editor_header_line"
+			quadTextureSprite = "GFX_line_medium"
+			position = { x = 6 y = 22 }
+			alwaysTransparent = yes
+		}
+		iconType = {
+			name = "oxr_mdlc_councilor_editor_header_line_bg"
+			spriteType = "GFX_hex_bg"
+			position = { x = -10 y = -14 }
+			alwaysTransparent = yes
+		}
+		
+		effectButtonType = {
+			name = "close" #no, don't change its name #it will not function at all #which means the players won't be able to close the window
+			quadTextureSprite = "GFX_close"
+			position = { x = -42 y = 13 }
+			Orientation = "UPPER_RIGHT"
+			shortcut = "ESCAPE"
+			clicksound = "back_click"
+			effect = "oxr_mdlc_councilor_editor_close_button_effect"
+		}
+
 		containerWindowType = {
 			name = "oxr_mdlc_councilor_editor_topbar_bg"
 			size = { width = @oxr_mdlc_councilor_gui_width height = 300 }
 			position = { x = 0 y = 0 }
 
-			# Regulatory
-			# effectbuttonType = {
-			# 	name = "leader_name"
-			# 	position = { x = 15 y = 35 }
-			# 	spriteType = "GFX_oxr_mdlc_councilor_editor_regulatory_icon_inactive"
-			# 	effect = "oxr_mdlc_councilor_editor_regulatory_inactive"
-			# }
-			# effectbuttonType = {
-			# 	name = ""
-			# 	position = { x = 15 y = 45 }
-			# 	spriteType = ""
-			# 	effect = "oxr_mdlc_councilor_editor_regulatory_active"
-			# }
-			iconType = {
-				name = "oxr_mdlc_councilor_editor_regulatory_icon"
-				spriteType = "GFX_oxr_mdlc_councilor_editor_regulatory_icon_active"
-				position = { x = 15 y = 45 }
-				alwaysTransparent = yes
-				# text = "foo"
-			}
 			instantTextBoxType = {
 				name = "oxr_mdlc_councilor_editor_text_instructions"
 				font = "cg_16b"
 				text = "oxr_mdlc_councilor_editor_text_instructions"
 				maxWidth = 300
-				position = { x = 155 y = 55 }
-				alwaysTransparent = yes
-			}
-			instantTextBoxType = {
-				name = "oxr_mdlc_councilor_editor_councilor_name"
-				font = "cg_16b"
-				text = "oxr_mdlc_councilor_editor_show_councilor_name"
-				maxWidth = 300
-				position = { x = 255 y = 55 }
+				position = { x = 180 y = 70 }
 				alwaysTransparent = yes
 			}
 			
@@ -223,44 +189,42 @@ guiTypes = {
 			size = { width = @oxr_mdlc_councilor_gui_width height = 400 }
 			position = { x = 0 y = 175 }
 
-			instantTextBoxType = {
-				name = "oxr_mdlc_councilor_editor_remaining_trait_points_effect_tooltip"
-				font = "cg_16b"
-				text = "oxr_mdlc_councilor_editor_remaining_trait_points"
-				# effect = "oxr_mdlc_councilor_editor_remaining_trait_points"
-				maxWidth = 300
-				position = { x = 100 y = 10 }
-				alwaysTransparent = yes
-			}
-
+			# Clear traits button
 			effectbuttonType = {
-				name = "xvcv_mdlc_reset_leader_trait_skill_level"
-				position = { x = 140 y = 250 }
+				name = "oxr_mdlc_councilor_editor_reset_traits_button"
+				position = { x = 180 y = 270 }
 				size = { x = 50 y = 50 }
 				quadTextureSprite = "GFX_button_update"
 				effect = "xvcv_mdlc_leader_making_reset_button_effect"
 			}
+			# 45 px to the right of the update button
+			# 8 px "below" on y axis
 			instantTextBoxType = {
-				name = "xvcv_mdlc_reset_leader_trait_skill_level_description"
+				name = "oxr_mdlc_councilor_editor_reset_traits_text"
 				font = "cg_16b"
 				text = "xvcv_mdlc_reset_leader_trait_skill_level_description"
 				# effect = "oxr_mdlc_councilor_editor_remaining_trait_points"
 				maxWidth = 200
-				position = { x = 185 y = 258 }
+				position = { x = 225 y = 278 }
 				alwaysTransparent = yes
 			}
-
-			
-
-			# Between every traits grid box, there will be a buttoneffect type
-			# based on which country flag is set, it will obscure other grids
+			instantTextBoxType = {
+				name = "oxr_mdlc_councilor_editor_finished_help_text"
+				font = "cg_16b"
+				text = "When finished, simply close the editor."
+				# effect = "oxr_mdlc_councilor_editor_remaining_trait_points"
+				maxWidth = 350
+				position = { x = 120 y = 330 }
+				alwaysTransparent = yes
+				text_color_code = "L"
+			}
 
 			#########################
 			####    REGULATORY   ####
 			#########################
 			containerWindowType = {
 				name = "oxr_mdlc_councilor_editor_regulatory_traits_bg"
-				size = { width = 360 height = 160 }
+				size = { width = 360 height = 180 }
 				position = { x = 70 y = 70 }
 				verticalScrollBar = "right_vertical_slider"
 				# clipping = yes
@@ -281,37 +245,31 @@ guiTypes = {
 				}
 				#### ADD TRAITS HERE ####
 
-				iconType = {
-					name = "oxr_mdlc_councilor_editor_regulatory_trait_1"
-					quadTextureSprite = "GFX_xvcv_mdlc_leader_trait_shared_memory"
-					position = { x = 0 y = 0 }
-					alwaysTransparent = yes
-				}
 				# trait_name
 				containerWindowType = {
-					name = "xvcv_mdlc_core_modifying_traits_official_leader_trait_army_veteran_2"
-					position = { x = @xvcv_mdlc_core_modifying_trait_position_column_3 y = @xvcv_mdlc_core_modifying_trait_position_row_1 }
+					name = "oxr_mdlc_councilor_editor_regulatory_traits_official_leader_trait_army_veteran_2"
+					position = { x = 0 y = 0 }
 					effectbuttonType = {
-						name = "xvcv_mdlc_core_modifying_traits_official_leader_trait_army_veteran_2_add_bg"
-						position = { x = @xvcv_mdlc_core_modifying_traits_background_offset_width y = @xvcv_mdlc_core_modifying_traits_background_offset_height }
+						name = "oxr_mdlc_councilor_editor_regulatory_traits_official_leader_trait_army_veteran_2_add_bg"
+						position = { x = @oxr_mdlc_councilor_editor_traits_background_offset_width y = @oxr_mdlc_councilor_editor_traits_background_offset_height }
 						spriteType = "GFX_xvcv_mdlc_leader_trait_background_green"
-						effect = "xvcv_mdlc_core_modifying_traits_official_leader_trait_army_veteran_2_add_button_effect"
+						effect = "oxr_mdlc_councilor_editor_regulatory_leader_trait_army_veteran_2_add_button_effect"
 					}
 					effectbuttonType = {
-						name = "xvcv_mdlc_core_modifying_traits_official_leader_trait_army_veteran_2_add"
+						name = "oxr_mdlc_councilor_editor_regulatory_traits_official_leader_trait_army_veteran_2_add"
 						spriteType = "GFX_leader_trait_army_veteran"
-						effect = "xvcv_mdlc_core_modifying_traits_official_leader_trait_army_veteran_2_add_button_effect"
+						effect = "oxr_mdlc_councilor_editor_regulatory_leader_trait_army_veteran_2_add_button_effect"
 					}
 					effectbuttonType = {
-						name = "xvcv_mdlc_core_modifying_traits_official_leader_trait_army_veteran_2_remove_bg"
-						position = { x = @xvcv_mdlc_core_modifying_traits_background_offset_width y = @xvcv_mdlc_core_modifying_traits_background_offset_height }
+						name = "oxr_mdlc_councilor_editor_regulatory_traits_official_leader_trait_army_veteran_2_remove_bg"
+						position = { x = @oxr_mdlc_councilor_editor_traits_background_offset_width y = @oxr_mdlc_councilor_editor_traits_background_offset_height }
 						spriteType = "GFX_xvcv_mdlc_leader_trait_background_red"
-						effect = "xvcv_mdlc_core_modifying_traits_official_leader_trait_army_veteran_2_remove_button_effect"
+						effect = "oxr_mdlc_councilor_editor_regulatory_leader_trait_army_veteran_2_remove_button_effect"
 					}
 					effectbuttonType = {
-						name = "xvcv_mdlc_core_modifying_traits_official_leader_trait_army_veteran_2_remove"
+						name = "oxr_mdlc_councilor_editor_regulatory_traits_official_leader_trait_army_veteran_2_remove"
 						spriteType = "GFX_leader_trait_army_veteran"
-						effect = "xvcv_mdlc_core_modifying_traits_official_leader_trait_army_veteran_2_remove_button_effect"
+						effect = "oxr_mdlc_councilor_editor_regulatory_leader_trait_army_veteran_2_remove_button_effect"
 					}
 				}
 

@@ -5,6 +5,11 @@ oxr_mdlc_councilor_editor_always_visible_effect = {
 	allow = {
 		always = yes
 	}
+	# effect = {
+	# 	custom_tooltip = oxr_mdlc_councilor_editor_reset_traits_tooltip
+	# 	custom_tooltip = oxr_mdlc_councilor_editor_remaining_trait_points
+	# 	custom_tooltip = oxr_mdlc_councilor_editor_show_councilor_name
+	# }
 }
 
 # Button effect to hide the "inactive" icon, and show the "active"
@@ -105,11 +110,7 @@ oxr_mdlc_councilor_editor_close_button_effect = {
         custom_tooltip = CLOSE_TITLE
         hidden_effect = {
 			from = {
-				remove_country_flag = oxr_mdlc_councilor_editor_window_open
-				remove_country_flag = oxr_mdlc_councilor_editor_selected_cognitive
-				remove_country_flag = oxr_mdlc_councilor_editor_selected_growth
-				remove_country_flag = oxr_mdlc_councilor_editor_selected_regulatory
-				remove_country_flag = oxr_mdlc_councilor_editor_selected_legion
+				remove_country_flag = oxr_mdlc_councilor_editor_in_progress
 			}
 		}
     }
@@ -122,63 +123,59 @@ oxr_mdlc_councilor_editor_close_button_effect = {
 ############################
 
 # 2 button effect per trait, per set of traits, per four councilors
-# If there are 20 traits per councilor, 80 traits makes 160 button effects.. not bad
-
-# Can store variables on the councilor leader, potentially making tracking a bit easier
+# Can store variables on the councilor leader, making tracking a lot easier
 oxr_mdlc_councilor_editor_regulatory_leader_trait_army_veteran_2_add_button_effect = {
 	potential = {
 		# Double check the scope, it needs to be the leader this event was fired for
-		NOT = { has_trait = leader_trait_army_veteran_2 }
+		event_target:oxr_mdlc_councilor_editor_target = { NOT = { has_trait = leader_trait_army_veteran_2 } }
 	}
 	allow = {
-		custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_official_leader_trait_army_veteran_2
-		# Can re-use some code from the leader builder
 		# Check if player has minimum resources to add this trait
-		xvcv_mdlc_core_modifying_trait_cost_trigger = yes
-		## check if REGULATORY (NODE-SPECIFIC) traits POINTS are sufficient
-		# oxr_mdlc_councilor_editor_regulatory_has_enough_trait_points = yes
-		## check if REGULATORY (NODE-SPECIFIC) trait PICKS are sufficient
+		oxr_mdlc_councilor_editor_check_trait_resources_cost_common = yes
+		event_target:oxr_mdlc_councilor_editor_target = {
+			# check if Councilor traits POINTS are sufficient
+			oxr_mdlc_councilor_editor_check_trait_points_cost_common = yes
+			# check if Councilor trait PICKS are sufficient
+			oxr_mdlc_councilor_editor_check_trait_picks = yes
+		}
 	}
 	effect = {
-		## Since we only add T2-T3 traits, remove the T1 or T2 version if this is picked
-		## Re-use existing button effect, assuming the scope is on the specific councilor
-		xvcv_mdlc_core_modifying_remove_tier_1_or_2_traits_effect = {
-			TRAIT = leader_trait_army_veteran_2
+		custom_tooltip = oxr_mdlc_councilor_editor_show_trait_total_cost_common
+		# Scope effects to leader
+		event_target:oxr_mdlc_councilor_editor_target = {
+			oxr_mdlc_councilor_editor_remove_tier_1_or_2_traits_effect = { TRAIT_NAME = leader_trait_army_veteran_2 }
+			add_trait_no_notify = leader_trait_army_veteran_2
 		}
-		## Add the picked trait to the leader
-		add_trait = leader_trait_army_veteran_2
-		# Alternately, make an effect that can be fired from a different scope
-		# oxr_mdlc_councilor_editor_add_picked_trait = {
-		# 	TRAIT = leader_trait_army_veteran_2
-		# 	COUNCILOR = councilor_gestalt_regulatory
-		# }
+
 		hidden_effect = {
 			## Deduct appropriate resources, points, and num picks left
-			# oxr_mdlc_councilor_editor_deduct_trait_resources_cost_common
-			# oxr_mdlc_councilor_editor_deduct_trait_points_cost_common
-			# oxr_mdlc_councilor_editor_deduct_trait_picks_cost_common
-			# veteran
-			# paragon
+			oxr_mdlc_councilor_editor_deduct_trait_resources_cost_common = yes
+			# Subtract points / picks from leader
+			event_target:oxr_mdlc_councilor_editor_target = {
+				oxr_mdlc_councilor_editor_deduct_trait_points_cost_common = yes
+				oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+			}
 		}
 	}
 }
 
-
 oxr_mdlc_councilor_editor_regulatory_leader_trait_army_veteran_2_remove_button_effect = {
     potential = {
-        has_trait = leader_trait_army_veteran_2
+		event_target:oxr_mdlc_councilor_editor_target = { has_trait = leader_trait_army_veteran_2 }
     }
     allow = { always = yes }
     effect = {
         custom_tooltip = xvcv_mdlc_core_modifying_tooltip_remove_official_leader_trait_army_veteran_2
         hidden_effect = {
-            remove_trait = leader_trait_army_veteran_2
-			## Refund trait points and picks
-			## Variables will be tracked on the particular councilor leader
-			# oxr_mdlc_councilor_editor_refund_trait_resources_cost_common
-			# oxr_mdlc_councilor_editor_refund_trait_points_cost_common
-			# oxr_mdlc_councilor_editor_refund_trait_picks_cost_common
-			# veteran version, and paragon version
+			event_target:oxr_mdlc_councilor_editor_target = {
+				remove_trait = leader_trait_army_veteran_2
+				## Refund trait points and picks
+				## Variables will be tracked on the particular councilor leader
+				oxr_mdlc_councilor_editor_refund_trait_points_cost_common = yes
+				oxr_mdlc_councilor_editor_refund_trait_pick = yes
+			}
+			# Country-level, refund resources
+			oxr_mdlc_councilor_editor_refund_trait_resources_cost_common = yes
         }
     }
 }
