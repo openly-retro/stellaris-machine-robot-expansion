@@ -86,15 +86,15 @@ def iterate_traits_generate_gui_code_for_councilor(
 
 def determine_trait_background_sprite(rarity: str):
     root_gfx_name = "GFX_xvcv_mdlc_leader_trait_background"
-    effect_button_background_gfx = f"{root_gfx_name}_green"
-    effect_button_background_gfx_red = f"{root_gfx_name}_red"
+    trait_background_add = f"{root_gfx_name}_green"
+    trait_background_remove = f"{root_gfx_name}_red"
     if rarity == "veteran":
-        effect_button_background_gfx = "GFX_xvcv_mdlc_leader_trait_background_veteran"
-        effect_button_background_gfx_red = f"{effect_button_background_gfx}_red"
+        trait_background_add = "GFX_xvcv_mdlc_leader_trait_background_veteran"
+        trait_background_remove = f"{trait_background_add}_red"
     elif rarity == "paragon":
-        effect_button_background_gfx = "GFX_xvcv_mdlc_leader_trait_background_destiny"
-        effect_button_background_gfx_red = f"{effect_button_background_gfx}_red"
-    return effect_button_background_gfx, effect_button_background_gfx_red
+        trait_background_add = "GFX_xvcv_mdlc_leader_trait_background_destiny"
+        trait_background_remove = f"{trait_background_add}_red"
+    return trait_background_add, trait_background_remove
 
 def gen_councilor_editor_traits_gui_code(
         councilor_type: str, trait_name: str, column_num: int, row_num: int,

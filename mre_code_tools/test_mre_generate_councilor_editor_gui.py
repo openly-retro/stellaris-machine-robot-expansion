@@ -51,3 +51,40 @@ containerWindowType = {
         trait_type="common"
     )
     assert expected == actual
+
+def test_gen_councilor_editor_traits_gui_code__leader_trait_adventurous_spirit_3():
+    expected = """
+#regulatory #leader_trait_cartographer_3 #veteran
+containerWindowType = {
+    name = "oxr_mdlc_councilor_editor_regulatory_traits_leader_trait_cartographer_3"
+    position = { x = @oxr_mdlc_councilor_editor_trait_position_column_1 y = @oxr_mdlc_councilor_editor_trait_position_row_1 }
+    effectbuttonType = {
+        name = "oxr_mdlc_councilor_editor_regulatory_traits_leader_trait_cartographer_3_add_bg"
+        position = { x = @oxr_mdlc_councilor_editor_traits_background_offset_width y = @oxr_mdlc_councilor_editor_traits_background_offset_height }
+        spriteType = "GFX_xvcv_mdlc_leader_trait_background_veteran"
+        effect = "oxr_mdlc_councilor_editor_regulatory_leader_trait_cartographer_3_add_button_effect"
+    }
+    effectbuttonType = {
+        name = "oxr_mdlc_councilor_editor_regulatory_traits_leader_trait_cartographer_3_add"
+        spriteType = "GFX_leader_trait_cartographer"
+        effect = "oxr_mdlc_councilor_editor_regulatory_leader_trait_cartographer_3_add_button_effect"
+    }
+    effectbuttonType = {
+        name = "oxr_mdlc_councilor_editor_regulatory_traits_leader_trait_cartographer_3_remove_bg"
+        position = { x = @oxr_mdlc_councilor_editor_traits_background_offset_width y = @oxr_mdlc_councilor_editor_traits_background_offset_height }
+        spriteType = "GFX_xvcv_mdlc_leader_trait_background_veteran_red"
+        effect = "oxr_mdlc_councilor_editor_regulatory_leader_trait_cartographer_3_remove_button_effect"
+    }
+    effectbuttonType = {
+        name = "oxr_mdlc_councilor_editor_regulatory_traits_leader_trait_cartographer_3_remove"
+        spriteType = "GFX_leader_trait_cartographer"
+        effect = "oxr_mdlc_councilor_editor_regulatory_leader_trait_cartographer_3_remove_button_effect"
+    }
+}
+"""
+    actual = gen_councilor_editor_traits_gui_code(
+        councilor_type="regulatory", trait_name="leader_trait_cartographer_3",
+        column_num=1, row_num=1, gfx_sprite_name="GFX_leader_trait_cartographer",
+        trait_type="veteran"
+    )
+    assert expected == actual
