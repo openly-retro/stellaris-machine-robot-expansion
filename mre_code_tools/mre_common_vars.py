@@ -370,6 +370,8 @@ SPECIAL_HELP_TEXT = {
     "leader_trait_gifted_2": "This trait increases the number of trait pick options at level up. It does not raise the maximum number of traits that can be stacked on a leader."
 }
 
+RARITIES = ("common", "veteran", "paragon")
+
 DLC_REQUIREMENT_KEYS = {
     "has_overlord_dlc",
     "has_ancrel",

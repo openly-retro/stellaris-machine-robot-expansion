@@ -118,8 +118,9 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
     slim_trait['rarity'] = root['inline_script'].get('RARITY', MISSING)
     if slim_trait['rarity'] == MISSING:
         slim_trait['rarity'] = guess_rarity_from_trait_data(root)
-    if root['inline_script'].get('COUNCIL', False) == True:
-        slim_trait["is_councilor_trait"] = True
+    if council_value := root['inline_script'].get('COUNCIL', False):
+        if council_value is True or council_value == "triggered":
+            slim_trait["is_councilor_trait"] = True
     
     for modifier_info in TRAIT_MODIFIER_KEYS:
         if root.get(modifier_info):
