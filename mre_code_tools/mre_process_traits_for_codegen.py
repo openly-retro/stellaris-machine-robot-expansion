@@ -84,6 +84,7 @@ def trait_qualifies_for_core_modifying(trait_dict: dict) -> bool:
         [
             "ruler" in trait_dict['trait_name'],
             trait_dict.get('self_modifier'),
+            trait_dict.get('triggered_self_modifier'),
             trait_dict.get('councilor_modifier'),
             trait_dict.get('triggered_councilor_modifier'),
             trait_dict.get('allow_for_ruler'),
@@ -97,11 +98,17 @@ def trait_qualifies_for_core_modifying(trait_dict: dict) -> bool:
 def trait_qualifies_for_councilor_editor(trait_dict: dict) -> bool:
     is_councilor_trait = False
     # Ruler is a type of councilor, so these modifiers will work
-    if all(
+    # ruler should not be in trait name
+    if all([
+        not trait_dict.get('allow_for_ruler'),
+    ]) and any(
         [
-            "ruler" not in trait_dict['trait_name'],
-            not trait_dict.get('allow_for_ruler', False),
-            trait_dict.get('is_councilor_trait', False),
+            "ruler" in trait_dict['trait_name'],
+            trait_dict.get('self_modifier'),
+            trait_dict.get('triggered_self_modifier'),
+            trait_dict.get('councilor_modifier'),
+            trait_dict.get('triggered_councilor_modifier'),
+            trait_dict.get('is_councilor_trait'),
         ]
     ):
         is_councilor_trait = True

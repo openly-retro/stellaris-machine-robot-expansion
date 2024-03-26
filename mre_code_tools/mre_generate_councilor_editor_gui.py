@@ -22,6 +22,7 @@ from mre_common_vars import (
     COUNCILOR_EDITOR,
     FILE_NUM_PREFIXES,
     GESTALT_COUNCILOR_SOURCE_TRAITS_FILES,
+    CODE_HEADER,
 )
 
 """
@@ -84,7 +85,7 @@ def iterate_traits_generate_gui_code_for_councilor(
                 trait_name=trait_name,
                 column_num=trait_column_num,
                 row_num=trait_row_num,
-                rarity=root['rarity']
+                trait_type=root['rarity']
             )
 
             # Advance the x / y coordinates
@@ -93,6 +94,8 @@ def iterate_traits_generate_gui_code_for_councilor(
                 trait_column_num = 1
                 trait_row_num = trait_row_num + 1
             gui_code_bloblist.append(trait_gui_code)
+    gui_code_bloblist.append(footer)
+    return ''.join(gui_code_bloblist)
 
 def determine_trait_background_sprite(rarity: str):
     root_gfx_name = "GFX_xvcv_mdlc_leader_trait_background"
@@ -143,25 +146,15 @@ containerWindowType = {{
 """
 
 if __name__ == "__main__":
-    start_time = time.time()
-    parser = argparse.ArgumentParser(
-        prog="0xRetro Machine & Robot Expansion Mod Codegen Tools",
-        description="Automatically spew out mod code"
-    )
-    parser.add_argument(
-        '--councilor',
-        help='Specify "regulatory", "cognitive", "legion" "growth"',
-        required=True
-    )
-    args = parser.parse_args()
-    input_file_path = os.path.join(BUILD_FOLDER, args.infile)
+    print(CODE_HEADER)
+    print("Generate Councilor Editor button effects code")
     
     for councilor in GESTALT_COUNCILOR_TYPES:
         source_file = GESTALT_COUNCILOR_SOURCE_TRAITS_FILES[councilor]
-        gui_outfile = OUTPUT_FILES_DESTINATIONS["councilor_editor"]["gui"][councilor]
+        gui_outfile = OUTPUT_FILES_DESTINATIONS[COUNCILOR_EDITOR]["gui"][councilor]
 
         traits_json_blob = ""
-        with open(input_file_path, "r") as source_codegen_data:
+        with open(source_file, "r") as source_codegen_data:
             traits_json_blob = json_load(source_codegen_data)
         
         sys.stdout.write(f"Going to make {councilor} GUI code, writing to {gui_outfile}...")
@@ -172,5 +165,5 @@ if __name__ == "__main__":
             councilor_gui_output_file.write(
                 councilor_gui_blob.encode('utf-8')
             )
-        sys.stdout.write("Done.")
+        sys.stdout.write("Done."); print("")
     print("Done writing GUI code.")

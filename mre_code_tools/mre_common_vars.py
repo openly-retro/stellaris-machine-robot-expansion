@@ -141,7 +141,7 @@ GESTALT_COUNCILOR_TYPES = (
 )
 GESTALT_COUNCILOR_CLASS_MAP = {
     "regulatory": "official",
-    "cognitivie": "scientist",
+    "cognitive": "scientist",
     "growth": "official",
     "legion": "commander"
 }
