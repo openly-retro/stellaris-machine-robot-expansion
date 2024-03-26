@@ -45,6 +45,8 @@ BUTTON_EFFECTS_FOLDER = os.path.join(
     'common', 'button_effects'
 )
 
+CODE_HEADER = "0xRetro Machine & Robot Expansion Mod Codegen Tools"
+
 DEFAULT_UPPERCASE_MODIFIERS_MAP_FILES = [
     os.path.join(BUILD_FOLDER, 'modifiers_l_english_upper.json'),
     os.path.join(BUILD_FOLDER, 'megacorp_l_english_upper.json'),
@@ -97,7 +99,14 @@ EXCLUDE_TRAITS_FROM_CORE_MODIFYING = {
     "trait_ruler_corvette_focus":1,   # no reason to add these to the mod
     "trait_ruler_battleship_focus":1,
     "leader_trait_fleet_logistician":1,
+}
 
+EXCLUDE_TRAITS_FROM_PARAGON_DLC = {
+    "trait_ruler_destroyer_focus":1,  # ship focuses are blocked in Paragons DLC
+    "trait_ruler_cruiser_focus":1,    # and leader builder isnt enabled without Paragons
+    "trait_ruler_corvette_focus":1,   # no reason to add these to the mod
+    "trait_ruler_battleship_focus":1,
+    "leader_trait_fleet_logistician":1,
 }
 
 FILE_NUM_PREFIXES = {
