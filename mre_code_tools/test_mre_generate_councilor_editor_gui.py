@@ -88,3 +88,41 @@ containerWindowType = {
         trait_type="veteran"
     )
     assert expected == actual
+
+def test_gen_councilor_editor_traits_gui_code__destiny_trait():
+    expected = """
+#regulatory #leader_trait_chainbreaker #paragon
+containerWindowType = {
+    name = "oxr_mdlc_councilor_editor_regulatory_traits_leader_trait_chainbreaker"
+    position = { x = @oxr_mdlc_councilor_editor_trait_position_column_2 y = @oxr_mdlc_councilor_editor_trait_position_row_2 }
+    effectbuttonType = {
+        name = "oxr_mdlc_councilor_editor_regulatory_traits_leader_trait_chainbreaker_add_bg"
+        position = { x = @oxr_mdlc_councilor_editor_traits_background_offset_width y = @oxr_mdlc_councilor_editor_traits_background_offset_height }
+        spriteType = "GFX_xvcv_mdlc_leader_trait_background_destiny"
+        effect = "oxr_mdlc_councilor_editor_regulatory_leader_trait_chainbreaker_add_button_effect"
+    }
+    effectbuttonType = {
+        name = "oxr_mdlc_councilor_editor_regulatory_traits_leader_trait_chainbreaker_add"
+        spriteType = "GFX_leader_trait_chainbreaker"
+        effect = "oxr_mdlc_councilor_editor_regulatory_leader_trait_chainbreaker_add_button_effect"
+    }
+    effectbuttonType = {
+        name = "oxr_mdlc_councilor_editor_regulatory_traits_leader_trait_chainbreaker_remove_bg"
+        position = { x = @oxr_mdlc_councilor_editor_traits_background_offset_width y = @oxr_mdlc_councilor_editor_traits_background_offset_height }
+        spriteType = "GFX_xvcv_mdlc_leader_trait_background_destiny_red"
+        effect = "oxr_mdlc_councilor_editor_regulatory_leader_trait_chainbreaker_remove_button_effect"
+    }
+    effectbuttonType = {
+        name = "oxr_mdlc_councilor_editor_regulatory_traits_leader_trait_chainbreaker_remove"
+        spriteType = "GFX_leader_trait_chainbreaker"
+        effect = "oxr_mdlc_councilor_editor_regulatory_leader_trait_chainbreaker_remove_button_effect"
+    }
+}
+"""
+    actual = gen_councilor_editor_traits_gui_code(
+        councilor_type="regulatory", trait_name="leader_trait_chainbreaker",
+        column_num=2, row_num=2, gfx_sprite_name="GFX_leader_trait_chainbreaker",
+        trait_type="paragon"
+    )
+    assert expected == actual
+

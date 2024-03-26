@@ -26,6 +26,9 @@ from mre_common_vars import (
     OUTPUT_FILES_DESTINATIONS,
     TRAITS_REQUIRING_DLC,
     RARITIES,
+    COUNCILOR_EDITOR,
+    FILE_NUM_PREFIXES,
+    GESTALT_COUNCILOR_SOURCE_TRAITS_FILES,
 )
 
 """
@@ -39,16 +42,30 @@ from mre_common_vars import (
                       
 """
 
-MOD_NAMESPACE_STR = "oxr_mdlc_councilor_editor"
+
+
+def iterate_traits_generate_councilor_gui_code_for_regulatory():
+    pass
+
+def iterate_traits_generate_councilor_gui_code_for_cognitive():
+    pass
+
+def iterate_traits_generate_councilor_gui_code_for_growth():
+    pass
+
+def iterate_traits_generate_councilor_gui_code_for_legion():
+    pass
 
 def iterate_traits_generate_gui_code_for_councilor(
         organized_traits_dict: dict,
-        councilor_type: str, for_class: str
+        councilor_type: str
 ) -> str:
     # TODO: Don't generate traits that require subclasses other than the councilor's subclass
 
     # Setup
-    header_classname_spaced = ' '.join([char for char in for_class])
+    councilor_leader_class = GESTALT_COUNCILOR_CLASS_MAP[councilor_type]
+
+    header_classname_spaced = ' '.join([char for char in councilor_leader_class])
     header = GUI_HEADER_TEXT.format(
         classname=header_classname_spaced,
         now=str(datetime.now())
@@ -139,13 +156,28 @@ if __name__ == "__main__":
         description="Automatically spew out mod code"
     )
     parser.add_argument(
-        '--infile',
-        help='A traits JSON file that we processed, like 99_mre_commander_traits_for_codegen.json, created from mre_process_traits_for_codegen.py.',
+        '--councilor',
+        help='Specify "regulatory", "cognitive", "legion" "growth"',
         required=True
     )
     args = parser.parse_args()
     input_file_path = os.path.join(BUILD_FOLDER, args.infile)
-    input_buffer = ""
-    with open(input_file_path, "r") as source_codegen_data:
-        input_buffer = json_load(source_codegen_data)
-    generated_code_blob = ()
+    
+    for councilor in GESTALT_COUNCILOR_TYPES:
+        source_file = GESTALT_COUNCILOR_SOURCE_TRAITS_FILES[councilor]
+        gui_outfile = OUTPUT_FILES_DESTINATIONS["councilor_editor"]["gui"][councilor]
+
+        traits_json_blob = ""
+        with open(input_file_path, "r") as source_codegen_data:
+            traits_json_blob = json_load(source_codegen_data)
+        
+        sys.stdout.write(f"Going to make {councilor} GUI code, writing to {gui_outfile}...")
+        councilor_gui_blob = iterate_traits_generate_gui_code_for_councilor(
+            councilor_type=councilor, organized_traits_dict=traits_json_blob
+        )
+        with open(gui_outfile, "wb") as councilor_gui_output_file:
+            councilor_gui_output_file.write(
+                councilor_gui_blob.encode('utf-8')
+            )
+        sys.stdout.write("Done.")
+    print("Done writing GUI code.")

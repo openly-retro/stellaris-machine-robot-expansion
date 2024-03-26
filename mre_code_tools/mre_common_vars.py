@@ -45,7 +45,6 @@ BUTTON_EFFECTS_FOLDER = os.path.join(
     'common', 'button_effects'
 )
 
-
 DEFAULT_UPPERCASE_MODIFIERS_MAP_FILES = [
     os.path.join(BUILD_FOLDER, 'modifiers_l_english_upper.json'),
     os.path.join(BUILD_FOLDER, 'megacorp_l_english_upper.json'),
@@ -143,6 +142,13 @@ GESTALT_COUNCILOR_SUBCLASS_MAP = {
     "cognitive": "subclass_scientist_councilor",
     "growth": "subclass_official_economy_councilor",
     "legion": "subclass_commander_councilor"
+}
+
+GESTALT_COUNCILOR_SOURCE_TRAITS_FILES = {
+    "regulatory": os.path.join(BUILD_FOLDER, "99_mre_official_traits_for_codegen.json"),
+    "growth": os.path.join(BUILD_FOLDER, "99_mre_official_traits_for_codegen.json"),
+    "legion": os.path.join(BUILD_FOLDER, "99_mre_commander_traits_for_codegen.json"),
+    "cognitive": os.path.join(BUILD_FOLDER,  "99_mre_scientist_traits_for_codegen.json"),
 }
 
 GUI_HEADER_TEXT = """
@@ -313,6 +319,8 @@ SPECIAL_HELP_TEXT = {
 OUTPUT_FILE_BUTTON_FX_NAME = "xvcv_mdlc_button_effects_{feature}_{leader_class}_customgui.txt"
 OUTPUT_FILE_LOCALISATION_NAME = "xvcv_mdlc_l_english_{feature}_{leader_class}_customgui.yml"
 COUNCILOR_EDITOR_BUTTON_FX_FILENAME = "oxr_mdlc_button_effects_councilor_editor_{councilor_type}_customgui.txt"
+COUNCILOR_EDITOR_GUI_FILENAME = "{prefix}_oxr_mdlc_councilor_editor_{councilor_type}_gui_code.txt"
+
 
 """ We will write directly to these files during the code generation workflow """
 OUTPUT_FILES_DESTINATIONS = {
@@ -428,10 +436,34 @@ OUTPUT_FILES_DESTINATIONS = {
             ),
         },
         "gui": {
-            "regulatory": {},
-            "cognitive": {},
-            "growth": {},
-            "legion": {},
+            "regulatory": os.path.join(
+                BUILD_FOLDER,
+                COUNCILOR_EDITOR_GUI_FILENAME.format(
+                    councilor_type="regulatory",
+                    prefix=FILE_NUM_PREFIXES["gui"]
+                )
+            ),
+            "cognitive": os.path.join(
+                BUILD_FOLDER,
+                COUNCILOR_EDITOR_GUI_FILENAME.format(
+                    councilor_type="cognitive",
+                    prefix=FILE_NUM_PREFIXES["gui"]
+                )
+            ),
+            "growth": os.path.join(
+                BUILD_FOLDER,
+                COUNCILOR_EDITOR_GUI_FILENAME.format(
+                    councilor_type="growth",
+                    prefix=FILE_NUM_PREFIXES["gui"]
+                )
+            ),
+            "legion": os.path.join(
+                BUILD_FOLDER,
+                COUNCILOR_EDITOR_GUI_FILENAME.format(
+                    councilor_type="legion",
+                    prefix=FILE_NUM_PREFIXES["gui"]
+                )
+            ),
         },
     }
 }
