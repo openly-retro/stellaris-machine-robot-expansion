@@ -28,6 +28,7 @@ xvcv_mdlc_planet_cracker = {
 	
 	on_build_complete = {
 		fromfrom.planet = {
+			set_planet_flag = has_megastructure
 			if = {
 				limit = { planet_size > 10 }
 				set_planet_size = 10
@@ -91,6 +92,41 @@ xvcv_mdlc_planet_cracker = {
 		upkeep = {
 			trigger = { owner = { has_technology = xvcv_mdlc_tech_orbital_cracker_upgrade_2 } }
 			energy = 3
+		}
+	}
+}
+xvcv_mdlc_planet_cracker_2 = {
+	entity = "xvcv_mdlc_planet_cracker_entity"
+	portrait = "GFX_megastructure_xvcv_mdlc_planet_cracker"
+	place_entity_on_planet_plane = yes
+	show_galactic_map_icon = no
+	show_in_outliner = no
+
+	build_time = 180
+
+	resources = {
+		category = megastructures
+		cost = {
+			energy = 500
+		}
+	}
+
+	construction_blocks_and_blocked_by = none
+
+	upgrade_from = {
+		xvcv_mdlc_planet_cracker
+	}
+	
+	on_build_complete = {
+		from = {
+			add_resource = {
+				alloys = 100
+			}
+		}
+		remove_megastructure = fromfrom
+		fromfrom.planet = {
+			remove_planet_flag = has_megastructure
+			remove_planet_flag = xvcv_mdlc_planet_cracker_placed
 		}
 	}
 }
