@@ -114,7 +114,16 @@ oxr_mdlc_councilor_editor_close_button_effect = {
 			}
 		}
     }
+}
 
+oxr_mdlc_councilor_editor_show_traits_points_effect = {
+	potential = { always = yes }
+	allow = { always = yes }
+	effect = {
+		event_target:oxr_mdlc_councilor_editor_target = {
+			custom_tooltip = oxr_mdlc_councilor_editor_remaining_trait_points
+		}
+	}
 }
 
 
@@ -124,62 +133,62 @@ oxr_mdlc_councilor_editor_close_button_effect = {
 
 # 2 button effect per trait, per set of traits, per four councilors
 # Can store variables on the councilor leader, making tracking a lot easier
-oxr_mdlc_councilor_editor_regulatory_leader_trait_army_veteran_2_add_button_effect = {
-	potential = {
-		# Double check the scope, it needs to be the leader this event was fired for
-		event_target:oxr_mdlc_councilor_editor_target = { NOT = { has_trait = leader_trait_army_veteran_2 } }
-	}
-	allow = {
-		# Check if player has minimum resources to add this trait
-		oxr_mdlc_councilor_editor_check_trait_resources_cost_common = yes
-		event_target:oxr_mdlc_councilor_editor_target = {
-			# check if Councilor traits POINTS are sufficient
-			oxr_mdlc_councilor_editor_check_trait_points_cost_common = yes
-			# check if Councilor trait PICKS are sufficient
-			oxr_mdlc_councilor_editor_check_trait_picks = yes
-		}
-	}
-	effect = {
-		custom_tooltip = oxr_mdlc_councilor_editor_show_trait_total_cost_common
-		# Scope effects to leader
-		event_target:oxr_mdlc_councilor_editor_target = {
-			oxr_mdlc_councilor_editor_remove_tier_1_or_2_traits_effect = { TRAIT_NAME = leader_trait_army_veteran_2 }
-			add_trait_no_notify = leader_trait_army_veteran_2
-		}
+# oxr_mdlc_councilor_editor_regulatory_leader_trait_army_veteran_2_add_button_effect = {
+# 	potential = {
+# 		# Double check the scope, it needs to be the leader this event was fired for
+# 		event_target:oxr_mdlc_councilor_editor_target = { NOT = { has_trait = leader_trait_army_veteran_2 } }
+# 	}
+# 	allow = {
+# 		# Check if player has minimum resources to add this trait
+# 		oxr_mdlc_councilor_editor_check_trait_resources_cost_common = yes
+# 		event_target:oxr_mdlc_councilor_editor_target = {
+# 			# check if Councilor traits POINTS are sufficient
+# 			oxr_mdlc_councilor_editor_check_trait_points_cost_common = yes
+# 			# check if Councilor trait PICKS are sufficient
+# 			oxr_mdlc_councilor_editor_check_trait_picks = yes
+# 		}
+# 	}
+# 	effect = {
+# 		custom_tooltip = oxr_mdlc_councilor_editor_show_trait_total_cost_common
+# 		# Scope effects to leader
+# 		event_target:oxr_mdlc_councilor_editor_target = {
+# 			oxr_mdlc_councilor_editor_remove_tier_1_or_2_traits_effect = { TRAIT_NAME = leader_trait_army_veteran_2 }
+# 			add_trait_no_notify = leader_trait_army_veteran_2
+# 		}
 
-		hidden_effect = {
-			## Deduct appropriate resources, points, and num picks left
-			oxr_mdlc_councilor_editor_deduct_trait_resources_cost_common = yes
-			# Subtract points / picks from leader
-			event_target:oxr_mdlc_councilor_editor_target = {
-				oxr_mdlc_councilor_editor_deduct_trait_points_cost_common = yes
-				oxr_mdlc_councilor_editor_deduct_trait_pick = yes
-			}
-		}
-	}
-}
+# 		hidden_effect = {
+# 			## Deduct appropriate resources, points, and num picks left
+# 			oxr_mdlc_councilor_editor_deduct_trait_resources_cost_common = yes
+# 			# Subtract points / picks from leader
+# 			event_target:oxr_mdlc_councilor_editor_target = {
+# 				oxr_mdlc_councilor_editor_deduct_trait_points_cost_common = yes
+# 				oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+# 			}
+# 		}
+# 	}
+# }
 
-oxr_mdlc_councilor_editor_regulatory_leader_trait_army_veteran_2_remove_button_effect = {
-    potential = {
-		event_target:oxr_mdlc_councilor_editor_target = { has_trait = leader_trait_army_veteran_2 }
-    }
-    allow = { always = yes }
-    effect = {
-		# custom_tooltip = oxr_mdlc_councilor_editor_show_trait_total_refund_common
-        custom_tooltip = xvcv_mdlc_core_modifying_tooltip_remove_official_leader_trait_army_veteran_2
-		event_target:oxr_mdlc_councilor_editor_target = {
-			remove_trait = leader_trait_army_veteran_2
-		}
-        hidden_effect = {
-			event_target:oxr_mdlc_councilor_editor_target = {
-				remove_trait = leader_trait_army_veteran_2
-				## Refund trait points and picks
-				## Variables will be tracked on the particular councilor leader
-				oxr_mdlc_councilor_editor_refund_trait_points_cost_common = yes
-				oxr_mdlc_councilor_editor_refund_trait_pick = yes
-			}
-			# Country-level, refund resources
-			oxr_mdlc_councilor_editor_refund_trait_resources_cost_common = yes
-        }
-    }
-}
+# oxr_mdlc_councilor_editor_regulatory_leader_trait_army_veteran_2_remove_button_effect = {
+#     potential = {
+# 		event_target:oxr_mdlc_councilor_editor_target = { has_trait = leader_trait_army_veteran_2 }
+#     }
+#     allow = { always = yes }
+#     effect = {
+# 		# custom_tooltip = oxr_mdlc_councilor_editor_show_trait_total_refund_common
+#         custom_tooltip = xvcv_mdlc_core_modifying_tooltip_remove_official_leader_trait_army_veteran_2
+# 		event_target:oxr_mdlc_councilor_editor_target = {
+# 			remove_trait = leader_trait_army_veteran_2
+# 		}
+#         hidden_effect = {
+# 			event_target:oxr_mdlc_councilor_editor_target = {
+# 				remove_trait = leader_trait_army_veteran_2
+# 				## Refund trait points and picks
+# 				## Variables will be tracked on the particular councilor leader
+# 				oxr_mdlc_councilor_editor_refund_trait_points_cost_common = yes
+# 				oxr_mdlc_councilor_editor_refund_trait_pick = yes
+# 			}
+# 			# Country-level, refund resources
+# 			oxr_mdlc_councilor_editor_refund_trait_resources_cost_common = yes
+#         }
+#     }
+# }
