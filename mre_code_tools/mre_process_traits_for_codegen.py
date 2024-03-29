@@ -104,8 +104,8 @@ def trait_qualifies_for_councilor_editor(trait_dict: dict) -> bool:
     ]) and any(
         [
             "ruler" in trait_dict['trait_name'],
-            trait_dict.get('self_modifier'),
-            trait_dict.get('triggered_self_modifier'),
+            # trait_dict.get('self_modifier'),  # cant use traits that boost self stuff
+            # trait_dict.get('triggered_self_modifier'),  # no self traits
             trait_dict.get('councilor_modifier'),
             trait_dict.get('triggered_councilor_modifier'),
             trait_dict.get('is_councilor_trait'),

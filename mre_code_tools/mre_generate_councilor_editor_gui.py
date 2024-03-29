@@ -58,6 +58,7 @@ def iterate_traits_generate_gui_code_for_councilor(
 
     # Setup
     councilor_leader_class = GESTALT_COUNCILOR_CLASS_MAP[councilor_type]
+    councilor_subclass = GESTALT_COUNCILOR_SUBCLASS_MAP[councilor_type]
 
     header_classname_spaced = ' '.join([char for char in councilor_leader_class])
     header = GUI_HEADER_TEXT.format(
@@ -78,6 +79,14 @@ def iterate_traits_generate_gui_code_for_councilor(
         for leader_trait in organized_traits_dict["councilor_editor_traits"][rarity_level]:
             trait_name = [*leader_trait][0]
             root = leader_trait[trait_name]
+
+            if trait_req_subclass := root.get('required_subclass'):
+                if trait_req_subclass != councilor_subclass:
+                    print(
+                        f"Skipping {trait_name}, req subclass is {trait_req_subclass}"
+                        f" and this councilor is {councilor_subclass}"
+                    )
+                    continue
 
             trait_gui_code = gen_councilor_editor_traits_gui_code(
                 councilor_type=councilor_type,
