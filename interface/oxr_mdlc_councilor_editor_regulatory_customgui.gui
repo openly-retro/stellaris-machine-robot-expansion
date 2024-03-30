@@ -1,5 +1,4 @@
 guiTypes = {
-
     #xvcv_mdlc_leader_making edict
 	@hidden_ui_elements_position = -10000
 
@@ -7,7 +6,7 @@ guiTypes = {
 	# Can't start varname with number
 	@oxr_mdlc_councilor_gui_width = 490
 	@oxr_mldc_councilor_gui_height = 540
-
+	# Used for trait grid
 	@oxr_mdlc_councilor_editor_trait_position_column_1 = 11
 	@oxr_mdlc_councilor_editor_trait_position_column_2 = 50
 	@oxr_mdlc_councilor_editor_trait_position_column_3 = 89
@@ -31,6 +30,7 @@ guiTypes = {
 	@oxr_mdlc_councilor_editor_traits_background_offset_width = -3
 	@oxr_mdlc_councilor_editor_traits_background_offset_height = -3
 
+	# Boilerplate stuff that, if removed, will crash the game.
 	containerWindowType = {
 		####################### Hidden UI #########################
 		iconType = { name = "empire_header_line" quadTextureSprite = "GFX_line_long_caravaneer" position = { x = @hidden_ui_elements_position y = @hidden_ui_elements_position } alwaysTransparent = yes }
@@ -71,6 +71,7 @@ guiTypes = {
 			clipping = no
 			iconType = { name = "portrait" spriteType = "GFX_portrait_character" alwaysTransparent = yes }
 			iconType = { name = "black_frame" spriteType = "GFX_diplomacy_portrait_shadow_frame" position = { x = @hidden_ui_elements_position y = @hidden_ui_elements_position } alwaysTransparent = yes }
+			# Take this subtle animation and show it on the bottom half of the GUI
 			iconType = { name = "stripes_1" spriteType = "GFX_diplomacy_stripes_2" alwaysTransparent = yes position = { x = 0 y = 270 } }
 			iconType = { name = "city_frame" spriteType = "GFX_diplomacy_portrait_frame_caravaneer" position = { x = @hidden_ui_elements_position y = @hidden_ui_elements_position } alwaysTransparent = yes }
 		}
@@ -118,6 +119,7 @@ guiTypes = {
 			instantTextBoxType={ name = "action_desc" font = "malgun_goth_24" position = { x = 490 y = 0 } maxWidth = 500 maxHeight = 180 Orientation = "UPPER_LEFT" format = center alwaysTransparent = yes text_color_code = "H" }
 			listboxType = { name = "option_list" position = { x = 500 y = 20 } size = { x = 460 y = 240 } spacing = 1 scrollbartype = "standardlistbox_slider" borderSize = { x = 0 y = 0 } Orientation = "UPPER_LEFT" }
 		}
+		###########################################################
 		################## Actually Displayed UI ##################
 		name = "oxr_mdlc_councilor_editor_regulatory"  # What the game uses to find this gui
 		moveable = yes
@@ -130,34 +132,28 @@ guiTypes = {
 		orientation = center
 		origo = center
 
-		# Use CSS-like identifiers
-		@oxr_mdlc_councilor_editor_node_icon_left = 40
-		@oxr_mdlc_councilor_editor_node_frame_inactive_left = 18
-		@oxr_mdlc_councilor_editor_node_frame_inactive_top = 18
-		@oxr_mdlc_councilor_editor_node_icon_top_1 = 40
-		@oxr_mdlc_councilor_editor_node_icon_top_2 = 156
-		@oxr_mdlc_councilor_editor_node_icon_top_3 = 282
-		@oxr_mdlc_councilor_editor_node_icon_top_3 = 408
-
 		# This is the header text of the window
+		# Conveniently borrowed from above, the tooltip shows councilor info :D
 		instantTextBoxType = {
 			name = "leader_name" position = { x = 20 y = 5 } font = "malgun_goth_24" maxWidth = 330 maxHeight = 20
 			fixedSize = yes format = left
 			text = "Regulatory Node Editor" text_color_code = "H"
 		}
+		# Accent line under title
 		iconType = {
 			name = "oxr_mdlc_councilor_editor_header_line"
 			quadTextureSprite = "GFX_line_medium"
 			position = { x = 6 y = 22 }
 			alwaysTransparent = yes
 		}
+		# Fuzzy effect behind the title
 		iconType = {
 			name = "oxr_mdlc_councilor_editor_header_line_bg"
 			spriteType = "GFX_hex_bg"
 			position = { x = -10 y = -14 }
 			alwaysTransparent = yes
 		}
-		
+		# Sacred holy close button of closing +20
 		effectButtonType = {
 			name = "close" #no, don't change its name #it will not function at all #which means the players won't be able to close the window
 			quadTextureSprite = "GFX_close"
@@ -173,6 +169,7 @@ guiTypes = {
 			size = { width = @oxr_mdlc_councilor_gui_width height = 300 }
 			position = { x = 0 y = 0 }
 
+			# How to use the GUI
 			instantTextBoxType = {
 				name = "oxr_mdlc_councilor_editor_text_instructions"
 				font = "cg_16b"
@@ -181,6 +178,7 @@ guiTypes = {
 				position = { x = 180 y = 70 }
 				alwaysTransparent = yes
 			}
+			# Updated trait point counter
 			effectButtonType = {
 				name = "oxr_mdlc_councilor_editor_trait_num_info"
 				size = { width = 200 height = 50 }
@@ -195,6 +193,7 @@ guiTypes = {
 				maxWidth = 250
 				maxHeight = 50
 			}
+			# Trait pick counter
 			effectButtonType = {
 				name = "oxr_mdlc_councilor_editor_trait_picks_info"
 				size = { width = 200 height = 50 }
@@ -218,12 +217,13 @@ guiTypes = {
 			position = { x = 0 y = 175 }
 
 			# Clear traits button
+			# This can be used for all councilors
 			effectbuttonType = {
 				name = "oxr_mdlc_councilor_editor_reset_traits_button"
 				position = { x = 180 y = 270 }
 				size = { x = 50 y = 50 }
 				quadTextureSprite = "GFX_button_update"
-				effect = "xvcv_mdlc_leader_making_reset_button_effect"
+				effect = "oxr_mdlc_councilor_editor_reset_traits_button_effect"
 			}
 			# 45 px to the right of the update button
 			# 8 px "below" on y axis
@@ -235,7 +235,7 @@ guiTypes = {
 				position = { x = 225 y = 278 }
 				alwaysTransparent = yes
 			}
-			
+			# Simple text at bottom
 			instantTextBoxType = {
 				name = "oxr_mdlc_councilor_editor_finished_help_text"
 				font = "cg_16b"
@@ -246,9 +246,7 @@ guiTypes = {
 				text_color_code = "L"
 			}
 
-			#########################
-			####    REGULATORY   ####
-			#########################
+			# Trait container
 			containerWindowType = {
 				name = "oxr_mdlc_councilor_editor_regulatory_traits_bg"
 				size = { width = 360 height = 180 }
@@ -959,8 +957,5 @@ guiTypes = {
 
 			} ### END OF TRAITS GRID ###
 		} ### END OF MAIN BG ###
-
 	} ### main container window ###
-
-
 }  # guiTypes
