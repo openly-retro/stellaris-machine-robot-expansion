@@ -236,9 +236,38 @@ oxr_mdlc_councilor_editor_deduct_trait_pick = {
 	}
 }
 oxr_mdlc_councilor_editor_refund_trait_pick = {
-	change_variable = {
-		which = oxr_mdlc_councilor_editor_trait_picks
-		value = 1
+	if = {
+		# Refund trait points up to a certain level
+		# Ex: with T2 of the core modifying improvement, refund up to 6 points
+		limit = {
+			OR = {
+				check_variable = {
+					which = oxr_mdlc_councilor_editor_trait_points
+					value > @oxr_mdlc_councilor_editor_base_num_trait_points_t2
+				}
+				AND = {
+					NOT = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 } }
+					check_variable = {
+						which = oxr_mdlc_councilor_editor_trait_points
+						value > @oxr_mdlc_councilor_editor_base_num_trait_picks_t2
+					}
+				}
+				AND = {
+					NOT = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement } }
+					check_variable = {
+						which = oxr_mdlc_councilor_editor_trait_points
+						value > @oxr_mdlc_councilor_editor_base_num_trait_picks
+					}
+				}
+			}
+		}
+		# For each trait removed, increment points by 3
+		else = {
+			change_variable = {
+				which = oxr_mdlc_councilor_editor_trait_picks
+				value = 1
+			}
+		}
 	}
 }
 oxr_mdlc_councilor_editor_reset_trait_picks_default = {
@@ -279,4 +308,659 @@ oxr_mdlc_councilor_editor_remove_tier_1_or_2_traits_effect = {
 			remove_trait = $TRAIT_NAME$_2
 		}
 	}
+}
+
+### Deduct points/picks for existing traits ###
+oxr_mdlc_councilor_editor_deduct_points_picks_for_existing_traits = {
+	optimize_memory
+
+	if = {
+		limit = {
+			has_trait = leader_trait_army_veteran_2
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_common = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_defence_engineer_2
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_common = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_fleet_organizer_2
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_common = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_politician_2
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_common = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_principled_2
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_common = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_retired_fleet_officer_2
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_common = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_shipwright_2
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_common = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_skirmisher_2
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_common = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_spark_of_genius_2
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_common = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_spycraft_2
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_common = yes
+	}
+	if = {
+		limit = {
+			has_trait = trait_ruler_battleship_focus
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_common = yes
+	}
+	if = {
+		limit = {
+			has_trait = trait_ruler_champion_of_the_people_2
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_common = yes
+	}
+	if = {
+		limit = {
+			has_trait = trait_ruler_charismatic_2
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_common = yes
+	}
+	if = {
+		limit = {
+			has_trait = trait_ruler_corvette_focus
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_common = yes
+	}
+	if = {
+		limit = {
+			has_trait = trait_ruler_cruiser_focus
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_common = yes
+	}
+	if = {
+		limit = {
+			has_trait = trait_ruler_destroyer_focus
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_common = yes
+	}
+	if = {
+		limit = {
+			has_trait = trait_ruler_eye_for_talent_2
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_common = yes
+	}
+	if = {
+		limit = {
+			has_trait = trait_ruler_feedback_loop_2
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_common = yes
+	}
+	if = {
+		limit = {
+			has_trait = trait_ruler_fertility_preacher_2
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_common = yes
+	}
+	if = {
+		limit = {
+			has_trait = trait_ruler_frontier_spirit
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_common = yes
+	}
+	if = {
+		limit = {
+			has_trait = trait_ruler_home_in_the_sky
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_common = yes
+	}
+	if = {
+		limit = {
+			has_trait = trait_ruler_industrialist_2
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_common = yes
+	}
+	if = {
+		limit = {
+			has_trait = trait_ruler_logistic_understanding_2
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_common = yes
+	}
+	if = {
+		limit = {
+			has_trait = trait_ruler_space_miner
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_common = yes
+	}
+	if = {
+		limit = {
+			has_trait = trait_ruler_warlike_2
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_common = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_armada_logistician_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_border_guard_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_cartographer_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_consul_general_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_courtroom_training_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_crew_trainer_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_cultural_focus_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_expeditionist_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_expertise_archaeostudies_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_expertise_biology_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_expertise_computing_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_expertise_field_manipulation_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_expertise_industry_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_expertise_materials_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_expertise_military_theory_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_expertise_new_worlds_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_expertise_particles_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_expertise_propulsion_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_expertise_psionics_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_expertise_statecraft_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_expertise_voidcraft_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_frontier_spirit_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_gale_speed_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_guardian_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_home_guard_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_inquisitive_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_intimidator_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_maniacal_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_overseer_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_reformer_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_science_communicator_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_shadow_broker_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_society_focus_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = trait_ruler_architectural_sense_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = trait_ruler_deep_connections_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = trait_ruler_expansionist_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = trait_ruler_fortifier_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = trait_ruler_from_the_ranks_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = trait_ruler_investor_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = trait_ruler_military_pioneer_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = trait_ruler_recruiter_3
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_veteran = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_armorer
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_paragon = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_aturion_organizer
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_paragon = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_bellicose
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_paragon = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_brilliant_shipwright
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_paragon = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_educator
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_paragon = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_great_researcher
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_paragon = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_knowledge_for_the_masses
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_paragon = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_master_bureaucrat
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_paragon = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_master_diplomat
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_paragon = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_maven_of_war
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_paragon = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_military_overseer
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_paragon = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_peacekeeper
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_paragon = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_spymaster
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_paragon = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_supreme_organizer
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_paragon = yes
+	}
+	if = {
+		limit = {
+			has_trait = leader_trait_totalitarian
+			check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+		}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_paragon = yes
+	}
+
 }

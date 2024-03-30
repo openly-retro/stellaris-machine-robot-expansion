@@ -9,7 +9,10 @@ country_event = {
 
 	option = {
 		name = "Launch Regulatory Node editor"
-		allow = { NOT = { has_country_flag = oxr_mdlc_councilor_editor_in_progress } }
+		allow = {
+			NOT = { has_country_flag = oxr_mdlc_councilor_editor_in_progress }
+			is_machine_empire = yes
+		}
 		hidden_effect = {
 			every_owned_leader = {
 				limit = {
@@ -24,22 +27,33 @@ country_event = {
 	}
 	option = {
 		name = "oxr_mdlc_10.1.name"
-		# allow = { NOT = { has_country_flag = oxr_mdlc_councilor_editor_in_progress } }
-		allow = { oxr_mdlc_councilor_editor_feature_enabled = yes }
+		allow = {
+			NOT = { has_country_flag = oxr_mdlc_councilor_editor_in_progress }
+			is_machine_empire = yes
+		}
+		hidden_effect = {
+			every_owned_leader = {
+				limit = {
+					is_councilor_type = councilor_gestalt_cognitive
+				}
+				save_global_event_target_as = oxr_mdlc_councilor_editor_target
+				log = "Event target: [event_target:oxr_mdlc_councilor_editor_target.GetName]"
+				leader_event = { id = oxr_mdlc.21 }
+			}
+			set_country_flag = oxr_mdlc_councilor_editor_in_progress
+		}
 	}
 	option = {
 		name = "oxr_mdlc_10.2.name"
-		# allow = { NOT = { has_country_flag = oxr_mdlc_councilor_editor_in_progress } }
 		allow = { oxr_mdlc_councilor_editor_feature_enabled = yes }
 	}
 	option = {
 		name = "oxr_mdlc_10.3.name"
-		# allow = { NOT = { has_country_flag = oxr_mdlc_councilor_editor_in_progress } }
 		allow = { oxr_mdlc_councilor_editor_feature_enabled = yes }
 	}
 }
 
-
+# REGULATORY
 leader_event = {
 	id = oxr_mdlc.20
 	title = "oxr_mdlc_councilor_editor_window_gui_title"
@@ -48,22 +62,49 @@ leader_event = {
 	diplomatic = yes
 
 	immediate = {
-		oxr_mdlc_councilor_editor_reset_trait_picks_default = yes
-		oxr_mdlc_councilor_editor_reset_trait_points_default = yes
-		print_scope_effect = yes
-		# save_global_event_target_as = oxr_mdlc_councilor_editor_target
-		# log = "Event target: [event_target:oxr_mdlc_councilor_editor_target.GetName]"
+		event_target:oxr_mdlc_councilor_editor_target = {
+			if = {
+				limit = { NOT = { has_leader_flag = oxr_mdlc_councilor_editor_initialized } }
+				set_leader_flag = oxr_mdlc_councilor_editor_initialized
+				oxr_mdlc_councilor_editor_reset_trait_picks_default = yes
+				oxr_mdlc_councilor_editor_reset_trait_points_default = yes
+			}
+			oxr_mdlc_councilor_editor_deduct_points_picks_for_existing_traits = yes
+		}
 	}
-
 	picture_event_data = {
 		# planet_background = root.owner
 		graphical_culture = root.owner
 		portrait = event_target:oxr_mdlc_councilor_editor_target
 	}
-
 	custom_gui = oxr_mdlc_councilor_editor_regulatory
+	option = { name = xvcv_mdlc_customgui.1.a }
+}
 
-	option = {
-		name = xvcv_mdlc_customgui.1.a
+# COGNITIVE
+leader_event = {
+	id = oxr_mdlc.21
+	title = "oxr_mdlc_councilor_editor_window_gui_title"
+	desc = "oxr_mdlc_councilor_editor_compound_info"
+	is_triggered_only = yes
+	diplomatic = yes
+
+	immediate = {
+		event_target:oxr_mdlc_councilor_editor_target = {
+			if = {
+				limit = { NOT = { has_leader_flag = oxr_mdlc_councilor_editor_initialized } }
+				set_leader_flag = oxr_mdlc_councilor_editor_initialized
+				oxr_mdlc_councilor_editor_reset_trait_picks_default = yes
+				oxr_mdlc_councilor_editor_reset_trait_points_default = yes
+			}
+			oxr_mdlc_councilor_editor_deduct_points_picks_for_existing_traits = yes
+		}
 	}
+
+	picture_event_data = {
+		graphical_culture = root.owner
+		portrait = event_target:oxr_mdlc_councilor_editor_target
+	}
+	custom_gui = oxr_mdlc_councilor_editor_cognitive
+	option = { name = xvcv_mdlc_customgui.1.a }
 }
