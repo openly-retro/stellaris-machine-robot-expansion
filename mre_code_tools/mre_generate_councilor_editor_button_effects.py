@@ -180,7 +180,8 @@ def gen_councilor_editor_traits_button_effects_code(
     if len(prerequisites):
         for tech in prerequisites:
             allowances.append(f"has_technology = {tech}")
-    leader_class = GESTALT_COUNCILOR_CLASS_MAP["regulatory"]
+
+    leader_class = GESTALT_COUNCILOR_CLASS_MAP[councilor_type]
     subclass_check_trigger = f"oxr_mdlc_councilor_editor_check_leader_has_required_subclass = {{ SUBCLASS = {required_subclass} }}"
 
     return f"""
