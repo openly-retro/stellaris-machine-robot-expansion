@@ -314,6 +314,56 @@ oxr_mdlc_councilor_editor_remove_tier_1_or_2_traits_effect = {
 	}
 }
 
+### COUNTER
+oxr_mdlc_councilor_editor_set_max_trait_points_for_display = {
+	# Used on GUI reset button, game start
+	optimize_memory
+	# must be called with councilor leader scope
+	set_variable = {
+		which = oxr_mdlc_councilor_editor_max_trait_points
+		value = @oxr_mdlc_councilor_editor_base_num_trait_points
+	}
+	# Increase the number of trait points available, for T1 of this tech
+	if = {
+		limit = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement } }
+		change_variable = {
+			which = oxr_mdlc_councilor_editor_max_trait_points
+			value = 1
+		}
+	}
+	# Give additional points for having T2, so it's a compound effect
+	# Having T1 and T2 of this tech awards +2 trait points total
+	if = {
+		limit = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 } }
+		change_variable = { which = oxr_mdlc_councilor_editor_max_trait_points value = 1 }
+	}
+	log = "Set max trait points to \[This.oxr_mdlc_councilor_editor_max_trait_points]"
+}
+oxr_mdlc_councilor_editor_set_max_trait_picks_for_display = {
+	# Used on GUI reset button, game start
+	optimize_memory
+	# must be called with councilor leader scope
+	set_variable = {
+		which = oxr_mdlc_councilor_editor_max_trait_picks
+		value = @oxr_mdlc_councilor_editor_base_num_trait_picks
+	}
+	# Increase the number of trait points available, for T1 of this tech
+	if = {
+		limit = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement } }
+		change_variable = {
+			which = oxr_mdlc_councilor_editor_max_trait_picks
+			value = 1
+		}
+	}
+	# Give additional points for having T2, so it's a compound effect
+	# Having T1 and T2 of this tech awards +2 trait points total
+	if = {
+		limit = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 } }
+		change_variable = { which = oxr_mdlc_councilor_editor_max_trait_picks value = 1 }
+	}
+	log = "Set max trait picks to \[This.oxr_mdlc_councilor_editor_max_trait_picks]"
+}
+
 ### Deduct points/picks for existing traits ###
 oxr_mdlc_councilor_editor_deduct_points_picks_for_existing_traits = {
 	optimize_memory
