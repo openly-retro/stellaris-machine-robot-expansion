@@ -238,25 +238,32 @@ oxr_mdlc_councilor_editor_deduct_trait_pick = {
 oxr_mdlc_councilor_editor_refund_trait_pick = {
 	if = {
 		# Refund trait points up to a certain level
-		# Ex: with T2 of the core modifying improvement, refund up to 6 points
+		# No t1 or t2 tech = max is 3
+		# no t2 tech = max is 4
+		# with t2 = max = 5
 		limit = {
 			OR = {
-				check_variable = {
-					which = oxr_mdlc_councilor_editor_trait_points
-					value > @oxr_mdlc_councilor_editor_base_num_trait_points_t2
-				}
 				AND = {
 					NOT = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 } }
+					NOT = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement } }
 					check_variable = {
-						which = oxr_mdlc_councilor_editor_trait_points
-						value > @oxr_mdlc_councilor_editor_base_num_trait_picks_t2
+						which = oxr_mdlc_councilor_editor_trait_picks
+						value < @oxr_mdlc_councilor_editor_base_num_trait_picks
 					}
 				}
 				AND = {
-					NOT = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement } }
+					NOT = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 } }
+					from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement }
 					check_variable = {
-						which = oxr_mdlc_councilor_editor_trait_points
-						value > @oxr_mdlc_councilor_editor_base_num_trait_picks
+						which = oxr_mdlc_councilor_editor_trait_picks
+						value < @oxr_mdlc_councilor_editor_base_num_trait_picks_t1
+					}
+				}
+				AND = {
+					from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 }
+					check_variable = {
+						which = oxr_mdlc_councilor_editor_trait_picks
+						value < @oxr_mdlc_councilor_editor_base_num_trait_picks_t2
 					}
 				}
 			}
