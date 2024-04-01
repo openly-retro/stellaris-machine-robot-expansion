@@ -1,8 +1,13 @@
+""" Tool to copy Stellaris localisation files to another localisation language 
+This does NOT do translations of content. """
 import sys
 import os
 import argparse
 from glob import glob as file_glob
 import copy
+
+__author__ = '0xRetro (Openly Retro)'
+__license__ = 'GPLv3'
 
 LANGUAGES = [
     'english',
@@ -13,7 +18,8 @@ LANGUAGES = [
     'russian',
     'simp_chinese',
     'spanish',
-    'japanese'
+    'japanese',
+    'korean',
 ]
 
 if __name__ == '__main__':
@@ -28,11 +34,18 @@ if __name__ == '__main__':
         help="Specify the source language to copy localisations from, to all other languages. (Optional)"
     )
     parser.add_argument(
-        "--skip-language",
+        "--skip-languages",
         nargs="+",
         dest="skip_languages",
         help="Any languages you want to skip copying to, separated by spaces. (Optional)",
         default=[]
+    )
+    parser.add_argument(
+        "--skip-confirm",
+        action="store_true",
+        default=False,
+        required=False,
+        help="Use this flag to skip confirmations, for example if you are running this as part of another process."
     )
 
     if not os.path.isdir(
@@ -60,15 +73,24 @@ if __name__ == '__main__':
     if args.skip_languages:
         dest_languages = dest_languages.difference(args.skip_languages)
 
-    if not input(
-            f"Confirmation: Going to copy {args.source_language} to these languages: {dest_languages}. "
+    # Now that's out of the way
+    print("*~~ 0xRetro Stellaris Localisation Copy Machine ~~*\n")
+    print(
+        "This tool copies localisations files from the source language you specify, "
+        "to other localisation language folders. It changes the l_<language>: key at the top of the file "
+        "to the target language you are copying to, for all targeted languages.\n"
+    )
+    if not args.skip_confirm:
+        if not input(
+            f"Please confirm: Going to copy {args.source_language} to these languages: {dest_languages}. "
             "Does that look correct? Enter y/[N] > "
         ) == 'y':
             sys.exit("You did not type 'y'. Exiting ... ")
+    else:
+        print(f"Copying from {args.source_language} to these languages: {dest_languages}")
 
-    # Now that's out of the way
     localisation_folder = 'localisation'
-    print(f"Going to copy {args.source_language} to other localisation folders.")
+    print(f"Going to copy '{args.source_language}' to other localisation folders.")
     if args.skip_languages:
         print(f"Except for {args.skip_languages}")
     source_localisation_files = file_glob(
@@ -79,15 +101,12 @@ if __name__ == '__main__':
         buffer = ''
         with open(source_file, mode="r", encoding="utf-8") as stellaris_localisation_yaml:
             buffer = stellaris_localisation_yaml.read()
-        
+        print(f"Copying from {os.path.basename(source_file)} to other localisations ...")
         for to_language in dest_languages:
             # Swap 'english' for 'braz_por', for example
             new_language_copy_filename = source_file.replace(
                 args.source_language, to_language
             )
-            """ The file is open.
-            If I replace 'english' with 'braz_por' """
-            print(f"*** {to_language.upper()} ***")
             # TODO: A better memory efficient way to do this
             contents_copy = copy.copy(buffer)
             contents_copy = contents_copy.replace(
@@ -98,9 +117,6 @@ if __name__ == '__main__':
                     os.getcwd(), 'localisation', to_language, new_language_copy_filename
                 ), "wb"
             ) as target_file_copy:
-                print(
-                    f"Writing copy of {source_file} to {new_language_copy_filename}.."
-                )
                 target_file_copy.write(
                     contents_copy.encode('utf-8-sig')
                 )
