@@ -56,7 +56,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
     trait_limit_trigger = """	if = {{
 		limit = {{
 			ruler = {{ has_trait = {trait_name} }}
-			check_variable = {{ which = xvcv_mdlc_core_modifying_max_traits_number value > 0 }}
+			check_variable = {{ which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }}
 		}}
 		oxr_mdlc_core_modifying_deduct_trait_pick = yes
 		oxr_mdlc_core_modifying_deduct_trait_points_{rarity} = yes

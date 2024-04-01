@@ -95,6 +95,11 @@ country_event = {
 		}
 		#and check the leader class again
 		ruler = {
+			# Start setting vars scoped to ruler
+			save_global_event_target_as = xvcv_mdlc_core_modifying_empire_ruler
+			event_target:xvcv_mdlc_core_modifying_empire_ruler = {
+				xvcv_mdlc_core_modifying_clear_trait_variables_effect = yes
+			}
 			switch = {
 				trigger = leader_class
 				#sadly, this won't support modded leader classes
@@ -104,9 +109,12 @@ country_event = {
 			}
 		}
 		if = {
-			limit = { NOT = { has_country_flag = xvcv_mdlc_core_modifying_trait_points_set } }
-			set_country_flag = xvcv_mdlc_core_modifying_trait_points_set #one-time only
+			limit = { NOT = { has_country_flag = xvcv_mdlc_core_modifying_trait_points_remaining_set } }
+			set_country_flag = xvcv_mdlc_core_modifying_trait_points_remaining_set #one-time only
 			xvcv_mdlc_core_modifying_clear_trait_variables_effect = yes
+		}
+		if = {
+			limit = { NOT = { has_country_flag = oxr_mdlc_core_modifying_initialized }}
 		}
 		oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = yes
 	}
@@ -130,8 +138,8 @@ country_event = {
 	}
 
 	immediate = {
-		change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = 1 }
-		change_variable = { which = xvcv_mdlc_core_modifying_max_traits_number value = 1 }
+		change_variable = { which = xvcv_mdlc_core_modifying_trait_points_remaining value = 1 }
+		change_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value = 1 }
 	}
 }
 #reset core modifying variables when a new ruler drone is set
@@ -141,7 +149,7 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		has_country_flag = xvcv_mdlc_core_modifying_trait_points_set
+		has_country_flag = xvcv_mdlc_core_modifying_trait_points_remaining_set
 	}
 
 	immediate = {
