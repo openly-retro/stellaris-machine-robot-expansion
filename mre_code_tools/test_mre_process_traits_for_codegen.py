@@ -1,7 +1,8 @@
 from mre_process_traits_for_codegen import (
     pick_highest_tier_of_trait,
     filter_traits_by_mod_feature,
-    trickle_up_subclass_requirements
+    trickle_up_subclass_requirements,
+    trait_qualifies_for_councilor_editor
 )
 
 def test_picking_highest_tier__2():
@@ -29,7 +30,6 @@ def test_picking_highest_tier__2():
         {
             "leader_trait_adventurous_spirit_2": {
                 "trait_name": "leader_trait_adventurous_spirit_2",
-    
             }
         },
         {
@@ -149,6 +149,17 @@ def test_sorting_traits_for_which_feature__1():
                 }
             },
         ],
+        "councilor_editor_traits": [
+            {
+                "leader_trait_armada_logistician": {
+                    "trait_name": "leader_trait_armada_logistician",
+                    "is_councilor_trait": True,
+                    "councilor_modifier": {
+                        "ships_upkeep_mult": -0.05
+                    }
+                }
+            },
+        ],
         "outliers": []
     }
     actual = filter_traits_by_mod_feature(test_data)
@@ -189,3 +200,6 @@ def test_transfer_subclass_reqs_to_other_traits_in_series():
     ]
     actual = trickle_up_subclass_requirements(test_data, for_class="commander")
     assert expected == actual
+
+def test_trait_qualifies_for_councilor_editor__various_traits():
+    pass

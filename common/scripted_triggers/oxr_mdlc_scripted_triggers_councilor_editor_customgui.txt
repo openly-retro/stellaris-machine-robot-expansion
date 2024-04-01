@@ -1,0 +1,202 @@
+# Renaming a lot of these vars to avoid any potential conflict
+# with core-modifying and leader-making vars
+# Default amount of trait points
+@oxr_mdlc_councilor_editor_base_num_trait_points = 4
+# Values with T1 and T2 core modifying techs, respectively
+@oxr_mdlc_councilor_editor_base_num_trait_points_t1 = 5
+@oxr_mdlc_councilor_editor_base_num_trait_points_t2 = 6
+
+# Default number of trait picks
+@oxr_mdlc_councilor_editor_base_num_trait_picks = 3
+# Values with T1 and T2 core modifying techs, respectively
+@oxr_mdlc_councilor_editor_base_num_trait_picks_t1 = 4  # unused
+@oxr_mdlc_councilor_editor_base_num_trait_picks_t2 = 5  # unused
+
+# How many trait points does each tier of trait cost to apply to the ruler
+@oxr_mdlc_councilor_editor_common_trait_points_cost = 1
+@oxr_mdlc_councilor_editor_veteran_trait_points_cost = 2
+@oxr_mdlc_councilor_editor_destiny_trait_points_cost = 3
+
+# These numbers are applied to both energy costs, and alloy costs
+@oxr_mdlc_councilor_editor_common_trait_cost = 200
+@oxr_mdlc_councilor_editor_common_trait_refund = 100
+@oxr_mdlc_councilor_editor_veteran_trait_cost = 500
+@oxr_mdlc_councilor_editor_veteran_trait_refund = 250
+@oxr_mdlc_councilor_editor_destiny_trait_cost = 1000
+@oxr_mdlc_councilor_editor_destiny_trait_refund = 500
+
+# Resources check
+oxr_mdlc_councilor_editor_check_trait_resources_cost_common = {
+    optimize_memory
+    custom_tooltip_fail = {
+        text = oxr_mdlc_councilor_editor_trait_cost.fail_common
+        has_country_resource = { type = energy amount >= @oxr_mdlc_councilor_editor_common_trait_cost }
+        has_country_resource = { type = alloys amount >= @oxr_mdlc_councilor_editor_common_trait_cost }
+    }
+}
+oxr_mdlc_councilor_editor_check_trait_resources_cost_veteran = {
+    optimize_memory
+    custom_tooltip_fail = {
+        text = oxr_mdlc_councilor_editor_trait_cost.fail_veteran
+        has_country_resource = { type = energy amount >= @oxr_mdlc_councilor_editor_veteran_trait_cost }
+        has_country_resource = { type = alloys amount >= @oxr_mdlc_councilor_editor_veteran_trait_cost }
+    }
+}
+oxr_mdlc_councilor_editor_check_trait_resources_cost_paragon = {
+    optimize_memory
+    custom_tooltip_fail = {
+        text = oxr_mdlc_councilor_editor_trait_cost.fail_paragon
+        has_country_resource = { type = energy amount >= @oxr_mdlc_councilor_editor_destiny_trait_cost }
+        has_country_resource = { type = alloys amount >= @oxr_mdlc_councilor_editor_destiny_trait_cost }
+    }
+}
+# Traits points check
+oxr_mdlc_councilor_editor_check_trait_points_cost_common = {
+    optimize_memory
+    custom_tooltip_fail = {
+        text = oxr_mdlc_councilor_editor_trait_points.fail
+        check_variable = { which = oxr_mdlc_councilor_editor_trait_points value >= 1 }
+    }
+}
+oxr_mdlc_councilor_editor_check_trait_points_cost_veteran = {
+    optimize_memory
+    custom_tooltip_fail = {
+        text = oxr_mdlc_councilor_editor_trait_points.fail
+        check_variable = { which = oxr_mdlc_councilor_editor_trait_points value >= 2 }
+    }
+}
+oxr_mdlc_councilor_editor_check_trait_points_cost_paragon = {
+    optimize_memory
+    custom_tooltip_fail = {
+        text = oxr_mdlc_councilor_editor_trait_points.fail
+        check_variable = { which = oxr_mdlc_councilor_editor_trait_points value >= 3 }
+    }
+}
+# trait picks check
+oxr_mdlc_councilor_editor_check_trait_picks = {
+    optimize_memory
+    custom_tooltip_fail = {
+        text = oxr_mdlc_councilor_editor_max_traits_number.fail
+        check_variable = { which = oxr_mdlc_councilor_editor_trait_picks value > 0 }
+    }
+}
+oxr_mdlc_councilor_editor_check_can_use_reset_button_wrapper = {
+    optimize_memory
+    custom_tooltip = "Click to reset all Councilor traits"
+    custom_tooltip_fail = {
+        text = "No traits selected."
+        # ruler = { xvcv_mdlc_core_modifying_ruler_traits_trigger = yes }
+        event_target:oxr_mdlc_councilor_editor_target = {
+            oxr_mdlc_councilor_editor_check_can_use_reset_button = yes
+        }
+    }
+}
+
+oxr_mdlc_councilor_editor_check_can_use_reset_button = {
+    # One trigger to rule them all
+	optimize_memory
+        OR = {
+            has_trait = leader_trait_army_veteran_2
+            has_trait = leader_trait_defence_engineer_2
+            has_trait = leader_trait_fleet_organizer_2
+            has_trait = leader_trait_politician_2
+            has_trait = leader_trait_principled_2
+            has_trait = leader_trait_retired_fleet_officer_2
+            has_trait = leader_trait_shipwright_2
+            has_trait = leader_trait_skirmisher_2
+            has_trait = leader_trait_spark_of_genius_2
+            has_trait = leader_trait_spycraft_2
+            has_trait = trait_ruler_battleship_focus
+            has_trait = trait_ruler_champion_of_the_people_2
+            has_trait = trait_ruler_charismatic_2
+            has_trait = trait_ruler_corvette_focus
+            has_trait = trait_ruler_cruiser_focus
+            has_trait = trait_ruler_destroyer_focus
+            has_trait = trait_ruler_eye_for_talent_2
+            has_trait = trait_ruler_feedback_loop_2
+            has_trait = trait_ruler_fertility_preacher_2
+            has_trait = trait_ruler_frontier_spirit
+            has_trait = trait_ruler_home_in_the_sky
+            has_trait = trait_ruler_industrialist_2
+            has_trait = trait_ruler_logistic_understanding_2
+            has_trait = trait_ruler_space_miner
+            has_trait = trait_ruler_warlike_2
+            has_trait = leader_trait_armada_logistician_3
+            has_trait = leader_trait_border_guard_3
+            has_trait = leader_trait_cartographer_3
+            has_trait = leader_trait_consul_general_3
+            has_trait = leader_trait_courtroom_training_3
+            has_trait = leader_trait_crew_trainer_3
+            has_trait = leader_trait_cultural_focus_3
+            has_trait = leader_trait_expeditionist_3
+            has_trait = leader_trait_expertise_archaeostudies_3
+            has_trait = leader_trait_expertise_biology_3
+            has_trait = leader_trait_expertise_computing_3
+            has_trait = leader_trait_expertise_field_manipulation_3
+            has_trait = leader_trait_expertise_industry_3
+            has_trait = leader_trait_expertise_materials_3
+            has_trait = leader_trait_expertise_military_theory_3
+            has_trait = leader_trait_expertise_new_worlds_3
+            has_trait = leader_trait_expertise_particles_3
+            has_trait = leader_trait_expertise_propulsion_3
+            has_trait = leader_trait_expertise_psionics_3
+            has_trait = leader_trait_expertise_statecraft_3
+            has_trait = leader_trait_expertise_voidcraft_3
+            has_trait = leader_trait_frontier_spirit_3
+            has_trait = leader_trait_gale_speed_3
+            has_trait = leader_trait_guardian_3
+            has_trait = leader_trait_home_guard_3
+            has_trait = leader_trait_inquisitive_3
+            has_trait = leader_trait_intimidator_3
+            has_trait = leader_trait_maniacal_3
+            has_trait = leader_trait_overseer_3
+            has_trait = leader_trait_reformer_3
+            has_trait = leader_trait_science_communicator_3
+            has_trait = leader_trait_shadow_broker_3
+            has_trait = leader_trait_society_focus_3
+            has_trait = trait_ruler_architectural_sense_3
+            has_trait = trait_ruler_deep_connections_3
+            has_trait = trait_ruler_expansionist_3
+            has_trait = trait_ruler_fortifier_3
+            has_trait = trait_ruler_from_the_ranks_3
+            has_trait = trait_ruler_investor_3
+            has_trait = trait_ruler_military_pioneer_3
+            has_trait = trait_ruler_recruiter_3
+            has_trait = leader_trait_armorer
+            has_trait = leader_trait_aturion_organizer
+            has_trait = leader_trait_bellicose
+            has_trait = leader_trait_brilliant_shipwright
+            has_trait = leader_trait_educator
+            has_trait = leader_trait_great_researcher
+            has_trait = leader_trait_knowledge_for_the_masses
+            has_trait = leader_trait_master_bureaucrat
+            has_trait = leader_trait_master_diplomat
+            has_trait = leader_trait_maven_of_war
+            has_trait = leader_trait_military_overseer
+            has_trait = leader_trait_peacekeeper
+            has_trait = leader_trait_spymaster
+            has_trait = leader_trait_supreme_organizer
+            has_trait = leader_trait_totalitarian
+        }
+}
+
+# subclass check
+oxr_mdlc_councilor_editor_check_leader_has_required_subclass = {
+    # $REQ_SUBCLASS$
+    # $TRAIT_NAME
+    optimize_memory
+    custom_tooltip_fail = {
+        text = xvcv_mdlc_core_modifying_requires_$CLASS$_$SUBCLASS$_tooltip.fail
+        has_trait = $SUBCLASS$
+    }
+}
+
+# General
+oxr_mdlc_councilor_editor_feature_enabled = {
+    optimize_memory
+    custom_tooltip_fail = {
+        text = "This feature is not implemented yet."
+        has_country_flag = oxr_mdlc_councilor_editor_new_stuff_enabled
+    }
+}
+

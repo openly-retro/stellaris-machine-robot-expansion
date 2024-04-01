@@ -1,0 +1,203 @@
+namespace = oxr_mdlc
+
+country_event = {
+	id = oxr_mdlc.10
+	title = oxr_mdlc.10.name
+	desc = oxr_mdlc.10.desc
+	picture = GFX_evt_source_code_reprogramming_red
+	is_triggered_only = yes
+
+	option = {
+		name = "oxr_mdlc.10.1.name"
+		allow = {
+			NOT = { has_country_flag = oxr_mdlc_councilor_editor_in_progress }
+			is_machine_empire = yes
+		}
+		hidden_effect = {
+			every_owned_leader = {
+				limit = {
+					is_councilor_type = councilor_gestalt_regulatory
+				}
+				save_global_event_target_as = oxr_mdlc_councilor_editor_target
+				log = "Event target: [event_target:oxr_mdlc_councilor_editor_target.GetName]"
+				leader_event = { id = oxr_mdlc.20 }
+			}
+			set_country_flag = oxr_mdlc_councilor_editor_in_progress
+		}
+	}
+	option = {
+		name = "oxr_mdlc.10.2.name"
+		allow = {
+			NOT = { has_country_flag = oxr_mdlc_councilor_editor_in_progress }
+			is_machine_empire = yes
+		}
+		hidden_effect = {
+			every_owned_leader = {
+				limit = {
+					is_councilor_type = councilor_gestalt_cognitive
+				}
+				save_global_event_target_as = oxr_mdlc_councilor_editor_target
+				log = "Event target: [event_target:oxr_mdlc_councilor_editor_target.GetName]"
+				leader_event = { id = oxr_mdlc.21 }
+			}
+			set_country_flag = oxr_mdlc_councilor_editor_in_progress
+		}
+	}
+	option = {
+		name = "oxr_mdlc.10.3.name"
+		allow = {
+			NOT = { has_country_flag = oxr_mdlc_councilor_editor_in_progress }
+			is_machine_empire = yes
+		}
+		hidden_effect = {
+			every_owned_leader = {
+				limit = {
+					is_councilor_type = councilor_gestalt_growth
+				}
+				save_global_event_target_as = oxr_mdlc_councilor_editor_target
+				log = "Event target: [event_target:oxr_mdlc_councilor_editor_target.GetName]"
+				leader_event = { id = oxr_mdlc.22 }
+			}
+			set_country_flag = oxr_mdlc_councilor_editor_in_progress
+		}
+	}
+	option = {
+		name = "oxr_mdlc.10.4.name"
+		allow = {
+			NOT = { has_country_flag = oxr_mdlc_councilor_editor_in_progress }
+			is_machine_empire = yes
+		}
+		hidden_effect = {
+			every_owned_leader = {
+				limit = {
+					is_councilor_type = councilor_gestalt_legion
+				}
+				save_global_event_target_as = oxr_mdlc_councilor_editor_target
+				log = "Event target: [event_target:oxr_mdlc_councilor_editor_target.GetName]"
+				leader_event = { id = oxr_mdlc.23 }
+			}
+			set_country_flag = oxr_mdlc_councilor_editor_in_progress
+		}
+	}
+	option = {
+		name = "oxr_mdlc.10.5.name"
+		allow = { always = yes }
+		default_hide_option = yes
+		hidden_effect = { }
+	}
+}
+
+# REGULATORY
+leader_event = {
+	id = oxr_mdlc.20
+	title = "oxr_mdlc_councilor_editor_window_gui_title"
+	desc = "oxr_mdlc_councilor_editor_compound_info"
+	is_triggered_only = yes
+	diplomatic = yes
+
+	immediate = {
+		event_target:oxr_mdlc_councilor_editor_target = {
+			if = {
+				limit = { NOT = { has_leader_flag = oxr_mdlc_councilor_editor_initialized } }
+				set_leader_flag = oxr_mdlc_councilor_editor_initialized
+				oxr_mdlc_councilor_editor_reset_trait_picks_default = yes
+				oxr_mdlc_councilor_editor_reset_trait_points_default = yes
+				oxr_mdlc_councilor_editor_deduct_points_picks_for_existing_traits = yes
+			}
+			oxr_mdlc_councilor_editor_set_max_trait_points_for_display = yes
+			oxr_mdlc_councilor_editor_set_max_trait_picks_for_display = yes
+		}
+	}
+	picture_event_data = {
+		graphical_culture = root.owner
+		portrait = event_target:oxr_mdlc_councilor_editor_target
+	}
+	custom_gui = oxr_mdlc_councilor_editor_regulatory
+	option = { name = xvcv_mdlc_customgui.1.a }
+}
+
+# COGNITIVE
+leader_event = {
+	id = oxr_mdlc.21
+	title = "oxr_mdlc_councilor_editor_window_gui_title"
+	desc = "oxr_mdlc_councilor_editor_compound_info"
+	is_triggered_only = yes
+	diplomatic = yes
+
+	immediate = {
+		event_target:oxr_mdlc_councilor_editor_target = {
+			if = {
+				limit = { NOT = { has_leader_flag = oxr_mdlc_councilor_editor_initialized } }
+				set_leader_flag = oxr_mdlc_councilor_editor_initialized
+				oxr_mdlc_councilor_editor_reset_trait_picks_default = yes
+				oxr_mdlc_councilor_editor_reset_trait_points_default = yes
+				oxr_mdlc_councilor_editor_deduct_points_picks_for_existing_traits = yes
+			}
+			oxr_mdlc_councilor_editor_set_max_trait_points_for_display = yes
+			oxr_mdlc_councilor_editor_set_max_trait_picks_for_display = yes
+		}
+	}
+
+	picture_event_data = {
+		graphical_culture = root.owner
+		portrait = event_target:oxr_mdlc_councilor_editor_target
+	}
+	custom_gui = oxr_mdlc_councilor_editor_cognitive
+	option = { name = xvcv_mdlc_customgui.1.a }
+}
+
+# GROWTH
+leader_event = {
+	id = oxr_mdlc.22
+	title = "oxr_mdlc_councilor_editor_window_gui_title"
+	desc = "oxr_mdlc_councilor_editor_compound_info"
+	is_triggered_only = yes
+	diplomatic = yes
+	immediate = {
+		event_target:oxr_mdlc_councilor_editor_target = {
+			if = {
+				limit = { NOT = { has_leader_flag = oxr_mdlc_councilor_editor_initialized } }
+				set_leader_flag = oxr_mdlc_councilor_editor_initialized
+				oxr_mdlc_councilor_editor_reset_trait_picks_default = yes
+				oxr_mdlc_councilor_editor_reset_trait_points_default = yes
+				oxr_mdlc_councilor_editor_deduct_points_picks_for_existing_traits = yes
+			}
+			oxr_mdlc_councilor_editor_set_max_trait_points_for_display = yes
+			oxr_mdlc_councilor_editor_set_max_trait_picks_for_display = yes
+		}
+	}
+	picture_event_data = {
+		graphical_culture = root.owner
+		portrait = event_target:oxr_mdlc_councilor_editor_target
+	}
+	custom_gui = oxr_mdlc_councilor_editor_growth
+	option = { name = xvcv_mdlc_customgui.1.a }
+}
+
+# LEGION
+leader_event = {
+	id = oxr_mdlc.23
+	title = "oxr_mdlc_councilor_editor_window_gui_title"
+	desc = "oxr_mdlc_councilor_editor_compound_info"
+	is_triggered_only = yes
+	diplomatic = yes
+	immediate = {
+		event_target:oxr_mdlc_councilor_editor_target = {
+			if = {
+				limit = { NOT = { has_leader_flag = oxr_mdlc_councilor_editor_initialized } }
+				set_leader_flag = oxr_mdlc_councilor_editor_initialized
+				oxr_mdlc_councilor_editor_reset_trait_picks_default = yes
+				oxr_mdlc_councilor_editor_reset_trait_points_default = yes
+				oxr_mdlc_councilor_editor_deduct_points_picks_for_existing_traits = yes
+			}
+			oxr_mdlc_councilor_editor_set_max_trait_points_for_display = yes
+			oxr_mdlc_councilor_editor_set_max_trait_picks_for_display = yes
+		}
+	}
+	picture_event_data = {
+		graphical_culture = root.owner
+		portrait = event_target:oxr_mdlc_councilor_editor_target
+	}
+	custom_gui = oxr_mdlc_councilor_editor_legion
+	option = { name = xvcv_mdlc_customgui.1.a }
+}

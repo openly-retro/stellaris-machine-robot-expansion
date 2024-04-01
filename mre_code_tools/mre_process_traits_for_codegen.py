@@ -84,6 +84,7 @@ def trait_qualifies_for_core_modifying(trait_dict: dict) -> bool:
         [
             "ruler" in trait_dict['trait_name'],
             trait_dict.get('self_modifier'),
+            trait_dict.get('triggered_self_modifier'),
             trait_dict.get('councilor_modifier'),
             trait_dict.get('triggered_councilor_modifier'),
             trait_dict.get('allow_for_ruler'),
@@ -93,6 +94,27 @@ def trait_qualifies_for_core_modifying(trait_dict: dict) -> bool:
         is_core_modifying_trait = True
     # breakpoint()
     return is_core_modifying_trait
+
+def trait_qualifies_for_councilor_editor(trait_dict: dict) -> bool:
+    is_councilor_trait = False
+    # Ruler is a type of councilor, so these modifiers will work
+    # ruler should not be in trait name
+    if all([
+        not trait_dict.get('allow_for_ruler'),
+    ]) and any(
+        [
+            "ruler" in trait_dict['trait_name'],
+            # trait_dict.get('self_modifier'),  # cant use traits that boost self stuff
+            # trait_dict.get('triggered_self_modifier'),  # no self traits
+            trait_dict.get('councilor_modifier'),
+            trait_dict.get('triggered_councilor_modifier'),
+            trait_dict.get('is_councilor_trait'),
+        ]
+    ):
+        is_councilor_trait = True
+    # breakpoint()
+    return is_councilor_trait
+
 
 def pick_highest_tier_of_trait(list_of_traits):
     # Drop traits that have a higher tier of trait
@@ -139,6 +161,7 @@ def filter_traits_by_mod_feature(traits_list: list) -> dict:
 
     leader_making_traits = []
     core_modifying_traits = []
+    councilor_editor_traits = []
     outliers = []
     for trait in traits_list:
         trait_name = [*trait][0]
@@ -153,12 +176,19 @@ def filter_traits_by_mod_feature(traits_list: list) -> dict:
                 core_modifying_traits.append(trait)
         if trait_qualifies_for_leader_making(root):
             leader_making_traits.append(trait)
-        if not trait_qualifies_for_core_modifying and not trait_qualifies_for_leader_making:
+        if trait_qualifies_for_councilor_editor(root):
+            councilor_editor_traits.append(trait)
+        if all([
+            not trait_qualifies_for_core_modifying,
+            not trait_qualifies_for_leader_making,
+            not trait_qualifies_for_councilor_editor,
+        ]):
             # No idea how this could happen.. but
             outliers.append(trait)
     return {
         "leader_making_traits": leader_making_traits,
         "core_modifying_traits": core_modifying_traits,
+        "councilor_editor_traits": councilor_editor_traits,
         "outliers": outliers
     }
 
@@ -242,7 +272,8 @@ def sort_and_filter_pipeline_files() -> dict:
         # has leader_making and core_modifying keys
         traits_filtered_by_rarity = {
             "leader_making_traits": [],
-            "core_modifying_traits": []
+            "core_modifying_traits": [],
+            "councilor_editor_traits": [],
         }
         # Go into leader_making_traits and core_modifying_traits, filter by rarity
         traits_filtered_by_rarity["leader_making_traits"] = filter_traits_by_rarity(
@@ -250,6 +281,9 @@ def sort_and_filter_pipeline_files() -> dict:
         )
         traits_filtered_by_rarity["core_modifying_traits"] = filter_traits_by_rarity(
             traits_sorted_by_feature["core_modifying_traits"]
+        )
+        traits_filtered_by_rarity["councilor_editor_traits"] = filter_traits_by_rarity(
+            traits_sorted_by_feature["councilor_editor_traits"]
         )
         data_to_be_written[leader_class] = traits_filtered_by_rarity
 

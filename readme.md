@@ -151,3 +151,26 @@ Generate xvcv_mdlc_leader_making_clear_values_effect
 
     python .\mre_code_tools\generate_traits_gui_and_effects.py --leader_fx1
 
+
+## Councilor editor stuff
+
+Generate GUI TRAITS CODE in the build folder starting with 30_ for each councilor node
+
+    python.exe .\mre_code_tools\mre_generate_councilor_editor_gui.py
+
+Generate BUTTON EFFECTS CODE in the .\common\button_effects\ folder
+
+    python .\mre_code_tools\mre_generate_councilor_editor_button_effects.py
+
+Generate SCRIPTED TRIGGERS in the build folder starting with 40_
+
+    python .\mre_code_tools\mre_generate_councilor_editor_scripted_triggers.py
+
+Generate GUI RESET BUTTON SCRIPTED TRIGGER in the build folder starting with 50_
+
+    python .\mre_code_tools\mre_generate_councilor_editor_button_effects.py --reset-effect
+
+Generate SCRIPTED EFFECT (DETECT TRAIT PICKS) in the build folder starting with 40_
+
+    python.exe .\mre_code_tools\mre_generate_gui_traits_limits_effects.py
+
