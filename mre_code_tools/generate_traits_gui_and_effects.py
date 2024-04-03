@@ -447,8 +447,7 @@ containerWindowType = {{
 """
 
 def gen_core_modifying_button_effects_code(
-    leader_class, trait_name,
-    is_veteran_trait=False, is_destiny_trait=False,
+    leader_class, trait_name, rarity: str,
     required_subclass: str='', prerequisites: list = [],
     requires_paragon_dlc: bool=False
 ):
@@ -460,20 +459,9 @@ def gen_core_modifying_button_effects_code(
         trait_name_no_tier = trait_name.rsplit('_',1)[0]
     else:
         trait_name_no_tier = trait_name
-    # Veteran & destinty traits need slightly altered trigger names
-    alt_trigger_name = ""
-    if is_veteran_trait:
-        alt_trigger_name = "alt_"
-    elif is_destiny_trait:
-        alt_trigger_name = "alt_2_"
 
     # commend out skill level trigger if it's not a veteran trait
-    trait_class = "common"
-    if is_veteran_trait:
-        trait_class = "veteran"
-    elif is_destiny_trait:
-        trait_class = "destiny"
-    trait_comment = f"#{trait_class} trait"
+    trait_comment = f"#{rarity} trait"
 
     allowances = []
     allowances.append(f"custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_{leader_class}_{trait_name}")
@@ -482,11 +470,11 @@ def gen_core_modifying_button_effects_code(
             "xvcv_mdlc_core_modifying_requires_ruler_subclass_or_focus_trigger = "
             f"{{ CLASS = {leader_class} ID = {required_subclass} }}"
         )
-    allowances.append(f"xvcv_mdlc_core_modifying_trait_cost_{alt_trigger_name}trigger = yes")
-    allowances.append(f"xvcv_mdlc_core_modifying_trait_points_{alt_trigger_name}trigger = yes")
+    allowances.append(f"xvcv_mdlc_core_modifying_check_trait_resources_{rarity} = yes")
+    allowances.append(f"xvcv_mdlc_core_modifying_check_trait_points_cost_{rarity} = yes")
     # requires skill level trigger
-    if is_veteran_trait or is_destiny_trait:
-        allowances.append(f"xvcv_mdlc_core_modifying_trait_skill_level_{alt_trigger_name}trigger = yes")
+    if rarity in ['veteran', 'paragon']:
+        allowances.append(f"xvcv_mdlc_core_modifying_trait_skill_level_{rarity}_trigger = yes")
     allowances.append("xvcv_mdlc_core_modifying_check_trait_picks = yes")
     if requires_paragon_dlc:
         allowances.append("has_paragon_dlc = yes")
@@ -504,10 +492,10 @@ def gen_core_modifying_button_effects_code(
             f"xvcv_mdlc_core_modifying_remove_tier_1_or_2_traits_effect = {{ ID = {trait_name_no_tier} }}"
         )
     effects.append(
-        f"xvcv_mdlc_core_modifying_trait_pick_effect = {{ CLASS = {leader_class} ID = {trait_name} }}"
+        f"xvcv_mdlc_core_modifying_change_class_add_trait = {{ CLASS = {leader_class} ID = {trait_name} }}"
     )
     effects.append(
-        f"hidden_effect = {{ xvcv_mdlc_core_modifying_trait_add_{alt_trigger_name}effect = yes }}"
+        f"hidden_effect = {{ xvcv_mdlc_core_modifying_deduct_cost_points_picks_{rarity} = yes }}"
     )
 
     return f"""
@@ -532,7 +520,7 @@ xvcv_mdlc_core_modifying_traits_{leader_class}_{trait_name}_remove_button_effect
         custom_tooltip = xvcv_mdlc_core_modifying_tooltip_remove_{leader_class}_{trait_name}
         hidden_effect = {{
             ruler = {{ remove_trait = {trait_name} }}
-            xvcv_mdlc_core_modifying_trait_remove_{alt_trigger_name}effect = yes
+            xvcv_mdlc_core_modifying_refund_trait_points_picks_{rarity} = yes
         }}
     }}
 }}
