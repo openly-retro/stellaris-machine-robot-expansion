@@ -108,6 +108,12 @@ EXCLUDE_TRAITS_FROM_PARAGON_DLC = {
     "trait_ruler_battleship_focus":1,
     "leader_trait_fleet_logistician":1,
 }
+EXCLUDE_TRAITS_FROM_COUNCILOR_EDITOR = {
+    "leader_trait_adaptable_2":1,
+    "trait_ruler_eye_for_talent_2":1,
+    "leader_trait_resilient_2":1,
+    "leader_trait_gifted_2":1,
+}
 
 FILE_NUM_PREFIXES = {
     "yaml_to_json": "00",

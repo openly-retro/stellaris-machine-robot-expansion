@@ -329,7 +329,7 @@ xvcv_mdlc_leader_making_trait_commander_leader_trait_sweaty_palmfronds_3_add_but
 def test_gen_core_modifying_button_effects_code__has_tech_req():
     
     leader_trait_efficient_code = gen_core_modifying_button_effects_code(
-        "official", "leader_trait_efficient", is_destiny_trait=True,
+        "official", "leader_trait_efficient", "paragon",
         required_subclass="subclass_official_governor", requires_paragon_dlc=True,
         prerequisites=['pew_pew_beams_6']
     )
