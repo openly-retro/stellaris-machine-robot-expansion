@@ -829,6 +829,86 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 	}
 }
 
+# Make sure to call this with the RULER scope
+oxr_mdlc_core_modifying_bisect_useless_trait = {
+	optimize_memory
+	# The game is still allowing expertise traits to queue for ruler
+	set_variable = {
+		which = oxr_mdlc_core_modifying_bisected_traits_counts
+		value = 0
+	}
+	if = {
+		limit = { has_trait = leader_trait_expertise_archaeostudies }
+		remove_trait = leader_trait_expertise_archaeostudies
+		change_variable = { which = oxr_mdlc_core_modifying_bisected_traits_counts value = 1 }
+	}
+	if = {
+		limit = { has_trait = leader_trait_expertise_biology }
+		remove_trait = leader_trait_expertise_biology
+		change_variable = { which = oxr_mdlc_core_modifying_bisected_traits_counts value = 1 }
+	}
+	if = {
+		limit = { has_trait = leader_trait_expertise_computing }
+		remove_trait = leader_trait_expertise_computing
+		change_variable = { which = oxr_mdlc_core_modifying_bisected_traits_counts value = 1 }
+	}
+	if = {
+		limit = { has_trait = leader_trait_expertise_field_manipulation }
+		remove_trait = leader_trait_expertise_field_manipulation
+		change_variable = { which = oxr_mdlc_core_modifying_bisected_traits_counts value = 1 }
+	}
+	if = {
+		limit = { has_trait = leader_trait_expertise_industry }
+		remove_trait = leader_trait_expertise_industry
+		change_variable = { which = oxr_mdlc_core_modifying_bisected_traits_counts value = 1 }
+	}
+	if = {
+		limit = { has_trait = leader_trait_expertise_materials }
+		remove_trait = leader_trait_expertise_materials
+		change_variable = { which = oxr_mdlc_core_modifying_bisected_traits_counts value = 1 }
+	}
+	if = {
+		limit = { has_trait = leader_trait_expertise_military_theory }
+		remove_trait = leader_trait_expertise_military_theory
+		change_variable = { which = oxr_mdlc_core_modifying_bisected_traits_counts value = 1 }
+	}
+	if = {
+		limit = { has_trait = leader_trait_expertise_new_worlds }
+		remove_trait = leader_trait_expertise_new_worlds
+		change_variable = { which = oxr_mdlc_core_modifying_bisected_traits_counts value = 1 }
+	}
+	if = {
+		limit = { has_trait = leader_trait_expertise_particles }
+		remove_trait = leader_trait_expertise_particles
+		change_variable = { which = oxr_mdlc_core_modifying_bisected_traits_counts value = 1 }
+	}
+	if = {
+		limit = { has_trait = leader_trait_expertise_propulsion }
+		remove_trait = leader_trait_expertise_propulsion
+		change_variable = { which = oxr_mdlc_core_modifying_bisected_traits_counts value = 1 }
+	}
+	if = {
+		limit = { has_trait = leader_trait_expertise_psionics }
+		remove_trait = leader_trait_expertise_psionics
+		change_variable = { which = oxr_mdlc_core_modifying_bisected_traits_counts value = 1 }
+	}
+	if = {
+		limit = { has_trait = leader_trait_expertise_statecraft }
+		remove_trait = leader_trait_expertise_statecraft
+		change_variable = { which = oxr_mdlc_core_modifying_bisected_traits_counts value = 1 }
+	}
+	if = {
+		limit = { has_trait = leader_trait_expertise_voidcraft }
+		remove_trait = leader_trait_expertise_voidcraft
+		change_variable = { which = oxr_mdlc_core_modifying_bisected_traits_counts value = 1 }
+	}
+	# Now give credits for bisected traits
+	while = {
+		count = oxr_mdlc_core_modifying_bisected_traits_counts
+		change_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value = 1 }
+		change_variable = { which = xvcv_mdlc_core_modifying_trait_points_remaining value = 1 }
+	}
+}
 
 #and that ends here
 #or does it? (:
