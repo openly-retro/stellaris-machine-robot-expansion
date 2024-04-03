@@ -27,7 +27,7 @@ xvcv_mdlc_core_modifying_traits_official_trait_ruler_feedback_loop_2_add_button_
     }
     allow = {
         custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_official_trait_ruler_feedback_loop_2
-        xvcv_mdlc_core_modifying_check_trait_resources_common = yes
+        xvcv_mdlc_core_modifying_check_trait_resources_cost_common = yes
         xvcv_mdlc_core_modifying_check_trait_points_cost_common = yes
         xvcv_mdlc_core_modifying_check_trait_picks = yes
     }
@@ -57,8 +57,7 @@ xvcv_mdlc_core_modifying_traits_official_trait_ruler_feedback_loop_2_remove_butt
 def test_gen_core_modifying_button_effects_code__veteran_trait():
 
     leader_trait_frontier_spirit_3_code = gen_core_modifying_button_effects_code(
-        "official", "leader_trait_frontier_spirit_3", is_veteran_trait=True,
-        requires_paragon_dlc=True, required_subclass="subclass_official_diplomacy_councilor"
+        "official", "leader_trait_frontier_spirit_3", "veteran", required_subclass="subclass_official_diplomacy_councilor"
     )
 
     expected_effects_code = """
@@ -74,7 +73,6 @@ xvcv_mdlc_core_modifying_traits_official_leader_trait_frontier_spirit_3_add_butt
         xvcv_mdlc_core_modifying_check_trait_points_cost_veteran = yes
         xvcv_mdlc_core_modifying_trait_skill_level_veteran_trigger = yes
         xvcv_mdlc_core_modifying_check_trait_picks = yes
-        has_paragon_dlc = yes
     }
     effect = {
         xvcv_mdlc_core_modifying_remove_tier_1_or_2_traits_effect = { ID = leader_trait_frontier_spirit }
@@ -91,7 +89,7 @@ xvcv_mdlc_core_modifying_traits_official_leader_trait_frontier_spirit_3_remove_b
         custom_tooltip = xvcv_mdlc_core_modifying_tooltip_remove_official_leader_trait_frontier_spirit_3
         hidden_effect = {
             ruler = { remove_trait = leader_trait_frontier_spirit_3 }
-            xvcv_mdlc_core_modifying_trait_refund_points_picks_veteran = yes
+            xvcv_mdlc_core_modifying_refund_trait_points_picks_veteran = yes
         }
     }
 }

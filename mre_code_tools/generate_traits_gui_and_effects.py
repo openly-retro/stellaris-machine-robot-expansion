@@ -470,7 +470,7 @@ def gen_core_modifying_button_effects_code(
             "xvcv_mdlc_core_modifying_requires_ruler_subclass_or_focus_trigger = "
             f"{{ CLASS = {leader_class} ID = {required_subclass} }}"
         )
-    allowances.append(f"xvcv_mdlc_core_modifying_check_trait_resources_{rarity} = yes")
+    allowances.append(f"xvcv_mdlc_core_modifying_check_trait_resources_cost_{rarity} = yes")
     allowances.append(f"xvcv_mdlc_core_modifying_check_trait_points_cost_{rarity} = yes")
     # requires skill level trigger
     if rarity in ['veteran', 'paragon']:
