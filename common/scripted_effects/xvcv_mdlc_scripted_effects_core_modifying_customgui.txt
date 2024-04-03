@@ -95,7 +95,7 @@ xvcv_mdlc_core_modifying_clear_trait_variables_effect = {
 	}
 	#max traits number 
 	set_variable = {
-		which = xvcv_mdlc_core_modifying_trait_picks_remaining
+		which = xvcv_mdlc_core_modifying_trait_picks
 		value = @xvcv_mdlc_core_modifying_base_num_trait_picks
 	}
 	# Increase the number of trait points available, for T1 of this tech
@@ -106,7 +106,7 @@ xvcv_mdlc_core_modifying_clear_trait_variables_effect = {
 			value = 1
 		}
 		change_variable = {
-			which = xvcv_mdlc_core_modifying_trait_picks_remaining
+			which = xvcv_mdlc_core_modifying_trait_picks
 			value = 1
 		}
 	}
@@ -115,7 +115,7 @@ xvcv_mdlc_core_modifying_clear_trait_variables_effect = {
 	if = {
 		limit = { root = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 } }
 		change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = 1 }
-		change_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value = 1 }
+		change_variable = { which = xvcv_mdlc_core_modifying_trait_picks value = 1 }
 	}
 }
 ######################
@@ -132,7 +132,7 @@ xvcv_mdlc_core_modifying_trait_add_effect = {
 		which = xvcv_mdlc_core_modifying_trait_points
 		value = -1  # Not significant enough to use @xvcv_mdlc_core_modifying_common_trait_points_cost
 	}
-	change_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value = -1 }
+	change_variable = { which = xvcv_mdlc_core_modifying_trait_picks value = -1 }
 }
 xvcv_mdlc_core_modifying_trait_return_cost_effect = {
 	optimize_memory
@@ -166,7 +166,7 @@ xvcv_mdlc_core_modifying_trait_remove_effect = {
 		# For each trait removed, increment points and picks by 1
 		else = {
 			change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = 1 }
-			change_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value = 1 }
+			change_variable = { which = xvcv_mdlc_core_modifying_trait_picks value = 1 }
 		}
 	}
 }
@@ -178,7 +178,7 @@ xvcv_mdlc_core_modifying_trait_add_alt_effect = {
 	add_resource = { energy = -1 mult = @xvcv_mdlc_core_modifying_veteran_trait_cost }
 	add_resource = { alloys = -1 mult = @xvcv_mdlc_core_modifying_veteran_trait_cost }
 	change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = -2 }
-	change_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value = -1 }
+	change_variable = { which = xvcv_mdlc_core_modifying_trait_picks value = -1 }
 }
 
 xvcv_mdlc_core_modifying_trait_remove_alt_effect = {
@@ -204,7 +204,7 @@ xvcv_mdlc_core_modifying_trait_remove_alt_effect = {
 		xvcv_mdlc_core_modifying_clear_trait_variables_effect = yes
 		else = {
 			change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = 2 }
-			change_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value = 1 }
+			change_variable = { which = xvcv_mdlc_core_modifying_trait_picks value = 1 }
 		}
 	}
 }
@@ -226,7 +226,7 @@ xvcv_mdlc_core_modifying_trait_add_alt_2_effect = {
 		which = xvcv_mdlc_core_modifying_trait_points
 		value = -3
 	}
-	change_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value = -1 }
+	change_variable = { which = xvcv_mdlc_core_modifying_trait_picks value = -1 }
 }
 xvcv_mdlc_core_modifying_trait_remove_alt_2_effect = {
 	optimize_memory
@@ -262,7 +262,7 @@ xvcv_mdlc_core_modifying_trait_remove_alt_2_effect = {
 				value = 3
 			}
 			change_variable = {
-				which = xvcv_mdlc_core_modifying_trait_picks_remaining
+				which = xvcv_mdlc_core_modifying_trait_picks
 				value = 1
 			}
 		}
@@ -353,7 +353,7 @@ xvcv_mdlc_core_modifying_bisect_useless_trait = {
 	# Now give credits for bisected traits
 	while = {
 		count = xvcv_mdlc_core_modifying_bisected_traits_counts
-		change_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value = 1 }
+		change_variable = { which = xvcv_mdlc_core_modifying_trait_picks value = 1 }
 		change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = 1 }
 	}
 }
@@ -701,7 +701,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_army_veteran_2
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -713,7 +713,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_defence_engineer_2
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -725,7 +725,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_fleet_organizer_2
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -737,7 +737,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_politician_2
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -749,7 +749,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_principled_2
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -761,7 +761,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_retired_fleet_officer_2
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -773,7 +773,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_shipwright_2
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -785,7 +785,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_skirmisher_2
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -797,7 +797,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_spark_of_genius_2
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -809,7 +809,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_spycraft_2
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -821,7 +821,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = trait_ruler_champion_of_the_people_2
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -833,7 +833,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = trait_ruler_charismatic_2
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -845,7 +845,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = trait_ruler_feedback_loop_2
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -857,7 +857,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = trait_ruler_fertility_preacher_2
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -869,7 +869,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = trait_ruler_frontier_spirit
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -881,7 +881,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = trait_ruler_home_in_the_sky
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -893,7 +893,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = trait_ruler_industrialist_2
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -905,7 +905,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = trait_ruler_logistic_understanding_2
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -917,7 +917,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = trait_ruler_space_miner
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -929,7 +929,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = trait_ruler_warlike_2
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -941,7 +941,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_adventurous_spirit_3
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -953,7 +953,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_armada_logistician_3
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -965,7 +965,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_border_guard_3
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -977,7 +977,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_cartographer_3
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -989,7 +989,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_consul_general_3
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1001,7 +1001,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_courtroom_training_3
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1013,7 +1013,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_crew_trainer_3
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1025,7 +1025,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_cultural_focus_3
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1037,7 +1037,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_expeditionist_3
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1049,7 +1049,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_frontier_spirit_3
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1061,7 +1061,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_gale_speed_3
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1073,7 +1073,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_guardian_3
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1085,7 +1085,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_home_guard_3
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1097,7 +1097,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_inquisitive_3
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1109,7 +1109,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_intimidator_3
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1121,7 +1121,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_maniacal_3
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1133,7 +1133,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_overseer_3
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1145,7 +1145,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_reformer_3
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1157,7 +1157,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_science_communicator_3
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1169,7 +1169,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_shadow_broker_3
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1181,7 +1181,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_society_focus_3
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1193,7 +1193,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = trait_ruler_architectural_sense_3
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1205,7 +1205,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = trait_ruler_deep_connections_3
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1217,7 +1217,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = trait_ruler_expansionist_3
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1229,7 +1229,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = trait_ruler_fortifier_3
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1241,7 +1241,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = trait_ruler_from_the_ranks_3
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1253,7 +1253,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = trait_ruler_investor_3
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1265,7 +1265,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = trait_ruler_military_pioneer_3
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1277,7 +1277,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = trait_ruler_recruiter_3
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1289,7 +1289,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_armorer
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1301,7 +1301,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_aturion_organizer
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1313,7 +1313,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_bellicose
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1325,7 +1325,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_brilliant_shipwright
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1337,7 +1337,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_collective_wisdom
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1349,7 +1349,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_educator
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1361,7 +1361,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_great_researcher
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1373,7 +1373,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_knowledge_for_the_masses
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1385,7 +1385,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_master_bureaucrat
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1397,7 +1397,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_master_diplomat
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1409,7 +1409,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_maven_of_war
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1421,7 +1421,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_military_overseer
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1433,7 +1433,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_peacekeeper
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1445,7 +1445,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_spymaster
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1457,7 +1457,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_supreme_organizer
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {
@@ -1469,7 +1469,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {
 			ruler = {
                 has_trait = leader_trait_totalitarian
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
             }
 		}
         ruler = {

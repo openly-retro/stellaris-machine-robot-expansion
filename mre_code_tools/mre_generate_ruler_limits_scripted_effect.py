@@ -57,7 +57,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		limit = {{
 			ruler = {{
                 has_trait = {trait_name}
-			    check_variable = {{ which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }}
+			    check_variable = {{ which = xvcv_mdlc_core_modifying_trait_picks value > 0 }}
             }}
 		}}
         ruler = {{

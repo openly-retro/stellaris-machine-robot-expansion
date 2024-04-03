@@ -487,7 +487,7 @@ def gen_core_modifying_button_effects_code(
     # requires skill level trigger
     if is_veteran_trait or is_destiny_trait:
         allowances.append(f"xvcv_mdlc_core_modifying_trait_skill_level_{alt_trigger_name}trigger = yes")
-    allowances.append("xvcv_mdlc_core_modifying_trait_max_number_trigger = yes")
+    allowances.append("xvcv_mdlc_core_modifying_check_trait_picks = yes")
     if requires_paragon_dlc:
         allowances.append("has_paragon_dlc = yes")
     # Get fancy about picking up DLC requirements per trait

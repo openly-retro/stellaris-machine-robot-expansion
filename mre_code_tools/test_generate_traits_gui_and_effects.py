@@ -27,9 +27,9 @@ xvcv_mdlc_core_modifying_traits_official_trait_ruler_feedback_loop_2_add_button_
     }
     allow = {
         custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_official_trait_ruler_feedback_loop_2
-        xvcv_mdlc_core_modifying_trait_cost_trigger = yes
-        xvcv_mdlc_core_modifying_trait_points_trigger = yes
-        xvcv_mdlc_core_modifying_trait_max_number_trigger = yes
+        xvcv_mdlc_core_modifying_check_trait_resources_common_trigger = yes
+        xvcv_mdlc_core_modifying_check_trait_points_cost_common = yes
+        xvcv_mdlc_core_modifying_check_trait_picks = yes
     }
     effect = {
         xvcv_mdlc_core_modifying_remove_tier_1_or_2_traits_effect = { ID = trait_ruler_feedback_loop }
@@ -70,10 +70,10 @@ xvcv_mdlc_core_modifying_traits_official_leader_trait_frontier_spirit_3_add_butt
     allow = {
         custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_official_leader_trait_frontier_spirit_3
         xvcv_mdlc_core_modifying_requires_ruler_subclass_or_focus_trigger = { CLASS = official ID = subclass_official_diplomacy_councilor }
-        xvcv_mdlc_core_modifying_trait_cost_alt_trigger = yes
-        xvcv_mdlc_core_modifying_trait_points_alt_trigger = yes
-        xvcv_mdlc_core_modifying_trait_skill_level_alt_trigger = yes
-        xvcv_mdlc_core_modifying_trait_max_number_trigger = yes
+        xvcv_mdlc_core_modifying_check_trait_resources_cost_veteran = yes
+        xvcv_mdlc_core_modifying_check_trait_points_cost_veteran = yes
+        xvcv_mdlc_core_modifying_trait_skill_level_veteran_trigger = yes
+        xvcv_mdlc_core_modifying_check_trait_picks = yes
         has_paragon_dlc = yes
     }
     effect = {
@@ -115,10 +115,10 @@ xvcv_mdlc_core_modifying_traits_commander_leader_trait_bellicose_add_button_effe
     allow = {
         custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_commander_leader_trait_bellicose
         xvcv_mdlc_core_modifying_requires_ruler_subclass_or_focus_trigger = { CLASS = commander ID = subclass_commander_general }
-        xvcv_mdlc_core_modifying_trait_cost_alt_2_trigger = yes
-        xvcv_mdlc_core_modifying_trait_points_alt_2_trigger = yes
-        xvcv_mdlc_core_modifying_trait_skill_level_alt_2_trigger = yes
-        xvcv_mdlc_core_modifying_trait_max_number_trigger = yes
+        xvcv_mdlc_core_modifying_check_trait_resources_cost_paragon = yes
+        xvcv_mdlc_core_modifying_check_trait_points_cost_paragon = yes
+        xvcv_mdlc_core_modifying_trait_skill_level_paragon_trigger = yes
+        xvcv_mdlc_core_modifying_check_trait_picks = yes
         has_paragon_dlc = yes
     }
     effect = {
@@ -341,10 +341,10 @@ xvcv_mdlc_core_modifying_traits_official_leader_trait_efficient_add_button_effec
     allow = {
         custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_official_leader_trait_efficient
         xvcv_mdlc_core_modifying_requires_ruler_subclass_or_focus_trigger = { CLASS = official ID = subclass_official_governor }
-        xvcv_mdlc_core_modifying_trait_cost_alt_2_trigger = yes
-        xvcv_mdlc_core_modifying_trait_points_alt_2_trigger = yes
-        xvcv_mdlc_core_modifying_trait_skill_level_alt_2_trigger = yes
-        xvcv_mdlc_core_modifying_trait_max_number_trigger = yes
+        xvcv_mdlc_core_modifying_check_trait_resources_cost_paragon = yes
+        xvcv_mdlc_core_modifying_check_trait_points_cost_paragon = yes
+        xvcv_mdlc_core_modifying_trait_skill_level_paragon_trigger = yes
+        xvcv_mdlc_core_modifying_check_trait_picks = yes
         has_paragon_dlc = yes
         has_technology = pew_pew_beams_6
     }
