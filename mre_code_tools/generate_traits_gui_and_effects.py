@@ -447,12 +447,16 @@ containerWindowType = {{
 """
 
 def gen_core_modifying_button_effects_code(
-    leader_class, trait_name, rarity: str,
+    leader_class: str, trait_name: str, rarity: str,
     required_subclass: str='', prerequisites: list = [],
     requires_paragon_dlc: bool=False
 ):
     # This needs to generate two effects: add, and remove
     # xvcv_mdls_button_effects_core_modifying_traits_<LEADER_CLASS>_customgui.txt
+    if rarity not in ['paragon', 'common', 'veteran']:
+        raise ValueError(
+            f"{rarity} rarity must be one of paragon, common, veteran"
+        )
     trait_ends_in_num = trait_name[-1].isdigit()
     needs_remove_tier_num_trait_effect = True if trait_ends_in_num else False
     if trait_ends_in_num:
@@ -461,7 +465,7 @@ def gen_core_modifying_button_effects_code(
         trait_name_no_tier = trait_name
 
     # commend out skill level trigger if it's not a veteran trait
-    trait_comment = f"#{rarity} trait"
+    trait_comment = f"#{"destiny" if rarity == "paragon" else rarity} trait"
 
     allowances = []
     allowances.append(f"custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_{leader_class}_{trait_name}")

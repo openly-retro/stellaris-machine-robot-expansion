@@ -100,7 +100,7 @@ xvcv_mdlc_core_modifying_traits_official_leader_trait_frontier_spirit_3_remove_b
 def test_gen_core_modifying_button_effects_code__destiny_trait():
     
     leader_trait_bellicose_code = gen_core_modifying_button_effects_code(
-        "commander", "leader_trait_bellicose", is_destiny_trait=True,
+        "commander", "leader_trait_bellicose", "paragon",
         required_subclass="subclass_commander_general", requires_paragon_dlc=True
     )
 
@@ -133,7 +133,7 @@ xvcv_mdlc_core_modifying_traits_commander_leader_trait_bellicose_remove_button_e
         custom_tooltip = xvcv_mdlc_core_modifying_tooltip_remove_commander_leader_trait_bellicose
         hidden_effect = {
             ruler = { remove_trait = leader_trait_bellicose }
-            xvcv_mdlc_core_modifying_refund_points_picks_paragon = yes
+            xvcv_mdlc_core_modifying_refund_trait_points_picks_paragon = yes
         }
     }
 }
@@ -364,7 +364,7 @@ xvcv_mdlc_core_modifying_traits_official_leader_trait_efficient_remove_button_ef
         custom_tooltip = xvcv_mdlc_core_modifying_tooltip_remove_official_leader_trait_efficient
         hidden_effect = {
             ruler = { remove_trait = leader_trait_efficient }
-            xvcv_mdlc_core_modifying_refund_points_picks_paragon = yes
+            xvcv_mdlc_core_modifying_refund_trait_points_picks_paragon = yes
         }
     }
 }
