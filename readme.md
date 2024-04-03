@@ -174,3 +174,8 @@ Generate SCRIPTED EFFECT (DETECT TRAIT PICKS) in the build folder starting with 
 
     python.exe .\mre_code_tools\mre_generate_gui_traits_limits_effects.py
 
+## Localisation files
+
+Copy all english loc to other folders:
+
+    python .\mre_code_tools\mre_propagate_loc_files.py --source-language english

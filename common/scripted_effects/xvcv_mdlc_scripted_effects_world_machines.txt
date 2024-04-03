@@ -30,14 +30,17 @@ xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect = {
 	}
 
 	# Check if there are too many cooling districts
-	xvcv_mdlc_world_machines_calculate_cooling_district_offset = yes
-	if = {
-		limit = { xvcv_mdlc_world_machines_planet_needs_cooling_offset = yes }
-		xvcv_mdlc_world_machines_apply_cooling_offset = yes
-	}
-	else = {
-		xvcv_mdlc_world_machines_remove_cooling_offset = yes
-	}
+	# xvcv_mdlc_world_machines_calculate_cooling_district_offset = yes
+	# if = {
+	# 	limit = { xvcv_mdlc_world_machines_planet_needs_cooling_offset = yes }
+	# 	xvcv_mdlc_world_machines_apply_cooling_offset = yes
+	# }
+	# else = {
+	# 	xvcv_mdlc_world_machines_remove_cooling_offset = yes
+	# }
+
+	# Run this to take care of bugged planets
+	xvcv_mdlc_world_machines_remove_cooling_offset = yes
 	set_variable = {
 		which = xvcv_mdlc_world_machines_districts_current_output_for_display_var
 		value = 1
@@ -52,25 +55,25 @@ xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect = {
 		value = 100
 	}
 	# only tweak the output tooltip if there were changes to the cooling offset stuff
-	if = {
-		limit = { xvcv_mdlc_world_machines_planet_needs_cooling_offset = yes }
-		# Potentially change the tooltip % based on the cooling offset
-		# Copy over the offset which is in the 10s (1 vs 0.1)
-		set_variable = {
-			which = xvcv_mdlc_cooling_offset_total_tmp
-			value = xvcv_mdlc_cooling_offset_total
-		}
-		# Convert 1 (1 district needed) to 10 (10%)
-		multiply_variable = {
-			which = xvcv_mdlc_cooling_offset_total_tmp
-			value = 10
-		}
-		# Subtract tmp (10%) from display (110%) to get (100%)
-		subtract_variable = {
-			which = xvcv_mdlc_world_machines_districts_current_output_for_display_var
-			value = xvcv_mdlc_cooling_offset_total_tmp
-		}
-	}
+	# if = {
+	# 	limit = { xvcv_mdlc_world_machines_planet_needs_cooling_offset = yes }
+	# 	# Potentially change the tooltip % based on the cooling offset
+	# 	# Copy over the offset which is in the 10s (1 vs 0.1)
+	# 	set_variable = {
+	# 		which = xvcv_mdlc_cooling_offset_total_tmp
+	# 		value = xvcv_mdlc_cooling_offset_total
+	# 	}
+	# 	# Convert 1 (1 district needed) to 10 (10%)
+	# 	multiply_variable = {
+	# 		which = xvcv_mdlc_cooling_offset_total_tmp
+	# 		value = 10
+	# 	}
+	# 	# Subtract tmp (10%) from display (110%) to get (100%)
+	# 	subtract_variable = {
+	# 		which = xvcv_mdlc_world_machines_districts_current_output_for_display_var
+	# 		value = xvcv_mdlc_cooling_offset_total_tmp
+	# 	}
+	# }
 	# Check if non-resource districts need offsets (if output is below 0.0) and add them
 	xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = yes
 }

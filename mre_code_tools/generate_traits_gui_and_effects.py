@@ -483,7 +483,7 @@ def gen_core_modifying_button_effects_code(
             f"{{ CLASS = {leader_class} ID = {required_subclass} }}"
         )
     allowances.append(f"xvcv_mdlc_core_modifying_trait_cost_{alt_trigger_name}trigger = yes")
-    allowances.append(f"xvcv_mdlc_core_modifying_trait_points_{alt_trigger_name}trigger = yes")
+    allowances.append(f"xvcv_mdlc_core_modifying_trait_points_remaining_{alt_trigger_name}trigger = yes")
     # requires skill level trigger
     if is_veteran_trait or is_destiny_trait:
         allowances.append(f"xvcv_mdlc_core_modifying_trait_skill_level_{alt_trigger_name}trigger = yes")

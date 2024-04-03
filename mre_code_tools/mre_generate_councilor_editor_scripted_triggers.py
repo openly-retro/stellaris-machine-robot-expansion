@@ -31,6 +31,7 @@ from mre_common_vars import (
     FILE_NUM_PREFIXES,
     GESTALT_COUNCILOR_SOURCE_TRAITS_FILES,
     CODE_HEADER,
+    EXCLUDE_TRAITS_FROM_PARAGON_DLC,
 )
 
 """
@@ -77,6 +78,8 @@ oxr_mdlc_councilor_editor_check_can_use_reset_button = {
             for rarity in RARITIES:
                 for leader_trait in organized_traits_dict["councilor_editor_traits"][rarity]:
                     trait_name = [*leader_trait][0]
+                    if EXCLUDE_TRAITS_FROM_PARAGON_DLC.get(trait_name):
+                        print(f"Skipping {trait_name}...")
                     unsorted_traits[rarity].append(trait_name)
     conditional_limit = "            has_trait = {trait_name}"
     # Sort them all

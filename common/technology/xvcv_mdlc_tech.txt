@@ -81,11 +81,14 @@ xvcv_mdlc_tech_orbital_cracker_upgrade_1 = {
 	}
 }
 xvcv_mdlc_tech_orbital_cracker_upgrade_2 = {
-	cost = @tier4cost1
+	cost = @tier3cost3
 	area = engineering
-	tier = 4
+	tier = 3
 	category = { industry }
 	weight = @tier4weight1
+	prerequisites = {
+		"xvcv_mdlc_tech_orbital_cracker_upgrade_1"
+	}
 
 	potential = {
 		has_valid_civic = xvcv_mdlc_civic_planet_cracker
@@ -565,6 +568,41 @@ xvcv_mdlc_tech_abyss_patron_eater = {
 }
 #for 'xvcv_mdlc_ap_world_machines' ascension perk
 xvcv_mdlc_tech_world_machines_districts_produces = {
+	area = engineering
+	cost = @repeatableTechBaseCost
+	# cost_per_level = @repeatableTechLevelCost
+	tier = @repeatableTechTier
+	category = { industry }
+	# levels = 10 #5% x 10 = 50% #use '-1' value for infinite researching
+	weight = @repeatableTechWeight
+
+	potential = {
+		has_ascension_perk = xvcv_mdlc_ap_world_machines
+		any_owned_planet = { xvcv_mdlc_world_machines_planet_classes_trigger = yes }
+	}
+
+	weight_modifier = {
+		factor = @repatableTechFactor
+	}
+	
+	ai_weight = {
+		factor = 1.0
+	}
+
+	# weight_groups = {
+	# 	repeatable
+	# }
+	# mod_weight_if_group_picked = {
+	# 	repeatable = 0.01
+	# }
+	
+	modifier = {
+		xvcv_mdlc_world_machines_districts_produces_mult = 0.05
+	}
+}
+
+xvcv_mdlc_tech_world_machines_districts_produces_repeat = {
+	# icon = "GFX_xvcv_mdlc_tech_world_machines_districts_produces"
 	area = engineering
 	cost = @repeatableTechBaseCost
 	cost_per_level = @repeatableTechLevelCost

@@ -23,6 +23,7 @@ from mre_common_vars import (
     FILE_NUM_PREFIXES,
     GESTALT_COUNCILOR_SOURCE_TRAITS_FILES,
     CODE_HEADER,
+    EXCLUDE_TRAITS_FROM_PARAGON_DLC,
 )
 
 """
@@ -79,6 +80,9 @@ def iterate_traits_generate_gui_code_for_councilor(
         for leader_trait in organized_traits_dict["councilor_editor_traits"][rarity_level]:
             trait_name = [*leader_trait][0]
             root = leader_trait[trait_name]
+            if EXCLUDE_TRAITS_FROM_PARAGON_DLC.get(trait_name):
+                print(f"Skipping {trait_name}...")
+                continue
 
             if trait_req_subclass := root.get('required_subclass'):
                 if trait_req_subclass != councilor_subclass:
