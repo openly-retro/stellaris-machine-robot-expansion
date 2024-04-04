@@ -10,6 +10,7 @@ oxr_mdlc_councilor_editor_regulatory_leader_trait_army_veteran_2_add_button_effe
 		event_target:oxr_mdlc_councilor_editor_target = { NOT = { has_trait = leader_trait_army_veteran_2 } }
 	}
 	allow = {
+        custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_official_leader_trait_army_veteran_2
 		oxr_mdlc_councilor_editor_check_trait_resources_cost_common = yes
 		event_target:oxr_mdlc_councilor_editor_target = {
 			oxr_mdlc_councilor_editor_check_trait_points_cost_common = yes
@@ -81,6 +82,7 @@ oxr_mdlc_councilor_editor_regulatory_leader_trait_armada_logistician_3_add_butto
 		event_target:oxr_mdlc_councilor_editor_target = { NOT = { has_trait = leader_trait_armada_logistician_3 } }
 	}
 	allow = {
+		custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_official_leader_trait_armada_logistician_3
 		oxr_mdlc_councilor_editor_check_trait_resources_cost_veteran = yes
 		event_target:oxr_mdlc_councilor_editor_target = {
 			oxr_mdlc_councilor_editor_check_trait_points_cost_veteran = yes
