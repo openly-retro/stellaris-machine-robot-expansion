@@ -685,8 +685,7 @@ def iterate_traits_make_feature_button_effects_code(organized_traits_dict, for_c
                 feature_button_effects_code = gen_core_modifying_button_effects_code(
                     leader_class=for_class,
                     trait_name=trait_name,
-                    is_veteran_trait=(root.get('rarity')=="veteran"),
-                    is_destiny_trait=(root.get('rarity')=="paragon"),
+                    rarity=root['rarity'],
                     required_subclass=root.get('required_subclass', None),
                     prerequisites=root.get('prerequisites', [])
                 )
