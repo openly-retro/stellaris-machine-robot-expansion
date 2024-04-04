@@ -81,6 +81,7 @@ EXCLUDE_TRAITS_FROM_CORE_MODIFYING = {
     "trait_ruler_eye_for_talent_2":1,
     "leader_trait_resilient_2":1,
     "leader_trait_gifted_2":1,
+    "leader_trait_adventurous_spirit_3":1,
     "leader_trait_expertise_archaeostudies_3":1,
     "leader_trait_expertise_biology_3":1,
     "leader_trait_expertise_computing_3":1,
