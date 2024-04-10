@@ -72,7 +72,7 @@ def iterate_traits_generate_gui_code_for_councilor(
     gui_code_bloblist = [header,]
     trait_column_num = 1
     trait_row_num = 1
-    trait_row_length = 10
+    trait_row_length = 9
 
     # Iterate leader_making and core_modifying traits
     # check for "councilor" traits and exclude "ruler" traits
