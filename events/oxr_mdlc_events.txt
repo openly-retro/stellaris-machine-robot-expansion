@@ -185,3 +185,447 @@ leader_event = {
 	custom_gui = oxr_mdlc_councilor_editor_legion
 	option = { name = xvcv_mdlc_customgui.1.a }
 }
+
+country_event = {
+	id = oxr_mdlc.30
+	title = "Change vassal to machine empire"
+	desc = "Because vassal country templates default to non-gestalt"
+	is_triggered_only = yes
+	
+	immediate = {
+		set_origin = origin_default
+		clear_ethos = yes
+		copy_ethos_and_authority = from
+		copy_techs_from = {
+			target = from
+		}
+		from = {
+			add_intel = {
+				who = root
+				amount = 200
+			}
+		}
+		add_opinion_modifier = {
+			who = from
+			modifier = oxr_mdlc_ap_distributed_multikernel_vassal
+		}
+		change_government = {
+			authority = auth_machine_intelligence
+			civics = random
+			remove_invalid_civics = yes
+			cooldown = no
+		}
+		country_add_ethic = ethic_gestalt_consciousness
+		every_owned_leader = {
+			limit = {
+				is_event_leader = no
+				NOT = { has_ethic = ethic_gestalt_consciousness }
+			}
+			change_background_ethic = ethic_gestalt_consciousness
+		}
+		every_envoy = {
+			limit = {
+				is_event_leader = no
+				NOT = { has_ethic = ethic_gestalt_consciousness }
+			}
+			change_background_ethic = ethic_gestalt_consciousness
+		}
+		every_pool_leader = {
+			limit = {
+				is_event_leader = no
+				NOT = { has_ethic = ethic_gestalt_consciousness }
+			}
+		}
+		ruler = {
+			remove_all_traits = yes
+			add_trait_no_notify = leader_trait_ruler_machine_intelligence
+		}
+		country_create_gestalt_councilor = {
+			CLASS = official
+			COUNCIL_POS = councilor_gestalt_regulatory
+			DESC = councilor_gestalt_regulatory_desc
+		}
+		country_create_gestalt_councilor = {
+			CLASS = scientist
+			COUNCIL_POS = councilor_gestalt_cognitive
+			DESC = councilor_gestalt_cognitive_desc
+		}
+		country_create_gestalt_councilor = {
+			CLASS = commander
+			COUNCIL_POS = councilor_gestalt_legion
+			DESC = councilor_gestalt_legion_desc
+		}
+		country_create_gestalt_councilor = {
+			CLASS = official
+			COUNCIL_POS = councilor_gestalt_growth
+			DESC = councilor_gestalt_growth_desc
+		}
+		# Gib resources!
+		add_resource = {
+			energy = 10000
+			minerals = 10000
+			alloys = 8000
+			unity = 10000
+		}
+		# Planet changes, copied from mind integration AP event
+		every_owned_planet = {
+			if = {
+				limit = { has_building = building_colony_shelter }
+				remove_building = building_colony_shelter
+				add_building = building_deployment_post
+			}
+			if = {
+				limit = { has_modifier = slave_colony }
+				remove_modifier = slave_colony
+			}
+			if = {
+				limit = { has_modifier = resort_colony }
+				remove_modifier = resort_colony
+			}
+			if = {
+				limit = { has_modifier = penal_colony }
+				remove_modifier = penal_colony
+			}
+	
+			if = {
+				limit = { has_building = building_colony_shelter }
+				remove_building = building_colony_shelter
+				add_building = building_deployment_post
+			}
+			if = {
+				limit = { has_building = building_capital }
+				remove_building = building_capital
+				add_building = building_machine_capital
+			}			
+			if = {
+				limit = { has_building = building_major_capital }
+				remove_building = building_major_capital
+				add_building = building_machine_major_capital
+			}
+			if = {
+				limit = { has_building = building_system_capital }
+				remove_building = building_system_capital
+				add_building = building_machine_system_capital
+			}
+	
+			if = {
+				limit = { has_building = building_resort_capital }
+				remove_building = building_resort_capital
+				add_building = building_machine_capital
+			}
+			if = {
+				limit = { has_building = building_resort_major_capital }
+				remove_building = building_resort_major_capital
+				add_building = building_machine_system_capital
+			}
+			if = {
+				limit = { has_building = building_slave_capital }
+				remove_building = building_slave_capital
+				add_building = building_machine_capital
+			}
+			if = {
+				limit = { has_building = building_slave_major_capital }
+				remove_building = building_slave_major_capital
+				add_building = building_machine_system_capital
+			}
+	
+			if = {
+				limit = { has_building = building_robot_assembly_plant }
+				remove_building = building_robot_assembly_plant
+				add_building = building_machine_assembly_plant
+			}
+			if = {
+				limit = { has_building = building_robot_assembly_complex }
+				remove_building = building_robot_assembly_complex
+				add_building = building_machine_assembly_complex
+			}
+	
+			if = {
+				limit = { has_building = building_ministry_production }
+				remove_building = building_ministry_production
+				add_building = building_production_center
+			}
+			if = {
+				limit = { has_building = building_institute }
+				remove_building = building_institute
+				add_building = building_supercomputer
+			}
+	
+			if = {
+				limit = { has_building = building_clinic }
+				remove_building = building_clinic
+				add_building = building_uplink_node
+			}
+			if = {
+				limit = { has_building = building_hospital }
+				remove_building = building_hospital
+				add_building = building_network_junction
+			}
+	
+			while = {
+				limit = { has_building = building_factory_1 }
+				remove_building = building_factory_1
+				add_building = building_foundry_1
+			}
+			while = {
+				limit = { has_building = building_factory_2 }
+				remove_building = building_factory_2
+				add_building = building_foundry_2
+			}
+			while = {
+				limit = { has_building = building_factory_3 }
+				remove_building = building_factory_3
+				add_building = building_foundry_3
+			}
+	
+			if = {
+				limit = { has_building = building_noble_estates }
+				remove_building = building_noble_estates
+				add_building = xvcv_mdlc_building_uplink_node_facility
+			}
+			if = {
+				limit = { has_building = building_galactic_stock_exchange }
+				remove_building = building_galactic_stock_exchange
+				add_building = building_foundry_1
+			}
+	
+			if = {
+				limit = { has_building = building_psi_corps }
+				remove_building = building_psi_corps
+				add_building = building_sentinel_posts
+			}
+			while = {
+				limit = { has_building = building_precinct_house }
+				remove_building = building_precinct_house
+				add_building = building_sentinel_posts
+			}
+			while = {
+				limit = { has_building = building_hall_judgment }
+				remove_building = building_hall_judgment
+				add_building = building_sentinel_posts
+			}
+			while = {
+				limit = { has_building = building_overseer_homes }
+				remove_building = building_overseer_homes
+				add_building = building_sentinel_posts
+			}
+	
+			while = {
+				limit = { has_building = building_holo_theatres }
+				remove_building = building_holo_theatres
+				add_building = building_simulation_1
+			}
+			while = {
+				limit = { has_building = building_hyper_entertainment_forum }
+				remove_building = building_hyper_entertainment_forum
+				add_building = building_simulation_2
+			}
+	
+			while = {
+				limit = { has_building = building_commercial_zone }
+				remove_building = building_commercial_zone
+				add_building = building_foundry_2
+			}
+			while = {
+				limit = { has_building = building_commercial_megaplex }
+				remove_building = building_commercial_megaplex
+				add_building = building_foundry_3
+			}
+	
+			while = {
+				limit = { has_building = building_luxury_residence }
+				remove_building = building_luxury_residence
+				add_building = building_drone_storage
+			}
+			while = {
+				limit = { has_building = building_paradise_dome }
+				remove_building = building_paradise_dome
+				add_building = building_drone_megastorage
+			}
+			while = {
+				limit = { has_building = building_communal_housing }
+				remove_building = building_communal_housing
+				add_building = building_drone_storage
+			}
+			while = {
+				limit = { has_building = building_communal_housing_large }
+				remove_building = building_communal_housing_large
+				add_building = building_drone_megastorage
+			}
+			while = {
+				limit = { has_building = building_slave_huts }
+				remove_building = building_slave_huts
+				add_building = building_drone_megastorage
+			}
+			if = {
+				limit = { has_building = building_clone_vats }
+				remove_building = building_clone_vats
+			}
+			while = {
+				limit = { has_building = building_xeno_zoo }
+				remove_building = building_xeno_zoo
+				add_building = building_simulation_1
+			}
+	
+			while = {
+				limit = { has_building = building_bureaucratic_1 }
+				remove_building = building_bureaucratic_1
+				add_building = building_uplink_node
+			}
+			while = {
+				limit = { has_building = building_bureaucratic_2 }
+				remove_building = building_bureaucratic_2
+				add_building = building_network_junction
+			}
+			while = {
+				limit = { has_building = building_bureaucratic_3 }
+				remove_building = building_bureaucratic_3
+				add_building = building_system_conflux
+			}
+	
+			while = {
+				limit = { has_building = building_autochthon_monument }
+				remove_building = building_autochthon_monument
+				add_building = building_simulation_1
+			}
+			while = {
+				limit = { has_building = building_heritage_site }
+				remove_building = building_heritage_site
+				add_building = building_simulation_2
+			}
+			while = {
+				limit = { has_building = building_hypercomms_forum }
+				remove_building = building_hypercomms_forum
+				add_building = building_simulation_3
+			}
+			if = {
+				limit = { has_building = building_autocurating_vault }
+				remove_building = building_autocurating_vault
+				add_building = building_alpha_hub
+			}
+	
+			while = {
+				limit = { has_building = building_temple }
+				remove_building = building_temple
+				add_building = building_simulation_1
+			}
+			while = {
+				limit = { has_building = building_holotemple }
+				remove_building = building_holotemple
+				add_building = building_simulation_2
+			}
+			while = {
+				limit = { has_building = building_sacred_nexus }
+				remove_building = building_sacred_nexus
+				add_building = building_simulation_3
+			}
+			if = {
+				limit = { has_building = building_citadel_of_faith }
+				remove_building = building_citadel_of_faith
+				add_building = building_alpha_hub
+			}
+	
+			while = {
+				limit = { has_building = building_corporate_monument }
+				remove_building = building_corporate_monument
+				add_building = building_simulation_1
+			}
+			while = {
+				limit = { has_building = building_corporate_site }
+				remove_building = building_corporate_site
+				add_building = building_simulation_2
+			}
+			while = {
+				limit = { has_building = building_corporate_forum }
+				remove_building = building_corporate_forum
+				add_building = building_simulation_3
+			}
+			if = {
+				limit = { has_building = building_corporate_vault }
+				remove_building = building_corporate_vault
+				add_building = building_alpha_hub
+			}
+			planet_event = {
+				id = game_start.20
+			}
+			planet_event = {
+				id = game_start.21
+			}
+			planet_event = {
+				id = game_start.22
+			}
+		}
+		country_event = {
+			id = war_in_heaven.22
+		}
+		
+	}
+}
+
+
+# Add opinion modifier to newly created vassals
+country_event = {
+	id = oxr_mdlc.35
+	title = ""
+	desc = ""
+	is_triggered_only = yes
+	diplomatic = yes
+
+	# Releasing non-machine vassals isn't supported by me yet
+	# trigger = {
+	# 	is_machine_empire = yes
+	# }
+
+	immediate = {
+		add_opinion_modifier = {
+			who = from
+			modifier = oxr_mdlc_ap_distributed_multikernel_vassal
+		}
+	}
+}
+
+# Machine & Synth Leaders malfunction (per empire)
+# country_event = {
+# 	id = oxr_mdlc.100
+# 	title = "Leader Critical Malfunction"
+# 	desc = "§R[malfunctioning_leader.GetName]§! has ceased functioning due to planned obsolescence."
+# 	hide_window = yes
+# 	is_triggered_only = yes
+
+# 	immediate = {
+# 		if = {
+# 			limit = {
+# 				any_owned_leader = {
+# 					has_trait = oxr_mdlc_trait_planned_obsolescence
+# 					is_ruler = no
+# 				}
+# 			}
+# 			random_list = {
+# 				90 = { } # nothing happens
+# 				10 = {
+# 					modifier = { # Tradition: Self-Preservation Protocols
+# 						factor = 0.5
+# 						has_active_tradition = tr_synchronicity_self_preservation
+# 					}
+# 					modifier = { # Edict: Zro Additives (via Psionic Archive Relic)
+# 						factor = 0.5
+# 						has_edict = zro_crystal_machine
+# 					}
+# 					if = { # Machine Intelligence
+# 						limit = {
+# 							has_authority = auth_machine_intelligence
+# 						}
+# 						random_owned_leader = {
+# 							save_event_target_as = malfunctioning_leader
+# 							limit = { 
+# 								has_trait = oxr_mdlc_trait_planned_obsolescence
+# 								is_ruler = no
+# 							}
+# 							kill_leader = { show_notification = yes }
+# 						}
+# 					}
+# 				}
+# 			}
+# 		}
+# 	}		
+# }

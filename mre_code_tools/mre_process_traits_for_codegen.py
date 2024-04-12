@@ -33,6 +33,8 @@ from mre_common_vars import (
     TRAIT_MODIFIER_KEYS,
     TRAITS_TO_EXCLUDE,
     EXCLUDE_TRAITS_FROM_CORE_MODIFYING,
+    EXCLUDE_TRAITS_FROM_COUNCILOR_EDITOR,
+    EXCLUDE_TRAITS_FROM_PARAGON_DLC,
 )
 
 MODIFIER_VALUES_SUBSTITUTIONS = {
@@ -177,7 +179,10 @@ def filter_traits_by_mod_feature(traits_list: list) -> dict:
         if trait_qualifies_for_leader_making(root):
             leader_making_traits.append(trait)
         if trait_qualifies_for_councilor_editor(root):
-            councilor_editor_traits.append(trait)
+            if {**EXCLUDE_TRAITS_FROM_COUNCILOR_EDITOR, **EXCLUDE_TRAITS_FROM_PARAGON_DLC}.get(trait_name):
+                print(f"Skipped adding {trait_name} to the councilor editor traits because the game wont let us add it to councilors. :(")
+            else:
+                councilor_editor_traits.append(trait)
         if all([
             not trait_qualifies_for_core_modifying,
             not trait_qualifies_for_leader_making,

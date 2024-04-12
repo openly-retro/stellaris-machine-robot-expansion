@@ -81,6 +81,7 @@ EXCLUDE_TRAITS_FROM_CORE_MODIFYING = {
     "trait_ruler_eye_for_talent_2":1,
     "leader_trait_resilient_2":1,
     "leader_trait_gifted_2":1,
+    "leader_trait_adventurous_spirit_3":1,
     "leader_trait_expertise_archaeostudies_3":1,
     "leader_trait_expertise_biology_3":1,
     "leader_trait_expertise_computing_3":1,
@@ -107,6 +108,12 @@ EXCLUDE_TRAITS_FROM_PARAGON_DLC = {
     "trait_ruler_corvette_focus":1,   # no reason to add these to the mod
     "trait_ruler_battleship_focus":1,
     "leader_trait_fleet_logistician":1,
+}
+EXCLUDE_TRAITS_FROM_COUNCILOR_EDITOR = {
+    "leader_trait_adaptable_2":1,
+    "trait_ruler_eye_for_talent_2":1,
+    "leader_trait_resilient_2":1,
+    "leader_trait_gifted_2":1,
 }
 
 FILE_NUM_PREFIXES = {

@@ -24,7 +24,7 @@
 @xvcv_mdlc_core_modifying_destiny_trait_refund = 500
 
 
-xvcv_mdlc_core_modifying_trait_pick_effect = {
+xvcv_mdlc_core_modifying_change_class_add_trait = {
 	optimize_memory
 	custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_$CLASS$_$ID$
 	hidden_effect = {
@@ -90,23 +90,23 @@ xvcv_mdlc_core_modifying_clear_trait_variables_effect = {
 	optimize_memory
 	#max trait points
 	set_variable = {
-		which = xvcv_mdlc_core_modifying_trait_points_remaining
+		which = xvcv_mdlc_core_modifying_trait_points
 		value = @xvcv_mdlc_core_modifying_base_num_trait_points
 	}
 	#max traits number 
 	set_variable = {
-		which = xvcv_mdlc_core_modifying_trait_picks_remaining
+		which = xvcv_mdlc_core_modifying_trait_picks
 		value = @xvcv_mdlc_core_modifying_base_num_trait_picks
 	}
 	# Increase the number of trait points available, for T1 of this tech
 	if = {
 		limit = { root = { has_technology = xvcv_mdlc_tech_core_modifying_improvement } }
 		change_variable = {
-			which = xvcv_mdlc_core_modifying_trait_points_remaining
+			which = xvcv_mdlc_core_modifying_trait_points
 			value = 1
 		}
 		change_variable = {
-			which = xvcv_mdlc_core_modifying_trait_picks_remaining
+			which = xvcv_mdlc_core_modifying_trait_picks
 			value = 1
 		}
 	}
@@ -114,8 +114,8 @@ xvcv_mdlc_core_modifying_clear_trait_variables_effect = {
 	# Having T1 and T2 of this tech awards +2 trait points total
 	if = {
 		limit = { root = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 } }
-		change_variable = { which = xvcv_mdlc_core_modifying_trait_points_remaining value = 1 }
-		change_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value = 1 }
+		change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = 1 }
+		change_variable = { which = xvcv_mdlc_core_modifying_trait_picks value = 1 }
 	}
 }
 ######################
@@ -124,15 +124,15 @@ xvcv_mdlc_core_modifying_clear_trait_variables_effect = {
 ######################
 
 #for common traits
-xvcv_mdlc_core_modifying_trait_add_effect = {
+xvcv_mdlc_core_modifying_deduct_cost_points_picks_common = {
 	optimize_memory
 	add_resource = { energy = -1 mult = @xvcv_mdlc_core_modifying_common_trait_cost }
 	add_resource = { alloys = -1 mult = @xvcv_mdlc_core_modifying_common_trait_cost }
 	change_variable = {
-		which = xvcv_mdlc_core_modifying_trait_points_remaining
+		which = xvcv_mdlc_core_modifying_trait_points
 		value = -1  # Not significant enough to use @xvcv_mdlc_core_modifying_common_trait_points_cost
 	}
-	change_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value = -1 }
+	change_variable = { which = xvcv_mdlc_core_modifying_trait_picks value = -1 }
 }
 xvcv_mdlc_core_modifying_trait_return_cost_effect = {
 	optimize_memory
@@ -141,7 +141,8 @@ xvcv_mdlc_core_modifying_trait_return_cost_effect = {
 		alloys = @xvcv_mdlc_core_modifying_common_trait_refund
 	}
 }
-xvcv_mdlc_core_modifying_trait_remove_effect = {
+
+xvcv_mdlc_core_modifying_refund_trait_points_picks_common = {
 	optimize_memory
 	xvcv_mdlc_core_modifying_trait_return_cost_effect = yes
 	#xvcv_mdlc_core_modifying_trait_return_points_effect
@@ -150,37 +151,37 @@ xvcv_mdlc_core_modifying_trait_remove_effect = {
 		# Ex: with T2 of the core modifying improvement, refund up to 6 points
 		limit = {
 			OR = {
-				check_variable = { which = xvcv_mdlc_core_modifying_trait_points_remaining value > 6 }
+				check_variable = { which = xvcv_mdlc_core_modifying_trait_points value > 6 }
 				AND = {
 					NOT = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 }
-					check_variable = { which = xvcv_mdlc_core_modifying_trait_points_remaining value > 5 }
+					check_variable = { which = xvcv_mdlc_core_modifying_trait_points value > 5 }
 				}
 				AND = {
 					NOT = { has_technology = xvcv_mdlc_tech_core_modifying_improvement }
-					check_variable = { which = xvcv_mdlc_core_modifying_trait_points_remaining value > 4 }
+					check_variable = { which = xvcv_mdlc_core_modifying_trait_points value > 4 }
 				}
 			}
 		}
 		xvcv_mdlc_core_modifying_clear_trait_variables_effect = yes
 		# For each trait removed, increment points and picks by 1
 		else = {
-			change_variable = { which = xvcv_mdlc_core_modifying_trait_points_remaining value = 1 }
-			change_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value = 1 }
+			change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = 1 }
+			change_variable = { which = xvcv_mdlc_core_modifying_trait_picks value = 1 }
 		}
 	}
 }
 
 #VETERAN # Add/Remove points and picks
-xvcv_mdlc_core_modifying_trait_add_alt_effect = {
+xvcv_mdlc_core_modifying_deduct_cost_points_picks_veteran = {
 	optimize_memory
 	# add_resource = { energy = -500 alloys = -500 }
 	add_resource = { energy = -1 mult = @xvcv_mdlc_core_modifying_veteran_trait_cost }
 	add_resource = { alloys = -1 mult = @xvcv_mdlc_core_modifying_veteran_trait_cost }
-	change_variable = { which = xvcv_mdlc_core_modifying_trait_points_remaining value = -2 }
-	change_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value = -1 }
+	change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = -2 }
+	change_variable = { which = xvcv_mdlc_core_modifying_trait_picks value = -1 }
 }
 
-xvcv_mdlc_core_modifying_trait_remove_alt_effect = {
+xvcv_mdlc_core_modifying_refund_trait_points_picks_veteran = {
 	optimize_memory
 	xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes
 	#xvcv_mdlc_core_modifying_trait_return_points_alt_effect
@@ -189,21 +190,21 @@ xvcv_mdlc_core_modifying_trait_remove_alt_effect = {
 		# Ex: with T2 of the core modifying improvement, refund up to 6 points
 		limit = {
 			OR = {
-				check_variable = { which = xvcv_mdlc_core_modifying_trait_points_remaining value > 6 }
+				check_variable = { which = xvcv_mdlc_core_modifying_trait_points value > 6 }
 				AND = {
 					NOT = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 }
-					check_variable = { which = xvcv_mdlc_core_modifying_trait_points_remaining value > 5 }
+					check_variable = { which = xvcv_mdlc_core_modifying_trait_points value > 5 }
 				}
 				AND = {
 					NOT = { has_technology = xvcv_mdlc_tech_core_modifying_improvement }
-					check_variable = { which = xvcv_mdlc_core_modifying_trait_points_remaining value > 4 }
+					check_variable = { which = xvcv_mdlc_core_modifying_trait_points value > 4 }
 				}
 			}
 		}
 		xvcv_mdlc_core_modifying_clear_trait_variables_effect = yes
 		else = {
-			change_variable = { which = xvcv_mdlc_core_modifying_trait_points_remaining value = 2 }
-			change_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value = 1 }
+			change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = 2 }
+			change_variable = { which = xvcv_mdlc_core_modifying_trait_picks value = 1 }
 		}
 	}
 }
@@ -216,39 +217,39 @@ xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = {
 }
 
 #DESTINY # Add/Remove points and picks
-xvcv_mdlc_core_modifying_trait_add_alt_2_effect = {
+xvcv_mdlc_core_modifying_deduct_cost_points_picks_paragon = {
 	optimize_memory
 	# add_resource = { energy = -1000 alloys = -1000 }
 	add_resource = { energy = -1 mult = @xvcv_mdlc_core_modifying_destiny_trait_cost }
 	add_resource = { alloys = -1 mult = @xvcv_mdlc_core_modifying_destiny_trait_cost }
 	change_variable = {
-		which = xvcv_mdlc_core_modifying_trait_points_remaining
+		which = xvcv_mdlc_core_modifying_trait_points
 		value = -3
 	}
-	change_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value = -1 }
+	change_variable = { which = xvcv_mdlc_core_modifying_trait_picks value = -1 }
 }
-xvcv_mdlc_core_modifying_trait_remove_alt_2_effect = {
+xvcv_mdlc_core_modifying_refund_trait_points_picks_paragon = {
 	optimize_memory
-	xvcv_mdlc_core_modifying_trait_return_cost_alt_2_effect = yes
+	xvcv_mdlc_core_modifying_trait_refund_cost_paragon = yes
 	#xvcv_mdlc_core_modifying_trait_return_points_alt_2_effect
 	if = {
 		limit = {
 			OR = {
 				check_variable = {
-					which = xvcv_mdlc_core_modifying_trait_points_remaining
+					which = xvcv_mdlc_core_modifying_trait_points
 					value > 6
 				}
 				AND = {
 					NOT = {has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 }
 					check_variable = {
-						which = xvcv_mdlc_core_modifying_trait_points_remaining
+						which = xvcv_mdlc_core_modifying_trait_points
 						value > 5
 					}
 				}
 				AND = {
 					NOT = { has_technology = xvcv_mdlc_tech_core_modifying_improvement }
 					check_variable = {
-						which = xvcv_mdlc_core_modifying_trait_points_remaining
+						which = xvcv_mdlc_core_modifying_trait_points
 						value > @xvcv_mdlc_core_modifying_base_num_trait_points
 					}
 				}
@@ -257,17 +258,17 @@ xvcv_mdlc_core_modifying_trait_remove_alt_2_effect = {
 		xvcv_mdlc_core_modifying_clear_trait_variables_effect = yes
 		else = {
 			change_variable = {
-				which = xvcv_mdlc_core_modifying_trait_points_remaining
+				which = xvcv_mdlc_core_modifying_trait_points
 				value = 3
 			}
 			change_variable = {
-				which = xvcv_mdlc_core_modifying_trait_picks_remaining
+				which = xvcv_mdlc_core_modifying_trait_picks
 				value = 1
 			}
 		}
 	}
 }
-xvcv_mdlc_core_modifying_trait_return_cost_alt_2_effect = {
+xvcv_mdlc_core_modifying_trait_refund_cost_paragon = {
 	optimize_memory
 	add_resource = {
 		energy = @xvcv_mdlc_core_modifying_destiny_trait_refund
@@ -275,33 +276,422 @@ xvcv_mdlc_core_modifying_trait_return_cost_alt_2_effect = {
 	}
 }
 
-oxr_mdlc_core_modifying_deduct_trait_points_common = {
-	change_variable = { which = xvcv_mdlc_core_modifying_trait_points_remaining value = -1 }
-	event_target:xvcv_mdlc_core_modifying_empire_ruler = {
-		change_variable = { which = xvcv_mdlc_core_modifying_trait_points_remaining value = -1 }
+
+# Make sure to call this with the RULER scope
+xvcv_mdlc_core_modifying_bisect_useless_trait = {
+	optimize_memory
+	# The game is still allowing expertise traits to queue for ruler
+	set_variable = {
+		which = xvcv_mdlc_core_modifying_bisected_traits_counts
+		value = 0
 	}
-}
-oxr_mdlc_core_modifying_deduct_trait_points_veteran = {
-	change_variable = { which = xvcv_mdlc_core_modifying_trait_points_remaining value = -2 }
-	event_target:xvcv_mdlc_core_modifying_empire_ruler = {
-		change_variable = { which = xvcv_mdlc_core_modifying_trait_points_remaining value = -2 }
+	if = {
+		limit = { has_trait = leader_trait_expertise_archaeostudies }
+		remove_trait = leader_trait_expertise_archaeostudies
+		change_variable = { which = xvcv_mdlc_core_modifying_bisected_traits_counts value = 1 }
 	}
-}
-oxr_mdlc_core_modifying_deduct_trait_points_paragon = {
-	change_variable = { which = xvcv_mdlc_core_modifying_trait_points_remaining value = -3 }
-	# and duplicate on ruler scope
-	event_target:xvcv_mdlc_core_modifying_empire_ruler = {
-		change_variable = { which = xvcv_mdlc_core_modifying_trait_points_remaining value = -3 }
+	if = {
+		limit = { has_trait = leader_trait_expertise_biology }
+		remove_trait = leader_trait_expertise_biology
+		change_variable = { which = xvcv_mdlc_core_modifying_bisected_traits_counts value = 1 }
 	}
-}
-oxr_mdlc_core_modifying_deduct_trait_pick = {
-	change_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value = -1 }
-	# and duplicate on ruler scope
-	event_target:xvcv_mdlc_core_modifying_empire_ruler = {
-		change_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value = -1 }
+	if = {
+		limit = { has_trait = leader_trait_expertise_computing }
+		remove_trait = leader_trait_expertise_computing
+		change_variable = { which = xvcv_mdlc_core_modifying_bisected_traits_counts value = 1 }
+	}
+	if = {
+		limit = { has_trait = leader_trait_expertise_field_manipulation }
+		remove_trait = leader_trait_expertise_field_manipulation
+		change_variable = { which = xvcv_mdlc_core_modifying_bisected_traits_counts value = 1 }
+	}
+	if = {
+		limit = { has_trait = leader_trait_expertise_industry }
+		remove_trait = leader_trait_expertise_industry
+		change_variable = { which = xvcv_mdlc_core_modifying_bisected_traits_counts value = 1 }
+	}
+	if = {
+		limit = { has_trait = leader_trait_expertise_materials }
+		remove_trait = leader_trait_expertise_materials
+		change_variable = { which = xvcv_mdlc_core_modifying_bisected_traits_counts value = 1 }
+	}
+	if = {
+		limit = { has_trait = leader_trait_expertise_military_theory }
+		remove_trait = leader_trait_expertise_military_theory
+		change_variable = { which = xvcv_mdlc_core_modifying_bisected_traits_counts value = 1 }
+	}
+	if = {
+		limit = { has_trait = leader_trait_expertise_new_worlds }
+		remove_trait = leader_trait_expertise_new_worlds
+		change_variable = { which = xvcv_mdlc_core_modifying_bisected_traits_counts value = 1 }
+	}
+	if = {
+		limit = { has_trait = leader_trait_expertise_particles }
+		remove_trait = leader_trait_expertise_particles
+		change_variable = { which = xvcv_mdlc_core_modifying_bisected_traits_counts value = 1 }
+	}
+	if = {
+		limit = { has_trait = leader_trait_expertise_propulsion }
+		remove_trait = leader_trait_expertise_propulsion
+		change_variable = { which = xvcv_mdlc_core_modifying_bisected_traits_counts value = 1 }
+	}
+	if = {
+		limit = { has_trait = leader_trait_expertise_psionics }
+		remove_trait = leader_trait_expertise_psionics
+		change_variable = { which = xvcv_mdlc_core_modifying_bisected_traits_counts value = 1 }
+	}
+	if = {
+		limit = { has_trait = leader_trait_expertise_statecraft }
+		remove_trait = leader_trait_expertise_statecraft
+		change_variable = { which = xvcv_mdlc_core_modifying_bisected_traits_counts value = 1 }
+	}
+	if = {
+		limit = { has_trait = leader_trait_expertise_voidcraft }
+		remove_trait = leader_trait_expertise_voidcraft
+		change_variable = { which = xvcv_mdlc_core_modifying_bisected_traits_counts value = 1 }
+	}
+	# Now give credits for bisected traits
+	while = {
+		count = xvcv_mdlc_core_modifying_bisected_traits_counts
+		change_variable = { which = xvcv_mdlc_core_modifying_trait_picks value = 1 }
+		change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = 1 }
 	}
 }
 
+######################
+###     REWORK     ###
+######################
+
+# Charge resources
+xvcv_mdlc_core_modifying_deduct_trait_resources_cost_common = {
+	optimize_memory
+	add_resource = { energy = -1 mult = @xvcv_mdlc_core_modifying_common_trait_cost }
+	add_resource = { alloys = -1 mult = @xvcv_mdlc_core_modifying_common_trait_cost }
+}
+xvcv_mdlc_core_modifying_deduct_trait_resources_cost_veteran = {
+	optimize_memory
+	add_resource = { energy = -1 mult = @xvcv_mdlc_core_modifying_veteran_trait_cost }
+	add_resource = { alloys = -1 mult = @xvcv_mdlc_core_modifying_veteran_trait_cost }
+}
+xvcv_mdlc_core_modifying_deduct_trait_resources_cost_paragon = {
+	optimize_memory
+	add_resource = { energy = -1 mult = @xvcv_mdlc_core_modifying_destiny_trait_cost }
+	add_resource = { alloys = -1 mult = @xvcv_mdlc_core_modifying_destiny_trait_cost }
+}
+# Refund resources
+xvcv_mdlc_core_modifying_refund_trait_resources_cost_common = {
+	optimize_memory
+	add_resource = {
+		energy = @xvcv_mdlc_core_modifying_common_trait_refund
+		alloys = @xvcv_mdlc_core_modifying_common_trait_refund
+	}
+}
+xvcv_mdlc_core_modifying_refund_trait_resources_cost_veteran = {
+	optimize_memory
+	add_resource = {
+		energy = @xvcv_mdlc_core_modifying_veteran_trait_refund
+		alloys = @xvcv_mdlc_core_modifying_veteran_trait_refund
+	}
+}
+xvcv_mdlc_core_modifying_refund_trait_resources_cost_paragon = {
+	optimize_memory
+	add_resource = {
+		energy = @xvcv_mdlc_core_modifying_destiny_trait_cost
+		alloys = @xvcv_mdlc_core_modifying_destiny_trait_cost
+	}
+}
+xvcv_mdlc_core_modifying_deduct_trait_points_cost_common = {
+	# This variable change should happen on the ruler
+	log = "Deducting trait points for \\[This.GetName] ruler"
+	change_variable = {
+		which = xvcv_mdlc_core_modifying_trait_points
+		value = -1
+	}
+}
+xvcv_mdlc_core_modifying_deduct_trait_points_cost_veteran = {
+	# This variable change should happen on the ruler
+	optimize_memory
+	log = "Deducting trait points for \\[This.GetName] ruler"
+	change_variable = {
+		which = xvcv_mdlc_core_modifying_trait_points
+		value = -2
+	}
+}
+xvcv_mdlc_core_modifying_deduct_trait_points_cost_paragon = {
+	# This variable change should happen on the ruler
+	optimize_memory
+	log = "Deducting trait points for \\[This.GetName] councilor"
+	change_variable = {
+		which = xvcv_mdlc_core_modifying_trait_points
+		value = -3
+	}
+}
+xvcv_mdlc_core_modifying_reset_trait_points_default = {
+	# Used on GUI reset button, game start
+	optimize_memory
+	# must be called with ruler scope
+	set_variable = {
+		which = xvcv_mdlc_core_modifying_trait_points
+		value = @xvcv_mdlc_core_modifying_base_num_trait_points
+	}
+	# Increase the number of trait points available, for T1 of this tech
+	if = {
+		limit = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement } }
+		change_variable = {
+			which = xvcv_mdlc_core_modifying_trait_points
+			value = 1
+		}
+	}
+	# Give additional points for having T2, so it's a compound effect
+	# Having T1 and T2 of this tech awards +2 trait points total
+	if = {
+		limit = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 } }
+		change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = 1 }
+	}
+}
+xvcv_mdlc_core_modifying_refund_trait_points_cost_common = {
+	optimize_memory
+	if = {
+		# Refund trait points up to a certain level
+		# Ex: with T2 of the core modifying improvement, refund up to 6 points
+		limit = {
+			OR = {
+				check_variable = {
+					which = xvcv_mdlc_core_modifying_trait_points
+					value > @xvcv_mdlc_core_modifying_base_num_trait_points_t2
+				}
+				AND = {
+					NOT = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 } }
+					check_variable = {
+						which = xvcv_mdlc_core_modifying_trait_points
+						value > @xvcv_mdlc_core_modifying_base_num_trait_picks_t2
+					}
+				}
+				AND = {
+					NOT = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement } }
+					check_variable = {
+						which = xvcv_mdlc_core_modifying_trait_points
+						value > @xvcv_mdlc_core_modifying_base_num_trait_picks
+					}
+				}
+			}
+		}
+		# For each trait removed, increment points by 3
+		else = {
+			change_variable = {
+				which = xvcv_mdlc_core_modifying_trait_points
+				value = @xvcv_mdlc_core_modifying_common_trait_points_cost
+			}
+		}
+	}
+}
+xvcv_mdlc_core_modifying_refund_trait_points_cost_veteran = {
+	optimize_memory
+	if = {
+		# Refund trait points up to a certain level
+		# Ex: with T2 of the core modifying improvement, refund up to 6 points
+		limit = {
+			OR = {
+				check_variable = {
+					which = xvcv_mdlc_core_modifying_trait_points
+					value > @xvcv_mdlc_core_modifying_base_num_trait_points_t2
+				}
+				AND = {
+					NOT = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 } }
+					check_variable = {
+						which = xvcv_mdlc_core_modifying_trait_points
+						value > @xvcv_mdlc_core_modifying_base_num_trait_picks_t2
+					}
+				}
+				AND = {
+					NOT = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement } }
+					check_variable = {
+						which = xvcv_mdlc_core_modifying_trait_points
+						value > @xvcv_mdlc_core_modifying_base_num_trait_picks
+					}
+				}
+			}
+		}
+		# For each trait removed, increment points by 3
+		else = {
+			change_variable = {
+				which = xvcv_mdlc_core_modifying_trait_points
+				value = @xvcv_mdlc_core_modifying_veteran_trait_points_cost
+			}
+		}
+	}
+}
+xvcv_mdlc_core_modifying_refund_trait_points_cost_paragon = {
+	optimize_memory
+	if = {
+		# Refund trait points up to a certain level
+		# Ex: with T2 of the core modifying improvement, refund up to 6 points
+		limit = {
+			OR = {
+				check_variable = {
+					which = xvcv_mdlc_core_modifying_trait_points
+					value > @xvcv_mdlc_core_modifying_base_num_trait_points_t2
+				}
+				AND = {
+					NOT = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 } }
+					check_variable = {
+						which = xvcv_mdlc_core_modifying_trait_points
+						value > @xvcv_mdlc_core_modifying_base_num_trait_picks_t2
+					}
+				}
+				AND = {
+					NOT = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement } }
+					check_variable = {
+						which = xvcv_mdlc_core_modifying_trait_points
+						value > @xvcv_mdlc_core_modifying_base_num_trait_picks
+					}
+				}
+			}
+		}
+		# For each trait removed, increment points by 3
+		else = {
+			change_variable = {
+				which = xvcv_mdlc_core_modifying_trait_points
+				value = @xvcv_mdlc_core_modifying_destiny_trait_points_cost
+			}
+		}
+	}
+}
+
+### TRAIT PICKS ###
+xvcv_mdlc_core_modifying_deduct_trait_pick = {
+	change_variable = {
+		which = xvcv_mdlc_core_modifying_trait_picks
+		value = -1
+	}
+}
+xvcv_mdlc_core_modifying_refund_trait_pick = {
+	if = {
+		# Refund trait points up to a certain level
+		# No t1 or t2 tech = max is 3
+		# no t2 tech = max is 4
+		# with t2 = max = 5
+		limit = {
+			OR = {
+				AND = {
+					NOT = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 } }
+					NOT = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement } }
+					check_variable = {
+						which = xvcv_mdlc_core_modifying_trait_picks
+						value < @xvcv_mdlc_core_modifying_base_num_trait_picks
+					}
+				}
+				AND = {
+					NOT = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 } }
+					from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement }
+					check_variable = {
+						which = xvcv_mdlc_core_modifying_trait_picks
+						value < @xvcv_mdlc_core_modifying_base_num_trait_picks_t1
+					}
+				}
+				AND = {
+					from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 }
+					check_variable = {
+						which = xvcv_mdlc_core_modifying_trait_picks
+						value < @xvcv_mdlc_core_modifying_base_num_trait_picks_t2
+					}
+				}
+			}
+		}
+		change_variable = {
+			which = xvcv_mdlc_core_modifying_trait_picks
+			value = 1
+		}
+	}
+}
+xvcv_mdlc_core_modifying_reset_trait_picks_default = {
+	# Used on GUI reset button, game start
+	optimize_memory
+	# must be called with councilor leader scope
+	set_variable = {
+		which = xvcv_mdlc_core_modifying_trait_picks
+		value = @xvcv_mdlc_core_modifying_base_num_trait_picks
+	}
+	# Increase the number of trait points available, for T1 of this tech
+	if = {
+		limit = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement } }
+		change_variable = {
+			which = xvcv_mdlc_core_modifying_trait_picks
+			value = 1
+		}
+	}
+	# Give additional points for having T2, so it's a compound effect
+	# Having T1 and T2 of this tech awards +2 trait points total
+	if = {
+		limit = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 } }
+		change_variable = { which = xvcv_mdlc_core_modifying_trait_picks value = 1 }
+	}
+}
+xvcv_mdlc_core_modifying_remove_tier_1_or_2_traits_effect = {
+	# Edited from core-modifying effect as it was hardcoded to ruler
+	# Adding the T2 version of a T1 replaces the T1; same for T3 which replaces T2 and T1
+	optimize_memory
+	hidden_effect = {
+		if = {
+			limit = { has_trait = $TRAIT_NAME$ }
+			remove_trait = $TRAIT_NAME$
+		}
+		if = {
+			limit = { has_trait = $TRAIT_NAME$_2 }
+			remove_trait = $TRAIT_NAME$_2
+		}
+	}
+}
+
+### COUNTER
+xvcv_mdlc_core_modifying_set_max_trait_points_for_display = {
+	# Used on GUI reset button, game start
+	optimize_memory
+	# must be called with councilor leader scope
+	set_variable = {
+		which = xvcv_mdlc_core_modifying_max_trait_points
+		value = @xvcv_mdlc_core_modifying_base_num_trait_points
+	}
+	# Increase the number of trait points available, for T1 of this tech
+	if = {
+		limit = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement } }
+		change_variable = {
+			which = xvcv_mdlc_core_modifying_max_trait_points
+			value = 1
+		}
+	}
+	# Give additional points for having T2, so it's a compound effect
+	# Having T1 and T2 of this tech awards +2 trait points total
+	if = {
+		limit = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 } }
+		change_variable = { which = xvcv_mdlc_core_modifying_max_trait_points value = 1 }
+	}
+	log = "Set max trait points to \[This.xvcv_mdlc_core_modifying_max_trait_points]"
+}
+xvcv_mdlc_core_modifying_set_max_trait_picks_for_display = {
+	# Used on GUI reset button, game start
+	optimize_memory
+	# must be called with councilor leader scope
+	set_variable = {
+		which = xvcv_mdlc_core_modifying_max_trait_picks
+		value = @xvcv_mdlc_core_modifying_base_num_trait_picks
+	}
+	# Increase the number of trait points available, for T1 of this tech
+	if = {
+		limit = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement } }
+		change_variable = {
+			which = xvcv_mdlc_core_modifying_max_trait_picks
+			value = 1
+		}
+	}
+	# Give additional points for having T2, so it's a compound effect
+	# Having T1 and T2 of this tech awards +2 trait points total
+	if = {
+		limit = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 } }
+		change_variable = { which = xvcv_mdlc_core_modifying_max_trait_picks value = 1 }
+	}
+	log = "Set max trait picks to \[This.xvcv_mdlc_core_modifying_max_trait_picks]"
+}
 
 # Check what traits are already on the ruler, and deduct from total available trait picks + points
 oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
@@ -309,604 +699,783 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_army_veteran_2 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_army_veteran_2
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_defence_engineer_2 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_defence_engineer_2
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_fleet_organizer_2 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_fleet_organizer_2
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_politician_2 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_politician_2
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_principled_2 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_principled_2
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_retired_fleet_officer_2 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_retired_fleet_officer_2
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_shipwright_2 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_shipwright_2
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_skirmisher_2 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_skirmisher_2
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_spark_of_genius_2 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_spark_of_genius_2
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_spycraft_2 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_spycraft_2
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = trait_ruler_champion_of_the_people_2 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = trait_ruler_champion_of_the_people_2
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = trait_ruler_charismatic_2 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = trait_ruler_charismatic_2
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = trait_ruler_feedback_loop_2 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = trait_ruler_feedback_loop_2
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = trait_ruler_fertility_preacher_2 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = trait_ruler_fertility_preacher_2
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = trait_ruler_frontier_spirit }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = trait_ruler_frontier_spirit
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = trait_ruler_home_in_the_sky }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = trait_ruler_home_in_the_sky
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = trait_ruler_industrialist_2 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = trait_ruler_industrialist_2
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = trait_ruler_logistic_understanding_2 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = trait_ruler_logistic_understanding_2
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = trait_ruler_space_miner }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = trait_ruler_space_miner
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = trait_ruler_warlike_2 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = trait_ruler_warlike_2
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_common = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_adventurous_spirit_3 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_adventurous_spirit_3
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_armada_logistician_3 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_armada_logistician_3
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_border_guard_3 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_border_guard_3
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_cartographer_3 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_cartographer_3
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_consul_general_3 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_consul_general_3
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_courtroom_training_3 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_courtroom_training_3
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_crew_trainer_3 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_crew_trainer_3
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_cultural_focus_3 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_cultural_focus_3
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_expeditionist_3 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_expeditionist_3
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_frontier_spirit_3 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_frontier_spirit_3
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_gale_speed_3 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_gale_speed_3
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_guardian_3 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_guardian_3
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_home_guard_3 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_home_guard_3
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_inquisitive_3 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_inquisitive_3
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_intimidator_3 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_intimidator_3
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_maniacal_3 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_maniacal_3
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_overseer_3 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_overseer_3
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_reformer_3 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_reformer_3
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_science_communicator_3 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_science_communicator_3
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_shadow_broker_3 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_shadow_broker_3
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_society_focus_3 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_society_focus_3
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = trait_ruler_architectural_sense_3 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = trait_ruler_architectural_sense_3
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = trait_ruler_deep_connections_3 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = trait_ruler_deep_connections_3
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = trait_ruler_expansionist_3 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = trait_ruler_expansionist_3
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = trait_ruler_fortifier_3 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = trait_ruler_fortifier_3
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = trait_ruler_from_the_ranks_3 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = trait_ruler_from_the_ranks_3
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = trait_ruler_investor_3 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = trait_ruler_investor_3
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = trait_ruler_military_pioneer_3 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = trait_ruler_military_pioneer_3
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = trait_ruler_recruiter_3 }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = trait_ruler_recruiter_3
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_armorer }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_armorer
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_paragon = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_paragon = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_aturion_organizer }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_aturion_organizer
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_paragon = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_paragon = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_bellicose }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_bellicose
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_paragon = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_paragon = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_brilliant_shipwright }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_brilliant_shipwright
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_paragon = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_paragon = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_collective_wisdom }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_collective_wisdom
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_paragon = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_paragon = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_educator }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_educator
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_paragon = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_paragon = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_great_researcher }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_great_researcher
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_paragon = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_paragon = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_knowledge_for_the_masses }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_knowledge_for_the_masses
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_paragon = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_paragon = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_master_bureaucrat }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_master_bureaucrat
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_paragon = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_paragon = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_master_diplomat }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_master_diplomat
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_paragon = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_paragon = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_maven_of_war }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_maven_of_war
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_paragon = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_paragon = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_military_overseer }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_military_overseer
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_paragon = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_paragon = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_peacekeeper }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_peacekeeper
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_paragon = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_paragon = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_spymaster }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_spymaster
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_paragon = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_paragon = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_supreme_organizer }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_supreme_organizer
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_paragon = yes
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_paragon = yes
+        }
 	}
 	if = {
 		limit = {
-			ruler = { has_trait = leader_trait_totalitarian }
-			check_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value > 0 }
+			ruler = {
+                has_trait = leader_trait_totalitarian
+			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+            }
 		}
-		oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		oxr_mdlc_core_modifying_deduct_trait_points_paragon = yes
-	}
-}
-
-# Make sure to call this with the RULER scope
-oxr_mdlc_core_modifying_bisect_useless_trait = {
-	optimize_memory
-	# The game is still allowing expertise traits to queue for ruler
-	set_variable = {
-		which = oxr_mdlc_core_modifying_bisected_traits_counts
-		value = 0
-	}
-	if = {
-		limit = { has_trait = leader_trait_expertise_archaeostudies }
-		remove_trait = leader_trait_expertise_archaeostudies
-		change_variable = { which = oxr_mdlc_core_modifying_bisected_traits_counts value = 1 }
-	}
-	if = {
-		limit = { has_trait = leader_trait_expertise_biology }
-		remove_trait = leader_trait_expertise_biology
-		change_variable = { which = oxr_mdlc_core_modifying_bisected_traits_counts value = 1 }
-	}
-	if = {
-		limit = { has_trait = leader_trait_expertise_computing }
-		remove_trait = leader_trait_expertise_computing
-		change_variable = { which = oxr_mdlc_core_modifying_bisected_traits_counts value = 1 }
-	}
-	if = {
-		limit = { has_trait = leader_trait_expertise_field_manipulation }
-		remove_trait = leader_trait_expertise_field_manipulation
-		change_variable = { which = oxr_mdlc_core_modifying_bisected_traits_counts value = 1 }
-	}
-	if = {
-		limit = { has_trait = leader_trait_expertise_industry }
-		remove_trait = leader_trait_expertise_industry
-		change_variable = { which = oxr_mdlc_core_modifying_bisected_traits_counts value = 1 }
-	}
-	if = {
-		limit = { has_trait = leader_trait_expertise_materials }
-		remove_trait = leader_trait_expertise_materials
-		change_variable = { which = oxr_mdlc_core_modifying_bisected_traits_counts value = 1 }
-	}
-	if = {
-		limit = { has_trait = leader_trait_expertise_military_theory }
-		remove_trait = leader_trait_expertise_military_theory
-		change_variable = { which = oxr_mdlc_core_modifying_bisected_traits_counts value = 1 }
-	}
-	if = {
-		limit = { has_trait = leader_trait_expertise_new_worlds }
-		remove_trait = leader_trait_expertise_new_worlds
-		change_variable = { which = oxr_mdlc_core_modifying_bisected_traits_counts value = 1 }
-	}
-	if = {
-		limit = { has_trait = leader_trait_expertise_particles }
-		remove_trait = leader_trait_expertise_particles
-		change_variable = { which = oxr_mdlc_core_modifying_bisected_traits_counts value = 1 }
-	}
-	if = {
-		limit = { has_trait = leader_trait_expertise_propulsion }
-		remove_trait = leader_trait_expertise_propulsion
-		change_variable = { which = oxr_mdlc_core_modifying_bisected_traits_counts value = 1 }
-	}
-	if = {
-		limit = { has_trait = leader_trait_expertise_psionics }
-		remove_trait = leader_trait_expertise_psionics
-		change_variable = { which = oxr_mdlc_core_modifying_bisected_traits_counts value = 1 }
-	}
-	if = {
-		limit = { has_trait = leader_trait_expertise_statecraft }
-		remove_trait = leader_trait_expertise_statecraft
-		change_variable = { which = oxr_mdlc_core_modifying_bisected_traits_counts value = 1 }
-	}
-	if = {
-		limit = { has_trait = leader_trait_expertise_voidcraft }
-		remove_trait = leader_trait_expertise_voidcraft
-		change_variable = { which = oxr_mdlc_core_modifying_bisected_traits_counts value = 1 }
-	}
-	# Now give credits for bisected traits
-	while = {
-		count = oxr_mdlc_core_modifying_bisected_traits_counts
-		change_variable = { which = xvcv_mdlc_core_modifying_trait_picks_remaining value = 1 }
-		change_variable = { which = xvcv_mdlc_core_modifying_trait_points_remaining value = 1 }
+        ruler = {
+            oxr_mdlc_core_modifying_deduct_trait_pick = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_paragon = yes
+        }
 	}
 }
 

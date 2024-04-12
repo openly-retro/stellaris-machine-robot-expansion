@@ -195,6 +195,7 @@ oxr_mdlc_councilor_editor_{councilor_type}_{trait_name}_add_button_effect = {{
 		event_target:oxr_mdlc_councilor_editor_target = {{ NOT = {{ has_trait = {trait_name} }} }}
 	}}
 	allow = {{
+        custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_{leader_class}_{trait_name}
 		oxr_mdlc_councilor_editor_check_trait_resources_cost_{rarity} = yes
 		event_target:oxr_mdlc_councilor_editor_target = {{
 			oxr_mdlc_councilor_editor_check_trait_points_cost_{rarity} = yes
