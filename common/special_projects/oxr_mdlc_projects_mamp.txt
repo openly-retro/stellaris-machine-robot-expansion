@@ -28,13 +28,13 @@ special_project = {
 	}
 	on_success = {
 		# TODO: Make a fake mega and name it 'mamp research station'
-		create_research_station = {
-			owner = root
-			set_name = "M.A.M.P. Research Facility"
+		event_target:oxr_mdlc_mamp_cat_1_research_site = {
+			create_research_station = {
+				owner = root
+				# set_name = "M.A.M.P. Research Facility"
+			}
 		}
-		country_event = {
-			id = oxr_mdlc_mamp.3
-		}
+		country_event = { id = oxr_mdlc_mamp.3 }
 	}
 }
 # second in-space project
@@ -49,15 +49,14 @@ special_project = {
 		shipclass_science_ship = 1
 	}
 	on_success = {
-		country_event = {
-			id = oxr_mdlc_mamp.4
-		}
+		country_event = { id = oxr_mdlc_mamp.4 }
 	}
 }
 # Produce species, finish CAT 1 event chain
 special_project = {
 	key = OXR_MDLC_MAMP_CAT_1_THIRD_STAGE_GROWTH_PROJ
 	event_scope = country_event
+	event_chain = "oxr_mdlc_mamp_chain"
 	cost = 25000
 	tech_department = society_technology
 	on_success = {

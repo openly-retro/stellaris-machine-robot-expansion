@@ -11,9 +11,16 @@ country_event = {
 	desc = oxr_mdlc_mamp.1.desc
 	is_triggered_only = yes
 
-	trigger = { }
+	trigger = {
+		NOT = {
+			has_country_flag = oxr_mdlc_mamp_event_chain_started
+		}
+		is_machine_empire = yes
+		has_ascension_perk = oxr_mdlc_ap_mamp
+	}
 
 	immediate = {
+		set_country_flag = oxr_mdlc_mamp_event_chain_started
 		enable_special_project = {
 			name = OXR_MDLC_MAMP_CAT_1_FIRST_PROJECT
 		}
@@ -100,9 +107,6 @@ country_event = {
 	option = {
 		name = oxr_mdlc_mamp.3.option_1.name
 		allow = { always = yes }
-		hidden_effect = {
-			
-		}
 	}
 }
 # Conclusion of second in-space project
@@ -124,7 +128,8 @@ country_event = {
 		}
 	}
 	option = {
-		name = oxr_mdlc_mamp.5.option_1.name
+		name = oxr_mdlc_mamp.4.option_1.name
+		allow = { always = yes }
 	}
 }
 # Conclusion of special project to make species prototype
@@ -141,5 +146,9 @@ country_event = {
 		hidden_effect = {
 			create_mamp_cat1_species = yes
 		}
+	}
+	option = {
+		name = oxr_mdlc_mamp.5.option_1.name
+		allow = { always = yes }
 	}
 }
