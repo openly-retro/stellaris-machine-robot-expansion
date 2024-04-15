@@ -1,0 +1,138 @@
+namespace = oxr_mdlc_mamp
+
+#############
+## M A M P ##
+#############
+
+# Beginning of MAMP event chain
+country_event = {
+	id = oxr_mdlc_mamp.1
+	title = oxr_mdlc_mamp.1.name
+	desc = oxr_mdlc_mamp.1.desc
+	is_triggered_only = yes
+
+	trigger = { }
+
+	immediate = {
+		enable_special_project = {
+			name = OXR_MDLC_MAMP_CAT_1_FIRST_PROJECT
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_event_chain = oxr_mdlc_mamp_chain
+				}
+			}
+			begin_event_chain = {
+				event_chain = oxr_mdlc_mamp_chain
+				target = this
+			}
+		}
+	}
+	option = {
+		name = oxr_mdlc_mamp.event_default_option.name
+		allow = { always = yes }
+	}
+}
+# Conclusion of first research project
+# Create a special project in space
+country_event = {
+	id = oxr_mdlc_mamp.2
+	title = oxr_mdlc_mamp.2.name
+	desc = oxr_mdlc_mamp.2.desc
+	is_triggered_only = yes
+
+	trigger = { }
+
+	immediate = {
+		from = {
+			random_system_within_border = {
+				limit = {
+					any_system_planet = {
+						OR = {
+							has_moon = yes
+							is_asteroid = yes
+						}
+					}
+				}
+				random_system_planet = {
+					limit = {
+						OR = {
+							is_asteroid = yes
+							is_moon = yes
+						}
+					}
+					save_global_event_target_as = oxr_mdlc_mamp_cat_1_research_site
+				}
+				event_target:oxr_mdlc_mamp_cat_1_research_site = {
+					enable_special_project = {
+						name = OXR_MDLC_MAMP_CAT_1_FIRST_SITE_PROJECT
+						location = this
+						owner = ROOT
+					}
+				}
+			}
+		}
+	}
+	option = {
+		name = oxr_mdlc_mamp.event_default_option.name
+		allow = { always = yes }
+	}
+}
+
+# Conclusion of first in-space project
+# Trigger second research project in space
+country_event = {
+	id = oxr_mdlc_mamp.3
+	title = oxr_mdlc_mamp.3.name
+	desc = oxr_mdlc_mamp.3.desc
+	is_triggered_only = yes
+	
+	immediate = {
+		event_target:oxr_mdlc_mamp_cat_1_research_site = {
+			enable_special_project = {
+				name = OXR_MDLC_MAMP_CAT_1_SECOND_SITE_PROJECT
+				location = this
+				owner = ROOT
+			}
+		}
+	}
+	option = {
+		name = oxr_mdlc_mamp.3.option_1.name
+		allow = { always = yes }
+		hidden_effect = {
+			
+		}
+	}
+}
+# Conclusion of second in-space project
+country_event = {
+	id = oxr_mdlc_mamp.4
+	title = oxr_mdlc_mamp.4.name
+	desc = oxr_mdlc_mamp.4.desc
+	is_triggered_only = yes
+
+	immediate = {
+		enable_special_project = {
+			name = OXR_MDLC_MAMP_CAT_1_THIRD_STAGE_GROWTH_PROJ
+		}
+	}
+	option = {
+		name = oxr_mdlc_mamp.4.option_1.name
+	}
+}
+# Conclusion of special project to make species prototype
+country_event = {
+	id = oxr_mdlc_mamp.5
+	title = oxr_mdlc_mamp.5.name
+	desc = oxr_mdlc_mamp.5.desc
+	is_triggered_only = yes
+
+	immediate = {
+		root = {
+			give_technology = {
+				tech = oxr_mdlc_tech_mamp_1
+			}
+		}
+	}
+}
