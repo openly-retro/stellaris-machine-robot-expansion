@@ -1,0 +1,25 @@
+can_be_leader = {
+	has_citizenship_rights = yes
+	NOT = { has_trait = trait_syncretic_proles }
+	NOT = { has_trait = oxr_mdlc_mamp_frame_base }  # MAMP Frames cannot be leaders
+	can_think = yes
+	OR = {
+		is_robot_pop = no
+		root = {
+			OR = {
+				has_technology = tech_synthetic_leaders
+				has_authority = auth_machine_intelligence
+				is_mechanical_empire = yes
+			}
+		}
+	}
+	OR = {
+		is_same_species = root
+		root = {
+			NAND = {
+				has_origin = origin_necrophage
+				has_trait = trait_necrophage
+			}
+		}
+	}
+}

@@ -1,0 +1,90 @@
+create_mamp_cat1_species = {
+	create_species = {
+		name = "NAME_Robot"
+		plural = "NAME_Robot_plural"
+		class = ROBOT
+		namelist = this
+		portrait = "default_robot"
+		traits = {
+			trait = "oxr_mdlc_mamp_frame_base"
+			trait = "oxr_mdlc_mamp_frame_1"
+		}
+		effect = {
+			set_species_flag = mechanical_species@prev
+			if = {
+				limit = {
+					prev = { use_robot_portrait_sd_hum_robot = yes }
+				}
+				change_species_portrait = sd_hum_robot
+			}
+			else_if = {
+				limit = {
+					prev = { use_robot_portrait_sd_mam_robot = yes }
+				}
+				change_species_portrait = sd_mam_robot
+			}
+			else_if = {
+				limit = {
+					prev = { use_robot_portrait_sd_rep_robot = yes }
+				}
+				change_species_portrait = sd_rep_robot
+			}
+			else_if = {
+				limit = {
+					prev = { use_robot_portrait_sd_avi_robot = yes }
+				}
+				change_species_portrait = sd_avi_robot
+			}
+			else_if = {
+				limit = {
+					prev = { use_robot_portrait_sd_art_robot = yes }
+				}
+				change_species_portrait = sd_art_robot
+			}
+			else_if = {
+				limit = {
+					prev = { use_robot_portrait_sd_mol_robot = yes }
+				}
+				change_species_portrait = sd_mol_robot
+			}
+			else_if = {
+				limit = {
+					prev = { use_robot_portrait_sd_fun_robot = yes }
+				}
+				change_species_portrait = sd_fun_robot
+			}
+			else_if = {
+				limit = {
+					prev = { use_robot_portrait_sd_pla_robot = yes }
+				}
+				change_species_portrait = sd_pla_robot
+			}
+			else_if = {
+				limit = {
+					prev = { use_robot_portrait_sd_lit_robot = yes }
+				}
+				change_species_portrait = lith_machine
+			}
+			else_if = {
+				limit = {
+					prev = { use_robot_portrait_sd_nec_robot = yes }
+				}
+				change_species_portrait = nec_machine
+			}
+			else_if = {
+				limit = {
+					prev = { use_robot_portrait_sd_aqu_robot = yes }
+				}
+				change_species_portrait = aqu_machine
+			}
+			else_if = {
+				limit = {
+					prev = { use_robot_portrait_sd_tox_robot = yes }
+				}
+				change_species_portrait = tox_machine
+			}
+		}
+	}
+	last_created_species = { save_global_event_target_as = oxr_mdlc_mamp_cat_1_pop_species }
+	set_built_species = last_created_species
+}
