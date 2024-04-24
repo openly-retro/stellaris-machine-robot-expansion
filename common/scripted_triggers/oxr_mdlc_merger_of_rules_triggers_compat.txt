@@ -1,0 +1,23 @@
+# These are used to override various game rules
+oxr_mdlc_can_release_vassal_from_species = {
+	has_trait = trait_machine_unit
+	prev.this = {
+		has_authority = auth_machine_intelligence
+		has_ascension_perk = oxr_mdlc_ap_distributed_multikernel
+		NOT = { has_civic = civic_machine_terminator }
+	}
+}
+oxr_mdlc_can_species_be_assembled = {
+	# Block planet assembly for MAMP frames
+	# Return 'yes' if the species has none of the following traits
+	NOT = { has_trait = oxr_mdlc_mamp_frame_base }
+}
+oxr_mdlc_can_be_leader = {
+	# Block leaders made from MAMP species
+	# Return 'yes' if the species doesn't have the mamp base trait
+	NOT = { has_trait = oxr_mdlc_mamp_frame_base } # MAMP Frames cannot be leaders
+}
+# Placeholder trigger to check if this mod has been loaded
+xvcv_mdlc_machines_robots_expac_continued = {
+	always = yes
+}
