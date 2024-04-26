@@ -21,13 +21,95 @@ can_release_vassal_from_species = {
 				}
 			}
 			AND = {
-				has_trait = trait_machine_unit
-				prev.this = {
-					has_authority = auth_machine_intelligence
-					has_ascension_perk = oxr_mdlc_ap_distributed_multikernel
-					NOT = { has_civic = civic_machine_terminator }
+				# Machines & Robot Expansion Continued
+				oxr_mdlc_can_release_vassal_from_species = yes
+			}
+		}
+	}
+}
+
+# Override to prevent MAMP pops from being assembled
+can_species_be_assembled = {
+	is_sapient = yes
+	NOT = {
+		has_trait = trait_exd
+	}
+	OR = {
+		AND = {
+			is_robotic = yes
+			root = {
+				check_modifier_value = {
+					modifier = planet_pop_assembly_add
+					value > 0
+				}
+			}
+			oxr_mdlc_can_species_be_assembled = yes
+		}
+		AND = {
+			is_organic_species = yes
+			if = {
+				limit = {
+					root.owner = { is_hive_empire = yes }
+				}
+				has_trait = trait_hive_mind
+			}
+			else_if = {
+				limit = { has_budding_trait = yes }
+				root = {
+					any_owned_species = { is_exact_same_species = prevprev }
+				}
+			}
+			else_if = {
+				limit = { has_trait = trait_tiyanki }
+				root = {
+					any_owned_species = { is_exact_same_species = prevprev }
+				}
+			}
+			else_if = {
+				limit = {
+					root.owner = {
+						has_tradition = tr_cybernetics_assembly_standards
+						has_policy_flag = roboticist_output_build_cyborgs
+					}
+				}
+				has_trait = trait_cybernetic
+			}
+			else_if = {
+				limit = {
+					OR = {
+						has_trait = trait_clone_soldier_infertile
+						has_trait = trait_clone_soldier_infertile_full_potential
+					}
+				}
+				root = {
+					# Event 'clones.3' should cover this, but extra safety check.
+					has_building = building_clone_army_clone_vat
+					NOT = {
+						check_variable = {
+							which = clone_pops_missing
+							value = 0
+						}
+					}
+				}
+			}
+			else = {
+				root = {
+					OR = {
+						has_building = building_clone_vats
+						has_modifier = tiyanki_trophy
+						owner = { has_modifier = syamelles_curse }
+						AND = {
+							has_building = building_posthumous_employment_center
+							owner = { has_civic = civic_permanent_employment }
+						}
+						has_planet_flag = can_organic_assemble_flag #for mod compatibility
+					}
 				}
 			}
 		}
+	}
+	has_population_control = {
+		type = no
+		country = root.owner
 	}
 }

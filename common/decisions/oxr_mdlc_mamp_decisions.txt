@@ -1,0 +1,51 @@
+oxr_mdlc_decision_mamp_construct_cat_1 = {
+	owned_planets_only = yes
+	enactment_time = 60
+
+	resources = {
+		category = decisions
+		cost = {
+			energy = 500
+			alloys = 250
+		}
+	}
+	potential = {
+		owner = {
+			is_machine_empire = yes
+			has_ascension_perk = oxr_mdlc_ap_mamp
+			has_technology = oxr_mdlc_tech_mamp_1
+		}
+		OR = {
+			has_building = oxr_mdlc_mamp_frame_factory_1
+			has_building = oxr_mdlc_mamp_frame_factory_2
+			has_building = oxr_mdlc_mamp_frame_factory_3
+		}
+	}
+	
+	allow = {
+		# TODO
+		# oxr_mdlc_mamp_planet_can_construct_cat1_frames = yes
+		num_pops > 1
+		# Have to be more than 1 non-MAMP pop
+		oxr_mdlc_mamp_planet_can_construct_cat1_frames = yes
+	}
+
+	effect = {
+		custom_tooltip = "Convert one Machine pop to M.A.M.P. Cat 1"
+		hidden_effect = {
+			random_owned_pop = {
+				limit = {
+					species = {
+						is_archetype = MACHINE
+						NOT = { is_archetype = OXR_MDLC_MAMP }
+					}
+					# NOT = { has_job_category = ruler }
+				}
+				kill_pop = yes
+			}
+			create_pop = {
+				species = event_target:oxr_mdlc_mamp_cat_1_pop_species
+			}
+		}
+	}
+}
