@@ -1,23 +1,8 @@
 # Call from planet scope
 oxr_mdlc_mamp_planet_can_construct_cat1_frames = {
 	optimize_memory
-	# set_variable = {
-	# 	which = oxr_mdlc_mamp_planet_cat1_frame_count
-	# 	value = value:count_cat_1_mamp_on_planet
-	# }
-	# set_variable = {
-	# 	which = oxr_mdlc_mamp_planet_non_mamp_pops_count
-	# 	value = value:count_non_mamp_non_bio_pops_on_planet
-	# }
-	
-	
 	custom_tooltip_fail = {
 		text = oxr_mdlc_mamp_planet_can_construct_cat1_frames.fail
-		# check_variable = {
-		# 	which = oxr_mdlc_mamp_planet_non_mamp_pops_count
-		# 	value < 2
-		# }
-		num_pops < 2
 		count_owned_pop = {
 			limit = {
 				species = {
@@ -27,5 +12,9 @@ oxr_mdlc_mamp_planet_can_construct_cat1_frames = {
 			}
 			count > 1
 		}
+	}
+	custom_tooltip_fail = {
+		text = oxr_mdlc_mamp_planet_decision_needs_1_pop.fail
+		num_pops > 1
 	}
 }
