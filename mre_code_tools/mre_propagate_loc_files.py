@@ -100,7 +100,7 @@ if __name__ == '__main__':
 
     for source_file in source_localisation_files:
         buffer = ''
-        with open(source_file, mode="r", encoding="utf-8") as stellaris_localisation_yaml:
+        with open(source_file, mode="r", encoding="utf-8-sig") as stellaris_localisation_yaml:
             buffer = stellaris_localisation_yaml.read()
         print(f"Starting copy from {os.path.basename(source_file)} to other localisations ...")
         for to_language in dest_languages:
