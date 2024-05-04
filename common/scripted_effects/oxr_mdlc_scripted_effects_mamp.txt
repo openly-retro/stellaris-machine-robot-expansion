@@ -1,3 +1,4 @@
+## Used in the last event of the cat1 species series
 create_mamp_cat1_species = {
 	create_species = {
 		name = "NAME_Mamp_Cat1"
@@ -93,7 +94,65 @@ create_mamp_cat1_species = {
 		save_global_event_target_as = oxr_mdlc_mamp_cat_1_pop_species
 	}
 	set_built_species = last_created_species
-	# event_target:oxr_mdlc_mamp_cat_1_pop_species = {
-	# 	oxr_mdlc_set_custom_species_habitability = yes
-	# }
+}
+# Used by auto-construction
+oxr_mdlc_mamp_create_cat1_from_pop_on_planet = {
+	# Planetary Scope. Trigger has already checked if we are OK to build a pop.
+	random_owned_pop = {
+		limit = {
+			species = {
+				is_archetype = MACHINE
+				NOT = { is_archetype = OXR_MDLC_MAMP }
+			}
+		}
+		kill_pop = yes
+	}
+	create_pop = {
+		species = event_target:oxr_mdlc_mamp_cat_1_pop_species
+	}
+}
+oxr_mdlc_mamp_empire_start_auto_construction = {
+	# Called when auto-construction has been activated
+	set_country_flag = oxr_mdlc_mamp_empire_auto_construction_active
+	every_owned_planet = {
+		limit = {
+			oxr_mdlc_mamp_planet_has_mamp_buildings = yes
+		}
+		if = {
+			limit = { 
+				oxr_mdlc_mamp_planet_can_auto_construct_frames = yes
+			}
+			# Set flag and trigger construction
+			# Flag is used for monthly pulse to check whether to try creating another mamp
+			set_planet_flag = oxr_mdlc_mamp_auto_construction_active
+			log = "Would start auto construction of MAMPs on planet [This.GetName]"
+		}
+		else = {
+			# Not enough machine pops?
+			# Is there already a MAMP under construction?
+			if = {
+				limit = {
+					oxr_mdlc_mamp_planet_has_minimum_machine_units = yes
+					oxr_mdlc_mamp_planet_is_currently_constructing_mamp = yes
+				}
+				# Set flag but don't trigger construction
+				set_planet_flag = oxr_mdlc_mamp_auto_construction_active
+			}
+		}
+	}
+}
+oxr_mdlc_mamp_empire_stop_auto_construction = {
+	remove_country_flag = oxr_mdlc_mamp_empire_auto_construction_active
+	every_owned_planet = {
+		limit = {
+			has_planet_flag = oxr_mdlc_mamp_auto_construction_active
+		}
+		remove_planet_flag = oxr_mdlc_mamp_auto_construction_active
+	}
+}
+oxr_mdlc_mamp_planet_stop_auto_construction = {
+	remove_planet_flag = oxr_mdlc_mamp_auto_construction_active
+}
+oxr_mdlc_mamp_planet_start_auto_construction = {
+
 }
