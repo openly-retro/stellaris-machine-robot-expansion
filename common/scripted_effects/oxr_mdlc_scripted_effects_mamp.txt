@@ -1,3 +1,5 @@
+@oxr_mdlc_mamp_cat_1_build_days = 60
+
 ## Used in the last event of the cat1 species series
 create_mamp_cat1_species = {
 	create_species = {
@@ -98,6 +100,7 @@ create_mamp_cat1_species = {
 # Used by auto-construction
 oxr_mdlc_mamp_create_cat1_from_pop_on_planet = {
 	# Planetary Scope. Trigger has already checked if we are OK to build a pop.
+	# Kill 1 pop now, build the mamp species in 60 days
 	random_owned_pop = {
 		limit = {
 			species = {
@@ -107,10 +110,12 @@ oxr_mdlc_mamp_create_cat1_from_pop_on_planet = {
 		}
 		kill_pop = yes
 	}
-	create_pop = {
-		species = event_target:oxr_mdlc_mamp_cat_1_pop_species
+	planet_event = {
+		id = oxr_mdlc_mamp.100
+		days = @oxr_mdlc_mamp_cat_1_build_days
 	}
 }
+
 oxr_mdlc_mamp_empire_start_auto_construction = {
 	# Called when auto-construction has been activated
 	set_country_flag = oxr_mdlc_mamp_empire_auto_construction_active
@@ -119,40 +124,135 @@ oxr_mdlc_mamp_empire_start_auto_construction = {
 			oxr_mdlc_mamp_planet_has_mamp_buildings = yes
 		}
 		if = {
+			# Set the flag that says "auto construction is on"
+			limit = {
+				NOT = { has_planet_flag = oxr_mdlc_mamp_auto_construction_enabled }
+			}
+			set_planet_flag = oxr_mdlc_mamp_auto_construction_enabled
+		}
+		if = {
 			limit = { 
 				oxr_mdlc_mamp_planet_can_auto_construct_frames = yes
+				oxr_mdlc_mamp_planet_is_currently_constructing_mamp = no
+				from = {
+					oxr_mdlc_mamp_empire_can_afford_cat_1 = yes
+				}
 			}
 			# Set flag and trigger construction
 			# Flag is used for monthly pulse to check whether to try creating another mamp
-			set_planet_flag = oxr_mdlc_mamp_auto_construction_active
 			log = "Would start auto construction of MAMPs on planet [This.GetName]"
+			oxr_mdlc_mamp_planet_start_auto_construction = yes
 		}
-		else = {
-			# Not enough machine pops?
-			# Is there already a MAMP under construction?
-			if = {
-				limit = {
-					oxr_mdlc_mamp_planet_has_minimum_machine_units = yes
-					oxr_mdlc_mamp_planet_is_currently_constructing_mamp = yes
-				}
-				# Set flag but don't trigger construction
-				set_planet_flag = oxr_mdlc_mamp_auto_construction_active
+	}
+	# Start an event loop that happens every 60 days
+	country_event = {
+		id = oxr_mdlc_mamp.200
+		days = 60
+	}
+}
+oxr_mdlc_mamp_empire_continuously_trigger_auto_construction = {
+	# Call AFTER auto-construction has been enabled empire-wide, each month
+	every_owned_planet = {
+		limit = {
+			oxr_mdlc_mamp_planet_has_mamp_buildings = yes
+		}
+		if = {
+			# Set the flag that says "auto construction is on"
+			limit = {
+				NOT = { has_planet_flag = oxr_mdlc_mamp_auto_construction_enabled }
 			}
+			set_planet_flag = oxr_mdlc_mamp_auto_construction_enabled
+		}
+		if = {
+			limit = { 
+				oxr_mdlc_mamp_planet_can_auto_construct_frames = yes
+				oxr_mdlc_mamp_planet_is_currently_constructing_mamp = no
+				from = {
+					oxr_mdlc_mamp_empire_can_afford_cat_1 = yes
+				}
+			}
+			# Set flag and trigger construction
+			# Flag is used for monthly pulse to check whether to try creating another mamp
+			log = "Would start auto construction of MAMPs on planet [This.GetName]"
+			oxr_mdlc_mamp_planet_start_auto_construction = yes
 		}
 	}
 }
+
+
 oxr_mdlc_mamp_empire_stop_auto_construction = {
-	remove_country_flag = oxr_mdlc_mamp_empire_auto_construction_active
+	remove_country_flag = oxr_mdlc_mamp_empire_auto_construction_enabled
 	every_owned_planet = {
 		limit = {
-			has_planet_flag = oxr_mdlc_mamp_auto_construction_active
+			has_planet_flag = oxr_mdlc_mamp_auto_construction_enabled
 		}
-		remove_planet_flag = oxr_mdlc_mamp_auto_construction_active
+		remove_planet_flag = oxr_mdlc_mamp_auto_construction_enabled
 	}
 }
 oxr_mdlc_mamp_planet_stop_auto_construction = {
-	remove_planet_flag = oxr_mdlc_mamp_auto_construction_active
+	remove_planet_flag = oxr_mdlc_mamp_auto_construction_enabled
 }
 oxr_mdlc_mamp_planet_start_auto_construction = {
+	if = {
+		limit = {
+			oxr_mdlc_mamp_planet_can_auto_construct_frames = yes
+			from = {
+				oxr_mdlc_mamp_empire_can_afford_cat_1 = yes
+			}
+		}
+		# Kill a pop now, and in 45 days, create a MAMP species
+		random_owned_pop = {
+			limit = {
+				species = {
+					is_archetype = MACHINE
+					NOT = { is_archetype = OXR_MDLC_MAMP }
+				}
+			}
+			kill_pop = yes
+		}
+		add_modifier = {
+			modifier = oxr_mdlc_mamp_auto_construction_active_cat_1
+			days = 60
+		}
+	}
+}
+# To be used by players, manually, at the planet-level
+oxr_mdlc_mamp_planet_disable_auto_construction = {
+	remove_planet_flag = oxr_mdlc_mamp_auto_construction_enabled
+	set_planet_flag = oxr_mdlc_mamp_auto_construction_disabled
+}
+oxr_mdlc_mamp_planet_enable_auto_construction = {
+	set_planet_flag = oxr_mdlc_mamp_auto_construction_enabled
+	remove_planet_flag = oxr_mdlc_mamp_auto_construction_disabled
+}
 
+oxr_mdlc_mamp_empire_auto_construction_select_cat_1 = {
+	remove_country_flag = oxr_mdlc_mamp_empire_auto_construction_select_cat_2
+	remove_country_flag = oxr_mdlc_mamp_empire_auto_construction_select_cat_3
+	remove_country_flag = oxr_mdlc_mamp_empire_auto_construction_select_best
+	set_country_flag = oxr_mdlc_mamp_empire_auto_construction_select_cat_1
+}
+oxr_mdlc_mamp_empire_auto_construction_select_cat_2 = {
+	remove_country_flag = oxr_mdlc_mamp_empire_auto_construction_select_cat_1
+	remove_country_flag = oxr_mdlc_mamp_empire_auto_construction_select_cat_3
+	remove_country_flag =  oxr_mdlc_mamp_empire_auto_construction_select_best
+	set_country_flag = oxr_mdlc_mamp_empire_auto_construction_select_cat_2
+}
+oxr_mdlc_mamp_empire_auto_construction_select_cat_3 = {
+	remove_country_flag = oxr_mdlc_mamp_empire_auto_construction_select_cat_1
+	remove_country_flag = oxr_mdlc_mamp_empire_auto_construction_select_cat_2
+	remove_country_flag = oxr_mdlc_mamp_empire_auto_construction_select_best
+	set_country_flag = oxr_mdlc_mamp_empire_auto_construction_select_cat_3
+}
+oxr_mdlc_mamp_empire_auto_construction_select_best = {
+	remove_country_flag = oxr_mdlc_mamp_empire_auto_construction_select_cat_1
+	remove_country_flag = oxr_mdlc_mamp_empire_auto_construction_select_cat_2
+	remove_country_flag = oxr_mdlc_mamp_empire_auto_construction_select_cat_3
+	set_country_flag = oxr_mdlc_mamp_empire_auto_construction_select_best
+}
+oxr_mdlc_mamp_empire_auto_construction_select_none = {
+	remove_country_flag = oxr_mdlc_mamp_empire_auto_construction_select_cat_1
+	remove_country_flag = oxr_mdlc_mamp_empire_auto_construction_select_cat_2
+	remove_country_flag = oxr_mdlc_mamp_empire_auto_construction_select_cat_3
+	remove_country_flag = oxr_mdlc_mamp_empire_auto_construction_select_best
 }

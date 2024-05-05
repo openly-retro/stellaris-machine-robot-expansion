@@ -144,10 +144,10 @@ country_event = {
 	}
 }
 
+## CONTINUOUS EVENTS
 planet_event = {
-	id = oxr_mdlc_mamp.10
-	title = "MAMP Pop created"
-	desc = ""
+	# Create a MAMP Cat 1 species
+	id = oxr_mdlc_mamp.100
 	is_triggered_only = yes
 	hide_window = yes
 
@@ -155,8 +155,129 @@ planet_event = {
 		create_pop = {
 			species = event_target:oxr_mdlc_mamp_cat_1_pop_species
 		}
-		fire_on_action = {
-			on_action = on_mamp_planet_auto_construction_finished
+		remove_planet_modifier = oxr_mdlc_mamp_auto_construction_active_cat_1
+		# fire_on_action = {
+		# 	on_action = on_mamp_planet_auto_construction_finished
+		# }
+	}
+}
+
+country_event = {
+	id = oxr_mdlc_mamp.200
+	is_triggered_only = yes
+	hide_window = yes
+
+	trigger = {
+		has_ascension_perk = oxr_mdlc_ap_mamp
+		has_country_flag = oxr_mdlc_mamp_empire_auto_construction_active
+	}
+
+	immediate = {
+		oxr_mdlc_mamp_empire_continuously_trigger_auto_construction = yes
+		country_event = {
+			id = oxr_mdlc_mamp.200
+			days = 60
 		}
+	}
+}
+
+country_event = {
+	id = oxr_mdlc_mamp.1000
+	title = oxr_mdlc_mamp.1000.title
+	desc = oxr_mdlc_mamp.1000.desc
+	is_triggered_only = yes
+
+	trigger = { }
+
+	option = {
+		name = "Activate empire-wide auto-construction of M.A.M.P. Frames"
+		trigger = {
+			has_ascension_perk = oxr_mdlc_ap_mamp
+		}
+		allow = {
+			NOT = { has_country_flag = oxr_mdlc_mamp_empire_auto_construction_active }
+		}
+		hidden_effect = {
+			set_country_flag = oxr_mdlc_mamp_empire_auto_construction_active
+			country_event = {
+				id = oxr_mdlc_mamp.1000
+			}
+		}
+	}
+	option = {
+		name = "Deactivate empire-wide auto-construction of M.A.M.P. Frames"
+		trigger = {
+			has_ascension_perk = oxr_mdlc_ap_mamp
+		}
+		allow = {
+			has_country_flag = oxr_mdlc_mamp_empire_auto_construction_active
+		}
+		hidden_effect = {
+			remove_country_flag = oxr_mdlc_mamp_empire_auto_construction_active
+			oxr_mdlc_mamp_empire_auto_construction_select_none = yes
+			country_event = {
+				id = oxr_mdlc_mamp.1000
+			}
+		}
+	}
+	option = {
+		name = "Program all M.A.M.P. bays to produce Cat 1 Frames"
+		trigger = {
+			has_ascension_perk = oxr_mdlc_ap_mamp
+			has_technology = oxr_mdlc_tech_mamp_1
+		}
+		allow = {
+			has_country_flag = oxr_mdlc_mamp_empire_auto_construction_active
+			NOT = {
+				has_country_flag = oxr_mdlc_mamp_empire_auto_construction_select_cat_1
+			}
+		}
+		hidden_effect = {
+			oxr_mdlc_mamp_empire_auto_construction_select_cat_1 = yes
+			country_event = {
+				id = oxr_mdlc_mamp.1000
+			}
+		}
+	}
+	option = {
+		name = "Program all M.A.M.P. bays to produce Cat 2 Frames"
+		trigger = {
+			has_technology = oxr_mdlc_tech_mamp_2
+		}
+		allow = {
+			has_country_flag = oxr_mdlc_mamp_empire_auto_construction_active
+			NOT = {
+				has_country_flag = oxr_mdlc_mamp_empire_auto_construction_select_cat_2
+			}
+		}
+		hidden_effect = {
+			oxr_mdlc_mamp_empire_auto_construction_select_cat_2 = yes
+			country_event = {
+				id = oxr_mdlc_mamp.1000
+			}
+		}
+	}
+	option = {
+		name = "Program all M.A.M.P. bays to produce Cat 3 Frames"
+		trigger = {
+			has_technology = oxr_mdlc_tech_mamp_3
+		}
+		allow = {
+			has_country_flag = oxr_mdlc_mamp_empire_auto_construction_active
+			NOT = {
+				has_country_flag = oxr_mdlc_mamp_empire_auto_construction_select_cat_3
+			}
+		}
+		hidden_effect = {
+			oxr_mdlc_mamp_empire_auto_construction_select_cat_3 = yes
+			country_event = {
+				id = oxr_mdlc_mamp.1000
+			}
+		}
+	}
+	option = {
+		name = "Close this window"
+		allow = { always = yes }
+		default_hide_option = yes
 	}
 }
