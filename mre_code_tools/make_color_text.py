@@ -3,19 +3,27 @@ import sys
 
 COLOR_CODES = {
     # https://steamcommunity.com/sharedfiles/filedetails/?id=1955978558
-    "blue": "§B",
-    "brown": "§L",
+    "blue": "§B",       # B = Blue, used in special cases for text.
+    "brown": "§L",      # L = Lore text, not relevant game info, just fun to know backstory info.
     "dark_orange": "§S",
-    "green": "§G",
+    "green": "§G",      # G = Green, used for numbers that are positive modifiers.
     "light_grey": "§T",
-    "light_red": "§P",
-    "orange": "§H",
-    "purple": "§M",
-    "red": "§R",
+    "light_red": "§P",  # P = Pink, Used for more subtle warnings instead of §R.
+    "orange": "§H",     # H = Highlight, Orange in Game.
+    "magenta": "§M",    # M = Magenta. Indicator for "Rare Techs".
+    "red": "§R",        # R = Red, used for numbers that are negative modifier or warnings.
     "teal": "§E",
-    "white": "§W",
-    "yellow": "§Y",
+    "white": "§W",      # W = White.
+    "yellow": "§Y",     # Y = Yellow, to be used for stuff that is sub optimal or for certain highlights.
+    "cyan": "§C",       # C = Cyan, Used for Concept Text that generates another tooltip.
+    "highlight": "§I",   # I = Highlights for Concepts.
+    "text": "§T",        # T = Text, standard for all text, to be used if ALL text needs tweaking.
+    "event": "§E",       # E = Standard green, used with large chunks of texts, such as events and advisor.
+    "green_light": "§S", # S = Subtitle highlight (light green in this case).
+    "green_dark": "§V",  # V = Dark Green, used for event text.
+    "gray": "§g",        # g = Grey.
 }
+
 CLOSE_CODE = "§!"
 
 def make_color_text(color, some_text: str) -> str:

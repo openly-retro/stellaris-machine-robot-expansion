@@ -84,8 +84,7 @@ oxr_mdlc_councilor_editor_deduct_points_picks_for_existing_traits = {
 {"\n".join(trait_limit_lines)}
 {scripted_trigger_footer}"""
 
-if __name__ == "__main__":
-    print("0xRetro Magic COde creat0r")
+def do_all_work():
     print("Making oxr_mdlc_councilor_editor_deduct_points_picks_for_existing_traits ...")
     scripted_trigger = gen_councilor_deduct_trait_pts_for_each_trait()
     with open(
@@ -96,3 +95,7 @@ if __name__ == "__main__":
     ) as outfile:
         outfile.write(scripted_trigger.encode('utf-8'))
         print(f"Done. Check {outfile.name}")
+
+if __name__ == "__main__":
+    print("0xRetro Magic COde creat0r")
+    do_all_work()
