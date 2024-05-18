@@ -2157,7 +2157,12 @@ country_event = {
 				homeworld = this.capital_scope
 				effect = {
 					if = {
-						limit = { prev = { has_authority = auth_machine_intelligence } }
+						limit = {
+							OR = {
+								root = { is_individual_machine = yes }
+								root = { has_authority = auth_machine_intelligence }
+							}
+						}
 						modify_species = {
 							add_trait = trait_machine_unit
 							change_scoped_species = no
@@ -2202,7 +2207,6 @@ country_event = {
 				limit = { is_same_species = last_created_species }
 				add_trait_no_notify = xvcv_mdlc_leader_trait_bio_robot
 			}
-			xvcv_mdlc_set_bio_robot_species_habitability = yes
 		}
 		ai_chance = { factor = 10 }
 	}
@@ -2223,7 +2227,12 @@ country_event = {
 					homeworld = prev.capital_scope
 					effect = {
 						if = {
-							limit = { prevprev = { has_authority = auth_machine_intelligence } }
+							limit = {
+								OR = {
+									root = { is_individual_machine = yes }
+									root = { has_authority = auth_machine_intelligence }
+								}
+							}
 							modify_species = {
 								add_trait = trait_machine_unit
 								change_scoped_species = no
@@ -2251,6 +2260,9 @@ country_event = {
 			last_created_species = {
 				save_global_event_target_as = xvcv_mdlc_bio_robot_species
 			}
+			event_target:xvcv_mdlc_bio_robot_species = {
+				oxr_mdlc_set_custom_species_habitability = yes
+			}
 			every_owned_pop = {
 				limit = { is_same_species = prev.species }
 				prev = { add_resource = { food = 12 } }
@@ -2267,7 +2279,14 @@ country_event = {
 			}
 			xvcv_mdlc_leader_tied_traits_add_effect = yes
 			xvcv_mdlc_leader_tied_traits_remove_effect = yes
-			xvcv_mdlc_set_bio_robot_species_habitability = yes
+			owner = {
+				set_country_flag = synthetic_empire
+				set_policy = {
+					policy = artificial_intelligence_policy
+					option = ai_full_rights
+					cooldown = yes
+				}
+			}
 		}
 	}
 }
