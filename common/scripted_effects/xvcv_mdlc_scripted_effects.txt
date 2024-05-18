@@ -381,3 +381,59 @@ xvcv_mdlc_iterate_leaders_level_up_classes_under_skill = {
 		add_skill_without_trait_selection = 1
 	}
 }
+# After Bio-Robot species is created, the habitability needs to be set
+xvcv_mdlc_set_bio_robot_species_habitability = {
+	optimize_memory
+	capital_scope = {
+		if = {
+			limit = { is_wet = yes }
+			event_target:xvcv_mdlc_bio_robot_species = {
+				modify_species = {
+					species = this
+					add_trait = trait_wet_planet_preference
+				}
+			}
+			owner = {
+				every_owned_pop = {
+					limit = {
+						is_same_species = event_target:xvcv_mdlc_bio_robot_species
+					}
+					add_trait = trait_wet_planet_preference
+				}
+			}
+		}
+		else_if = {
+			limit = { is_dry = yes }
+			event_target:xvcv_mdlc_bio_robot_species = {
+				modify_species = {
+					species = this
+					add_trait = trait_dry_planet_preference
+				}
+			}
+			owner = {
+				every_owned_pop = {
+					limit = {
+						is_same_species = event_target:xvcv_mdlc_bio_robot_species
+					}
+					add_trait = trait_dry_planet_preference
+				}
+			}
+		}
+		else_if = {
+			limit = { is_cold = yes }
+			event_target:xvcv_mdlc_bio_robot_species = {
+				modify_species = {
+					species = this
+					add_trait = trait_frozen_planet_preference
+				}
+			}
+			owner = {
+				every_owned_pop = {
+					limit = {
+						is_same_species = event_target:xvcv_mdlc_bio_robot_species
+					}
+					add_trait = trait_dry_planet_preference
+				}
+			}
+		}
+}

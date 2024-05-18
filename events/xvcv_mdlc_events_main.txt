@@ -2142,6 +2142,7 @@ country_event = {
 	}
 
 	option = {
+		# Create new bio-mech pops
 		name = xvcv_mdlc.41.a
 		custom_tooltip = xvcv_mdlc.41.a.tooltip
 		hidden_effect = {
@@ -2180,6 +2181,9 @@ country_event = {
 					}
 				}
 			}
+			last_created_species = {
+				save_global_event_target_as = xvcv_mdlc_bio_robot_species
+			}
 			every_owned_planet = { create_pop = { species = last_created_species } }
 			every_owned_pop = {
 				limit = { has_trait = xvcv_mdlc_trait_bio_robot }
@@ -2198,10 +2202,12 @@ country_event = {
 				limit = { is_same_species = last_created_species }
 				add_trait_no_notify = xvcv_mdlc_leader_trait_bio_robot
 			}
+			xvcv_mdlc_set_bio_robot_species_habitability = yes
 		}
 		ai_chance = { factor = 10 }
 	}
 	option = {
+		# Convert primary species to bio-mech
 		name = xvcv_mdlc.41.b
 		custom_tooltip = xvcv_mdlc.41.b.tooltip
 		hidden_effect = {
@@ -2242,6 +2248,9 @@ country_event = {
 					}
 				}
 			}
+			last_created_species = {
+				save_global_event_target_as = xvcv_mdlc_bio_robot_species
+			}
 			every_owned_pop = {
 				limit = { is_same_species = prev.species }
 				prev = { add_resource = { food = 12 } }
@@ -2258,6 +2267,7 @@ country_event = {
 			}
 			xvcv_mdlc_leader_tied_traits_add_effect = yes
 			xvcv_mdlc_leader_tied_traits_remove_effect = yes
+			xvcv_mdlc_set_bio_robot_species_habitability = yes
 		}
 	}
 }
@@ -2551,6 +2561,65 @@ country_event = {
 		every_owned_pop = {
 			limit = { species = { is_same_value = from } } #only 'this' sub-species should be affected #using 'is_same_species' changes all other sub-species of the main-species as well
 			change_species = last_created_species
+		}
+	}
+}
+country_event = {
+	id = xvcv_mdlc.46
+	title = "Specify Bio-Robot habitability"
+	desc = "In creating the new species, we must configure it "
+	is_triggered_only = yes
+
+	immediate = {
+		capital_scope = {
+			switch = {
+				trigger = is_planet_class
+				pc_desert = {
+					modify_species = {
+						
+					}
+				}
+				pc_arid = {
+					set_planet_entity = {
+						entity = arid_planet_earth_entity
+					}
+				}
+				pc_savannah = {
+					set_planet_entity = {
+						entity = savannah_planet_earth_entity
+					}
+				}
+				pc_tropical = {
+					set_planet_entity = {
+						entity = tropical_planet_earth_entity
+					}
+				}
+				pc_ocean = {
+					set_planet_entity = {
+						entity = ocean_planet_earth_entity
+					}
+				}
+				pc_continental = {
+					set_planet_entity = {
+						entity = continental_planet_earth_entity
+					}
+				}
+				pc_tundra = {
+					set_planet_entity = {
+						entity = tundra_planet_earth_entity
+					}
+				}
+				pc_arctic = {
+					set_planet_entity = {
+						entity = arctic_planet_earth_entity
+					}
+				}
+				pc_alpine = {
+					set_planet_entity = {
+						entity = alpine_planet_earth_entity
+					}
+				}
+			}
 		}
 	}
 }
