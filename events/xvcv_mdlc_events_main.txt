@@ -76,13 +76,13 @@ country_event = {
 				limit = { has_machine_age_dlc = yes }
 				country_event = {
 					id = xvcv_mdlc.1011
-					days = 1
+					days = 0
 				}
 			}
 			else = {
 				country_event = {
 					id = xvcv_mdlc.1010
-					days = 1
+					days = 0
 				}
 			}
 		}
@@ -3768,143 +3768,21 @@ country_event = {
 			set_country_flag = edict_optimized_identity_creation
 			set_country_flag = advanced_identity_creation
 			add_research_option = tech_identity_initialization
+			add_research_option = tech_identity_fusion
 		}
 		
 		# mix identities?
 		country_event = {
-			id = xvcv_mdlc.1013
+			id = xvcv_mdlc.1014
 		}
 	}
 }
-# Mimic synth.205
-# Choose enclaves or old town
-country_event = {
-	id = xvcv_mdlc.1012
-	hide_window = no
-	title = "synth.205.name"
-	desc = "How shall we look towards the past?"
-	is_triggered_only = yes
-	picture = GFX_evt_civil_action
 
-	trigger = {
-		xvcv_mdlc_synthetic_start_origin_trigger = yes
-	}
-
-	option = {
-		name = "synth.205.a.regular"
-		hidden_effect = {
-			capital_scope = {
-				add_deposit = d_old_towns
-				set_planet_flag = old_towns
-			}
-		}
-	}
-	option = {
-		name = "synth.205.a.spiritualist"
-		trigger = {
-			owner = { is_spiritualist = yes }
-		}
-		hidden_effect = {
-			capital_scope = {
-				add_deposit = d_old_towns
-				set_planet_flag = old_towns
-			}
-		}
-	}
-	option = {
-		name = "synth.205.a.memorialist"
-		trigger = {
-			owner = { is_memorialist_empire = yes }
-		}
-		capital_scope = {
-			add_deposit = d_old_towns
-			set_planet_flag = old_towns
-		}
-	}
-	option = {
-		name = "synth.205.b"
-		capital_scope = {
-			add_deposit = d_biological_enclaves
-			set_planet_flag = biological_enclaves
-		}
-	}
-}
-# mix identities?
-country_event = {
-	id = xvcv_mdlc.1013
-	hide_window = no
-	title = "synth.405.name"
-	desc = "synth.405.desc"
-	picture = GFX_evt_rare_tech_cache
-	is_triggered_only = yes
-
-	trigger = {
-		xvcv_mdlc_synthetic_start_origin_trigger = yes
-	}
-
-	option = {
-		name = "synth.405.a"
-		custom_tooltip = "synth.405.a.tt"
-		trigger = {
-			owner = {
-				is_memory_vault_empire = no
-			}
-		}
-		hidden_effect = {
-			owner = {
-				set_country_flag = advanced_identity_creation
-				add_research_option = tech_identity_fusion
-			}
-			country_event = {
-				id = xvcv_mdlc.1014
-			}
-		}
-	}
-	option = {
-		name = "synth.405.a.vault"
-		custom_tooltip = "synth.405.a.tt"
-		trigger = {
-			owner = {
-				is_memory_vault_empire = yes
-			}
-		}
-		owner = {
-			add_monthly_resource_mult = {
-				resource = unity
-				value = @tier2unityreward
-				min = @tier2unitymin
-				max = @tier2unitymax
-			}
-		}
-		hidden_effect = {
-			owner = {
-				set_country_flag = advanced_identity_creation
-				add_research_option = tech_identity_fusion
-			}
-			country_event = {
-				id = xvcv_mdlc.1014
-			}
-		}
-	}
-	option = {
-		name = "synth.405.b"
-		custom_tooltip = "synth.405.b.tt"
-		hidden_effect = {
-			owner = {
-				set_country_flag = advanced_identity_creation
-				add_research_option = tech_identity_initialization
-			}
-			country_event = {
-				id = xvcv_mdlc.1014
-			}
-		}
-	}
-}
 # end the origin stuff
 country_event = {
 	id = xvcv_mdlc.1014
-	title = "synth.4.name"
-	desc = "synth.4.desc"
+	title = xvcv_mdlc.1014.title
+	desc = xvcv_mdlc.1014.desc
 	picture = GFX_evt_synth_situation
 	is_triggered_only = yes
 
@@ -3915,7 +3793,7 @@ country_event = {
 		
 	}
 	option = {
-		name = "Let us proceed to rise to great heights."
+		name = xvcv_mdlc.1014.a.name
 		custom_tooltip = ""
 		hidden_effect = {}
 	}
