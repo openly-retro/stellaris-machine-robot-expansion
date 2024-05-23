@@ -399,67 +399,23 @@ trait_oxr_mdlc_pc_auto_world_specialist_preference = {
 # 	}
 # }
 
-# oxr_mdlc_trait_pc_ringworld_habitable_preference = {
-# 	icon = "gfx/interface/icons/traits/trait_pc_ring_preference.dds"
-# 	species_potential_add = {
-# 		always = no
-# 	}
-# 	species_possible_merge_add = {
-# 		always = yes
-# 	}
-# 	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT OXR_MDLC_MAMP }
-# 	sorting_priority = 30
-# 	modifier = {
-# 		pc_ringworld_habitable_habitability = 1.0
-# 	}
-# 	ai_weight = {
-# 		weight = 0
-# 	}
-# }
-
-# oxr_mdlc_trait_pc_habitat_preference = {
-# 	icon = "gfx/interface/icons/traits/trait_pc_habitat_preference.dds"
-# 	species_potential_add = {
-# 		can_change_habitability_preference = yes
-# 		hidden_trigger = { exists = from }
-# 		from = {
-# 			has_origin = origin_void_dwellers
-# 		}
-# 	}
-# 	species_possible_merge_add = {
-# 		always = yes
-# 	}
-# 	species_possible_remove = {
-# 		NOT = { has_trait = trait_void_dweller_1 }
-# 	}
-# 	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT OXR_MDLC_MAMP }
-# 	sorting_priority = 30
-# 	modifier = {
-# 		pc_habitat_habitability = @primary
-# 	}
-# 	ai_weight = {
-# 		weight = 0
-# 	}
-# }
-
-# oxr_mdlc_trait_pc_machine_preference = {
-# 	icon = "gfx/interface/icons/traits/trait_pc_machine_preference.dds"
-# 	species_potential_add = {
-# 		always = no
-# 	}
-# 	species_possible_merge_add = {
-# 		always = yes
-# 	}
-
-# 	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT OXR_MDLC_MAMP }
-# 	sorting_priority = 30
-# 	modifier = {
-# 		pc_machine_habitability = 1.0
-# 	}
-# 	ai_weight = {
-# 		weight = 0
-# 	}
-# }
+oxr_mdlc_trait_pc_ringworld_habitable_preference = {
+	icon = "gfx/interface/icons/traits/trait_pc_ring_preference.dds"
+	species_potential_add = {
+		always = no
+	}
+	species_possible_merge_add = {
+		always = yes
+	}
+	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT OXR_MDLC_MAMP }
+	sorting_priority = 30
+	modifier = {
+		pc_ringworld_habitable_habitability = 1.0
+	}
+	ai_weight = {
+		weight = 0
+	}
+}
 
 # oxr_mdlc_trait_pc_relic_preference = {
 # 	icon = "gfx/interface/icons/traits/trait_pc_relic_preference.dds"
@@ -594,5 +550,166 @@ oxr_mdlc_trait_frozen_planet_preference = {
 	}
 	ai_weight = {
 		weight = 0
+	}
+}
+oxr_mdlc_trait_machine_pc_shattered_ring_habitable_preference = {
+	icon = "gfx/interface/icons/traits/trait_pc_ring_preference.dds"
+	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT OXR_MDLC_MAMP }
+	bound_to_planet_classes = {
+		pc_shattered_ring_habitable
+	}
+	initial = no
+	randomized = no
+	species_potential_add = {
+		always = no
+	}
+	species_possible_merge_add = {
+		always = yes
+	}
+	sorting_priority = 30
+	modifier = {
+		pc_ringworld_habitable_habitability = 1.0
+	}
+	ai_weight = {
+		weight = 0
+	}
+}
+
+oxr_mdlc_trait_pc_habitat_preference = {
+	icon = "gfx/interface/icons/traits/trait_pc_habitat_preference.dds"
+	species_potential_add = {
+		hidden_trigger = { exists = from }
+		from = {
+			has_origin = origin_void_dwellers
+		}
+	}
+	species_possible_merge_add = {
+		always = yes
+	}
+	species_possible_remove = {
+		NOR = {
+			has_trait = trait_void_dweller_1
+			has_trait = oxr_mdlc_trait_void_dweller_1
+		}
+	}
+	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT OXR_MDLC_MAMP }
+	sorting_priority = 30
+	modifier = {
+		pc_habitat_habitability = @primary
+	}
+	ai_weight = {
+		weight = 0
+	}
+}
+
+oxr_mdlc_trait_void_dweller_1 = {
+	icon = "gfx/interface/icons/traits/trait_void_dweller_positive.dds"
+	initial = no
+	species_potential_add = {
+		exists = from
+		from = {
+			has_origin = origin_void_dwellers
+		}
+	}
+	species_possible_add = {
+		OR = {
+			has_trait = trait_pc_habitat_preference
+			has_trait = trait_machine_habitat_planet_preference
+			has_trait = oxr_mdlc_trait_pc_habitat_preference
+		}
+	}
+	species_possible_remove = {
+		can_remove_beneficial_genetic_traits = yes
+	}
+	randomized = no
+	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT OXR_MDLC_MAMP }
+	sorting_priority = 30
+	potential_crossbreeding_chance = 0.33
+	custom_tooltip_with_modifiers = void_dweller_trait_tooltip #unlike custom_tooltip, this shows in addition to the modifiers
+	triggered_pop_modifier = { #won't show in trait tooltips, use custom_tooltip/custom_tooltip_with_modifiers
+		potential = {
+			exists = planet
+			planet = { is_artificial = no }
+		}
+		pop_happiness = -0.3
+	}
+
+	modifier = {
+		habitat_jobs_produces_mult = 0.15
+		non_artificial_planet_jobs_produces_mult = -0.15
+	}
+	ai_weight = {
+		weight = 0
+	}
+	slave_cost = {
+		energy = 500
+	}
+	assembly_score = {
+		modifier = {
+			add = 1.5
+			from = { uses_district_set = habitat }
+		}
+		modifier = {
+			subtract = 1.5
+			from = {
+				NOT = { uses_district_set = habitat }
+			}
+		}
+	}
+}
+
+oxr_mdlc_trait_void_dweller_2 = {
+	icon = "gfx/interface/icons/traits/trait_void_dweller_2.dds"
+	initial = no
+	species_potential_add = {
+		exists = from
+		from = {
+			has_origin = origin_void_machines
+		}
+	}
+	species_possible_add = {
+		OR = {
+			has_trait = trait_pc_habitat_preference
+			has_trait = trait_machine_habitat_planet_preference
+			has_trait = oxr_mdlc_trait_pc_habitat_preference
+		}
+	}
+	species_possible_remove = {
+		always = yes
+	}
+	randomized = no
+	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT OXR_MDLC_MAMP }
+	sorting_priority = 30
+
+	custom_tooltip_with_modifiers = void_dweller_2_trait_tooltip
+	triggered_pop_modifier = { #won't show in trait tooltips, use custom_tooltip/custom_tooltip_with_modifiers
+		potential = {
+			exists = planet
+			planet = { is_artificial = no }
+		}
+		planet_pops_robotics_upkeep_mult = 0.15
+	}
+
+	modifier = {
+		habitat_jobs_produces_mult = 0.15
+		non_artificial_planet_jobs_produces_mult = -0.15
+	}
+	ai_weight = {
+		weight = 0
+	}
+	slave_cost = {
+		energy = 500
+	}
+	assembly_score = {
+		modifier = {
+			add = 1.5
+			from = { uses_district_set = habitat }
+		}
+		modifier = {
+			subtract = 1.5
+			from = {
+				NOT = { uses_district_set = habitat }
+			}
+		}
 	}
 }

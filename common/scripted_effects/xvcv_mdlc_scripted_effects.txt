@@ -400,7 +400,7 @@ oxr_mdlc_set_custom_species_habitability = {
 			add_trait = oxr_mdlc_trait_dry_planet_preference
 			change_scoped_species = no
 		}
-		log = "(Would) have added dry planet preference to [This.species.GetName]"
+		log = "Changed species: added dry planet preference to \\[This.species.GetName]"
 	}
 	else_if = {
 		limit = {
@@ -417,7 +417,7 @@ oxr_mdlc_set_custom_species_habitability = {
 			add_trait = oxr_mdlc_trait_wet_planet_preference
 			change_scoped_species = no
 		}
-		log = "(Would) have added wet planet preference to [This.species.GetName]"
+		log = "Changed species: added wet planet preference to \\[This.species.GetName]"
 	}
 	else_if = {
 		limit = {
@@ -434,25 +434,80 @@ oxr_mdlc_set_custom_species_habitability = {
 			add_trait = oxr_mdlc_trait_frozen_planet_preference
 			change_scoped_species = no
 		}
-		log = "(Would) have added frozen planet preference to [This.species.GetName]"
+		log = "Changed species: added frozen planet preference to \\[This.species.GetName]"
+	}
+	else_if = {
+		limit = { 
+			prev = {
+				OR = {
+					has_trait = trait_machine_habitat_planet_preference
+					has_trait = trait_pc_habitat_preference 
+				}
+			}
+		}
+		modify_species = {
+			add_trait = oxr_mdlc_trait_pc_habitat_preference
+			change_scoped_species = no
+		}
+	}
+	else_if = {
+		limit = {
+			prev = { 
+				OR = {
+					has_trait = trait_pc_shattered_ring_habitable_preference
+					has_trait = trait_machine_pc_shattered_ring_habitable_preference
+				}
+			}
+		}
+		modify_species = {
+			add_trait = oxr_mdlc_trait_pc_ringworld_habitable_preference
+			change_scoped_species = no
+		}
+		log = "Changed species: add ringworld pref "
 	}
 	else = {
 		random_list = {
 			1 = {
 				modify_species = {
 					add_trait = oxr_mdlc_trait_dry_planet_preference
+					change_scoped_species = no
 				}
+				log = "changed species to randomly have dry planet preference"
 			}
 			1 = {
 				modify_species = {
 					add_trait = oxr_mdlc_trait_wet_planet_preference
+					change_scoped_species = no
 				}
+				log = "changed species to randomly have wet planet peference"
 			}
 			1 = {
 				modify_species = {
 					add_trait = oxr_mdlc_trait_frozen_planet_preference
+					change_scoped_species = no
 				}
+				log = "Changed species to randomly have frozen planet preference"
 			}
 		}
+	}
+	# Void dweller
+	if = {
+		limit = {
+			prev = {
+				has_trait = trait_void_dweller_1
+			}
+		}
+		modify_species = {
+			add_trait = oxr_mdlc_trait_void_dweller_1
+			change_scoped_species = no
+		}
+		log = "Changed species: added void dweller 1 to species"
+	}
+	else_if = {
+		limit = { prev = { has_trait = trait_void_dweller_2 } }
+		modify_species = {
+			add_trait = oxr_mdlc_trait_void_dweller_2
+		}
+		log = "Changed species: Added void dweller 2 to species"
 	}
 }
