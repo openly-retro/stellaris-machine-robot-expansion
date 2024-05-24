@@ -445,10 +445,17 @@ oxr_mdlc_set_custom_species_habitability = {
 				}
 			}
 		}
-		modify_species = {
+		# modify_species = {
+		# 	species = this
+		# 	add_trait = oxr_mdlc_trait_pc_habitat_preference
+		# 	change_scoped_species = no
+		# 	add_traits_at_start_of_list = yes
+		# }
+		change_species_characteristics = {
 			add_trait = oxr_mdlc_trait_pc_habitat_preference
-			change_scoped_species = no
+			add_traits_at_start_of_list = yes
 		}
+		log = "Changed species: added habitat preference"
 	}
 	else_if = {
 		limit = {
@@ -505,7 +512,7 @@ oxr_mdlc_set_custom_species_habitability = {
 	}
 	else_if = {
 		limit = { prev = { has_trait = trait_void_dweller_2 } }
-		modify_species = {
+		change_species_characteristics = {
 			add_trait = oxr_mdlc_trait_void_dweller_2
 		}
 		log = "Changed species: Added void dweller 2 to species"
