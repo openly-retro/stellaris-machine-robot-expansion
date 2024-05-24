@@ -634,12 +634,8 @@ def gen_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines(input_files_li
     effect_contents_items = []
     ruler_effect_line = (
         "if = {{ limit = {{ has_trait = {trait_name} }} remove_trait = {trait_name} prev ="
-        " {{ xvcv_mdlc_core_modifying_trait_return_cost_{alt_modifier}effect = yes }} }}"
+        " {{ xvcv_mdlc_core_modifying_refund_trait_resources_cost_{rarity} = yes }} }}"
     )
-    alt_modifier_lookup = {
-        "veteran": "alt_",
-        "paragon": "alt_2_"
-    }
     for trait_json_data_path in input_files_list:
         with open(trait_json_data_path, "r") as codegen_stream:
             _tmp = json_load(codegen_stream)
@@ -649,11 +645,9 @@ def gen_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines(input_files_li
                 for trait in _tmp['core_modifying_traits'][rarity]:
                     trait_name = [*trait][0]
                     root = trait[trait_name]
-                    alt_modifier = alt_modifier_lookup.get(
-                        root['rarity'], ""
-                    )
+                    rarity = root['rarity']
                     effect_contents_items.append(
-                        ruler_effect_line.format(trait_name=trait_name, alt_modifier=alt_modifier)
+                        ruler_effect_line.format(trait_name=trait_name, rarity=rarity)
                     )
     for subclass in LEADER_SUBCLASSES:
         alt_modifier = ""

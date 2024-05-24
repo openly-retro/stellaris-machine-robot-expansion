@@ -10,9 +10,11 @@ create_mamp_cat1_species = {
 			trait = "oxr_mdlc_mamp_frame_1"
 			trait = "trait_machine_unit"
 		}
+		homeworld = this.capital_scope
 		allow_negative_traits = no
 		effect = {
-			set_species_flag = mechanical_species@prev
+			# set_species_flag = mechanical_species@prev
+			oxr_mdlc_set_custom_species_habitability = yes
 			if = {
 				limit = {
 					prev = { use_robot_portrait_sd_hum_robot = yes }
@@ -87,6 +89,11 @@ create_mamp_cat1_species = {
 			}
 		}
 	}
-	last_created_species = { save_global_event_target_as = oxr_mdlc_mamp_cat_1_pop_species }
+	last_created_species = {
+		save_global_event_target_as = oxr_mdlc_mamp_cat_1_pop_species
+	}
 	set_built_species = last_created_species
+	# event_target:oxr_mdlc_mamp_cat_1_pop_species = {
+	# 	oxr_mdlc_set_custom_species_habitability = yes
+	# }
 }

@@ -15,6 +15,9 @@ xvcv_mdlc_origin_synth_ascend = {
 	modifier = {
 		country_base_energy_produces_add = 10
 		country_base_food_produces_add = -10
+		ROBOT_species_trait_picks_add = 2
+		ROBOT_species_trait_points_add = 2
+		modify_species_cost_mult = -0.5
 	}
 
 	traits = { trait = trait_mechanical }
@@ -37,9 +40,14 @@ xvcv_mdlc_origin_mechanical_heritage = {
 	modifier = {
 		country_base_energy_produces_add = 10
 		country_base_food_produces_add = -10
+		ROBOT_species_trait_picks_add = 2
+		ROBOT_species_trait_points_add = 2
 	}
 
-	traits = { trait = trait_mechanical }
+	traits = {
+		trait = trait_mechanical
+		trait = trait_xvcv_mdlc_pc_mechanical_preference
+	}
 }
 xvcv_mdlc_origin_start_with_colony = {
 	is_origin = yes
@@ -48,7 +56,7 @@ xvcv_mdlc_origin_start_with_colony = {
 
 	initializers = { xvcv_mdlc_origin_start_with_colony_system }
 
-	playable = { has_synthethic_dawn = yes }
+	playable = { host_has_dlc = "Synthetic Dawn Story Pack" }
 	possible = { authority = { value = auth_machine_intelligence } }
 
 	random_weight = { base = 5 }

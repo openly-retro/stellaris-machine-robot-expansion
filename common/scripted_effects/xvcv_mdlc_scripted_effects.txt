@@ -381,3 +381,133 @@ xvcv_mdlc_iterate_leaders_level_up_classes_under_skill = {
 		add_skill_without_trait_selection = 1
 	}
 }
+# Call from the create_species effect block when creating a synth species to set planet preference.
+# prev: Original species
+# this: New synth species
+oxr_mdlc_set_custom_species_habitability = {
+	if = {
+		limit = {
+			prev = {
+				OR = {
+					has_trait = trait_pc_desert_preference
+					has_trait = trait_pc_arid_preference
+					has_trait = trait_pc_savannah_preference
+					has_trait = trait_dry_planet_preference
+				}
+			}
+		}
+		change_species_characteristics = {
+			add_trait = oxr_mdlc_trait_dry_planet_preference
+			add_traits_at_start_of_list = yes
+		}
+		log = "Changed species: added dry planet preference to \\[This.species.GetName]"
+	}
+	else_if = {
+		limit = {
+			prev = {
+				OR = {
+					has_trait = trait_pc_tropical_preference
+					has_trait = trait_pc_continental_preference
+					has_trait = trait_pc_ocean_preference
+					has_trait = trait_wet_planet_preference
+				}
+			}
+		}
+		change_species_characteristics = {
+			add_trait = oxr_mdlc_trait_wet_planet_preference
+			add_traits_at_start_of_list = yes
+		}
+		log = "Changed species: added wet planet preference to \\[This.species.GetName]"
+	}
+	else_if = {
+		limit = {
+			prev = {
+				OR = {
+					has_trait = trait_pc_arctic_preference
+					has_trait = trait_pc_tundra_preference
+					has_trait = trait_pc_alpine_preference
+					has_trait = trait_frozen_planet_preference
+				}
+			}
+		}
+		change_species_characteristics = {
+			add_trait = oxr_mdlc_trait_frozen_planet_preference
+			add_traits_at_start_of_list = yes
+		}
+		log = "Changed species: added frozen planet preference to \\[This.species.GetName]"
+	}
+	else_if = {
+		limit = { 
+			prev = {
+				OR = {
+					has_trait = trait_machine_habitat_planet_preference
+					has_trait = trait_pc_habitat_preference 
+				}
+			}
+		}
+		change_species_characteristics = {
+			add_trait = oxr_mdlc_trait_pc_habitat_preference
+			add_traits_at_start_of_list = yes
+		}
+		log = "Changed species: added habitat preference"
+	}
+	else_if = {
+		limit = {
+			prev = { 
+				OR = {
+					has_trait = trait_pc_shattered_ring_habitable_preference
+					has_trait = trait_machine_pc_shattered_ring_habitable_preference
+				}
+			}
+		}
+		change_species_characteristics = {
+			add_trait = oxr_mdlc_trait_pc_ringworld_habitable_preference
+			add_traits_at_start_of_list = yes
+		}
+		log = "Changed species: add ringworld pref "
+	}
+	else = {
+		random_list = {
+			1 = {
+				change_species_characteristics = {
+					add_trait = oxr_mdlc_trait_dry_planet_preference
+					add_traits_at_start_of_list = yes
+				}
+				log = "changed species to randomly have dry planet preference"
+			}
+			1 = {
+				change_species_characteristics = {
+					add_trait = oxr_mdlc_trait_wet_planet_preference
+					add_traits_at_start_of_list = yes
+				}
+				log = "changed species to randomly have wet planet peference"
+			}
+			1 = {
+				change_species_characteristics = {
+					add_trait = oxr_mdlc_trait_frozen_planet_preference
+					add_traits_at_start_of_list = yes
+				}
+				log = "Changed species to randomly have frozen planet preference"
+			}
+		}
+	}
+	# Void dweller
+	if = {
+		limit = {
+			prev = {
+				has_trait = trait_void_dweller_1
+			}
+		}
+		change_species_characteristics = {
+			add_trait = oxr_mdlc_trait_void_dweller_1
+		}
+		log = "Changed species: added void dweller 1 to species"
+	}
+	else_if = {
+		limit = { prev = { has_trait = trait_void_dweller_2 } }
+		change_species_characteristics = {
+			add_trait = oxr_mdlc_trait_void_dweller_2
+		}
+		log = "Changed species: Added void dweller 2 to species"
+	}
+}

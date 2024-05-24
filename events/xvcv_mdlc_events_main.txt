@@ -70,9 +70,21 @@ country_event = {
 				food = -200
 			}
 			give_technology = { tech = tech_bio_reactor message = no }
-			add_tradition = tr_synthetics_adopt
-			add_tradition = tr_synthetics_synthetic_age
-			country_event = { id = xvcv_mdlc.4 days = 1 }
+
+			# country_event = { id = xvcv_mdlc.4 days = 1 }
+			if = {
+				limit = { has_machine_age_dlc = yes }
+				country_event = {
+					id = xvcv_mdlc.1011
+					days = 0
+				}
+			}
+			else = {
+				country_event = {
+					id = xvcv_mdlc.1010
+					days = 0
+				}
+			}
 		}
 		capital_scope = {
 			if = {
@@ -496,6 +508,7 @@ event = {
 	}
 }
 #'xvcv_mdlc_origin_synth_ascend' origin effect event #also see: 'xvcv_mdlc.1'
+
 country_event = {
 	id = xvcv_mdlc.4
 	hide_window = yes
@@ -503,13 +516,15 @@ country_event = {
 
 	trigger = {
 		xvcv_mdlc_synthetic_start_origin_trigger = yes
+		NOT = { has_country_flag = xvcv_mdlc_synth_origin_start_project_cleared }
 	}
 
 	immediate = {
 		if = {
 			limit = { has_special_project = SYNTHETIC_EVOLUTION_PROJECT }
 			abort_special_project = { type = SYNTHETIC_EVOLUTION_PROJECT }
-			# else = { country_event = { id = xvcv_mdlc.4 days = 1 } } #check per day
+			# Prevent this event from looping every single day
+			set_country_flag = xvcv_mdlc_synth_origin_start_project_cleared
 		}
 		else = { country_event = { id = xvcv_mdlc.4 days = 1 } } #check per day
 	}
@@ -2127,6 +2142,7 @@ country_event = {
 	}
 
 	option = {
+		# Create new bio-mech pops
 		name = xvcv_mdlc.41.a
 		custom_tooltip = xvcv_mdlc.41.a.tooltip
 		hidden_effect = {
@@ -2141,30 +2157,34 @@ country_event = {
 				homeworld = this.capital_scope
 				effect = {
 					if = {
-						limit = { prev = { has_authority = auth_machine_intelligence } }
-						modify_species = {
-							add_trait = trait_machine_unit
-							change_scoped_species = no
+						limit = {
+							OR = {
+								root = { is_individual_machine = yes }
+								root = { has_authority = auth_machine_intelligence }
+							}
 						}
-						# else = {
-						# 	modify_species = {
-						# 		add_trait = trait_mechanical
-						# 		change_scoped_species = no
-						# 	}
-						# }
+						change_species_characteristics = {
+							add_trait = trait_machine_unit
+						}
 					}
 					else = {
-						modify_species = {
+						change_species_characteristics = {
 							add_trait = trait_mechanical
-							change_scoped_species = no
 						}
 					}
+					oxr_mdlc_set_custom_species_habitability = yes
 					rename_species = {
 						prompt_country = prev
 						name_list = ascension_list
 					}
 				}
 			}
+			last_created_species = {
+				save_global_event_target_as = xvcv_mdlc_bio_robot_species
+			}
+			# event_target:xvcv_mdlc_bio_robot_species = {
+			# 	oxr_mdlc_set_custom_species_habitability = yes
+			# }
 			every_owned_planet = { create_pop = { species = last_created_species } }
 			every_owned_pop = {
 				limit = { has_trait = xvcv_mdlc_trait_bio_robot }
@@ -2187,6 +2207,7 @@ country_event = {
 		ai_chance = { factor = 10 }
 	}
 	option = {
+		# Convert primary species to bio-mech
 		name = xvcv_mdlc.41.b
 		custom_tooltip = xvcv_mdlc.41.b.tooltip
 		hidden_effect = {
@@ -2198,28 +2219,38 @@ country_event = {
 					plural = this
 					class = "XVCV_MDLC_BIO_ROBOT"
 					portrait = this
-					traits = { trait = xvcv_mdlc_trait_bio_robot }
+					traits = {
+						trait = xvcv_mdlc_trait_bio_robot
+					}
 					homeworld = prev.capital_scope
 					effect = {
 						if = {
-							limit = { prevprev = { has_authority = auth_machine_intelligence } }
-							modify_species = {
-								add_trait = trait_machine_unit
-								change_scoped_species = no
+							limit = {
+								OR = {
+									root = { is_individual_machine = yes }
+									root = { has_authority = auth_machine_intelligence }
+								}
 							}
-							# else = {
-							# 	modify_species = {
-							# 		add_trait = trait_mechanical
-							# 		change_scoped_species = no
-							# 	}
+							# modify_species = {
+							# 	species = this
+							# 	add_trait = trait_machine_unit
+							# 	change_scoped_species = no
 							# }
+							change_species_characteristics = {
+								add_trait = trait_machine_unit
+							}
 						}
 						else = {
-							modify_species = {
+							# modify_species = {
+							# 	species = this
+							# 	add_trait = trait_mechanical
+							# 	change_scoped_species = no
+							# }
+							change_species_characteristics = {
 								add_trait = trait_mechanical
-								change_scoped_species = no
 							}
 						}
+						oxr_mdlc_set_custom_species_habitability = yes
 						rename_species = {
 							prompt_country = prevprev
 							name_list = ascension_list
@@ -2227,6 +2258,12 @@ country_event = {
 					}
 				}
 			}
+			last_created_species = {
+				save_global_event_target_as = xvcv_mdlc_bio_robot_species
+			}
+			# event_target:xvcv_mdlc_bio_robot_species = {
+			# 	oxr_mdlc_set_custom_species_habitability = yes
+			# }
 			every_owned_pop = {
 				limit = { is_same_species = prev.species }
 				prev = { add_resource = { food = 12 } }
@@ -2243,6 +2280,14 @@ country_event = {
 			}
 			xvcv_mdlc_leader_tied_traits_add_effect = yes
 			xvcv_mdlc_leader_tied_traits_remove_effect = yes
+			owner = {
+				set_country_flag = synthetic_empire
+				set_policy = {
+					policy = artificial_intelligence_policy
+					option = ai_full_rights
+					cooldown = yes
+				}
+			}
 		}
 	}
 }
@@ -3709,5 +3754,81 @@ planet_event = {
 	immediate = {
 		remove_building = building_deployment_post
 		add_building = building_machine_capital
+	}
+}
+
+## Synthetic Origin setup - no TMA
+country_event = {
+	id = xvcv_mdlc.1010
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		xvcv_mdlc_synthetic_start_origin_trigger = yes
+	}
+
+	immediate = {
+		add_tradition = tr_synthetics_adopt
+		add_tradition = tr_synthetics_synthetic_age
+
+		country_event = { id = xvcv_mdlc.4 days = 1 }
+	}
+}
+## Synthetic origin - TMA compat
+# called from xvcv_mdlc.1
+country_event = {
+	id = xvcv_mdlc.1011
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		xvcv_mdlc_synthetic_start_origin_trigger = yes
+	}
+
+	immediate = {
+		
+		# Give certain flags
+		owner = {
+			set_country_flag = edict_subsidized_identity_backups
+			remove_country_flag = synth_assembly_stopped
+			remove_country_flag = identity_designer_converter
+			give_technology = {
+				tech = tech_identity_copy message = no
+			}
+			set_country_flag = edict_optimized_identity_creation
+			set_country_flag = advanced_identity_creation
+			set_country_flag = identity_complex_available
+			add_research_option = tech_identity_initialization
+			add_research_option = tech_identity_fusion
+		}
+		capital_scope = {
+			add_building = building_identity_complex
+		}
+		
+		# mix identities?
+		country_event = {
+			id = xvcv_mdlc.1014
+		}
+	}
+}
+
+# end the origin stuff
+country_event = {
+	id = xvcv_mdlc.1014
+	title = xvcv_mdlc.1014.title
+	desc = xvcv_mdlc.1014.desc
+	picture = GFX_evt_synth_situation
+	is_triggered_only = yes
+
+	trigger = {
+		xvcv_mdlc_synthetic_start_origin_trigger = yes
+	}
+	immediate = {
+		
+	}
+	option = {
+		name = xvcv_mdlc.1014.a.name
+		custom_tooltip = ""
+		hidden_effect = {}
 	}
 }

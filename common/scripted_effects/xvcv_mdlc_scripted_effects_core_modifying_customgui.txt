@@ -141,6 +141,13 @@ xvcv_mdlc_core_modifying_trait_return_cost_effect = {
 		alloys = @xvcv_mdlc_core_modifying_common_trait_refund
 	}
 }
+xvcv_mdlc_core_modifying_refund_cost_common = {
+	optimize_memory
+	add_resource = {
+		energy = @xvcv_mdlc_core_modifying_common_trait_refund
+		alloys = @xvcv_mdlc_core_modifying_common_trait_refund
+	}
+}
 
 xvcv_mdlc_core_modifying_refund_trait_points_picks_common = {
 	optimize_memory
@@ -213,6 +220,13 @@ xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = {
 	add_resource = {
 		energy = @xvcv_mdlc_core_modifying_veteran_trait_refund
 		alloys = @xvcv_mdlc_core_modifying_veteran_trait_refund
+	}
+}
+xvcv_mdlc_core_modifying_trait_return_cost_alt_2_effect = {
+	optimize_memory
+	add_resource = {
+		energy = @xvcv_mdlc_core_modifying_destiny_trait_refund
+		alloys = @xvcv_mdlc_core_modifying_destiny_trait_refund
 	}
 }
 
@@ -693,6 +707,7 @@ xvcv_mdlc_core_modifying_set_max_trait_picks_for_display = {
 	log = "Set max trait picks to \[This.xvcv_mdlc_core_modifying_max_trait_picks]"
 }
 
+
 # Check what traits are already on the ruler, and deduct from total available trait picks + points
 oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
     optimize_memory
@@ -935,18 +950,6 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
         ruler = {
             oxr_mdlc_core_modifying_deduct_trait_pick = yes
 		    oxr_mdlc_core_modifying_deduct_trait_points_common = yes
-        }
-	}
-	if = {
-		limit = {
-			ruler = {
-                has_trait = leader_trait_adventurous_spirit_3
-			    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
-            }
-		}
-        ruler = {
-            oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		    oxr_mdlc_core_modifying_deduct_trait_points_veteran = yes
         }
 	}
 	if = {
@@ -1477,6 +1480,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		    oxr_mdlc_core_modifying_deduct_trait_points_paragon = yes
         }
 	}
+
 }
 
 #and that ends here

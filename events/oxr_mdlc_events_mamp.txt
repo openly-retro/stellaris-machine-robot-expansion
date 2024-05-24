@@ -54,32 +54,23 @@ country_event = {
 	trigger = { }
 
 	immediate = {
-		from = {
-			random_system_within_border = {
-				limit = {
-					any_system_planet = {
-						OR = {
-							has_moon = yes
-							is_asteroid = yes
-						}
-					}
-				}
+		capital_scope = {
+			solar_system = {
 				random_system_planet = {
 					limit = {
-						OR = {
-							is_asteroid = yes
-							is_moon = yes
-						}
+						is_star = no
+						is_colony = no
+						is_capital = no
 					}
 					save_global_event_target_as = oxr_mdlc_mamp_cat_1_research_site
 				}
-				event_target:oxr_mdlc_mamp_cat_1_research_site = {
-					enable_special_project = {
-						name = OXR_MDLC_MAMP_CAT_1_FIRST_SITE_PROJECT
-						location = this
-						owner = ROOT
-					}
-				}
+			}
+		}
+		event_target:oxr_mdlc_mamp_cat_1_research_site = {
+			enable_special_project = {
+				name = OXR_MDLC_MAMP_CAT_1_FIRST_SITE_PROJECT
+				location = this
+				owner = ROOT
 			}
 		}
 	}
