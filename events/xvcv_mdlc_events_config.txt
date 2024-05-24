@@ -103,7 +103,7 @@ country_event = {
 			country_event = { id = xvcv_mdlc_config.1 }
 		}
 	}
-	#species assimilation
+	#species assimilation / mergence
 	option = {
 		name = xvcv_mdlc_config.1.3.on
 		custom_tooltip = xvcv_mdlc_config.message.on.tooltip
@@ -148,6 +148,7 @@ country_event = {
 	option = {
 		name = xvcv_mdlc_close_evt_window
 		hidden_effect = { remove_country_flag = xvcv_mdlc_config_value_counts_locked }
+		default_hide_option = yes
 	}
 }
 country_event = {
@@ -359,10 +360,14 @@ country_event = {
 						traits = this
 						homeworld = root.capital_scope
 						effect = {
-							modify_species = {
-								change_scoped_species = no
+							change_species_characteristics = {
 								remove_trait = trait_mechanical
 							}
+							oxr_mdlc_set_custom_species_habitability = yes
+							# modify_species = {
+							# 	change_scoped_species = no
+							# 	remove_trait = trait_mechanical
+							# }
 						}
 					}
 					root = {
@@ -412,10 +417,11 @@ country_event = {
 						traits = this
 						homeworld = root.capital_scope
 						effect = {
-							modify_species = {
-								change_scoped_species = no
+							change_species_characteristics = {
+								# change_scoped_species = no
 								remove_trait = trait_machine_unit
 							}
+							oxr_mdlc_set_custom_species_habitability = yes
 						}
 					}
 					root = {
