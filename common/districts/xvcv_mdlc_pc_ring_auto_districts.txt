@@ -1,7 +1,7 @@
 @rw_cost = 1000
 @rw_cost_sr = 50
 @rw_maintenance = 5
-@rw_maintenance_sr = 2
+@rw_maintenance_sr = 1
 @rw_district_buildtime = 360
 
 # No housing districts needed on an auto-ringworld!
@@ -430,6 +430,48 @@ xvcv_mdlc_pc_ringworld_machine_auto_science = {
 	}
 }
 
+xvcv_mdlc_pc_ringworld_machine_auto_industrial = {
+	base_buildtime = @rw_district_buildtime
+	is_capped_by_modifier = no
+
+	show_on_uncolonized = { uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set }
+
+	potential = {
+		uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
+	}
+	planet_modifier = {
+		xvcv_mdlc_world_machines_districts_produces_mult = -0.1
+		xvcv_mdlc_world_machines_districts_upkeep_mult = 0.1
+	}
+
+	resources = {
+		category = xvcv_mdlc_world_machines_districts
+		cost = {
+			minerals = @rw_cost
+			volatile_motes = @rw_cost_sr
+		}
+		upkeep = {
+			energy = @rw_maintenance
+			volatile_motes = @rw_maintenance_sr
+			minerals = 120 # 60 x 2 for alloys and goods
+		}
+		upkeep = {
+			trigger = {
+				exists = owner
+				owner = {
+					has_edict = industrial_maintenance
+				}
+			}
+			energy = 4
+		}
+		produces = {
+			consumer_goods = 60
+			alloys = 30
+		}
+	}
+		
+}
+
 xvcv_mdlc_pc_ringworld_machine_auto_farming = {
 	base_buildtime = @rw_district_buildtime
 	is_capped_by_modifier = no
@@ -504,46 +546,4 @@ xvcv_mdlc_pc_ringworld_machine_auto_farming = {
 		}
 	}
 
-}
-
-xvcv_mdlc_pc_ringworld_machine_auto_industrial = {
-	base_buildtime = @rw_district_buildtime
-	is_capped_by_modifier = no
-
-	show_on_uncolonized = { uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set }
-
-	potential = {
-		uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
-	}
-	planet_modifier = {
-		xvcv_mdlc_world_machines_districts_produces_mult = -0.1
-		xvcv_mdlc_world_machines_districts_upkeep_mult = 0.1
-	}
-
-	resources = {
-		category = xvcv_mdlc_world_machines_districts
-		cost = {
-			minerals = @rw_cost
-			volatile_motes = @rw_cost_sr
-		}
-		upkeep = {
-			energy = @rw_maintenance
-			volatile_motes = @rw_maintenance_sr
-			minerals = 120 # 60 x 2 for alloys and goods
-		}
-		upkeep = {
-			trigger = {
-				exists = owner
-				owner = {
-					has_edict = industrial_maintenance
-				}
-			}
-			energy = 4
-		}
-		produces = {
-			consumer_goods = 60
-			alloys = 30
-		}
-	}
-		
 }
