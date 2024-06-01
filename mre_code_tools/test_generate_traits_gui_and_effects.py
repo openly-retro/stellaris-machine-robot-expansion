@@ -11,6 +11,7 @@ from generate_traits_gui_and_effects import (
     gen_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines,
     gen_core_modifying_leader_subclass_gui_code,
     gen_xvcv_mdlc_leader_making_start_button_effect,
+    generate_class_specific_lines_for_leader_making_clear_values_effect as clear_values_effect,
 )
 
 def test_gen_core_modifying_button_effects_code__common_trait():
@@ -370,3 +371,33 @@ xvcv_mdlc_core_modifying_traits_official_leader_trait_efficient_remove_button_ef
 }
 """
     assert expected_code == leader_trait_efficient_code
+
+#####################################
+## CLEAR VALUES EFFECT ##
+#########################
+
+def test_clear_values_effect__for_scientist():
+    list_of_traits = [
+        {
+            "leader_trait_roamer_2": {
+                "trait_name": "leader_trait_roamer_2",
+                "leader_class": "scientist",
+            },
+        }
+    ]
+    expected_effects_blob = """
+    #scientist
+    if = {
+        limit = { has_country_flag = xvcv_mdlc_leader_class_set_to_scientist }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_xvcv_mdlc_leader_trait_memory_backup } remove_country_flag = xvcv_mdlc_leader_scientist_xvcv_mdlc_leader_trait_memory_backup }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_xvcv_mdlc_leader_trait_shared_memory } remove_country_flag = xvcv_mdlc_leader_scientist_xvcv_mdlc_leader_trait_shared_memory }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_xvcv_mdlc_subclass_scientist_none } remove_country_flag = xvcv_mdlc_leader_scientist_xvcv_mdlc_subclass_scientist_none }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_roamer_2 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_roamer_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_subclass_scientist_councilor } remove_country_flag = xvcv_mdlc_leader_scientist_subclass_scientist_councilor }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_subclass_scientist_explorer } remove_country_flag = xvcv_mdlc_leader_scientist_subclass_scientist_explorer }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_subclass_scientist_governor } remove_country_flag = xvcv_mdlc_leader_scientist_subclass_scientist_governor }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_subclass_scientist_scholar } remove_country_flag = xvcv_mdlc_leader_scientist_subclass_scientist_scholar }
+        remove_country_flag = xvcv_mdlc_leader_class_set_to_scientist
+    }"""
+    actual_effects_blob = clear_values_effect(list_of_traits, "scientist")
+    assert expected_effects_blob == actual_effects_blob
