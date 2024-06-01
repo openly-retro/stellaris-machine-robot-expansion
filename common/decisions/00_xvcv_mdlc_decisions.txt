@@ -531,7 +531,7 @@ xvcv_mdlc_decision_machine_ser_project = {
 	}
 }
 xvcv_mdlc_pc_ringworld_automation_project = {
-	owned_planets_only = yes
+	# owned_planets_only = yes
 	enactment_time = 3600
 
 	resources = {
@@ -544,9 +544,14 @@ xvcv_mdlc_pc_ringworld_automation_project = {
 
 	potential = {
 		exists = owner
+		is_colony = yes
 		owner = { has_ascension_perk = xvcv_mdlc_ap_world_machines }
 		xvcv_mdlc_world_machines_planet_classes_trigger = no
-		habitable_structure = no
+		# habitable_structure = no
+		OR = {
+			is_planet_class = pc_ringworld_habitable
+			is_planet_class = pc_shattered_ring_habitable
+		}
 	}
 
 	allow = {
@@ -558,21 +563,21 @@ xvcv_mdlc_pc_ringworld_automation_project = {
 	}
 
 	effect = {
-		custom_tooltip = xvcv_mdlc_decision_machine_ecu_project_tooltip
+		custom_tooltip = xvcv_mdlc_pc_ringworld_automation_project_tooltip
 		hidden_effect = {
 			clear_deposits = yes
-			change_pc = xvcv_mdlc_pc_machine_ecu
+			change_pc = xvcv_mdlc_pc_ringworld_machine_auto
 			owner = {
 				if = {
-					limit = { has_country_flag = xvcv_mdlc_decision_machine_ecu_project_message_on }
+					limit = { has_country_flag = xvcv_mdlc_decision_ringworld_machine_auto_project_message_on }
 					create_message = {
 						type = XVCV_MDLC_WORLD_MACHINES_COMPLETION_MESSAGE_TYPE
-						localization = XVCV_MDLC_DECISION_MACHINE_ECU_PROJECT_DONE_MESSAGE
+						localization = XVCV_MDLC_DECISION_RINGWORLD_AUTOMATION_DONE_MESSAGE
 						days = 10
 						target = prev
 						variable = {
 							type = name
-							localization = XVCV_MDLC_DECISION_MACHINE_ECU_PROJECT_PLANET
+							localization = XVCV_MDLC_PC_RINGWORLD_AUTOMATION_PROJECT_PLANET
 							scope = prev
 						}
 					}
@@ -603,7 +608,7 @@ xvcv_mdlc_pc_ringworld_automation_project = {
 		weight = 0
 		modifier = {
 			weight = 100
-			owner = { NOT = { any_owned_planet = { is_planet_class = xvcv_mdlc_pc_machine_ecu } } }
+			owner = { NOT = { any_owned_planet = { is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto } } }
 		}
 	}
 }
