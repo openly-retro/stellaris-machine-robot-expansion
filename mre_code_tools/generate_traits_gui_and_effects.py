@@ -317,7 +317,7 @@ xvcv_mdlc_leader_making_clear_values_effect = {
 def generate_class_specific_lines_for_leader_making_clear_values_effect(list_of_traits, for_class):
     # TODO: Exclude core_modifying traits that we dont want ?
 
-    print(f"Generatint clear values effects for {for_class}")
+    print(f"Generating clear values effects for {for_class}")
     opening_lines = f"""
     #{for_class}
     if = {{
@@ -325,10 +325,16 @@ def generate_class_specific_lines_for_leader_making_clear_values_effect(list_of_
     closing_lines = f"""        remove_country_flag = xvcv_mdlc_leader_class_set_to_{for_class}
     }}"""
     trait_limit_declarations = []
+    trait_limit_line = "        if = {{ limit = {{ has_country_flag = xvcv_mdlc_leader_{for_class}_{trait_name} }} remove_country_flag = xvcv_mdlc_leader_{for_class}_{trait_name} }}"
     for leader_trait in list_of_traits:
         trait_name = [*leader_trait][0]
-        trait_limit_line = f"        if = {{ limit = {{ has_country_flag = xvcv_mdlc_leader_{for_class}_{trait_name} }} remove_country_flag = xvcv_mdlc_leader_{for_class}_{trait_name} }}"
-        trait_limit_declarations.append(trait_limit_line)
+        trait_limit_declarations.append(trait_limit_line.format(for_class=for_class, trait_name=trait_name))
+    # Remember to generate subclasses code!
+    for subclass_trait in LEADER_SUBCLASSES:
+        if for_class in subclass_trait:
+            trait_limit_declarations.append(
+                trait_limit_line.format(for_class=for_class, trait_name=subclass_trait)
+            )
     # Preserve this during autogeneration
     add_custom_traits_class_block = f"""
         if = {{ limit = {{ has_country_flag = xvcv_mdlc_leader_{for_class}_xvcv_mdlc_leader_trait_memory_backup }} remove_country_flag = xvcv_mdlc_leader_{for_class}_xvcv_mdlc_leader_trait_memory_backup }}
