@@ -2964,70 +2964,72 @@ planet_event = {
 	is_triggered_only = yes
 
 	trigger = {
+		# is_planet_world_machine = yes
 		xvcv_mdlc_world_machines_districts_heat_indicators_calc_trigger = yes
 	}
 
 	immediate = {
+		log = "A district was built on \\[This.GetName]."
 		xvcv_mdlc_world_machines_output_value_calc_effect = yes
 	}
 }
+
+# Workaround to get updated modifier state after the district has been built
+# Update it a day later >_>
+planet_event = {
+	id = xvcv_mdlc.701
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = { xvcv_mdlc_world_machines_districts_heat_indicators_calc_trigger = yes }
+	immediate = {
+		planet_event = {
+			id = xvcv_mdlc.70 days = 1
+		}
+	}
+}
+
 #on district destroyed
 planet_event = {
 	id = xvcv_mdlc.71
 	hide_window = yes
 	is_triggered_only = yes
 
-	trigger = {
-		xvcv_mdlc_world_machines_districts_heat_indicators_calc_trigger = yes
-	}
-
+	trigger = { xvcv_mdlc_world_machines_districts_heat_indicators_calc_trigger = yes }
 	immediate = {
-		#I've found that the 'export_modifier_to_variable' effect doesn't work proper when it's combined with the 'on_district_demolished' trigger #stellaris v3.0.3
-		# Sadly this is still an issue in 3.11 --0xRetro
-		if = {
-			limit = { last_district_changed = xvcv_mdlc_common_district_cooling }
-			change_variable = {
-				which = xvcv_mdlc_world_machines_districts_output_var
-				value = -0.3
-			} #minus 0.3 output as a cooler is gone
-		}
-		else = {
-			change_variable = {
-				which = xvcv_mdlc_world_machines_districts_output_var
-				value = 0.1
-			}
-		} #plus 0.1 output as a heat source is gone
-		log = "A district was removed from a world-machine."
-		xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect = yes
-		# xvcv_mdlc_world_machines_output_value_calc_effect = yes
-
-		# if = {
-		# 	limit = {
-		# 		xvcv_mdlc_world_machines_planet_needs_cooling_offset = yes
-		# 	}
-		# 	xvcv_mdlc_world_machines_calculate_cooling_district_offset = yes
-		# }
+		log = "A district was removed from \\[This.GetName]."
+		xvcv_mdlc_world_machines_output_value_calc_effect = yes
 	}
 }
+# on district destroyed
+# Delay updating planet variables for 1 day after 
+planet_event = {
+	id = xvcv_mdlc.710
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { xvcv_mdlc_world_machines_districts_heat_indicators_calc_trigger = yes }
+	immediate = {
+		planet_event = { id = xvcv_mdlc.71 days = 1 }
+	}
+}
+
 #'xvcv_mdlc_d_pc_machine_ser_crime' or 'xvcv_mdlc_d_pc_machine_ser_admin_cap' deposits count
 #on district built or destroyed
+planet_event = {
+	id = xvcv_mdlc.720
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = { xvcv_mdlc_world_machines_production_district_is_empire_resource = yes }
+	immediate = { planet_event = { id = xvcv_mdlc.72 days = 1 } }
+}
+
 planet_event = {
 	id = xvcv_mdlc.72
 	hide_window = yes
 	is_triggered_only = yes
 
-	trigger = {
-		OR = {
-			#xvcv_mdlc_pc_machine_ecu
-			last_district_changed = xvcv_mdlc_pc_machine_ecu_district_naval_cap
-			#xvcv_mdlc_pc_machine_cpu
-			last_district_changed = xvcv_mdlc_pc_machine_cpu_district_decryption
-			#xvcv_mdlc_pc_machine_ser
-			last_district_changed = xvcv_mdlc_pc_machine_ser_district_admin_cap
-			last_district_changed = xvcv_mdlc_pc_machine_ser_district_crime
-			last_district_changed = xvcv_mdlc_pc_machine_ser_district_encryption
-		}
-	}
+	trigger = { xvcv_mdlc_world_machines_production_district_is_empire_resource = yes }
 
 	immediate = {
 		switch = {
