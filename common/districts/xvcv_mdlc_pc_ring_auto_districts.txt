@@ -5,237 +5,6 @@
 @rw_district_buildtime = 360
 
 # No housing districts needed on an auto-ringworld!
-# xvcv_mdlc_pc_ringworld_machine_auto_city = {
-# 	base_buildtime = @rw_district_buildtime
-# 	is_capped_by_modifier = no
-# 	exempt_from_ai_planet_specialization = yes
-
-# 	show_on_uncolonized = {
-# 		exists = from
-# 		from = {
-# 			# is_regular_empire = yes
-# 			OR = {
-# 				is_country_type = default
-# 				#for checks in buildings and districts
-# 				is_country_type = awakened_marauders
-# 				is_country_type = fallen_empire
-# 				is_country_type = awakened_fallen_empire
-# 			}
-# 			NOT = { has_ethic = ethic_gestalt_consciousness	}
-# 		}
-# 		uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
-# 	}
-
-# 	potential = {
-# 		exists = owner
-# 		owner = { is_regular_empire = yes }
-# 		uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
-# 	}
-
-# 	conversion_ratio = 0.5
-# 	convert_to = {
-# 		district_rw_nexus
-# 		district_rw_hive
-# 	}
-
-# 	resources = {
-# 		category = planet_districts
-# 		cost = {
-# 			minerals = @rw_cost
-# 		}
-# 		upkeep = {
-# 			energy = @rw_maintenance
-# 		}
-# 	}
-
-# 	planet_modifier = {
-# 		planet_housing_add = 25
-# 		job_enforcer_add = 2
-# 	}
-
-# 	triggered_planet_modifier = {
-# 		potential = {
-# 			exists = owner
-# 			owner = {
-# 				has_valid_civic = civic_agrarian_idyll
-# 			}
-# 		}
-# 		modifier = {
-# 			planet_housing_add = -5
-# 		}
-# 	}
-
-# 	triggered_planet_modifier = {
-# 		potential = {
-# 			exists = owner
-# 			owner = {
-# 				is_regular_empire = yes
-# 				is_fallen_empire = no
-# 			}
-# 		}
-# 		modifier = {
-# 			job_clerk_add = 3
-# 		}
-# 	}
-
-# 	triggered_planet_modifier = {
-# 		potential = {
-# 			exists = owner
-# 			owner = {
-# 				is_regular_empire = yes
-# 				is_fallen_empire = no
-# 				has_active_tradition = tr_virtuality_4
-# 			}
-# 		}
-# 		modifier = {
-# 			job_clerk_add = 6
-# 		}
-# 	}
-
-# 	triggered_planet_modifier = {
-# 		potential = {
-# 			exists = owner
-# 			owner = { has_active_tradition = tr_prosperity_public_works }
-# 		}
-# 		modifier = {
-# 			planet_housing_add = 5
-# 		}
-# 	}
-
-# 	triggered_planet_modifier = {
-# 		potential = {
-# 			exists = owner
-# 			owner = {
-# 				has_technology = tech_housing_1
-# 			}
-# 		}
-# 		modifier = {
-# 			planet_housing_add = 5
-# 		}
-# 	}
-
-# 	triggered_planet_modifier = {
-# 		potential = {
-# 			exists = owner
-# 			owner = {
-# 				has_technology = tech_housing_2
-# 				NOT = { has_valid_civic = civic_agrarian_idyll }
-# 			}
-# 		}
-# 		modifier = {
-# 			planet_housing_add = 5
-# 		}
-# 	}
-
-# 	triggered_desc = {
-# 		trigger = {
-# 			planet = {
-# 				has_deposit = d_arcane_generator
-# 				NOT = { has_district = district_rw_city }
-# 			}
-# 		}
-# 		text = arcane_generator_upkeep_desc
-# 	}
-
-# 	triggered_desc = {
-# 		trigger = {
-# 			exists = owner
-# 			owner = { is_regular_empire = yes }
-# 		}
-# 		text = job_clerk_effect_desc
-# 	}
-# }
-
-# xvcv_mdlc_pc_ringworld_machine_auto_nexus = {
-# 	base_buildtime = @rw_district_buildtime
-# 	is_capped_by_modifier = no
-# 	exempt_from_ai_planet_specialization = yes
-
-# 	show_on_uncolonized = {
-# 		exists = from
-# 		from = { is_machine_empire = yes }
-# 		uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
-# 	}
-
-# 	potential = {
-# 		exists = owner
-# 		owner = { is_machine_empire = yes }
-# 		uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
-# 	}
-
-# 	conversion_ratio = 0.5
-# 	convert_to = {
-# 		district_rw_hive
-# 		district_rw_city
-# 	}
-
-# 	resources = {
-# 		category = planet_districts
-# 		cost = {
-# 			minerals = @rw_cost
-# 		}
-# 		upkeep = {
-# 			energy = @rw_maintenance
-# 		}
-# 	}
-
-# 	planet_modifier = {
-# 		planet_housing_add = 25
-# 		job_maintenance_drone_add = 10
-# 		job_technician_drone_add = 2
-# 	}
-
-# 	triggered_planet_modifier = {
-# 		potential = {
-# 			exists = owner
-# 			owner = { has_technology = tech_housing_1 }
-# 		}
-# 		modifier = {
-# 			planet_housing_add = 5
-# 		}
-# 	}
-
-# 	triggered_planet_modifier = {
-# 		potential = {
-# 			exists = owner
-# 			owner = { has_technology = tech_housing_2 }
-# 		}
-# 		modifier = {
-# 			planet_housing_add = 5
-# 			job_maintenance_drone_add = 5
-# 		}
-# 	}
-
-# 	triggered_planet_modifier = {
-# 		potential = {
-# 			exists = owner
-# 			owner = { has_active_tradition = tr_virtuality_4 }
-# 		}
-# 		modifier = {
-# 			job_maintenance_drone_add = 10
-# 		}
-# 	}
-
-# 	triggered_planet_modifier = {
-# 		potential = {
-# 			exists = owner
-# 			owner = { has_active_tradition = tr_prosperity_optimized_nexus }
-# 		}
-# 		modifier = {
-# 			planet_housing_add = 5
-# 		}
-# 	}
-
-# 	triggered_desc = {
-# 		trigger = {
-# 			planet = {
-# 				has_deposit = d_arcane_generator
-# 				NOT = { has_district = district_rw_nexus }
-# 			}
-# 		}
-# 		text = arcane_generator_upkeep_desc
-# 	}
-# }
 
 xvcv_mdlc_pc_ringworld_machine_auto_generator = {
 	base_buildtime = @rw_district_buildtime
@@ -340,7 +109,7 @@ xvcv_mdlc_pc_ringworld_machine_auto_commercial = {
 		# 15 + 15 = 30
 		trade_value_add = 30  
 		# let's see if use of mult is broken/unbalanced
-		mult = value:scripted_modifier_mult|MODIFIER|pop_job_trade_mult|
+		# mult = value:scripted_modifier_mult|MODIFIER|pop_job_trade_mult|
 	}
 
 	triggered_planet_modifier = {
@@ -352,7 +121,7 @@ xvcv_mdlc_pc_ringworld_machine_auto_commercial = {
 		}
 		modifier = {
 			trade_value_add = 15
-			mult = value:scripted_modifier_mult|MODIFIER|pop_job_trade_mult|
+			# mult = value:scripted_modifier_mult|MODIFIER|pop_job_trade_mult|
 		}
 	}
 
@@ -363,7 +132,7 @@ xvcv_mdlc_pc_ringworld_machine_auto_commercial = {
 		}
 		modifier = {
 			trade_value_add = 15
-			mult = value:scripted_modifier_mult|MODIFIER|pop_job_trade_mult|
+			# mult = value:scripted_modifier_mult|MODIFIER|pop_job_trade_mult|
 		}
 	}
 }
@@ -487,6 +256,11 @@ xvcv_mdlc_pc_ringworld_machine_auto_farming = {
 				owner = { country_uses_food = no }
 			}
 		}
+	}
+
+	planet_modifier = {
+		xvcv_mdlc_world_machines_districts_produces_mult = -0.1
+		xvcv_mdlc_world_machines_districts_upkeep_mult = 0.1
 	}
 
 	resources = {
