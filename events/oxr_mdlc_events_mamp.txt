@@ -156,10 +156,21 @@ planet_event = {
 			species = event_target:oxr_mdlc_mamp_cat_1_pop_species
 		}
 		remove_planet_modifier = oxr_mdlc_mamp_auto_construction_active_cat_1
-		# fire_on_action = {
-		# 	on_action = on_mamp_planet_auto_construction_finished
-		# }
+		if = {
+			limit = { 
+				has_planet_modifier = oxr_mdlc_mamp_autoconstruction_active
+			}
+			# call event to place modifier and start again
+		}
 	}
+}
+
+# cycle creating mamp pops on the planet as long as the modifier is active
+planet_event = {
+	id = oxr_mdlc_mamp.105
+	is_triggered_only = yes
+	hide_window = yes
+
 }
 
 country_event = {
