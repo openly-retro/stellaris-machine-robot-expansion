@@ -128,6 +128,8 @@ country_event = {
 							is_star = no
 							is_colony = no
 							is_colonizable = no
+							# asteroids are deleted in generate_home_planet_final_pass for "Resource Consolidation" origin
+							is_asteroid = no
 							NOR = {
 								is_planet_class = pc_shattered
 								is_planet_class = pc_ringworld_habitable_damaged
@@ -146,6 +148,7 @@ country_event = {
 							is_star = no
 							is_colony = no
 							is_colonizable = no
+							is_asteroid = no
 						}
 						save_event_target_as = xvcv_mdlc_civic_planet_cracker_target
 					}
@@ -155,6 +158,7 @@ country_event = {
 							NOT = { exists = event_target:xvcv_mdlc_civic_planet_cracker_target }
 							is_star = no
 							is_colony = no
+							is_asteroid = no
 						}
 						save_event_target_as = xvcv_mdlc_civic_planet_cracker_target
 					}
@@ -199,21 +203,32 @@ country_event = {
 								remove_planet = yes
 								spawn_habitat_cracker_effect = yes
 							}
-							else_if = {
-								limit = { is_planet_class = pc_ringworld_habitable }
-								change_pc = pc_ringworld_habitable_damaged
-								spawn_ringworld_cracker_effect = yes
+							# else_if = {
+							# 	limit = { is_planet_class = pc_ringworld_habitable }
+							# 	change_pc = pc_ringworld_habitable_damaged
+							# 	spawn_ringworld_cracker_effect = yes
+							# }
+							# else_if = {
+							# 	limit = { is_planet_class = pc_ringworld_tech }
+							# 	change_pc = pc_ringworld_tech_damaged
+							# 	spawn_ringworld_cracker_effect = yes
+							# }
+							# else_if = {
+							# 	limit = { is_planet_class = pc_ringworld_seam }
+							# 	change_pc = pc_ringworld_seam_damaged
+							# 	spawn_ringworld_cracker_effect = yes
+							# }
+						
+							# print_scope_effect = yes 
+							if = {
+								limit = { root = { has_technology = xvcv_mdlc_tech_orbital_cracker_upgrade_1 } }
+								add_deposit = d_minerals_4
 							}
-							else_if = {
-								limit = { is_planet_class = pc_ringworld_tech }
-								change_pc = pc_ringworld_tech_damaged
-								spawn_ringworld_cracker_effect = yes
+							if = {
+								limit = { root = { has_technology = xvcv_mdlc_tech_orbital_cracker_upgrade_2 } }
+								add_deposit = d_minerals_6
 							}
-							else_if = {
-								limit = { is_planet_class = pc_ringworld_seam }
-								change_pc = pc_ringworld_seam_damaged
-								spawn_ringworld_cracker_effect = yes
-							}
+							add_deposit = d_minerals_10
 						}
 					}
 				}
@@ -3478,6 +3493,47 @@ country_event = {
 	}
 }
 
+### ORBITAL CRACKER ###
+country_event = {
+	id = xvcv_mdlc.100
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		OR = {
+			last_increased_tech = xvcv_mdlc_tech_orbital_cracker_upgrade_1
+			last_increased_tech = xvcv_mdlc_tech_orbital_cracker_upgrade_2
+		}
+	}
+	immediate = {
+		if = {
+			limit = { last_increased_tech = xvcv_mdlc_tech_orbital_cracker_upgrade_1 }
+			every_owned_megastructure = {
+				limit = {
+					is_megastructure_type = xvcv_mdlc_planet_cracker
+				}
+				this.planet = {
+					log = "Adding Orbital Cracker deposit to \\[This.GetName]"
+					add_deposit = d_minerals_4
+				}
+			}
+		}
+		else_if = {
+			limit = { last_increased_tech = xvcv_mdlc_tech_orbital_cracker_upgrade_2 }
+			every_owned_megastructure = {
+				limit = {
+					is_megastructure_type = xvcv_mdlc_planet_cracker
+				}
+				this.planet = {
+					log = "Adding Orbital Cracker deposit to \\[This.GetName]"
+					add_deposit = d_minerals_6
+				}
+			}
+		}
+	}
+}
+
+
 ### ETC Events ###
 #'xvcv_mdlc_servitor_morale' empire modifiers calculations event
 country_event = {
@@ -3829,9 +3885,7 @@ country_event = {
 	picture = GFX_evt_synth_situation
 	is_triggered_only = yes
 
-	trigger = {
-		xvcv_mdlc_synthetic_start_origin_trigger = yes
-	}
+	trigger = { }
 	immediate = {
 		
 	}
