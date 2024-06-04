@@ -3840,3 +3840,74 @@ country_event = {
 		hidden_effect = {}
 	}
 }
+
+# oxr_mdlc_decision_dismantle_habitat
+planet_event = {
+	id = xvcv_mdlc.2000
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		
+	}
+	immediate = {
+		add_modifier = {
+			modifier = oxr_mdlc_habitat_dismantle_effect
+			days = 180
+		}
+		planet_event = {
+			id = xvcv_mdlc.2001
+			days = 180
+		}
+	}
+}
+# oxr_mdlc_decision_dismantle_habitat
+planet_event = {
+	id = xvcv_mdlc.2001
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { }
+
+	immediate = {
+		this.space_owner = {
+			add_resource = {
+				alloys = 750
+			}
+			log = "Should have refunded 750 alloys"
+		}
+		remove_planet = yes
+		this.solar_system = {
+			remove_star_flag = has_habitat
+			every_fleet_in_system = {
+				limit = {
+					is_ship_class = shipclass_habitat_station
+				}
+				orbit = {
+					if = {
+						limit = {
+							NOT = {
+								has_planet_flag = habitat_build_site
+							}
+						}
+						remove_planet_flag = has_megastructure
+					}
+				}
+				this.owner = {
+					add_resource = {
+						alloys = 75
+					}
+				}
+				log = "Should have refunded 75 alloys for 1 orbital"
+				delete_fleet = this
+				
+			}
+			random_system_planet = {
+				limit = {
+					has_planet_flag = habitat
+				}
+				remove_planet_flag = habitat
+				remove_planet_flag = has_megastructure
+			}
+		}
+	}
+}
