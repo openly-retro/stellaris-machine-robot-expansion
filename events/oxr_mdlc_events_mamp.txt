@@ -17,7 +17,7 @@ country_event = {
 			has_country_flag = oxr_mdlc_mamp_event_chain_started
 		}
 		is_machine_empire = yes
-		has_ascension_perk = oxr_mdlc_ap_mamp
+		has_ascension_perk = oxr_mdlc_mamp
 	}
 
 	immediate = {
@@ -141,5 +141,121 @@ country_event = {
 		name = oxr_mdlc_mamp.5.option_1.name
 		allow = { always = yes }
 		custom_tooltip = oxr_mdlc_mamp.5.option_1.tooltip
+	}
+}
+
+
+#### AUTO CONSTRUCTION ####
+planet_event = {
+	id = oxr_mdlc_mamp.1000
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		oxr_mdlc_mamp_planet_can_auto_construct_frames = yes
+		owner = {
+			oxr_mdlc_mamp_empire_can_afford_cat_1 = yes
+		}
+		has_modifier = oxr_mdlc_mamp_auto_construction_active
+	}
+
+	immediate = {
+		log = "Beginning event loop for auto-constructing MAMP Cat 1"
+		add_modifier = {
+			modifier = oxr_mdlc_mamp_auto_construction_active_cat_1
+			days = 60
+		}
+		# Check if criteria are met, and create pop
+		planet_event = {
+			id = oxr_mdlc_mamp.1002 days = 60
+		}
+	}
+}
+# Stop autoconstruction
+planet_event = {
+	id = oxr_mdlc_mamp.1001
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { }
+	immediate = {
+		log = "Removing auto-construction planet modifiers."
+		remove_modifier = oxr_mdlc_mamp_auto_construction_active
+		remove_modifier = oxr_mdlc_mamp_auto_construction_active_cat_1
+		# Create a minimized message
+		add_modifier = {
+			modifier = oxr_mdlc_mamp_auto_construction_was_disabled_during_event
+			days = -1
+		}
+		create_message = {
+			type = OXR_MDLC_MAMP_AUTO_CONSTRUCTION_DEACTIVATED_MESSAGE_TYPE
+			localization = OXR_MDLC_MAMP_AUTO_CONSTRUCTION_DEACTIVATED_MESSAGE
+			days = 10
+			target = this
+			variable = {
+				type = name
+				localization = OXR_MDLC_MAMP_AUTO_CONSTRUCTION_DEACTIVATED_ON
+				scope = this
+			}
+		}
+	}
+}
+
+# Create MAMP pop and LOOP autoconstruction
+planet_event = {
+	id = oxr_mdlc_mamp.1002
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { }
+
+	immediate = {
+		if = {
+			# Check if the conditions changed in the 60-day countdown
+			limit = {
+				oxr_mdlc_mamp_planet_can_auto_construct_frames = yes
+				this.space_owner = {
+					oxr_mdlc_mamp_empire_can_afford_cat_1 = yes
+				}
+			}
+			log = "Meets criteria to create MAMP: Creating ..."
+			create_pop = {
+				species = event_target:oxr_mdlc_mamp_cat_1_pop_species
+			}
+			last_created_pop = {
+				set_citizenship_type = {
+					country = root.owner
+					type = citizenship_full_machine
+					cooldown = no
+				}
+			}
+			this.space_owner = {
+				oxr_mdlc_mamp_deduct_empire_costs_cat_1 = yes
+			}
+			create_message = {
+				type = OXR_MDLC_MAMP_AUTO_CONSTRUCTION_COMPLETION_MESSAGE_TYPE
+				localization = OXR_MDLC_MAMP_AUTO_CONSTRUCTION_CAT_1_DONE_MESSAGE
+				days = 10
+				target = this
+				variable = {
+					type = name
+					localization = OXR_MDLC_MAMP_AUTO_CONSTRUCTION_PLANET
+					scope = this
+				}
+			}
+			# Start all over
+			if = {
+				limit = {
+					has_modifier = oxr_mdlc_mamp_auto_construction_active
+				}
+			}
+			planet_event = { id = oxr_mdlc_mamp.1000 }
+			else = {
+				log = "Autoconstruction was deactivated during assembly. Stopping ..."
+			}
+		}
+		else = {
+			log = "Does not meet criteria to create MAMP: Stopping ..."
+			# Turn off autoconstruction on the planet
+			planet_event = { id = oxr_mdlc_mamp.1001 }
+		}
 	}
 }

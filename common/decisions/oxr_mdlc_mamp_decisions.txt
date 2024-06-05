@@ -25,6 +25,10 @@ oxr_mdlc_decision_mamp_construct_cat_1 = {
 	allow = {
 		# Have to be more than 1 non-MAMP pop
 		oxr_mdlc_mamp_planet_can_construct_cat1_frames = yes
+		NOT = { has_modifier = oxr_mdlc_mamp_auto_construction_active }
+		owner = {
+			oxr_mdlc_mamp_empire_can_afford_cat_1 = yes
+		}
 	}
 
 	effect = {
@@ -51,5 +55,60 @@ oxr_mdlc_decision_mamp_construct_cat_1 = {
 				}
 			}
 		}
+	}
+}
+
+oxr_mdlc_decision_mamp_enable_auto_construction = {
+	owned_planets_only = yes
+	enactment_time = 1
+	potential = {
+		owner = {
+			is_machine_empire = yes
+			has_ascension_perk = oxr_mdlc_ap_mamp
+			has_technology = oxr_mdlc_tech_mamp_1
+		}
+		oxr_mdlc_mamp_planet_can_auto_construct_frames = yes
+		NOT = { has_modifier = oxr_mdlc_mamp_auto_construction_active }
+	}
+	allow = {
+		oxr_mdlc_mamp_planet_can_auto_construct_frames = yes
+		owner = {
+			oxr_mdlc_mamp_empire_can_afford_cat_1 = yes
+		}
+	}
+	effect = {
+		# Fire the event that adds the countdown modifier
+		# The same event will kick off the "create species" event
+		# a 3rd event will check whether it's fine to loop
+		if = {
+			limit = { 
+				has_modifier = oxr_mdlc_mamp_auto_construction_was_disabled_during_event
+			}
+			remove_modifier = oxr_mdlc_mamp_auto_construction_was_disabled_during_event
+		}
+		add_modifier = {
+			modifier = oxr_mdlc_mamp_auto_construction_active
+		}
+		planet_event = { id = oxr_mdlc_mamp.1000 }
+		log = "Player activated MAMP auto-construction on \\[This.GetName]"
+	}
+}
+
+oxr_mdlc_decision_mamp_deactivate_auto_construction = {
+	owned_planets_only = yes
+	enactment_time = 1
+	potential = {
+		owner = {
+			is_machine_empire = yes
+			has_ascension_perk = oxr_mdlc_ap_mamp
+			has_technology = oxr_mdlc_tech_mamp_1
+		}
+		has_modifier = oxr_mdlc_mamp_auto_construction_active
+	}
+	allow = { always = yes }
+
+	effect = {
+		remove_modifier = oxr_mdlc_mamp_auto_construction_active
+		log = "Player deactivated MAMP auto-construction on \\[This.GetName]"
 	}
 }

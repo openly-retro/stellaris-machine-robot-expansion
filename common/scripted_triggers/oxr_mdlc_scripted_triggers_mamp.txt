@@ -1,20 +1,110 @@
+@oxr_mdlc_mamp_cat_1_energy_cost = 500
+@oxr_mdlc_mamp_cat_1_alloys_cost = 250
+
 # Call from planet scope
 oxr_mdlc_mamp_planet_can_construct_cat1_frames = {
 	optimize_memory
 	custom_tooltip_fail = {
 		text = oxr_mdlc_mamp_planet_can_construct_cat1_frames.fail
-		count_owned_pop = {
-			limit = {
-				species = {
-					NOT = { is_archetype = OXR_MDLC_MAMP }
-				}
-				has_trait = trait_machine_unit
-			}
-			count > 1
-		}
+		oxr_mdlc_mamp_planet_has_minimum_machine_units = yes
 	}
 	custom_tooltip_fail = {
 		text = oxr_mdlc_mamp_planet_decision_needs_1_pop.fail
 		num_pops > 1
+	}
+}
+oxr_mdlc_mamp_planet_can_construct_cat2_frames = {
+	oxr_mdlc_mamp_planet_has_minimum_machine_units = yes
+	OR = {
+		has_building = oxr_mdlc_mamp_frame_factory_2
+		has_building = oxr_mdlc_mamp_frame_factory_3
+	}
+}
+oxr_mdlc_mamp_planet_can_construct_cat3_frames = {
+	oxr_mdlc_mamp_planet_has_minimum_machine_units = yes
+	has_building = oxr_mdlc_mamp_frame_factory_3
+}
+
+oxr_mdlc_mamp_planet_has_minimum_machine_units = {
+	optimize_memory
+	count_owned_pop = {
+		limit = {
+			species = {
+				NOT = { is_archetype = OXR_MDLC_MAMP }
+			}
+			has_trait = trait_machine_unit
+		}
+		count > 1
+	}
+}
+oxr_mdlc_mamp_planet_can_auto_construct_frames = {
+	# PLANET scope
+	optimize_memory
+	oxr_mdlc_mamp_planet_has_minimum_machine_units = yes
+	oxr_mdlc_mamp_planet_is_currently_constructing_mamp = no
+	oxr_mdlc_mamp_planet_has_mamp_buildings = yes
+}
+# oxr_mdlc_mamp_planet_can_stop_auto_construct_frames = {
+# 	optimize_memory
+# 	oxr_mdlc_mamp_planet_auto_construction_active = yes
+# }
+
+oxr_mdlc_mamp_planet_is_currently_constructing_mamp = {
+	OR = {
+		has_modifier = oxr_mdlc_mamp_auto_construction_active_cat_1
+		has_modifier = oxr_mdlc_mamp_auto_construction_active_cat_2
+		has_modifier = oxr_mdlc_mamp_auto_construction_active_cat_3
+	}
+}
+### PLANET
+oxr_mdlc_mamp_planet_auto_construction_active = {
+	has_modifier = oxr_mdlc_mamp_auto_construction_active
+}
+oxr_mdlc_mamp_planet_auto_constructing_cat_1 = {
+	has_modifier = oxr_mdlc_mamp_auto_construction_active_cat_1
+}
+oxr_mdlc_mamp_planet_auto_constructing_cat_2 = {
+	has_modifier = oxr_mdlc_mamp_auto_construction_active_cat_2
+}
+oxr_mdlc_mamp_planet_auto_constructing_cat_3 = {
+	has_modifier = oxr_mdlc_mamp_auto_construction_active_cat_3
+}
+oxr_mdlc_mamp_planet_has_mamp_buildings = {
+	OR = {
+		has_building = oxr_mdlc_mamp_frame_factory_1
+		has_building = oxr_mdlc_mamp_frame_factory_2
+		has_building = oxr_mdlc_mamp_frame_factory_3
+	}
+}
+### EMPIRE
+oxr_mdlc_mamp_empire_auto_construction_active = {
+	from = {
+		has_country_flag = oxr_mdlc_mamp_empire_auto_construction_active
+	}
+}
+oxr_mdlc_mamp_empire_auto_constructing_cat_1 = {
+	from = {
+		has_country_flag = oxr_mdlc_mamp_empire_auto_construction_active_cat_1
+	}
+}
+oxr_mdlc_mamp_empire_auto_constructing_cat_2 = {
+	from = {
+		has_country_flag = oxr_mdlc_mamp_empire_auto_construction_active_cat_2
+	}
+}
+oxr_mdlc_mamp_empire_auto_constructing_cat_3 = {
+	from = {
+		has_country_flag = oxr_mdlc_mamp_empire_auto_construction_active_cat_3
+	}
+}
+oxr_mdlc_mamp_empire_can_afford_cat_1 = {
+	optimize_memory
+	has_resource = {
+		type = energy
+		amount >= @oxr_mdlc_mamp_cat_1_energy_cost
+	}
+	has_resource = {
+		type = alloys
+		amount >= @oxr_mdlc_mamp_cat_1_alloys_cost
 	}
 }
