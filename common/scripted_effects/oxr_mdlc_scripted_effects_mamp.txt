@@ -102,7 +102,77 @@ oxr_mdlc_mamp_deduct_empire_costs_cat_1 = {
 	optimize_memory
 	# Call from planet this.space_owner scope
 	add_resource = {
-		alloys = -250
-		energy = -500
+		alloys = @oxr_mdlc_mamp_cat_1_cost_energy
+		mult = -1
+	}
+	add_resource = {
+		energy = @oxr_mdlc_mamp_cat_1_cost_energy
+		mult = -1
+	}
+	log = "Deducted costs for Cat-1 Frame"
+}
+
+oxr_mdlc_mamp_construct_cat_1_pop = {
+	# Construct a pop from an existing MAMP species
+	optimize_memory
+	random_owned_pop = {
+		limit = {
+			species = {
+				is_archetype = MACHINE
+				NOT = { is_archetype = OXR_MDLC_MAMP }
+			}
+		}
+		kill_pop = yes
+	}
+	create_pop = {
+		species = event_target:oxr_mdlc_mamp_cat_1_pop_species
+	}
+	last_created_pop = {
+		set_citizenship_type = {
+			country = root.owner
+			type = citizenship_full_machine
+			cooldown = no
+		}
+	}
+}
+
+oxr_mdlc_mamp_planet_kill_pop_for_frame = {
+	# Must be called from planet scope; must do check before hand
+	optimize_memory
+	random_owned_pop = {
+		limit = {
+			species = {
+				is_archetype = MACHINE
+				NOT = { is_archetype = OXR_MDLC_MAMP }
+			}
+			# NOT = { has_job_category = ruler }
+		}
+		kill_pop = yes
+	}
+	log = "Killed 1 pop on \\[This.GetName] to construct a MAMP Frame"
+}
+
+oxr_mdlc_mamp_notify_pop_construction_complete = {
+	# Called from planet_event oxr_mdlc_mamp.1002
+	optimize_memory
+	create_message = {
+		type = OXR_MDLC_MAMP_AUTO_CONSTRUCTION_COMPLETION_MESSAGE_TYPE
+		localization = OXR_MDLC_MAMP_AUTO_CONSTRUCTION_CAT_1_DONE_MESSAGE
+		days = 10
+		target = this
+		variable = {
+			type = name
+			localization = OXR_MDLC_MAMP_AUTO_CONSTRUCTION_PLANET
+			scope = this
+		}
+	}
+}
+
+oxr_mdlc_mamp_planet_set_autoconstruction_cat_level = {
+	# Quick helper to set a var. Acceptable values: 0, 1, 2, 3
+	optimize_memory
+	set_variable = {
+		which = oxr_mdlc_mamp_auto_construction_cat_level
+		value = $LEVEL$
 	}
 }

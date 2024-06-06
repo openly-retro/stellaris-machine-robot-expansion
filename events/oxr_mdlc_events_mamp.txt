@@ -146,41 +146,117 @@ country_event = {
 
 
 #### AUTO CONSTRUCTION ####
+# This is the entry event that checks what level of Frame to build
+# It deducts resources and extracts 1 pop, then sets a timer to build the new pop
+# If insufficient resources or pops, it will auto-cancel
 planet_event = {
 	id = oxr_mdlc_mamp.1000
 	hide_window = yes
 	is_triggered_only = yes
 
 	trigger = {
-		oxr_mdlc_mamp_planet_can_auto_construct_frames = yes
-		owner = {
-			oxr_mdlc_mamp_empire_can_afford_cat_1 = yes
-		}
 		has_modifier = oxr_mdlc_mamp_auto_construction_active
 	}
 
 	immediate = {
-		log = "Beginning event loop for auto-constructing MAMP Cat 1"
-		add_modifier = {
-			modifier = oxr_mdlc_mamp_auto_construction_active_cat_1
-			days = 60
+		if = {
+			limit = {
+				oxr_mdlc_mamp_planet_auto_constructing_cat_1 = yes
+			}
+			# Check on loop that empire can still afford to construct
+			if = {
+				limit = {
+					OR = {
+						this.space_owner = { oxr_mdlc_mamp_empire_can_afford_cat_1 = no }
+						oxr_mdlc_mamp_planet_can_auto_construct_frames = no
+					}
+				}
+				# Can't afford, stop the presses
+				planet_event = {
+					id = oxr_mdlc_mamp.1001 days = 1
+				}
+			}
+			else = {
+				# Checks out, start up
+				log = "Beginning event loop for auto-constructing MAMP Cat 1"
+				# Deduct resources
+				this.space_owner = {
+					oxr_mdlc_mamp_deduct_empire_costs_cat_1 = yes
+				}
+				# "kill" pop
+				oxr_mdlc_mamp_planet_kill_pop_for_frame = yes
+				add_modifier = {
+					modifier = oxr_mdlc_mamp_auto_construction_active_cat_1
+					days = @oxr_mdlc_mamp_cat_1_build_time_days
+				}
+				planet_event = {
+					id = oxr_mdlc_mamp.1002 days = @oxr_mdlc_mamp_cat_1_build_time_days
+				}
+			}
 		}
-		# Check if criteria are met, and create pop
-		planet_event = {
-			id = oxr_mdlc_mamp.1002 days = 60
+		else_if = {
+			limit = {
+				oxr_mdlc_mamp_planet_auto_constructing_cat_2 = yes
+			}
+			# Check on loop that empire can still afford to construct
+			if = {
+				limit = {
+					OR = {
+						this.space_owner = { oxr_mdlc_mamp_empire_can_afford_cat_2 = no }
+						oxr_mdlc_mamp_planet_can_auto_construct_frames = no
+					}
+				}
+				# Can't afford, stop the presses
+				planet_event = { id = oxr_mdlc_mamp.1001 days = 1 }
+			}
+			else = {
+				# Checks out, start up
+				log = "Beginning event loop for auto-constructing MAMP Cat 2"
+				# Deduct resources
+				this.space_owner = {
+					oxr_mdlc_mamp_deduct_empire_costs_cat_2 = yes
+				}
+				# "kill" pop
+				oxr_mdlc_mamp_planet_kill_pop_for_frame = yes
+				add_modifier = {
+					modifier = oxr_mdlc_mamp_auto_construction_active_cat_2
+					days = @oxr_mdlc_mamp_cat_2_build_time_days
+				}
+				planet_event = {
+					id = oxr_mdlc_mamp.1002 days = @oxr_mdlc_mamp_cat_2_build_time_days
+				}
+			}
 		}
 	}
 }
-# Stop autoconstruction
+
+# Stop autoconstruction. Can be used for all CAT levels
 planet_event = {
 	id = oxr_mdlc_mamp.1001
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = { }
 	immediate = {
+		log = "Stopping auto-construction on \\[This.GetName]"
 		log = "Removing auto-construction planet modifiers."
 		remove_modifier = oxr_mdlc_mamp_auto_construction_active
-		remove_modifier = oxr_mdlc_mamp_auto_construction_active_cat_1
+		if = {
+			limit = { has_modifier = oxr_mdlc_mamp_auto_construction_active_cat_1 }
+			remove_modifier = oxr_mdlc_mamp_auto_construction_active_cat_1
+		}
+		if = {
+			limit = { has_modifier = oxr_mdlc_mamp_auto_construction_active_cat_2 }
+			remove_modifier = oxr_mdlc_mamp_auto_construction_active_cat_2
+		}
+		if = {
+			limit = { has_modifier = oxr_mdlc_mamp_auto_construction_active_cat_3 }
+			remove_modifier = oxr_mdlc_mamp_auto_construction_active_cat_3
+		}
+		# Unset the variable which tracks the Cat level
+		set_variable = {
+			which = oxr_mdlc_mamp_auto_construction_cat_level
+			value = 0
+		}
 		# Create a minimized message
 		add_modifier = {
 			modifier = oxr_mdlc_mamp_auto_construction_was_disabled_during_event
@@ -189,7 +265,7 @@ planet_event = {
 		create_message = {
 			type = OXR_MDLC_MAMP_AUTO_CONSTRUCTION_DEACTIVATED_MESSAGE_TYPE
 			localization = OXR_MDLC_MAMP_AUTO_CONSTRUCTION_DEACTIVATED_MESSAGE
-			days = 10
+			days = 20
 			target = this
 			variable = {
 				type = name
@@ -208,54 +284,40 @@ planet_event = {
 	trigger = { }
 
 	immediate = {
+		# At this point, costs and pop were already deducted
+		# so create the new pop & loop
+		log = "Meets criteria to create MAMP: Creating ..."
 		if = {
-			# Check if the conditions changed in the 60-day countdown
 			limit = {
-				oxr_mdlc_mamp_planet_can_auto_construct_frames = yes
-				this.space_owner = {
-					oxr_mdlc_mamp_empire_can_afford_cat_1 = yes
-				}
+				oxr_mdlc_mamp_planet_auto_constructing_cat_1 = yes
 			}
-			log = "Meets criteria to create MAMP: Creating ..."
 			create_pop = {
 				species = event_target:oxr_mdlc_mamp_cat_1_pop_species
 			}
-			last_created_pop = {
-				set_citizenship_type = {
-					country = root.owner
-					type = citizenship_full_machine
-					cooldown = no
-				}
-			}
-			this.space_owner = {
-				oxr_mdlc_mamp_deduct_empire_costs_cat_1 = yes
-			}
-			create_message = {
-				type = OXR_MDLC_MAMP_AUTO_CONSTRUCTION_COMPLETION_MESSAGE_TYPE
-				localization = OXR_MDLC_MAMP_AUTO_CONSTRUCTION_CAT_1_DONE_MESSAGE
-				days = 10
-				target = this
-				variable = {
-					type = name
-					localization = OXR_MDLC_MAMP_AUTO_CONSTRUCTION_PLANET
-					scope = this
-				}
-			}
-			# Start all over
-			if = {
-				limit = {
-					has_modifier = oxr_mdlc_mamp_auto_construction_active
-				}
-			}
-			planet_event = { id = oxr_mdlc_mamp.1000 }
-			else = {
-				log = "Autoconstruction was deactivated during assembly. Stopping ..."
+		}
+		else_if = {
+			limit = { oxr_mdlc_mamp_planet_auto_constructing_cat_2 = yes }
+			# TODO: UPDATE THIS TO REAL CAT 2 SPECIES :)
+			create_pop = {
+				species = event_target:oxr_mdlc_mamp_cat_1_pop_species
 			}
 		}
+		last_created_pop = {
+			set_citizenship_type = {
+				country = root.owner
+				type = citizenship_full_machine
+				cooldown = no
+			}
+		}
+		# Message popup
+		oxr_mdlc_mamp_notify_pop_construction_complete = yes
+		# Check the player wants to keep building MAMP Frames
+		if = {
+			limit = { has_modifier = oxr_mdlc_mamp_auto_construction_active }
+			planet_event = { id = oxr_mdlc_mamp.1000 }
+		}
 		else = {
-			log = "Does not meet criteria to create MAMP: Stopping ..."
-			# Turn off autoconstruction on the planet
-			planet_event = { id = oxr_mdlc_mamp.1001 }
+			log = "Autoconstruction was deactivated on \\[This.GetName] during assembly. Stopping ..."
 		}
 	}
 }
