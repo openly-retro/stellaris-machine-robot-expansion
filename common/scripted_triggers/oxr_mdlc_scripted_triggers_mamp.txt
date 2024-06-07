@@ -1,6 +1,3 @@
-@oxr_mdlc_mamp_cat_1_energy_cost = 500
-@oxr_mdlc_mamp_cat_1_alloys_cost = 250
-
 # Call from planet scope
 oxr_mdlc_mamp_planet_can_construct_cat1_frames = {
 	optimize_memory
@@ -13,6 +10,7 @@ oxr_mdlc_mamp_planet_can_construct_cat1_frames = {
 		num_pops > 1
 	}
 }
+
 oxr_mdlc_mamp_planet_can_construct_cat2_frames = {
 	oxr_mdlc_mamp_planet_has_minimum_machine_units = yes
 	OR = {
@@ -20,6 +18,7 @@ oxr_mdlc_mamp_planet_can_construct_cat2_frames = {
 		has_building = oxr_mdlc_mamp_frame_factory_3
 	}
 }
+
 oxr_mdlc_mamp_planet_can_construct_cat3_frames = {
 	oxr_mdlc_mamp_planet_has_minimum_machine_units = yes
 	has_building = oxr_mdlc_mamp_frame_factory_3
@@ -37,6 +36,7 @@ oxr_mdlc_mamp_planet_has_minimum_machine_units = {
 		count > 1
 	}
 }
+
 oxr_mdlc_mamp_planet_can_auto_construct_frames = {
 	# PLANET scope
 	optimize_memory
@@ -44,6 +44,7 @@ oxr_mdlc_mamp_planet_can_auto_construct_frames = {
 	# oxr_mdlc_mamp_planet_is_currently_constructing_mamp = no
 	oxr_mdlc_mamp_planet_has_mamp_buildings = yes
 }
+
 oxr_mdlc_mamp_planet_can_construct_cat_2_frames = {
 	optimize_memory
 	oxr_mdlc_mamp_planet_has_minimum_machine_units = yes
@@ -52,12 +53,12 @@ oxr_mdlc_mamp_planet_can_construct_cat_2_frames = {
 		has_building = oxr_mdlc_mamp_frame_factory_3
 	}
 }
+
 oxr_mdlc_mamp_planet_can_construct_cat_3_frames = {
 	optimize_memory
 	oxr_mdlc_mamp_planet_has_minimum_machine_units = yes
 	has_building = oxr_mdlc_mamp_frame_factory_3
 }
-
 
 # oxr_mdlc_mamp_planet_can_stop_auto_construct_frames = {
 # 	optimize_memory
@@ -65,6 +66,7 @@ oxr_mdlc_mamp_planet_can_construct_cat_3_frames = {
 # }
 
 oxr_mdlc_mamp_planet_is_currently_constructing_mamp = {
+	optimize_memory
 	OR = {
 		has_modifier = oxr_mdlc_mamp_auto_construction_active_cat_1
 		has_modifier = oxr_mdlc_mamp_auto_construction_active_cat_2
@@ -73,57 +75,73 @@ oxr_mdlc_mamp_planet_is_currently_constructing_mamp = {
 }
 ### PLANET
 oxr_mdlc_mamp_planet_auto_construction_active = {
+	optimize_memory
 	has_modifier = oxr_mdlc_mamp_auto_construction_active
 }
+
 oxr_mdlc_mamp_planet_auto_constructing_cat_1 = {
+	optimize_memory
 	check_variable = {
 		which = oxr_mdlc_mamp_auto_construction_cat_level
 		value = 1
 	}
 }
+
 oxr_mdlc_mamp_planet_auto_constructing_cat_2 = {
+	optimize_memory
 	check_variable = {
 		which = oxr_mdlc_mamp_auto_construction_cat_level
 		value = 2
 	}
+}
+
 oxr_mdlc_mamp_planet_auto_constructing_cat_3 = {
+	optimize_memory
 	check_variable = {
 		which = oxr_mdlc_mamp_auto_construction_cat_level
 		value = 3
 	}
 }
+
 oxr_mdlc_mamp_planet_has_mamp_buildings = {
+	optimize_memory
 	OR = {
 		has_building = oxr_mdlc_mamp_frame_factory_1
 		has_building = oxr_mdlc_mamp_frame_factory_2
 		has_building = oxr_mdlc_mamp_frame_factory_3
 	}
 }
+
 ### EMPIRE
 oxr_mdlc_mamp_empire_auto_construction_active = {
 	from = {
 		has_country_flag = oxr_mdlc_mamp_empire_auto_construction_active
 	}
 }
+
 oxr_mdlc_mamp_empire_auto_constructing_cat_1 = {
 	from = {
 		has_country_flag = oxr_mdlc_mamp_empire_auto_construction_active_cat_1
 	}
 }
+
 oxr_mdlc_mamp_empire_auto_constructing_cat_2 = {
 	from = {
 		has_country_flag = oxr_mdlc_mamp_empire_auto_construction_active_cat_2
 	}
 }
+
 oxr_mdlc_mamp_empire_auto_constructing_cat_3 = {
 	from = {
 		has_country_flag = oxr_mdlc_mamp_empire_auto_construction_active_cat_3
 	}
 }
+
 # Need a way to know not to call the MAMP autoconstruction event if something
 # is alrady on a timer being built
-oxr_mdlc_mamp_planet_no_constructions_are_in_progress = {
-	NOR = {
+oxr_mdlc_mamp_planet_constructions_are_in_progress = {
+	optimize_memory
+	OR = {
 		has_modifier = oxr_mdlc_mamp_auto_construction_active_cat_1
 		has_modifier = oxr_mdlc_mamp_auto_construction_active_cat_2
 		has_modifier = oxr_mdlc_mamp_auto_construction_active_cat_3
@@ -132,34 +150,34 @@ oxr_mdlc_mamp_planet_no_constructions_are_in_progress = {
 
 oxr_mdlc_mamp_empire_can_afford_cat_1 = {
 	optimize_memory
-	has_resource = {
+	has_country_resource = {
 		type = energy
-		amount >= @oxr_mdlc_mamp_cat_1_energy_cost
+		amount >= 500
 	}
-	has_resource = {
+	has_country_resource = {
 		type = alloys
-		amount >= @oxr_mdlc_mamp_cat_1_alloys_cost
+		amount >= 250
 	}
 }
 oxr_mdlc_mamp_empire_can_afford_cat_2 = {
 	optimize_memory
-	has_resource = {
+	has_country_resource = {
 		type = energy
-		amount >= @oxr_mdlc_mamp_cat_2_energy_cost
+		amount >= 2500
 	}
-	has_resource = {
+	has_country_resource = {
 		type = alloys
-		amount >= @oxr_mdlc_mamp_cat_2_alloys_cost
+		amount >= 1250
 	}
 }
 oxr_mdlc_mamp_empire_can_afford_cat_3 = {
 	optimize_memory
-	has_resource = {
+	has_country_resource = {
 		type = energy
-		amount >= @oxr_mdlc_mamp_cat_3_energy_cost
+		amount >= 5000
 	}
-	has_resource = {
+	has_country_resource = {
 		type = alloys
-		amount >= @oxr_mdlc_mamp_cat_3_alloys_cost
+		amount >= 25000
 	}
 }
