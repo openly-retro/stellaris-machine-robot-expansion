@@ -11,20 +11,26 @@ oxr_mdlc_mamp_planet_can_construct_cat1_frames = {
 	}
 }
 
-oxr_mdlc_mamp_planet_can_construct_cat2_frames = {
+oxr_mdlc_mamp_planet_can_construct_cat_2_frames = {
 	oxr_mdlc_mamp_planet_has_minimum_machine_units = yes
-	OR = {
-		has_building = oxr_mdlc_mamp_frame_factory_2
+	custom_tooltip_fail = {
+		text = oxr_mdlc_mamp_planet_missing_bay_level_2
+		OR = {
+			has_building = oxr_mdlc_mamp_frame_factory_2
+			has_building = oxr_mdlc_mamp_frame_factory_3
+		}
+	}
+}
+
+oxr_mdlc_mamp_planet_can_construct_cat_3_frames = {
+	oxr_mdlc_mamp_planet_has_minimum_machine_units = yes
+	custom_tooltip_fail = {
+		text = oxr_mdlc_mamp_planet_missing_bay_level_3
 		has_building = oxr_mdlc_mamp_frame_factory_3
 	}
 }
 
-oxr_mdlc_mamp_planet_can_construct_cat3_frames = {
-	oxr_mdlc_mamp_planet_has_minimum_machine_units = yes
-	has_building = oxr_mdlc_mamp_frame_factory_3
-}
-
-oxr_mdlc_mamp_planet_has_minimum_machine_units = {
+oxr_mdlc_mamp_planet_has_minimum_machine_units_count = {
 	optimize_memory
 	count_owned_pop = {
 		limit = {
@@ -37,42 +43,21 @@ oxr_mdlc_mamp_planet_has_minimum_machine_units = {
 	}
 }
 
+oxr_mdlc_mamp_planet_has_minimum_machine_units = {
+	optimize_memory
+	custom_tooltip_fail = {
+		text = oxr_mdlc_mamp_planet_can_auto_construct_frames.fail_pops
+		oxr_mdlc_mamp_planet_has_minimum_machine_units_count = yes
+	}
+}
+
 oxr_mdlc_mamp_planet_can_auto_construct_frames = {
 	# PLANET scope
 	optimize_memory
 	oxr_mdlc_mamp_planet_has_minimum_machine_units = yes
-	# oxr_mdlc_mamp_planet_is_currently_constructing_mamp = no
 	oxr_mdlc_mamp_planet_has_mamp_buildings = yes
 }
 
-oxr_mdlc_mamp_planet_can_construct_cat_2_frames = {
-	optimize_memory
-	oxr_mdlc_mamp_planet_has_minimum_machine_units = yes
-	OR = {
-		has_building = oxr_mdlc_mamp_frame_factory_2
-		has_building = oxr_mdlc_mamp_frame_factory_3
-	}
-}
-
-oxr_mdlc_mamp_planet_can_construct_cat_3_frames = {
-	optimize_memory
-	oxr_mdlc_mamp_planet_has_minimum_machine_units = yes
-	has_building = oxr_mdlc_mamp_frame_factory_3
-}
-
-# oxr_mdlc_mamp_planet_can_stop_auto_construct_frames = {
-# 	optimize_memory
-# 	oxr_mdlc_mamp_planet_auto_construction_active = yes
-# }
-
-oxr_mdlc_mamp_planet_is_currently_constructing_mamp = {
-	optimize_memory
-	OR = {
-		has_modifier = oxr_mdlc_mamp_auto_construction_active_cat_1
-		has_modifier = oxr_mdlc_mamp_auto_construction_active_cat_2
-		has_modifier = oxr_mdlc_mamp_auto_construction_active_cat_3
-	}
-}
 ### PLANET
 oxr_mdlc_mamp_planet_auto_construction_active = {
 	optimize_memory
@@ -105,11 +90,14 @@ oxr_mdlc_mamp_planet_auto_constructing_cat_3 = {
 
 oxr_mdlc_mamp_planet_has_mamp_buildings = {
 	optimize_memory
-	OR = {
-		has_building = oxr_mdlc_mamp_frame_factory_1
-		has_building = oxr_mdlc_mamp_frame_factory_2
-		has_building = oxr_mdlc_mamp_frame_factory_3
-	}
+	custom_tooltip_fail = {
+		text = oxr_mdlc_mamp_planet_can_auto_construct_frames.fail_buildings
+		OR = {
+			has_building = oxr_mdlc_mamp_frame_factory_1
+			has_building = oxr_mdlc_mamp_frame_factory_2
+			has_building = oxr_mdlc_mamp_frame_factory_3
+		}
+	}	
 }
 
 ### EMPIRE
@@ -141,10 +129,13 @@ oxr_mdlc_mamp_empire_auto_constructing_cat_3 = {
 # is alrady on a timer being built
 oxr_mdlc_mamp_planet_constructions_are_in_progress = {
 	optimize_memory
-	OR = {
-		has_modifier = oxr_mdlc_mamp_auto_construction_active_cat_1
-		has_modifier = oxr_mdlc_mamp_auto_construction_active_cat_2
-		has_modifier = oxr_mdlc_mamp_auto_construction_active_cat_3
+	custom_tooltip_fail = {
+		text = oxr_mdlc_mamp_auto_construction_active.cat_in_progress
+		OR = {
+			has_modifier = oxr_mdlc_mamp_auto_construction_active_cat_1
+			has_modifier = oxr_mdlc_mamp_auto_construction_active_cat_2
+			has_modifier = oxr_mdlc_mamp_auto_construction_active_cat_3
+		}
 	}
 }
 
