@@ -90,6 +90,8 @@ oxr_mdlc_decision_mamp_enable_auto_construction_cat_1 = {
 		custom_tooltip = oxr_mdlc_mamp_auto_construction_active.set_modifier
 		custom_tooltip = oxr_mdlc_mamp_planet_set_autoconstruction_cat_level.1
 		custom_tooltip = oxr_mdlc_mamp_auto_construction_active.begin
+		custom_tooltip = newline
+		custom_tooltip = oxr_mdlc_decision_mamp_enable_auto_construction_cat_1_tooltip
 		hidden_effect = {
 			if = {
 				limit = { 
@@ -105,13 +107,12 @@ oxr_mdlc_decision_mamp_enable_auto_construction_cat_1 = {
 					oxr_mdlc_mamp_planet_constructions_are_in_progress = no
 				}
 				planet_event = { id = oxr_mdlc_mamp.1000 }
-				log = "Player activated MAMP auto-construction on \\[This.GetName]"
+				log = "Player activated MAMP auto-construction L1 on \\[This.GetName]"
 			}
 			else = {
-				log = "Player re-activated MAMP auto-construction on \\[This.GetName] while mamp was being built."
+				log = "Player re-activated MAMP auto-construction L1 on \\[This.GetName] while mamp was being built."
 			}
 		}
-		
 	}
 }
 
@@ -140,7 +141,7 @@ oxr_mdlc_decision_mamp_deactivate_auto_construction_cat_1 = {
 			which = oxr_mdlc_mamp_auto_construction_cat_level
 			value = 0
 		}
-		log = "Player deactivated MAMP auto-construction on \\[This.GetName]"
+		log = "Player deactivated MAMP auto-construction L1 on \\[This.GetName]"
 		}
 		
 	}
@@ -174,25 +175,31 @@ oxr_mdlc_decision_mamp_enable_auto_construction_cat_2 = {
 		# Fire the event that adds the countdown modifier
 		# The same event will kick off the "create species" event
 		# a 3rd event will check whether it's fine to loop
-		if = {
-			limit = { 
-				has_modifier = oxr_mdlc_mamp_auto_construction_was_disabled_during_event
+		custom_tooltip = oxr_mdlc_mamp_auto_construction_active.set_modifier
+		custom_tooltip = oxr_mdlc_mamp_planet_set_autoconstruction_cat_level.2
+		custom_tooltip = oxr_mdlc_mamp_auto_construction_active.begin
+		custom_tooltip = newline
+		custom_tooltip = oxr_mdlc_decision_mamp_enable_auto_construction_cat_2_tooltip
+		hidden_effect = {
+			if = {
+				limit = { 
+					has_modifier = oxr_mdlc_mamp_auto_construction_was_disabled_during_event
+				}
+				remove_modifier = oxr_mdlc_mamp_auto_construction_was_disabled_during_event
 			}
-			remove_modifier = oxr_mdlc_mamp_auto_construction_was_disabled_during_event
-		}
-		add_modifier = { modifier = oxr_mdlc_mamp_auto_construction_active }
-		oxr_mdlc_mamp_planet_set_autoconstruction_cat_level = { LEVEL = 2 }
-		# If there's a construction in progress, don't trigger another one
-		if = {
-			limit = {
-				oxr_mdlc_mamp_planet_constructions_are_in_progress = no
+			add_modifier = { modifier = oxr_mdlc_mamp_auto_construction_active }
+			oxr_mdlc_mamp_planet_set_autoconstruction_cat_level = { LEVEL = 2 }
+			# If there's a construction in progress, don't trigger another one
+			if = {
+				limit = {
+					oxr_mdlc_mamp_planet_constructions_are_in_progress = no
+				}
+				planet_event = { id = oxr_mdlc_mamp.1000 }
+				log = "Player activated MAMP auto-construction L2 on \\[This.GetName]"
 			}
-			planet_event = { id = oxr_mdlc_mamp.1000 }
-			log = "Player activated MAMP auto-construction on \\[This.GetName]"
-		}
-		else = {
-			log = "Player re-activated MAMP auto-construction on \\[This.GetName] while mamp was being built."
-		}
+			else = {
+				log = "Player re-activated MAMP auto-construction L2 on \\[This.GetName] while mamp was being built."
+			}
 	}
 }
 
@@ -218,6 +225,6 @@ oxr_mdlc_decision_mamp_deactivate_auto_construction_cat_2 = {
 			which = oxr_mdlc_mamp_auto_construction_cat_level
 			value = 0
 		}
-		log = "Player deactivated MAMP auto-construction on \\[This.GetName]"
+		log = "Player deactivated MAMP auto-construction L2 on \\[This.GetName]"
 	}
 }
