@@ -2176,6 +2176,7 @@ country_event = {
 				class = "XVCV_MDLC_BIO_ROBOT"
 				portrait = human
 				traits = { trait = xvcv_mdlc_trait_bio_robot }
+				traits = this
 				homeworld = this.capital_scope
 				effect = {
 					if = {
@@ -2194,7 +2195,7 @@ country_event = {
 							add_trait = trait_mechanical
 						}
 					}
-					oxr_mdlc_set_custom_species_habitability = yes
+					# oxr_mdlc_set_custom_species_habitability = yes
 					rename_species = {
 						prompt_country = prev
 						name_list = ascension_list
@@ -2204,9 +2205,6 @@ country_event = {
 			last_created_species = {
 				save_global_event_target_as = xvcv_mdlc_bio_robot_species
 			}
-			# event_target:xvcv_mdlc_bio_robot_species = {
-			# 	oxr_mdlc_set_custom_species_habitability = yes
-			# }
 			every_owned_planet = { create_pop = { species = last_created_species } }
 			every_owned_pop = {
 				limit = { has_trait = xvcv_mdlc_trait_bio_robot }
@@ -2241,10 +2239,8 @@ country_event = {
 					plural = this
 					class = "XVCV_MDLC_BIO_ROBOT"
 					portrait = this
+					traits = { trait = xvcv_mdlc_trait_bio_robot }
 					traits = this
-					traits = {
-						trait = xvcv_mdlc_trait_bio_robot
-					}
 					homeworld = prev.capital_scope
 					effect = {
 						if = {
@@ -2254,26 +2250,15 @@ country_event = {
 									root = { has_authority = auth_machine_intelligence }
 								}
 							}
-							# modify_species = {
-							# 	species = this
-							# 	add_trait = trait_machine_unit
-							# 	change_scoped_species = no
-							# }
 							change_species_characteristics = {
 								add_trait = trait_machine_unit
 							}
 						}
 						else = {
-							# modify_species = {
-							# 	species = this
-							# 	add_trait = trait_mechanical
-							# 	change_scoped_species = no
-							# }
 							change_species_characteristics = {
 								add_trait = trait_mechanical
 							}
 						}
-						oxr_mdlc_set_custom_species_habitability = yes
 						rename_species = {
 							prompt_country = prevprev
 							name_list = ascension_list
@@ -2284,9 +2269,6 @@ country_event = {
 			last_created_species = {
 				save_global_event_target_as = xvcv_mdlc_bio_robot_species
 			}
-			# event_target:xvcv_mdlc_bio_robot_species = {
-			# 	oxr_mdlc_set_custom_species_habitability = yes
-			# }
 			every_owned_pop = {
 				limit = { is_same_species = prev.species }
 				prev = { add_resource = { food = 12 } }
