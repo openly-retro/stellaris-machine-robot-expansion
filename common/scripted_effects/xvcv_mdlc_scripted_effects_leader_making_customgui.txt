@@ -41,8 +41,8 @@ xvcv_mdlc_leader_making_clear_skill_levels_effect = {
     # 4. Mult by value:xvcv_mdlc_leader_making_skill_level
     # 5. Change xvcv_mdlc_leader_making_trait_costs_count_energy and *_alloys by this amount
     # 6. Reset the skill level var to 0
-    log = "IN xvcv_mdlc_leader_making_clear_skill_levels_effect"
-    log = "Leader-making currently at level \\[Root.xvcv_mdlc_leader_making_skill_level]"
+    # log = "IN xvcv_mdlc_leader_making_clear_skill_levels_effect"
+    # log = "Leader-making currently at level \\[Root.xvcv_mdlc_leader_making_skill_level]"
     set_variable = {
         which = xvcv_mdlc_leader_making_costs_refund_amount
         value = -100
@@ -51,7 +51,7 @@ xvcv_mdlc_leader_making_clear_skill_levels_effect = {
         which = xvcv_mdlc_leader_making_costs_refund_amount
         value = xvcv_mdlc_leader_making_skill_level
     }
-    log = "Will decrease (refund) leader-making cost by \\[This.xvcv_mdlc_leader_making_costs_refund_amount]"
+    # log = "Will decrease (refund) leader-making cost by \\[This.xvcv_mdlc_leader_making_costs_refund_amount]"
     change_variable = {
         which = xvcv_mdlc_leader_making_trait_costs_count_energy
         value = xvcv_mdlc_leader_making_costs_refund_amount
@@ -60,16 +60,16 @@ xvcv_mdlc_leader_making_clear_skill_levels_effect = {
         which = xvcv_mdlc_leader_making_trait_costs_count_alloys
         value = xvcv_mdlc_leader_making_costs_refund_amount
     }
-    log = "alloys cost is \\[Root.xvcv_mdlc_leader_making_trait_costs_count_alloys]"
-    log = "energy cost is \\[Root.xvcv_mdlc_leader_making_trait_costs_count_energy]"
+    # log = "alloys cost is \\[Root.xvcv_mdlc_leader_making_trait_costs_count_alloys]"
+    # log = "energy cost is \\[Root.xvcv_mdlc_leader_making_trait_costs_count_energy]"
 }
 
 oxr_mdlc_leader_making_increase_skill_level_costs = {
     # for a given skill level, player has clicked into it
     # deduct the costs by the given skill level
     optimize_memory
-    log = "IN oxr_mdlc_leader_making_increase_skill_level_costs"
-    log = "Going to deduct level costs for level $LEVEL$"
+    # log = "IN oxr_mdlc_leader_making_increase_skill_level_costs"
+    # log = "Going to deduct level costs for level $LEVEL$"
     set_variable = {
         which = xvcv_mdlc_leader_making_costs_increase_amount
         value = 100
@@ -78,7 +78,7 @@ oxr_mdlc_leader_making_increase_skill_level_costs = {
         which = xvcv_mdlc_leader_making_costs_increase_amount
         value = $LEVEL$
     }
-    log = "Will increase leader-making cost by \\[This.xvcv_mdlc_leader_making_costs_increase_amount]"
+    # log = "Will increase leader-making cost by \\[This.xvcv_mdlc_leader_making_costs_increase_amount]"
     change_variable = {
         which = xvcv_mdlc_leader_making_trait_costs_count_energy
         value = xvcv_mdlc_leader_making_costs_increase_amount
@@ -87,8 +87,8 @@ oxr_mdlc_leader_making_increase_skill_level_costs = {
         which = xvcv_mdlc_leader_making_trait_costs_count_alloys
         value = xvcv_mdlc_leader_making_costs_increase_amount
     }
-    log = "alloys cost is \\[Root.xvcv_mdlc_leader_making_trait_costs_count_alloys]"
-    log = "energy cost is \\[Root.xvcv_mdlc_leader_making_trait_costs_count_energy]"
+    # log = "alloys cost is \\[Root.xvcv_mdlc_leader_making_trait_costs_count_alloys]"
+    # log = "energy cost is \\[Root.xvcv_mdlc_leader_making_trait_costs_count_energy]"
 }
 
 xvcv_mdlc_leader_making_clear_traits_variables_effect = {
@@ -126,16 +126,29 @@ oxr_mdlc_leader_making_set_leader_skill_level = {
         which = xvcv_mdlc_leader_making_skill_level
         value = $LEVEL$
     }
-    log = "Player set leader skill level to \\[This.xvcv_mdlc_leader_making_skill_level]"
+    # log = "Player set leader-making skill level to \\[This.xvcv_mdlc_leader_making_skill_level]"
 }
 oxr_mdlc_leader_making_set_maximum_allowed_leader_level = {
     # Set a variable to track the maximum allowed leader level that can be chosen
+    # but don't write over it if the new value will be lower!
+    # record the highest-ever level the player HAS HAD
     optimize_memory
-    set_variable = {
-        which = oxr_mdlc_leader_making_maximum_allowed_leader_level
-        value = $LEVEL$
+    if = {
+        limit = {
+            check_variable = {
+                which = oxr_mdlc_leader_making_maximum_allowed_leader_level
+                value < $LEVEL$
+            }
+        }
+        set_variable = {
+            which = oxr_mdlc_leader_making_maximum_allowed_leader_level
+            value = $LEVEL$
+        }
+        # log = "Maximum allowed leader level was set to \\[This.oxr_mdlc_leader_making_maximum_allowed_leader_level]"
     }
-    log = "Maximum allowed leader level was set to \\[This.oxr_mdlc_leader_making_maximum_allowed_leader_level]"
+    # else = {
+    #     log = "Maximum leader level was NOT overwritten because $LEVEL$  is lower than the highest-recorded level of \\[Root.oxr_mdlc_leader_making_maximum_allowed_leader_level]"
+    # }
 }
 
 ### AUTOGENERATED VERSION ###
