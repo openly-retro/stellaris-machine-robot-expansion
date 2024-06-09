@@ -30,62 +30,67 @@ xvcv_mdlc_leader_making_trait_pick_alt_effect = {
         }
     }
 }
+
 xvcv_mdlc_leader_making_clear_skill_levels_effect = {
     optimize_memory
-    switch = {
-        trigger = has_country_flag
-        xvcv_mdlc_leader_skill_level_set_1 = {
-            remove_country_flag = xvcv_mdlc_leader_skill_level_set_1
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = -100 }
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = -100 }
-        }
-        xvcv_mdlc_leader_skill_level_set_2 = {
-            remove_country_flag = xvcv_mdlc_leader_skill_level_set_2
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = -200 }
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = -200 }
-        }
-        xvcv_mdlc_leader_skill_level_set_3 = {
-            remove_country_flag = xvcv_mdlc_leader_skill_level_set_3
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = -300 }
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = -300 }
-        }
-        xvcv_mdlc_leader_skill_level_set_4 = {
-            remove_country_flag = xvcv_mdlc_leader_skill_level_set_4
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = -400 }
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = -400 }
-        }
-        xvcv_mdlc_leader_skill_level_set_5 = {
-            remove_country_flag = xvcv_mdlc_leader_skill_level_set_5
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = -500 }
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = -500 }
-        }
-        xvcv_mdlc_leader_skill_level_set_6 = {
-            remove_country_flag = xvcv_mdlc_leader_skill_level_set_6
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = -600 }
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = -600 }
-        }
-        xvcv_mdlc_leader_skill_level_set_7 = {
-            remove_country_flag = xvcv_mdlc_leader_skill_level_set_7
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = -700 }
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = -700 }
-        }
-        xvcv_mdlc_leader_skill_level_set_8 = {
-            remove_country_flag = xvcv_mdlc_leader_skill_level_set_8
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = -800 }
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = -800 }
-        }
-        xvcv_mdlc_leader_skill_level_set_9 = {
-            remove_country_flag = xvcv_mdlc_leader_skill_level_set_9
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = -900 }
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = -900 }
-        }
-        xvcv_mdlc_leader_skill_level_set_10 = {
-            remove_country_flag = xvcv_mdlc_leader_skill_level_set_10
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = -1000 }
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = -1000 }
-        }
+    # WHAT HAPPENS HERE:
+    # - Reduce the cost of building the leader by the skill level set
+    # Accomplished by:
+    # 2. Set a temporary var
+    # 3. Mult by -100
+    # 4. Mult by value:xvcv_mdlc_leader_making_skill_level
+    # 5. Change xvcv_mdlc_leader_making_trait_costs_count_energy and *_alloys by this amount
+    # 6. Reset the skill level var to 0
+    log = "IN xvcv_mdlc_leader_making_clear_skill_levels_effect"
+    log = "Leader-making currently at level \\[Root.xvcv_mdlc_leader_making_skill_level]"
+    set_variable = {
+        which = xvcv_mdlc_leader_making_costs_refund_amount
+        value = -100
     }
+    multiply_variable = {
+        which = xvcv_mdlc_leader_making_costs_refund_amount
+        value = xvcv_mdlc_leader_making_skill_level
+    }
+    log = "Will decrease (refund) leader-making cost by \\[This.xvcv_mdlc_leader_making_costs_refund_amount]"
+    change_variable = {
+        which = xvcv_mdlc_leader_making_trait_costs_count_energy
+        value = xvcv_mdlc_leader_making_costs_refund_amount
+    }
+    change_variable = {
+        which = xvcv_mdlc_leader_making_trait_costs_count_alloys
+        value = xvcv_mdlc_leader_making_costs_refund_amount
+    }
+    log = "alloys cost is \\[Root.xvcv_mdlc_leader_making_trait_costs_count_alloys]"
+    log = "energy cost is \\[Root.xvcv_mdlc_leader_making_trait_costs_count_energy]"
 }
+
+oxr_mdlc_leader_making_increase_skill_level_costs = {
+    # for a given skill level, player has clicked into it
+    # deduct the costs by the given skill level
+    optimize_memory
+    log = "IN oxr_mdlc_leader_making_increase_skill_level_costs"
+    log = "Going to deduct level costs for level $LEVEL$"
+    set_variable = {
+        which = xvcv_mdlc_leader_making_costs_increase_amount
+        value = 100
+    }
+    multiply_variable = {
+        which = xvcv_mdlc_leader_making_costs_increase_amount
+        value = $LEVEL$
+    }
+    log = "Will increase leader-making cost by \\[This.xvcv_mdlc_leader_making_costs_increase_amount]"
+    change_variable = {
+        which = xvcv_mdlc_leader_making_trait_costs_count_energy
+        value = xvcv_mdlc_leader_making_costs_increase_amount
+    }
+    change_variable = {
+        which = xvcv_mdlc_leader_making_trait_costs_count_alloys
+        value = xvcv_mdlc_leader_making_costs_increase_amount
+    }
+    log = "alloys cost is \\[Root.xvcv_mdlc_leader_making_trait_costs_count_alloys]"
+    log = "energy cost is \\[Root.xvcv_mdlc_leader_making_trait_costs_count_energy]"
+}
+
 xvcv_mdlc_leader_making_clear_traits_variables_effect = {
     # This effect is called when the leader-making GUI is opened,
     # and when a player clicks the reset button
@@ -112,6 +117,25 @@ xvcv_mdlc_leader_making_clear_traits_variables_effect = {
     set_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = 0 }
     set_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy_for_displaying value = 0 }
     set_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys_for_displaying value = 0 }
+}
+oxr_mdlc_leader_making_set_leader_skill_level = {
+    # Set a variable to track which leader-making level the player has chosen
+    # in the leader-making GUI
+    optimize_memory
+    set_variable = {
+        which = xvcv_mdlc_leader_making_skill_level
+        value = $LEVEL$
+    }
+    log = "Player set leader skill level to \\[This.xvcv_mdlc_leader_making_skill_level]"
+}
+oxr_mdlc_leader_making_set_maximum_allowed_leader_level = {
+    # Set a variable to track the maximum allowed leader level that can be chosen
+    optimize_memory
+    set_variable = {
+        which = oxr_mdlc_leader_making_maximum_allowed_leader_level
+        value = $LEVEL$
+    }
+    log = "Maximum allowed leader level was set to \\[This.oxr_mdlc_leader_making_maximum_allowed_leader_level]"
 }
 
 ### AUTOGENERATED VERSION ###
@@ -316,6 +340,19 @@ xvcv_mdlc_leader_making_clear_values_effect = {
     xvcv_mdlc_leader_making_clear_traits_variables_effect = yes
 }
 
+oxr_mdlc_leader_making_clear_veteran_paragon_traits_selected_flags = {
+    optimize_memory
+    if = {
+        limit = { has_country_flag = oxr_mdlc_leader_making_veteran_trait_selected }
+        remove_country_flag = oxr_mdlc_leader_making_veteran_trait_selected
+        log = "Cleared veterain trait selected flag"
+    }
+    if = {
+        limit = { has_country_flag = oxr_mdlc_leader_making_paragon_trait_selected }
+        remove_country_flag = oxr_mdlc_leader_making_paragon_trait_selected
+        log = "Cleared paragon trait selected flag"
+    }
+}
 ###
 #for common traits
 xvcv_mdlc_leader_making_trait_count_points_costs_effect = {
@@ -332,6 +369,8 @@ xvcv_mdlc_leader_making_trait_count_points_costs_alt_effect = {
     change_variable = { which = xvcv_mdlc_leader_making_max_traits_number value = -1 }
     change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = 500 }
     change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = 500 }
+    set_country_flag = oxr_mdlc_leader_making_veteran_trait_selected
+    log = "Set veteran trait selected flag"
 }
 #for destiny traits
 xvcv_mdlc_leader_making_trait_count_points_costs_alt_2_effect = {
@@ -340,4 +379,6 @@ xvcv_mdlc_leader_making_trait_count_points_costs_alt_2_effect = {
     change_variable = { which = xvcv_mdlc_leader_making_max_traits_number value = -1 }
     change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = 1000 }
     change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = 1000 }
+    set_country_flag = oxr_mdlc_leader_making_paragon_trait_selected
+    log = "Set paragon trait selected flag"
 }
