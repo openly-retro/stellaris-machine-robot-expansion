@@ -13,7 +13,7 @@ xvcv_mdlc_dominant_species_changing_effect = {
 			is_councilor = yes
 			is_ruler = no
 		}
-		set_gestalt_node_protrait_effect = yes
+		set_gestalt_node_portrait_effect = yes
 	}
 	every_envoy = {
 		limit = { is_same_species = prev.species }
@@ -509,5 +509,26 @@ oxr_mdlc_set_custom_species_habitability = {
 			add_trait = oxr_mdlc_trait_void_dweller_2
 		}
 		log = "Changed species: Added void dweller 2 to species"
+	}
+}
+# Remove the automatically assigned habitability at game start
+# Add mechanical preference BACK
+oxr_mdlc_set_mechanical_heritage_species_habitability = {
+	optimize_memory
+	if = {
+		limit = { prev = { has_trait = trait_frozen_planet_preference } }
+		change_species_characteristics = { remove_trait = trait_frozen_planet_preference }
+	}
+	else_if = {
+		limit = { prev = { has_trait = trait_dry_planet_preference } }
+		change_species_characteristics = { remove_trait = trait_dry_planet_preference }
+	}
+	else_if = {
+		limit = { prev = { has_trait = trait_wet_planet_preference } }
+		change_species_characteristics = { remove_trait = trait_wet_planet_preference }
+	}
+	change_species_characteristics = {
+		add_trait = trait_xvcv_mdlc_pc_mechanical_preference
+		add_traits_at_start_of_list = yes
 	}
 }

@@ -69,6 +69,21 @@ xvcv_mdlc_decision_civic_planet_cracker = {
 			text = xvcv_mdlc_decision_civic_planet_cracker_tooltip.fail_mega
 			NOT = { has_planet_flag = has_megastructure }
 		}
+		# custom_tooltip_fail = {
+		# 	text = xvcv_mdlc_decision_civic_planet_cracker_tooltip.fail_ring
+		# 	NOR = {
+		# 		is_planet_class = pc_ringworld_habitable
+		# 		is_planet_class = pc_ringworld_habitable_damaged
+		# 		is_planet_class = pc_ringworld_tech
+		# 		is_planet_class = pc_ringworld_tech_damaged
+		# 		is_planet_class = pc_ringworld_seam
+		# 		is_planet_class = pc_ringworld_seam_damaged
+		# 	}
+		# }
+		custom_tooltip_fail = {
+			text = xvcv_mdlc_decision_civic_planet_cracker_tooltip.fail_artificial
+			is_artificial = no
+		}
 	}
 
 	effect = {
@@ -530,6 +545,94 @@ xvcv_mdlc_decision_machine_ser_project = {
 		}
 	}
 }
+xvcv_mdlc_pc_ringworld_automation_project = {
+	# owned_planets_only = yes
+	enactment_time = 3600
+
+	resources = {
+		category = decisions
+		cost = {
+			influence = 200
+			minerals = 20000
+		}
+	}
+
+	potential = {
+		exists = owner
+		is_colony = yes
+		owner = { has_ascension_perk = xvcv_mdlc_ap_world_machines }
+		xvcv_mdlc_world_machines_planet_classes_trigger = no
+		# habitable_structure = no
+		OR = {
+			is_planet_class = pc_ringworld_habitable
+			is_planet_class = pc_shattered_ring_habitable
+		}
+	}
+
+	allow = {
+		custom_tooltip_fail = {
+			text = xvcv_mdlc_world_machines_decisions_tooltip.fail
+			num_districts = { type = any value < 1 }
+		}
+		num_uncleared_blockers < 1
+	}
+
+	effect = {
+		custom_tooltip = xvcv_mdlc_pc_ringworld_automation_project_tooltip
+		hidden_effect = {
+			clear_deposits = yes
+			change_pc = xvcv_mdlc_pc_ringworld_machine_auto
+			owner = {
+				if = {
+					limit = { has_country_flag = xvcv_mdlc_decision_ringworld_machine_auto_project_message_on }
+					create_message = {
+						type = XVCV_MDLC_WORLD_MACHINES_COMPLETION_MESSAGE_TYPE
+						localization = XVCV_MDLC_DECISION_RINGWORLD_AUTOMATION_DONE_MESSAGE
+						days = 10
+						target = prev
+						variable = {
+							type = name
+							localization = XVCV_MDLC_PC_RINGWORLD_AUTOMATION_PROJECT_PLANET
+							scope = prev
+						}
+					}
+				}
+			}
+			if = {
+				limit = { NOT = { has_modifier = planet_population_control_gestalt } }
+				add_modifier = { modifier = planet_population_control_gestalt days = -1 }
+			}
+			add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral days = -1 }
+			xvcv_mdlc_planet_terraforming_resolution_breached_effect = yes
+			# Initalize the produces_mult as it's not set yet
+			set_variable = {
+				which = xvcv_mdlc_world_machines_districts_output_var
+				value = 0
+			}
+			xvcv_mdlc_world_machines_output_value_calc_effect = yes
+		}
+		owner = {
+			if = {
+				limit = {
+					#one time only #wait until it appears in the tech option list if you are to research it further
+					NOR = {
+						has_tech_option = xvcv_mdlc_tech_world_machines_districts_produces
+						has_technology = xvcv_mdlc_tech_world_machines_districts_produces
+					}
+				}
+				add_research_option = xvcv_mdlc_tech_world_machines_districts_produces
+			}
+		}
+	}
+
+	ai_weight = {
+		weight = 0
+		modifier = {
+			weight = 100
+			owner = { NOT = { any_owned_planet = { is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto } } }
+		}
+	}
+}
 xvcv_mdlc_decision_mechanical_worlds_terraforming_project = {
 	icon = decision_drilling_for_gas
 	owned_planets_only = yes
@@ -798,5 +901,48 @@ xvcv_mdlc_decision_goods_for_research_bonus = {
 				}
 			}
 		}
+	}
+}
+oxr_mdlc_decision_dismantle_habitat = {
+
+	# owned_planets_only = yes
+	enactment_time = 1
+	resources = {
+		category = decisions
+		cost = {
+			energy = 500
+		}
+	}
+	potential = {
+		is_planet_class = pc_habitat
+		exists = space_owner
+	}
+	allow = {
+		custom_tooltip_fail = {
+			text = oxr_mdlc_decision_dismantle_habitat.fail_colonized
+			is_colony = no
+		}
+		custom_tooltip_fail = {
+			text = oxr_mdlc_decision_dismantle_habitat.fail_already_dismantling
+			NOT = { has_modifier = oxr_mdlc_habitat_dismantle_effect }
+		}
+
+		space_owner = {
+			OR = {
+				has_technology = tech_habitat_1
+				has_origin = origin_void_dwellers
+				has_ascension_perk = ap_voidborn
+			}
+		}
+	}
+
+	effect = {
+		custom_tooltip = oxr_mdlc_decision_dismantle_habitat_tooltip
+		hidden_effect = {
+			planet_event = {
+				id = xvcv_mdlc.2000
+			}
+		}
+		
 	}
 }

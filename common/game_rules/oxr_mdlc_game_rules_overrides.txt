@@ -7,24 +7,140 @@ can_release_vassal_from_species = {
 				is_sapient = yes
 				NOR = {
 					AND = {
-						has_trait = trait_machine_unit
-						prev.this = { is_individual_machine = no }
+						AND = {
+							has_trait = trait_machine_unit
+							prev.this = { is_individual_machine = no }
+						}
+						# Expanded Traits, Civics, Pops, and More
+						NOT = { prev.this = { has_origin = origin_master_computer } }
 					}
 					AND = {
 						has_trait = trait_hive_mind
-						NOT = { prev.this = { has_origin = origin_progenitor_hive } }
+						NOR = {
+							prev.this = { has_origin = origin_progenitor_hive }
+							# Empires Expanded
+							prev.this = { has_valid_civic = civic_hive_semi_autonomous_drones }
+						}
 					}
 					AND = {
+						merg_has_ethical_gestalts = no
 						NOT = { has_trait = trait_hive_mind }
-						prev.this = { has_authority = auth_hive_mind }
+						prev.this = { is_hive_empire = yes }
 					}
-					has_trait = trait_mechanical
 					can_think = no
 					has_trait = trait_clone_soldier_infertile
 					has_trait = trait_clone_soldier_infertile_full_potential
+					# Empires Expanded
+					AND = {
+						has_trait = trait_machine_unit
+						NOR = {
+							prev.this = { has_valid_civic = civic_machine_mighty_processors }
+							prev.this = { is_individual_machine = yes }
+						}
+					}
+					# Ethics & Civcs Infinity
+					has_eci_flesh_components = yes
+					# Plentiful Perks
+					has_trait = trait_plentiful_traditions_pt_cocoon
+					# Girls Frontline
+					has_trait = trait_doll
+					# Expanded Traits, Civics, Pops, and More
+					AND = {
+						NOT = { has_trait = trait_machine_unit }
+						prev.this = { is_machine_empire = yes }
+					}
+					is_infested_basic = yes
+					is_exp_tree_caretaker = yes
 				}
 			}
 			oxr_mdlc_can_release_vassal_from_species = yes
 		}
 	}
+}
+
+#Root = country
+#This = planet
+can_colonize_planet = {
+	custom_tooltip = {
+		fail_text = "COLONIZATION_IMPOSSIBLE_UNDER_INVESTIGATION"
+		NOT = { has_planet_flag = planet_under_investigation }
+	}
+	custom_tooltip = {
+		fail_text = "COLONIZATION_IMPOSSIBLE_DYSON_SPHERE"
+		if = {
+			limit = {
+				is_artificial = no	# Colonizing habitats is fine
+			}
+			system_has_dyson_sphere = no
+		}
+	}
+	custom_tooltip = {
+		fail_text = "COLONIZATION_IMPOSSIBLE_DYSON_SPHERE_CONSTRUCTION"
+		if = {
+			limit = {
+				system_has_dyson_sphere = no
+				is_artificial = no	# Colonizing habitats is fine
+			}
+			NOT = {
+				solar_system = {
+					has_star_flag = dyson_sphere_construction
+				}
+			}
+		}
+	}
+	custom_tooltip = {
+		fail_text = "COLONIZATION_IMPOSSIBLE_COSMOGENESIS_EXODUS"
+		exists = root
+		root = {
+			NOT = { owner = { has_event_chain = cosmogenesis_planet_pickup_chain } }
+		}
+	}
+	# Diagrapher's Factions and Ethics Mod
+	hidden_trigger = {
+		OR = {
+			merg_has_diag_fact = no
+			NAND = {
+				root = {
+					is_ai = yes
+					OR = {
+						has_origin = origin_life_seeded
+						has_origin = origin_ocean_paradise
+						has_origin = origin_shattered_ring
+					}
+					is_spiritualist = yes
+					exists = home_planet
+					home_planet = { is_owned_by = root }
+				}
+				NOR = {
+					has_planet_flag = consecrated
+					solar_system = {
+						is_same_value = root.home_planet.solar_system
+					}
+				}
+			}
+		}
+	}
+	custom_tooltip = {
+		# Machine & Robot Expansion Continued
+		fail_text = "Can't colonize a habitat that is being dismantled."
+		NAND = {
+			is_planet_class = pc_habitat
+			oxr_mdlc_planet_decision_dismantle_habitat_active = yes
+		}
+	}
+	# StarnetAI/StarTech
+	if = {
+		limit = {
+			has_modifier = "holy_planet"
+			exists = root
+			root = {
+				is_ai = yes
+				NOT = { has_relic = r_severed_head }
+			}
+			any_country = { has_ai_personality_behaviour = holy_planets }
+		}
+		always = no
+	}
+	# Vanilla
+	else = { always = yes }
 }

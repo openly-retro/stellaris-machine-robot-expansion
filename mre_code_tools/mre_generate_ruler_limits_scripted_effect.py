@@ -62,7 +62,7 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 		}}
         ruler = {{
             oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		    oxr_mdlc_core_modifying_deduct_trait_points_{rarity} = yes
+		    oxr_mdlc_core_modifying_deduct_trait_points_cost_{rarity} = yes
         }}
 	}}"""
     trait_limit_lines = []
