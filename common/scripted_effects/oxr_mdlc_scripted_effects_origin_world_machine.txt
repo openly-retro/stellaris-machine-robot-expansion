@@ -1,0 +1,80 @@
+oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
+	prev = { set_country_flag = oxr_mdlc_origin_world_machine_awakened }
+	# set_variable = {
+	# 	which = num_starting_city_districts
+	# 	value = value:count_districts_of_type|DISTRICT_NAME|district_city|
+	# }
+	# set_variable = {
+	# 	which = num_starting_farm_districts
+	# 	value = value:count_districts_of_type|DISTRICT_NAME|district_farming|
+	# }
+	export_trigger_value_to_variable = {
+		trigger = num_districts
+		parameters = { type = district_city }
+		variable = num_starting_city_districts
+	}
+	while = {
+		limit = { has_district = district_city }
+		remove_district = district_city
+		add_district = xvcv_mdlc_pc_machine_auto_district_nexus
+	}
+	while = {
+		limit = { has_district = district_generator }
+		remove_district = district_generator
+		add_district = xvcv_mdlc_pc_machine_auto_district_generator
+	}
+	while = {
+		limit = { has_district = district_mining }
+		remove_district = district_mining
+		add_district = xvcv_mdlc_pc_machine_auto_district_mining
+	}
+	while = {
+		limit = { has_district = xvcv_mdlc_common_district_mining }
+		remove_district = district_mining
+		add_district = xvcv_mdlc_pc_machine_auto_district_mining
+
+	}
+	# Have a check here that looks whether the empire uses food.
+	# If not, convert these to generator
+	while = {
+		limit = { has_district = district_farming }
+		remove_district = district_farming
+		add_district = xvcv_mdlc_pc_machine_auto_district_farming
+	}
+	while = {
+		limit = { has_district = district_industrial }
+		remove_district = district_industrial
+		add_district = xvcv_mdlc_pc_machine_auto_district_industrial
+	}
+	while = {
+		limit = { has_district = xvcv_mdlc_common_district_mining }
+		remove_district = xvcv_mdlc_common_district_mining
+	}
+
+	while = {
+		limit = {
+			num_pops > 3
+		}
+		random_owned_pop = {
+			kill_pop = yes
+		}
+	}
+	log = "Reduced starting population to 3"
+	add_modifier = { modifier = "planet_population_control_gestalt" days = -1 }
+
+	# give_technology
+	# notes for later ... look at these
+	# generate_start_deposits_and_blockers = yes
+	# generate_start_buildings_and_districts = yes
+	# generate_start_pops = yes
+	while = {
+		limit = { has_building = building_uplink_node }
+		remove_building = building_uplink_node
+		add_building = oxr_mdlc_world_machines_building_cohesion_supervisor
+	}
+	while = {
+		limit = { has_building = building_research_lab_1 }
+		remove_building = building_research_lab_1
+		add_building = oxr_mdlc_world_machines_building_fractal_sanitizer
+	}
+}
