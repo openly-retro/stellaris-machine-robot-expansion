@@ -928,6 +928,22 @@ oxr_mdlc_world_machines_building_auto_farm_logistics = {
 	}
 	resources = {
 		category = oxr_mdlc_category_world_machines_buildings
+			is_planet_class = pc_machine
+			has_modifier = resort_colony
+			has_modifier = crucible_colony
+			AND = {
+				owner = {
+					is_ai = yes
+				}
+				has_any_farming_district_or_buildings = no
+			}
+		}
+	}
+
+	planet_modifier = { planet_farmers_food_produces_add = 1 }
+
+	resources = {
+		category = planet_buildings
 		cost = {
 			minerals = @b1_minerals
 		}
@@ -1078,6 +1094,89 @@ oxr_mdlc_world_machines_building_crystal_cultivation_tank = {
 		}
 		produces = {
 			rare_crystals = 3
+	}
+	upgrades = {
+		xvcv_mdlc_world_machine_auto_food_processing_center
+	}
+	prerequisites = {
+		"tech_food_processing_1"
+	}
+}
+
+xvcv_mdlc_world_machine_auto_food_processing_center = {
+	base_buildtime = @b2_time
+	can_build = no
+	category = resource
+
+	allow = {
+		exists = owner
+		has_upgraded_capital = yes
+	}
+
+	destroy_trigger = {
+		OR = {
+			AND = {
+				exists = owner
+				OR = {
+					owner = {
+						is_ai = yes
+						country_uses_food = no
+					}
+					AND = {
+						owner = {
+							is_ai = yes
+						}
+						has_any_farming_district_or_buildings = no
+					}
+				}
+			}
+			has_modifier = resort_colony
+			has_modifier = crucible_colony
+		}
+	}
+
+	planet_modifier = {
+		planet_farmers_food_produces_add = 2
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			has_ringworld_output_boost = yes
+		}
+		modifier = {
+			planet_farmers_food_produces_add = 2
+		}
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			trigger = {
+				has_ringworld_output_boost = no
+			}
+			minerals = @b2_minerals
+			volatile_motes = @b2_rare_cost
+		}
+		cost = {
+			trigger = {
+				has_ringworld_output_boost = yes
+			}
+			minerals = 900
+			volatile_motes = 200
+		}
+		upkeep = {
+			trigger = {
+				has_ringworld_output_boost = no
+			}
+			energy = 2
+			volatile_motes = @b2_rare_upkeep
+		}
+		upkeep = {
+			trigger = {
+				has_ringworld_output_boost = yes
+			}
+			energy = 5
+			volatile_motes = 3
 		}
 	}
 
@@ -1229,6 +1328,9 @@ oxr_mdlc_world_machines_building_cohesion_hub = {
 	prerequisites = {
 		"tech_colonial_bureaucracy"
 		"oxr_mdlc_tech_world_machines_unlocked"
+	}
+	upgrades = {
+		"oxr_mdlc_world_machines_building_cohesion_supervisor"
 	}
 
 	show_tech_unlock_if = {
