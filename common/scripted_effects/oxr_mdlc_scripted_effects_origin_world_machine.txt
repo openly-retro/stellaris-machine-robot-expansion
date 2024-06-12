@@ -80,6 +80,8 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 		remove_building = building_research_lab_1
 		add_building = oxr_mdlc_world_machines_building_fractal_sanitizer
 	}
+	# Add armies!
+	oxr_mdlc_origin_world_machine_add_armies_at_start = yes
 }
 
 oxr_mdlc_origin_world_machine_random_add_all_blockers = {
@@ -209,45 +211,37 @@ oxr_mdlc_origin_world_machine_add_random_insight_blockers = {
 	clear_variable = oxr_mdlc_world_machine_random_blockers
 }
 
-# oxr_mdlc_origin_world_machine_add_blockers = {
-# 	set_variable_to_random_value = {
-# 		which = oxr_mdlc_world_machine_random_blocker
-# 		min = $MIN$ max = $MAX$
-# 	}
-# 	set_variable = {
-# 		which = oxr_mdlc_world_machine_random_blocker_level
-# 		value = $LEVEL$
-# 	}
-# 	while = {
-# 		limit = {
-# 			check_variable = {
-# 				which = oxr_mdlc_world_machine_random_blocker
-# 				value > 0
-# 			}
-# 		}
-# 		subtract_variable = {
-# 			which = oxr_mdlc_world_machine_random_blocker
-# 			value = 1
-# 		}
-# 		if = {
-# 			limit = {
-# 				check_variable = { which = oxr_mdlc_world_machine_random_blocker_level value = 0 }
-# 			}
-# 			oxr_mdlc_origin_world_machine_add_easy_blocker = yes
-# 		}
-# 		else_if = {
-# 			limit = {
-# 				check_variable = { which = oxr_mdlc_world_machine_random_blocker_level value = 1 }
-# 			}
-# 			oxr_mdlc_origin_world_machine_add_normal_blocker = yes
-# 		}
-# 		else_if = {
-# 			limit = {
-# 				check_variable = { which = oxr_mdlc_world_machine_random_blocker_level value = 2 }
-# 			}
-# 			oxr_mdlc_origin_world_machine_add_insight_blocker = yes
-# 		}
-# 	}
-# 	clear_variable = oxr_mdlc_world_machine_random_blocker
-# 	clear_variable = oxr_mdlc_world_machine_random_blocker_level
-# }
+oxr_mdlc_origin_world_machine_add_armies_at_start = {
+	# Call at planet scope
+	export_trigger_value_to_variable = {
+		trigger = num_districts
+		parameters = { type = any }
+		variable = oxr_mdlc_world_machine_starting_army_count
+	}
+	log = "Going to add \\[This.oxr_mdlc_world_machine_starting_army_count] district defense armies."
+	while = {
+		limit = {
+			check_variable = {
+				which = oxr_mdlc_world_machine_starting_army_count
+				value > 0
+			}
+		}
+		# Make 2 defense armies per district
+		# Later, this will be controlled by a var and can be increased
+		create_army = {
+			owner = THIS
+			type = oxr_mdlc_world_machine_district_defense_army
+			name = "NAME_oxr_mdlc_world_machine_district_defense_army"
+		}
+		create_army = {
+			owner = THIS
+			type = oxr_mdlc_world_machine_district_defense_army
+			name = "NAME_oxr_mdlc_world_machine_district_defense_army"
+		}
+		subtract_variable = {
+			which = oxr_mdlc_world_machine_starting_army_count
+			value = 1
+		}
+	}
+	clear_variable = oxr_mdlc_world_machine_starting_army_count
+}
