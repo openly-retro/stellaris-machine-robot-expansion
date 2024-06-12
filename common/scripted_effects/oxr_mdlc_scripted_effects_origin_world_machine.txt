@@ -50,17 +50,20 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 		limit = { has_district = xvcv_mdlc_common_district_mining }
 		remove_district = xvcv_mdlc_common_district_mining
 	}
-
+	# Trim population
 	while = {
 		limit = {
 			num_pops > 3
 		}
 		random_owned_pop = {
 			kill_pop = yes
+			owner = { add_resource = { alloys = 75 } }
 		}
 	}
 	log = "Reduced starting population to 3"
 	add_modifier = { modifier = "planet_population_control_gestalt" days = -1 }
+	# Add blockers to homeworld
+	oxr_mdlc_origin_world_machine_random_add_all_blockers = yes
 
 	# give_technology
 	# notes for later ... look at these
@@ -78,3 +81,173 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 		add_building = oxr_mdlc_world_machines_building_fractal_sanitizer
 	}
 }
+
+oxr_mdlc_origin_world_machine_random_add_all_blockers = {
+	# Randomly add some easy, normal, and rare blockers to a world machine
+	# when it is constructed or spawned/discovered
+	oxr_mdlc_origin_world_machine_add_random_simple_blockers = yes
+	oxr_mdlc_origin_world_machine_add_random_normal_blockers = yes
+	oxr_mdlc_origin_world_machine_add_random_insight_blockers = yes
+}
+
+oxr_mdlc_origin_world_machine_add_simple_blocker = {
+	random_list = {
+		20 = {
+			add_blocker = { type = oxr_mdlc_d_world_machine_collapsed_charge_controller }
+		}
+		20 = {
+			add_blocker = { type = oxr_mdlc_d_world_machine_flooded_borehole }
+		}
+		20 = {
+			add_blocker = { type = oxr_mdlc_d_world_machine_fossilized_nutrient_bog }
+		}
+		20 = {
+			add_blocker = { type = oxr_mdlc_d_world_machine_clogged_furnace_discharge }
+		}
+		20 = {
+			add_blocker = { type = oxr_mdlc_d_world_machine_irradiated_drone_storage }
+		}
+	}
+}
+
+oxr_mdlc_origin_world_machine_add_normal_blocker = {
+	# normal blockers
+	random_list = {
+		25 = {
+			add_blocker = { type = oxr_mdlc_d_world_machine_meteor_shower_impacts }
+		}
+		25 = {
+			add_blocker = { type = oxr_mdlc_d_world_machine_collapsed_transportation_hubs }
+		}
+		25 = {
+			add_blocker = { type = oxr_mdlc_d_world_machine_exposed_structural_chasms }
+		}
+		25 = {
+			add_blocker = { type = oxr_mdlc_d_world_machine_dense_geologic_mass }
+		}
+	}
+}
+
+oxr_mdlc_origin_world_machine_add_insight_blocker = {
+	# hard / insight blockers
+	random_list = {
+		25 = {
+			add_blocker = { type = oxr_mdlc_d_world_machine_offline_data_routers }
+		}
+		25 = {
+			add_blocker = { type = oxr_mdlc_d_world_machine_damaged_data_cold_storages }
+		}
+		25 = {
+			add_blocker = { type = oxr_mdlc_d_world_machine_frozen_waterway_pistons }
+		}
+		25 = {
+			add_blocker = { type = oxr_mdlc_d_world_machine_incomplete_construction_bays }
+		}
+	}
+}
+
+oxr_mdlc_origin_world_machine_add_random_simple_blockers = {
+	set_variable_to_random_value = {
+		which = oxr_mdlc_world_machine_random_blockers
+		min = 2 max = 4
+	}
+	while = {
+		limit = {
+			check_variable = {
+				which = oxr_mdlc_world_machine_random_blockers
+				value > 0
+			}
+		}
+		subtract_variable = {
+			which = oxr_mdlc_world_machine_random_blockers
+			value = 1
+		}
+		oxr_mdlc_origin_world_machine_add_simple_blocker = yes
+	}
+	clear_variable = oxr_mdlc_world_machine_random_blockers
+}
+
+oxr_mdlc_origin_world_machine_add_random_normal_blockers = {
+	set_variable_to_random_value = {
+		which = oxr_mdlc_world_machine_random_blockers
+		min = 2 max = 2
+	}
+	while = {
+		limit = {
+			check_variable = {
+				which = oxr_mdlc_world_machine_random_blockers
+				value > 0
+			}
+		}
+		subtract_variable = {
+			which = oxr_mdlc_world_machine_random_blockers
+			value = 1
+		}
+		oxr_mdlc_origin_world_machine_add_normal_blocker = yes
+	}
+	clear_variable = oxr_mdlc_world_machine_random_blockers
+}
+
+oxr_mdlc_origin_world_machine_add_random_insight_blockers = {
+	set_variable_to_random_value = {
+		which = oxr_mdlc_world_machine_random_blockers
+		min = 1 max = 2
+	}
+	while = {
+		limit = {
+			check_variable = {
+				which = oxr_mdlc_world_machine_random_blockers
+				value > 0
+			}
+		}
+		subtract_variable = {
+			which = oxr_mdlc_world_machine_random_blockers
+			value = 1
+		}
+		oxr_mdlc_origin_world_machine_add_insight_blocker = yes
+	}
+	clear_variable = oxr_mdlc_world_machine_random_blockers
+}
+
+# oxr_mdlc_origin_world_machine_add_blockers = {
+# 	set_variable_to_random_value = {
+# 		which = oxr_mdlc_world_machine_random_blocker
+# 		min = $MIN$ max = $MAX$
+# 	}
+# 	set_variable = {
+# 		which = oxr_mdlc_world_machine_random_blocker_level
+# 		value = $LEVEL$
+# 	}
+# 	while = {
+# 		limit = {
+# 			check_variable = {
+# 				which = oxr_mdlc_world_machine_random_blocker
+# 				value > 0
+# 			}
+# 		}
+# 		subtract_variable = {
+# 			which = oxr_mdlc_world_machine_random_blocker
+# 			value = 1
+# 		}
+# 		if = {
+# 			limit = {
+# 				check_variable = { which = oxr_mdlc_world_machine_random_blocker_level value = 0 }
+# 			}
+# 			oxr_mdlc_origin_world_machine_add_easy_blocker = yes
+# 		}
+# 		else_if = {
+# 			limit = {
+# 				check_variable = { which = oxr_mdlc_world_machine_random_blocker_level value = 1 }
+# 			}
+# 			oxr_mdlc_origin_world_machine_add_normal_blocker = yes
+# 		}
+# 		else_if = {
+# 			limit = {
+# 				check_variable = { which = oxr_mdlc_world_machine_random_blocker_level value = 2 }
+# 			}
+# 			oxr_mdlc_origin_world_machine_add_insight_blocker = yes
+# 		}
+# 	}
+# 	clear_variable = oxr_mdlc_world_machine_random_blocker
+# 	clear_variable = oxr_mdlc_world_machine_random_blocker_level
+# }
