@@ -222,7 +222,6 @@ xvcv_mdlc_pc_ringworld_machine_auto_industrial = {
 		upkeep = {
 			energy = @rw_maintenance
 			volatile_motes = @rw_maintenance_sr
-			minerals = 120 # 60 x 2 for alloys and goods
 		}
 		upkeep = {
 			trigger = {
@@ -233,12 +232,71 @@ xvcv_mdlc_pc_ringworld_machine_auto_industrial = {
 			}
 			energy = 4
 		}
+		# Default, if no designation
 		produces = {
-			consumer_goods = 60
+			consumer_goods = 60  # uses 30 minerals
 			alloys = 30
 		}
-	}
-		
+		# Foundry designation
+		produces = {
+			trigger = {
+				OR = {
+					has_designation = col_capital_foundry
+					has_designation = col_ecu_foundry
+					has_designation = col_foundry
+				}
+			}
+			alloys = 30  # total of 60, equal to ECU alloys district
+			consumer_goods = -60
+		}
+		upkeep = {
+			trigger = {
+				OR = {
+					has_designation = col_capital_foundry
+					has_designation = col_ecu_foundry
+					has_designation = col_foundry
+				}
+				exists = owner
+				owner = { is_catalytic_empire = no }
+			}
+			minerals = 60
+		}
+		upkeep = {
+			trigger = {
+				OR = {
+					has_designation = col_capital_foundry
+					has_designation = col_ecu_foundry
+					has_designation = col_foundry
+				}
+				exists = owner
+				owner = { is_catalytic_empire = yes }
+			}
+			food = 90
+			minerals = -60
+		}
+		# Factory designation
+		produces = {
+			trigger = {
+				OR = {
+					has_designation = col_capital_factory
+					has_designation = col_ecu_factory
+					has_designation = col_factory
+				}
+			}
+			alloys = -15
+			consumer_goods = 90  # total of 120, equal to ECU goods district
+		}
+		upkeep = {
+			trigger = {
+				OR = {
+					has_designation = col_capital_factory
+					has_designation = col_ecu_factory
+					has_designation = col_factory
+				}
+			}
+			minerals = 60
+		}
+	}	
 }
 
 xvcv_mdlc_pc_ringworld_machine_auto_farming = {
