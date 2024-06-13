@@ -1,3 +1,42 @@
+oxr_mdlc_tech_world_machines_unlocked = {
+	cost = @tier3cost1
+	area = society
+	tier = 3
+	category = { new_worlds }
+	prerequisites = { }
+	weight = @tier3cost1
+
+	potential = {
+		OR = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+			has_ascension_perk = xvcv_mdlc_ap_world_machines
+		}
+		oxr_mdlc_origin_world_machine_feature_enabled = yes
+	}
+	is_reverse_engineerable = no
+
+	weight_modifier = {
+		factor = 4
+		modifier = {
+			OR = {
+				has_technology = tech_assembly_pattern
+				has_technology = tech_planetary_infrastructure_1
+			}
+		}
+		factor = 4
+		modifier = {
+			OR = {
+				has_technology = tech_mountain_range
+				has_technology = tech_volcano
+			}
+		}
+		factor = 12
+		modifier = {
+			has_technology = oxr_mdlc_tech_world_machine_planetary_proficiency
+		}
+	}
+}
+
 oxr_mdlc_tech_world_machine_planetary_proficiency = {
 	cost = @tier3cost3
 	area = society
