@@ -211,6 +211,15 @@ oxr_mdlc_origin_world_machine_add_random_insight_blockers = {
 	clear_variable = oxr_mdlc_world_machine_random_blockers
 }
 
+### ARMY ###
+oxr_mdlc_origin_world_machine_add_district_defense_army_t1 = {
+	create_army = {
+		owner = THIS
+		type = oxr_mdlc_world_machine_district_defense_army
+		name = "NAME_oxr_mdlc_world_machine_district_defense_army"
+	}
+}
+
 oxr_mdlc_origin_world_machine_add_armies_at_start = {
 	# Call at planet scope
 	export_trigger_value_to_variable = {
@@ -228,20 +237,71 @@ oxr_mdlc_origin_world_machine_add_armies_at_start = {
 		}
 		# Make 2 defense armies per district
 		# Later, this will be controlled by a var and can be increased
-		create_army = {
-			owner = THIS
-			type = oxr_mdlc_world_machine_district_defense_army
-			name = "NAME_oxr_mdlc_world_machine_district_defense_army"
-		}
-		create_army = {
-			owner = THIS
-			type = oxr_mdlc_world_machine_district_defense_army
-			name = "NAME_oxr_mdlc_world_machine_district_defense_army"
-		}
+		oxr_mdlc_origin_world_machine_add_district_defense_army_t1 = yes
+		oxr_mdlc_origin_world_machine_add_district_defense_army_t1 = yes
 		subtract_variable = {
 			which = oxr_mdlc_world_machine_starting_army_count
 			value = 1
 		}
 	}
 	clear_variable = oxr_mdlc_world_machine_starting_army_count
+}
+
+oxr_mdlc_origin_world_machine_refill_armies = {
+	# After an invasion, see if some district armies got destroyed,
+	# And regenerate those that got destroyed
+	# THE PLAN:
+	# 1. Count districts
+	# 2. Multiply by 2
+	# 3. Count existing armies
+	# 4. Find the difference between (districts * 2) and num armies
+	# 5. Create that many armies
+	# TODO: Update the parameters when new district army types are added
+	export_trigger_value_to_variable = {
+		trigger = num_districts
+		parameters = { type = any }
+		variable = oxr_mdlc_world_machine_num_districts
+	}
+	export_trigger_value_to_variable = {
+		trigger = count_planet_army
+		parameters = {
+			exists = owner
+			army_type = oxr_mdlc_world_machine_district_defense_army
+		}
+		variable = oxr_mdlc_world_machine_num_existing_district_armies
+	}
+	log = "Found \\[This.oxr_mdlc_world_machine_num_existing_district_armies] district armies on the planet."
+	set_variable = {
+		which = oxr_mdlc_world_machines_num_armies_to_restock
+		value = oxr_mdlc_world_machine_num_districts
+	}
+	multiply_variable = {
+		which = oxr_mdlc_world_machines_num_armies_to_restock
+		value = 2
+	}
+	subtract_variable = {
+		which = oxr_mdlc_world_machines_num_armies_to_restock
+		value = oxr_mdlc_world_machine_num_existing_district_armies
+	}
+	# Loop and count down, creating armies
+	log = "After mathing, we will restock \\[This.oxr_mdlc_world_machines_num_armies_to_restock], because there are \\[This.oxr_mdlc_world_machine_num_districts] districts active, times 2, minus existing armies."
+	while = {
+		limit = {
+			check_variable = {
+				which = oxr_mdlc_world_machines_num_armies_to_restock
+				value > 0
+			}
+		}
+		# Make 2 defense armies per district
+		# Later, this will be controlled by a var and can be increased
+		oxr_mdlc_origin_world_machine_add_district_defense_army_t1 = yes
+		subtract_variable = {
+			which = oxr_mdlc_world_machines_num_armies_to_restock
+			value = 1
+		}
+	}
+	clear_variable = oxr_mdlc_world_machine_num_districts
+	clear_variable = oxr_mdlc_world_machine_num_existing_district_armies
+	clear_variable = oxr_mdlc_world_machines_num_armies_to_restock
+
 }
