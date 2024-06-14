@@ -530,3 +530,60 @@ oxr_mdlc_world_machines_building_crystal_cultivation_tank = {
 		"oxr_mdlc_tech_world_machines_unlocked"
 	}
 }
+
+## SPECIAL
+oxr_mdlc_world_machines_building_storage_cradle = {
+	base_buildtime = @b3_time
+	category = resource
+
+	potential = {
+		NOT = { has_modifier = resort_colony }
+		exists = owner
+		owner = {
+			OR = {
+				has_origin = oxr_mdlc_origin_world_machine_awakened
+				has_ascension_perk = xvcv_mdlc_ap_world_machines
+			}
+			oxr_mdlc_origin_world_machine_feature_enabled = yes
+		}
+		is_planet_world_machine = yes
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			alloys = 1000
+		}
+		upkeep = {
+			physics_research = 1
+		}
+		produces = {
+			energy = 3
+		}
+	}
+
+	country_modifier = {
+		country_resource_max_oxr_mdlc_world_machine_core_add = 50
+	}
+
+	prerequisites = {
+		"oxr_mdlc_tech_world_machines_unlocked"
+	}
+
+	# on_repaired = {
+	# 	if = {
+	# 		limit = {
+	# 			planet.owner = {
+	# 				NOT = { has_technology = oxr_mdlc_tech_world_machines_unlocked }
+	# 			}
+	# 		}
+	# 		ruin_building = oxr_mdlc_world_machines_building_storage_cradle
+	# 	}
+	# }
+	# this trigger doesn't work >:/
+	# ruined_trigger = {
+	# 	this.space_owner = {
+	# 		NOT = { has_technology = oxr_mdlc_tech_world_machines_unlocked }
+	# 	}
+	# }
+}
