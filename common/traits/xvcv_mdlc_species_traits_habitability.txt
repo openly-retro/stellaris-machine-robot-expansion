@@ -46,7 +46,7 @@ trait_oxr_mdlc_pc_auto_world_specialist_preference = {
 	allowed_archetypes = { MACHINE }
 	sorting_priority = 30
 	cost = 0
-	initial = no
+	initial = yes
 	bound_to_planet_classes = {
 		xvcv_mdlc_pc_machine_auto
 		xvcv_mdlc_pc_machine_ecu
@@ -65,7 +65,14 @@ trait_oxr_mdlc_pc_auto_world_specialist_preference = {
 	ai_weight = {
 		weight = 0
 	}
-	species_potential_add = { from = { has_ascension_perk = xvcv_mdlc_ap_world_machines } }
+	species_potential_add = {
+		from = {
+			OR = {
+				has_ascension_perk = xvcv_mdlc_ap_world_machines
+				has_origin = oxr_mdlc_origin_world_machine_awakened
+			}
+		}
+	}
 }
 
 ###############################
