@@ -1,22 +1,23 @@
 oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
+	# optimize_memory
 	prev = { set_country_flag = oxr_mdlc_origin_world_machine_awakened }
-	# set_variable = {
-	# 	which = num_starting_city_districts
-	# 	value = value:count_districts_of_type|DISTRICT_NAME|district_city|
-	# }
-	# set_variable = {
-	# 	which = num_starting_farm_districts
-	# 	value = value:count_districts_of_type|DISTRICT_NAME|district_farming|
-	# }
 	export_trigger_value_to_variable = {
 		trigger = num_districts
-		parameters = { type = district_city }
-		variable = num_starting_city_districts
+		parameters = { type = any }
+		variable = num_starting_districts
 	}
+
+	# Swap in districts
 	while = {
 		limit = { has_district = district_city }
 		remove_district = district_city
-		add_district = xvcv_mdlc_pc_machine_auto_district_nexus
+		# add_district = xvcv_mdlc_pc_machine_auto_district_nexus
+		add_district = xvcv_mdlc_pc_machine_auto_district_mining
+	}
+	while = {
+		limit = { has_district = district_nexus }
+		remove_district = district_nexus
+		add_district = xvcv_mdlc_pc_machine_auto_district_mining
 	}
 	while = {
 		limit = { has_district = district_generator }
@@ -30,10 +31,10 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 	}
 	while = {
 		limit = { has_district = xvcv_mdlc_common_district_mining }
-		remove_district = district_mining
+		remove_district = xvcv_mdlc_common_district_mining
 		add_district = xvcv_mdlc_pc_machine_auto_district_mining
-
 	}
+
 	# Have a check here that looks whether the empire uses food.
 	# If not, convert these to generator
 	while = {
@@ -46,10 +47,26 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 		remove_district = district_industrial
 		add_district = xvcv_mdlc_pc_machine_auto_district_industrial
 	}
-	while = {
-		limit = { has_district = xvcv_mdlc_common_district_mining }
-		remove_district = xvcv_mdlc_common_district_mining
+	# Note the difference in starting vs now
+	export_trigger_value_to_variable = {
+		trigger = num_districts
+		parameters = { type = any }
+		variable = num_ending_districts
 	}
+	set_variable = {
+		which = starting_districts_difference
+		value = num_starting_districts
+	}
+	subtract_variable = {
+		which = starting_districts_difference
+		value = num_ending_districts
+	}
+	log = "Starting districts: \\[This.num_starting_districts]. End with \\[This.num_ending_districts]. Difference \\[This.starting_districts_difference]"
+	clear_variable = num_starting_districts
+	clear_variable = num_ending_districts
+	clear_variable = starting_districts_difference
+
+
 	# Trim population
 	while = {
 		limit = {
@@ -61,8 +78,13 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 		}
 	}
 	log = "Reduced starting population to 3"
+
+	# Stop pop assembly
 	add_modifier = { modifier = "planet_population_control_gestalt" days = -1 }
+
 	# Add blockers to homeworld
+	# First get rid of game-generated blockers
+	clear_blockers = yes
 	oxr_mdlc_origin_world_machine_random_add_all_blockers = yes
 
 	# give_technology
@@ -70,18 +92,53 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 	# generate_start_deposits_and_blockers = yes
 	# generate_start_buildings_and_districts = yes
 	# generate_start_pops = yes
+
+	## Swap buildings
+	### Unity
 	while = {
 		limit = { has_building = building_uplink_node }
 		remove_building = building_uplink_node
 		add_building = oxr_mdlc_world_machines_building_cohesion_supervisor
 	}
+	### Research
 	while = {
 		limit = { has_building = building_research_lab_1 }
 		remove_building = building_research_lab_1
 		add_building = oxr_mdlc_world_machines_building_fractal_sanitizer
 	}
-	# Add armies!
+	### Military
+	while = {
+		limit = { has_building = building_military_academy }
+		remove_building = building_military_academy
+		add_building = oxr_mdlc_world_machines_building_maintenance_legion
+	}
+	### Roleplaying
+	add_building = oxr_mdlc_world_machines_building_storage_cradle
+	ruin_building = oxr_mdlc_world_machines_building_storage_cradle
+
+	# Add armies! there should be a few districts already
 	oxr_mdlc_origin_world_machine_add_armies_at_start = yes
+
+	# Fix founder species habitability *eyeroll*
+	event_target:last_created_species = {
+		if = {
+			limit = { has_trait = trait_wet_planet_preference }
+			change_species_characteristics = { remove_trait = trait_wet_planet_preference }
+		}
+		else_if = {
+			limit = { has_trait = trait_dry_planet_preference }
+			change_species_characteristics = { remove_trait = trait_dry_planet_preference }
+		}
+		else_if = {
+			limit = { has_trait = trait_frozen_planet_preference }
+			change_species_characteristics = { remove_trait = trait_frozen_planet_preference }
+		}
+		change_species_characteristics = {
+			add_trait = trait_oxr_mdlc_pc_auto_world_specialist_preference
+			add_traits_at_start_of_list = yes
+		}
+	}
+
 }
 
 oxr_mdlc_origin_world_machine_random_add_all_blockers = {
@@ -253,7 +310,7 @@ oxr_mdlc_origin_world_machine_refill_armies = {
 	# THE PLAN:
 	# 1. Count districts
 	# 2. Multiply by 2
-	# 3. Count existing armies
+	# 3. Count existing DISTRICT DEFENSE armies
 	# 4. Find the difference between (districts * 2) and num armies
 	# 5. Create that many armies
 	# TODO: Update the parameters when new district army types are added
