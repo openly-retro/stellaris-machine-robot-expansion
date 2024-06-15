@@ -360,5 +360,22 @@ oxr_mdlc_origin_world_machine_refill_armies = {
 	clear_variable = oxr_mdlc_world_machine_num_districts
 	clear_variable = oxr_mdlc_world_machine_num_existing_district_armies
 	clear_variable = oxr_mdlc_world_machines_num_armies_to_restock
+}
 
+oxr_mdlc_origin_world_machine_create_blocker_digsite = {
+	# Iterate through each special blocker type, and make a dig site
+	# unless the player has the tech for unblocking them
+	# use else-if and not switch to ensure 1 dig at a time is created
+	every_deposit = {
+		if = {
+			limit = { is_deposit_type = oxr_mdlc_d_world_machine_collapsed_charge_controller }
+			create_archaeological_site = oxr_mdlc_collapsed_charge_controller_site
+			log = "Created collapsed_charge_controller digsite"
+		}
+		else_if = {
+			limit = { is_deposit_type = oxr_mdlc_d_world_machine_fossilized_nutrient_bog }
+			create_archaeological_site = oxr_mdlc_fossilized_nutrient_bog_site
+			log = "Created fossilized_nutrient_bog digsite"
+		}
+	}
 }
