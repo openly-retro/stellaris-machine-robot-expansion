@@ -1,0 +1,22 @@
+namespace = oxr_mdlc_origin_wm_archeology
+
+# This event will be fired at game start, in order to create dig sites
+# at any ruined world machine(s), starting with the player's capital
+country_event = {
+	id = oxr_mdlc_origin_wm_archeology.1
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		has_origin = oxr_mdlc_origin_world_machine_awakened
+	}
+
+	immediate = {
+		every_owned_planet = {
+			limit = {
+				is_planet_class = xvcv_mdlc_pc_machine_auto
+			}
+			oxr_mdlc_origin_world_machine_create_blocker_digsite = yes
+		}
+	}
+}
