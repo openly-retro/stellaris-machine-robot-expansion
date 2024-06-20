@@ -40,6 +40,30 @@ xvcv_mdlc_civic_trading_machine_target_all_energy_income_calc_effect = {
 		resource = energy
 		variable = xvcv_mdlc_energy_income_from_target_$ID$
 	}
+	export_trigger_value_to_variable = {
+		trigger = num_assigned_jobs
+		parameters = { job = technician_drone }
+		variable = rikk_technicians_from_target_$ID$
+	}
+	# techs produce an average of 22 energy in year 2200
+	# techs are usually 2/3 of an economy's energy
+	multiply_variable = {
+		which = rikk_technicians_from_target_$ID$
+		value = 33
+	}
+	if = {
+		limit = {
+			# if income is higher than the guessed economy,
+			# they must have megas or non-tech jobs
+			check_variable = {
+				which = rikk_technicians_from_target_$ID$
+				value > xvcv_mdlc_energy_income_from_target_$ID$
+			}
+		}
+		set_variable = {
+			which = xvcv_mdlc_energy_income_from_target_$ID$
+			value = rikk_technicians_from_target_$ID$
+	}
 	event_target:xvcv_mdlc_trading_machine_owner = {
 		#this will reset the previous value to new one
 		set_variable = {
@@ -48,7 +72,7 @@ xvcv_mdlc_civic_trading_machine_target_all_energy_income_calc_effect = {
 		}
 		divide_variable = {
 			which = xvcv_mdlc_target_$ID$_energy_income
-			value = 10
+			value = 25
 		}
 		if = {
 			limit = {
@@ -122,6 +146,7 @@ xvcv_mdlc_civic_trading_machine_ship_build_project_abort_effect = {
 	}
 }
 xvcv_mdlc_civic_trading_machine_all_trade_value_or_energy_income_from_trade_calc_effect = {
+	# This takes place in the scope of the target trading empire
 	optimize_memory
 	if = {
 		limit = { NOT = { has_ethic = ethic_gestalt_consciousness } }
@@ -151,7 +176,9 @@ xvcv_mdlc_civic_trading_machine_all_trade_value_or_energy_income_from_trade_calc
 			event_target:xvcv_mdlc_trading_machine_owner = {
 				set_variable = {
 					which = xvcv_mdlc_target_$ID$_energy_income_old
-					value = xvcv_mdlc_target_$ID$_energy_income } }
+					value = xvcv_mdlc_target_$ID$_energy_income 
+				}
+			}
 			xvcv_mdlc_civic_trading_machine_target_all_energy_income_calc_effect = { ID = $ID$ }
 			event_target:xvcv_mdlc_trading_machine_owner = {
 				change_variable = { which = xvcv_mdlc_all_energy_income_from_trade value = xvcv_mdlc_target_$ID$_energy_income }
