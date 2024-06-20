@@ -56,31 +56,31 @@ xvcv_mdlc_civic_trading_machine_target_all_energy_income_calc_effect = {
 		resource = energy
 		variable = xvcv_mdlc_energy_income_from_target_$ID$
 	}
-	#Rikk: rough estimate of total income from number of techs since we can't export produces, only income
 	export_trigger_value_to_variable = {
 		trigger = num_assigned_jobs
 		parameters = { job = technician_drone }
-		variable = rikk_mdlc_technicians_from_target_$ID$
+		variable = rikk_technicians_from_target_$ID$
 	}
-	#Rikk: techs produce average 22 in 2300, techs are usually 2/3 of economy, ergo +50% is 33
-	multiply_variable = { which = rikk_mdlc_technicians_from_target_$ID$ value = 33 }
-	#Rikk: This isn't in the file I gave you, I included it in suggestions since I amped up the total divider down below
-	multiply_variable = { which = xvcv_mdlc_energy_income_from_target_$ID$ value = 2.5 }
-	#Rikk: this decides if we use income or estimate
+	# techs produce an average of 22 energy in year 2200
+	# techs are usually 2/3 of an economy's energy
+	multiply_variable = {
+		which = rikk_technicians_from_target_$ID$
+		value = 33
+	}
 	if = {
 		limit = {
-			#Rikk: if income is higher than our estimated economy, then they must have more income from megas and/or non-tech jobs
+			# if income is higher than the guessed economy,
+			# they must have megas or non-tech jobs
 			check_variable = {
-				which = rikk_mdlc_technicians_from_target_$ID$
+				which = rikk_technicians_from_target_$ID$
 				value > xvcv_mdlc_energy_income_from_target_$ID$
 			}
 		}
 		set_variable = {
 			which = xvcv_mdlc_energy_income_from_target_$ID$
-			value = rikk_mdlc_technicians_from_target_$ID$
+			value = rikk_technicians_from_target_$ID$
 		}
 	}
-	#Rikk:This converts that number into the actual number you get for merchant trading
 	event_target:xvcv_mdlc_trading_machine_owner = {
 		#Rikk:I'm not sure why two different variables are used but I didn't touch it because it ain't broke
 		set_variable = {
@@ -175,9 +175,12 @@ xvcv_mdlc_civic_trading_machine_ship_build_project_abort_effect = {
 #Rikk: of making gestalt energy only used for energy, because if not the separation of gestalt and regular trade value can be combined in all except the initial
 #Rikk: calculations from above.
 xvcv_mdlc_civic_trading_machine_all_trade_value_or_energy_income_from_trade_calc_effect = {
+	# This takes place in the scope of the target trading empire
 	optimize_memory
 	if = {
-		limit = { NOT = { has_ethic = ethic_gestalt_consciousness } }
+		limit = {
+			NOT = { has_ethic = ethic_gestalt_consciousness }
+		}
 		event_target:xvcv_mdlc_trading_machine_owner = { 
 		#Rikk: This sets an old variable before it recalculates so if the trade value changes it can find the difference.
 			set_variable = { 
@@ -212,7 +215,7 @@ xvcv_mdlc_civic_trading_machine_all_trade_value_or_energy_income_from_trade_calc
 			event_target:xvcv_mdlc_trading_machine_owner = {
 				set_variable = {
 					which = xvcv_mdlc_target_$ID$_energy_income_old
-					value = xvcv_mdlc_target_$ID$_energy_income
+					value = xvcv_mdlc_target_$ID$_energy_income 
 				}
 			}
 			xvcv_mdlc_civic_trading_machine_target_all_energy_income_calc_effect = { ID = $ID$ }
