@@ -1,16 +1,16 @@
-This is an attempt to bring XVCV's "Machines & Robot Expansion" mod for Stellaris up to date, to be compatible with Stellaris version 3.10.*, and potentially carry on maintaining it.
+This is an attempt to keep XVCV's "Machines & Robot Expansion" mod compatible with current Stellaris versions, and carry on maintaining it and adding new content.
 
 The original author has abandoned the work and is no longer available for contact.
 
 # Welcome
 
-I (openly-retro) am a web developer by day, and a fan of Stellaris. Just cleared 1k hours with the game.. yay?
+I (openly-retro) am a web developer by day, and a fan of Stellaris.
 
 I invite you to collaborate, but I also want you to know I'm not desperate for help and this mod will live again even if you just stop by to say hi.
 
 ## Communicating
 
-Chat with me about this mod in the [Stellaris Modding Den](https://discord.gg/vKwNs93g ) discord! Look for `mag-sanchusa#4206 (openlyretro)`. We can discuss this mod in the `xvcv_mods` channel.
+Chat with me about this mod in the [Stellaris Modding Den](https://discord.gg/vKwNs93g ) discord! Look for `mag-sanchusa#4206 (openlyretro)`. We can discuss this mod in the `machines-robots-expac` channel.
 
 I will also respond to comments in the Github wiki for this project.
 
