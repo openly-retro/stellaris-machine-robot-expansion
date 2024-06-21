@@ -17,9 +17,13 @@
 #	on_create = <effect>			# Effect to fire upon site creation, with scope this=archaeological site.
 #	on_visible = <effect>			# Effect to fire upon site visible, with scope this=country, from=archaeological site.
 #}
+@oxr_mdlc_origin_world_machine_arc_site_difficulty_easy = -1
+@oxr_mdlc_origin_world_machine_arc_site_difficulty_normal = 1
+@oxr_mdlc_origin_world_machine_arc_site_difficulty_insight = 2
+
 oxr_mdlc_collapsed_charge_controller_site = {
 	desc = "oxr_mdlc_collapsed_charge_controller_site_desc"
-	picture = GFX_evt_engineering_bay
+	picture = GFX_evt_landing_ship
 	stages = 2
 	weight = { base = 0 }
 
@@ -31,22 +35,21 @@ oxr_mdlc_collapsed_charge_controller_site = {
 	}
 
 	stage = {
-		difficulty = 1
-		event = oxr_mdlc_origin_wm_archeology.10
+		difficulty = -1
+		event = oxr_mdlc_origin_wm_arc.10
 		icon = GFX_archaeology_runes_A1
 	}
 	stage = {
-		difficulty = 2
-		event = oxr_mdlc_origin_wm_archeology.11
+		difficulty = -1
+		event = oxr_mdlc_origin_wm_arc.15
 		icon = GFX_archaeology_runes_A2
 	}
-
 	on_roll_failed = { from = { standard_archaeological_site_on_roll_failed = { RANDOM_EVENTS = all_random_events } } }
 }
 
 oxr_mdlc_fossilized_nutrient_bog_site = {
 	desc = "oxr_mdlc_fossilized_nutrient_bog_site_desc"
-	picture = GFX_evt_engineering_bay
+	picture = GFX_evt_landing_ship
 	stages = 2
 	weight = { base = 0 }
 
@@ -58,15 +61,66 @@ oxr_mdlc_fossilized_nutrient_bog_site = {
 	}
 
 	stage = {
-		difficulty = 1
-		event = oxr_mdlc_origin_wm_archeology.20
+		difficulty = -1
+		event = oxr_mdlc_origin_wm_arc.20
 		icon = GFX_archaeology_runes_A1
 	}
 	stage = {
-		difficulty = 2
-		event = oxr_mdlc_origin_wm_archeology.21
+		difficulty = -1
+		event = oxr_mdlc_origin_wm_arc.25
 		icon = GFX_archaeology_runes_A2
 	}
+	on_roll_failed = { from = { standard_archaeological_site_on_roll_failed = { RANDOM_EVENTS = all_random_events } } }
+}
 
+oxr_mdlc_world_machine_flooded_borehole_site = {
+	desc = "oxr_mdlc_world_machine_flooded_borehole_site_desc"
+	picture = GFX_evt_landing_ship
+	stages = 2
+	weight = { base = 0 }
+
+	allow = { always = yes }
+
+	visible = {
+		exists = from
+		default_site_visible_trigger = yes
+	}
+
+	stage = {
+		difficulty = -1
+		event = oxr_mdlc_origin_wm_arc.30
+		icon = GFX_archaeology_runes_A1
+	}
+	stage = {
+		difficulty = -1
+		event = oxr_mdlc_origin_wm_arc.35
+		icon = GFX_archaeology_runes_A2
+	}
+	on_roll_failed = { from = { standard_archaeological_site_on_roll_failed = { RANDOM_EVENTS = all_random_events } } }
+}
+
+oxr_mdlc_world_machine_clogged_furnace_discharge_site = {
+	desc = "oxr_mdlc_world_machine_clogged_furnace_discharge_site_desc"
+	picture = GFX_evt_landing_ship
+	stages = 2
+	weight = { base = 0 }
+
+	allow = { always = yes }
+
+	visible = {
+		exists = from
+		default_site_visible_trigger = yes
+	}
+
+	stage = {
+		difficulty = -1
+		event = oxr_mdlc_origin_wm_arc.40
+		icon = GFX_archaeology_runes_A1
+	}
+	stage = {
+		difficulty = -1
+		event = oxr_mdlc_origin_wm_arc.45
+		icon = GFX_archaeology_runes_A2
+	}
 	on_roll_failed = { from = { standard_archaeological_site_on_roll_failed = { RANDOM_EVENTS = all_random_events } } }
 }

@@ -362,20 +362,46 @@ oxr_mdlc_origin_world_machine_refill_armies = {
 	clear_variable = oxr_mdlc_world_machines_num_armies_to_restock
 }
 
-oxr_mdlc_origin_world_machine_create_blocker_digsite = {
+### ARC SITE ###
+oxr_mdlc_origin_world_machine_create_digsite_for_blocker = {
 	# Iterate through each special blocker type, and make a dig site
 	# unless the player has the tech for unblocking them
 	# use else-if and not switch to ensure 1 dig at a time is created
-	every_deposit = {
+	random_deposit = {
 		if = {
 			limit = { is_deposit_type = oxr_mdlc_d_world_machine_collapsed_charge_controller }
-			create_archaeological_site = oxr_mdlc_collapsed_charge_controller_site
-			log = "Created collapsed_charge_controller digsite"
+			this.planet = { create_archaeological_site = oxr_mdlc_collapsed_charge_controller_site }
+			log = "Created collapsed_charge_controller digsite on \\[This.planet.GetName]"
+		}
+		else_if = {
+			limit = { is_deposit_type = oxr_mdlc_d_world_machine_flooded_borehole }
+			this.planet = { create_archaeological_site = oxr_mdlc_world_machine_flooded_borehole_site }
+			log = "Created flooded_borehole digsite on \\[This.planet.GetName]"
 		}
 		else_if = {
 			limit = { is_deposit_type = oxr_mdlc_d_world_machine_fossilized_nutrient_bog }
-			create_archaeological_site = oxr_mdlc_fossilized_nutrient_bog_site
-			log = "Created fossilized_nutrient_bog digsite"
+			this.planet = { create_archaeological_site = oxr_mdlc_fossilized_nutrient_bog_site }
+			log = "Created fossilized_nutrient_bog digsite on \\[This.planet.GetName]"
 		}
+		else_if = {
+			limit = { is_deposit_type = oxr_mdlc_d_world_machine_clogged_furnace_discharge }
+			this.planet = { create_archaeological_site = oxr_mdlc_world_machine_clogged_furnace_discharge_site }
+			log = "Created clogged_furnace_discharge digsite on \\[This.planet.GetName]"
+		}
+		else = {
+			log = "Didnt find a matching deposit or all the options arent implemented yet"
+		}
+	}
+}
+
+oxr_mdlc_origin_world_machine_finish_digsite_blocker = {
+	# Must call in from.planet scope
+	every_deposit = {
+		limit = { is_deposit_type = oxr_mdlc_d_world_machine_$TYPE$ }
+		clear_blocker = yes
+	}
+	every_archaeological_site = {
+		limit = { is_site_type = oxr_mdlc_$TYPE$_site }
+		destroy_archaeological_site = this
 	}
 }
