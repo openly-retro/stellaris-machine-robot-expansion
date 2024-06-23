@@ -1,13 +1,21 @@
+
+#Rikk: I'm not 100% sure of everything I'm saying here but I have a pretty good idea.
+#Rikk: The other major file for merchant that I found is events_merchant. minor files is the edict file for the initial xvcv_mdlc.10 event (menu)
+#Rikk: and on_actions for telling the trade ships what to do. also of course the civic file.
+#Rikk: This is the function that's called to calculate trade based off of how much trade is in the capital system, which should be all of it due to trade routes
 xvcv_mdlc_civic_trading_machine_target_all_trade_value_calc_effect = {
 	optimize_memory
 	#clear the variable for recalculating it again
 	event_target:xvcv_mdlc_trading_machine_owner = {
+		#Rikk: it would be a lot easier just to set the variable to 0?
 		if = {
 			limit = { is_variable_set = xvcv_mdlc_target_$ID$_trade_value }
 			clear_variable = xvcv_mdlc_target_$ID$_trade_value
 		}
 	}
 	# TODO: Add logic to find the system with the highest trade value
+	#Rikk: It would be better than constantly hitting that new reset button
+	#Rikk: This is the part that finds the target's trade value
 	every_system_within_border = {
 		limit = { has_system_trade_value > 0 }
 		event_target:xvcv_mdlc_trading_machine_owner = { 
@@ -17,6 +25,7 @@ xvcv_mdlc_civic_trading_machine_target_all_trade_value_calc_effect = {
 			} 
 		}
 	}
+	#Rikk: This next part calculates how much value a target has
 	event_target:xvcv_mdlc_trading_machine_owner = {
 		divide_variable = {
 			which = xvcv_mdlc_target_$ID$_trade_value value = 10
@@ -27,49 +36,59 @@ xvcv_mdlc_civic_trading_machine_target_all_trade_value_calc_effect = {
 				which = xvcv_mdlc_target_$ID$_trade_value
 				value = 2
 			}
-			log = "TRADE: Player has negotiation tech, multiply trade value by 20%"
 		} #20% of the total trade value, with the required tech
 		round_variable = xvcv_mdlc_target_$ID$_trade_value #rounds the variable to the closest integer
 		log = "Trade value is calculated to be [xvcv_mdlc_target_$ID$_trade_value]"
 	}
 }
+
+#Rikk:this function is the same as above but for gestalt energy
 xvcv_mdlc_civic_trading_machine_target_all_energy_income_calc_effect = {
-	# Calculate trade value from a gestalt empire's energy income (since they don't have trade)
 	optimize_memory
+	event_target:xvcv_mdlc_trading_machine_owner = {
+		if = { #Rikk: Same comment about this probably being easier to set it to 0
+			limit = { is_variable_set = xvcv_mdlc_energy_income_from_target_$ID$ }
+			clear_variable = xvcv_mdlc_energy_income_from_target_$ID$
+		}
+	}
+	#Rikk: this exports their income - not total produces. I couldn't find anything to export total produces, but I know it has to be in the game files 
+	#Rikk: because it's used to calculate relative economic power against other empires
 	export_resource_income_to_variable = {
 		resource = energy
 		variable = xvcv_mdlc_energy_income_from_target_$ID$
 	}
+	#Rikk: rough estimate of total income from number of techs since we can't export produces, only income
 	export_trigger_value_to_variable = {
 		trigger = num_assigned_jobs
 		parameters = { job = technician_drone }
-		variable = rikk_technicians_from_target_$ID$
+		variable = rikk_mdlc_technicians_from_target_$ID$
 	}
-	# techs produce an average of 22 energy in year 2200
-	# techs are usually 2/3 of an economy's energy
-	multiply_variable = {
-		which = rikk_technicians_from_target_$ID$
-		value = 33
-	}
+	#Rikk: techs produce average 22 in 2300, techs are usually 2/3 of economy, ergo +50% is 33
+	multiply_variable = { which = rikk_mdlc_technicians_from_target_$ID$ value = 33 }
+	#Rikk: This isn't in the file I gave you, I included it in suggestions since I amped up the total divider down below
+	multiply_variable = { which = xvcv_mdlc_energy_income_from_target_$ID$ value = 2.5 }
+	#Rikk: this decides if we use income or estimate
 	if = {
 		limit = {
-			# if income is higher than the guessed economy,
-			# they must have megas or non-tech jobs
+			#Rikk: if income is higher than our estimated economy, then they must have more income from megas and/or non-tech jobs
 			check_variable = {
-				which = rikk_technicians_from_target_$ID$
+				which = rikk_mdlc_technicians_from_target_$ID$
 				value > xvcv_mdlc_energy_income_from_target_$ID$
 			}
 		}
 		set_variable = {
 			which = xvcv_mdlc_energy_income_from_target_$ID$
-			value = rikk_technicians_from_target_$ID$
+			value = rikk_mdlc_technicians_from_target_$ID$
+		}
 	}
+	#Rikk:This converts that number into the actual number you get for merchant trading
 	event_target:xvcv_mdlc_trading_machine_owner = {
-		#this will reset the previous value to new one
+		#Rikk:I'm not sure why two different variables are used but I didn't touch it because it ain't broke
 		set_variable = {
 			which = xvcv_mdlc_target_$ID$_energy_income
 			value = prev.xvcv_mdlc_energy_income_from_target_$ID$
 		}
+		#Rikk:this divides the estimate income by 25. used to be 10 but the math works out better for the estimate energy income rather than the old way
 		divide_variable = {
 			which = xvcv_mdlc_target_$ID$_energy_income
 			value = 25
@@ -85,6 +104,8 @@ xvcv_mdlc_civic_trading_machine_target_all_energy_income_calc_effect = {
 		round_variable = xvcv_mdlc_target_$ID$_energy_income
 	}
 }
+
+#Rikk: This gets called once in this file and about ten times in the events file. important for resetting when big things happen, like cancelling routes or dropping the civic
 xvcv_mdlc_civic_trading_machine_reset_variables_flags_effect = {
 	optimize_memory
 	if = {
@@ -104,6 +125,8 @@ xvcv_mdlc_civic_trading_machine_reset_variables_flags_effect = {
 		remove_country_flag = xvcv_mdlc_target_$ID$_energy_income_is_added_to_all_energy_income_from_trade
 	}
 }
+
+#Rikk: This is what gets called when you stop trading.
 xvcv_mdlc_civic_trading_machine_trade_stop_effect = {
 	optimize_memory
 	random_country = {
@@ -137,6 +160,8 @@ xvcv_mdlc_civic_trading_machine_trade_stop_effect = {
 		}
 	}
 }
+
+#Rikk: The abort effect in the menu, also for when you fail the special project to build the ship.
 xvcv_mdlc_civic_trading_machine_ship_build_project_abort_effect = {
 	optimize_memory
 	add_resource = { energy = 300 alloys = 700 }
@@ -145,23 +170,32 @@ xvcv_mdlc_civic_trading_machine_ship_build_project_abort_effect = {
 		remove_country_flag = xvcv_mdlc_civic_trading_machine_saved_target_$ID$_@prev
 	}
 }
+
+#Rikk: This gathers all the different trade and energy values from the routes and combines them. the math looks wonky but I wrote it down on and it checks out.
+#Rikk: I'm a firm believer that this can all be shrunk if we combine the energy and trade calculations - I'm not sure if you want to go back to xvcv's old route
+#Rikk: of making gestalt energy only used for energy, because if not the separation of gestalt and regular trade value can be combined in all except the initial
+#Rikk: calculations from above.
 xvcv_mdlc_civic_trading_machine_all_trade_value_or_energy_income_from_trade_calc_effect = {
-	# This takes place in the scope of the target trading empire
 	optimize_memory
 	if = {
 		limit = { NOT = { has_ethic = ethic_gestalt_consciousness } }
 		event_target:xvcv_mdlc_trading_machine_owner = { 
+		#Rikk: This sets an old variable before it recalculates so if the trade value changes it can find the difference.
 			set_variable = { 
 				which = xvcv_mdlc_target_$ID$_trade_value_old 
 				value = xvcv_mdlc_target_$ID$_trade_value 
 			}
 		}
+		#Rikk: This recalculates the value
 		xvcv_mdlc_civic_trading_machine_target_all_trade_value_calc_effect = { ID = $ID$ }
 		event_target:xvcv_mdlc_trading_machine_owner = {
+		#Rikk: This adds the recalculated value, so for these few lines if it's not a new trade the value is doubled
 			change_variable = { 
 				which = xvcv_mdlc_all_trade_value_from_trade
 				value = xvcv_mdlc_target_$ID$_trade_value
 			}
+			#Rikk: if it is a new trade, mark it as such. if not, we want to get rid of the doubled value. subtract the old value so just in case it increased or decreased
+			#Rikk: between now and then, it is recorded (old = 100, new = 110. 110-100 = 10 leftover that is added to the all_trade_value
 			if = {
 				limit = { NOT = { has_country_flag = xvcv_mdlc_target_$ID$_trade_value_added_to_all_trade_value } }
 				set_country_flag = xvcv_mdlc_target_$ID$_trade_value_added_to_all_trade_value
@@ -173,25 +207,37 @@ xvcv_mdlc_civic_trading_machine_all_trade_value_or_energy_income_from_trade_calc
 				}
 			}
 		}
+		#Rikk: This does the EXACT same thing but with gestalt energy. it just used to put it in a different variable than all_trade_value before I changed it. that old variable
+		#Rikk: Goes to the alt energy generation at the bottom of this file.
 		else = {
 			event_target:xvcv_mdlc_trading_machine_owner = {
 				set_variable = {
 					which = xvcv_mdlc_target_$ID$_energy_income_old
-					value = xvcv_mdlc_target_$ID$_energy_income 
+					value = xvcv_mdlc_target_$ID$_energy_income
 				}
 			}
 			xvcv_mdlc_civic_trading_machine_target_all_energy_income_calc_effect = { ID = $ID$ }
 			event_target:xvcv_mdlc_trading_machine_owner = {
-				change_variable = { which = xvcv_mdlc_all_energy_income_from_trade value = xvcv_mdlc_target_$ID$_energy_income }
+				change_variable = {
+					which = xvcv_mdlc_all_trade_value_from_trade
+					value = xvcv_mdlc_target_$ID$_energy_income
+				}
 				if = {
-					limit = { NOT = { has_country_flag = xvcv_mdlc_target_$ID$_energy_income_is_added_to_all_energy_income_from_trade } }
-					set_country_flag = xvcv_mdlc_target_$ID$_energy_income_is_added_to_all_energy_income_from_trade
-					else = { subtract_variable = { which = xvcv_mdlc_all_energy_income_from_trade value = xvcv_mdlc_target_$ID$_energy_income_old } }
+					limit = { NOT = { has_country_flag = xvcv_mdlc_target_$ID$_trade_value_added_to_all_trade_value } }
+					set_country_flag = xvcv_mdlc_target_$ID$_trade_value_added_to_all_trade_value
+					else = { 
+						subtract_variable = {
+							which = xvcv_mdlc_all_trade_value_from_trade
+							value = xvcv_mdlc_target_$ID$_energy_income_old
+						}
+					}
 				}
 			}
 		}
 	}
 }
+
+#Rikk: This is called a few times, clears deposits when a trade policy change from the merchant or something similar happens. 
 xvcv_mdlc_civic_trading_machine_resource_deposit_clear_effect = {
 	optimize_memory
 	capital_scope = {
@@ -205,6 +251,9 @@ xvcv_mdlc_civic_trading_machine_resource_deposit_clear_effect = {
 		# every_deposit = { limit = { is_deposit_type = xvcv_mdlc_d_civic_trading_machine_energy_alt } remove_deposit = yes }
 	}
 }
+
+#Rikk: This just calculates the deposits to put on the homeworld based on your policy. whole ton of while loops. I don't know if a +resource deposit can be turned into a modifier
+#Rikk: so it can be multiplied, because that might make the game run 0.00001% more efficient
 xvcv_mdlc_civic_trading_machine_resource_deposit_calc_effect = {
 	optimize_memory
 	xvcv_mdlc_civic_trading_machine_resource_deposit_clear_effect = yes
@@ -263,6 +312,7 @@ xvcv_mdlc_civic_trading_machine_resource_deposit_calc_effect = {
 	# How is this calculated and why is it being added?
 	# And why is it outside the other loops? this policy 'xvcv_mdlc_d_civic_trading_machine_energy_alt' isn't defined anywhere
 	# Seems to be giving bonus income
+	#Rikk: This is the part that used to give energy, as you were only allowed to get energy from gestalts before someone hashed it out because they didn't know what it was.
 	# while = {
 	# 	count = xvcv_mdlc_all_energy_income_from_trade
 	# 	capital_scope = {
