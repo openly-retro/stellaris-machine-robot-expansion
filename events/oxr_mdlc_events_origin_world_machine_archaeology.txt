@@ -234,3 +234,57 @@ fleet_event = {
 		}
 	}
 }
+
+# oxr_mdlc_world_machine_irradiated_drone_storage_site
+## Stage 1
+fleet_event = {
+	id = oxr_mdlc_origin_wm_arc.50
+	title = "oxr_mdlc_origin_wm_arc.50.name"
+	desc = oxr_mdlc_origin_wm_arc.50.desc
+	picture = GFX_evt_excavation_team
+	show_sound = event_wind_ruins
+	location = from
+
+	archaeology = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = oxr_mdlc_origin_wm_arc_option_analyze
+		# small_artifact_reward = yes
+	}
+}
+## stage 2
+fleet_event = {
+	id = oxr_mdlc_origin_wm_arc.55
+	title = "oxr_mdlc_origin_wm_arc.50.name"
+	desc = oxr_mdlc_origin_wm_arc.55.desc
+	picture = GFX_evt_excavation_team
+	show_sound = event_wind_ruins
+	location = from
+
+	archaeology = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = oxr_mdlc_origin_wm_arc_option_finish
+		owner = {
+			add_resource = {
+				alloys = 50
+				society_research = 250
+				engineering_research = 250
+			}
+		}
+		from.planet = {
+			every_deposit = {
+				limit = { is_deposit_type = oxr_mdlc_d_world_machine_clogged_furnace_discharge }
+				clear_blocker = yes
+			}
+			every_archaeological_site = {
+				limit = { is_site_type = oxr_mdlc_world_machine_clogged_furnace_discharge_site }
+				destroy_archaeological_site = this
+			}
+		}
+	}
+}
