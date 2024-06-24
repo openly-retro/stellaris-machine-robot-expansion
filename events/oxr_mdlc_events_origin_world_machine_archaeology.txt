@@ -64,11 +64,17 @@ fleet_event = {
 			every_deposit = {
 				limit = { is_deposit_type = oxr_mdlc_d_world_machine_collapsed_charge_controller }
 				clear_blocker = yes
+				fire_on_action = {
+					on_action = on_world_machine_blocker_cleared
+				}
 			}
 			every_archaeological_site = {
 				limit = { is_site_type = oxr_mdlc_collapsed_charge_controller_site }
 				destroy_archaeological_site = this
 			}
+		}
+		fire_on_action = {
+			on_action = on_world_machine_blocker_digsite_finished
 		}
 	}
 	
@@ -118,11 +124,17 @@ fleet_event = {
 			every_deposit = {
 				limit = { is_deposit_type = oxr_mdlc_d_world_machine_fossilized_nutrient_bog }
 				clear_blocker = yes
+				fire_on_action = {
+					on_action = on_world_machine_blocker_cleared
+				}
 			}
 			every_archaeological_site = {
 				limit = { is_site_type = oxr_mdlc_fossilized_nutrient_bog_site }
 				destroy_archaeological_site = this
 			}
+		}
+		fire_on_action = {
+			on_action = on_world_machine_blocker_digsite_finished
 		}
 	}
 }
@@ -172,11 +184,17 @@ fleet_event = {
 			every_deposit = {
 				limit = { is_deposit_type = oxr_mdlc_d_world_machine_flooded_borehole }
 				clear_blocker = yes
+				fire_on_action = {
+					on_action = on_world_machine_blocker_cleared
+				}
 			}
 			every_archaeological_site = {
 				limit = { is_site_type = oxr_mdlc_world_machine_flooded_borehole_site }
 				destroy_archaeological_site = this
 			}
+		}
+		fire_on_action = {
+			on_action = on_world_machine_blocker_digsite_finished
 		}
 	}
 }
@@ -226,11 +244,17 @@ fleet_event = {
 			every_deposit = {
 				limit = { is_deposit_type = oxr_mdlc_d_world_machine_clogged_furnace_discharge }
 				clear_blocker = yes
+				fire_on_action = {
+					on_action = on_world_machine_blocker_cleared
+				}
 			}
 			every_archaeological_site = {
 				limit = { is_site_type = oxr_mdlc_world_machine_clogged_furnace_discharge_site }
 				destroy_archaeological_site = this
 			}
+		}
+		fire_on_action = {
+			on_action = on_world_machine_blocker_digsite_finished
 		}
 	}
 }
@@ -278,13 +302,502 @@ fleet_event = {
 		}
 		from.planet = {
 			every_deposit = {
-				limit = { is_deposit_type = oxr_mdlc_d_world_machine_clogged_furnace_discharge }
+				limit = { is_deposit_type = oxr_mdlc_d_world_machine_irradiated_drone_storage }
 				clear_blocker = yes
+				fire_on_action = {
+					on_action = on_world_machine_blocker_cleared
+				}
 			}
 			every_archaeological_site = {
-				limit = { is_site_type = oxr_mdlc_world_machine_clogged_furnace_discharge_site }
+				limit = { is_site_type = oxr_mdlc_world_machine_irradiated_drone_storage_site }
 				destroy_archaeological_site = this
 			}
+		}
+		fire_on_action = {
+			on_action = on_world_machine_blocker_digsite_finished
+		}
+	}
+}
+
+## District Blockers
+
+## Meteor Shower Impacts
+## Stage 1
+fleet_event = {
+	id = oxr_mdlc_origin_wm_arc.60
+	title = "oxr_mdlc_origin_wm_arc.50.name"
+	desc = oxr_mdlc_origin_wm_arc.60.desc
+	picture = GFX_evt_excavation_team
+	show_sound = event_wind_ruins
+	location = from
+
+	archaeology = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = oxr_mdlc_origin_wm_arc_option_analyze
+		# small_artifact_reward = yes
+	}
+}
+## stage 2
+fleet_event = {
+	id = oxr_mdlc_origin_wm_arc.65
+	title = "oxr_mdlc_origin_wm_arc.60.name"
+	desc = oxr_mdlc_origin_wm_arc.65.desc
+	picture = GFX_evt_excavation_team
+	show_sound = event_wind_ruins
+	location = from
+
+	archaeology = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = oxr_mdlc_origin_wm_arc_option_finish
+		owner = {
+			add_resource = {
+				alloys = 50
+				society_research = 250
+				engineering_research = 250
+			}
+		}
+		from.planet = {
+			every_deposit = {
+				limit = { is_deposit_type = oxr_mdlc_d_world_machine_meteor_shower_impacts }
+				clear_blocker = yes
+				fire_on_action = {
+					on_action = on_world_machine_blocker_cleared
+				}
+			}
+			every_archaeological_site = {
+				limit = { is_site_type = oxr_mdlc_world_machine_meteor_shower_impacts_site }
+				destroy_archaeological_site = this
+			}
+		}
+		fire_on_action = {
+			on_action = on_world_machine_blocker_digsite_finished
+		}
+	}
+}
+
+## Collapsed Transportation Hubs
+## Stage 1
+fleet_event = {
+	id = oxr_mdlc_origin_wm_arc.70
+	title = "oxr_mdlc_origin_wm_arc.70.name"
+	desc = oxr_mdlc_origin_wm_arc.70.desc
+	picture = GFX_evt_excavation_team
+	show_sound = event_wind_ruins
+	location = from
+
+	archaeology = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = oxr_mdlc_origin_wm_arc_option_analyze
+		# small_artifact_reward = yes
+	}
+}
+## stage 2
+fleet_event = {
+	id = oxr_mdlc_origin_wm_arc.75
+	title = "oxr_mdlc_origin_wm_arc.70.name"
+	desc = oxr_mdlc_origin_wm_arc.75.desc
+	picture = GFX_evt_excavation_team
+	show_sound = event_wind_ruins
+	location = from
+
+	archaeology = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = oxr_mdlc_origin_wm_arc_option_finish
+		owner = {
+			add_resource = {
+				alloys = 50
+				society_research = 250
+				engineering_research = 250
+			}
+		}
+		from.planet = {
+			every_deposit = {
+				limit = { is_deposit_type = oxr_mdlc_d_world_machine_collapsed_transportation_hubs }
+				clear_blocker = yes
+				fire_on_action = {
+					on_action = on_world_machine_blocker_cleared
+				}
+			}
+			every_archaeological_site = {
+				limit = { is_site_type = oxr_mdlc_world_machine_collapsed_transportation_hubs_site }
+				destroy_archaeological_site = this
+			}
+		}
+		fire_on_action = {
+			on_action = on_world_machine_blocker_digsite_finished
+		}
+	}
+}
+
+## exposed_structural_chasms
+## Stage 1
+fleet_event = {
+	id = oxr_mdlc_origin_wm_arc.80
+	title = "oxr_mdlc_origin_wm_arc.80.name"
+	desc = oxr_mdlc_origin_wm_arc.80.desc
+	picture = GFX_evt_excavation_team
+	show_sound = event_wind_ruins
+	location = from
+
+	archaeology = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = oxr_mdlc_origin_wm_arc_option_analyze
+		# small_artifact_reward = yes
+	}
+}
+## stage 2
+fleet_event = {
+	id = oxr_mdlc_origin_wm_arc.85
+	title = "oxr_mdlc_origin_wm_arc.80.name"
+	desc = oxr_mdlc_origin_wm_arc.85.desc
+	picture = GFX_evt_excavation_team
+	show_sound = event_wind_ruins
+	location = from
+
+	archaeology = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = oxr_mdlc_origin_wm_arc_option_finish
+		owner = {
+			add_resource = {
+				alloys = 50
+				society_research = 250
+				engineering_research = 250
+			}
+		}
+		from.planet = {
+			every_deposit = {
+				limit = { is_deposit_type = oxr_mdlc_d_world_machine_exposed_structural_chasms }
+				clear_blocker = yes
+				fire_on_action = {
+					on_action = on_world_machine_blocker_cleared
+				}
+			}
+			every_archaeological_site = {
+				limit = { is_site_type = oxr_mdlc_world_machine_exposed_structural_chasms_site }
+				destroy_archaeological_site = this
+			}
+		}
+		fire_on_action = {
+			on_action = on_world_machine_blocker_digsite_finished
+		}
+	}
+}
+
+## dense_geologic_mass
+## Stage 1
+fleet_event = {
+	id = oxr_mdlc_origin_wm_arc.90
+	title = "oxr_mdlc_origin_wm_arc.90.name"
+	desc = oxr_mdlc_origin_wm_arc.90.desc
+	picture = GFX_evt_excavation_team
+	show_sound = event_wind_ruins
+	location = from
+
+	archaeology = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = oxr_mdlc_origin_wm_arc_option_analyze
+		# small_artifact_reward = yes
+	}
+}
+## stage 2
+fleet_event = {
+	id = oxr_mdlc_origin_wm_arc.95
+	title = "oxr_mdlc_origin_wm_arc.90.name"
+	desc = oxr_mdlc_origin_wm_arc.95.desc
+	picture = GFX_evt_excavation_team
+	show_sound = event_wind_ruins
+	location = from
+
+	archaeology = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = oxr_mdlc_origin_wm_arc_option_finish
+		owner = {
+			add_resource = {
+				alloys = 50
+				society_research = 250
+				engineering_research = 250
+			}
+		}
+		from.planet = {
+			every_deposit = {
+				limit = { is_deposit_type = oxr_mdlc_d_world_machine_dense_geologic_mass }
+				clear_blocker = yes
+				fire_on_action = {
+					on_action = on_world_machine_blocker_cleared
+				}
+			}
+			every_archaeological_site = {
+				limit = { is_site_type = oxr_mdlc_world_machine_dense_geologic_mass_site }
+				destroy_archaeological_site = this
+			}
+		}
+		fire_on_action = {
+			on_action = on_world_machine_blocker_digsite_finished
+		}
+	}
+}
+
+# INSIGHT BLOCKERS
+## offline_data_routers
+## Stage 1
+fleet_event = {
+	id = oxr_mdlc_origin_wm_arc.100
+	title = "oxr_mdlc_origin_wm_arc.100.name"
+	desc = oxr_mdlc_origin_wm_arc.100.desc
+	picture = GFX_evt_excavation_team
+	show_sound = event_wind_ruins
+	location = from
+
+	archaeology = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = oxr_mdlc_origin_wm_arc_option_analyze
+		# small_artifact_reward = yes
+	}
+}
+## stage 2
+fleet_event = {
+	id = oxr_mdlc_origin_wm_arc.105
+	title = "oxr_mdlc_origin_wm_arc.100.name"
+	desc = oxr_mdlc_origin_wm_arc.105.desc
+	picture = GFX_evt_excavation_team
+	show_sound = event_wind_ruins
+	location = from
+
+	archaeology = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = oxr_mdlc_origin_wm_arc_option_finish
+		owner = {
+			add_resource = {
+				alloys = 50
+				society_research = 250
+				engineering_research = 250
+			}
+		}
+		from.planet = {
+			every_deposit = {
+				limit = { is_deposit_type = oxr_mdlc_d_world_machine_offline_data_routers }
+				clear_blocker = yes
+				fire_on_action = {
+					on_action = on_world_machine_insight_blocker_cleared
+				}
+			}
+			every_archaeological_site = {
+				limit = { is_site_type = oxr_mdlc_world_machine_offline_data_routers_site }
+				destroy_archaeological_site = this
+			}
+		}
+		fire_on_action = {
+			on_action = on_world_machine_blocker_digsite_finished
+		}
+	}
+}
+
+## damaged_data_cold_storages
+## Stage 1
+fleet_event = {
+	id = oxr_mdlc_origin_wm_arc.110
+	title = "oxr_mdlc_origin_wm_arc.110.name"
+	desc = oxr_mdlc_origin_wm_arc.110.desc
+	picture = GFX_evt_excavation_team
+	show_sound = event_wind_ruins
+	location = from
+
+	archaeology = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = oxr_mdlc_origin_wm_arc_option_analyze
+		# small_artifact_reward = yes
+	}
+}
+## stage 2
+fleet_event = {
+	id = oxr_mdlc_origin_wm_arc.115
+	title = "oxr_mdlc_origin_wm_arc.110.name"
+	desc = oxr_mdlc_origin_wm_arc.115.desc
+	picture = GFX_evt_excavation_team
+	show_sound = event_wind_ruins
+	location = from
+
+	archaeology = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = oxr_mdlc_origin_wm_arc_option_finish
+		owner = {
+			add_resource = {
+				alloys = 50
+				society_research = 250
+				engineering_research = 250
+			}
+		}
+		from.planet = {
+			every_deposit = {
+				limit = { is_deposit_type = oxr_mdlc_d_world_machine_damaged_data_cold_storages }
+				clear_blocker = yes
+				fire_on_action = {
+					on_action = on_world_machine_insight_blocker_cleared
+				}
+			}
+			every_archaeological_site = {
+				limit = { is_site_type = oxr_mdlc_world_machine_damaged_data_cold_storages_site }
+				destroy_archaeological_site = this
+			}
+		}
+		fire_on_action = {
+			on_action = on_world_machine_blocker_digsite_finished
+		}
+	}
+}
+
+## frozen_waterway_pistons
+## Stage 1
+fleet_event = {
+	id = oxr_mdlc_origin_wm_arc.120
+	title = "oxr_mdlc_origin_wm_arc.120.name"
+	desc = oxr_mdlc_origin_wm_arc.120.desc
+	picture = GFX_evt_excavation_team
+	show_sound = event_wind_ruins
+	location = from
+
+	archaeology = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = oxr_mdlc_origin_wm_arc_option_analyze
+		# small_artifact_reward = yes
+	}
+}
+## stage 2
+fleet_event = {
+	id = oxr_mdlc_origin_wm_arc.125
+	title = "oxr_mdlc_origin_wm_arc.120.name"
+	desc = oxr_mdlc_origin_wm_arc.125.desc
+	picture = GFX_evt_excavation_team
+	show_sound = event_wind_ruins
+	location = from
+
+	archaeology = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = oxr_mdlc_origin_wm_arc_option_finish
+		owner = {
+			add_resource = {
+				alloys = 50
+				society_research = 250
+				engineering_research = 250
+			}
+		}
+		from.planet = {
+			every_deposit = {
+				limit = { is_deposit_type = oxr_mdlc_d_world_machine_frozen_waterway_pistons }
+				clear_blocker = yes
+				fire_on_action = {
+					on_action = on_world_machine_insight_blocker_cleared
+				}
+			}
+			every_archaeological_site = {
+				limit = { is_site_type = oxr_mdlc_world_machine_frozen_waterway_pistons_site }
+				destroy_archaeological_site = this
+			}
+		}
+		fire_on_action = {
+			on_action = on_world_machine_blocker_digsite_finished
+		}
+	}
+}
+
+## incomplete_construction_bays
+## Stage 1
+fleet_event = {
+	id = oxr_mdlc_origin_wm_arc.130
+	title = "oxr_mdlc_origin_wm_arc.130.name"
+	desc = oxr_mdlc_origin_wm_arc.130.desc
+	picture = GFX_evt_excavation_team
+	show_sound = event_wind_ruins
+	location = from
+
+	archaeology = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = oxr_mdlc_origin_wm_arc_option_analyze
+		# small_artifact_reward = yes
+	}
+}
+## stage 2
+fleet_event = {
+	id = oxr_mdlc_origin_wm_arc.135
+	title = "oxr_mdlc_origin_wm_arc.130.name"
+	desc = oxr_mdlc_origin_wm_arc.135.desc
+	picture = GFX_evt_excavation_team
+	show_sound = event_wind_ruins
+	location = from
+
+	archaeology = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = oxr_mdlc_origin_wm_arc_option_finish
+		owner = {
+			add_resource = {
+				alloys = 50
+				society_research = 250
+				engineering_research = 250
+			}
+		}
+		from.planet = {
+			every_deposit = {
+				limit = { is_deposit_type = oxr_mdlc_d_world_machine_incomplete_construction_bays }
+				clear_blocker = yes
+				fire_on_action = {
+					on_action = on_world_machine_insight_blocker_cleared
+				}
+			}
+			every_archaeological_site = {
+				limit = { is_site_type = oxr_mdlc_world_machine_incomplete_construction_bays_site }
+				destroy_archaeological_site = this
+			}
+		}
+		fire_on_action = {
+			on_action = on_world_machine_blocker_digsite_finished
 		}
 	}
 }
