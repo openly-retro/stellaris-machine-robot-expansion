@@ -1,0 +1,57 @@
+namespace = oxr_mdlc_on_world_machine_action
+
+# on_world_machine_blocker_digsite_finished
+planet_event = {
+	# Create the next digsite, if requirements are met
+	id = oxr_mdlc_on_world_machine_action.10
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		oxr_mdlc_planet_has_any_world_machine_blockers = yes
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				oxr_mdlc_planet_has_any_world_machine_blockers = yes
+				NOT = {
+					space_owner = {
+						has_technology = oxr_mdlc_tech_world_machine_planetary_proficiency
+					}
+				}
+			}
+			# Create the digsite a few days later, it's weird for it to be immediately available
+			planet_event = {
+				id = oxr_mdlc_on_world_machine_action.10 days = 7
+			}
+			log = "Created a new world machine digsite at \\[This.GetName]"
+		}
+		else_if = {
+			limit = { oxr_mdlc_planet_has_any_world_machine_blockers = no }
+			log = "No more world machine blockers on \\[This.GetName]"
+		}
+		else_if = {
+			limit = {
+				space_owner = {
+					has_technology = oxr_mdlc_tech_world_machine_planetary_proficiency
+				}
+			}
+			log = "Space owner has tech oxr_mdlc_tech_world_machine_planetary_proficiency. Not going to make digsites."
+		}
+	}
+}
+
+# on_world_machine_blocker_digsite_finished
+# Create the digsite a few days later
+planet_event = {
+	id = oxr_mdlc_on_world_machine_action.10
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		oxr_mdlc_planet_has_any_world_machine_blockers = yes
+	}
+	immediate = {
+		oxr_mdlc_origin_world_machine_create_digsite_for_blocker = yes
+	}
+}
