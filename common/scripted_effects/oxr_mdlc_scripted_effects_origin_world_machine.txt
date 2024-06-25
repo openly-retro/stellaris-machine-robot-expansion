@@ -83,8 +83,9 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 	add_modifier = { modifier = "planet_population_control_gestalt" days = -1 }
 
 	# Add blockers to homeworld
-	# First get rid of game-generated blockers
+	# First get rid of game-generated blockers & deposits
 	clear_blockers = yes
+	clear_deposits = yes
 	oxr_mdlc_origin_world_machine_random_add_all_blockers = yes
 
 	# Set up first digsite
@@ -101,6 +102,9 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 		add_blocker = { type = oxr_mdlc_d_world_machine_collapsed_charge_controller }
 		create_archaeological_site = oxr_mdlc_collapsed_charge_controller_site
 	}
+
+	# Install world machine core
+	add_deposit = oxr_mdlc_d_world_machine_core
 
 	# give_technology
 	give_technology = {
@@ -148,6 +152,7 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 	oxr_mdlc_origin_world_machine_add_armies_at_start = yes
 
 	# Fix founder species habitability *eyeroll*
+	# STILL NOT FIXED? >:O
 	event_target:last_created_species = {
 		if = {
 			limit = { has_trait = trait_wet_planet_preference }
