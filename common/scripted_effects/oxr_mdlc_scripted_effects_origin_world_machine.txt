@@ -88,7 +88,19 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 	oxr_mdlc_origin_world_machine_random_add_all_blockers = yes
 
 	# Set up first digsite
-	oxr_mdlc_origin_world_machine_create_digsite_for_blocker = yes
+	# Always guarantee this charge controller deposit is present.
+	# from here, on_action will add more dig sites.
+	# By starting the player from here, it will ensure the first digsite is not an insight blocker
+	if = {
+		limit = {
+			has_deposit = oxr_mdlc_d_world_machine_collapsed_charge_controller
+		}
+		create_archaeological_site = oxr_mdlc_collapsed_charge_controller_site
+	}
+	else = {
+		add_blocker = { type = oxr_mdlc_d_world_machine_collapsed_charge_controller }
+		create_archaeological_site = oxr_mdlc_collapsed_charge_controller_site
+	}
 
 	# give_technology
 	give_technology = {
@@ -97,6 +109,17 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 	}
 
 	# Start "recover lost tech" situation
+	prev = {
+		begin_event_chain = {
+			event_chain = oxr_mdlc_origin_wm_discovery
+		}
+		begin_event_chain = {
+			event_chain = oxr_mdlc_origin_wm_recover_core_tech
+		}
+		begin_event_chain = {
+			event_chain = oxr_mdlc_origin_wm_our_origins
+		}
+	}
 
 	## Swap buildings
 	### Unity
@@ -372,6 +395,7 @@ oxr_mdlc_origin_world_machine_create_digsite_for_blocker = {
 	# Iterate through each special blocker type, and make a dig site
 	# unless the player has the tech for unblocking them
 	# use else-if and not switch to ensure 1 dig at a time is created
+
 	random_deposit = {
 		limit = {
 			is_blocker = yes
