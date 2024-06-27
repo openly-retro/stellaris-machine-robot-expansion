@@ -11,3 +11,51 @@ country_event = {
 		name = oxr_mdlc_origin_wm_main.1.a.name
 	}
 }
+
+# Trigger project to get proficiency tech
+# although I am on the fence and maybe just award it
+country_event = {
+	id = oxr_mdlc_origin_wm_main.50
+	title = oxr_mdlc_origin_wm_main.50.title
+	desc = oxr_mdlc_origin_wm_main.50.desc
+	picture = GFX_evt_engineering_research
+	is_triggered_only = yes
+
+	trigger = {
+		
+	}
+
+	option = {
+		name = oxr_mdlc_origin_wm_main.50.a
+		owner = {
+			enable_special_project = {
+				name = OXR_MDLC_ORIGIN_WM_TECH_PROFICIENCY
+			}
+		}
+	}
+	immediate = {
+		owner = {
+			end_event_chain = oxr_mdlc_origin_wm_chain_clear_blockers
+		}
+	}
+	# option = {
+	# 	name = oxr_mdlc_origin_wm_main.50.b
+	# 	allow = {
+	# 		owner = {
+	# 			has_resource = {
+	# 				type = energy
+	# 				amount >= 1000
+	# 			}
+	# 		}
+	# 	}
+	# 	owner = {
+	# 		add_resource = {
+	# 			energy = -1000
+	# 		}
+	# 		give_technology = {
+	# 			tech = oxr_mdlc_tech_world_machine_planetary_proficiency
+	# 			message = no
+	# 		}
+	# 	}
+	# }
+}
