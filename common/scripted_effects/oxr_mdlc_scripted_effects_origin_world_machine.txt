@@ -114,14 +114,24 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 
 	# Start "recover lost tech" situation
 	prev = {
-		begin_event_chain = {
-			event_chain = oxr_mdlc_origin_wm_discovery
+		start_situation = {
+			type = oxr_mdlc_origin_wm_situation_recover_core_tech
+			target = root
 		}
 		begin_event_chain = {
-			event_chain = oxr_mdlc_origin_wm_recover_core_tech
+			event_chain = oxr_mdlc_origin_wm_chain_deploy_world_cores
 		}
 		begin_event_chain = {
-			event_chain = oxr_mdlc_origin_wm_our_origins
+			event_chain = oxr_mdlc_origin_wm_chain_gather_insights
+		}
+		begin_event_chain = {
+			event_chain = oxr_mdlc_origin_wm_chain_clear_blockers
+		}
+		begin_event_chain = {
+			event_chain = oxr_mdlc_origin_wm_chain_info_basic
+		}
+		begin_event_chain = {
+			event_chain = oxr_mdlc_origin_wm_chain_our_origins
 		}
 	}
 
