@@ -1,4 +1,7 @@
 oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
+	prev = {
+		set_country_flag = oxr_mdlc_origin_world_machine_feature_enabled
+	}
 	# optimize_memory
 	# This is starting in the PLANET scope
 	prev = { set_country_flag = oxr_mdlc_origin_world_machine_awakened }
@@ -122,20 +125,28 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 			type = oxr_mdlc_origin_wm_situation_recover_core_tech
 			target = root
 		}
+		# Guide player to set up new WM planets
 		begin_event_chain = {
 			event_chain = oxr_mdlc_origin_wm_chain_deploy_world_cores
 		}
+		# Guidance to gather insights
 		begin_event_chain = {
 			event_chain = oxr_mdlc_origin_wm_chain_gather_insights
 		}
 		begin_event_chain = {
 			event_chain = oxr_mdlc_origin_wm_chain_clear_blockers
 		}
+		# Starting WM lore
 		begin_event_chain = {
 			event_chain = oxr_mdlc_origin_wm_chain_info_basic
 		}
+		# Little lore about the species
 		begin_event_chain = {
 			event_chain = oxr_mdlc_origin_wm_chain_our_origins
+		}
+		# WM counter
+		begin_event_chain = {
+			event_chain = oxr_mdlc_origin_wm_chain_empire_data
 		}
 	}
 
@@ -194,9 +205,16 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 			which = oxr_mdlc_origin_wm_cores_current_count
 			value = 0
 		}
-		add_resource = {
-			oxr_mdlc_world_machine_core = 2
+		set_variable = {
+			which = oxr_mdlc_origin_wm_cores_max
+			value = value:oxr_mdlc_count_wmc_max
 		}
+		# Storage bonus
+		add_modifier = {
+			modifier = oxr_mdlc_origin_world_machine_start_modifier_1
+		}
+		oxr_mdlc_world_machine_cores_update_max_var = yes
+		oxr_mdlc_world_machine_cores_add = { AMOUNT = 2 }
 	}
 
 }
@@ -509,3 +527,42 @@ oxr_mdlc_origin_world_machine_create_digsite_for_blocker = {
 # 		destroy_archaeological_site = this
 # 	}
 # }
+
+
+oxr_mdlc_world_machine_cores_add = {
+	# Call at country scope
+	add_resource = {
+		oxr_mdlc_world_machine_core = $AMOUNT$
+	}
+	log = "Added $AMOUNT$ World Machine Cores"
+	hidden_effect = {
+		change_variable = {
+			which = oxr_mdlc_origin_wm_cores_current_count
+			value = $AMOUNT$
+		}
+		change_variable = {
+			which = oxr_mdlc_origin_wm_cores_total_produced_count
+			value = $AMOUNT$
+		}
+		oxr_mdlc_world_machine_cores_update_max_var = yes
+	}
+}
+oxr_mdlc_world_machine_cores_subtract = {
+	add_resource = {
+		oxr_mdlc_world_machine_core = $AMOUNT$
+		mult = -1
+	}
+	log = "Deducted $AMOUNT$ World Machine Cores"
+	hidden_effect = {
+		subtract_variable = {
+			which = oxr_mdlc_origin_wm_cores_current_count
+			value = $AMOUNT$
+		}
+	}
+}
+oxr_mdlc_world_machine_cores_update_max_var = {
+	set_variable = {
+		which = oxr_mdlc_origin_wm_cores_max
+		value = modifier:country_resource_max_oxr_mdlc_world_machine_core_add
+	}
+}
