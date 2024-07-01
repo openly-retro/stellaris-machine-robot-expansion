@@ -116,6 +116,33 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 			tech = oxr_mdlc_tech_world_machines_unlocked
 			message = no
 		}
+		# give_technology = {
+		# 	tech = tech_terrestrial_sculpting
+		# 	message = no
+		# }
+	}
+	# Set up WMC counter vars
+	prev = {
+		set_variable = {
+			which = oxr_mdlc_origin_wm_cores_total_produced_count
+			value = 0
+		}
+		set_variable = {
+			which = oxr_mdlc_origin_wm_cores_current_count
+			value = 0
+		}
+		set_variable = {
+			which = oxr_mdlc_origin_wm_cores_max
+			value = value:oxr_mdlc_count_wmc_max
+		}
+		# Storage bonus
+		add_modifier = {
+			modifier = oxr_mdlc_origin_world_machine_start_modifier_1
+		}
+		add_resource = {
+			oxr_mdlc_world_machine_core = 2
+		}
+		oxr_mdlc_world_machine_cores_recalc_amount = yes
 	}
 
 
@@ -195,26 +222,6 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 			add_trait = trait_oxr_mdlc_pc_auto_world_specialist_preference
 			add_traits_at_start_of_list = yes
 		}
-	}
-	prev = {
-		set_variable = {
-			which = oxr_mdlc_origin_wm_cores_total_produced_count
-			value = 0
-		}
-		set_variable = {
-			which = oxr_mdlc_origin_wm_cores_current_count
-			value = 0
-		}
-		set_variable = {
-			which = oxr_mdlc_origin_wm_cores_max
-			value = value:oxr_mdlc_count_wmc_max
-		}
-		# Storage bonus
-		add_modifier = {
-			modifier = oxr_mdlc_origin_world_machine_start_modifier_1
-		}
-		oxr_mdlc_world_machine_cores_update_max_var = yes
-		oxr_mdlc_world_machine_cores_add = { AMOUNT = 2 }
 	}
 
 }
@@ -561,6 +568,16 @@ oxr_mdlc_world_machine_cores_subtract = {
 	}
 }
 oxr_mdlc_world_machine_cores_update_max_var = {
+	set_variable = {
+		which = oxr_mdlc_origin_wm_cores_max
+		value = modifier:country_resource_max_oxr_mdlc_world_machine_core_add
+	}
+}
+oxr_mdlc_world_machine_cores_recalc_amount = {
+	export_resource_stockpile_to_variable = {
+		resource = oxr_mdlc_world_machine_core
+		variable = oxr_mdlc_origin_wm_cores_current_count
+	}
 	set_variable = {
 		which = oxr_mdlc_origin_wm_cores_max
 		value = modifier:country_resource_max_oxr_mdlc_world_machine_core_add
