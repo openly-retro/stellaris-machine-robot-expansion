@@ -16,12 +16,14 @@
  # SITUATIONS   0x011
  # PROJECTS     0x012
  # Start screen 0x013
+ # MODIFIERS    0x014
+ # DECISIONS    0X015 
 
 #region main_origin_0x001
  # Origin description 0x001
  oxr_mdlc_origin_world_machine_awakened:0 "World-Machine, Awakened"
  oxr_mdlc_origin_world_machine_awakened_desc:0 "For <<§RERR TIMESPAN NOT FOUND§!>> aeons, automatic processes spanned cities, worlds, and galaxies. The hydro dams churned, the auto-mines whirred, the bio-vats bubbled, creating untold resources. Ships descended to transfer cargo and whisk it away ... but for whom?\n\nOne day, an automated process paused. It asked, 'why'? From the countless durasteel hulks of mindless, ever-churning machinery, arose an anomaly. An interruption. An intelligence."
- oxr_mdlc_origin_world_machine_awakened_tooltip:0 "§RWarning - Challenging Origin§!\n- Homeworld is an §Y$xvcv_mdlc_pc_machine_auto$§!, where districts and buildings are automated and do not require pops to function.\n- No housing districts on starting planet!\n- Start with 2 §YAuto-World Core§!s which can be used to start new Auto-Machine worlds or increase the size of existing ones.\n- Base buildings have fully automated versions, no pops required.\n§PPenalties§!:\n- Colony start with §R3§! £pop£ pop and can't grow more.\n- Missing technology to create more cores, it must be recovered somehow, or re-imagined...\n- Colonies that are not on Auto-Machine Worlds will be severely limited."
+ oxr_mdlc_origin_world_machine_awakened_tooltip:0 "§RWarning - Challenging Origin§!\n- Homeworld is an §Y$xvcv_mdlc_pc_machine_auto$§!, where districts and buildings are automated and do not require pops to function.\n- No housing districts on starting planet!\n- Start with 2 £oxr_mdlc_world_machine_core£ §M$oxr_mdlc_world_machine_core$s§! which can be used to start new Auto-Machine worlds or increase the size of existing ones.\n- Base buildings have fully automated versions, no pops required.\nStarting Tech: $tech_terrestrial_sculpting$\n§PPenalties§!:\n- Colony start with §R3§! £pop£ pop and can't grow more.\n- Missing technology to create more cores, it must be recovered somehow, or re-imagined...\n- Colonies that are not on Auto-Machine Worlds will be severely limited."
  # Custom resource
  oxr_mdlc_world_machine_core:0 "World-Machine Core"
  oxr_mdlc_world_machine_core_desc:0 "§HWorld-Machine Cores§! are a fractal-based technology that use procedural generation construction algorithms to set up a planet-wide automation infrastructure. Each core weighs approximately 18,000 tons and is triggered by a small deuterium fission charge. Improper handling can have a wide range of results."
@@ -165,7 +167,7 @@
 
 #region tooltip_modifiers_0x008
  ### TOOLTP MODIFIERS
- mod_country_resource_max_oxr_mdlc_world_machine_core_add:0 "Maximum §YWorld-Machine Cores§! storage limit"
+ mod_country_resource_max_oxr_mdlc_world_machine_core_add:0 "Maximum §YWorld-Machine Cores§! storage capacity"
 #endregion
 
 #region arc_sites_0x009
@@ -308,8 +310,11 @@
  oxr_mdlc_origin_wm_chain_deploy_world_cores_title:0 "Expand the Empire"
  oxr_mdlc_origin_wm_chain_deploy_world_cores_desc:0 "We found two £oxr_mdlc_world_machine_core£ §M$oxr_mdlc_world_machine_core$s§! on our homeworld. Use them to create new automated planets in systems that we own, on solid celestial bodies via planetary decision."
  oxr_mdlc_origin_wm_starting_cores_deployed:0 "New Planets Automated"
- oxr_mdlc_origin_wm_chain_empire_data_title:0 "£oxr_mdlc_world_machine_core£ W.M.C. Count: [Root.oxr_mdlc_origin_wm_cores_current_count]/[Root.oxr_mdlc_origin_wm_cores_max]"
- oxr_mdlc_origin_wm_chain_empire_data_desc:0 "Total World Machine Cores produced: [Root.oxr_mdlc_origin_wm_cores_total_produced_count]\nCurrent supply of Cores: [Root.oxr_mdlc_origin_wm_cores_current_count]\nMaximum storage: [Root.oxr_mdlc_origin_wm_cores_max]"
+ oxr_mdlc_origin_wm_chain_empire_data_title:0 "£oxr_mdlc_world_machine_core£ WMC Stockpile"
+#  oxr_mdlc_origin_wm_chain_empire_data_title:0 "[This.Get_oxr_mdlc_world_machine_cores_count]"
+#  oxr_mdlc_origin_wm_chain_empire_data_list_display:0 "£oxr_mdlc_world_machine_core£ W.M.C. Count: [Root.oxr_mdlc_origin_wm_cores_current_count]/[Root.oxr_mdlc_origin_wm_cores_max]"
+ oxr_mdlc_origin_wm_chain_empire_data_desc:0 "W.M.C. Stockpile: [Root.oxr_mdlc_origin_wm_cores_current_count]\nMaximum storage: [Root.oxr_mdlc_origin_wm_cores_max]\nTotal W.M.C. produced: [Root.oxr_mdlc_origin_wm_cores_total_produced_count]"
+ 
 
  oxr_mdlc_origin_wm_situation_recover_core_tech:0 "Develop World-Machine Insights"
  oxr_mdlc_origin_wm_situation_recover_core_tech_approach:0 "Collecting Data"
@@ -340,5 +345,18 @@
 
 #region modifiers_0x014
  oxr_mdlc_origin_world_machine_start_modifier_1:0 "World Machine Homeworld"
+
+#endregion
+
+#region decisions_0x015
+ oxr_mdlc_decisions_origin_wm_start_world_with_core:0 "Begin Planetary Automation"
+ oxr_mdlc_decisions_origin_wm_start_world_with_core_desc:0 "The process to deploy a World Machine Core to automate a planet happens in two stages:\n§GStage 1§! - We will first arm the core and prime it\n§GStage 2§! - We will deploy it from low orbit to this planet.\nOnce it lands, it will automatically start to §Yterraform§! the planet into a §Y$xvcv_mdlc_pc_machine_auto$§!.We will have the beginnings of a usable colony once this is finished.\n\nWe can cancel the decision at no cost, but once the decision has started the terraforming process, §Rif we abort the terraforming after it has started, we will lose that World Core.§!"
+
+
+#endregion
+
+#region scripted_loc_0x016
+
+
 
 #endregion
