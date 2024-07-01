@@ -90,10 +90,70 @@ planet_event = {
 			}
 			oxr_mdlc_origin_world_machine_random_add_all_blockers = yes
 			oxr_mdlc_origin_world_machine_create_digsite_for_blocker = yes
+			planet_event = {
+				id = oxr_mdlc_origin_wm_main.501
+			}
 		}
 		add_modifier = { modifier = "planet_population_control_gestalt" days = -1 }
 		from = {
 			oxr_mdlc_world_machine_cores_recalc_amount = yes
+		}
+		
+	}
+}
+
+planet_event = {
+	id = oxr_mdlc_origin_wm_main.501
+	title = oxr_mdlc_origin_wm_main.501.title
+	desc = oxr_mdlc_origin_wm_main.501.desc
+	picture = GFX_evt_colony_settlement
+	is_triggered_only = yes
+
+	option = {
+		name = oxr_mdlc_origin_wm_main.501.a
+		space_owner = {
+			add_resource = {
+				society_research = 750
+				engineering_research = 750
+				physics_research = 750
+			}
+		}
+	}
+	option = {
+		name = oxr_mdlc_origin_wm_main.501.b
+		space_owner = {
+			add_resource = {
+				unity = 1000
+			}
+		}
+	}
+	option = {
+		name = oxr_mdlc_origin_wm_main.501.c
+		space_owner = {
+			add_resource = {
+				energy = -250
+			}
+		}
+		planet_event = {
+			id = oxr_mdlc_origin_wm_main.502
+			days = 14
+		}
+	}
+}
+
+planet_event = {
+	id = oxr_mdlc_origin_wm_main.502
+	title = oxr_mdlc_origin_wm_main.502.title
+	desc = oxr_mdlc_origin_wm_main.502.desc
+	picture = GFX_evt_glitchy_matrix
+	is_triggered_only = yes
+
+	option = {
+		name = "oxr_mdlc_origin_wm_main.502.a"
+		space_owner = {
+			random_situation = {
+				limit = { is_situation_type = oxr_mdlc_origin_wm_situation_recover_core_tech }
+				add_situation_progress = @oxr_mdlc_situation_core_tech_fun_points
 		}
 	}
 }
