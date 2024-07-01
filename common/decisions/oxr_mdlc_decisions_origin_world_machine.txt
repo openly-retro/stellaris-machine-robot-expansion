@@ -1,0 +1,32 @@
+oxr_mdlc_decisions_origin_wm_start_world_with_core = {
+	# owned_planets_only = yes
+
+	# enactment_time = 1
+	potential = {
+		exists = space_owner
+		space_owner = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+		}
+		is_planet_world_machine = no
+		oxr_mdlc_planet_can_become_world_machine = yes
+	}
+	allow = {
+		always = yes
+		is_terraforming = no
+		space_owner = {
+			has_resource = {
+				type = oxr_mdlc_world_machine_core amount >= 1
+			}
+		}
+	}
+	resources = {
+		category = decisions
+		cost = {
+			# oxr_mdlc_world_machine_core = 1
+			energy = 250
+		}
+	}
+	effect = {
+		start_terraform_process = xvcv_mdlc_pc_machine_auto
+	}
+}

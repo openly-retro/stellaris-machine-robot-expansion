@@ -43,10 +43,10 @@ trait_xvcv_mdlc_pc_virtual_preference = {
 }
 trait_oxr_mdlc_pc_auto_world_specialist_preference = {
 	icon = "gfx/interface/icons/traits/trait_pc_ring_preference.dds"
-	allowed_archetypes = { MACHINE }
+	allowed_archetypes = { MACHINE XVCV_MDLC_BIO_ROBOT }
 	sorting_priority = 30
 	cost = 0
-	initial = yes
+	initial = no
 	bound_to_planet_classes = {
 		xvcv_mdlc_pc_machine_auto
 		xvcv_mdlc_pc_machine_ecu
@@ -65,7 +65,9 @@ trait_oxr_mdlc_pc_auto_world_specialist_preference = {
 	ai_weight = {
 		weight = 0
 	}
+	
 	species_potential_add = {
+		hidden_trigger = { exists = from }
 		from = {
 			OR = {
 				has_ascension_perk = xvcv_mdlc_ap_world_machines
