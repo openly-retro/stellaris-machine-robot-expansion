@@ -583,3 +583,18 @@ oxr_mdlc_world_machine_cores_recalc_amount = {
 		value = modifier:country_resource_max_oxr_mdlc_world_machine_core_add
 	}
 }
+
+oxr_mdlc_situation_core_insights_add_progress = {
+	optimize_memory
+	random_situation = {
+		limit = { is_situation_type = oxr_mdlc_origin_wm_situation_recover_core_tech }
+		add_situation_progress = $AMOUNT$
+	}
+	create_message = {
+		type = OXR_MDLC_SITUATION_CORE_INSIGHTS_PROGRESS_TYPE
+		localization = oxr_mdlc_situation_core_insights_$ON_ACTION_TYPE$
+		target = this.capital_scope
+		days = 10
+	}
+	# change_variable = { which = oxr_mdlc_situation_core_insights_$ON_ACTION_TYPE$_var value = 1 }
+}
