@@ -1,3 +1,13 @@
+## TABLE OF CONTENTS ##
+#
+# GAME SETUP	0x001
+# BLOCKERS      0x002
+# MILITARY		0x003
+# ARC SITES     0x004
+# CORE MATHS    0x005
+
+
+#region game_start_0x001
 oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 	prev = {
 		set_country_flag = oxr_mdlc_origin_world_machine_feature_enabled
@@ -78,7 +88,7 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 		}
 		random_owned_pop = {
 			kill_pop = yes
-			owner = { add_resource = { alloys = 75 } }
+			root = { add_resource = { alloys = 75 } }
 		}
 	}
 	log = "Reduced starting population to 3"
@@ -205,7 +215,8 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 
 	# Fix founder species habitability *eyeroll*
 	# STILL NOT FIXED? >:O
-	event_target:last_created_species = {
+	# event_target:last_created_species = {
+	owner.species = {
 		if = {
 			limit = { has_trait = trait_wet_planet_preference }
 			change_species_characteristics = { remove_trait = trait_wet_planet_preference }
@@ -224,8 +235,15 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 		}
 	}
 
-}
+	# Make a ruined world machine in a neighboring system
+	prev = {
+		oxr_mdlc_find_neighbor_planet_and_convert_to_ruined_world_machine = yes
+	}
 
+}
+#endregion
+
+#region blockers_0x002
 oxr_mdlc_origin_world_machine_random_add_all_blockers = {
 	# Randomly add some easy, normal, and rare blockers to a world machine
 	# when it is constructed or spawned/discovered
@@ -233,7 +251,6 @@ oxr_mdlc_origin_world_machine_random_add_all_blockers = {
 	oxr_mdlc_origin_world_machine_add_random_normal_blockers = yes
 	oxr_mdlc_origin_world_machine_add_random_insight_blockers = yes
 }
-
 oxr_mdlc_origin_world_machine_add_simple_blocker = {
 	random_list = {
 		20 = {
@@ -352,7 +369,9 @@ oxr_mdlc_origin_world_machine_add_random_insight_blockers = {
 	}
 	clear_variable = oxr_mdlc_world_machine_random_blockers
 }
+#endregion
 
+#region army_0x003
 ### ARMY ###
 oxr_mdlc_origin_world_machine_add_district_defense_army_t1 = {
 	create_army = {
@@ -446,7 +465,9 @@ oxr_mdlc_origin_world_machine_refill_armies = {
 	clear_variable = oxr_mdlc_world_machine_num_existing_district_armies
 	clear_variable = oxr_mdlc_world_machines_num_armies_to_restock
 }
+#endregion
 
+#region arc_sites_0x004
 ### ARC SITE ###
 oxr_mdlc_origin_world_machine_create_digsite_for_blocker = {
 	# Iterate through each special blocker type, and make a dig site
@@ -522,20 +543,10 @@ oxr_mdlc_origin_world_machine_create_digsite_for_blocker = {
 		}
 	}
 }
+#endregion
 
-# oxr_mdlc_origin_world_machine_finish_digsite_blocker = {
-# 	# Must call in from.planet scope
-# 	every_deposit = {
-# 		limit = { is_deposit_type = oxr_mdlc_d_world_machine_$TYPE$ }
-# 		clear_blocker = yes
-# 	}
-# 	every_archaeological_site = {
-# 		limit = { is_site_type = oxr_mdlc_$TYPE$_site }
-# 		destroy_archaeological_site = this
-# 	}
-# }
-
-
+#region core_maths_0x005
+### MATHS ###
 oxr_mdlc_world_machine_cores_add = {
 	# Call at country scope
 	add_resource = {
@@ -583,9 +594,10 @@ oxr_mdlc_world_machine_cores_recalc_amount = {
 		value = modifier:country_resource_max_oxr_mdlc_world_machine_core_add
 	}
 }
+#endregion
 
 oxr_mdlc_situation_core_insights_add_progress = {
-	optimize_memory
+	# optimize_memory
 	random_situation = {
 		limit = { is_situation_type = oxr_mdlc_origin_wm_situation_recover_core_tech }
 		add_situation_progress = $AMOUNT$
@@ -597,4 +609,29 @@ oxr_mdlc_situation_core_insights_add_progress = {
 		days = 25
 	}
 	# change_variable = { which = oxr_mdlc_situation_core_insights_$ON_ACTION_TYPE$_var value = 1 }
+}
+
+oxr_mdlc_find_neighbor_planet_and_convert_to_ruined_world_machine = {
+	# COUNTRY SCOPE
+	# Called at beginning of game
+	capital_scope.solar_system = {
+		random_neighbor_system = {
+			limit = {
+				any_system_planet = {
+					is_colonizable = yes
+				}
+			}
+			random_system_planet = {
+				limit = {
+					is_colonizable = yes
+				}
+				# oxr_mdlc_pc_convert_to_ruined_world_machine = yes
+				change_pc = xvcv_mdlc_pc_machine_auto_ruined
+				clear_blockers = yes
+				clear_deposits = yes
+				oxr_mdlc_origin_world_machine_random_add_all_blockers = yes
+				log = "Starting setup: Changed [This.GetName] to Ruined World Machine"
+			}
+		}
+	}
 }
