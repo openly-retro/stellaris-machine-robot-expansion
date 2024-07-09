@@ -143,7 +143,7 @@ country_event = {
 	}
 	immediate = {
 		oxr_mdlc_situation_core_insights_add_progress = {
-			AMOUNT = @oxr_mdlc_situation_core_on_world_machine_blocker_cleared_points
+			AMOUNT = @oxr_mdlc_situation_core_insights_on_world_machine_blocker_cleared_points
 			ON_ACTION_TYPE = on_world_machine_blocker_cleared
 		}
 	}
@@ -157,7 +157,7 @@ country_event = {
 	}
 	immediate = {
 		oxr_mdlc_situation_core_insights_add_progress = {
-			AMOUNT = @oxr_mdlc_situation_core_insight_on_world_machine_arc_site_progress_points
+			AMOUNT = @oxr_mdlc_situation_core_insights_on_world_machine_arc_site_progress_points
 			ON_ACTION_TYPE = on_world_machine_arc_site_progress
 		}
 	}
@@ -171,8 +171,50 @@ country_event = {
 	}
 	immediate = {
 		oxr_mdlc_situation_core_insights_add_progress = {
-			AMOUNT = @oxr_mdlc_situation_core_on_world_machine_insight_blocker_cleared_points
+			AMOUNT = @oxr_mdlc_situation_core_insights_on_world_machine_insight_blocker_cleared_points
 			ON_ACTION_TYPE = on_world_machine_insight_blocker_cleared
+		}
+	}
+}
+# on_world_machine_discovered 1004
+country_event = {
+	id = oxr_mdlc_on_world_machine_action.1004
+	is_triggered_only = yes hide_window = yes
+	trigger = {
+		any_situation = { is_situation_type = oxr_mdlc_origin_wm_situation_recover_core_tech }
+	}
+	immediate = {
+		oxr_mdlc_situation_core_insights_add_progress = {
+			AMOUNT = @oxr_mdlc_situation_core_insights_on_world_machine_ruin_discovered
+			ON_ACTION_TYPE = on_world_machine_ruined_planet_discovered
+		}
+	}
+}
+# on_world_machine_popless_building_constructed 1005
+country_event = {
+	id = oxr_mdlc_on_world_machine_action.1005
+	is_triggered_only = yes hide_window = yes
+	trigger = {
+		any_situation = { is_situation_type = oxr_mdlc_origin_wm_situation_recover_core_tech }
+	}
+	immediate = {
+		oxr_mdlc_situation_core_insights_add_progress = {
+			AMOUNT = @oxr_mdlc_situation_core_insight_wm_building_constructed
+			ON_ACTION_TYPE = on_world_machine_popless_building_constructed
+		}
+	}
+}
+# on_world_machine_district_completed 1006
+country_event = {
+	id = oxr_mdlc_on_world_machine_action.1006
+	is_triggered_only = yes hide_window = yes
+	trigger = {
+		any_situation = { is_situation_type = oxr_mdlc_origin_wm_situation_recover_core_tech }
+	}
+	immediate = {
+		oxr_mdlc_situation_core_insights_add_progress = {
+			AMOUNT = @oxr_mdlc_situation_core_insight_build_district_points
+			ON_ACTION_TYPE = on_world_machine_district_completed
 		}
 	}
 }
