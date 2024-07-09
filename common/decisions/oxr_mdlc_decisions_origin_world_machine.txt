@@ -30,3 +30,30 @@ oxr_mdlc_decisions_origin_wm_start_world_with_core = {
 		start_terraform_process = xvcv_mdlc_pc_machine_auto
 	}
 }
+oxr_mdlc_decisions_origin_wm_reboot_ruined_world = {
+	potential = {
+		exists = space_owner
+		space_owner = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+		}
+		is_planet_class = xvcv_mdlc_pc_machine_auto_ruined
+	}
+	allow = {
+		always = yes
+		is_terraforming = no
+		space_owner = {
+			has_resource = {
+				type = oxr_mdlc_world_machine_core amount >= 5000
+			}
+		}
+	}
+	resources = {
+		category = decisions
+		cost = {
+			energy = 5000
+		}
+	}
+	effect = {
+		
+	}
+}
