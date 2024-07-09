@@ -218,3 +218,25 @@ country_event = {
 		}
 	}
 }
+
+# on_planet_surveyed, see if it's a ruined WM and trigger an arc site
+planet_event = {
+	id = oxr_mdlc_on_world_machine_action.1100
+	is_triggered_only = yes
+	hide_window = yes
+	trigger = {
+		from = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+		is_planet_class = xvcv_mdlc_pc_machine_auto_ruined
+	}
+	immediate = {
+		if = {
+			limit = {
+				is_planet_class = xvcv_mdlc_pc_machine_auto_ruined
+				from = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+			}
+			# Random arc site from blocker
+			oxr_mdlc_origin_world_machine_create_digsite_for_blocker = yes
+			log = "Created initial dig site on ruined WM, [This.GetName] for [This.From.GetName]"
+		}
+	}
+}
