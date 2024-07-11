@@ -145,7 +145,8 @@ oxr_mdlc_mamp_construct_cat_1_pop = {
 	random_owned_pop = {
 		limit = {
 			species = {
-				is_archetype = MACHINE
+				# is_archetype = MACHINE
+				has_trait = trait_machine_unit
 				NOT = { is_archetype = OXR_MDLC_MAMP }
 			}
 		}
@@ -169,7 +170,8 @@ oxr_mdlc_mamp_planet_kill_pop_for_frame = {
 	random_owned_pop = {
 		limit = {
 			species = {
-				is_archetype = MACHINE
+				# is_archetype = MACHINE
+				has_trait = trait_machine_unit
 				NOT = { is_archetype = OXR_MDLC_MAMP }
 			}
 			# NOT = { has_job_category = ruler }
@@ -201,5 +203,133 @@ oxr_mdlc_mamp_planet_set_autoconstruction_cat_level = {
 	set_variable = {
 		which = oxr_mdlc_mamp_auto_construction_cat_level
 		value = $LEVEL$
+	}
+}
+
+# oxr_mdlc_mamp_planet_reset_frame_habitability = {
+# 	# Change pop's habitability based on planet type
+# 	any_owned_pop = {
+# 		oxr_mdlc_mamp_pop_remove_habitability_preference = yes
+# 	}
+# 	oxr_mdlc_mamp_pop_remove_habitability_preference = yes
+# }
+
+oxr_mdlc_mamp_pop_remove_habitability_preference = {
+	if = {
+		limit = { 
+			last_created_pop = {
+				species = { is_archetype = OXR_MDLC_MAMP }
+			}
+		}
+		if = {
+			limit = {
+				species = { has_trait = trait_dry_planet_preference }
+			}
+			modify_species = { remove_trait = trait_dry_planet_preference }
+		}
+		# vanilla, wet
+		if = {
+			limit = {
+				species = { has_trait = trait_wet_planet_preference }
+			}
+			modify_species = { remove_trait = trait_wet_planet_preference }
+		}
+		# vanilla, frozen
+		if = {
+			limit = {
+				species = { has_trait = trait_frozen_planet_preference }
+			}
+			modify_species = { remove_trait = trait_frozen_planet_preference }
+		}
+		# custom, dry
+		if = {
+			limit = {
+				species = { has_trait = oxr_mdlc_trait_dry_planet_preference }
+			}
+			modify_species = { remove_trait = oxr_mdlc_trait_dry_planet_preference }
+		}
+		# custom, wet
+		if = {
+			limit = {
+				species = { has_trait = oxr_mdlc_trait_wet_planet_preference }
+			}
+			modify_species = { remove_trait = oxr_mdlc_trait_wet_planet_preference }
+		}
+		# custom, frozen
+		if = {
+			limit = {
+				species = { has_trait = oxr_mdlc_trait_frozen_planet_preference }
+			}
+			modify_species = { remove_trait = oxr_mdlc_trait_frozen_planet_preference }
+		}
+	}
+
+}
+oxr_mdlc_mamp_pop_change_habitability_preference = {
+	if = {
+		limit = { 
+			random_owned_pop = {
+				species = { is_archetype = OXR_MDLC_MAMP }
+			}
+		}
+		random_owned_pop = {
+			modify_species = {
+				ideal_planet_class = root
+			}
+		}
+	}
+}
+
+oxr_mdlc_mamp_planet_update_all_frames_habitability = {
+	every_owned_pop = {
+		limit = {
+			species = { is_archetype = OXR_MDLC_MAMP }
+		}
+		# vanilla, dry
+		if = {
+			limit = {
+				species = { has_trait = trait_dry_planet_preference }
+			}
+			modify_species = { remove_trait = trait_dry_planet_preference }
+		}
+		# vanilla, wet
+		if = {
+			limit = {
+				species = { has_trait = trait_wet_planet_preference }
+			}
+			modify_species = { remove_trait = trait_wet_planet_preference }
+		}
+		# vanilla, frozen
+		if = {
+			limit = {
+				species = { has_trait = trait_frozen_planet_preference }
+			}
+			modify_species = { remove_trait = trait_frozen_planet_preference }
+		}
+		# custom, dry
+		if = {
+			limit = {
+				species = { has_trait = oxr_mdlc_trait_dry_planet_preference }
+			}
+			modify_species = { remove_trait = oxr_mdlc_trait_dry_planet_preference }
+		}
+		# custom, wet
+		if = {
+			limit = {
+				species = { has_trait = oxr_mdlc_trait_wet_planet_preference }
+			}
+			modify_species = { remove_trait = oxr_mdlc_trait_wet_planet_preference }
+		}
+		# custom, frozen
+		if = {
+			limit = {
+				species = { has_trait = oxr_mdlc_trait_frozen_planet_preference }
+			}
+			modify_species = { remove_trait = oxr_mdlc_trait_frozen_planet_preference }
+		}
+		# Use built-in .. will this stick?
+		modify_species = {
+			ideal_planet_class = root
+		}
 	}
 }

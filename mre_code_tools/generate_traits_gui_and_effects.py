@@ -655,10 +655,14 @@ def gen_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines(input_files_li
                     effect_contents_items.append(
                         ruler_effect_line.format(trait_name=trait_name, rarity=rarity)
                     )
+    subclass_effect_line = (
+        "if = {{ limit = {{ has_trait = {trait_name} }} remove_trait = {trait_name} prev ="
+        " {{ xvcv_mdlc_core_modifying_trait_return_cost_effect = yes }} }}"
+    )
     for subclass in LEADER_SUBCLASSES:
         alt_modifier = ""
         effect_contents_items.append(
-            ruler_effect_line.format(trait_name=subclass, alt_modifier=alt_modifier)
+            subclass_effect_line.format(trait_name=subclass, alt_modifier=alt_modifier)
         )
     return "\n".join(effect_contents_items)
 

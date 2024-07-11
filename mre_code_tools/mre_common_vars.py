@@ -269,6 +269,7 @@ TRAITS_TO_EXCLUDE = {
     "leader_trait_towel":1,  # given via event,
     "leader_trait_percussive_maintainer":1,  #given via event ancrel.12005
     "leader_trait_intemporal":1,  #given via event,
+    "leader_trait_robotist":1,  # just annoying to deal with code-wise
 }
 
 """ Our trick to prepend mre_ to modifier names doesn't always work automatically.
