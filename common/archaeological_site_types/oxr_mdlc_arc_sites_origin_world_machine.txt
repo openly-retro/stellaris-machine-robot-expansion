@@ -336,3 +336,58 @@ oxr_mdlc_world_machine_incomplete_construction_bays_site = {
 	}
 	on_roll_failed = { from = { standard_archaeological_site_on_roll_failed = { RANDOM_EVENTS = all_random_events } } }
 }
+
+# RUINED WM
+oxr_mdlc_world_machine_ruined_world_machine_site = {
+	desc = "oxr_mdlc_world_machine_ruined_world_machine_site_desc"
+	picture = GFX_evt_landing_ship
+	stages = 5
+	allow = {
+		OR = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+			has_ascension_perk = xvcv_mdlc_ap_world_machines
+		}
+	}
+	visible = {
+		exists = from
+		default_site_visible_trigger = yes
+		OR = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+			has_ascension_perk = xvcv_mdlc_ap_world_machines
+		}
+	}
+	# 1. Core analysis
+	# 1.a Choose to use WMC
+	# 1.b Choose to use energy
+	stage = {
+		difficulty = 0
+		event = oxr_mdlc_origin_wm_arc.200
+		icon = GFX_archaeology_runes_A1
+	}
+	# 2. cold boot
+	stage = {
+		difficulty = 0
+		event = oxr_mdlc_origin_wm_arc.210
+		icon = GFX_archaeology_runes_A1
+	}
+	# 3. power-on self test
+	stage = {
+		difficulty = 0
+		event = oxr_mdlc_origin_wm_arc.220
+		icon = GFX_archaeology_runes_A1
+	}
+	# 4. load restore point
+	stage = {
+		difficulty = 0
+		event = oxr_mdlc_origin_wm_arc.230
+		icon = GFX_archaeology_runes_A1
+	}
+	# 5. finish installation
+	stage = {
+		difficulty = 0
+		event = oxr_mdlc_origin_wm_arc.240
+		icon = GFX_archaeology_runes_A1
+	}
+	# 6. Bonus -- generate random planet origin
+	# former continental / arctic / desert, etc
+}
