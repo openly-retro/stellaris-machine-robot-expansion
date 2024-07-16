@@ -54,6 +54,20 @@ oxr_mdlc_decisions_origin_wm_reboot_ruined_world = {
 		}
 	}
 	effect = {
+		save_global_event_target_as = oxr_mdlc_ruined_world_machine
+		space_owner = {
+			start_situation = {
+				type = oxr_mdlc_origin_wm_situation_restore_ruined_world_machine
+				# target = oxr_mdlc_ruined_world_machine
+				target = event_target:oxr_mdlc_ruined_world_machine
+			}
+			random_situation = {
+				limit = {
+					is_situation_type = oxr_mdlc_origin_wm_situation_restore_ruined_world_machine
+				}
+				set_situation_approach = oxr_mdlc_origin_wm_situation_restore_ruined_world_machine_approach_pause
+			}
+		}
 		
 	}
 }
