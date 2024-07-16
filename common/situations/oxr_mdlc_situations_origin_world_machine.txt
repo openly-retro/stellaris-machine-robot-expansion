@@ -90,3 +90,144 @@ oxr_mdlc_origin_wm_situation_recover_core_tech = {
 		on_select = { custom_tooltip = oxr_mdlc_origin_wm_situation_recover_core_tech_approach_tooltip }
 	}
 }
+
+oxr_mdlc_origin_wm_situation_restore_ruined_world_machine = {
+	picture = GFX_evt_physics_cache
+	complete_icon_frame = GFX_situation_outcome_frame_green
+	complete_icon = GFX_situation_outcome_positive
+
+	stages = {
+		oxr_mdlc_origin_wm_situation_restore_ruined_world_machine_stage_1 = {
+			# Core Analysis
+			icon = GFX_xvcv_mdlc_situation_stage_1
+			icon_background = GFX_situation_stage_frame_red
+			end = 30
+			on_first_enter = {
+				event_target:oxr_mdlc_ruined_world_machine = {
+					planet_event = { id = oxr_mdlc_origin_wm_main.1000 }
+				}
+			}
+		}
+		oxr_mdlc_origin_wm_situation_restore_ruined_world_machine_stage_2 = {
+			# Power-On Self Test
+			icon = GFX_xvcv_mdlc_situation_stage_2
+			icon_background = GFX_situation_stage_frame_red
+			end = 15
+			on_first_enter = {
+				event_target:oxr_mdlc_ruined_world_machine = {
+					planet_event = { id = oxr_mdlc_origin_wm_main.1005 }
+				}
+			}
+		}
+		oxr_mdlc_origin_wm_situation_restore_ruined_world_machine_stage_3 = {
+			# Bootloader
+			icon = GFX_xvcv_mdlc_situation_stage_3
+			icon_background = GFX_situation_stage_frame_yellow
+			end = 30
+			on_first_enter = {
+				event_target:oxr_mdlc_ruined_world_machine = {
+					planet_event = { id = oxr_mdlc_origin_wm_main.1010 }
+				}
+			}
+		}
+		oxr_mdlc_origin_wm_situation_restore_ruined_world_machine_stage_4 = {
+			# boot process
+			icon = GFX_xvcv_mdlc_situation_stage_4
+			icon_background = GFX_situation_stage_frame_orange
+			end = 15
+			on_first_enter = {
+				event_target:oxr_mdlc_ruined_world_machine = {
+					planet_event = { id = oxr_mdlc_origin_wm_main.1015 }
+				}
+			}
+		}
+		oxr_mdlc_origin_wm_situation_restore_ruined_world_machine_stage_5 = {
+			# Continue Installation
+			icon = GFX_xvcv_mdlc_situation_stage_5
+			icon_background = GFX_situation_stage_frame_green
+			end = 60
+			on_first_enter = {
+				event_target:oxr_mdlc_ruined_world_machine = {
+					planet_event = { id = oxr_mdlc_origin_wm_main.1020 }
+				}
+			}
+		}
+	}
+	approach = {
+		name = oxr_mdlc_origin_wm_situation_restore_ruined_world_machine_approach_pause
+		icon = GFX_situation_approach_suspicious
+		icon_background = GFX_situation_approach_bg_yellow
+		on_select = {
+			custom_tooltip = oxr_mdlc_origin_wm_situation_restore_ruined_world_machine_approach_pause_tooltip
+		}
+	}
+	# Standard
+	approach = {
+		name = oxr_mdlc_origin_wm_situation_restore_ruined_world_machine_approach_nominal
+		icon = GFX_situation_approach_research
+		icon_background = GFX_situation_approach_bg_green
+		on_select = {
+			custom_tooltip = oxr_mdlc_origin_wm_situation_restore_ruined_world_machine_approach_nominal_tooltip
+		}
+		resources = {
+			category = situations
+			# produces = {
+			# 	trigger = {
+			# 		NOT = { current_stage = stage_1 }
+			# 	}
+			# 	society_research = 6
+			# 	physics_research = 6
+			# 	engineering_research = 6
+			# }
+			upkeep = {
+				energy = 20
+				unity = 10
+			}
+		}
+	}
+	# Aggressive
+	approach = {
+		name = oxr_mdlc_origin_wm_situation_restore_ruined_world_machine_approach_dedicated
+		icon = GFX_situation_approach_energy_credits
+		icon_background = GFX_situation_approach_bg_green
+		on_select = {
+			custom_tooltip = oxr_mdlc_origin_wm_situation_restore_ruined_world_machine_approach_dedicated_tooltip
+		}
+		resources = {
+			category = situations
+			# stage 1 = -12
+			# stage 2 = -6
+			# stage 3 = 0
+			# stage 4 = 6
+			# stage 5 = 12
+			# produces = {
+			# 	society_research = 12
+			# 	physics_research = 12
+			# 	engineering_research = 12
+			# }
+			upkeep = {
+				energy = 35
+				unity = 15
+			}
+		}
+	}
+	monthly_progress = {
+		base = 0
+		modifier = {
+			add = 5
+			desc = oxr_mdlc_origin_wm_situation_restore_ruined_world_machine_approach_nominal
+			current_situation_approach = oxr_mdlc_origin_wm_situation_restore_ruined_world_machine_approach_nominal
+		}
+		modifier = {
+			add = 7.5
+			desc = oxr_mdlc_origin_wm_situation_restore_ruined_world_machine_approach_dedicated
+			current_situation_approach = oxr_mdlc_origin_wm_situation_restore_ruined_world_machine_approach_dedicated
+		}
+	}
+	on_progress_complete = {
+		# Fire finisher event, convert to world machine, add blockers and digsite
+		# event_target:oxr_mdlc_ruined_world_machine = {
+		# 	planet_event = { id = oxr_mdlc_origin_wm_main.1000 }
+		# }
+	}
+}
