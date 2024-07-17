@@ -21,9 +21,7 @@ country_event = {
 	picture = GFX_evt_engineering_research
 	is_triggered_only = yes
 
-	trigger = {
-		
-	}
+	trigger = { }
 
 	option = {
 		name = oxr_mdlc_origin_wm_main.50.a
@@ -38,26 +36,6 @@ country_event = {
 			end_event_chain = oxr_mdlc_origin_wm_chain_clear_blockers
 		}
 	}
-	# option = {
-	# 	name = oxr_mdlc_origin_wm_main.50.b
-	# 	allow = {
-	# 		owner = {
-	# 			has_resource = {
-	# 				type = energy
-	# 				amount >= 1000
-	# 			}
-	# 		}
-	# 	}
-	# 	owner = {
-	# 		add_resource = {
-	# 			energy = -1000
-	# 		}
-	# 		give_technology = {
-	# 			tech = oxr_mdlc_tech_world_machine_planetary_proficiency
-	# 			message = no
-	# 		}
-	# 	}
-	# }
 }
 
 # Planet has been terraformed
@@ -78,6 +56,8 @@ planet_event = {
 		create_colony = {
 			owner = from
 			species = from.owner_species
+			# Set name .. read a variable on the planet as a list index
+			# then according to that, set the name
 		}
 		add_deposit = oxr_mdlc_d_world_machine_core
 		if = {
@@ -154,37 +134,56 @@ planet_event = {
 			random_situation = {
 				limit = { is_situation_type = oxr_mdlc_origin_wm_situation_recover_core_tech }
 				add_situation_progress = @oxr_mdlc_situation_core_tech_fun_points
+			}
 		}
 	}
 }
 
 ### RUINED WORLD MACHINE ###
-planet_event = {
-	# Introduction, enter stage 1
+# Decision triggers this event, which triggers others
+
+
+# Introduction, enter stage 1
+country_event = {
 	id = oxr_mdlc_origin_wm_main.1000
-	title = oxr_mdlc_origin_wm_main.1000.title
-	desc = oxr_mdlc_origin_wm_main.1000.desc
+	title = "oxr_mdlc_origin_wm_main.1000.title"
+	desc = "oxr_mdlc_origin_wm_main.1000.desc"
 	picture = GFX_evt_engineering_cache
 	is_triggered_only = yes
+	location = event_target:oxr_mdlc_ruined_world_machine
+
+	trigger = {
+		root = {
+			any_situation = {
+				is_situation_type = oxr_mdlc_origin_wm_situation_restore_ruined_world_machine
+			}
+		}
+	}
 
 	option = {
 		name = oxr_mdlc_origin_wm_main.1000.a
+		hidden_effect = {
+			log = "Do nothing"
+		}
 	}
+	immediate = { log = "Do nothing" }
 }
 
-planet_event = {
+country_event = {
 	# enter stage 2, power on self test
 	id = oxr_mdlc_origin_wm_main.1005
 	title = oxr_mdlc_origin_wm_main.1005.title
 	desc = oxr_mdlc_origin_wm_main.1005.desc
 	picture = GFX_evt_engineering_cache
 	is_triggered_only = yes
+	
 
 	option = {
 		name = oxr_mdlc_origin_wm_main.1005.a
 	}
+	immediate = {}
 }
-planet_event = {
+country_event = {
 	# enter stage 3, boot loader
 	id = oxr_mdlc_origin_wm_main.1010
 	title = oxr_mdlc_origin_wm_main.1010.title
@@ -195,8 +194,9 @@ planet_event = {
 	option = {
 		name = oxr_mdlc_origin_wm_main.1010.a
 	}
+	immediate = {}
 }
-planet_event = {
+country_event = {
 	# enter stage 4, booting
 	id = oxr_mdlc_origin_wm_main.1015
 	title = oxr_mdlc_origin_wm_main.1015.title
@@ -207,8 +207,9 @@ planet_event = {
 	option = {
 		name = oxr_mdlc_origin_wm_main.1015.a
 	}
+	immediate = {}
 }
-planet_event = {
+country_event = {
 	# enter stage 5, continue installation
 	id = oxr_mdlc_origin_wm_main.1020
 	title = oxr_mdlc_origin_wm_main.1020.title
@@ -218,5 +219,24 @@ planet_event = {
 
 	option = {
 		name = oxr_mdlc_origin_wm_main.1020.a
+	}
+	immediate = {}
+}
+# ALL DONE WITH RESTORATION
+country_event = {
+	id = oxr_mdlc_origin_wm_main.1025
+	title = oxr_mdlc_origin_wm_main.1025.title
+	desc = oxr_mdlc_origin_wm_main.1025.desc
+	is_triggered_only = yes
+
+	immediate = {
+		event_target:oxr_mdlc_ruined_world_machine = {
+			change_pc = xvcv_mdlc_pc_machine_auto
+			planet_event = { id = oxr_mdlc_origin_wm_main.500 }
+		}
+	}
+
+	option = {
+		name = oxr_mdlc_origin_wm_main.1025.a
 	}
 }
