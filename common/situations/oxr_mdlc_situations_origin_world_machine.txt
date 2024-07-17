@@ -102,20 +102,20 @@ oxr_mdlc_origin_wm_situation_restore_ruined_world_machine = {
 			icon = GFX_xvcv_mdlc_situation_stage_1
 			icon_background = GFX_situation_stage_frame_red
 			end = 30
-			on_first_enter = {
-				event_target:oxr_mdlc_ruined_world_machine = {
-					planet_event = { id = oxr_mdlc_origin_wm_main.1000 }
-				}
-			}
 		}
 		oxr_mdlc_origin_wm_situation_restore_ruined_world_machine_stage_2 = {
 			# Power-On Self Test
 			icon = GFX_xvcv_mdlc_situation_stage_2
 			icon_background = GFX_situation_stage_frame_red
-			end = 15
+			end = 45
 			on_first_enter = {
-				event_target:oxr_mdlc_ruined_world_machine = {
-					planet_event = { id = oxr_mdlc_origin_wm_main.1005 }
+				owner = {
+					country_event = {
+						id = oxr_mdlc_origin_wm_main.1005
+					}
+				}
+				fire_on_action = {
+					on_action = on_world_machine_restoration_stage_complete
 				}
 			}
 		}
@@ -123,10 +123,15 @@ oxr_mdlc_origin_wm_situation_restore_ruined_world_machine = {
 			# Bootloader
 			icon = GFX_xvcv_mdlc_situation_stage_3
 			icon_background = GFX_situation_stage_frame_yellow
-			end = 30
+			end = 75
 			on_first_enter = {
-				event_target:oxr_mdlc_ruined_world_machine = {
-					planet_event = { id = oxr_mdlc_origin_wm_main.1010 }
+				owner = {
+					country_event = {
+						id = oxr_mdlc_origin_wm_main.1010
+					}
+				}
+				fire_on_action = {
+					on_action = on_world_machine_restoration_stage_complete
 				}
 			}
 		}
@@ -134,10 +139,15 @@ oxr_mdlc_origin_wm_situation_restore_ruined_world_machine = {
 			# boot process
 			icon = GFX_xvcv_mdlc_situation_stage_4
 			icon_background = GFX_situation_stage_frame_orange
-			end = 15
+			end = 90
 			on_first_enter = {
-				event_target:oxr_mdlc_ruined_world_machine = {
-					planet_event = { id = oxr_mdlc_origin_wm_main.1015 }
+				owner = {
+					country_event = {
+						id = oxr_mdlc_origin_wm_main.1015
+					}
+				}
+				fire_on_action = {
+					on_action = on_world_machine_restoration_stage_complete
 				}
 			}
 		}
@@ -145,10 +155,15 @@ oxr_mdlc_origin_wm_situation_restore_ruined_world_machine = {
 			# Continue Installation
 			icon = GFX_xvcv_mdlc_situation_stage_5
 			icon_background = GFX_situation_stage_frame_green
-			end = 60
+			end = 150
 			on_first_enter = {
-				event_target:oxr_mdlc_ruined_world_machine = {
-					planet_event = { id = oxr_mdlc_origin_wm_main.1020 }
+				owner = {
+					country_event = {
+						id = oxr_mdlc_origin_wm_main.1020
+					}
+				}
+				fire_on_action = {
+					on_action = on_world_machine_restoration_stage_complete
 				}
 			}
 		}
@@ -229,5 +244,10 @@ oxr_mdlc_origin_wm_situation_restore_ruined_world_machine = {
 		# event_target:oxr_mdlc_ruined_world_machine = {
 		# 	planet_event = { id = oxr_mdlc_origin_wm_main.1000 }
 		# }
+		owner = {
+			country_event = {
+				id = oxr_mdlc_origin_wm_main.1025
+			}
+		}
 	}
 }
