@@ -218,6 +218,20 @@ country_event = {
 		}
 	}
 }
+# on_world_machine_restoration_stage_complete
+country_event = {
+	id = oxr_mdlc_on_world_machine_action.1007
+	is_triggered_only = yes hide_window = yes
+	trigger = {
+		any_situation = { is_situation_type = oxr_mdlc_origin_wm_situation_recover_core_tech }
+	}
+	immediate = {
+		oxr_mdlc_situation_core_insights_add_progress = {
+			AMOUNT = @oxr_mdlc_situation_core_insights_on_world_machine_restoration_stage_complete
+			ON_ACTION_TYPE = on_world_machine_restoration_stage_complete
+		}
+	}
+}
 
 # on_planet_surveyed, see if it's a ruined WM and trigger an arc site
 planet_event = {

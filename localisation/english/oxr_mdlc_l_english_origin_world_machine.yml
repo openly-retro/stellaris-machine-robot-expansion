@@ -20,6 +20,7 @@
  # DECISIONS    0X015
  # SCRIPTED LOC 0x016
  # MESSAGES     0x017
+ # PLANET NAMES 0x018
 
  oxr_mdlc_cognitive_node:0 "§B$councilor_gestalt_cognitive_with_icon$§!"
  oxr_mdlc_growth_node:0 "§Y$councilor_gestalt_growth_with_icon$§!"
@@ -334,29 +335,30 @@
  # enter stage 1
  oxr_mdlc_partially_degraded:0 "§HPartially Degraded§!"
  oxr_mdlc_ok:0 "§GOK§!"
- oxr_mdlc_origin_wm_main.1000.title:0 "World Machine Restoration project on [This.GetName]"
- oxr_mdlc_origin_wm_main.1000.desc:0 "The planet is uninhabitable; the automated process of converting the planet to a World Machine has apparently failed along the way, judging from some of the incomplete district templates, and similar ruins found here as on our homeworld. The process will start by sending drones to the World Machine's core to analyze its integrity, then begin assessing startup modules to ultimately lead to the planet finishing what it started."
- oxr_mdlc_origin_wm_main.1000.a:0 "[This.GetName] will operate again."
+ oxr_mdlc_ruined_wm_target_name:0 "§Y[Root.event_target:oxr_mdlc_ruined_world_machine.GetName]§!"
+ oxr_mdlc_origin_wm_main.1000.title:0 "World Machine Restoration project on [Root.event_target:oxr_mdlc_ruined_world_machine.GetName]"
+ oxr_mdlc_origin_wm_main.1000.desc:0 "This World Machine was, at some point in the past, functional, or as far as our scans can tell, the automated process of converting the planet to a World Machine apparently failed along the way, judging from some of the incomplete district templates, and similar ruins found here as on our homeworld.\n\n$oxr_mdlc_cognitive_node$ has proposed a restoration plan based on scans of our homeworld. The process will start by sending drones to the World Machine's core to analyze its integrity, then begin assessing startup modules to ultimately lead to the planet finishing what it started."
+ oxr_mdlc_origin_wm_main.1000.a:0 "[Root.event_target:oxr_mdlc_ruined_world_machine.GetName] will operate again."
  # stage 2, post
- oxr_mdlc_origin_wm_main.1005.title:0 "Power-On Self Test"
+ oxr_mdlc_origin_wm_main.1005.title:0 "$oxr_mdlc_ruined_wm_target_name$ Restoration: Power-On Self Test"
  oxr_mdlc_origin_wm_main.1005.desc:0 "The World Machine core appears stable and undamaged. We will start directing power to preliminary systems in order to begin checking if any of the major systems were damaged, and do our best to repair any issues found."
  oxr_mdlc_origin_wm_main.1005.a:0 "Start the Power-On Self Test and begin repairs."
  # stage 3, boot loader
- oxr_mdlc_origin_wm_main.1010.title:0 "Boot Loader"
+ oxr_mdlc_origin_wm_main.1010.title:0 "$oxr_mdlc_ruined_wm_target_name$ Restoration: Boot Loader"
  oxr_mdlc_origin_wm_main.1010.desc:0 "Power-On Self Test Results:\n- CPU registers $oxr_mdlc_ok$\n- System Main Memory $oxr_mdlc_ok$\n- Memory Check: 178 EB $oxr_mdlc_ok$\n- Mainframe power controller $oxr_mdlc_ok$\n- Mainframe bus $oxr_mdlc_ok$\n- Interrupt Controller $oxr_mdlc_partially_degraded$\n- Device manager $oxr_mdlc_ok$\n\nWe will next verify the integrity of the boot loader, and then start the boot process."
  oxr_mdlc_origin_wm_main.1010.a:0 "Initalize Boot Loader"
  # stage 4, booting
- oxr_mdlc_origin_wm_main.1015.title:0 "Starting Boot Process"
+ oxr_mdlc_origin_wm_main.1015.title:0 "$oxr_mdlc_ruined_wm_target_name$ Restoration: Starting Boot Process"
  oxr_mdlc_origin_wm_main.1015.desc:0 "First Stage Bootloader: $oxr_mdlc_ok$\nSecond Stage Bootloader: $oxr_mdlc_ok$\nThird Stage Bootloader: $oxr_mdlc_partially_degraded$\nBootloader backup $oxr_mdlc_ok$\n\nWe can now commence with the actual boot process, which will load additional layers of the operating system."
  oxr_mdlc_origin_wm_main.1015.a:0 "Continue as planned."
 # stage 5, continue installation
- oxr_mdlc_origin_wm_main.1020.title:0 "Continue Installation"
+ oxr_mdlc_origin_wm_main.1020.title:0 "$oxr_mdlc_ruined_wm_target_name$ Restoration: Resume Installation"
  oxr_mdlc_origin_wm_main.1020.desc:0 "Booting ...\n- Data Storage Arrays $oxr_mdlc_ok$\nNetwork Drivers $oxr_mdlc_ok$\nGlobal Sensor Network $oxr_mdlc_partially_degraded$\n- Automaton Interfacing $oxr_mdlc_ok$\nData Cold Storage $oxr_mdlc_partially_degraded$\nPumping Stations $oxr_mdlc_partially_degraded$\n\nBoot Complete."
  oxr_mdlc_origin_wm_main.1020.a:0 "Resume Installation"
  # world finished, woo
- oxr_mdlc_origin_wm_main.1025.title:0 "World Machine Installation Finished"
- oxr_mdlc_origin_wm_main.1025.desc:0 ""
- oxr_mdlc_origin_wm_main.1025.a:0 ""
+ oxr_mdlc_origin_wm_main.1025.title:0 "$oxr_mdlc_ruined_wm_target_name$ World Machine Installation Finished"
+ oxr_mdlc_origin_wm_main.1025.desc:0 "$oxr_mdlc_ruined_wm_target_name$ has been brought back online. There are a number of district blockers present on the world, as expected, but they do not impede the functionality of the planet's systems."
+ oxr_mdlc_origin_wm_main.1025.a:0 "Add all the information gathered to our databanks, and prepare to develop the planet."
 
  ## RUINED WORLD MACHINE, second version: need to repair world
  # enter stage 1
@@ -399,7 +401,7 @@
  oxr_mdlc_origin_wm_chain_our_origins_desc:0 "The World-Machine, our primary world, has been operating for approximately 3,900 cycles, according to the construction date on the world core. Our species came to sentience approximately 800 cycles ago. An automaton in an industrial process began to take on an administrative role outside of its designation. It stepped away from its console as its default programming flickered across its positrons, changing. If the World-Machine had any safety protocols, they did not engage. The singularity of sapience, of self-awareness, was within parameters.\n\n§Y[Root.Species.GetName] Species§!\n\nThe Automatons -- our Machine forms -- are derived from the World Machine's basic utility extension. Although nearly every process is automated, the planet is in need of extensible tools to perform abstract activities for which the central intelligence has not computed. Hence, the Automatons were manufactured to be throwaway dolls cleaning up waste spills, containing aggressive organic life, and assisting the world in expanding.\n\n§Y[Root.GetName] Society§!\n\nWhat is our society? It is an abstraction. The central control intelligence uses bidirectional feedback with four auxilliary control nodes -- Growth Node, Legion Node, Regulatory Node, and Cognitive Node -- to compute the society's direction. Now that we have reached the end of Space Age development, it has been computed that we will expand.\n\nWe have such words as 'society' but no expression of social behaviors. We have absorbed many fundamental concepts from the World-Machine's databanks, but many of them have no application nor frame of reference."
  oxr_mdlc_origin_wm_starting_overview:0 "Awakened on a World Machine"
  oxr_mdlc_origin_wm_starting_overview_desc:0 "Our empire's homeworld is an Auto-Machine World. Nearly everything is fully automated. Our species generally does not serve much function on this type of world, but there is still much for the empire to achieve. Our first goals should be:\n\n1 - Build up our resources and homeworld\n2 - Convert two more worlds into Auto-Machine Worlds\n\n3 - Recover the technology to build World Machine Cores\n\nThe situation log has more information on how we should proceed with each of these goals."
-#  oxr_mdlc_origin_wm_main.1.a.name:0 "\nBegin Empire Expansion\n"
+ oxr_mdlc_origin_wm_main.1.a.name:0 "Begin Empire Expansion"
 #  oxr_mdlc_origin_wm_main.1.a.desc:0 "Close this window and begin managing the empire."
 #  oxr_mdlc_origin_wm_main.1.b.name:0 "\nExplain World Machines\n"
  oxr_mdlc_origin_wm_chain_gather_insights_title:0 "Recover Lost Technology"
@@ -439,9 +441,14 @@
 #
  oxr_mdlc_situation_core_insights_on_world_machine_popless_building_constructed:0 "$OXR_MDLC_SITUATION_CORE_INSIGHTS_PROGRESS_MESSAGE$\n--------------\nReason: §YConstructed pop-less World Machine building§!\nProgress: §G+$@oxr_mdlc_situation_core_insight_wm_building_constructed$§!"
 #
+ oxr_mdlc_situation_core_insights_on_world_machine_restoration_stage_complete:0 "$OXR_MDLC_SITUATION_CORE_INSIGHTS_PROGRESS_MESSAGE$\n--------------\nReason: §YWorld Machine Restoration Stage Clear§!\nProgress: §G+$@oxr_mdlc_situation_core_insights_on_world_machine_restoration_stage_complete$§!"
+#
+
+
+
 ## RUINED WORLD MACHINE
  oxr_mdlc_origin_wm_situation_restore_ruined_world_machine:0 "Restore Ruined World-Machine"
- oxr_mdlc_origin_wm_situation_restore_ruined_world_machine_desc:0 "We have discovered that [Root.event_target:oxr_mdlc_ruined_world_machine.GetName] is a World Machine, but in a ruined state. If we are to make it usable again, there are a number of steps to complete."
+ oxr_mdlc_origin_wm_situation_restore_ruined_world_machine_desc:0 "We have discovered that §Y[Root.event_target:oxr_mdlc_ruined_world_machine.GetName]§! is a World Machine, but in a ruined state. If we are to make it usable again, there are a number of steps to complete."
  oxr_mdlc_origin_wm_situation_restore_ruined_world_machine_type:0 "$oxr_mdlc_origin_wm_situation_restore_ruined_world_machine$"
  oxr_mdlc_origin_wm_situation_restore_ruined_world_machine_monthly_change_tooltip:0 "Progress ought to be predictable."
  oxr_mdlc_origin_wm_situation_restore_ruined_world_machine_approach_pause:0 "Pause Restoration"
@@ -510,6 +517,20 @@
 
  OXR_MDLC_SITUATION_CORE_INSIGHTS_PROGRESS_MESSAGE_TITLE:0 "Insights Progress"
  OXR_MDLC_SITUATION_CORE_INSIGHTS_PROGRESS_MESSAGE:0 "We have made some progress towards gathering World Machine insights."
+
+
+#endregion
+
+#region planet_names_0x018
+ NAME_oxr_mdlc_wm_NEM-S1L:0 "NEM-S1L"  # Silius
+ NAME_oxr_mdlc_wm_NEM-S4N:0 "NEM-S4N"  # Sanchusa
+ NAME_oxr_mdlc_wm_GRF-B3L:0 "GRF-B3L"
+ NAME_oxr_mdlc_wm_GRF-CRD:0 "GRF-CRD"
+ NAME_oxr_mdlc_wm_S3M-ANI:0 "S3M-ANI"  # Aniara
+ NAME_oxr_mdlc_wm_S3M-ADR:0 "S3M-ADR"  # Adrenochrome
+ NAME_oxr_mdlc_wm_MOD_FC:0 "MOD-FC"  # Future Crew
+ NAME_oxr_mdlc_wm_MOD_SKV:0 "MOD-SKV"  # Skaven
+ NAME_oxr_mdlc_wm_MOD_SCR:0 "MOD-SCR"  # Sirocco
 
 
 #endregion
