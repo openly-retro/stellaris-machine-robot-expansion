@@ -541,8 +541,13 @@ oxr_mdlc_origin_world_machine_create_digsite_for_blocker = {
 			this.planet = { create_archaeological_site = oxr_mdlc_world_machine_frozen_waterway_pistons_site }
 			log = "Created frozen_waterway_pistons digsite on \\[This.planet.GetName]"
 		}
+		else_if = {
+			limit = { is_deposit_type = oxr_mdlc_d_world_machine_incomplete_construction_bays }
+			this.planet = { create_archaeological_site = oxr_mdlc_world_machine_incomplete_construction_bays_site }
+			log = "Created 'Incomplete Construction Bay' digsite on \\[This.planet.GetName]"
+		}
 		else = {
-			log = "Didnt find a matching deposit for this deposit: \\[This.GetName]"
+			log = "Didnt find a matching site for this deposit: \\[This.GetName]"
 		}
 	}
 }
