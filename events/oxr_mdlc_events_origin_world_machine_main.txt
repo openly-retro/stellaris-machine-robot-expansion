@@ -38,6 +38,26 @@ country_event = {
 	}
 }
 
+# Finished the 'deploy world cores' event chain
+country_event = {
+	id = oxr_mdlc_origin_wm_main.60
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		has_event_chain = "oxr_mdlc_origin_wm_chain_deploy_world_cores"
+		NOT = { has_completed_event_chain = oxr_mdlc_origin_wm_chain_deploy_world_cores }
+	}
+	immediate = {
+		# award an insight
+		country_event = {
+			id = oxr_mdlc_on_world_machine_action.110
+		}
+		# finish this event chain
+		end_event_chain = oxr_mdlc_origin_wm_chain_deploy_world_cores
+	}
+}
+
 # Planet has been terraformed
 # This = Planet
 # From = Terraforming country
@@ -86,6 +106,9 @@ planet_event = {
 		add_modifier = { modifier = "planet_population_control_gestalt" days = -1 }
 		from = {
 			oxr_mdlc_world_machine_cores_recalc_amount = yes
+			fire_on_action = {
+				on_action = on_world_machine_core_terraforming_complete
+			}
 		}
 	}
 }
@@ -289,6 +312,22 @@ country_event = {
 				amount = 1
 			}
 			# TODO: award insight points
+		}
+		# check for completion
+		if = {
+			limit = {
+				has_completed_event_chain_counter = {
+					event_chain = "oxr_mdlc_origin_wm_chain_deploy_world_cores"
+					counter = "oxr_mdlc_origin_wm_starting_cores_deployed"
+				}
+				NOT = {
+					has_technology = oxr_mdlc_tech_world_machine_planetary_proficiency
+				}
+			}
+			# Trigger completion
+			country_event = {
+				id = oxr_mdlc_origin_wm_main.60
+			}
 		}
 	}
 }
