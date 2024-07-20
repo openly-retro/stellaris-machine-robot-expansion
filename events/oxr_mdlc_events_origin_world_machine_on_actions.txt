@@ -56,14 +56,14 @@ planet_event = {
 	}
 }
 
-# Increment blockers cleared
+# on_world_machine_blocker_cleared Increment blockers cleared
 country_event = {
 	id = oxr_mdlc_on_world_machine_action.100
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-			has_event_chain = "oxr_mdlc_origin_wm_chain_clear_blockers"
-			NOT = { has_completed_event_chain = oxr_mdlc_origin_wm_chain_clear_blockers }
+		has_event_chain = "oxr_mdlc_origin_wm_chain_clear_blockers"
+		NOT = { has_completed_event_chain = oxr_mdlc_origin_wm_chain_clear_blockers }
 	}
 
 	immediate = {
@@ -77,6 +77,7 @@ country_event = {
 				counter = "oxr_mdlc_origin_wm_blockers"
 				amount = 1
 			}
+			log = "Incremented 'Clear Blocker' event chain by 1"
 			# TODO: contribute towards ongoing situation
 			if = {
 				limit = {
@@ -115,26 +116,32 @@ country_event = {
 				counter = "oxr_mdlc_origin_wm_core_insights"
 				amount = 1
 			}
+			log = "Incremented World Machine insights by 1"
 		}
+		# TODO: Display a message
 	}
 }
 
 ## SITUATION ADVANCEMENT EVENTS ##
-# Points for digsite cleared 1000
-country_event = {
+# on_world_machine_blocker_digsite_finished 1000
+planet_event = {
 	id = oxr_mdlc_on_world_machine_action.1000
 	is_triggered_only = yes hide_window = yes
 	trigger = {
-		any_situation = { is_situation_type = oxr_mdlc_origin_wm_situation_recover_core_tech }
+		owner = {
+			any_situation = { is_situation_type = oxr_mdlc_origin_wm_situation_recover_core_tech }
+		}
 	}
 	immediate = {
-		oxr_mdlc_situation_core_insights_add_progress = {
-			AMOUNT = @oxr_mdlc_situation_core_insight_digsite_points
-			ON_ACTION_TYPE = on_world_machine_blocker_digsite_finished
+		owner = {
+			oxr_mdlc_situation_core_insights_add_progress = {
+				AMOUNT = @oxr_mdlc_situation_core_insight_digsite_points
+				ON_ACTION_TYPE = on_world_machine_blocker_digsite_finished
+			}
 		}
 	}
 }
-# blocker cleared 1001
+# on_world_machine_blocker_cleared 1001
 country_event = {
 	id = oxr_mdlc_on_world_machine_action.1001
 	is_triggered_only = yes hide_window = yes
