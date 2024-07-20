@@ -1,5 +1,4 @@
-# All of these need to be fired within the country scope
-
+# on blocker cleared is called at the last arc site stage
 on_world_machine_blocker_cleared = {
 	# Contribute towards progress in unlocking tech
 	events = {
@@ -7,7 +6,15 @@ on_world_machine_blocker_cleared = {
 		oxr_mdlc_on_world_machine_action.1001  # points towards insight situation
 	}
 }
+on_world_machine_insight_blocker_cleared = {
+	# Contribute towards unlocking world machine core using planetary blocker-clearing interface
+	events = {
+		oxr_mdlc_on_world_machine_action.110  # increment insights counter
+	}
+}
 on_world_machine_blocker_digsite_progress = { }
+
+# planet scope
 on_world_machine_blocker_digsite_finished = {
 	# Contribute towards progress in unlocking tech
 	# Create another digsite if any more blockers exist ?
@@ -18,17 +25,12 @@ on_world_machine_blocker_digsite_finished = {
 		oxr_mdlc_on_world_machine_action.1000  # points towards insights situation
 	}
 }
-on_world_machine_arc_site_stage_clear = {
+on_world_machine_arc_site_progress = {
 	events = {
 		oxr_mdlc_on_world_machine_action.1002  # points towards insights situation
 	}
 }
-on_world_machine_insight_blocker_cleared = {
-	# Contribute towards unlocking world machine core using planetary blocker-clearing interface
-	events = {
-		oxr_mdlc_on_world_machine_action.110  # increment insights counter
-	}
-}
+
 on_world_machine_popless_building_constructed = {
 	# Progress awarded for building WM-specific buildings
 	events = {
@@ -61,10 +63,10 @@ on_terraforming_complete = {
 		oxr_mdlc_origin_wm_main.500  # immediately create colony, blockers, and digsite. Add core.
 	}
 }
-on_world_machine_core_deployed = {
-	# events = {
-		# TODO: Make the event
-	# }
+on_world_machine_core_terraforming_complete = {
+	events = {
+		oxr_mdlc_origin_wm_main.1100  # increment 'deploy world core' situation counter
+	}
 }
 
 # Root = Planet
