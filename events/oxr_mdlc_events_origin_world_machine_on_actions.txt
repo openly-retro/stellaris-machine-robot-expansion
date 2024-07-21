@@ -25,7 +25,6 @@ planet_event = {
 			planet_event = {
 				id = oxr_mdlc_on_world_machine_action.11 days = 14
 			}
-			log = "Created a new world machine digsite at \\[This.GetName]"
 		}
 		else_if = {
 			limit = { oxr_mdlc_planet_has_any_world_machine_blockers = no }
@@ -33,6 +32,7 @@ planet_event = {
 		}
 		else_if = {
 			limit = {
+				oxr_mdlc_planet_has_any_world_machine_blockers = yes
 				space_owner = {
 					has_technology = oxr_mdlc_tech_world_machine_planetary_proficiency
 				}
@@ -52,6 +52,7 @@ planet_event = {
 		oxr_mdlc_planet_has_any_world_machine_blockers = yes
 	}
 	immediate = {
+		log = "Auto-creating a new world machine digsite at \\[This.GetName] ..."
 		oxr_mdlc_origin_world_machine_create_digsite_for_blocker = yes
 	}
 }
