@@ -124,8 +124,21 @@ country_event = {
 				target = this.capital_scope
 				days = 25
 			}
+			# Check if this was enough to trigger the finish
+			if = {
+				limit = {
+					NOT = { has_completed_event_chain = oxr_mdlc_origin_wm_chain_gather_insights }
+					has_completed_event_chain_counter = {
+						event_chain = "oxr_mdlc_origin_wm_chain_gather_insights"
+						counter = "oxr_mdlc_origin_wm_core_insights"
+					}
+				}
+				# Trigger completion
+				country_event = {
+					id = oxr_mdlc_origin_wm_main.50
+				}
+			}
 		}
-		# TODO: Display a message
 	}
 }
 
