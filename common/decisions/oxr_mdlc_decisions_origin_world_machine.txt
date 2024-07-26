@@ -78,3 +78,47 @@ oxr_mdlc_decisions_origin_wm_reboot_ruined_world = {
 		
 	}
 }
+oxr_mdlc_decisions_origin_wm_manufacture_core = {
+	owned_planets_only = yes
+	enactment_time = @oxr_mdlc_world_machine_core_build_time_days  # 1080
+	resources = {
+		category = decisions
+		cost = {
+			energy = @oxr_mdlc_world_machine_core_build_cost_energy  # 5000
+			alloys = @oxr_mdlc_world_machine_core_build_cost_alloys  # 1500
+		}
+	}
+	potential = {
+		exists = space_owner
+		space_owner = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+			has_technology = oxr_mdlc_tech_world_machine_wmc_core
+			NOT = {
+				has_country_flag = oxr_mdlc_world_machine_tech_stolen
+			}
+		}
+		is_planet_world_machine = yes
+	}
+	allow = {
+		has_building = oxr_mdlc_world_machines_building_core_fabrication_depot
+		space_owner = {
+			has_resource = {
+				type = alloys
+				amount = @oxr_mdlc_world_machine_core_build_cost_alloys
+			}
+			has_resource = {
+				type = energy
+				amount >= @oxr_mdlc_world_machine_core_build_cost_energy
+			}
+		}
+		oxr_mdlc_planet_has_room_for_more_cores = yes
+	}
+	effect = {
+		custom_tooltip = ""
+		hidden_effect = {
+			oxr_mdlc_world_machine_cores_add = { AMOUNT = 1 }
+			oxr_mdlc_world_machine_cores_update_max_var = yes
+		}
+		
+	}
+}

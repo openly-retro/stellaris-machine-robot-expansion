@@ -595,7 +595,7 @@ oxr_mdlc_world_machines_building_storage_cradle = {
 				has_origin = oxr_mdlc_origin_world_machine_awakened
 				has_ascension_perk = xvcv_mdlc_ap_world_machines
 			}
-			oxr_mdlc_origin_world_machine_feature_enabled = yes
+			has_technology = oxr_mdlc_tech_world_machine_wmc_core
 		}
 		is_planet_world_machine = yes
 	}
@@ -620,6 +620,18 @@ oxr_mdlc_world_machines_building_storage_cradle = {
 	prerequisites = {
 		"oxr_mdlc_tech_world_machines_unlocked"
 	}
+	on_destroy = {
+		set_variable = {
+			which = oxr_mdlc_world_machine_stored_cores_amount
+			value = value:oxr_mdlc_planet_calculate_max_core_storage
+		}
+	}
+	on_repaired = {
+		set_variable = {
+			which = oxr_mdlc_world_machine_stored_cores_amount
+			value = value:oxr_mdlc_planet_calculate_max_core_storage
+		}
+	}
 
 	# on_repaired = {
 	# 	if = {
@@ -638,8 +650,52 @@ oxr_mdlc_world_machines_building_storage_cradle = {
 	# 	}
 	# }
 	on_built = {
+		set_variable = {
+			which = oxr_mdlc_world_machine_stored_cores_amount
+			value = value:oxr_mdlc_planet_calculate_max_core_storage
+		}
 		owner = {
 			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
 		}
+	}
+}
+oxr_mdlc_world_machines_building_core_fabrication_depot = {
+	base_buildtime = @b3_time
+	category = manufacturing
+	potential = {
+		NOT = { has_modifier = resort_colony }
+		exists = owner
+		owner = {
+			OR = {
+				has_origin = oxr_mdlc_origin_world_machine_awakened
+				has_ascension_perk = xvcv_mdlc_ap_world_machines
+			}
+			has_technology = oxr_mdlc_tech_world_machine_wmc_core
+		}
+		is_planet_world_machine = yes
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			alloys = 3000
+			minerals = 4000
+		}
+		upkeep = {
+			physics_research = 1
+			energy = 10
+		}
+		produces = {
+			energy = 3
+		}
+		upkeep = {
+			trigger = {
+				has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
+			}
+			energy = 50
+		}
+	}
+	prerequisites = {
+		"oxr_mdlc_tech_world_machine_wmc_core"
 	}
 }
