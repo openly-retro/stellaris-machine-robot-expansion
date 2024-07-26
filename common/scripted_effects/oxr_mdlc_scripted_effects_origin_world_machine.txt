@@ -576,7 +576,6 @@ oxr_mdlc_world_machine_cores_add = {
 			which = oxr_mdlc_origin_wm_cores_total_produced_count
 			value = $AMOUNT$
 		}
-		oxr_mdlc_world_machine_cores_update_max_var = yes
 	}
 }
 oxr_mdlc_world_machine_cores_subtract = {
@@ -651,5 +650,65 @@ oxr_mdlc_find_neighbor_planet_and_convert_to_ruined_world_machine = {
 				set_planet_flag = oxr_mdlc_ruined_world_machine
 			}
 		}
+	}
+}
+
+# country scope
+oxr_mdlc_wmc_manufacture_core_set_tech_level = {
+	# Put highest known tech levels at top, descending
+	
+	if = {
+		limit = { has_technology = tech_zero_point_power }
+		set_variable = {
+			which = oxr_mdlc_wmc_manufacture_core_tech_level
+			value = 3.0
+		}
+	}
+	else_if = {
+		limit = { has_technology = tech_antimatter_power }
+		set_variable = {
+			which = oxr_mdlc_wmc_manufacture_core_tech_level
+			value = 2.5
+		}
+	}
+	else_if = {
+		limit = { has_technology = tech_cold_fusion_power }
+		set_variable = {
+			which = oxr_mdlc_wmc_manufacture_core_tech_level
+			value = 2.0
+		}
+	}
+	else_if = {
+		limit = { has_technology = tech_fusion_power }
+		set_variable = {
+			which = oxr_mdlc_wmc_manufacture_core_tech_level
+			value = 1.5
+		}
+	}
+	else_if = {
+		limit = { has_technology = tech_fission_power }
+		set_variable = {
+			which = oxr_mdlc_wmc_manufacture_core_tech_level
+			value = 1.0
+		}
+	}
+	else = {
+		set_variable = {
+			which = oxr_mdlc_wmc_manufacture_core_tech_level
+			value = 0.5
+		}
+	}
+}
+
+oxr_mdlc_planet_increment_stored_wm_cores = {
+	change_variable = {
+		which = oxr_mdlc_world_machine_stored_cores_amount
+		value = 1
+	}
+}
+oxr_mdlc_planet_decrement_stored_wm_cores = {
+	change_variable = {
+		which = oxr_mdlc_world_machine_stored_cores_amount
+		value = -1
 	}
 }
