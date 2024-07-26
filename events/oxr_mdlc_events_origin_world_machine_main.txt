@@ -110,6 +110,12 @@ planet_event = {
 				on_action = on_world_machine_core_terraforming_complete
 			}
 		}
+		# Effectively set max storage amount to 0
+		oxr_mdlc_planet_calculate_max_core_storage = yes
+		set_variable = {
+			which = oxr_mdlc_world_machine_stored_cores_amount
+			value = 0
+		}
 	}
 }
 
@@ -354,8 +360,33 @@ country_event = {
 	}
 }
 
+country_event = {
+	id = oxr_mdlc_origin_wm_main.1205
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		has_completed_special_project_in_log = OXR_MDLC_ORIGIN_WM_CORE_TECH_RESEARCH_ENGINEERING
+		has_completed_special_project_in_log = OXR_MDLC_ORIGIN_WM_CORE_TECH_RESEARCH_PHYSICS_1
+		has_completed_special_project_in_log = OXR_MDLC_ORIGIN_WM_CORE_TECH_RESEARCH_SOCIETY
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				has_completed_special_project_in_log = OXR_MDLC_ORIGIN_WM_CORE_TECH_RESEARCH_ENGINEERING
+				has_completed_special_project_in_log = OXR_MDLC_ORIGIN_WM_CORE_TECH_RESEARCH_PHYSICS_1
+				has_completed_special_project_in_log = OXR_MDLC_ORIGIN_WM_CORE_TECH_RESEARCH_SOCIETY
+		
+			}
+			country_event = {
+				id = oxr_mdlc_origin_wm_main.1210
+			}
+		}
+	}
+}
+
 # Completed special project to research World Machine Cores
-# This event is called on each project completion to see if they
 # have all been completed
 country_event = {
 	id = oxr_mdlc_origin_wm_main.1210
@@ -375,6 +406,5 @@ country_event = {
 			tech = oxr_mdlc_tech_world_machine_wmc_core
 			message = no
 		}
-		
 	}
 }
