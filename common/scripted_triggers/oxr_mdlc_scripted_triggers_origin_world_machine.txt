@@ -73,3 +73,19 @@ oxr_mdlc_planet_can_become_world_machine = {
 		is_planet_class = pc_ocean
 	}
 }
+
+oxr_mdlc_planet_is_core_storage_full = {
+	check_variable = {
+		which = oxr_mdlc_world_machine_stored_cores_amount
+		value <= 50
+	}
+}
+oxr_mdlc_planet_has_room_for_more_cores = {
+	custom_tooltip_fail = {
+		text = "oxr_mdlc_decisions_origin_wm_manufacture_core.fail_no_room"
+		check_variable = {
+			which = oxr_mdlc_world_machine_stored_cores_amount
+			value < oxr_mdlc_world_machine_stored_cores_amount_max
+		}
+	}
+}
