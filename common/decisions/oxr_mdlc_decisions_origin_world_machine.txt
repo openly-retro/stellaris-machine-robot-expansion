@@ -78,15 +78,21 @@ oxr_mdlc_decisions_origin_wm_reboot_ruined_world = {
 		
 	}
 }
+
 oxr_mdlc_decisions_origin_wm_manufacture_core = {
 	owned_planets_only = yes
-	enactment_time = @oxr_mdlc_world_machine_core_build_time_days  # 1080
+	# enactment_time = @oxr_mdlc_world_machine_core_build_time_days  # 1080
+	enactment_time = 15
 	resources = {
 		category = decisions
 		cost = {
 			energy = @oxr_mdlc_world_machine_core_build_cost_energy  # 5000
 			alloys = @oxr_mdlc_world_machine_core_build_cost_alloys  # 1500
 		}
+		# upkeep = {
+		# 	energy = 50
+		# 	physics_research = 3
+		# }
 	}
 	potential = {
 		exists = space_owner
@@ -98,6 +104,9 @@ oxr_mdlc_decisions_origin_wm_manufacture_core = {
 			}
 		}
 		is_planet_world_machine = yes
+		NOT = {
+			has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
+		}
 	}
 	allow = {
 		has_building = oxr_mdlc_world_machines_building_core_fabrication_depot
@@ -112,13 +121,132 @@ oxr_mdlc_decisions_origin_wm_manufacture_core = {
 			}
 		}
 		oxr_mdlc_planet_has_room_for_more_cores = yes
+		NOR = {
+			has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
+			has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_on_standby
+		}
 	}
 	effect = {
-		custom_tooltip = ""
+		custom_tooltip = "oxr_mdlc_decisions_origin_wm_manufacture_core.tooltip"
 		hidden_effect = {
-			oxr_mdlc_world_machine_cores_add = { AMOUNT = 1 }
-			oxr_mdlc_world_machine_cores_update_max_var = yes
+			planet_event = {
+				id = oxr_mdlc_origin_wm_main.1300
+			}
+		}
+	}
+}
+
+oxr_mdlc_decisions_origin_wm_manufacture_core_stop = {
+	owned_planets_only = yes
+	enactment_time = 15  # 1080
+	resources = {
+		category = decisions
+		cost = { }
+	}
+	potential = {
+		exists = space_owner
+		space_owner = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+			has_technology = oxr_mdlc_tech_world_machine_wmc_core
+			NOT = {
+				has_country_flag = oxr_mdlc_world_machine_tech_stolen
+			}
+		}
+		is_planet_world_machine = yes
+		has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
+	}
+	allow = {
+		# has_building = oxr_mdlc_world_machines_building_core_fabrication_depot
+		# has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
+		always = yes
+	}
+	effect = {
+		# custom_tooltip = "oxr_mdlc_decisions_origin_wm_manufacture_core_stop.tooltip"
+		hidden_effect = {
+			remove_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
 		}
 		
 	}
 }
+
+
+# oxr_mdlc_decisions_origin_wm_power_on_fabricator = {
+# 	owned_planets_only = yes
+# 	enactment_time = 15  # 1080
+# 	resources = {
+# 		category = decisions
+# 		cost = { }
+# 	}
+# 	potential = {
+# 		exists = space_owner
+# 		space_owner = {
+# 			has_origin = oxr_mdlc_origin_world_machine_awakened
+# 			has_technology = oxr_mdlc_tech_world_machine_wmc_core
+# 			NOT = {
+# 				has_country_flag = oxr_mdlc_world_machine_tech_stolen
+# 			}
+# 		}
+# 		is_planet_world_machine = yes
+# 		has_building = oxr_mdlc_world_machines_building_core_fabrication_depot
+# 	}
+# 	allow = {
+# 		space_owner = {
+# 			has_resource = {
+# 				type = alloys
+# 				amount >= @oxr_mdlc_world_machine_core_build_cost_alloys
+# 			}
+# 			has_resource = {
+# 				type = energy
+# 				amount >= @oxr_mdlc_world_machine_core_build_cost_energy
+# 			}
+# 		}
+# 		oxr_mdlc_planet_has_room_for_more_cores = yes
+# 		NOR = {
+# 			has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
+# 		}
+
+# 	}
+# 	effect = {
+# 		add_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
+# 	}
+# }
+
+# oxr_mdlc_decisions_origin_wm_power_off_fabricator = {
+# 	owned_planets_only = yes
+# 	enactment_time = 15  # 1080
+# 	resources = {
+# 		category = decisions
+# 		cost = { }
+# 	}
+# 	potential = {
+# 		exists = space_owner
+# 		space_owner = {
+# 			has_origin = oxr_mdlc_origin_world_machine_awakened
+# 			has_technology = oxr_mdlc_tech_world_machine_wmc_core
+# 			NOT = {
+# 				has_country_flag = oxr_mdlc_world_machine_tech_stolen
+# 			}
+# 		}
+# 		is_planet_world_machine = yes
+# 		has_building = oxr_mdlc_world_machines_building_core_fabrication_depot
+# 	}
+# 	allow = {
+# 		space_owner = {
+# 			has_resource = {
+# 				type = alloys
+# 				amount >= @oxr_mdlc_world_machine_core_build_cost_alloys
+# 			}
+# 			has_resource = {
+# 				type = energy
+# 				amount >= @oxr_mdlc_world_machine_core_build_cost_energy
+# 			}
+# 		}
+# 		oxr_mdlc_planet_has_room_for_more_cores = yes
+# 		NOR = {
+# 			has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
+# 		}
+# 	}
+# 	effect = {
+# 		add_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
+# 	}
+# }
