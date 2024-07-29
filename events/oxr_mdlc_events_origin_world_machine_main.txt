@@ -113,13 +113,17 @@ planet_event = {
 		# Effectively set max storage amount to 0
 		oxr_mdlc_planet_calculate_max_core_storage = yes
 		set_variable = {
-			which = oxr_mdlc_world_machine_stored_cores_amount
+			which = oxr_mdlc_planet_world_machine_cores_amount
 			value = 0
 		}
 		set_saved_date = {
 			key = oxr_mdlc_world_machine_founded_date
 			days_from_present = 0
 			expires = -1
+		}
+		add_modifier = {
+			modifier = oxr_mdlc_planet_origin_world_machine_info
+			days = -1
 		}
 	}
 }
@@ -410,6 +414,145 @@ country_event = {
 		give_technology = {
 			tech = oxr_mdlc_tech_world_machine_wmc_core
 			message = no
+		}
+	}
+}
+
+# Manufacturing WMC
+planet_event = {
+	id = oxr_mdlc_origin_wm_main.1300
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		add_modifier = {
+			modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
+			# days = @oxr_mdlc_world_machine_core_build_time_days
+			days = 15
+		}
+		set_variable = {
+			which = oxr_mdlc_planet_world_machine_core_countdown
+			# value = @oxr_mdlc_world_machine_core_build_time_days
+			value = 15
+		}
+		planet_event = {
+			id = oxr_mdlc_origin_wm_main.1305
+		}
+	}
+}
+
+# Every day, check that the "in_progress" modifier is still active
+# If it's not, reset
+planet_event = {
+	id = oxr_mdlc_origin_wm_main.1305
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
+	}
+	immediate = {
+		if = {
+			limit = {
+				NOT = {
+					has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
+				}
+			}
+			# Player cancelled the construction, so stop
+			log = "Stopping construction of WMC, from inside the 'watcher' event"
+		}
+		else = {
+			# Continue, since the construction is still active
+			subtract_variable = {
+				which = oxr_mdlc_planet_world_machine_core_countdown
+				value = 1
+			}
+			if = {
+				limit = {
+					check_variable = {
+						which = oxr_mdlc_planet_world_machine_core_countdown
+						value = 0
+					}
+				}
+				# Manufacturing is complete!
+				planet_event = {
+					id = oxr_mdlc_origin_wm_main.1310
+					days = 1
+				}
+			}
+			else_if = {
+				limit = {
+					check_variable = {
+						which = oxr_mdlc_planet_world_machine_core_countdown
+						value < 0
+					}
+				}
+				log = "Something weird happen while counting down WMC construction."
+				log = "The counter was below 0"
+				# Stop and don't loop
+			}
+			else = {
+				# Loop
+				planet_event = {
+					id = oxr_mdlc_origin_wm_main.1305
+					days = 1
+				}
+			}
+		}
+	}
+}
+
+
+# WMC Finished being fabricated
+planet_event = {
+	id = oxr_mdlc_origin_wm_main.1310
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		# Is there enough room to add this WMC? if not, refund it
+		# In case the player spammed active/inactive to try and get many cores
+		# oxr_mdlc_world_machine_cores_add = { AMOUNT = 1 }
+		space_owner = {
+			add_resource = {
+				oxr_mdlc_world_machine_core = 1
+			}
+		}
+		log = "Added $AMOUNT$ World Machine Cores"
+		hidden_effect = {
+			space_owner = {
+				change_variable = {
+					which = oxr_mdlc_origin_wm_cores_current_count
+					value = 1
+				}
+				change_variable = {
+					which = oxr_mdlc_origin_wm_cores_total_produced_count
+					value = 1
+				}
+			}
+			# planet
+			change_variable = {
+				which = oxr_mdlc_planet_world_machine_cores_amount
+				value = 1
+			}
+		}
+		# oxr_mdlc_world_machine_cores_update_max_var = yes
+		set_variable = {
+			which = oxr_mdlc_origin_wm_cores_max
+			value = modifier:country_resource_max_oxr_mdlc_world_machine_core_add
+		}
+		remove_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
+		# create message
+		create_message = {
+			type = OXR_MDLC_ORIGIN_WM_CORE_FABRICATION_FINISHED
+			localization = OXR_MDLC_ORIGIN_WM_CORE_FABRICATION_FINISHED_MESSAGE
+			days = 20
+			target = this
+			variable = {
+				type = name
+				localization = OXR_MDLC_ORIGIN_WM_CORE_FABRICATION_PLANET
+				scope = this
+			}
 		}
 	}
 }
