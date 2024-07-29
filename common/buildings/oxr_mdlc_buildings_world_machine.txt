@@ -38,7 +38,7 @@ xvcv_mdlc_world_machine_auto_farm = {
 		}
 	}
 	resources = {
-		category = planet_buildings
+		category = oxr_mdlc_category_world_machines_buildings
 		cost = { minerals = @xvcv_mdlc_district_cost_2 }
 		produces = { food = 14 } #{1 job = 6 -1 (is_robot_empire = yes) + 2 (building_food_processing_center) minerals} X 2 jobs #stellaris v3.0.3
 		upkeep = { energy = 1 }
@@ -91,7 +91,7 @@ oxr_mdlc_world_machines_building_auto_farm_logistics = {
 		}
 	}
 	resources = {
-		category = planet_buildings
+		category = oxr_mdlc_category_world_machines_buildings
 		cost = {
 			minerals = @b1_minerals
 		}
@@ -159,7 +159,7 @@ oxr_mdlc_world_machines_building_cohesion_supervisor = {
 	}
 
 	resources = {
-		category = planet_buildings  # could also be planet_administrators
+		category = oxr_mdlc_category_world_machines_buildings  # could also be planet_administrators
 		cost = {
 			minerals = @b1_minerals  # 400
 		}
@@ -235,7 +235,7 @@ oxr_mdlc_world_machines_building_cohesion_hub = {
 	}
 
 	resources = {
-		category = planet_buildings
+		category = oxr_mdlc_category_world_machines_buildings
 		cost = {
 			minerals = @b2_minerals
 			rare_crystals = @b2_rare_cost
@@ -296,7 +296,7 @@ oxr_mdlc_world_machines_building_fractal_sanitizer = {
 	}
 
 	resources = {
-		category = planet_buildings
+		category = oxr_mdlc_category_world_machines_buildings
 		cost = {
 			minerals = @b1_minerals
 		}
@@ -355,7 +355,7 @@ oxr_mdlc_world_machines_building_fractal_sanitizer_2 = {
 	}
 
 	resources = {
-		category = planet_buildings
+		category = oxr_mdlc_category_world_machines_buildings
 		cost = {
 			minerals = @b1_minerals
 		}
@@ -422,7 +422,7 @@ oxr_mdlc_world_machines_building_maintenance_legion = {
 	}
 
 	resources = {
-		category = planet_buildings_strongholds
+		category = oxr_mdlc_category_world_machines_buildings
 		cost = {
 			minerals = @b1_minerals
 		}
@@ -463,7 +463,7 @@ oxr_mdlc_world_machines_building_welding_colony = {
 	}
 
 	resources = {
-		category = planet_buildings
+		category = oxr_mdlc_category_world_machines_buildings
 		cost = {
 			minerals = 500
 		}
@@ -508,7 +508,7 @@ oxr_mdlc_world_machines_building_particle_collider = {
 	}
 
 	resources = {
-		category = planet_buildings
+		category = oxr_mdlc_category_world_machines_buildings
 		cost = {
 			minerals = @b2_minerals
 		}
@@ -551,7 +551,7 @@ oxr_mdlc_world_machines_building_crystal_cultivation_tank = {
 	}
 
 	resources = {
-		category = planet_buildings
+		category = oxr_mdlc_category_world_machines_buildings
 		cost = {
 			minerals = @b2_minerals
 			rare_crystals = 500
@@ -596,7 +596,7 @@ oxr_mdlc_world_machines_building_storage_cradle = {
 	}
 
 	resources = {
-		category = planet_buildings
+		category = oxr_mdlc_category_world_machines_buildings
 		cost = {
 			alloys = 1000
 		}
@@ -620,13 +620,13 @@ oxr_mdlc_world_machines_building_storage_cradle = {
 	}
 	on_destroy = {
 		set_variable = {
-			which = oxr_mdlc_world_machine_stored_cores_amount
+			which = oxr_mdlc_planet_world_machine_cores_amount
 			value = value:oxr_mdlc_planet_calculate_max_core_storage
 		}
 	}
 	on_repaired = {
 		set_variable = {
-			which = oxr_mdlc_world_machine_stored_cores_amount
+			which = oxr_mdlc_planet_world_machine_cores_amount
 			value = value:oxr_mdlc_planet_calculate_max_core_storage
 		}
 	}
@@ -649,7 +649,7 @@ oxr_mdlc_world_machines_building_storage_cradle = {
 	# }
 	on_built = {
 		set_variable = {
-			which = oxr_mdlc_world_machine_stored_cores_amount
+			which = oxr_mdlc_planet_world_machine_cores_amount
 			value = value:oxr_mdlc_planet_calculate_max_core_storage
 		}
 		owner = {
@@ -675,7 +675,7 @@ oxr_mdlc_world_machines_building_core_fabrication_depot = {
 	}
 
 	resources = {
-		category = planet_buildings
+		category = oxr_mdlc_category_world_machines_buildings
 		cost = {
 			alloys = 3000
 			minerals = 4000
@@ -691,7 +691,14 @@ oxr_mdlc_world_machines_building_core_fabrication_depot = {
 			trigger = {
 				has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
 			}
-			energy = 50
+			energy = 40
+			physics_research = 2
+		}
+		upkeep = {
+			trigger = {
+				has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_on_standby
+			}
+			energy = 10
 		}
 	}
 	prerequisites = {
