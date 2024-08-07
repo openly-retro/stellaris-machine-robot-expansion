@@ -1,0 +1,35 @@
+rikk_mdlc_nano_drone = {
+	category = simple_drone
+	condition_string = DRONE_JOB_TRIGGER
+	building_icon = building_mineral_purification_plant
+	is_capped_by_modifier = no
+
+	possible_pre_triggers = {
+		has_owner = yes
+		is_enslaved = no
+		is_being_purged = no
+		is_being_assimilated = no
+		is_sapient = yes
+	}
+	
+	possible_precalc = can_fill_drone_job
+
+	possible = {
+        has_trait = rikk_mdlc_trait_robotic_constant_growth
+    }
+
+	planet_modifier = {
+		planet_pop_assembly_mult = 0.01
+		planet_jobs_produces_mult = 0.02
+		planet_jobs_upkeep_mult = 0.01
+	}
+
+    weight = {
+        weight = 1
+        modifier = {
+            factor = 0
+            NOT = { has_trait = rikk_mdlc_trait_robotic_constant_growth }
+        }
+    }
+
+}
