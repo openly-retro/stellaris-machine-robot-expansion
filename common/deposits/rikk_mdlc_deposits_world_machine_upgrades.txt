@@ -1,0 +1,103 @@
+#example
+#xvcv_mdlc_world_machines_cooling_district_offset = {
+#	icon = xvcv_mdlc_d_pc_machine_cooling_redundancy
+#	# Add one deposit per 0.1 above 0
+#	# Reduce production (bc a cooling district improves it)
+#	# Increase upkeep 
+#	planet_modifier = {
+#		xvcv_mdlc_world_machines_districts_produces_mult = -0.1
+#		xvcv_mdlc_world_machines_districts_upkeep_mult = 0.1
+#	}
+#}
+
+#For wm upgrades
+rikk_mdlc_d_world_machine_crust_roots = {
+	is_for_colonizable = yes
+	planet_modifier = {
+		rikk_mdlc_world_machine_districts_mineral_cost_add = 0.20
+		planet_max_districts_mult = 0.05
+	}
+}
+rikk_mdlc_d_world_machine_cooling_towers = {
+	#+10% cooling district cooling
+	is_for_colonizable = yes
+	use_for_min_max_adjustments = no
+	planet_modifier = {
+		rikk_mdlc_world_machine_cooling_district_effectiveness = 0.10
+		rikk_mdlc_world_machine_cooling_district_gases_upkeep = 2
+	}
+}
+
+rikk_mdlc_d_world_machine_mantle_roots = {
+	is_for_colonizable = yes
+	planet_modifier = {
+		rikk_mdlc_world_machine_districts_mineral_cost_add = 0.30
+		planet_max_districts_mult = 0.10
+	}
+}
+
+rikk_mdlc_d_world_machine_mantle_organizer = {
+	is_for_colonizable = yes
+	planet_modifier = {
+		planet_building_build_speed_mult = 0.75 #less orbital bombardment protection?
+	}
+	resources = {
+		category = planets
+		upkeep = {
+			energy = 25
+		}
+	}
+}
+
+rikk_mdlc_d_world_machine_outer_core_roots = {
+	is_for_colonizable = yes
+	planet_modifier = {
+		rikk_mdlc_world_machine_districts_mineral_cost_add = 0.30
+		planet_max_districts_mult = 0.10
+	}
+}
+
+rikk_mdlc_d_world_machine_inner_core_roots = {
+	is_for_colonizable = yes
+	planet_modifier = {
+		rikk_mdlc_world_machine_districts_mineral_cost_add = 0.20
+		planet_max_districts_mult = 0.05
+	}
+}
+
+rikk_mdlc_d_world_machine_core_core = {
+	is_for_colonizable = yes
+	resources = {
+		category = planets
+		upkeep = {
+			energy = 50
+		}
+	}
+	planet_modifier = {
+		rikk_mdlc_world_machine_districts_base_production = 0.5
+	}
+}
+
+rikk_mdlc_d_world_machine_core_tap = {
+	is_for_colonizable = yes
+	resources = {
+		category = planets
+		produces = {
+			trigger = {
+				is_planet_class = xvcv_mdlc_pc_machine_cpu
+				is_planet_class = xvcv_mdlc_pc_machine_ser
+			}
+			minerals = 100
+		}
+		upkeep = {
+			trigger = {
+				is_planet_class = xvcv_mdlc_pc_machine_cpu
+				is_planet_class = xvcv_mdlc_pc_machine_ser
+			}
+			energy = 20
+		}
+	}
+	planet_modifier = {
+		xvcv_mdlc_world_machines_industrial_districts_produces_mult = 0.5
+	}
+}
