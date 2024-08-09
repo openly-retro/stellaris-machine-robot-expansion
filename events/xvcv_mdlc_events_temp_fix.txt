@@ -7,13 +7,14 @@ planet_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		check_variable = { which = xvcv_mdlc_world_machines_districts_output_var value >= 0.3 }
+		check_variable = { 
+			which = xvcv_mdlc_world_machines_districts_output_var
+			value >= rikk_mdlc_world_machine_cooling_district_effect
+		}
 	}
 
 	immediate = {
 		remove_district = xvcv_mdlc_common_district_cooling
-		owner = { add_resource = { minerals = @xvcv_mdlc_district_cost_5 } } #refund its costs
-		change_variable = { which = xvcv_mdlc_world_machines_districts_output_var value = -0.3 } #minus 0.3 output as a cooler is gone
-		change_variable = { which = xvcv_mdlc_world_machines_districts_current_output_for_display_var value = -30 } #change this as well
+		planet_event = { id = xvcv_mdlc.70 days = 1 }
 	}
 }
