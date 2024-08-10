@@ -174,9 +174,7 @@ rikk_mdlc_situation_core_core = {
 		allow = { owner = { resource_stockpile_compare = { resource = alloys value >= 1000 } } }
 		resources = {
 			category = situations
-			cost = {
-				alloys = -1000
-			}
+			cost = { alloys = -1000 }
 		}
 		target_modifier = {
 			rikk_mdlc_world_machine_cooling_district_effectiveness = -0.10
@@ -193,20 +191,55 @@ rikk_mdlc_situation_core_core = {
 		icon = GFX_situation_approach_this_is_fine
 		icon_background = GFX_situation_approach_bg_yellow
 		ai_weight = { base = 0 }
-		potential = { current_stage = stage_2 }
+		potential = {
+			AND = {
+				current_stage = stage_2 
+				NOT = { owner = { has_origin = oxr_mdlc_origin_world_machine_awakened } }
+			}
+		}
 		allow = { target = { num_sapient_pops > 10 } }
 		on_select = {
 			custom_tooltip = rikk_mdlc_approach_carving_pops_effect
 			target = {
-				hidden_effect = { 
+				hidden_effect = {
 					planet_event = { id = rikk_mdlc_wm_upgrade_events.70 days = 1 } 
 				}
 				if = {
 					limit = {
 						NOT = { has_planet_flag = rikk_mdlc_core_core_monster }
 					}
-					hidden_effect = { 
+					hidden_effect = {
 						planet_event = { id = rikk_mdlc_wm_upgrade_events.21 }
+					}
+				}
+			}
+		}
+	}
+	
+	#approach for stage 2, version for world machine origin since no pops
+	approach = {
+		name = rikk_mdlc_approach_dumping_grounds
+		icon = GFX_situation_approach_this_is_fine
+		icon_background = GFX_situation_approach_bg_yellow
+		ai_weight = { base = 0 }
+		potential = {
+			AND = {
+				current_stage = stage_2 
+				owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+			}
+		}
+		on_select = {
+			custom_tooltip = rikk_mdlc_approach_dumping_grounds_effect
+			target = {
+				hidden_effect = {
+					planet_event = { id = rikk_mdlc_wm_upgrade_events.70 days = 1 }
+				}
+				if = {
+					limit = {
+						NOT = { has_planet_flag = rikk_mdlc_core_core_monster }
+					}
+					hidden_effect = { 
+						planet_event = { id = rikk_mdlc_wm_upgrade_events.22 }
 					}
 				}
 			}
@@ -222,11 +255,9 @@ rikk_mdlc_situation_core_core = {
 		potential = { current_stage = stage_3 }
 		on_select = { custom_tooltip = rikk_mdlc_approach_tear_new_one_effect }
 		target_modifier = {
-			rikk_mdlc_world_machine_districts_base_production = -0.20
+			rikk_mdlc_world_machine_districts_base_production = -0.33
 		}
 	}
-	
-	
 	
 	monthly_progress = {
 		base = 10
@@ -244,6 +275,16 @@ rikk_mdlc_situation_core_core = {
 			add = 20
 			desc = rikk_mdlc_approach_carving_pops_desc
 			current_situation_approach = rikk_mdlc_approach_carving_pops
+		}
+		modifier = {
+			add = 20
+			desc = rikk_mdlc_approach_dumping_grounds_desc
+			current_situation_approach = rikk_mdlc_approach_dumping_grounds
+		}
+		modifier = {
+			add = 20
+			desc = rikk_mdlc_approach_tear_new_one_desc
+			current_situation_approach = rikk_mdlc_approach_tear_new_one
 		}
 	}
 

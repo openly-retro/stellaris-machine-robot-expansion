@@ -155,7 +155,7 @@ rikk_mdlc_decision_world_machine_mantle_roots = {
 }
 
 
-rikk_mdlc_decision_world_machine_mantle_organizer = {
+rikk_mdlc_decision_world_machine_mantle_engine = {
 	owned_planets_only = yes
 	enactment_time = 720
 	
@@ -174,7 +174,7 @@ rikk_mdlc_decision_world_machine_mantle_organizer = {
             is_planet_class = xvcv_mdlc_pc_machine_ser
             is_planet_class = xvcv_mdlc_pc_machine_auto
 		}
-		NOT = { has_deposit = rikk_mdlc_d_world_machine_mantle_organizer }
+		NOT = { has_deposit = rikk_mdlc_d_world_machine_mantle_engine }
 	}
 	
 	allow = {
@@ -183,7 +183,31 @@ rikk_mdlc_decision_world_machine_mantle_organizer = {
 	}
 	
 	effect = {
-		add_deposit = rikk_mdlc_d_world_machine_mantle_organizer
+		add_deposit = rikk_mdlc_d_world_machine_mantle_engine
+	}
+}
+
+rikk_mdlc_decision_world_machine_reinforced_planet = {
+	owned_planets_only = yes
+	enactment_time = 720
+	
+	resources = {
+		category = decisions
+		cost = {
+			minerals = 750
+			mult = value:count_world_machines_districts_not_cooling
+		}
+	}
+	
+	potential = {
+		exists = owner
+		has_deposit = rikk_mdlc_d_world_machine_mantle_engine
+		NOT = { has_planet_flag = rikk_mdlc_planet_reinforced }
+	}
+	
+	effect = {
+		set_planet_flag = rikk_mdlc_planet_reinforced
+		custom_tooltip = rikk_mdlc_decision_world_machine_reinforced_planet_effect
 	}
 }
 
@@ -269,7 +293,7 @@ rikk_mdlc_decision_world_machine_core_core = {
 			alloys = 7500
 			unity = 7500
 		}
-	}	
+	}
 	potential = {
 		exists = owner
 		owner = {
@@ -277,7 +301,7 @@ rikk_mdlc_decision_world_machine_core_core = {
 				has_ascension_perk = xvcv_mdlc_ap_world_machines
 				has_technology = rikk_mdlc_tech_world_machine_inner_core_upgrade
 			}
-		}		
+		}
 		OR = {
 			is_planet_class = xvcv_mdlc_pc_machine_ecu
 			is_planet_class = xvcv_mdlc_pc_machine_cpu
