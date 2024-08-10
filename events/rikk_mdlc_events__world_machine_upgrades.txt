@@ -1,53 +1,53 @@
 namespace = rikk_mdlc_wm_upgrade_events
 
-planet_event = {
-	id = rikk_mdlc_wm_upgrade_events.100
-	hide_window = yes
-	is_triggered_only = yes
-
-	immediate = {
-		if = {
-			limit = {
-				OR = {
-					is_planet_class = xvcv_mdlc_pc_machine_ecu
-					is_planet_class = xvcv_mdlc_pc_machine_cpu
-					is_planet_class = xvcv_mdlc_pc_machine_ser
-				}
-			}
-			set_planet_flag = rikk_mdlc_is_wm
-			if = {
-				limit = {
-					OR = {
-						is_planet_class = pc_frozen
-						is_planet_class = pc_barren_cold
-					}
-				}
-				set_planet_flag = rikk_mdlc_wm_frozen
-			}
-			if = {
-				limit = {
-					is_planet_class = pc_molten
-				}
-				set_planet_flag = rikk_mdlc_wm_lava
-			}
-			#if = {
-			#	limit = {
-			#		is_planet_class = pc_gray_goo
-			#	}
-			#	set_planet_flag = rikk_mdlc_wm_gray_goo
-			#}
-			if = {
-				limit = {
-					NOR = {
-						has_planet_flag = rikk_mdlc_wm_lava
-						has_planet_flag = rikk_mdlc_wm_frozen
-					}
-				}
-				set_planet_flag = rikk_mdlc_wm_normal
-			}
-		}
-	}	
-}
+#planet_event = {
+#	id = rikk_mdlc_wm_upgrade_events.100
+#	hide_window = yes
+#	is_triggered_only = yes
+#
+#	immediate = {
+#		if = {
+#			limit = {
+#				OR = {
+#					is_planet_class = xvcv_mdlc_pc_machine_ecu
+#					is_planet_class = xvcv_mdlc_pc_machine_cpu
+#					is_planet_class = xvcv_mdlc_pc_machine_ser
+#				}
+#			}
+#			set_planet_flag = rikk_mdlc_is_wm
+#			if = {
+#				limit = {
+#					OR = {
+#						is_planet_class = pc_frozen
+#						is_planet_class = pc_barren_cold
+#					}
+#				}
+#				set_planet_flag = rikk_mdlc_wm_frozen
+#			}
+#			if = {
+#				limit = {
+#					is_planet_class = pc_molten
+#				}
+#				set_planet_flag = rikk_mdlc_wm_lava
+#			}
+#			#if = {
+#			#	limit = {
+#			#		is_planet_class = pc_gray_goo
+#			#	}
+#			#	set_planet_flag = rikk_mdlc_wm_gray_goo
+#			#}
+#			if = {
+#				limit = {
+#					NOR = {
+#						has_planet_flag = rikk_mdlc_wm_lava
+#						has_planet_flag = rikk_mdlc_wm_frozen
+#					}
+#				}
+#				set_planet_flag = rikk_mdlc_wm_normal
+#			}
+#		}
+#	}	
+#}
 
 planet_event = {
 	id = rikk_mdlc_wm_upgrade_events.70
@@ -79,10 +79,12 @@ situation_event = {
 	
 	option = {
 		name = rikk_mdlc_wm_upgrade_events.20.a
+		target = { add_modifier = { modifier = weak_magnetic_field } }
 	}
 	
 	option = {
 		name = rikk_mdlc_wm_upgrade_events.20.b
+		target = { add_modifier = { modifier = weak_magnetic_field } }
 		hidden_effect = {
 			owner = {
 				set_country_flag = rikk_mdlc_core_core_shaddup
@@ -109,3 +111,37 @@ planet_event = {
 	}
 }
 
+
+situation_event = {
+	id = rikk_mdlc_wm_upgrade_events.30
+	title = rikk_mdlc_wm_upgrade_events.30.name
+	desc = rikk_mdlc_wm_upgrade_events.30.desc
+	picture = GFX_evt_sapient_AI
+	show_sound = event_scanner
+	is_triggered_only = yes
+	
+	trigger = {
+		target = {
+			NOT = {
+				owner = {
+					has_country_flag = rikk_mdlc_core_core_shaddup
+				}
+			}
+		}
+	}
+	
+	option = {
+		target = { add_modifier = { modifier = weak_magnetic_field mult = 2 } }
+		name = rikk_mdlc_wm_upgrade_events.20.a
+	}
+	
+	option = {
+		name = rikk_mdlc_wm_upgrade_events.20.b
+		target = { add_modifier = { modifier = weak_magnetic_field mult = 2 } }
+		hidden_effect = {
+			owner = {
+				set_country_flag = rikk_mdlc_core_core_shaddup
+			}
+		}
+	}
+}
