@@ -66,7 +66,7 @@ rikk_mdlc_decision_world_machine_crust_roots = {
 				has_ascension_perk = xvcv_mdlc_ap_world_machines 
 				has_technology = rikk_mdlc_tech_world_machine_crust_upgrade
 			}
-		}		
+		}
 		OR = {
 			is_planet_class = xvcv_mdlc_pc_machine_ecu
 			is_planet_class = xvcv_mdlc_pc_machine_cpu
@@ -274,7 +274,7 @@ rikk_mdlc_decision_world_machine_core_core = {
 		exists = owner
 		owner = {
 			AND = {
-				has_ascension_perk = xvcv_mdlc_ap_world_machines 
+				has_ascension_perk = xvcv_mdlc_ap_world_machines
 				has_technology = rikk_mdlc_tech_world_machine_inner_core_upgrade
 			}
 		}		
@@ -284,20 +284,22 @@ rikk_mdlc_decision_world_machine_core_core = {
             is_planet_class = xvcv_mdlc_pc_machine_ser
 			is_planet_class = xvcv_mdlc_pc_machine_auto
 		}
-		NAND = {
-			has_deposit = rikk_mdlc_d_world_machine_core_core
+		NOR = {
+			has_planet_flag = rikk_mdlc_core_core_installed
 			has_planet_flag = rikk_mdlc_situation_core_core_active
 		}
 		has_deposit = rikk_mdlc_d_world_machine_inner_core_roots
 	}
 	
 	effect = {
+		hidden_effect = {
+			set_planet_flag = rikk_mdlc_situation_core_core_active
+		}
 		owner = {
 			start_situation = {
 				type = rikk_mdlc_situation_core_core
 				target = root
 			}
 		}
-		set_planet_flag = rikk_mdlc_situation_core_core_active
 	}
 }
