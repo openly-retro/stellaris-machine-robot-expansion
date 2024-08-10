@@ -29,7 +29,10 @@ xvcv_mdlc_pc_machine_auto_district_city = {
 
 	resources = {
 		category = planet_districts_cities
-		cost = { minerals = @xvcv_mdlc_district_cost_3 }
+		cost = {
+			minerals = @xvcv_mdlc_district_cost_3
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_mineral_cost_add|
+		}
 		upkeep = { energy = 2 }
 	}
 
@@ -125,7 +128,10 @@ xvcv_mdlc_pc_machine_auto_district_nexus = {
 
 	resources = {
 		category = planet_districts_cities
-		cost = { minerals = @xvcv_mdlc_district_cost_3 }
+		cost = {
+			minerals = @xvcv_mdlc_district_cost_3
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_mineral_cost_add|
+		}
 		upkeep = { energy = 2 }
 	}
 
@@ -204,9 +210,18 @@ xvcv_mdlc_pc_machine_auto_district_generator = {
 
 	resources = {
 		category = planet_technician
-		cost = { minerals = @xvcv_mdlc_district_cost_2 }
-		produces = { energy = 20 } #{1 job = 6 + 2 (is_robot_empire = yes) + 2 (building_energy_nexus) energy credits} X 2 jobs #stellaris v3.0.3
-		upkeep = { minerals = 1 }
+		cost = {
+			minerals = @xvcv_mdlc_district_cost_2
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_mineral_cost_add|
+		}
+		produces = { 
+			energy = 20
+			mult = value:collected_world_machine_bonuses
+		} # 1 job = 6 + 2 (is_robot_empire = yes) + 2 (building_energy_nexus) energy credits} X 2 jobs #stellaris v3.0.3
+		upkeep = { 
+			minerals = 1
+			mult =  value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machines_industrial_districts_upkeep_mult|
+		}
 	}
 
 	ai_resource_production = {
@@ -250,9 +265,18 @@ xvcv_mdlc_pc_machine_auto_district_mining = {
 
 	resources = {
 		category = planet_miners
-		cost = { minerals = @xvcv_mdlc_district_cost_2 }
-		produces = { minerals = 12 } #{1 job = 4 + 2 (building_mineral_purification_hub) minerals} X 2 jobs #stellaris v3.0.3
-		upkeep = { energy = 1 }
+		cost = {
+			minerals = @xvcv_mdlc_district_cost_2
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_mineral_cost_add|
+		}
+		produces = { 
+			minerals = 12 
+			mult = value:collected_world_machine_bonuses
+		} #{1 job = 4 + 2 (building_mineral_purification_hub) minerals} X 2 jobs #stellaris v3.0.3
+		upkeep = { 
+			energy = 1 
+			mult =  value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machines_industrial_districts_upkeep_mult|
+		}
 	}
 
 	ai_resource_production = {
@@ -295,9 +319,15 @@ xvcv_mdlc_pc_machine_auto_district_farming = {
 
 	resources = {
 		category = planet_farmers
-		cost = { minerals = @xvcv_mdlc_district_cost_2 }
+		cost = {
+			minerals = @xvcv_mdlc_district_cost_2
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_mineral_cost_add|
+		}
 		produces = { food = 14 } #{1 job = 6 -1 (is_robot_empire = yes) + 2 (building_food_processing_center) minerals} X 2 jobs #stellaris v3.0.3
-		upkeep = { energy = 1 }
+		upkeep = { 
+			energy = 1 
+			mult =  value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machines_industrial_districts_upkeep_mult|	
+		}
 	}
 
 	ai_resource_production = {
@@ -339,7 +369,10 @@ xvcv_mdlc_pc_machine_auto_district_industrial = {
 
 	resources = {
 		category = planet_jobs
-		cost = { minerals = @xvcv_mdlc_district_cost_3 }
+		cost = {
+			minerals = @xvcv_mdlc_district_cost_3
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_mineral_cost_add|
+		}
 		upkeep = { energy = 2 }
 		upkeep = {
 			trigger = {
@@ -347,6 +380,7 @@ xvcv_mdlc_pc_machine_auto_district_industrial = {
 				owner = { has_edict = industrial_maintenance }
 			}
 			energy = 2
+			mult =  value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machines_industrial_districts_upkeep_mult|
 		}
 		produces = {
 			trigger = {
@@ -355,6 +389,7 @@ xvcv_mdlc_pc_machine_auto_district_industrial = {
 			}
 			alloys = 5 #{1 job = 3 + 2 (building_foundry_3) alloys} X 1 jobs #stellaris v3.1.1
 			consumer_goods = 8 #{1 job = 6 + 2 (building_factory_3) consumer goods} X 1 jobs #stellaris v3.1.1
+			mult = value:collected_world_machine_bonuses
 		}
 		upkeep = {
 			trigger = {
@@ -365,6 +400,7 @@ xvcv_mdlc_pc_machine_auto_district_industrial = {
 				}
 			}
 			minerals = 18 #{1 job = 6 + 4 (building_foundry_3) minerals} X 1 jobs #{1 job = 6 + 2 (building_factory_3) minerals} X 1 jobs #stellaris v3.1.1
+			mult =  value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machines_industrial_districts_upkeep_mult|
 		}
 		upkeep = {
 			trigger = {
@@ -376,6 +412,15 @@ xvcv_mdlc_pc_machine_auto_district_industrial = {
 			}
 			minerals = 8 #{1 job = 6 + 2 (building_factory_3) minerals} X 1 jobs #stellaris v3.1.1
 			food = 12 #{1 job = 6 + 6 (building_foundry_3) foods} X 1 jobs #stellaris v3.1.1
+			mult =  value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machines_industrial_districts_upkeep_mult|
+		}
+		produces = {
+			trigger = {
+				planet = { has_designation = col_foundry }
+				exists = owner
+				owner = { NOT = { has_ethic = ethic_gestalt_consciousness } }
+			}
+			consumer_goods = -8
 		}
 		produces = {
 			trigger = {
@@ -384,7 +429,7 @@ xvcv_mdlc_pc_machine_auto_district_industrial = {
 				owner = { NOT = { has_ethic = ethic_gestalt_consciousness } }
 			}
 			alloys = 5
-			consumer_goods = -8
+			mult = value:collected_world_machine_bonuses
 		}
 		upkeep = {
 			trigger = {
@@ -396,6 +441,18 @@ xvcv_mdlc_pc_machine_auto_district_industrial = {
 				}
 			}
 			minerals = 2
+			mult =  value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machines_industrial_districts_upkeep_mult|
+		}
+		upkeep = {
+			trigger = {
+				planet = { has_designation = col_foundry }
+				exists = owner
+				owner = {
+					NOT = { has_ethic = ethic_gestalt_consciousness }
+					is_catalytic_empire = yes
+				}
+			}
+			food = -12
 		}
 		upkeep = {
 			trigger = {
@@ -407,7 +464,7 @@ xvcv_mdlc_pc_machine_auto_district_industrial = {
 				}
 			}
 			minerals = 8
-			food = -12
+			mult =  value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machines_industrial_districts_upkeep_mult|
 		}
 		produces = {
 			trigger = {
@@ -421,7 +478,20 @@ xvcv_mdlc_pc_machine_auto_district_industrial = {
 				}
 			}
 			alloys = -5
+		}
+		produces = {
+			trigger = {
+				planet = { has_designation = col_factory }
+				exists = owner
+				owner = {
+					OR = {
+						NOT = { has_ethic = ethic_gestalt_consciousness }
+						has_valid_civic = civic_machine_servitor
+					}
+				}
+			}
 			consumer_goods = 8
+			mult = value:collected_world_machine_bonuses
 		}
 		upkeep = {
 			trigger = {
@@ -450,7 +520,21 @@ xvcv_mdlc_pc_machine_auto_district_industrial = {
 				}
 			}
 			minerals = -8
+		}
+		upkeep = {
+			trigger = {
+				planet = { has_designation = col_foundry }
+				exists = owner
+				owner = {
+					OR = {
+						NOT = { has_ethic = ethic_gestalt_consciousness }
+						has_valid_civic = civic_machine_servitor
+					}
+					is_catalytic_empire = yes
+				}
+			}
 			food = 12
+			mult =  value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machines_industrial_districts_upkeep_mult|
 		}
 		produces = {
 			trigger = {
@@ -458,6 +542,7 @@ xvcv_mdlc_pc_machine_auto_district_industrial = {
 				owner = { has_ethic = ethic_gestalt_consciousness }
 			}
 			alloys = 8
+			mult = value:collected_world_machine_bonuses
 		}
 		upkeep = {
 			trigger = {
@@ -468,6 +553,7 @@ xvcv_mdlc_pc_machine_auto_district_industrial = {
 				}
 			}
 			minerals = 16
+			mult =  value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machines_industrial_districts_upkeep_mult|
 		}
 		upkeep = {
 			trigger = {
@@ -478,6 +564,7 @@ xvcv_mdlc_pc_machine_auto_district_industrial = {
 				}
 			}
 			food = 24
+			mult =  value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machines_industrial_districts_upkeep_mult|
 		}
 	}
 	# Designation Job Changes
@@ -545,7 +632,10 @@ oxr_mdlc_pc_machine_auto_district_infrastructure = {
 	}
 	resources = {
 		category = xvcv_mdlc_world_machines_districts
-		cost = { minerals = @xvcv_mdlc_district_cost_2 }
+		cost = {
+			minerals = @xvcv_mdlc_district_cost_2
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_mineral_cost_add|
+		}
 		upkeep = {
 			energy = 3
 		}
@@ -555,7 +645,7 @@ oxr_mdlc_pc_machine_auto_district_infrastructure = {
 		# planet_buildings_upkeep_mult = -0.05
 		oxr_mdlc_category_world_machines_buildings_upkeep_mult = -0.05
 		planet_amenities_add = 4
-		country_resource_max_add = 1000
+		# country_resource_max_add = 1000 # Districts do not support country modifiers
 	}
 
 	on_built = {
