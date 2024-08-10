@@ -1,53 +1,9 @@
-#xvcv_mdlc_decision_machine_world_automation = {
-#	owned_planets_only = yes
-#	enactment_time = 720
-#
-#	resources = {
-#		category = decisions
-#		cost = {
-#			minerals = 2000
-#		}
-#	}
-#
-#	potential = {
-#		exists = owner
-#		owner = { has_ascension_perk = xvcv_mdlc_ap_world_machines }
-#		##xvcv_mdlc_world_machines_planet_classes_trigger = no
-#		is_planet_class = pc_machine
-#	}
-#
-#	effect = {
-#		if = {
-#			limit = { owner = { has_authority = auth_machine_intelligence } }
-#			custom_tooltip = xvcv_mdlc_decision_machine_world_automation_tooltip
-#			else = { custom_tooltip = xvcv_mdlc_decision_machine_world_automation_tooltip_alt }
-#			##has_technology = xvcv_mdlc_tech_world_machines_districts_produces
-#		}
-#		custom_tooltip = xvcv_mdlc_decision_machine_world_automation_tooltip_2
-#		hidden_effect = {}
-#	}
-#
-#	ai_weight = {
-#		weight = 0
-#		modifier = {
-#			weight = 100
-#			owner = { NOT = { any_owned_planet = { is_planet_class = xvcv_mdlc_pc_machine_auto } } }
-#		}
-#	}
-#}
 #auto worlds
 #	xvcv_mdlc_pc_machine_auto
+#	xvcv_mdlc_pc_ringworld_machine_auto
 #	xvcv_mdlc_pc_machine_ecu
 #	xvcv_mdlc_pc_machine_cpu
 #	xvcv_mdlc_pc_machine_ser
-#	xvcv_mdlc_pc_ringworld_machine_auto
-#mechanical world?
-#	is_planet_class = xvcv_mdlc_pc_mechanical
-#	is_planet_class = xvcv_mdlc_pc_machine_auto
-#	planet_event = { id = xvcv_mdlc.1001 }
-#virtual world?
-#	change_pc = xvcv_mdlc_pc_virtual
-#	add_deposit = xvcv_mdlc_d_pc_virtual_district_essential_slot
 
 rikk_mdlc_decision_world_machine_crust_roots = {
 	owned_planets_only = yes
@@ -246,6 +202,66 @@ rikk_mdlc_decision_world_machine_outer_core_roots = {
 	}
 }
 
+rikk_mdlc_decision_world_machine_outer_core_tap = {
+	owned_planets_only = yes
+	enactment_time = 720
+	
+	resources = {
+		category = decisions
+		cost = {
+			alloys = 2000
+		}
+	}	
+	potential = {
+		exists = owner
+		owner = { has_ascension_perk = xvcv_mdlc_ap_world_machines }
+		OR = {
+			is_planet_class = xvcv_mdlc_pc_machine_ecu
+            is_planet_class = xvcv_mdlc_pc_machine_auto
+		}
+		NOT = { has_deposit = rikk_mdlc_d_world_machine_outer_core_tap }
+	}
+	
+	allow = {
+		has_deposit = rikk_mdlc_d_world_machine_outer_core_roots
+		owner = { has_technology = rikk_mdlc_tech_world_machine_outer_core_upgrade }
+	}
+	
+	effect = {
+		add_deposit = rikk_mdlc_d_world_machine_outer_core_tap
+	}
+}
+
+rikk_mdlc_decision_world_machine_outer_core_cooling = {
+	owned_planets_only = yes
+	enactment_time = 30
+	
+	resources = {
+		category = decisions
+		cost = {
+			alloys = 2000
+		}
+	}	
+	potential = {
+		exists = owner
+		owner = { has_ascension_perk = xvcv_mdlc_ap_world_machines }
+		OR = {
+			is_planet_class = xvcv_mdlc_pc_machine_cpu
+            is_planet_class = xvcv_mdlc_pc_machine_ser
+		}
+		NOT = { has_deposit = rikk_mdlc_d_world_machine_outer_core_cooled }
+	}
+	
+	allow = {
+		has_deposit = rikk_mdlc_d_world_machine_outer_core_roots
+		owner = { has_technology = rikk_mdlc_tech_world_machine_outer_core_upgrade }
+	}
+	
+	effect = {
+		add_modifier = { modifier = rikk_mdlc_world_machine_outer_core_cooling days = 3 }
+		hidden_effect = { planet_event = { id = rikk_mdlc_wm_upgrade_events.110 days = 3 } }
+	}
+}
 
 #Inner_Core
 rikk_mdlc_decision_world_machine_inner_core_roots = {
