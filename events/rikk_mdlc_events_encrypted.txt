@@ -1,0 +1,715 @@
+namespace = rikk_mdlc_encrypted
+@rikk_mdlc_months_between_encrypted_events = 8
+@rikk_mdlc_randomness_between_encrypted_events = 5
+@rikk_mdlc_cooldown_between_encrypted_events = 15
+
+#Begin Situation Encrypted Protocol and set protocol flag
+country_event = {
+	id = rikk_mdlc_encrypted.201
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		has_origin = rikk_mdlc_origin_encrypted_protocol
+	}
+	immediate = {
+		start_situation = {
+			type = rikk_mdlc_situation_encrypted_protocol
+		}
+	}
+}
+
+country_event = {
+	id = rikk_mdlc_encrypted.208
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		has_origin = rikk_mdlc_origin_encrypted_protocol
+		has_country_flag = rikk_mdlc_situation_events_active
+	}
+	immediate = {
+		random_list = {
+			1 = {
+				modifier = {
+					factor = 0
+					has_country_flag = rikk_mdlc_encrypted_recent.206
+				}
+				set_timed_country_flag = {
+					flag = rikk_mdlc_encrypted_recent.206
+					months = @rikk_mdlc_cooldown_between_encrypted_events
+				}
+				
+				country_event = {
+					id = rikk_mdlc_encrypted.206
+					days = 240
+					random = @rikk_mdlc_randomness_between_encrypted_events
+				}
+			}
+			1 = {
+				modifier = {
+					factor = 0
+					has_country_flag = rikk_mdlc_encrypted_recent.207
+				}
+				set_timed_country_flag = {
+					flag = rikk_mdlc_encrypted_recent.207
+					months = @rikk_mdlc_cooldown_between_encrypted_events
+				}
+				
+				country_event = {
+					id = rikk_mdlc_encrypted.207
+					days = 240
+					random = @rikk_mdlc_randomness_between_encrypted_events
+				}
+			}
+			1 = {
+				modifier = {
+					factor = 0
+					has_country_flag = rikk_mdlc_encrypted_recent.209
+				}
+				set_timed_country_flag = {
+					flag = rikk_mdlc_encrypted_recent.209
+					months = @rikk_mdlc_cooldown_between_encrypted_events
+				}
+				
+				country_event = {
+					id = rikk_mdlc_encrypted.209
+					days = 240
+					random = @rikk_mdlc_randomness_between_encrypted_events
+				}
+			}
+			1 = {
+				modifier = {
+					factor = 0
+					has_country_flag = rikk_mdlc_encrypted_recent.210
+				}
+				set_timed_country_flag = {
+					flag = rikk_mdlc_encrypted_recent.210
+					months = @rikk_mdlc_cooldown_between_encrypted_events
+				}
+				
+				country_event = {
+					id = rikk_mdlc_encrypted.210
+					days = 240
+					random = @rikk_mdlc_randomness_between_encrypted_events
+				}
+			}
+		}
+	}
+}
+
+#build or destroy
+country_event = {
+	id = rikk_mdlc_encrypted.206
+	title = rikk_mdlc_encrypted.206.name 
+	desc = rikk_mdlc_encrypted.206.desc
+	picture = GFX_evt_rikk_mdlc_encrypted
+	show_sound = event_scanner
+	is_triggered_only = yes
+	
+	trigger = {
+		has_origin = rikk_mdlc_origin_encrypted_protocol
+	}
+	
+	after = {
+		hidden_effect = {
+			country_event = {
+				id = rikk_mdlc_encrypted.208
+			}
+		}
+	}
+	
+	option = {
+		name = rikk_mdlc_encrypted.206.a
+		add_modifier = {
+			modifier = rikk_mdlc_encrypted_prod_reward_mod
+			days = 360
+		}
+		hidden_effect = {
+			rikk_mdlc_encrypted_inc_prod = yes
+		}
+	}
+	
+	option = {
+		name = rikk_mdlc_encrypted.206.b
+		add_modifier = {
+			modifier = rikk_mdlc_encrypted_war_reward_mod
+			days = 360
+		}
+		hidden_effect = {
+			rikk_mdlc_encrypted_inc_war = yes
+		}
+	}
+	
+	option = {
+		name = rikk_mdlc_encrypted.206.c
+		add_modifier = {
+			modifier = rikk_mdlc_encrypted_scrap_reward_mod
+			days = 360
+		}
+		hidden_effect = {
+			rikk_mdlc_encrypted_inc_scrap = yes
+		}
+	}
+	
+	option = {
+		name = rikk_mdlc_encrypted.206.d
+		add_modifier = {
+			modifier = rikk_mdlc_encrypted_sci_reward_mod
+			days = 360
+		}
+		hidden_effect = {
+			rikk_mdlc_encrypted_inc_sci = yes
+		}
+	}
+}
+
+country_event = {
+	id = rikk_mdlc_encrypted.207
+	title = rikk_mdlc_encrypted.206.name 
+	desc = rikk_mdlc_encrypted.207.desc
+	picture = GFX_evt_rikk_mdlc_encrypted
+	show_sound = event_scanner
+	is_triggered_only = yes
+	
+	trigger = {
+		has_origin = rikk_mdlc_origin_encrypted_protocol
+	}
+	
+	after = {
+		hidden_effect = {
+			country_event = {
+				id = rikk_mdlc_encrypted.208
+			}
+		}
+	}
+	
+	option = {
+		name = rikk_mdlc_encrypted.207.a
+		add_resource = {
+			minerals = -10
+		}
+		add_modifier = {
+			modifier = rikk_mdlc_encrypted_prod_reward_mod
+			days = 360
+		}
+		hidden_effect = {
+			rikk_mdlc_encrypted_inc_prod = yes
+		}
+	}
+	
+	option = {
+		name = rikk_mdlc_encrypted.207.b
+		add_resource = {
+			minerals = -10
+		}
+		add_modifier = {
+			modifier = rikk_mdlc_encrypted_war_reward_mod
+			days = 360
+		}
+		hidden_effect = {
+			rikk_mdlc_encrypted_inc_war = yes
+		}
+	}
+	
+	option = {
+		name = rikk_mdlc_encrypted.207.c
+		add_modifier = {
+			modifier = rikk_mdlc_encrypted_prod_reward_mod
+			days = 360
+		}
+		hidden_effect = {
+			rikk_mdlc_encrypted_inc_scrap = yes
+		}
+	}
+	
+	option = {
+		name = rikk_mdlc_encrypted.207.d
+		add_modifier = {
+			modifier = rikk_mdlc_encrypted_sci_reward_mod
+			days = 360
+		}
+		hidden_effect = {
+			rikk_mdlc_encrypted_inc_sci = yes
+		}
+	}
+}
+
+country_event = {
+	id = rikk_mdlc_encrypted.209
+	title = rikk_mdlc_encrypted.206.name 
+	desc = rikk_mdlc_encrypted.209.desc
+	picture = GFX_evt_rikk_mdlc_encrypted
+	show_sound = event_scanner
+	is_triggered_only = yes
+	
+	trigger = {
+		has_origin = rikk_mdlc_origin_encrypted_protocol
+	}
+	
+	after = {
+		hidden_effect = {
+			country_event = {
+				id = rikk_mdlc_encrypted.208
+			}
+		}
+	}
+	
+	option = {
+		name = rikk_mdlc_encrypted.209.a
+		add_modifier = {
+			modifier = rikk_mdlc_encrypted_prod_reward_mod
+			days = 360
+		}
+		hidden_effect = {
+			rikk_mdlc_encrypted_inc_prod = yes
+		}
+	}
+	
+	option = {
+		name = rikk_mdlc_encrypted.209.b
+		add_modifier = {
+			modifier = rikk_mdlc_encrypted_war_reward_mod
+			days = 360
+		}
+		hidden_effect = {
+			rikk_mdlc_encrypted_inc_war = yes
+		}
+	}
+	
+	option = {
+		name = rikk_mdlc_encrypted.209.c
+		add_modifier = {
+			modifier = rikk_mdlc_encrypted_prod_reward_mod
+			days = 360
+		}
+		hidden_effect = {
+			rikk_mdlc_encrypted_inc_scrap = yes
+		}
+	}
+	
+	option = {
+		name = rikk_mdlc_encrypted.209.d
+		add_modifier = {
+			modifier = rikk_mdlc_encrypted_sci_reward_mod
+			days = 360
+		}
+		hidden_effect = {
+			rikk_mdlc_encrypted_inc_sci = yes
+		}
+	}
+}
+
+country_event = {
+	id = rikk_mdlc_encrypted.210
+	title = rikk_mdlc_encrypted.206.name 
+	desc = rikk_mdlc_encrypted.210.desc
+	picture = GFX_evt_rikk_mdlc_encrypted
+	show_sound = event_scanner
+	is_triggered_only = yes
+	
+	trigger = {
+		has_origin = rikk_mdlc_origin_encrypted_protocol
+	}
+	
+	after = {
+		hidden_effect = {
+			country_event = {
+				id = rikk_mdlc_encrypted.208
+			}
+		}
+	}
+	
+	option = {
+		name = rikk_mdlc_encrypted.210.a
+		add_modifier = {
+			modifier = rikk_mdlc_encrypted_prod_reward_mod
+			days = 360
+		}
+		hidden_effect = {
+			rikk_mdlc_encrypted_inc_prod = yes
+		}
+	}
+	
+	option = {
+		name = rikk_mdlc_encrypted.210.b
+		add_modifier = {
+			modifier = rikk_mdlc_encrypted_war_reward_mod
+			days = 360
+		}
+		hidden_effect = {
+			rikk_mdlc_encrypted_inc_war = yes
+		}
+	}
+	
+	option = {
+		name = rikk_mdlc_encrypted.210.c
+		add_modifier = {
+			modifier = rikk_mdlc_encrypted_prod_reward_mod
+			days = 360
+		}
+		hidden_effect = {
+			rikk_mdlc_encrypted_inc_scrap = yes
+		}
+	}
+	
+	option = {
+		name = rikk_mdlc_encrypted.210.d
+		add_modifier = {
+			modifier = rikk_mdlc_encrypted_sci_reward_mod
+			days = 360
+		}
+		hidden_effect = {
+			rikk_mdlc_encrypted_inc_sci = yes
+		}
+	}
+}
+
+#End of Situation, destroy Situation, unlock encrypted protocol
+country_event = {
+	id = rikk_mdlc_encrypted.202
+	title = rikk_mdlc_encrypted.202.name 
+	desc = rikk_mdlc_encrypted.202.desc
+	picture = GFX_evt_rikk_mdlc_encrypted
+	show_sound = event_scanner
+	is_triggered_only = yes
+	
+	trigger = {
+		has_authority = auth_machine_intelligence
+		has_origin = rikk_mdlc_origin_encrypted_protocol
+	}
+
+	after = {
+		set_country_flag = rikk_mdlc_protocol_activated_flag
+	}
+
+	option = {	#activate scrapbot protocol
+		name = rikk_mdlc_encrypted.202.a
+		custom_tooltip = rikk_mdlc_encrypted.202.a.tooltip
+		trigger = {
+			check_variable = { which = rikk_mdlc_encrypted_scrap_counter value >= 2 }
+		}
+		hidden_effect = {
+			set_country_flag = rikk_mdlc_origin_encrypted_protocol_scrapbot_end
+		}
+	}
+
+	option = {	#activate warmachine protocol
+		name = rikk_mdlc_encrypted.202.b
+		custom_tooltip = rikk_mdlc_encrypted.202.b.tooltip
+		trigger = {	
+			check_variable = { which = rikk_mdlc_encrypted_war_counter value >= 2 }
+		}
+		hidden_effect = {
+			set_country_flag = rikk_mdlc_origin_encrypted_protocol_warmachine_end
+		}
+	}
+
+	option = {	#activate production protocol
+		name = rikk_mdlc_encrypted.202.c
+		custom_tooltip = rikk_mdlc_encrypted.202.c.tooltip
+		trigger = {	
+			check_variable = { which = rikk_mdlc_encrypted_prod_counter value >= 2 }
+		}
+		hidden_effect = {
+			set_country_flag = rikk_mdlc_origin_encrypted_protocol_production_end
+		}
+	}
+
+	option = {	#activate research protocol
+		name = rikk_mdlc_encrypted.202.d
+		custom_tooltip = rikk_mdlc_encrypted.202.d.tooltip
+		trigger = {	
+			check_variable = { which = rikk_mdlc_encrypted_sci_counter value >= 2 }
+		}
+		hidden_effect = {
+			set_country_flag = rikk_mdlc_origin_encrypted_protocol_research_end
+		}
+	}
+
+	option = {	#deactivate protocol (closure)
+		name = rikk_mdlc_encrypted.202.e
+		custom_tooltip = rikk_mdlc_encrypted.202.e.tooltip
+		hidden_effect = {
+			set_country_flag = rikk_mdlc_encrypted_closure_end
+		}
+	}
+}
+
+country_event = {
+	id = rikk_mdlc_encrypted.211
+	hide_window = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		has_authority = auth_machine_intelligence
+		has_origin = rikk_mdlc_origin_encrypted_protocol
+	}
+	
+	immediate = {
+		if = {
+			limit = { has_country_flag = rikk_mdlc_origin_encrypted_protocol_scrapbot_end }
+			set_origin = rikk_mdlc_origin_encrypted_protocol_scrapbot
+			remove_country_flag = rikk_mdlc_origin_encrypted_protocol_scrapbot_end
+		}
+		if = {
+			limit = { has_country_flag = rikk_mdlc_origin_encrypted_protocol_warmachine_end }
+			set_origin = rikk_mdlc_origin_encrypted_protocol_warmachine
+			remove_country_flag = rikk_mdlc_origin_encrypted_protocol_warmachine_end
+		}
+		if = {
+			limit = { has_country_flag = rikk_mdlc_origin_encrypted_protocol_research_end }
+			set_origin = rikk_mdlc_origin_encrypted_protocol_research
+			remove_country_flag = rikk_mdlc_origin_encrypted_protocol_research_end
+		}
+		if = {
+			limit = { has_country_flag = rikk_mdlc_origin_encrypted_protocol_production_end }
+			set_origin = rikk_mdlc_origin_encrypted_protocol_production
+			remove_country_flag = rikk_mdlc_origin_encrypted_protocol_production_end
+		}
+		if = {
+			limit = { has_country_flag = rikk_mdlc_encrypted_closure_end }
+			remove_country_flag = rikk_mdlc_encrypted_closure_end
+			add_modifier = {
+				modifier = rikk_mdlc_encrypted_closure_mod
+				years = 50
+			}
+		}
+	}
+}
+
+#monthly update protocol buff based on pop production & warmachine protocol
+country_event = {
+	id = rikk_mdlc_encrypted.203
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		has_authority = auth_machine_intelligence
+		has_country_flag = rikk_mdlc_protocol_activated_flag
+		#can_add_extended_traits = yes
+	}
+
+	immediate = {
+		if = {
+			limit = { 
+				has_origin = rikk_mdlc_origin_encrypted_protocol_production
+			}
+			add_modifier = {
+				modifier = rikk_mdlc_production_protocol_mod
+				mult = value:rikk_mdlc_counter_protocol_activated
+			}
+		}
+		else_if = {
+			limit = { 
+				has_origin = rikk_mdlc_origin_encrypted_protocol_warmachine
+			}
+			add_modifier = {
+				modifier = rikk_mdlc_warmachine_protocol_mod
+				mult = value:rikk_mdlc_counter_protocol_activated
+			}
+		}
+	}
+
+}
+
+#scrapping ships scrapbot protocol
+country_event = {
+	id = rikk_mdlc_encrypted.204
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		has_authority = auth_machine_intelligence
+		has_origin = rikk_mdlc_origin_encrypted_protocol_scrapbot
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				fromfromfrom = {
+					OR = {
+						is_ship_size = corvette
+						is_ship_size = frigate
+						is_ship_size = asteroid
+						is_ship_size = ancient_corvette
+						is_ship_size = marauder_corvette
+						is_ship_size = pirate_corvette
+						is_ship_size = starbase_outpost
+					}
+				}
+			}
+			owner = {
+				random_list = {
+					2 = {
+						add_resource = {
+							alloys = 50
+						}
+					}
+					1 = {
+						add_resource = {
+							alloys = 100
+						}
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				fromfromfrom = {
+					OR = {
+						is_ship_size = destroyer
+						is_ship_size = ancient_destroyer
+						is_ship_size = ancient_mining_drone
+						is_ship_size = caravaneer_destroyer_01
+						is_ship_size = graygoo_interdictor
+						is_ship_size = hive_asteroid
+						is_ship_size = homebase
+						is_ship_size = ion_cannon
+						is_ship_size = marauder_destroyer
+						is_ship_size = pirate_destroyer
+						is_ship_size = pirate_station
+						is_ship_size = probe
+						is_ship_size = starbase_starhold
+						is_ship_size = starbase_starport
+					}
+				}
+			}
+			owner = {
+				random_list = {
+					2 = {
+						add_resource = {
+							alloys = 50
+						}
+					}
+					2 = {
+						add_resource = {
+							alloys = 100
+						}
+					}
+					1 = {
+						add_resource = {
+							alloys = 200
+						}
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				fromfromfrom = {
+					OR = {
+						is_ship_size = cruiser
+						is_ship_size = ancient_drone_station
+						is_ship_size = blue_military_station_large_ai
+						is_ship_size = caravaneer_cruiser_01
+						is_ship_size = graygoo_mothership
+						is_ship_size = large_ship_ai
+						is_ship_size = marauder_cruiser
+						is_ship_size = military_station_large_fallen_empire
+						is_ship_size = pirate_cruiser
+						is_ship_size = marauder_void_dwelling
+						is_ship_size = marauder_station
+						is_ship_size = starbase_marauder
+						is_ship_size = starbase_starfortress
+					}
+				}
+			}
+			owner = {
+				random_list = {
+					2 = {
+						add_resource = {
+							alloys = 100
+						}
+					}
+					2 = {
+						add_resource = {
+							alloys = 200
+						}
+					}
+					1 = {
+						add_resource = {
+							alloys = 400
+						}
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				fromfromfrom = {
+					OR = {
+						is_ship_size = battleship
+						is_ship_size = galleon
+						is_ship_size = graygoo_factory
+						is_ship_size = marauder_galleon
+						is_ship_size = massive_ship_fallen_empire
+						is_ship_size = starbase_ai
+					}
+				}
+			}
+			owner = {
+				random_list = {
+					2 = {
+						add_resource = {
+							alloys = 200
+						}
+					}
+					2 = {
+						add_resource = {
+							alloys = 400
+						}
+					}
+					1 = {
+						add_resource = {
+							alloys = 800
+						}
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				fromfromfrom = {
+					OR = {
+						is_ship_size = titan
+						is_ship_size = juggernaut
+						is_ship_size = colossus
+						is_ship_size = enclave_station
+						is_ship_size = caravaneer_station_01
+						is_ship_size = starbase_citadel
+					}
+				}
+			}
+			owner = {
+				random_list = {
+					1 = {
+						add_resource = {
+							alloys = 800
+						}
+					}
+					2 = {
+						add_resource = {
+							alloys = 1600
+						}
+					}
+					1 = {
+						add_resource = {
+							alloys = 3200
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+# when tech unlocked; research protocol  
+country_event = {
+	id = rikk_mdlc_encrypted.205
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		has_authority = auth_machine_intelligence
+		has_origin = rikk_mdlc_origin_encrypted_protocol_research
+	}
+	immediate = {
+		add_monthly_resource_mult = { resource = unity value = 1 }
+	}
+}

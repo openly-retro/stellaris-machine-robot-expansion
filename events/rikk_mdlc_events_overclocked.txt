@@ -1,0 +1,538 @@
+namespace = rikk_mdlc_overclocked
+
+country_event = {
+	id = rikk_mdlc_overclocked.101
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		has_origin = rikk_mdlc_origin_overclocked
+	}
+	
+	immediate = {
+		country_event = {
+			id = rikk_mdlc_overclocked.102
+			days = 1
+		}
+		#log = "rikk_mdlc_overclocked.101 is functioning"
+	}
+}
+
+country_event = {
+	id = rikk_mdlc_overclocked.102
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { 
+		has_origin = rikk_mdlc_origin_overclocked
+	}
+
+	immediate = {
+		owner = {
+			rikk_mdlc_overclocked_leader_trait_calc_effect = yes
+			ruler = {
+				add_trait = rikk_mdlc_trait_ruler_overclocked_instability
+			}
+			set_variable = {
+					which = months_passed_variable
+					value = 0
+			}
+		}
+	}	
+}
+
+#monthly rikk_mdlc_overclocked
+country_event = {
+	id = rikk_mdlc_overclocked.100
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { 
+		has_origin = rikk_mdlc_origin_overclocked
+	}
+
+	immediate = {
+
+		change_variable = {
+			which = months_passed_variable
+			value = 1
+		}
+
+		random_list = {
+
+			1 = { #default 1
+				modifier = {
+					always = yes
+					add = value:rikk_mdlc_counter_glitch_chance_pops
+				}
+				modifier = {
+					has_edict = rikk_mdlc_damn_the_consequences_machine
+					factor = 2
+				}
+				
+				rikk_mdlc_overclocked_leader_instability_change = yes
+				rikk_mdlc_overclocked_leader_trait_calc_effect = yes
+				
+				random_list = {
+					#leaders
+					200 = {
+						modifier = {
+							has_country_flag = rikk_mdlc_recently_glitched_leaders
+							factor = 0.25
+						}
+						
+						set_timed_country_flag = {
+							flag = rikk_mdlc_recently_glitched_leaders
+							days = 360
+						}
+						country_event = { id = rikk_mdlc_overclocked.103 }
+					}
+					
+					#pops
+					100 = {
+						modifier = {
+							has_country_flag = rikk_mdlc_recently_glitched_pops
+							factor = 0.25
+						}
+						
+						set_timed_country_flag = {
+							flag = rikk_mdlc_recently_glitched_pops
+							months = 30
+						}
+						country_event = { id = rikk_mdlc_overclocked.104 }
+					}
+					
+					#empire modifier
+					50 = {
+						modifier = {
+							has_country_flag = rikk_mdlc_recently_glitched_empire
+							factor = 0.25
+						}
+						modifier = {
+							NOT = {
+								has_edict = rikk_mdlc_damn_the_consequences_machine
+							}
+							factor = 0
+						}
+						
+						set_timed_country_flag = {
+							flag = rikk_mdlc_recently_glitched_empire
+							years = 5
+						}
+						country_event = { id = rikk_mdlc_overclocked.105 }
+					}
+					
+					#civics scramble
+					25 = {
+						modifier = {
+							has_country_flag = rikk_mdlc_recently_glitched_civics
+							factor = 0
+						}
+						modifier = {
+							NOT = {
+								has_edict = rikk_mdlc_damn_the_consequences_machine
+							}
+							factor = 0
+						}
+						modifier = { #Because it is a good thing with introspective
+							owner = {
+								has_civic = civic_machine_introspective
+							}
+							factor = 4
+						}
+						
+						set_timed_country_flag = {
+							flag = rikk_mdlc_recently_glitched_civics
+							years = 20
+						}
+						
+						country_event = { id = rikk_mdlc_overclocked.106 }
+					}
+				}
+
+			}
+
+			5000 = { #default 5000
+				modifier = {
+					has_technology = rikk_mdlc_tech_glitchless_processing
+					factor = 2
+				}
+				modifier = {
+                    has_edict = rikk_mdlc_damn_the_consequences_machine
+					subtract = months_passed_variable
+				}
+				
+				rikk_mdlc_overclocked_leader_trait_calc_effect = yes
+				#log = "nothing happened!"
+			}
+		}
+	}
+}
+
+#leader glitch
+country_event = {
+	id = rikk_mdlc_overclocked.103
+	title = rikk_mdlc_overclocked.103.name
+	desc = rikk_mdlc_overclocked.103.desc
+	picture = GFX_evt_robot_assembly_plant
+	show_sound = event_scanner
+	
+	is_triggered_only = yes
+	trigger = { 
+		has_origin = rikk_mdlc_origin_overclocked
+	}
+	option = {
+		name = rikk_mdlc_overclocked.103.a
+		custom_tooltip = rikk_mdlc_overclocked.103.a.tooltip
+		
+		trigger = { 
+			NOT = {
+				has_edict = rikk_mdlc_damn_the_consequences_machine
+			}
+		}
+		hidden_effect = {
+			while = {
+				count = value:rikk_mdlc_counter_leaders_glitched
+				random_owned_leader = {
+					limit = {
+						NOR = {
+							has_trait = rikk_mdlc_trait_leader_overheated
+							is_ruler = yes
+						}
+					}
+					add_timed_trait = {
+						trait = rikk_mdlc_trait_leader_overheated
+						days = 360
+					}
+				}
+			}
+		}
+	}
+	option = {
+		name = rikk_mdlc_overclocked.103.a #Same text
+		custom_tooltip = rikk_mdlc_overclocked.103.b.tooltip
+		
+		trigger = { 
+			has_edict = rikk_mdlc_damn_the_consequences_machine
+		}
+		
+		hidden_effect = {
+			while = {
+				count = value:rikk_mdlc_counter_leaders_glitched
+				random_owned_leader = {
+					if = {
+						limit = { 
+							NOT = {
+								has_trait = rikk_mdlc_trait_leader_overheated
+							}
+						}
+						add_timed_trait = {
+							trait = rikk_mdlc_trait_leader_overheated
+							days = 720
+						}
+					}
+					if = {
+						limit = { 
+							NOR = {
+								is_councilor = yes
+								is_gestalt_node = yes
+							}
+						}
+						random_list = {
+							1 = {
+								kill_leader = { # will kill 1 in 18 leaders on average
+								}
+							}
+							2 = {
+								modifier = {
+									owner = { has_civic = civic_memory_vault_machine }
+									factor = 0
+								}
+								if = {
+									limit = {
+										has_skill > 1
+									}
+									add_skill = -1
+									else = {
+										kill_leader = { }
+									}
+								}
+							}
+							3 = {
+								modifier = {
+									owner = { has_civic = civic_memory_vault_machine }
+									factor = 2
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	option = {
+		name = rikk_mdlc_overclocked.103.c
+		custom_tooltip = rikk_mdlc_overclocked.103.c.tooltip
+		trigger = { 
+			owner = {
+				has_civic = civic_machine_factory_overclock
+			}
+		}
+		hidden_effect = {
+			while = {
+				count = value:rikk_mdlc_counter_leaders_glitched
+				random_owned_leader = {
+					limit = {
+						NOR = {
+							has_trait = rikk_mdlc_trait_leader_overheated
+							is_ruler = yes
+						}
+					}
+					add_timed_trait = {
+						trait = rikk_mdlc_trait_leader_overheated
+						days = 180
+					}
+				}
+			}
+		}
+	}
+}
+
+#pop glitch
+
+country_event = {
+	id = rikk_mdlc_overclocked.104
+	title = rikk_mdlc_overclocked.104.name
+	desc = rikk_mdlc_overclocked.104.desc
+	picture = GFX_evt_robot_assembly_plant
+	show_sound = event_scanner
+	
+	is_triggered_only = yes
+	trigger = { 
+		has_origin = rikk_mdlc_origin_overclocked
+	}
+	
+	option = {
+		name = rikk_mdlc_overclocked.104.a
+		custom_tooltip = rikk_mdlc_overclocked.104.a.tooltip
+		trigger = { 
+			NOT = {
+				has_edict = rikk_mdlc_damn_the_consequences_machine
+			}
+		}
+		hidden_effect = {
+			while = {
+				count = value:rikk_mdlc_counter_pops_glitched #affects 33% of pops, roughly. Probably less as it might iterate through the same pop
+				random_owned_pop = {
+					add_modifier = {
+						modifier = rikk_mdlc_overclocked_pop_overheating_mod
+						days = 180
+					}
+				}
+			}
+		}
+	}
+	option = {
+		name = rikk_mdlc_overclocked.104.a
+		custom_tooltip = rikk_mdlc_overclocked.104.b.tooltip
+		trigger = { 
+			has_edict = rikk_mdlc_damn_the_consequences_machine
+		}
+		hidden_effect = {
+			while = {
+				count = value:rikk_mdlc_counter_pops_glitched
+				random_owned_pop = {
+					random_list = {
+						1 = {	#effectively kills 3% of pops
+							kill_pop = yes
+						}
+						9 = {
+							add_modifier = {
+								modifier = rikk_mdlc_overclocked_pop_repairs_mod
+								days = 360
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	option = {
+		name = rikk_mdlc_overclocked.104.c
+		trigger = {
+			owner = {
+				has_civic = civic_machine_unitary_cohesion
+			}
+			resource_stockpile_compare = {
+				resource = unity
+				value >= value:rikk_mdlc_counter_glitch_chance_pops_times_five #Had to come up with an amount, this seemed reasonable.
+			}
+		}
+		add_resource = {
+			unity = -1
+			mult = value:rikk_mdlc_counter_glitch_chance_pops_times_five
+		}
+	}
+	option = {
+		name = rikk_mdlc_overclocked.104.d
+		custom_tooltip = rikk_mdlc_overclocked.104.d.tooltip
+		trigger = {
+			owner = {
+				has_civic = civic_machine_ota_updates
+			}
+		}
+		hidden_effect = {
+			while = {
+				count = value:rikk_mdlc_counter_pops_glitched
+				random_owned_pop = {
+					add_modifier = {
+						modifier = rikk_mdlc_overclocked_pop_overheating_mod
+						days = 90
+					}
+				}
+			}
+		}
+	}
+}
+
+#empire glitch
+country_event = {
+	id = rikk_mdlc_overclocked.105
+	title = rikk_mdlc_overclocked.105.name
+	desc = rikk_mdlc_overclocked.105.desc
+	picture = GFX_evt_robot_assembly_plant
+	show_sound = event_scanner
+	
+	is_triggered_only = yes
+	trigger = { 
+		has_origin = rikk_mdlc_origin_overclocked
+	}
+	
+	option = {
+		name = rikk_mdlc_overclocked.105.a
+		random_list = {
+			1 = {
+				add_modifier = {
+					modifier = rikk_mdlc_overclocked_empire_repairs_mod
+					days = 360
+				}
+			}
+			1 = {
+				add_modifier = {
+					modifier = rikk_mdlc_overclocked_empire_burnout_mod
+					days = 360
+				}
+			}
+		}
+	}
+	option = {
+		name = rikk_mdlc_overclocked.105.b
+		
+		trigger = {
+			owner = {
+				has_civic = civic_machine_ascensionists
+			}
+		}
+		add_modifier = {
+			modifier = rikk_mdlc_overclocked_empire_burnout_mod
+			mult = 0.5
+			days = 180
+		}
+	}
+	option = {
+		name = rikk_mdlc_overclocked.105.c
+		
+		trigger = {
+			owner = {
+				has_civic = civic_machine_maintenance_protocols
+			}
+		}
+		add_modifier = {
+			modifier = rikk_mdlc_overclocked_empire_repairs_mod
+			mult = 0.5
+			days = 180
+		}
+	}
+}
+
+#civic glitch
+country_event = {
+	id = rikk_mdlc_overclocked.106
+	title = rikk_mdlc_overclocked.106.name
+	desc = rikk_mdlc_overclocked.106.desc
+	picture = GFX_evt_robot_assembly_plant
+	show_sound = event_scanner
+	
+	is_triggered_only = yes
+	trigger = { 
+		has_origin = rikk_mdlc_origin_overclocked
+	}
+	
+	option = {
+		name = rikk_mdlc_overclocked.106.a
+		change_government = {
+			civics = random
+		}
+	}
+	option = {
+		name = rikk_mdlc_overclocked.106.b
+		
+		trigger = {
+			owner = {
+				has_civic = civic_machine_introspective
+			}
+		}
+		if = {
+			limit = { NOT = { has_modifier = rikk_mdlc_overclocked_empire_civic_mod } }
+			add_modifier = {
+				modifier = rikk_mdlc_overclocked_empire_civic_mod
+				days = -1
+			}
+			else = {
+				add_modifier = {
+					modifier = rikk_mdlc_overclocked_empire_burnout_mod
+					days = 180
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = rikk_mdlc_overclocked.107
+	hide_window = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_origin = rikk_mdlc_origin_overclocked
+		OR = {
+			AND = {
+				has_technology = rikk_mdlc_tech_retroactive_framework_repairs 
+				NOT = { has_country_flag = has_rikk_mdlc_tech_retroactive_framework_repairs }
+			}
+			AND = {
+				has_technology = rikk_mdlc_tech_repair_response
+				NOT = { has_country_flag = has_rikk_mdlc_tech_repair_response }
+			}
+		}
+	}
+	
+	immediate = {
+		if = {
+			limit = {
+				has_technology = rikk_mdlc_tech_retroactive_framework_repairs
+				NOT = { has_country_flag = has_rikk_mdlc_tech_retroactive_framework_repairs }
+			}
+			set_country_flag = has_rikk_mdlc_tech_retroactive_framework_repairs
+			rikk_mdlc_overclocked_leader_instability_framework_repair = yes
+		}
+		if = {
+			limit = {
+				has_technology = rikk_mdlc_tech_repair_response
+				NOT = { has_country_flag = has_rikk_mdlc_tech_repair_response }
+			}
+			set_country_flag = has_rikk_mdlc_tech_repair_response
+			rikk_mdlc_overclocked_leader_instability_repair_response = yes
+		}
+	}
+}
+	
+	

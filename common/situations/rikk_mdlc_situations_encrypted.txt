@@ -1,0 +1,218 @@
+rikk_mdlc_situation_encrypted_protocol = {
+	picture = GFX_evt_rikk_mdlc_encrypted
+	complete_icon_frame = GFX_situation_outcome_frame_green
+	complete_icon = GFX_situation_outcome_unknown
+	desc = {
+		text = rikk_mdlc_situation_encrypted_protocol_begin
+		trigger = { 
+			current_stage = stage_1
+		}
+	}
+	desc = {
+		text = rikk_mdlc_situation_encrypted_protocol_middle
+		trigger = { 
+			current_stage = stage_2
+		}
+	}
+	desc = {
+		text = rikk_mdlc_situation_encrypted_protocol_end_scrap
+		trigger = {
+			owner = {
+				has_country_flag = rikk_mdlc_origin_encrypted_protocol_scrapbot_end
+			}
+		}
+	}
+	desc = {
+		text = rikk_mdlc_situation_encrypted_protocol_end_war
+		trigger = {
+			owner = {
+				has_country_flag = rikk_mdlc_origin_encrypted_protocol_warmachine_end
+			}
+		}
+	}
+	desc = {
+		text = rikk_mdlc_situation_encrypted_protocol_end_prod
+		trigger = {
+			owner = {
+				has_country_flag = rikk_mdlc_origin_encrypted_protocol_production_end
+			}
+		}
+	}
+	desc = {
+		text = rikk_mdlc_situation_encrypted_protocol_end_sci
+		trigger = {
+			owner = {
+				has_country_flag = rikk_mdlc_origin_encrypted_protocol_research_end
+			}
+		}
+	}
+	desc = {
+		text = rikk_mdlc_situation_encrypted_protocol_end_closure
+		trigger = {
+			owner = {
+				has_country_flag = rikk_mdlc_encrypted_closure_end
+				OR = {
+					has_country_flag = rikk_mdlc_origin_encrypted_protocol_research_end
+					has_country_flag = rikk_mdlc_origin_encrypted_protocol_production_end
+					has_country_flag = rikk_mdlc_origin_encrypted_protocol_warmachine_end
+					has_country_flag = rikk_mdlc_origin_encrypted_protocol_scrapbot_end
+				}
+			}
+		}
+	}
+	desc = {
+		text = rikk_mdlc_situation_encrypted_protocol_end_closure_none
+		trigger = {
+			owner = {
+				has_country_flag = rikk_mdlc_encrypted_closure_end
+				NOT = {
+					OR = {
+						has_country_flag = rikk_mdlc_origin_encrypted_protocol_research_end
+						has_country_flag = rikk_mdlc_origin_encrypted_protocol_production_end
+						has_country_flag = rikk_mdlc_origin_encrypted_protocol_warmachine_end
+						has_country_flag = rikk_mdlc_origin_encrypted_protocol_scrapbot_end
+					}
+				}
+			}
+		}
+	}
+	
+	on_progress_complete = {
+		custom_tooltip = rikk_mdlc_situation_encrypted_protocol_finish
+		hidden_effect = {
+			owner = {
+				country_event = {
+					id = rikk_mdlc_encrypted.211
+				}
+			}
+			destroy_situation = this
+		}
+	}
+
+	on_fail = {
+	}
+	
+	stages = {
+
+		stage_1 = {
+			icon = GFX_situation_stage_1
+			icon_background = GFX_situation_stage_frame_red
+			end = 50
+			on_first_enter = {
+			}
+			custom_tooltip = stage_unknown_effects
+		}
+		
+		stage_2 = {
+			icon = GFX_situation_stage_2
+			icon_background = GFX_situation_stage_frame_red
+			end = 900
+			on_first_enter = {
+				owner = {
+					country_event = { id = rikk_mdlc_encrypted.208 days = 45 random = 90 }
+					set_country_flag = rikk_mdlc_situation_events_active
+				}
+				#each event calls a further event after a delay, like a choose your own adventure
+				#call an event letting player know they can select other options?
+			}
+			custom_tooltip = stage_unknown_effects
+		}
+		
+		stage_3 = { #is there a point to a stage 3?
+			icon = GFX_situation_stage_3
+			icon_background = GFX_situation_stage_frame_red
+			end = 1000
+			on_first_enter = {
+				owner = {
+					remove_country_flag = rikk_mdlc_situation_events_active
+					country_event = {
+						id = rikk_mdlc_encrypted.202
+					}
+				}
+			}
+			custom_tooltip = stage_unknown_effects
+		}
+	}
+	
+	approach = {
+		name = rikk_mdlc_approach_encrypted_protocol_default
+		icon = GFX_situation_approach_kneel
+		icon_background = GFX_situation_approach_bg_green
+		default = yes
+		modifier = {
+			all_technology_research_speed = -0.10
+		}
+		on_select = {
+		}
+		ai_weight = {
+			base = 1
+		}
+	}
+	#increase level
+	approach = {
+		allow = {
+			NOR = {
+				current_stage = stage_1
+				current_stage = stage_3
+			}
+		}
+		name = rikk_mdlc_approach_encrypted_protocol_increase_level
+		icon = GFX_situation_approach_kneel
+		icon_background = GFX_situation_approach_bg_green
+		ai_weight = {
+			base = 2
+		}
+		modifier = {
+			all_technology_research_speed = -0.25
+		}
+	}
+	#decrease level
+	approach = {
+		allow = {
+			NOR = {
+				current_stage = stage_1
+				current_stage = stage_3
+			}
+		}
+		name = rikk_mdlc_approach_encrypted_protocol_decrease_level
+		icon = GFX_situation_approach_kneel
+		icon_background = GFX_situation_approach_bg_green
+		ai_weight = {
+			base = 1
+		}
+		modifier = {
+			all_technology_research_speed = -0.05
+		}
+	}
+
+	on_monthly = {
+		random_events = {}
+	}
+
+	monthly_progress = {
+		base = 5
+		modifier = {
+			desc = rikk_mdlc_encrypted_introspective_boost
+			owner = { has_civic = civic_machine_introspective }
+			add = 3
+		}
+		modifier = {
+			desc = rikk_mdlc_encrypted_protocol_decryption_skill
+			add = owner.modifier:intel_decryption_add
+		}
+		modifier = {
+			desc = string_current_approach
+			current_situation_approach = rikk_mdlc_approach_encrypted_protocol_increase_level
+			mult = 1.5
+		}
+		modifier = {
+			desc = string_current_approach
+			current_situation_approach = rikk_mdlc_approach_encrypted_protocol_decrease_level
+			mult = 0.75
+		}
+	}
+
+	abort_trigger = {
+		NOT = { exists = owner }
+	}
+}
