@@ -38,7 +38,6 @@ xvcv_mdlc_civic_trading_machine_target_all_trade_value_calc_effect = {
 			}
 		} #20% of the total trade value, with the required tech
 		round_variable = xvcv_mdlc_target_$ID$_trade_value #rounds the variable to the closest integer
-		log = "Trade value is calculated to be [xvcv_mdlc_target_$ID$_trade_value]"
 	}
 }
 
@@ -178,7 +177,9 @@ xvcv_mdlc_civic_trading_machine_ship_build_project_abort_effect = {
 xvcv_mdlc_civic_trading_machine_all_trade_value_or_energy_income_from_trade_calc_effect = {
 	optimize_memory
 	if = {
-		limit = { NOT = { has_ethic = ethic_gestalt_consciousness } }
+		limit = {
+			NOT = { has_ethic = ethic_gestalt_consciousness }
+		}
 		event_target:xvcv_mdlc_trading_machine_owner = { 
 		#Rikk: This sets an old variable before it recalculates so if the trade value changes it can find the difference.
 			set_variable = { 
