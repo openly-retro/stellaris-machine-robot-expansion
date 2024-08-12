@@ -709,3 +709,55 @@ oxr_mdlc_world_machines_building_core_fabrication_depot = {
 
 # Convert biomass to minerals by burning them ?
 oxr_mdlc_world_machines_building_bio_furnace = {}
+
+oxr_mdlc_world_machines_building_auto_capital = {
+	base_buildtime = @b2_time
+	capital = yes
+	can_build = no
+	can_demolish = no
+	can_be_ruined = no
+	can_be_disabled = no
+	position_priority = 0
+
+	category = government
+
+	potential = {
+		exists = owner
+		owner = {
+			OR = {
+				has_origin = oxr_mdlc_origin_world_machine_awakened
+			}
+		}
+		is_planet_world_machine = yes
+		NOT = { is_planet_class = pc_cosmogenesis_world }
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = {
+			NOT = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+		}
+	}
+
+	convert_to = {
+		building_hive_capital
+		building_colony_shelter
+		building_ancient_control_center
+		building_ancient_palace
+		building_machine_capital_nanotech
+	}
+
+	prerequisites = {
+		"tech_planetary_government"
+	}
+
+	show_tech_unlock_if = {
+		is_machine_empire = yes
+	}
+
+	planet_modifier = {
+		job_oxr_mdlc_world_machine_hibernation_slot_add = 3
+		planet_housing_add = 5
+		planet_amenities_add = 10
+	}
+}
