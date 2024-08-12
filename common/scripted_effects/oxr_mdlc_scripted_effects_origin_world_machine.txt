@@ -230,6 +230,22 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 	# Add armies! there should be a few districts already
 	oxr_mdlc_origin_world_machine_add_armies_at_start = yes
 
+	# Start tracking them for easy reference in scripts/triggers/etc
+
+	export_trigger_value_to_variable = {
+		trigger = num_districts
+		parameters = { type = any }
+		variable = oxr_mdlc_world_machine_num_districts
+	}
+	export_trigger_value_to_variable = {
+		trigger = count_planet_army
+		parameters = {
+			exists = owner
+			army_type = oxr_mdlc_world_machine_district_defense_army
+		}
+		variable = oxr_mdlc_world_machine_num_existing_district_armies
+	}
+
 	# Fix founder species habitability *eyeroll*
 	# STILL NOT FIXED? >:O
 	# event_target:last_created_species = {
@@ -398,18 +414,48 @@ oxr_mdlc_origin_world_machine_add_district_defense_army_t1 = {
 	}
 }
 
+oxr_mdlc_origin_world_machine_calc_max_district_armies = {
+	optimize_memory
+	export_trigger_value_to_variable = {
+		trigger = num_districts
+		parameters = { type = any }
+		variable = oxr_mdlc_world_machine_num_max_district_armies_temp
+	}
+	multiply_variable = {
+		which = oxr_mdlc_world_machine_num_max_district_armies_temp
+		value = @oxr_mdlc_world_machine_defense_armies_per_district
+	}
+	set_variable = {
+		which = oxr_mdlc_world_machine_num_max_district_armies
+		value = oxr_mdlc_world_machine_num_max_district_armies_temp
+	}
+	clear_variable = oxr_mdlc_world_machine_num_max_district_armies_temp
+}
+oxr_mdlc_origin_world_machine_calc_current_district_armies = {
+	optimize_memory
+	export_trigger_value_to_variable = {
+		trigger = count_planet_army
+		parameters = {
+			exists = owner
+			army_type = oxr_mdlc_world_machine_district_defense_army
+		}
+		variable = oxr_mdlc_world_machine_num_existing_district_armies
+	}
+}
+
+
 oxr_mdlc_origin_world_machine_add_armies_at_start = {
 	# Call at planet scope
 	export_trigger_value_to_variable = {
 		trigger = num_districts
 		parameters = { type = any }
-		variable = oxr_mdlc_world_machine_starting_army_count
+		variable = oxr_mdlc_world_machine_starting_army_count_temp
 	}
-	log = "Going to add \\[This.oxr_mdlc_world_machine_starting_army_count] district defense armies."
+	log = "Going to add \\[This.oxr_mdlc_world_machine_starting_army_count_temp] district defense armies."
 	while = {
 		limit = {
 			check_variable = {
-				which = oxr_mdlc_world_machine_starting_army_count
+				which = oxr_mdlc_world_machine_starting_army_count_temp
 				value > 0
 			}
 		}
@@ -418,11 +464,11 @@ oxr_mdlc_origin_world_machine_add_armies_at_start = {
 		oxr_mdlc_origin_world_machine_add_district_defense_army_t1 = yes
 		oxr_mdlc_origin_world_machine_add_district_defense_army_t1 = yes
 		subtract_variable = {
-			which = oxr_mdlc_world_machine_starting_army_count
+			which = oxr_mdlc_world_machine_starting_army_count_temp
 			value = 1
 		}
 	}
-	clear_variable = oxr_mdlc_world_machine_starting_army_count
+	clear_variable = oxr_mdlc_world_machine_starting_army_count_temp
 }
 
 oxr_mdlc_origin_world_machine_refill_armies = {
@@ -438,7 +484,7 @@ oxr_mdlc_origin_world_machine_refill_armies = {
 	export_trigger_value_to_variable = {
 		trigger = num_districts
 		parameters = { type = any }
-		variable = oxr_mdlc_world_machine_num_districts
+		variable = oxr_mdlc_world_machines_num_armies_to_restock_temp
 	}
 	export_trigger_value_to_variable = {
 		trigger = count_planet_army
@@ -446,27 +492,24 @@ oxr_mdlc_origin_world_machine_refill_armies = {
 			exists = owner
 			army_type = oxr_mdlc_world_machine_district_defense_army
 		}
-		variable = oxr_mdlc_world_machine_num_existing_district_armies
+		variable = oxr_mdlc_world_machine_num_existing_district_armies_temp
 	}
-	log = "Found \\[This.oxr_mdlc_world_machine_num_existing_district_armies] district armies on the planet."
-	set_variable = {
-		which = oxr_mdlc_world_machines_num_armies_to_restock
-		value = oxr_mdlc_world_machine_num_districts
-	}
+	log = "Found \\[This.oxr_mdlc_world_machine_num_existing_district_armies_temp] district armies on the planet."
+
 	multiply_variable = {
-		which = oxr_mdlc_world_machines_num_armies_to_restock
-		value = 2
+		which = oxr_mdlc_world_machines_num_armies_to_restock_temp
+		value = @oxr_mdlc_world_machine_defense_armies_per_district
 	}
 	subtract_variable = {
-		which = oxr_mdlc_world_machines_num_armies_to_restock
-		value = oxr_mdlc_world_machine_num_existing_district_armies
+		which = oxr_mdlc_world_machines_num_armies_to_restock_temp
+		value = oxr_mdlc_world_machine_num_existing_district_armies_temp
 	}
 	# Loop and count down, creating armies
-	log = "After mathing, we will restock \\[This.oxr_mdlc_world_machines_num_armies_to_restock], because there are \\[This.oxr_mdlc_world_machine_num_districts] districts active, times 2, minus existing armies."
+	log = "After mathing, we will restock \\[This.oxr_mdlc_world_machines_num_armies_to_restock_temp], because there are \\[This.oxr_mdlc_world_machine_num_districts_temp] districts active, times 2, minus existing armies."
 	while = {
 		limit = {
 			check_variable = {
-				which = oxr_mdlc_world_machines_num_armies_to_restock
+				which = oxr_mdlc_world_machines_num_armies_to_restock_temp
 				value > 0
 			}
 		}
@@ -474,13 +517,13 @@ oxr_mdlc_origin_world_machine_refill_armies = {
 		# Later, this will be controlled by a var and can be increased
 		oxr_mdlc_origin_world_machine_add_district_defense_army_t1 = yes
 		subtract_variable = {
-			which = oxr_mdlc_world_machines_num_armies_to_restock
+			which = oxr_mdlc_world_machines_num_armies_to_restock_temp
 			value = 1
 		}
 	}
-	clear_variable = oxr_mdlc_world_machine_num_districts
-	clear_variable = oxr_mdlc_world_machine_num_existing_district_armies
-	clear_variable = oxr_mdlc_world_machines_num_armies_to_restock
+	clear_variable = oxr_mdlc_world_machine_num_districts_temp
+	clear_variable = oxr_mdlc_world_machine_num_existing_district_armies_temp
+	clear_variable = oxr_mdlc_world_machines_num_armies_to_restock_temp
 }
 #endregion
 
