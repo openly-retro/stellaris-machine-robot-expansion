@@ -295,3 +295,69 @@ planet_event = {
 		}
 	}
 }
+
+# Triggers country_event for the defender upon victory
+# Root = country, planet owner
+# From = country, attack leader
+# FromFrom = planet
+country_event = {
+	id = oxr_mdlc_on_world_machine_action.2000
+	is_triggered_only = yes
+	hide_window = yes
+	trigger = {
+		root = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+		FromFrom = { is_planet_world_machine = yes }
+	}
+	immediate = {
+		FromFrom= { 
+			planet_event = {
+				id = oxr_mdlc_on_world_machine_action.2001
+			}
+		}
+	}
+}
+
+# Update planet vars for tracking max district armies
+planet_event = {
+	id = oxr_mdlc_on_world_machine_action.2001
+	is_triggered_only = yes
+	hide_window = yes
+	trigger = {
+		space_owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+		is_planet_world_machine = yes
+		# re-use trigger to check if last district changed was WM district
+		xvcv_mdlc_world_machines_districts_heat_indicators_calc_trigger = yes
+	}
+	pre_triggers = {
+		is_occupied_flag = no
+	}
+
+	immediate = {
+		oxr_mdlc_origin_world_machine_calc_max_district_armies = yes
+		oxr_mdlc_origin_world_machine_calc_current_district_armies = yes
+		if = {
+			limit = {
+				check_variable = {
+					which = oxr_mdlc_world_machine_num_existing_district_armies
+					value > oxr_mdlc_world_machine_num_max_district_armies
+				}
+			}
+			while = {
+				limit = {
+					check_variable = {
+						which = oxr_mdlc_world_machine_num_existing_district_armies
+						value > oxr_mdlc_world_machine_num_max_district_armies
+					}
+				}
+				random_planet_army = {
+					limit = {
+						army_type = oxr_mdlc_world_machine_district_defense_army
+					}
+					remove_army = yes
+				}
+				log = "Removed a district defense army after a district was demolished."
+				oxr_mdlc_origin_world_machine_calc_current_district_armies = yes
+			}
+		}
+	}
+}
