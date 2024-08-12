@@ -12,18 +12,6 @@ oxr_mdlc_planet_calculate_max_core_storage = {
 	mult = 50
 }
 
-oxr_mdlc_planet_count_max_possible_district_armies = {
-	base = 0
-	complex_trigger_modifier = {
-		trigger = num_districts
-		parameters = {
-			type = any
-		}
-		mode = set
-	}
-	mult = @oxr_mdlc_world_machine_defense_armies_per_district
-}
-
 oxr_mdlc_planet_count_district_defense_armies = {
 	base = 0
 	complex_trigger_modifier = {
@@ -39,53 +27,17 @@ oxr_mdlc_planet_count_district_defense_armies = {
 # Yes lots of repeated code in this file, I see that, gimme a break I'll fix it later 
 
 oxr_mdlc_planet_num_district_armies_to_refill = {
-	base = this.oxr_mdlc_world_machine_num_districts_var
-	complex_trigger_modifier = {
-		trigger = count_planet_army
-		parameters = {
-			exists = owner
-			army_type = oxr_mdlc_world_machine_district_defense_army
-		}
-		mode = subtract
-	}
+	base = this.oxr_mdlc_planet_count_max_possible_district_armies
+	subtract = value:oxr_mdlc_planet_count_district_defense_armies
 }
 
+# TODO: Code these to use planet vars and set up triggers to update the vars on_actions
 oxr_mdlc_planet_calculate_army_refill_time = {
-	base = 0
-	complex_trigger_modifier = {
-		trigger = num_districts
-		parameters = {
-			type = any
-		}
-		mode = set
-	}
-	complex_trigger_modifier = {
-		trigger = count_planet_army
-		parameters = {
-			exists = owner
-			army_type = oxr_mdlc_world_machine_district_defense_army
-		}
-		mode = subtract
-	}
-	mult = 7  # 7 days to refill one army
+	base = value:oxr_mdlc_planet_num_district_armies_to_refill
+	mult = @oxr_mdlc_world_machine_defense_armies_refill_time  # 7 days to refill one army
 }
 
 oxr_mdlc_planet_calculate_army_refill_cost = {
-	base = 0
-	complex_trigger_modifier = {
-		trigger = num_districts
-		parameters = {
-			type = any
-		}
-		mode = set
-	}
-	complex_trigger_modifier = {
-		trigger = count_planet_army
-		parameters = {
-			exists = owner
-			army_type = oxr_mdlc_world_machine_district_defense_army
-		}
-		mode = subtract
-	}
-	mult = 100  # charge 100 energy per army
+	base = value:oxr_mdlc_planet_num_district_armies_to_refill
+	mult = @oxr_mdlc_world_machine_defense_armies_refill_cost  # charge 100 energy per army
 }
