@@ -170,6 +170,35 @@ oxr_mdlc_decisions_origin_wm_manufacture_core_stop = {
 }
 
 
+oxr_mdlc_decisions_origin_wm_restock_armies = {
+	owned_planets_only = yes
+	enactment_time = value:oxr_mdlc_planet_calculate_army_refill_time
+	resources = {
+		category = decisions
+		cost = {
+			energy = value:oxr_mdlc_planet_calculate_army_refill_cost
+		}
+	}
+	potential = {
+		exists = space_owner
+		space_owner = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+		}
+		is_planet_world_machine = yes
+		
+	}
+	allow = {
+		oxr_mdlc_planet_can_refill_district_defense_armies = yes
+		has_ground_combat = no
+	}
+	effect = {
+		custom_tooltip = oxr_mdlc_decisions_origin_wm_restock_armies_effect
+		hidden_effect = {
+			oxr_mdlc_origin_world_machine_refill_armies = yes
+		}
+	}
+}
+
 # oxr_mdlc_decisions_origin_wm_power_on_fabricator = {
 # 	owned_planets_only = yes
 # 	enactment_time = 15  # 1080
