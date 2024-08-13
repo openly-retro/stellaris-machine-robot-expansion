@@ -556,3 +556,60 @@ planet_event = {
 		}
 	}
 }
+
+# Start the loop of refilling planetary district armies
+planet_event = {
+	id = oxr_mdlc_origin_wm_main.2001
+	is_triggered_only = yes
+	hide_window = yes
+	trigger = {
+		space_owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+		is_planet_world_machine = yes
+		# re-use trigger to check if last district changed was WM district
+		# xvcv_mdlc_world_machines_districts_heat_indicators_calc_trigger = yes
+		has_planet_flag = oxr_mdlc_world_machines_refilling_armies_active
+	}
+
+	pre_triggers = {
+		is_occupied_flag = no
+	}
+
+	immediate = {
+		oxr_mdlc_origin_world_machine_calc_max_district_armies = yes
+		oxr_mdlc_origin_world_machine_calc_current_district_armies = yes
+		if = {
+			limit = {
+				check_variable = {
+					which = oxr_mdlc_world_machine_num_existing_district_armies
+					value < oxr_mdlc_world_machine_num_max_district_armies
+				}
+			}
+			oxr_mdlc_origin_world_machine_add_district_defense_army_t1 = yes
+			log = "Restocked district defense army."
+			oxr_mdlc_origin_world_machine_calc_current_district_armies = yes
+			if = {
+				limit = {
+					has_planet_flag = oxr_mdlc_world_machines_refilling_armies_active
+				}
+				add_modifier = {
+					modifier = oxr_mdlc_world_machine_district_army_restock_in_progress
+					days = 7
+				}
+				planet_event = {
+					id = oxr_mdlc_origin_wm_main.2001
+					days = 7
+				}
+			}
+			else = {
+				# Stop looping
+				remove_modifier = oxr_mdlc_world_machine_district_army_restock_in_progress
+			}
+		}
+		else = {
+			# Stop looping
+			remove_modifier = oxr_mdlc_world_machine_district_army_restock_in_progress
+			remove_planet_flag = oxr_mdlc_world_machines_refilling_armies_active
+		}
+		
+	}
+}
