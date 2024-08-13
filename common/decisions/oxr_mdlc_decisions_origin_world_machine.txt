@@ -184,6 +184,7 @@ oxr_mdlc_decisions_origin_wm_restock_armies = {
 		}
 		is_planet_world_machine = yes
 		NOT = { has_planet_flag = oxr_mdlc_world_machines_refilling_armies_active }
+		NOT = { has_modifier = oxr_mdlc_world_machine_district_army_decommissioning_in_progress }
 	}
 	allow = {
 		oxr_mdlc_planet_can_refill_district_defense_armies = yes
@@ -192,14 +193,15 @@ oxr_mdlc_decisions_origin_wm_restock_armies = {
 	effect = {
 		custom_tooltip = oxr_mdlc_decisions_origin_wm_restock_armies_effect
 		hidden_effect = {
-			set_planet_flag = oxr_mdlc_world_machines_refilling_armies_active
-			add_modifier = {
-				modifier = oxr_mdlc_world_machine_district_army_restock_in_progress
-				days = 7
-			}
-			planet_event = {
-				id = oxr_mdlc_origin_wm_main.2001
-			}
+			# set_planet_flag = oxr_mdlc_world_machines_refilling_armies_active
+			# add_modifier = {
+			# 	modifier = oxr_mdlc_world_machine_district_army_restock_in_progress
+			# 	days = 7
+			# }
+			# planet_event = {
+			# 	id = oxr_mdlc_origin_wm_main.2001
+			# }
+			oxr_mdlc_planet_start_refilling_district_defense_armies = yes
 		}
 	}
 }
