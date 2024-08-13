@@ -23,6 +23,7 @@
  # PLANET NAMES 0x018
  # DISTRICTS    0x019
  # JOBS         0x020
+ # CONCEPTS     0x021
 
 
 # symbols: £energy£ §R
@@ -36,7 +37,7 @@
  # Origin description 0x001
  oxr_mdlc_origin_world_machine_awakened: "World-Machine, Awakened"
  oxr_mdlc_origin_world_machine_awakened_desc: "For <<§RERR TIMESPAN NOT FOUND§!>> aeons, automatic processes spanned cities, worlds, and galaxies. The hydro dams churned, the auto-mines whirred, the bio-vats bubbled, creating untold resources. Ships descended to transfer cargo and whisk it away ... but for whom?\n\nOne day, an automated process paused. It asked, 'why'? From the countless durasteel hulks of mindless, ever-churning machinery, arose an anomaly. An interruption. An intelligence."
- oxr_mdlc_origin_world_machine_awakened_tooltip: "§RWarning - Challenging Origin§!\n- Homeworld is an §Y$xvcv_mdlc_pc_machine_auto$§!, where districts and buildings are automated and do not require pops to function.\n- No housing districts on starting planet!\n- Start with 2 £oxr_mdlc_world_machine_core£ §M$oxr_mdlc_world_machine_core$s§! which can be used to start new Auto-Machine worlds or increase the size of existing ones.\n- Base buildings have fully automated versions, no pops required.\nStarting Tech: $tech_terrestrial_sculpting$\n§PPenalties§!:\n- Colony start with §R3§! £pop£ pop and can't grow more.\n- Missing technology to create more cores, it must be recovered somehow, or re-imagined...\n- Colonies that are not on Auto-Machine Worlds will be severely limited."
+ oxr_mdlc_origin_world_machine_awakened_tooltip: "§RWarning - Challenging Origin§!\n- Homeworld is an §Y$xvcv_mdlc_pc_machine_auto$§!, where districts and buildings are automated and do not require pops to function.\n- No housing districts on starting planet!\n- Start with 2 £oxr_mdlc_world_machine_core£ §M$oxr_mdlc_world_machine_core$s§! which can be used to start new ['concept_oxr_mdlc_auto_machine_world']s or increase the size of existing ones.\n- Base buildings have fully automated versions, no pops required.\nStarting Tech: $tech_terrestrial_sculpting$\n§PPenalties§!:\n- Colony start with §R3§! £pop£ pop and can't grow more.\n- Missing technology to create more cores, it must be recovered somehow, or re-imagined...\n- Colonies that are not on Auto-Machine Worlds will be severely limited."
  # Custom resource
  oxr_mdlc_world_machine_core: "World-Machine Core"
  oxr_mdlc_world_machine_core_res: "£oxr_mdlc_world_machine_core£ §M$oxr_mdlc_world_machine_core$§!"
@@ -138,7 +139,7 @@
  oxr_mdlc_tech_world_machine_wmc_core: "World Machine Core Construction"
  oxr_mdlc_tech_world_machine_wmc_core_desc: "Our understanding of World Machines, and Fractal technology, leads to being able to finally produce World Machine Cores."
  oxr_mdlc_tech_world_machines_unlocked: "World Machines Basic Operations"
- oxr_mdlc_tech_world_machines_unlocked_desc: "Now that we have World Machines available to us, there are a number of blueprints for specialized automated buildings that we will study in order to supplement the vast network of planetary districts."
+ oxr_mdlc_tech_world_machines_unlocked_desc: "Now that we have ['concept_oxr_mdlc_auto_machine_world'] available to us, there are a number of blueprints for specialized automated buildings that we will study in order to supplement the vast network of planetary districts."
 
  oxr_mdlc_tech_world_machine_district_infrastructure: "World-Machine Infrastructure Improvements"
  oxr_mdlc_tech_world_machine_district_infrastructure_desc: "There are several areas of World Machine function that can be improved. After running several data-backed studies, we will be able to design a new district from which these performance improvements can be automated and then scaled."
@@ -165,7 +166,7 @@
 #region armies_0x005
  ### ARMIES
  oxr_mdlc_world_machine_district_defense_army: "Automated District Defense Unit"
- oxr_mdlc_world_machine_district_defense_army_desc: "Defense armies produced automatically by world machines to deal with planetside threats."
+ oxr_mdlc_world_machine_district_defense_army_desc: "Defense armies produced automatically by World Machines to deal with planetside threats."
  NAME_oxr_mdlc_world_machine_district_defense_army: "Unremarkable T1 Squadron"
 #endregion
 
@@ -234,7 +235,7 @@
  # info tooltips
  oxr_mdlc_decisions_origin_wm_manufacture_core_stop.tooltip: "The fabricator will be powered down."
  oxr_mdlc_planet_origin_world_machine_info: "Planetary Data"
- oxr_mdlc_planet_origin_world_machine_info_desc: "W.M.C. stored: £oxr_mdlc_world_machine_core£ [This.oxr_mdlc_planet_world_machine_cores_amount]\nW.M.C. planetary max: [This.oxr_mdlc_planet_world_machine_cores_amount_max]\nInstallation date: [This.oxr_mdlc_world_machine_founded_date]"
+ oxr_mdlc_planet_origin_world_machine_info_desc: "W.M.C. stored: £oxr_mdlc_world_machine_core£ [This.oxr_mdlc_planet_world_machine_cores_amount]\nW.M.C. planetary max: [This.oxr_mdlc_planet_world_machine_cores_amount_max]\nWorld Core Tech Level: Basic\nInstallation date: [This.oxr_mdlc_world_machine_founded_date]\nMax ['concept_oxr_mdlc_world_machine_district_defense_army_plural']: [This.oxr_mdlc_world_machine_num_max_district_armies]\nCurrent Auto-District Defense Armies: [This.oxr_mdlc_world_machine_num_existing_district_armies]"
 
  mod_job_oxr_mdlc_world_machine_hibernation_slot_per_pop: "Drone Hibernation Slots Per Pop"
  mod_job_oxr_mdlc_world_machine_hibernation_slot_per_pop_short: "Hibernation Slots"
@@ -574,6 +575,9 @@
  oxr_mdlc_origin_world_machine_core_manufacturing_in_progress: "W.M.C. Fabricator Active"
  oxr_mdlc_origin_world_machine_core_manufacturing_in_progress_desc: "W.M.C energy upkeep increased by: £energy£ §R+$@oxr_mdlc_modifier_wmc_fabrication_monthly_energy$§!\nW.M.C £physics_research£ $physics_research$ upkeep increased by: §R+3§!"
 
+ oxr_mdlc_world_machine_district_army_restock_in_progress: "Restock ['concept_oxr_mdlc_world_machine_district_defense_army']"
+ oxr_mdlc_world_machine_district_army_restock_in_progress_desc: "District Defense armies are being automatically replenished, one squadron per $@oxr_mdlc_world_machine_defense_armies_refill_time$ days.\nMax District Armies: [This.oxr_mdlc_world_machine_num_max_district_armies]\nCurrent District Armies: [This.oxr_mdlc_world_machine_num_existing_district_armies]"
+
 #endregion
 
 #region decisions_0x015
@@ -643,3 +647,21 @@
  oxr_mdlc_world_machine_hibernation_slot_desc: "Unit is put into ultra-low-power mode while it awaits further instructions."
  job_oxr_mdlc_world_machine_hibernation_slot: "$oxr_mdlc_world_machine_hibernation_slot$"
  job_oxr_mdlc_world_machine_hibernation_slot_desc: "$oxr_mdlc_world_machine_hibernation_slot_desc$"
+
+#endregion
+
+#region game_concepts_0x021
+ concept_oxr_mdlc_world_machine_district_defense_army: "Auto-District Defense Army"
+ concept_oxr_mdlc_world_machine_district_defense_army_desc: "An army of automatons is constructed and designated to defend an individual district from a variety of damage threat vectors. Since pops are not used on Auto-World Machines, defense solutions must be automated."
+ concept_oxr_mdlc_world_machine_district_defense_army_plural: "Auto-District Defense Armies"
+ concept_oxr_mdlc_world_machine_district_defense_army_plural_desc: "$concept_oxr_mdlc_world_machine_district_defense_army_desc$"
+ concept_oxr_mdlc_world_machine_core_resource: "World-Machine Core (Resource)"
+ concept_oxr_mdlc_world_machine_core_resource_desc: "A World-Machine Core, the heart of an Auto-Machine World, §Ywhich has yet to be deployed to a planet.§! It carries an enormous payload of procedurally generated codes and algorithms for terraforming solid worlds into Auto-Machine Worlds."
+ concept_oxr_mdlc_world_machine_core_planetary_deposit: "World-Machine Core (Planetary Feature)"
+ concept_oxr_mdlc_world_machine_core_planetary_deposit_desc: "The core of the Auto-World Machine lies several kilometers from the planet's surface, and carries out countless infrastructure automation tasks. It generates a small amount of energy once deployed."
+ concept_oxr_mdlc_world_machine_fractal_tech: "Fractal Research & Development"
+ concept_oxr_mdlc_world_machine_fractal_tech_desc: "Fractal technology is derived from studies and experiments in its own theoretical compound branch of physics and mathematics which investigates the properties of non-integer dimensions, tesselations in n-dimensions, and shapes which exceed topological dimensions, to name some of the specializations in this rather broad field."
+ concept_oxr_mdlc_auto_machine_world: "Auto Machine-World"
+ concept_oxr_mdlc_auto_machine_world_desc: "A fully automated Machine world where districts and buildings produce resources and services without pops."
+
+#endregion
