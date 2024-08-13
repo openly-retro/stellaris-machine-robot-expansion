@@ -150,10 +150,12 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 			modifier = oxr_mdlc_origin_world_machine_start_modifier_1
 		}
 		add_resource = {
-			oxr_mdlc_world_machine_core = 2
+			oxr_mdlc_world_machine_core = @oxr_mdlc_world_machine_starting_cores_amount
 		}
 		oxr_mdlc_world_machine_cores_recalc_amount = yes
 	}
+	# Now, calculate the planet's storage, since we are doing WMC stuff here
+	oxr_mdlc_planet_calculate_max_core_storage = yes
 
 
 	# Start "recover lost tech" situation
@@ -228,23 +230,25 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 	}
 
 	# Add armies! there should be a few districts already
-	oxr_mdlc_origin_world_machine_add_armies_at_start = yes
-
-	# Start tracking them for easy reference in scripts/triggers/etc
-
+	# oxr_mdlc_origin_world_machine_add_armies_at_start = yes
+	# Use the event instead to make the modifier appear, and alert players to the concept
 	export_trigger_value_to_variable = {
 		trigger = num_districts
 		parameters = { type = any }
 		variable = oxr_mdlc_world_machine_num_districts
 	}
-	export_trigger_value_to_variable = {
-		trigger = count_planet_army
-		parameters = {
-			exists = owner
-			army_type = oxr_mdlc_world_machine_district_defense_army
-		}
-		variable = oxr_mdlc_world_machine_num_existing_district_armies
+	oxr_mdlc_origin_world_machine_calc_max_district_armies = yes
+	oxr_mdlc_origin_world_machine_calc_current_district_armies = yes
+	# Trigger restock after vars have been initialized
+	set_planet_flag = oxr_mdlc_world_machines_refilling_armies_active
+	add_modifier = {
+		modifier = oxr_mdlc_world_machine_district_army_restock_in_progress
+		days = 7
 	}
+	planet_event = {
+		id = oxr_mdlc_origin_wm_main.2001
+	}
+
 
 	# Fix founder species habitability *eyeroll*
 	# STILL NOT FIXED? >:O
@@ -266,6 +270,17 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 			add_trait = trait_oxr_mdlc_pc_auto_world_specialist_preference
 			add_traits_at_start_of_list = yes
 		}
+	}
+
+	# Set a few vars and show info modifier
+	set_saved_date = {
+		key = oxr_mdlc_world_machine_founded_date
+		days_from_present = 0
+		expires = -1
+	}
+	add_modifier = {
+		modifier = oxr_mdlc_planet_origin_world_machine_info
+		days = -1
 	}
 
 	# Make a ruined world machine in a neighboring system
