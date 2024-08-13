@@ -156,6 +156,7 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 	}
 	# Now, calculate the planet's storage, since we are doing WMC stuff here
 	oxr_mdlc_planet_calculate_max_core_storage = yes
+	oxr_mdlc_planet_increment_stored_wm_cores = yes
 
 
 	# Start "recover lost tech" situation
@@ -782,5 +783,18 @@ oxr_mdlc_planet_calculate_max_core_storage = {
 	set_variable = {
 		which = oxr_mdlc_planet_world_machine_cores_amount_max
 		value = value:oxr_mdlc_planet_calculate_max_core_storage
+	}
+}
+
+oxr_mdlc_planet_start_refilling_district_defense_armies = {
+	optimize_memory
+	set_planet_flag = oxr_mdlc_world_machines_refilling_armies_active
+	add_modifier = {
+		modifier = oxr_mdlc_world_machine_district_army_restock_in_progress
+		days = 7
+	}
+	planet_event = {
+		id = oxr_mdlc_origin_wm_main.2001
+		days = 7
 	}
 }
