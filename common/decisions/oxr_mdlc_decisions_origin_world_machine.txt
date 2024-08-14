@@ -206,6 +206,49 @@ oxr_mdlc_decisions_origin_wm_restock_armies = {
 	}
 }
 
+oxr_mdlc_decisions_origin_wm_requisition_automatons = {
+	owned_planets_only = yes
+	enactment_time = 7
+	resources = {
+		category = oxr_mdlc_category_wm_decisions
+		cost = {
+			energy = 1000
+			alloys = 250
+		}
+	}
+	potential = {
+		exists = space_owner
+		space_owner = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+		}
+		is_planet_world_machine = yes
+	}
+	allow = {
+		space_owner = {
+			has_resource = {
+				type = energy amount >= 1000
+			}
+			has_resource = {
+				type = alloys amount >= 250
+			}
+		}
+		# TODO: Check max supported automatons on planet (?)
+		NOR = {
+			has_modifier = oxr_mdlc_planet_origin_world_machine_requisitioning_pops
+		}
+	}
+	effect = {
+		add_modifier = {
+			modifier = oxr_mdlc_planet_origin_world_machine_requisitioning_pops
+			days = 60
+		}
+		planet_event = {
+			id = oxr_mdlc_origin_wm_main.2100
+			days = 60
+		}
+	}
+}
+
 # oxr_mdlc_decisions_origin_wm_power_on_fabricator = {
 # 	owned_planets_only = yes
 # 	enactment_time = 15  # 1080
