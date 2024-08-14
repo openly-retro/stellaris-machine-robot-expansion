@@ -295,3 +295,191 @@ planet_event = {
 		}
 	}
 }
+
+planet_event = {
+	id = oxr_mdlc_on_world_machine_action.1900
+	is_triggered_only = yes
+	hide_window = yes
+
+	trigger = {
+		owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+		is_planet_world_machine = yes
+		# only implement for the below class right now
+		# is_planet_class = xvcv_mdlc_pc_machine_aut
+	}
+	immediate = {
+		log = "Firing on_world_machine_district_demolished"
+		fire_on_action = {
+			on_action = on_world_machine_district_demolished
+		}
+	}
+}
+
+# Restock armies on_world_machine_district_completed
+planet_event = {
+	id = oxr_mdlc_on_world_machine_action.1905
+	is_triggered_only = yes
+	hide_window = yes
+
+	trigger = {
+		owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+		is_planet_world_machine = yes
+	}
+	immediate = {
+		# Check District Defense armies count, restock them if needed
+		oxr_mdlc_origin_world_machine_calc_max_district_armies = yes
+		if = {
+			limit = {
+				check_variable = {
+					which = oxr_mdlc_world_machine_num_existing_district_armies
+					value < oxr_mdlc_world_machine_num_max_district_armies
+				}
+				NOT = {
+					has_modifier = oxr_mdlc_world_machine_district_army_restock_in_progress
+				}
+				NOT = {
+					has_planet_flag = oxr_mdlc_world_machines_refilling_armies_active
+				}
+			}
+			oxr_mdlc_planet_start_refilling_district_defense_armies = yes
+		}
+		else = {
+			log = "WM District built, but armies at max, not building more."
+		}
+	}
+}
+
+
+# LEAD-IN: decommission district armies on_world_machine_district_demolished
+planet_event = {
+	id = oxr_mdlc_on_world_machine_action.1909
+	is_triggered_only = yes
+	hide_window = yes
+
+	trigger = {
+		owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+		is_planet_world_machine = yes
+	}
+	immediate = {
+		log = "Entered decommission event"
+		oxr_mdlc_origin_world_machine_calc_max_district_armies = yes
+		oxr_mdlc_origin_world_machine_calc_current_district_armies = yes
+		if = {
+			limit = {
+				check_variable = {
+					which = oxr_mdlc_world_machine_num_existing_district_armies
+					value > oxr_mdlc_world_machine_num_max_district_armies
+				}
+				NOT = {
+					has_modifier = oxr_mdlc_world_machine_district_army_restock_in_progress
+				}
+				NOT = {
+					has_planet_flag = oxr_mdlc_world_machines_refilling_armies_active
+				}
+				NOT = {
+					has_modifier = oxr_mdlc_world_machine_district_army_decommissioning_in_progress
+				}
+			}
+			add_modifier = {
+				modifier = oxr_mdlc_world_machine_district_army_decommissioning_in_progress
+				days = 7
+			}
+			planet_event = {
+				id = oxr_mdlc_on_world_machine_action.1910
+				days = 7
+			}
+		}
+	}
+}
+
+# decommission district armies on_world_machine_district_demolished
+planet_event = {
+	id = oxr_mdlc_on_world_machine_action.1910
+	is_triggered_only = yes
+	hide_window = yes
+
+	trigger = {
+		owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+		is_planet_world_machine = yes
+	}
+	immediate = {
+		# Check District Defense armies count, restock them if needed
+		oxr_mdlc_origin_world_machine_calc_max_district_armies = yes
+		oxr_mdlc_origin_world_machine_calc_current_district_armies = yes
+		if = {
+			limit = {
+				check_variable = {
+					which = oxr_mdlc_world_machine_num_existing_district_armies
+					value > oxr_mdlc_world_machine_num_max_district_armies
+				}
+				NOT = {
+					has_modifier = oxr_mdlc_world_machine_district_army_restock_in_progress
+				}
+				NOT = {
+					has_planet_flag = oxr_mdlc_world_machines_refilling_armies_active
+				}
+				NOT = {
+					has_modifier = oxr_mdlc_world_machine_district_army_decommissioning_in_progress
+				}
+			}
+			random_planet_army = {
+				limit = {
+					army_type = oxr_mdlc_world_machine_district_defense_army
+				}
+				remove_army = yes
+			}
+			oxr_mdlc_origin_world_machine_calc_current_district_armies = yes
+			planet_event = {
+				id = oxr_mdlc_on_world_machine_action.1909
+			}
+		}
+		else = {
+			log = "WM District destroyed, but army count OK, not building more."
+		}
+	}
+}
+
+# Update planet vars for tracking max district armies
+planet_event = {
+	id = oxr_mdlc_on_world_machine_action.2001
+	is_triggered_only = yes
+	hide_window = yes
+	trigger = {
+		space_owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+		is_planet_world_machine = yes
+		# re-use trigger to check if last district changed was WM district
+		xvcv_mdlc_world_machines_districts_heat_indicators_calc_trigger = yes
+	}
+	pre_triggers = {
+		is_occupied_flag = no
+	}
+
+	immediate = {
+		oxr_mdlc_origin_world_machine_calc_max_district_armies = yes
+		oxr_mdlc_origin_world_machine_calc_current_district_armies = yes
+		if = {
+			limit = {
+				check_variable = {
+					which = oxr_mdlc_world_machine_num_existing_district_armies
+					value > oxr_mdlc_world_machine_num_max_district_armies
+				}
+			}
+			while = {
+				limit = {
+					check_variable = {
+						which = oxr_mdlc_world_machine_num_existing_district_armies
+						value > oxr_mdlc_world_machine_num_max_district_armies
+					}
+				}
+				random_planet_army = {
+					limit = {
+						army_type = oxr_mdlc_world_machine_district_defense_army
+					}
+					remove_army = yes
+				}
+				log = "Removed a district defense army after a district was demolished."
+				oxr_mdlc_origin_world_machine_calc_current_district_armies = yes
+			}
+		}
+	}
+}
