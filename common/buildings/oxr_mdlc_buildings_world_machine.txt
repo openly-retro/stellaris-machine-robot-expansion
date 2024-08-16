@@ -7,689 +7,16 @@
 @tier_3_capital_defense_armies = 8
 @tier_4_capital_defense_armies = 16
 
-# Replace some vanilla buildings with world-machine versions
-xvcv_mdlc_world_machine_auto_farm = {
-	# icon = xvcv_mdlc_pc_mechanical_district_farming
 
-	base_buildtime = @b1_time
-	category = resource
-	potential = {
-		exists = owner
-		owner = {
-			OR = {
-				country_uses_food = yes
-				is_ai = no
-			}
-			oxr_mdlc_origin_world_machine_feature_enabled = yes
-		}
-        is_planet_world_machine = yes
-        NOT = { has_modifier = resort_colony }
-    }
 
-	destroy_trigger = {
-		exists = owner
-		OR = {
-			owner = {
-				is_ai = yes
-				country_uses_food = no
-			}
-			planet = {
-				NOT = { is_planet_class = pc_habitat }
-				free_building_slots = 0
-				owner = {
-					is_ai = yes
-					has_monthly_income = {
-						resource = food
-						value > 100
-					}
-				}
-			}
-		}
-	}
-	resources = {
-		category = oxr_mdlc_category_world_machines_buildings
-		cost = { minerals = @xvcv_mdlc_district_cost_2 }
-		produces = { food = 14 } #{1 job = 6 -1 (is_robot_empire = yes) + 2 (building_food_processing_center) minerals} X 2 jobs #stellaris v3.0.3
-		upkeep = { energy = 1 }
-	}
-	ai_resource_production = {
-		food = 10
-		trigger = { always = yes }
-	}
-	prerequisites = {
-		"tech_hydroponics"
-		"oxr_mdlc_tech_world_machines_unlocked"
-	}
-	on_built = {
-		owner = {
-			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
-		}
-	}
-}
+#### AMENITY ####
 
-# Replace building_food_processing_facility
-oxr_mdlc_world_machines_building_auto_farm_logistics = {
-	base_buildtime = @b1_time
-	base_cap_amount = 1
-	category = resource
 
-	potential = {
-		NOT = { has_modifier = resort_colony }
-		exists = owner
-		owner = {
-			oxr_mdlc_planet_owner_can_build_wm_districts = yes
-			oxr_mdlc_origin_world_machine_feature_enabled = yes
-		}
-		is_planet_world_machine = yes
-	}
+#### ASTRAL ####
 
-	destroy_trigger = {
-		exists = owner
-		OR = {
-			owner = {
-				is_ai = yes
-				country_uses_food = no
-			}
-			is_planet_world_machine = no
-			owner = {
-				NOT = { has_technology = oxr_mdlc_tech_world_machines_unlocked }
-			}
-		}
-	}
-	resources = {
-		category = oxr_mdlc_category_world_machines_buildings
-		cost = {
-			minerals = @b1_minerals
-		}
-		upkeep = {
-			energy = 2
-		}
-		produces = {
-			trigger = { exists = owner }
-			food = 4
-			mult = value:count_world_machines_districts_of_type|DISTRICT_NAME|xvcv_mdlc_pc_machine_auto_district_farming|
-		}
-	}
-	# upgrades = {
-	# 	xvcv_mdlc_world_machine_auto_food_processing_center
-	# }
-	prerequisites = {
-		"tech_food_processing_1"
-		"oxr_mdlc_tech_world_machines_unlocked"
-	}
-	on_built = {
-		owner = {
-			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
-		}
-	}
-}
 
-# UNITY T1
-oxr_mdlc_world_machines_building_cohesion_supervisor = {
-	base_buildtime = @b1_time
+#### GOVERNMENT ####
 
-	exempt_from_ai_planet_specialization = no
-
-	category = unity
-
-	potential = {
-		exists = owner
-		NOR = {
-			has_modifier = resort_colony
-			has_modifier = crucible_colony
-		}
-		exists = owner
-		# owner = {
-		# 	has_origin = oxr_mdlc_origin_world_machine_awakened
-		# }
-		is_planet_world_machine = yes
-		owner = {
-			oxr_mdlc_origin_world_machine_feature_enabled = yes
-		}
-		
-	}
-	destroy_trigger = {
-		exists = owner
-		owner = {
-			OR = {
-				is_machine_empire = no
-				has_valid_civic = civic_machine_servitor
-			}
-		}
-	}
-
-	convert_to = {
-		building_bureaucratic_1
-		building_temple
-		building_hive_node
-	}
-
-	resources = {
-		category = oxr_mdlc_category_world_machines_buildings  # could also be planet_administrators
-		cost = {
-			minerals = @b1_minerals  # 400
-		}
-		upkeep = {
-			energy = 8 #@b1_upkeep
-		}
-		produces = { unity = 8 }
-	}
-
-	triggered_desc = {
-		text = job_coordinator_effect_desc
-	}
-
-	upgrades = {
-		"oxr_mdlc_world_machines_building_cohesion_hub"
-	}
-
-	prerequisites = {
-		"tech_planetary_government"
-		"oxr_mdlc_tech_world_machines_unlocked"
-	}
-
-	show_tech_unlock_if = {
-		is_machine_empire = yes
-		NOT = {
-			has_valid_civic = civic_machine_servitor
-		}
-	}
-	on_built = {
-		owner = {
-			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
-		}
-	}
-}
-# UNITY T2
-oxr_mdlc_world_machines_building_cohesion_hub = {
-	base_buildtime = @b2_time
-	can_build = no
-
-	category = unity
-
-	potential = {
-		NOT = { has_modifier = resort_colony }
-		exists = owner
-		owner = {
-			oxr_mdlc_planet_owner_can_build_wm_districts = yes
-			oxr_mdlc_origin_world_machine_feature_enabled = yes
-		}
-		is_planet_world_machine = yes
-	}
-
-	# allow = {
-	# 	has_upgraded_capital = yes
-	# }
-
-	destroy_trigger = {
-		exists = owner
-		owner = {
-			OR = {
-				is_machine_empire = no
-				has_valid_civic = civic_machine_servitor
-			}
-		}
-	}
-
-	convert_to = {
-		building_bureaucratic_2
-		building_holotemple
-		building_hive_cluster
-	}
-
-	resources = {
-		category = oxr_mdlc_category_world_machines_buildings
-		cost = {
-			minerals = @b2_minerals
-			rare_crystals = @b2_rare_cost
-		}
-		upkeep = {
-			energy = 21 # @b2_upkeep is 5 + 4 jobs * 4E upkeep
-			rare_crystals = @b2_rare_upkeep
-		}
-		produces = {
-			unity = 16
-		}
-	}
-
-	prerequisites = {
-		"tech_colonial_bureaucracy"
-		"oxr_mdlc_tech_world_machines_unlocked"
-	}
-
-	show_tech_unlock_if = {
-		is_machine_empire = yes
-		NOT = {
-			has_valid_civic = civic_machine_servitor
-		}
-	}
-	on_built = {
-		owner = {
-			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
-		}
-	}
-}
-# RESEARCH T1
-oxr_mdlc_world_machines_building_fractal_sanitizer = {
-	base_buildtime = @b1_time
-
-	exempt_from_ai_planet_specialization = no
-
-	category = research
-
-	potential = {
-		NOT = { has_modifier = resort_colony }
-		exists = owner
-		owner = {
-			oxr_mdlc_planet_owner_can_build_wm_districts = yes
-			oxr_mdlc_origin_world_machine_feature_enabled = yes
-		}
-		is_planet_world_machine = yes
-	}
-
-	destroy_trigger = {
-		OR = {
-			has_modifier = resort_colony
-			has_modifier = slave_colony
-			has_modifier = crucible_colony
-		}
-	}
-
-	resources = {
-		category = oxr_mdlc_category_world_machines_buildings
-		cost = {
-			minerals = @b1_minerals
-		}
-		upkeep = {
-			energy = 10  # base 2 + 2 researcher jobs @ 4 each #@b1_upkeep
-		}
-		produces = {
-			engineering_research = 6 # base 2 jobs at 3 each = 6
-			physics_research = 6
-			society_research = 6
-		}
-	}
-
-	upgrades = {
-		"oxr_mdlc_world_machines_building_fractal_sanitizer_2"
-	}
-
-	prerequisites = {
-		"tech_basic_science_lab_1"
-		"oxr_mdlc_tech_world_machines_unlocked"
-	}
-	on_built = {
-		owner = {
-			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
-		}
-	}
-}
-# RESEARCH T2
-oxr_mdlc_world_machines_building_fractal_sanitizer_2 = {
-	base_buildtime = @b1_time
-	can_build = no
-
-	exempt_from_ai_planet_specialization = no
-
-	category = research
-
-	potential = {
-		NOT = { has_modifier = resort_colony }
-		exists = owner
-		owner = {
-			oxr_mdlc_planet_owner_can_build_wm_districts = yes
-			oxr_mdlc_origin_world_machine_feature_enabled = yes
-		}
-		is_planet_world_machine = yes
-	}
-
-	destroy_trigger = {
-		OR = {
-			has_modifier = resort_colony
-			has_modifier = slave_colony
-			has_modifier = crucible_colony
-		}
-	}
-
-	resources = {
-		category = oxr_mdlc_category_world_machines_buildings
-		cost = {
-			minerals = @b1_minerals
-		}
-		upkeep = {
-			energy = 14  # base 2 + 2 researcher jobs @ 4 each #@b1_upkeep
-		}
-		produces = {
-			engineering_research = 12 # base 4 jobs at 3 each = 12
-			physics_research = 12
-			society_research = 12
-		}
-	}
-
-	prerequisites = {
-		"tech_basic_science_lab_2"
-		"oxr_mdlc_tech_world_machines_unlocked"
-	}
-	on_built = {
-		owner = {
-			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
-		}
-	}
-}
-# MILITARY T1
-oxr_mdlc_world_machines_building_maintenance_legion = {
-	base_buildtime = 240
-	position_priority = 100
-	can_be_ruined = no
-	category = army
-	exempt_from_ai_planet_specialization = no
-
-	potential = {
-		NOT = { has_modifier = resort_colony }
-		exists = owner
-		owner = {
-			oxr_mdlc_planet_owner_can_build_wm_districts = yes
-			oxr_mdlc_origin_world_machine_feature_enabled = yes
-		}
-		is_planet_world_machine = yes
-	}
-
-	triggered_planet_modifier = {
-		potential = {
-			exists = owner
-			owner = { is_gestalt = yes }
-		}
-		modifier = {
-			country_naval_cap_add = 8  # base of 4, times 2 jobs
-		}
-	}
-	triggered_country_modifier = {
-		potential = {
-			planet = {
-				exists = owner
-				owner = { has_technology = "tech_ground_defense_planning" }
-			}
-		}
-		modifier = {
-			country_naval_cap_add = 2
-		}
-	}
-
-	resources = {
-		category = oxr_mdlc_category_world_machines_buildings
-		cost = {
-			minerals = @b1_minerals
-		}
-		upkeep = {
-			energy = 1
-		}
-	}
-
-	prerequisites = {
-		"oxr_mdlc_tech_world_machines_unlocked"
-	}
-	on_built = {
-		owner = {
-			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
-		}
-	}
-}
-# STRATEGIC RESOURCES
-# Gases
-oxr_mdlc_world_machines_building_welding_colony = {
-	base_buildtime = @b2_time
-
-	exempt_from_ai_planet_specialization = no
-	category = manufacturing
-
-	potential = {
-		NOT = { has_modifier = resort_colony }
-		exists = owner
-		owner = {
-			oxr_mdlc_planet_owner_can_build_wm_districts = yes
-			has_technology = oxr_mdlc_tech_world_machines_unlocked
-			has_technology = tech_exotic_gases
-		}
-		is_planet_world_machine = yes
-	}
-
-	resources = {
-		category = oxr_mdlc_category_world_machines_buildings
-		cost = {
-			minerals = 500
-		}
-		upkeep = {
-			energy = 3
-			alloys = 2
-		}
-		produces = {
-			exotic_gases = 3
-		}
-	}
-
-	prerequisites = {
-		"oxr_mdlc_tech_world_machines_unlocked"
-		"tech_exotic_gases"
-	}
-	on_built = {
-		owner = {
-			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
-		}
-	}
-}
-# Motes
-oxr_mdlc_world_machines_building_particle_collider = {
-	base_buildtime = @b2_time
-
-	exempt_from_ai_planet_specialization = no
-	category = manufacturing
-
-	potential = {
-		NOT = { has_modifier = resort_colony }
-		exists = owner
-		owner = {
-			oxr_mdlc_planet_owner_can_build_wm_districts = yes
-			has_technology = oxr_mdlc_tech_world_machines_unlocked
-			has_technology = tech_volatile_motes
-		}
-		is_planet_world_machine = yes
-	}
-
-	resources = {
-		category = oxr_mdlc_category_world_machines_buildings
-		cost = {
-			minerals = @b2_minerals
-		}
-		upkeep = {
-			energy = 7
-		}
-		produces = {
-			volatile_motes = 3
-			physics_research = 3
-		}
-	}
-
-	prerequisites = {
-		"oxr_mdlc_tech_world_machines_unlocked"
-		"tech_volatile_motes"
-	}
-	on_built = {
-		owner = {
-			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
-		}
-	}
-}
-# Crystals
-oxr_mdlc_world_machines_building_crystal_cultivation_tank = {
-	base_buildtime = @b2_time
-
-	exempt_from_ai_planet_specialization = no
-	category = manufacturing
-
-	potential = {
-		NOT = { has_modifier = resort_colony }
-		exists = owner
-		owner = {
-			OR = {
-				oxr_mdlc_planet_owner_can_build_wm_districts = yes
-				has_technology = tech_rare_crystals
-			}
-		}
-		is_planet_world_machine = yes
-	}
-
-	resources = {
-		category = oxr_mdlc_category_world_machines_buildings
-		cost = {
-			minerals = @b2_minerals
-			rare_crystals = 500
-			alloys = 50
-		}
-		upkeep = {
-			energy = 5
-			minerals = 5
-		}
-		produces = {
-			rare_crystals = 3
-		}
-	}
-
-	prerequisites = {
-		"tech_rare_crystals"
-		"oxr_mdlc_tech_world_machines_unlocked"
-	}
-	on_built = {
-		owner = {
-			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
-		}
-	}
-}
-
-## SPECIAL
-oxr_mdlc_world_machines_building_storage_cradle = {
-	base_buildtime = @b3_time
-	category = resource
-
-	potential = {
-		NOT = { has_modifier = resort_colony }
-		exists = owner
-		owner = {
-			oxr_mdlc_planet_owner_can_build_wm_districts = yes
-			has_technology = oxr_mdlc_tech_world_machine_wmc_core
-		}
-		is_planet_world_machine = yes
-	}
-
-	resources = {
-		category = oxr_mdlc_category_world_machines_buildings
-		cost = {
-			alloys = 1000
-		}
-		upkeep = {
-			physics_research = 1
-		}
-		produces = {
-			energy = 3
-		}
-	}
-
-	country_modifier = {
-		country_resource_max_oxr_mdlc_world_machine_core_add = 3
-	}
-	planet_modifier = {
-		planet_max_districts_add = -0.5
-	}
-
-	prerequisites = {
-		"oxr_mdlc_tech_world_machines_unlocked"
-	}
-	on_destroy = {
-		set_variable = {
-			which = oxr_mdlc_planet_world_machine_cores_amount
-			value = value:oxr_mdlc_planet_calculate_max_core_storage
-		}
-	}
-	on_repaired = {
-		set_variable = {
-			which = oxr_mdlc_planet_world_machine_cores_amount
-			value = value:oxr_mdlc_planet_calculate_max_core_storage
-		}
-	}
-
-	# on_repaired = {
-	# 	if = {
-	# 		limit = {
-	# 			planet.owner = {
-	# 				NOT = { has_technology = oxr_mdlc_tech_world_machines_unlocked }
-	# 			}
-	# 		}
-	# 		ruin_building = oxr_mdlc_world_machines_building_storage_cradle
-	# 	}
-	# }
-	# this trigger doesn't work >:/
-	# ruined_trigger = {
-	# 	this.space_owner = {
-	# 		NOT = { has_technology = oxr_mdlc_tech_world_machines_unlocked }
-	# 	}
-	# }
-	on_built = {
-		set_variable = {
-			which = oxr_mdlc_planet_world_machine_cores_amount
-			value = value:oxr_mdlc_planet_calculate_max_core_storage
-		}
-		owner = {
-			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
-		}
-	}
-}
-
-oxr_mdlc_world_machines_building_core_fabrication_depot = {
-	base_buildtime = @b3_time
-	category = manufacturing
-	potential = {
-		NOT = { has_modifier = resort_colony }
-		exists = owner
-		owner = {
-			oxr_mdlc_planet_owner_can_build_wm_districts = yes
-			has_technology = oxr_mdlc_tech_world_machine_wmc_core
-		}
-		is_planet_world_machine = yes
-	}
-
-	resources = {
-		category = oxr_mdlc_category_world_machines_buildings
-		cost = {
-			alloys = 3000
-			minerals = 4000
-		}
-		upkeep = {
-			physics_research = 1
-			energy = 10
-		}
-		produces = {
-			energy = 3
-		}
-		upkeep = {
-			trigger = {
-				has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
-			}
-			energy = 40
-			physics_research = 2
-		}
-		upkeep = {
-			trigger = {
-				has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_on_standby
-			}
-			energy = 10
-		}
-	}
-	prerequisites = {
-		"oxr_mdlc_tech_world_machine_wmc_core"
-	}
-}
-
-# Convert biomass to minerals by burning them ?
-oxr_mdlc_world_machines_building_bio_furnace = {}
 
 ### CAPITAL BUILDINGS ###
 oxr_mdlc_world_machines_building_auto_capital = {
@@ -1161,5 +488,732 @@ oxr_mdlc_world_machines_building_auto_capital_fully_upgraded = {
 
 	upgrades = {
 		"building_imperial_machine_capital"
+	}
+}
+
+
+#### MANUFACTURING ###
+
+
+
+#### MILITARY ####
+# MILITARY T1
+oxr_mdlc_world_machines_building_maintenance_legion = {
+	base_buildtime = 240
+	position_priority = 100
+	can_be_ruined = no
+	category = army
+	exempt_from_ai_planet_specialization = no
+
+	potential = {
+		NOT = { has_modifier = resort_colony }
+		exists = owner
+		owner = {
+			OR = {
+				has_origin = oxr_mdlc_origin_world_machine_awakened
+				has_ascension_perk = xvcv_mdlc_ap_world_machines
+			}
+			oxr_mdlc_origin_world_machine_feature_enabled = yes
+		}
+		is_planet_world_machine = yes
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { is_gestalt = yes }
+		}
+		modifier = {
+			country_naval_cap_add = 8  # base of 4, times 2 jobs
+		}
+	}
+	triggered_country_modifier = {
+		potential = {
+			planet = {
+				exists = owner
+				owner = { has_technology = "tech_ground_defense_planning" }
+			}
+		}
+		modifier = {
+			country_naval_cap_add = 2
+		}
+	}
+
+	resources = {
+		category = oxr_mdlc_category_world_machines_buildings
+		cost = {
+			minerals = @b1_minerals
+		}
+		upkeep = {
+			energy = 1
+		}
+	}
+
+	prerequisites = {
+		"oxr_mdlc_tech_world_machines_unlocked"
+	}
+	on_built = {
+		owner = {
+			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
+		}
+	}
+}
+
+#### RESEARCH ####
+# RESEARCH T1
+oxr_mdlc_world_machines_building_fractal_sanitizer = {
+	base_buildtime = @b1_time
+
+	exempt_from_ai_planet_specialization = no
+
+	category = research
+
+	potential = {
+		NOT = { has_modifier = resort_colony }
+		exists = owner
+		owner = {
+			OR = {
+				has_origin = oxr_mdlc_origin_world_machine_awakened
+				has_ascension_perk = xvcv_mdlc_ap_world_machines
+			}
+			oxr_mdlc_origin_world_machine_feature_enabled = yes
+		}
+		is_planet_world_machine = yes
+	}
+
+	destroy_trigger = {
+		OR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+			has_modifier = crucible_colony
+		}
+	}
+
+	resources = {
+		category = oxr_mdlc_category_world_machines_buildings
+		cost = {
+			minerals = @b1_minerals
+		}
+		upkeep = {
+			energy = 10  # base 2 + 2 researcher jobs @ 4 each #@b1_upkeep
+		}
+		produces = {
+			engineering_research = 6 # base 2 jobs at 3 each = 6
+			physics_research = 6
+			society_research = 6
+		}
+	}
+
+	upgrades = {
+		"oxr_mdlc_world_machines_building_fractal_sanitizer_2"
+	}
+
+	prerequisites = {
+		"tech_basic_science_lab_1"
+		"oxr_mdlc_tech_world_machines_unlocked"
+	}
+	on_built = {
+		owner = {
+			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
+		}
+	}
+}
+# RESEARCH T2
+oxr_mdlc_world_machines_building_fractal_sanitizer_2 = {
+	base_buildtime = @b1_time
+	can_build = no
+
+	exempt_from_ai_planet_specialization = no
+
+	category = research
+
+	potential = {
+		NOT = { has_modifier = resort_colony }
+		exists = owner
+		owner = {
+			OR = {
+				has_origin = oxr_mdlc_origin_world_machine_awakened
+				has_ascension_perk = xvcv_mdlc_ap_world_machines
+			}
+			oxr_mdlc_origin_world_machine_feature_enabled = yes
+		}
+		is_planet_world_machine = yes
+	}
+
+	destroy_trigger = {
+		OR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+			has_modifier = crucible_colony
+		}
+	}
+
+	resources = {
+		category = oxr_mdlc_category_world_machines_buildings
+		cost = {
+			minerals = @b1_minerals
+		}
+		upkeep = {
+			energy = 14  # base 2 + 2 researcher jobs @ 4 each #@b1_upkeep
+		}
+		produces = {
+			engineering_research = 12 # base 4 jobs at 3 each = 12
+			physics_research = 12
+			society_research = 12
+		}
+	}
+
+	prerequisites = {
+		"tech_basic_science_lab_2"
+		"oxr_mdlc_tech_world_machines_unlocked"
+	}
+	on_built = {
+		owner = {
+			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
+		}
+	}
+}
+
+
+#### RESOURCE ####
+# Replace some vanilla buildings with world-machine versions
+xvcv_mdlc_world_machine_auto_farm = {
+	# icon = xvcv_mdlc_pc_mechanical_district_farming
+
+	base_buildtime = @b1_time
+	category = resource
+	potential = {
+		exists = owner
+		owner = {
+			OR = {
+				country_uses_food = yes
+				is_ai = no
+			}
+			oxr_mdlc_origin_world_machine_feature_enabled = yes
+		}
+        is_planet_world_machine = yes
+        NOT = { has_modifier = resort_colony }
+    }
+
+	destroy_trigger = {
+		exists = owner
+		OR = {
+			owner = {
+				is_ai = yes
+				country_uses_food = no
+			}
+			planet = {
+				NOT = { is_planet_class = pc_habitat }
+				free_building_slots = 0
+				owner = {
+					is_ai = yes
+					has_monthly_income = {
+						resource = food
+						value > 100
+					}
+				}
+			}
+		}
+	}
+	resources = {
+		category = oxr_mdlc_category_world_machines_buildings
+		cost = { minerals = @xvcv_mdlc_district_cost_2 }
+		produces = { food = 14 } #{1 job = 6 -1 (is_robot_empire = yes) + 2 (building_food_processing_center) minerals} X 2 jobs #stellaris v3.0.3
+		upkeep = { energy = 1 }
+	}
+	ai_resource_production = {
+		food = 10
+		trigger = { always = yes }
+	}
+	prerequisites = {
+		"tech_hydroponics"
+		"oxr_mdlc_tech_world_machines_unlocked"
+	}
+	on_built = {
+		owner = {
+			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
+		}
+	}
+}
+
+# Replace building_food_processing_facility
+oxr_mdlc_world_machines_building_auto_farm_logistics = {
+	base_buildtime = @b1_time
+	base_cap_amount = 1
+	category = resource
+
+	potential = {
+		NOT = { has_modifier = resort_colony }
+		exists = owner
+		owner = {
+			OR = {
+				has_origin = oxr_mdlc_origin_world_machine_awakened
+				has_ascension_perk = xvcv_mdlc_ap_world_machines
+			}
+			oxr_mdlc_origin_world_machine_feature_enabled = yes
+		}
+		is_planet_world_machine = yes
+	}
+
+	destroy_trigger = {
+		exists = owner
+		OR = {
+			owner = {
+				is_ai = yes
+				country_uses_food = no
+			}
+			is_planet_world_machine = no
+			owner = {
+				NOT = { has_technology = oxr_mdlc_tech_world_machines_unlocked }
+			}
+		}
+	}
+	resources = {
+		category = oxr_mdlc_category_world_machines_buildings
+		cost = {
+			minerals = @b1_minerals
+		}
+		upkeep = {
+			energy = 2
+		}
+		produces = {
+			trigger = { exists = owner }
+			food = 4
+			mult = value:count_world_machines_districts_of_type|DISTRICT_NAME|xvcv_mdlc_pc_machine_auto_district_farming|
+		}
+	}
+	# upgrades = {
+	# 	xvcv_mdlc_world_machine_auto_food_processing_center
+	# }
+	prerequisites = {
+		"tech_food_processing_1"
+		"oxr_mdlc_tech_world_machines_unlocked"
+	}
+	on_built = {
+		owner = {
+			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
+		}
+	}
+}
+
+#### STRATEGIC ####
+# Gases
+oxr_mdlc_world_machines_building_welding_colony = {
+	base_buildtime = @b2_time
+
+	exempt_from_ai_planet_specialization = no
+	category = manufacturing
+
+	potential = {
+		NOT = { has_modifier = resort_colony }
+		exists = owner
+		owner = {
+			OR = {
+				has_origin = oxr_mdlc_origin_world_machine_awakened
+				has_ascension_perk = xvcv_mdlc_ap_world_machines
+			}
+			has_technology = oxr_mdlc_tech_world_machines_unlocked
+			has_technology = tech_exotic_gases
+		}
+		is_planet_world_machine = yes
+	}
+
+	resources = {
+		category = oxr_mdlc_category_world_machines_buildings
+		cost = {
+			minerals = 500
+		}
+		upkeep = {
+			energy = 3
+			alloys = 2
+		}
+		produces = {
+			exotic_gases = 3
+		}
+	}
+
+	prerequisites = {
+		"oxr_mdlc_tech_world_machines_unlocked"
+		"tech_exotic_gases"
+	}
+	on_built = {
+		owner = {
+			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
+		}
+	}
+}
+# Motes
+oxr_mdlc_world_machines_building_particle_collider = {
+	base_buildtime = @b2_time
+
+	exempt_from_ai_planet_specialization = no
+	category = manufacturing
+
+	potential = {
+		NOT = { has_modifier = resort_colony }
+		exists = owner
+		owner = {
+			OR = {
+				has_origin = oxr_mdlc_origin_world_machine_awakened
+				has_ascension_perk = xvcv_mdlc_ap_world_machines
+			}
+			has_technology = oxr_mdlc_tech_world_machines_unlocked
+			has_technology = tech_volatile_motes
+		}
+		is_planet_world_machine = yes
+	}
+
+	resources = {
+		category = oxr_mdlc_category_world_machines_buildings
+		cost = {
+			minerals = @b2_minerals
+		}
+		upkeep = {
+			energy = 7
+		}
+		produces = {
+			volatile_motes = 3
+			physics_research = 3
+		}
+	}
+
+	prerequisites = {
+		"oxr_mdlc_tech_world_machines_unlocked"
+		"tech_volatile_motes"
+	}
+	on_built = {
+		owner = {
+			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
+		}
+	}
+}
+# Crystals
+oxr_mdlc_world_machines_building_crystal_cultivation_tank = {
+	base_buildtime = @b2_time
+
+	exempt_from_ai_planet_specialization = no
+	category = manufacturing
+
+	potential = {
+		NOT = { has_modifier = resort_colony }
+		exists = owner
+		owner = {
+			OR = {
+				has_origin = oxr_mdlc_origin_world_machine_awakened
+				has_ascension_perk = xvcv_mdlc_ap_world_machines
+				has_technology = tech_rare_crystals
+			}
+		}
+		is_planet_world_machine = yes
+	}
+
+	resources = {
+		category = oxr_mdlc_category_world_machines_buildings
+		cost = {
+			minerals = @b2_minerals
+			rare_crystals = 500
+			alloys = 50
+		}
+		upkeep = {
+			energy = 5
+			minerals = 5
+		}
+		produces = {
+			rare_crystals = 3
+		}
+	}
+
+	prerequisites = {
+		"tech_rare_crystals"
+		"oxr_mdlc_tech_world_machines_unlocked"
+	}
+	on_built = {
+		owner = {
+			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
+		}
+	}
+}
+
+ # Convert biomass to minerals by burning them ?
+oxr_mdlc_world_machines_building_bio_furnace = {}
+
+
+#### UNITY ####
+
+# UNITY T1
+oxr_mdlc_world_machines_building_cohesion_supervisor = {
+	base_buildtime = @b1_time
+
+	exempt_from_ai_planet_specialization = no
+
+	category = unity
+
+	potential = {
+		exists = owner
+		NOR = {
+			has_modifier = resort_colony
+			has_modifier = crucible_colony
+		}
+		exists = owner
+		# owner = {
+		# 	has_origin = oxr_mdlc_origin_world_machine_awakened
+		# }
+		is_planet_world_machine = yes
+		owner = {
+			oxr_mdlc_origin_world_machine_feature_enabled = yes
+		}
+		
+	}
+	destroy_trigger = {
+		exists = owner
+		owner = {
+			OR = {
+				is_machine_empire = no
+				has_valid_civic = civic_machine_servitor
+			}
+		}
+	}
+
+	convert_to = {
+		building_bureaucratic_1
+		building_temple
+		building_hive_node
+	}
+
+	resources = {
+		category = oxr_mdlc_category_world_machines_buildings  # could also be planet_administrators
+		cost = {
+			minerals = @b1_minerals  # 400
+		}
+		upkeep = {
+			energy = 8 #@b1_upkeep
+		}
+		produces = { unity = 8 }
+	}
+
+	triggered_desc = {
+		text = job_coordinator_effect_desc
+	}
+
+	upgrades = {
+		"oxr_mdlc_world_machines_building_cohesion_hub"
+	}
+
+	prerequisites = {
+		"tech_planetary_government"
+		"oxr_mdlc_tech_world_machines_unlocked"
+	}
+
+	show_tech_unlock_if = {
+		is_machine_empire = yes
+		NOT = {
+			has_valid_civic = civic_machine_servitor
+		}
+	}
+	on_built = {
+		owner = {
+			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
+		}
+	}
+}
+# UNITY T2
+oxr_mdlc_world_machines_building_cohesion_hub = {
+	base_buildtime = @b2_time
+	can_build = no
+
+	category = unity
+
+	potential = {
+		NOT = { has_modifier = resort_colony }
+		exists = owner
+		owner = {
+			OR = {
+				has_origin = oxr_mdlc_origin_world_machine_awakened
+				has_ascension_perk = xvcv_mdlc_ap_world_machines
+			}
+			oxr_mdlc_origin_world_machine_feature_enabled = yes
+		}
+		is_planet_world_machine = yes
+	}
+
+	# allow = {
+	# 	has_upgraded_capital = yes
+	# }
+
+	destroy_trigger = {
+		exists = owner
+		owner = {
+			OR = {
+				is_machine_empire = no
+				has_valid_civic = civic_machine_servitor
+			}
+		}
+	}
+
+	convert_to = {
+		building_bureaucratic_2
+		building_holotemple
+		building_hive_cluster
+	}
+
+	resources = {
+		category = oxr_mdlc_category_world_machines_buildings
+		cost = {
+			minerals = @b2_minerals
+			rare_crystals = @b2_rare_cost
+		}
+		upkeep = {
+			energy = 21 # @b2_upkeep is 5 + 4 jobs * 4E upkeep
+			rare_crystals = @b2_rare_upkeep
+		}
+		produces = {
+			unity = 16
+		}
+	}
+
+	prerequisites = {
+		"tech_colonial_bureaucracy"
+		"oxr_mdlc_tech_world_machines_unlocked"
+	}
+
+	show_tech_unlock_if = {
+		is_machine_empire = yes
+		NOT = {
+			has_valid_civic = civic_machine_servitor
+		}
+	}
+	on_built = {
+		owner = {
+			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
+		}
+	}
+}
+
+#### UNIQUE ####
+oxr_mdlc_world_machines_building_storage_cradle = {
+	base_buildtime = @b3_time
+	category = resource
+
+	potential = {
+		NOT = { has_modifier = resort_colony }
+		exists = owner
+		owner = {
+			OR = {
+				has_origin = oxr_mdlc_origin_world_machine_awakened
+				has_ascension_perk = xvcv_mdlc_ap_world_machines
+			}
+			has_technology = oxr_mdlc_tech_world_machine_wmc_core
+		}
+		is_planet_world_machine = yes
+	}
+
+	resources = {
+		category = oxr_mdlc_category_world_machines_buildings
+		cost = {
+			alloys = 1000
+		}
+		upkeep = {
+			physics_research = 1
+		}
+		produces = {
+			energy = 3
+		}
+	}
+
+	country_modifier = {
+		country_resource_max_oxr_mdlc_world_machine_core_add = 3
+	}
+	planet_modifier = {
+		planet_max_districts_add = -0.5
+	}
+
+	prerequisites = {
+		"oxr_mdlc_tech_world_machines_unlocked"
+	}
+	on_destroy = {
+		set_variable = {
+			which = oxr_mdlc_planet_world_machine_cores_amount
+			value = value:oxr_mdlc_planet_calculate_max_core_storage
+		}
+	}
+	on_repaired = {
+		set_variable = {
+			which = oxr_mdlc_planet_world_machine_cores_amount
+			value = value:oxr_mdlc_planet_calculate_max_core_storage
+		}
+	}
+
+	# on_repaired = {
+	# 	if = {
+	# 		limit = {
+	# 			planet.owner = {
+	# 				NOT = { has_technology = oxr_mdlc_tech_world_machines_unlocked }
+	# 			}
+	# 		}
+	# 		ruin_building = oxr_mdlc_world_machines_building_storage_cradle
+	# 	}
+	# }
+	# this trigger doesn't work >:/
+	# ruined_trigger = {
+	# 	this.space_owner = {
+	# 		NOT = { has_technology = oxr_mdlc_tech_world_machines_unlocked }
+	# 	}
+	# }
+	on_built = {
+		set_variable = {
+			which = oxr_mdlc_planet_world_machine_cores_amount
+			value = value:oxr_mdlc_planet_calculate_max_core_storage
+		}
+		owner = {
+			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
+		}
+	}
+}
+
+oxr_mdlc_world_machines_building_core_fabrication_depot = {
+	base_buildtime = @b3_time
+	category = manufacturing
+	potential = {
+		NOT = { has_modifier = resort_colony }
+		exists = owner
+		owner = {
+			OR = {
+				has_origin = oxr_mdlc_origin_world_machine_awakened
+				has_ascension_perk = xvcv_mdlc_ap_world_machines
+			}
+			has_technology = oxr_mdlc_tech_world_machine_wmc_core
+		}
+		is_planet_world_machine = yes
+	}
+
+	resources = {
+		category = oxr_mdlc_category_world_machines_buildings
+		cost = {
+			alloys = 3000
+			minerals = 4000
+		}
+		upkeep = {
+			physics_research = 1
+			energy = 10
+		}
+		produces = {
+			energy = 3
+		}
+		upkeep = {
+			trigger = {
+				has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
+			}
+			energy = 40
+			physics_research = 2
+		}
+		upkeep = {
+			trigger = {
+				has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_on_standby
+			}
+			energy = 10
+		}
+	}
+	prerequisites = {
+		"oxr_mdlc_tech_world_machine_wmc_core"
 	}
 }
