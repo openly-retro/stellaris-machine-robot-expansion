@@ -798,3 +798,38 @@ oxr_mdlc_planet_start_refilling_district_defense_armies = {
 		days = 7
 	}
 }
+
+oxr_mdlc_country_create_world_machine_mass_shipping_country = {
+	if = {
+		limit = {
+			NOT = {
+				any_country = {
+					is_country_type = oxr_mdlc_world_machine_mass_shipping
+				}
+			}
+		}
+		create_country = {
+			name = "name_xvcv_mdlc_trading_machine_controller"
+			type = oxr_mdlc_world_machine_mass_shipping
+			flag = {
+				icon = {
+					category = "special"
+					file = "caravaneer_02.dds"
+				}
+				background = {
+					category = "backgrounds"
+					file = "flag_BG_55.dds"
+				}
+				colors = {
+					"green"
+					"dark_green"
+					"null"
+					"null"
+				}
+			}
+			effect = {
+				save_global_event_target_as = oxr_mdlc_world_machine_mass_shipping
+			}
+		}
+	}
+}
