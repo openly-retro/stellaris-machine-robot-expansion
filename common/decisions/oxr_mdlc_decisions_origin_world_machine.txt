@@ -22,7 +22,6 @@ oxr_mdlc_decisions_origin_wm_start_world_with_core = {
 	resources = {
 		category = decisions
 		cost = {
-			# oxr_mdlc_world_machine_core = 1
 			energy = 2500
 		}
 	}
@@ -288,13 +287,13 @@ oxr_mdlc_decisions_origin_wm_expand_planet = {
 				limit = {
 					NOT = {
 						space_owner = {
-							has_ascension_perk = oxr_mdlc_origin_world_machine_singularity
+							has_ascension_perk = oxr_mdlc_ap_origin_world_machine_singularity
 						}
 					}
 				}
 				check_variable = {
 					which = oxr_mdlc_world_machine_expansion_levels
-					value < 4
+					value <= 3
 				}
 			}
 		}
@@ -316,6 +315,14 @@ oxr_mdlc_decisions_origin_wm_expand_planet = {
 				value = 1
 			}
 			remove_planet_flag = oxr_mdlc_world_machine_expansion_queued
+			if = {
+				limit = {
+					NOT = {
+						has_deposit = oxr_mdlc_d_world_machine_expansion_core
+					}
+				}
+				add_deposit = oxr_mdlc_d_world_machine_expansion_core
+			}
 		}
 
 	}
