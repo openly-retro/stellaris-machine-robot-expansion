@@ -25,7 +25,11 @@ Warnings about working with Clausewitz syntax (what base Stellaris traits files 
 - It wiLL DaNcE On yOuR SaNiTy
 - You may lose yourself to possession of a psionic avatar if you stare too long or try to apply your ideas of "rules" and "well this could be standardized pretty easily"
 
+# Art Credits
 
+- https://pixabay.com/illustrations/water-technology-sci-fi-futuristic-7547817/ by [https://pixabay.com/users/joker39-30858803/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=7547817](Melvyn Thevenin) from [https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=7547817"](Pixabay) , used for World Machine planetary deposits and other artworks
+
+- [https://www.deviantart.com/xxaries1970xx/art/Digital-Circuit-936780185](Digital Circuit, by XxAries1970xX) , used for the Source Code Reprogramming event-related banners and other artworks.
 
 # Code generation workflow (The Good Stuff)
 
