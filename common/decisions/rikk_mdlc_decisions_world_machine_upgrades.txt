@@ -1,0 +1,334 @@
+#auto worlds
+#	xvcv_mdlc_pc_machine_auto
+#	xvcv_mdlc_pc_ringworld_machine_auto
+#	xvcv_mdlc_pc_machine_ecu
+#	xvcv_mdlc_pc_machine_cpu
+#	xvcv_mdlc_pc_machine_ser
+
+rikk_mdlc_decision_world_machine_crust_roots = {
+	owned_planets_only = yes
+	enactment_time = 600
+	
+	resources = {
+		category = decisions
+		cost = {
+			minerals = 2000
+		}
+	}	
+	potential = {
+		exists = owner
+		owner = {
+			AND = {
+				oxr_mdlc_planet_owner_can_build_wm_districts = yes 
+				has_technology = rikk_mdlc_tech_world_machine_crust_upgrade
+			}
+		}
+		rikk_mdlc_is_wm_planet_trigger = yes
+		NOT = { has_deposit = rikk_mdlc_d_world_machine_crust_roots }
+	}
+	
+	effect = {
+		add_deposit = rikk_mdlc_d_world_machine_crust_roots
+	}
+}
+
+rikk_mdlc_decision_world_machine_cooling_towers = {
+	owned_planets_only = yes
+	enactment_time = 600
+	
+	resources = {
+		category = decisions
+		cost = {
+			alloys = 1000
+		}
+	}	
+	potential = {
+		exists = owner
+		rikk_mdlc_is_wm_planet_trigger = yes
+		has_technology = rikk_mdlc_tech_world_machine_crust_upgrade
+		NOT = { is_planet_class = xvcv_mdlc_pc_machine_auto }
+		NOT = { has_deposit = rikk_mdlc_d_world_machine_cooling_towers }
+	}
+	
+	allow = {
+		has_deposit = rikk_mdlc_d_world_machine_crust_roots
+		owner = { has_technology = rikk_mdlc_tech_world_machine_crust_upgrade }
+	}
+	
+	effect = {
+		add_deposit = rikk_mdlc_d_world_machine_cooling_towers
+		hidden_effect = {
+			planet_event = {
+				id = rikk_mdlc_wm_upgrade_events.70 
+				days = 1
+			}
+		}
+	}
+}
+
+
+#Mantle
+rikk_mdlc_decision_world_machine_mantle_roots = {
+	owned_planets_only = yes
+	enactment_time = 600
+	
+	resources = {
+		category = decisions
+		cost = {
+			minerals = 2000
+			energy = 2000
+		}
+	}	
+	potential = {
+		exists = owner
+		owner = {
+			AND = {
+				oxr_mdlc_planet_owner_can_build_wm_districts = yes 
+				has_technology = rikk_mdlc_tech_world_machine_mantle_upgrade
+			}
+		}
+		rikk_mdlc_is_wm_planet_trigger = yes
+		NOT = { has_deposit = rikk_mdlc_d_world_machine_mantle_roots }
+		has_deposit = rikk_mdlc_d_world_machine_crust_roots
+	}
+	
+	effect = {
+		add_deposit = rikk_mdlc_d_world_machine_mantle_roots
+	}
+}
+
+
+rikk_mdlc_decision_world_machine_mantle_engine = {
+	owned_planets_only = yes
+	enactment_time = 720
+	
+	resources = {
+		category = decisions
+		cost = {
+			alloys = 1000
+		}
+	}	
+	potential = {
+		exists = owner
+		rikk_mdlc_is_wm_planet_trigger = yes
+		has_technology = rikk_mdlc_tech_world_machine_mantle_upgrade
+		NOT = { has_deposit = rikk_mdlc_d_world_machine_mantle_engine }
+	}
+	
+	allow = {
+		rikk_mdlc_is_wm_planet_trigger = yes
+		has_deposit = rikk_mdlc_d_world_machine_mantle_roots
+		owner = { has_technology = rikk_mdlc_tech_world_machine_mantle_upgrade }
+	}
+	
+	effect = {
+		add_deposit = rikk_mdlc_d_world_machine_mantle_engine
+	}
+}
+
+rikk_mdlc_decision_world_machine_reinforced_planet = {
+	owned_planets_only = yes
+	enactment_time = 720
+	
+	resources = {
+		category = decisions
+		cost = {
+			minerals = 750
+			mult = value:count_world_machines_districts_not_cooling
+		}
+	}
+	
+	potential = {
+		exists = owner
+		rikk_mdlc_is_wm_planet_trigger = yes
+		has_technology = rikk_mdlc_tech_world_machine_mantle_upgrade
+		has_deposit = rikk_mdlc_d_world_machine_mantle_engine
+		NOT = { has_planet_flag = rikk_mdlc_planet_reinforced }
+	}
+	
+	effect = {
+		set_planet_flag = rikk_mdlc_planet_reinforced
+		custom_tooltip = rikk_mdlc_decision_world_machine_reinforced_planet_effect
+	}
+}
+
+#Outer_Core
+rikk_mdlc_decision_world_machine_outer_core_roots = {
+	owned_planets_only = yes
+	enactment_time = 600
+	
+	resources = {
+		category = decisions
+		cost = {
+			minerals = 5000
+			energy = 5000
+		}
+	}	
+	potential = {
+		exists = owner
+		owner = {
+			AND = {
+				oxr_mdlc_planet_owner_can_build_wm_districts = yes
+				has_technology = rikk_mdlc_tech_world_machine_outer_core_upgrade
+			}
+		}
+		rikk_mdlc_is_wm_planet_trigger = yes
+		NOT = { has_deposit = rikk_mdlc_d_world_machine_outer_core_roots }
+		has_deposit = rikk_mdlc_d_world_machine_mantle_roots
+	}
+	
+	effect = {
+		add_deposit = rikk_mdlc_d_world_machine_outer_core_roots
+	}
+}
+
+rikk_mdlc_decision_world_machine_outer_core_tap = {
+	owned_planets_only = yes
+	enactment_time = 720
+	
+	resources = {
+		category = decisions
+		cost = {
+			alloys = 2000
+		}
+	}	
+	potential = {
+		exists = owner
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		rikk_mdlc_is_wm_industrial_trigger = yes
+		NOT = { has_deposit = rikk_mdlc_d_world_machine_outer_core_tap }
+	}
+	
+	allow = {
+		has_deposit = rikk_mdlc_d_world_machine_outer_core_roots
+		owner = { has_technology = rikk_mdlc_tech_world_machine_outer_core_upgrade }
+	}
+	
+	effect = {
+		add_deposit = rikk_mdlc_d_world_machine_outer_core_tap
+	}
+}
+
+rikk_mdlc_decision_world_machine_outer_core_cooling = {
+	owned_planets_only = yes
+	enactment_time = 30
+	
+	resources = {
+		category = decisions
+		cost = {
+			alloys = 2000
+		}
+	}	
+	potential = {
+		exists = owner
+		owner = { has_technology = rikk_mdlc_tech_world_machine_outer_core_upgrade }
+		rikk_mdlc_is_wm_computer_trigger = yes
+		NOT = { has_deposit = rikk_mdlc_d_world_machine_outer_core_cooled }
+	}
+	
+	allow = {
+		has_deposit = rikk_mdlc_d_world_machine_outer_core_roots
+		owner = { has_technology = rikk_mdlc_tech_world_machine_outer_core_upgrade }
+	}
+	
+	effect = {
+		add_modifier = { modifier = rikk_mdlc_world_machine_outer_core_cooling days = 3 }
+		hidden_effect = { planet_event = { id = rikk_mdlc_wm_upgrade_events.110 days = 3 } }
+	}
+}
+
+#Inner_Core
+rikk_mdlc_decision_world_machine_inner_core_roots = {
+	owned_planets_only = yes
+	enactment_time = 600
+	
+	resources = {
+		category = decisions
+		cost = {
+			minerals = 5000
+			energy = 10000
+		}
+	}	
+	potential = {
+		exists = owner
+		owner = {
+			AND = {
+				oxr_mdlc_planet_owner_can_build_wm_districts = yes 
+				has_technology = rikk_mdlc_tech_world_machine_inner_core_upgrade
+			}
+		}
+		rikk_mdlc_is_wm_planet_trigger = yes
+		NOT = { has_deposit = rikk_mdlc_d_world_machine_inner_core_roots }
+		has_deposit = rikk_mdlc_d_world_machine_outer_core_roots
+	}
+	
+	effect = {
+		add_deposit = rikk_mdlc_d_world_machine_inner_core_roots
+	}
+}
+
+#core core
+rikk_mdlc_decision_world_machine_core_core = {
+	owned_planets_only = yes
+	enactment_time = 30
+	
+	resources = {
+		category = decisions
+		cost = {
+			alloys = 7500
+			unity = 7500
+		}
+	}
+	potential = {
+		exists = owner
+		rikk_mdlc_is_wm_planet_trigger = yes
+		has_deposit = rikk_mdlc_d_world_machine_inner_core_roots
+		owner = { has_technology = rikk_mdlc_tech_world_machine_inner_core_upgrade }
+		NOR = {
+			has_planet_flag = rikk_mdlc_core_core_installed
+			has_planet_flag = rikk_mdlc_situation_core_core_active
+		}
+	}
+	
+	effect = {
+		hidden_effect = {
+			set_planet_flag = rikk_mdlc_situation_core_core_active
+		}
+		owner = {
+			start_situation = {
+				type = rikk_mdlc_situation_core_core
+				target = root
+			}
+		}
+	}
+}
+
+rikk_mdlc_decision_world_machine_inner_core_tap = {
+	owned_planets_only = yes
+	enactment_time = 720
+	
+	resources = {
+		category = decisions
+		cost = {
+			alloys = 5000
+		}
+	}	
+	potential = {
+		exists = owner
+		rikk_mdlc_is_wm_planet_trigger = yes
+		owner = { has_technology = rikk_mdlc_tech_world_machine_inner_core_upgrade }
+		NOR = {
+			has_deposit = rikk_mdlc_d_world_machine_core_tap
+			has_planet_flag = rikk_mdlc_core_core_installed
+			has_planet_flag = rikk_mdlc_situation_core_core_active
+		}
+	}
+	
+	allow = {
+		has_deposit = rikk_mdlc_d_world_machine_inner_core_roots
+	}
+	
+	effect = {
+		add_deposit = rikk_mdlc_d_world_machine_core_tap
+	}
+}
