@@ -101,3 +101,83 @@ oxr_mdlc_planet_can_refill_district_defense_armies = {
 		}
 	}
 }
+
+### T3 Worlds
+oxr_mdlc_country_origin_wm_can_unlock_t3_ecu = {
+	has_country_flag = oxr_mdlc_origin_world_machine_t3_ecu_alloys_target_met
+	has_country_flag = oxr_mdlc_origin_world_machine_t3_ecu_sr_target_met
+	has_country_flag = oxr_mdlc_origin_world_machine_t3_ecu_naval_cap_target_met
+}
+oxr_mdlc_country_origin_wm_met_t3_ecu_alloy_target = {
+	OR = {
+		has_monthly_income = {
+			resource = alloys
+			value >= @oxr_mdlc_t3_ecu_alloys_target
+		}
+		has_country_flag = oxr_mdlc_origin_world_machine_t3_ecu_alloys_target_met
+	}
+	
+}
+oxr_mdlc_country_origin_wm_met_t3_ecu_sr_target = {
+	OR = {
+		AND = {
+			has_monthly_income = {
+				resource = volatile_motes
+				value >= @oxr_mdlc_t3_ecu_sr_target
+			}
+			has_monthly_income = {
+				resource = exotic_gases
+				value >= @oxr_mdlc_t3_ecu_sr_target
+			}
+			has_monthly_income = {
+				resource = rare_crystals
+				value >= @oxr_mdlc_t3_ecu_sr_target
+			}
+		}
+		has_country_flag = oxr_mdlc_origin_world_machine_t3_ecu_sr_target_met
+	}
+}
+
+oxr_mdlc_country_origin_wm_can_unlock_t3_cpu = {
+	has_country_flag = oxr_mdlc_origin_world_machine_t3_cpu_any_research_target_met
+}
+oxr_mdlc_country_origin_wm_met_t3_cpu_target = {
+	OR = {
+		OR = {
+			has_monthly_income = {
+				resource = society_research
+				value >= @oxr_mdlc_t3_cpu_any_research_target
+			}
+			has_monthly_income = {
+				resource = engineering_research
+				value >= @oxr_mdlc_t3_cpu_any_research_target
+			}
+			has_monthly_income = {
+				resource = physics_research
+				value >= @oxr_mdlc_t3_cpu_any_research_target
+			}
+		}
+		has_country_flag = oxr_mdlc_origin_world_machine_t3_cpu_any_research_target_met
+	}
+}
+
+
+oxr_mdlc_country_origin_wm_can_unlock_t3_ser = {
+	has_country_flag = oxr_mdlc_origin_world_machine_t3_ser_unity_target_met
+}
+oxr_mdlc_country_origin_wm_met_t3_ser_unity_target = {
+	OR = {
+		has_monthly_income = {
+			resource = unity
+			value >= @oxr_mdlc_t3_ser_unity_target
+		}
+		has_country_flag = oxr_mdlc_origin_world_machine_t3_ser_unity_target_met
+	}
+	
+}
+oxr_mdlc_country_origin_wm_met_t3_ser_naval_target = {
+	OR = {
+		max_naval_capacity >= @oxr_mdlc_t3_ecu_naval_cap_target
+		has_country_flag = oxr_mdlc_origin_world_machine_t3_ecu_naval_cap_target_met
+	}
+}	
