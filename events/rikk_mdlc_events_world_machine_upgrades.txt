@@ -77,6 +77,42 @@ country_event = {
 }
 
 planet_event = {
+	id = rikk_mdlc_wm_upgrade_events.130
+	title = rikk_mdlc_wm_upgrade_events.130.name
+	desc = rikk_mdlc_wm_upgrade_events.130.desc
+	picture = GFX_evt_burning_city
+	show_sound = event_scanner
+	is_triggered_only = yes
+	
+	immediate = {
+		owner = { set_country_flag = wm_upgrade_reinforced_planet_allowed }
+	}
+
+	option = {
+		name = rikk_mdlc_wm_upgrade_events.130.a
+		custom_tooltip = rikk_mdlc_wm_upgrade_events.130.a.tooltip
+	}
+}
+
+planet_event = {
+	id = rikk_mdlc_wm_upgrade_events.131
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		rikk_mdlc_is_wm_planet_trigger = yes
+		has_deposit = rikk_mdlc_d_world_machine_mantle_engine
+		owner = { has_technology = rikk_mdlc_tech_world_machine_mantle_upgrade }
+		NOT = { owner = { has_country_flag = wm_upgrade_reinforced_planet_allowed } }
+	}
+	
+	immediate = {
+		planet_event = { id = rikk_mdlc_wm_upgrade_events.130 days = 10 }
+		owner = { set_country_flag = wm_upgrade_reinforced_planet_allowed }
+	}
+}
+
+planet_event = {
 	id = rikk_mdlc_wm_upgrade_events.70
 	hide_window = yes
 	is_triggered_only = yes
