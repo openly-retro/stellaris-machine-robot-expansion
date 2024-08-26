@@ -94,35 +94,27 @@ situation_event = {
 	show_sound = event_scanner
 	is_triggered_only = yes
 	
-	trigger = {
-		target = {
-			NOT = {
-				owner = {
-					has_country_flag = rikk_mdlc_core_core_shaddup
-				}
-			}
-		}
-	}
+	trigger = { NOT = { owner = { has_country_flag = rikk_mdlc_core_core_shaddup } } }
 	
 	option = {
 		name = rikk_mdlc_wm_upgrade_events.20.a
 		target = { 
 			add_modifier = { modifier = weak_magnetic_field }
 			if = {
-				limit = {
-					has_deposit = rikk_mdlc_d_world_machine_inner_core_roots
-				}
-				remove_deposit = rikk_mdlc_d_world_machine_inner_core_roots
+				limit = { has_deposit = rikk_mdlc_d_world_machine_core_tap }
+				remove_deposit = rikk_mdlc_d_world_machine_core_tap
 			}
 		}
 	}
 	
 	option = {
 		name = rikk_mdlc_wm_upgrade_events.20.b
-		target = { add_modifier = { modifier = weak_magnetic_field } }
-		hidden_effect = {
-			owner = {
-				set_country_flag = rikk_mdlc_core_core_shaddup
+		hidden_effect = { owner = { set_country_flag = rikk_mdlc_core_core_shaddup } }
+		target = { 
+			add_modifier = { modifier = weak_magnetic_field }
+			if = {
+				limit = { has_deposit = rikk_mdlc_d_world_machine_core_tap }
+				remove_deposit = rikk_mdlc_d_world_machine_core_tap
 			}
 		}
 	}
@@ -168,15 +160,7 @@ situation_event = {
 	show_sound = event_scanner
 	is_triggered_only = yes
 	
-	trigger = {
-		target = {
-			NOT = {
-				owner = {
-					has_country_flag = rikk_mdlc_core_core_shaddup
-				}
-			}
-		}
-	}
+	trigger = { NOT = { owner = { has_country_flag = rikk_mdlc_core_core_shaddup } } }
 	
 	option = {
 		target = { add_modifier = { modifier = weak_magnetic_field mult = 2 } }
@@ -186,10 +170,6 @@ situation_event = {
 	option = {
 		name = rikk_mdlc_wm_upgrade_events.20.b
 		target = { add_modifier = { modifier = weak_magnetic_field mult = 2 } }
-		hidden_effect = {
-			owner = {
-				set_country_flag = rikk_mdlc_core_core_shaddup
-			}
-		}
+		hidden_effect = { owner = { set_country_flag = rikk_mdlc_core_core_shaddup } }
 	}
 }
