@@ -112,7 +112,7 @@ planet_event = {
 	}
 }
 
-planet_event = {
+planet_event = {ai_planet
 	id = rikk_mdlc_wm_upgrade_events.70
 	hide_window = yes
 	is_triggered_only = yes
@@ -132,10 +132,12 @@ situation_event = {
 	
 	trigger = { NOT = { owner = { has_country_flag = rikk_mdlc_core_core_shaddup } } }
 	
+	immediate = { target = { set_variable = { which = rikk_mdlc_magnetic_field_var value = 1 } } }
+	
 	option = {
 		name = rikk_mdlc_wm_upgrade_events.20.a
 		target = { 
-			add_modifier = { modifier = weak_magnetic_field }
+			add_modifier = { modifier = weak_magnetic_field mult = rikk_mdlc_magnetic_field_var }
 			if = {
 				limit = { has_deposit = rikk_mdlc_d_world_machine_core_tap }
 				remove_deposit = rikk_mdlc_d_world_machine_core_tap
@@ -147,7 +149,7 @@ situation_event = {
 		name = rikk_mdlc_wm_upgrade_events.20.b
 		hidden_effect = { owner = { set_country_flag = rikk_mdlc_core_core_shaddup } }
 		target = { 
-			add_modifier = { modifier = weak_magnetic_field }
+			add_modifier = { modifier = weak_magnetic_field mult = rikk_mdlc_magnetic_field_var }
 			if = {
 				limit = { has_deposit = rikk_mdlc_d_world_machine_core_tap }
 				remove_deposit = rikk_mdlc_d_world_machine_core_tap
@@ -187,6 +189,24 @@ planet_event = {
 	}
 }
 
+situation_event = {
+	id = rikk_mdlc_wm_upgrade_events.23
+	is_triggered_only = yes
+
+	trigger = {
+		current_stage = stage_2 
+	}
+
+	immediate = {
+		target = {
+			change_variable = {
+				which = rikk_mdlc_magnetic_field_var
+				value = 0.4
+			}
+			add_modifier = { modifier = weak_magnetic_field mult = rikk_mdlc_magnetic_field_var }
+		}
+	}
+}
 
 situation_event = {
 	id = rikk_mdlc_wm_upgrade_events.30
@@ -199,13 +219,27 @@ situation_event = {
 	trigger = { NOT = { owner = { has_country_flag = rikk_mdlc_core_core_shaddup } } }
 	
 	option = {
-		target = { add_modifier = { modifier = weak_magnetic_field mult = 2 } }
 		name = rikk_mdlc_wm_upgrade_events.20.a
 	}
 	
 	option = {
 		name = rikk_mdlc_wm_upgrade_events.20.b
-		target = { add_modifier = { modifier = weak_magnetic_field mult = 2 } }
 		hidden_effect = { owner = { set_country_flag = rikk_mdlc_core_core_shaddup } }
+	}
+}
+
+situation_event = {
+	id = rikk_mdlc_wm_upgrade_events.40
+	title = rikk_mdlc_wm_upgrade_events.40.name
+	desc = rikk_mdlc_wm_upgrade_events.40.desc
+	picture = GFX_evt_sapient_AI
+	show_sound = event_scanner
+	is_triggered_only = yes
+	
+	trigger = { NOT = { owner = { has_country_flag = rikk_mdlc_core_core_shaddup } } }
+	
+	option = {
+		name = rikk_mdlc_wm_upgrade_events.40.a
+		target = { remove_modifier = { modifier = weak_magnetic_field } }
 	}
 }
