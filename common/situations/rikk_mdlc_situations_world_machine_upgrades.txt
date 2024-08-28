@@ -39,6 +39,7 @@ rikk_mdlc_situation_core_core = {
 			
 			on_first_enter = { 
 				situation_event = { id = rikk_mdlc_wm_upgrade_events.20 }
+				target = { planet_event = { id = rikk_mdlc_wm_upgrade_events.70 days = 1 } }
 				if = {
 					limit = {
 						owner = { has_country_flag = rikk_mdlc_core_core_shaddup }
@@ -57,12 +58,6 @@ rikk_mdlc_situation_core_core = {
 			
 			on_first_enter = { 
 				situation_event = { id = rikk_mdlc_wm_upgrade_events.30 }
-				if = {
-					limit = {
-						owner = { has_country_flag = rikk_mdlc_core_core_shaddup }
-					}
-					target = { add_modifier = { modifier = weak_magnetic_field mult = 2 } }
-				}
 			}
 		}
 	}
@@ -78,7 +73,9 @@ rikk_mdlc_situation_core_core = {
 
 	on_progress_complete = {
 		custom_tooltip = rikk_mdlc_situation_core_core_complete
+		situation_event = { id = rikk_mdlc_wm_upgrade_events.40 }
 		target  = {
+			remove_modifier = weak_magnetic_field
 			add_deposit = rikk_mdlc_d_world_machine_core_core
 			hidden_effect = {
 				set_planet_flag = rikk_mdlc_core_core_installed
