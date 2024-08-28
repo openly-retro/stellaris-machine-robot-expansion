@@ -1,54 +1,5 @@
 namespace = rikk_mdlc_wm_upgrade_events
 
-#planet_event = {
-#	id = rikk_mdlc_wm_upgrade_events.100
-#	hide_window = yes
-#	is_triggered_only = yes
-#
-#	immediate = {
-#		if = {
-#			limit = {
-#				OR = {
-#					is_planet_class = xvcv_mdlc_pc_machine_ecu
-#					is_planet_class = xvcv_mdlc_pc_machine_cpu
-#					is_planet_class = xvcv_mdlc_pc_machine_ser
-#				}
-#			}
-#			set_planet_flag = rikk_mdlc_is_wm
-#			if = {
-#				limit = {
-#					OR = {
-#						is_planet_class = pc_frozen
-#						is_planet_class = pc_barren_cold
-#					}
-#				}
-#				set_planet_flag = rikk_mdlc_wm_frozen
-#			}
-#			if = {
-#				limit = {
-#					is_planet_class = pc_molten
-#				}
-#				set_planet_flag = rikk_mdlc_wm_lava
-#			}
-#			#if = {
-#			#	limit = {
-#			#		is_planet_class = pc_gray_goo
-#			#	}
-#			#	set_planet_flag = rikk_mdlc_wm_gray_goo
-#			#}
-#			if = {
-#				limit = {
-#					NOR = {
-#						has_planet_flag = rikk_mdlc_wm_lava
-#						has_planet_flag = rikk_mdlc_wm_frozen
-#					}
-#				}
-#				set_planet_flag = rikk_mdlc_wm_normal
-#			}
-#		}
-#	}	
-#}
-
 planet_event = {
 	id = rikk_mdlc_wm_upgrade_events.110
 	hide_window = yes
@@ -112,7 +63,7 @@ planet_event = {
 	}
 }
 
-planet_event = {ai_planet
+planet_event = {
 	id = rikk_mdlc_wm_upgrade_events.70
 	hide_window = yes
 	is_triggered_only = yes
@@ -148,7 +99,7 @@ situation_event = {
 	option = {
 		name = rikk_mdlc_wm_upgrade_events.20.b
 		hidden_effect = { owner = { set_country_flag = rikk_mdlc_core_core_shaddup } }
-		target = { 
+		target = {
 			add_modifier = { modifier = weak_magnetic_field mult = rikk_mdlc_magnetic_field_var }
 			if = {
 				limit = { has_deposit = rikk_mdlc_d_world_machine_core_tap }
@@ -191,6 +142,7 @@ planet_event = {
 
 situation_event = {
 	id = rikk_mdlc_wm_upgrade_events.23
+	hide_window = yes
 	is_triggered_only = yes
 
 	trigger = {
@@ -219,11 +171,11 @@ situation_event = {
 	trigger = { NOT = { owner = { has_country_flag = rikk_mdlc_core_core_shaddup } } }
 	
 	option = {
-		name = rikk_mdlc_wm_upgrade_events.20.a
+		name = rikk_mdlc_wm_upgrade_events.30.a
 	}
 	
 	option = {
-		name = rikk_mdlc_wm_upgrade_events.20.b
+		name = rikk_mdlc_wm_upgrade_events.30.b
 		hidden_effect = { owner = { set_country_flag = rikk_mdlc_core_core_shaddup } }
 	}
 }
@@ -240,6 +192,11 @@ situation_event = {
 	
 	option = {
 		name = rikk_mdlc_wm_upgrade_events.40.a
-		target = { remove_modifier = { modifier = weak_magnetic_field } }
+		target = { remove_modifier = weak_magnetic_field }
+	}
+	
+	option = {
+		name = rikk_mdlc_wm_upgrade_events.40.b
+		hidden_effect = { owner = { set_country_flag = rikk_mdlc_core_core_shaddup } }
 	}
 }
