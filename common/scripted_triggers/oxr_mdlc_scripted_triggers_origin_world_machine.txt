@@ -4,7 +4,10 @@ oxr_mdlc_origin_world_machine_feature_enabled = {
 
 oxr_mdlc_planet_owner_can_build_wm_districts = {
 	optimize_memory
-	exists = owner
+	OR = {
+		exists = owner
+		exists = space_owner
+	}
 	OR = {
 		has_ascension_perk = xvcv_mdlc_ap_world_machines
 		has_origin = oxr_mdlc_origin_world_machine_awakened
@@ -73,6 +76,7 @@ oxr_mdlc_planet_can_become_world_machine = {
 		is_planet_class = pc_continental
 		is_planet_class = pc_tropical
 		is_planet_class = pc_ocean
+		has_planet_flag = rikk_mdlc_world_machine_suitable
 	}
 }
 
