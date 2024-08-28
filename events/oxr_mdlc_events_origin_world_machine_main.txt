@@ -561,6 +561,106 @@ planet_event = {
 	}
 }
 
+### TIER 3 WORLD EVENTS
+# Monthly check to see if requirements have been met
+country_event = {
+	id = oxr_mdlc_origin_wm_main.1500
+	is_triggered_only = yes
+	hide_window = yes
+	trigger = {
+		# Permit the event to trigger if any of the below flags are NOT set
+		# So, once all the flags are set, this event will stop calling itself
+		NOR = {
+			has_country_flag = oxr_mdlc_origin_world_machine_t3_ecu_alloys_target_met
+			has_country_flag = oxr_mdlc_origin_world_machine_t3_ecu_sr_target_met
+			has_country_flag = oxr_mdlc_origin_world_machine_t3_ecu_naval_cap_target_met
+			has_country_flag = oxr_mdlc_origin_world_machine_t3_cpu_any_research_target_met
+			has_country_flag = oxr_mdlc_origin_world_machine_t3_ser_unity_target_met
+			has_country_flag = oxr_mdlc_origin_world_machine_t3_ecu_naval_cap_target_met
+		}
+		# TODO: Add checks for country flag representing all of the above,
+		# that the player has unlocked T3 worlds
+	}
+
+	immediate = {
+		## CPU
+		# First check if the flag exists, then examine targets, to avoid unnecessary income checks
+		if = {
+			limit = {
+				NOT = { has_country_flag = oxr_mdlc_origin_world_machine_t3_cpu_any_research_target_met }
+			}
+			if = {
+				limit = { oxr_mdlc_country_origin_wm_met_t3_cpu_target = yes }
+				set_country_flag = oxr_mdlc_origin_world_machine_t3_cpu_any_research_target_met
+				# throw up an event that says "hey we have data, now let's datamine/compile it"
+				# then show project
+				enable_special_project = {
+					name = OXR_MDLC_ORIGIN_WM_T3_CPU_WORLD
+				}
+			}
+		}
+		## ECU
+		if = {
+			limit = {
+				NOT = { has_country_flag = oxr_mdlc_origin_world_machine_t3_ecu_alloys_target_met }
+			}
+			if = {
+				limit = { oxr_mdlc_country_origin_wm_met_t3_ecu_alloy_target = yes }
+				set_country_flag = oxr_mdlc_origin_world_machine_t3_ecu_alloys_target_met
+			}
+		}
+		if = {
+			limit = {
+				NOT = { has_country_flag = oxr_mdlc_origin_world_machine_t3_ecu_sr_target_met }
+			}
+			if = {
+				limit = { oxr_mdlc_country_origin_wm_met_t3_ecu_sr_target = yes }
+				set_country_flag = oxr_mdlc_origin_world_machine_t3_ecu_sr_target_met
+			}
+		}
+		if = {
+			limit = {
+				NOT = { has_country_flag = oxr_mdlc_origin_world_machine_t3_ecu_naval_cap_target_met }
+			}
+			if = {
+				limit = { oxr_mdlc_country_origin_wm_met_t3_ecu_naval_target = yes }
+				set_country_flag = oxr_mdlc_origin_world_machine_t3_ecu_naval_cap_target_met
+			}
+		}
+		### SER(ver)
+		if = {
+			limit = {
+				NOT = { has_country_flag = oxr_mdlc_origin_world_machine_t3_ser_unity_target_met }
+			}
+			if = {
+				limit = { oxr_mdlc_country_origin_wm_met_t3_ser_unity_target = yes }
+				set_country_flag = oxr_mdlc_origin_world_machine_t3_ser_unity_target_met
+				enable_special_project = {
+					name = OXR_MDLC_ORIGIN_WM_T3_SER_WORLD
+				}
+			}
+		}
+		### Check if all ECU flags are set, trigger the project
+		if = {
+			limit = {
+				has_country_flag = oxr_mdlc_origin_world_machine_t3_ecu_alloys_target_met
+				has_country_flag = oxr_mdlc_origin_world_machine_t3_ecu_sr_target_met
+				has_country_flag = oxr_mdlc_origin_world_machine_t3_ecu_naval_cap_target_met
+			}
+			# throw up an event that says "hey we have data, now let's datamine/compile it"
+			# then show project
+			enable_special_project = {
+				name = OXR_MDLC_ORIGIN_WM_T3_ECU_WORLD
+			}
+		}
+		country_event = {
+			id = oxr_mdlc_origin_wm_main.1500
+			days = 30
+		}
+	}
+}
+
+
 # Start the loop of refilling planetary district armies
 planet_event = {
 	id = oxr_mdlc_origin_wm_main.2001
@@ -668,3 +768,4 @@ pop_event = {
 		kill_pop = yes
 	}
 }
+
