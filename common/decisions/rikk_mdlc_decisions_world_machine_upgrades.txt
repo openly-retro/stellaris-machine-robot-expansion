@@ -25,13 +25,17 @@ rikk_mdlc_decision_world_machine_solidify_molten = {
 	potential = {
 		exists = space_owner
 		is_planet_class = pc_molten
-		space_owner = {
+		space_owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		NOT = { has_planet_flag = rikk_mdlc_world_machine_suitable }
+	}
+	
+	allow = {
+		space_owner = { 
 			AND = {
-				oxr_mdlc_planet_owner_can_build_wm_districts = yes
+				has_technology = oxr_mdlc_tech_geologic_heat_shielding_1
 				has_technology = rikk_mdlc_tech_world_machine_crust_upgrade
 			}
 		}
-		NOT = { has_planet_flag = rikk_mdlc_world_machine_suitable }
 	}
 	
 	effect = {
@@ -100,6 +104,49 @@ rikk_mdlc_decision_world_machine_cleanse_toxic = {
 		is_planet_class = pc_toxic
 		space_owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
 		NOT = { has_planet_flag = rikk_mdlc_world_machine_suitable }
+	}
+	
+	allow = {
+		space_owner = { has_technology = tech_climate_restoration }
+	}
+	
+	effect = {
+		add_modifier = { modifier = rikk_mdlc_world_machine_toxic_mod }
+		hidden_effect = { 
+			set_planet_flag = rikk_mdlc_world_machine_suitable
+			set_planet_flag = rikk_mdlc_world_machine_toxic_cleansed 
+		}
+		space_owner = {
+			create_message = {
+				type = TERRAFORM_MESSAGE_TYPE
+				localization = MESSAGE_TOXIC_WORLD_CLEANSED
+				days = 36
+				target = THIS
+			}
+		}
+	}
+}
+
+rikk_mdlc_decision_world_machine_defrost_cryosphere = {
+	#enactment_time = @wmupgradelength3
+	enactment_time = 3
+	
+	resources = {
+		category = decisions
+		cost = {
+			energy = 15000
+		}
+	}
+	
+	potential = {
+		exists = space_owner
+		is_planet_class = pc_frozen
+		space_owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		NOT = { has_planet_flag = rikk_mdlc_world_machine_suitable }
+	}
+	
+	allow = {
+		space_owner = { has_technology = oxr_mdlc_tech_geologic_geodynamo_theory }
 	}
 	
 	effect = {
