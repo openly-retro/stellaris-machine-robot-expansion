@@ -869,11 +869,30 @@ oxr_mdlc_origin_wm_cheat_gain_core_tech = {
 	}
 }
 
+
 oxr_mdlc_planet_self_destruct = {
 	# Apply damage to ships near planet, based on distance
 	# 1) Calculate all damage caused by the planet
 	# 2) Apply full damage to targets within X distance
-	# 3) apply half damage .. quarter damage .. based on range
+	# 3) apply half damage .. quarter damage .. based on range, up to 100 range
+
+	## WE WANT EYE CANDY NAO
+	create_ambient_object = {
+		location = this
+		type = habitat_cracker_object
+		play_animation_once = yes
+		duration = 5
+
+		use_3d_location = yes
+		base_angle_towards = star
+		entity_face_object = star
+
+		entity_offset = { min = 0 max = 0 }
+
+		entity_scale_to_size = yes
+		scale = 0.10
+	}
+
 	export_trigger_value_to_variable = {
 		trigger = planet_size
 		variable = oxr_mdlc_origin_wm_planet_size_dmg
@@ -917,67 +936,228 @@ oxr_mdlc_planet_self_destruct = {
 	# 0-50: 100%
 	# 50-100: 50%
 	# 100-150: 25%
+	set_variable = {
+		which = oxr_mdlc_self_destruct_min_distance
+		value = 0
+	}
+	set_variable = {
+		which = oxr_mdlc_self_destruct_max_distance
+		value = @oxr_mdlc_world_machine_self_destruct_radius_increment_distance
+	}
+	set_variable = {
+		which = oxr_mdlc_self_destruct_diminishing_return
+		value = @oxr_mdlc_world_machine_self_destruct_diminishing_return_base
+	}
+	# I have to repeat this entire loop manually because 'distance' REFUSES to take dynamic values ( °□°) ︵ ┻━┻
+	### REPEATED ###
+	log = "Will apply \\[This.oxr_mdlc_origin_wm_planet_self_destruct_total_dmg] to ships between \\[This.oxr_mdlc_self_destruct_min_distance] and \\[This.oxr_mdlc_self_destruct_max_distance]"
 	solar_system = {
 		every_ship_in_system = {
 			limit = {
-				# target all ships .. friendly and hostile
-				# you can't tell a planet to selectively damage a ship
-				# unless you are super good friends?
-				NOT = { is_ship_class = shipclass_starbase }
-
-				# target ships which are in a certain range
+				NOT = { is_ship_class = shipclass_starbase }  # dont brek game
 				distance = {
 					source = root
-					max_distance < 25
-					# type = euclidian
+					min_distance >= 0
+					max_distance <= 25
 					same_solar_system = yes
 				}
 			}
 			reduce_hp = root.oxr_mdlc_origin_wm_planet_self_destruct_total_dmg
+			log = "Applied damage to \\[This.GetName]"
 		}
 	}
-	# Now apply 50% damage
-	divide_variable = {
-		which = oxr_mdlc_origin_wm_planet_self_destruct_total_dmg
-		value = 2
+	change_variable = {
+		which = oxr_mdlc_self_destruct_max_distance
+		value = @oxr_mdlc_world_machine_self_destruct_radius_increment_distance
 	}
+	change_variable = {
+		which = oxr_mdlc_self_destruct_min_distance
+		value = @oxr_mdlc_world_machine_self_destruct_radius_increment_distance
+	}
+	# Reduce the damage by 10% for each loop, plus 5%
+	change_variable = {
+		which = oxr_mdlc_self_destruct_diminishing_return
+		value = @oxr_mdlc_world_machine_self_destruct_scaling_modifier
+	}
+	multiply_variable = {
+		which = oxr_mdlc_origin_wm_planet_self_destruct_total_dmg
+		value = oxr_mdlc_self_destruct_diminishing_return
+	}
+	### REPEATED ###
+	log = "Will apply \\[This.oxr_mdlc_origin_wm_planet_self_destruct_total_dmg] to ships between \\[This.oxr_mdlc_self_destruct_min_distance] and \\[This.oxr_mdlc_self_destruct_max_distance]"
 	solar_system = {
 		every_ship_in_system = {
 			limit = {
+				NOT = { is_ship_class = shipclass_starbase }  # dont brek game
 				distance = {
 					source = root
-					max_distance <= 50
 					min_distance >= 25
-					# type = euclidian
+					max_distance <= 50
 					same_solar_system = yes
 				}
-				NOT = { is_ship_class = shipclass_starbase }
 			}
-			# OUCH!
 			reduce_hp = root.oxr_mdlc_origin_wm_planet_self_destruct_total_dmg
+			log = "Applied damage to \\[This.GetName]"
 		}
 	}
-	log = "Self destruct HALF dmg: \\[This.oxr_mdlc_origin_wm_planet_self_destruct_total_dmg]"
-	# now apply 25% damage
-	divide_variable = {
-		which = oxr_mdlc_origin_wm_planet_self_destruct_total_dmg
-		value = 2
+	change_variable = {
+		which = oxr_mdlc_self_destruct_max_distance
+		value = @oxr_mdlc_world_machine_self_destruct_radius_increment_distance
 	}
+	change_variable = {
+		which = oxr_mdlc_self_destruct_min_distance
+		value = @oxr_mdlc_world_machine_self_destruct_radius_increment_distance
+	}
+	# Reduce the damage by 10% for each loop, plus 5%
+	change_variable = {
+		which = oxr_mdlc_self_destruct_diminishing_return
+		value = @oxr_mdlc_world_machine_self_destruct_scaling_modifier
+	}
+	multiply_variable = {
+		which = oxr_mdlc_origin_wm_planet_self_destruct_total_dmg
+		value = oxr_mdlc_self_destruct_diminishing_return
+	}
+	### REPEATED ###
+	log = "Will apply \\[This.oxr_mdlc_origin_wm_planet_self_destruct_total_dmg] to ships between \\[This.oxr_mdlc_self_destruct_min_distance] and \\[This.oxr_mdlc_self_destruct_max_distance]"
 	solar_system = {
 		every_ship_in_system = {
 			limit = {
+				NOT = { is_ship_class = shipclass_starbase }  # dont brek game
 				distance = {
 					source = root
-					max_distance <= 150
-					min_distance > 75
-					# type = euclidian
+					min_distance >= 50
+					max_distance <= 75
 					same_solar_system = yes
 				}
-				NOT = { is_ship_class = shipclass_starbase }
 			}
-			# OUCH!
 			reduce_hp = root.oxr_mdlc_origin_wm_planet_self_destruct_total_dmg
+			log = "Applied damage to \\[This.GetName]"
 		}
 	}
-	log = "Self destruct quarter dmg: \\[This.oxr_mdlc_origin_wm_planet_self_destruct_total_dmg]"
+	change_variable = {
+		which = oxr_mdlc_self_destruct_max_distance
+		value = @oxr_mdlc_world_machine_self_destruct_radius_increment_distance
+	}
+	change_variable = {
+		which = oxr_mdlc_self_destruct_min_distance
+		value = @oxr_mdlc_world_machine_self_destruct_radius_increment_distance
+	}
+	# Reduce the damage by 10% for each loop, plus 5%
+	change_variable = {
+		which = oxr_mdlc_self_destruct_diminishing_return
+		value = @oxr_mdlc_world_machine_self_destruct_scaling_modifier
+	}
+	multiply_variable = {
+		which = oxr_mdlc_origin_wm_planet_self_destruct_total_dmg
+		value = oxr_mdlc_self_destruct_diminishing_return
+	}
+	### REPEATED ###
+	log = "Will apply \\[This.oxr_mdlc_origin_wm_planet_self_destruct_total_dmg] to ships between \\[This.oxr_mdlc_self_destruct_min_distance] and \\[This.oxr_mdlc_self_destruct_max_distance]"
+	solar_system = {
+		every_ship_in_system = {
+			limit = {
+				NOT = { is_ship_class = shipclass_starbase }  # dont brek game
+				distance = {
+					source = root
+					min_distance >= 75
+					max_distance <= 100
+					same_solar_system = yes
+				}
+			}
+			reduce_hp = root.oxr_mdlc_origin_wm_planet_self_destruct_total_dmg
+			log = "Applied damage to \\[This.GetName]"
+		}
+	}
+	change_variable = {
+		which = oxr_mdlc_self_destruct_max_distance
+		value = @oxr_mdlc_world_machine_self_destruct_radius_increment_distance
+	}
+	change_variable = {
+		which = oxr_mdlc_self_destruct_min_distance
+		value = @oxr_mdlc_world_machine_self_destruct_radius_increment_distance
+	}
+	# Reduce the damage by 10% for each loop, plus 5%
+	change_variable = {
+		which = oxr_mdlc_self_destruct_diminishing_return
+		value = @oxr_mdlc_world_machine_self_destruct_scaling_modifier
+	}
+	multiply_variable = {
+		which = oxr_mdlc_origin_wm_planet_self_destruct_total_dmg
+		value = oxr_mdlc_self_destruct_diminishing_return
+	}
+	### REPEATED ###
+	log = "Will apply \\[This.oxr_mdlc_origin_wm_planet_self_destruct_total_dmg] to ships between \\[This.oxr_mdlc_self_destruct_min_distance] and \\[This.oxr_mdlc_self_destruct_max_distance]"
+	solar_system = {
+		every_ship_in_system = {
+			limit = {
+				NOT = { is_ship_class = shipclass_starbase }  # dont brek game
+				distance = {
+					source = root
+					min_distance >= 100
+					max_distance <= 125
+					same_solar_system = yes
+				}
+			}
+			reduce_hp = root.oxr_mdlc_origin_wm_planet_self_destruct_total_dmg
+			log = "Applied damage to \\[This.GetName]"
+		}
+	}
+	change_variable = {
+		which = oxr_mdlc_self_destruct_max_distance
+		value = @oxr_mdlc_world_machine_self_destruct_radius_increment_distance
+	}
+	change_variable = {
+		which = oxr_mdlc_self_destruct_min_distance
+		value = @oxr_mdlc_world_machine_self_destruct_radius_increment_distance
+	}
+	# Reduce the damage by 10% for each loop, plus 5%
+	change_variable = {
+		which = oxr_mdlc_self_destruct_diminishing_return
+		value = @oxr_mdlc_world_machine_self_destruct_scaling_modifier
+	}
+	multiply_variable = {
+		which = oxr_mdlc_origin_wm_planet_self_destruct_total_dmg
+		value = oxr_mdlc_self_destruct_diminishing_return
+	}
+	### REPEATED ###
+	log = "Will apply \\[This.oxr_mdlc_origin_wm_planet_self_destruct_total_dmg] to ships between \\[This.oxr_mdlc_self_destruct_min_distance] and \\[This.oxr_mdlc_self_destruct_max_distance]"
+	solar_system = {
+		every_ship_in_system = {
+			limit = {
+				NOT = { is_ship_class = shipclass_starbase }  # dont brek game
+				distance = {
+					source = root
+					min_distance >= 125
+					max_distance <= 150
+					same_solar_system = yes
+				}
+			}
+			reduce_hp = root.oxr_mdlc_origin_wm_planet_self_destruct_total_dmg
+			log = "Applied damage to \\[This.GetName]"
+		}
+	}
+	change_variable = {
+		which = oxr_mdlc_self_destruct_max_distance
+		value = @oxr_mdlc_world_machine_self_destruct_radius_increment_distance
+	}
+	change_variable = {
+		which = oxr_mdlc_self_destruct_min_distance
+		value = @oxr_mdlc_world_machine_self_destruct_radius_increment_distance
+	}
+	# Reduce the damage by 10% for each loop, plus 5%
+	change_variable = {
+		which = oxr_mdlc_self_destruct_diminishing_return
+		value = @oxr_mdlc_world_machine_self_destruct_scaling_modifier
+	}
+	multiply_variable = {
+		which = oxr_mdlc_origin_wm_planet_self_destruct_total_dmg
+		value = oxr_mdlc_self_destruct_diminishing_return
+	}
+	## bye bye :'(
+	every_owned_pop = {
+		kill_pop = yes
+	}
+	destroy_colony = yes
+	change_pc = pc_shattered
+	reset_planet = yes
 }
