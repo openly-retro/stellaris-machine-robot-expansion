@@ -868,3 +868,116 @@ oxr_mdlc_origin_wm_cheat_gain_core_tech = {
 		tech = oxr_mdlc_tech_geologic_world_expansion_theory
 	}
 }
+
+oxr_mdlc_planet_self_destruct = {
+	# Apply damage to ships near planet, based on distance
+	# 1) Calculate all damage caused by the planet
+	# 2) Apply full damage to targets within X distance
+	# 3) apply half damage .. quarter damage .. based on range
+	export_trigger_value_to_variable = {
+		trigger = planet_size
+		variable = oxr_mdlc_origin_wm_planet_size_dmg
+	}
+	divide_variable = {
+		which = oxr_mdlc_origin_wm_planet_size_dmg
+		value = 10
+	}
+	export_trigger_value_to_variable = {
+		trigger = num_districts
+		parameters = {
+			type = any
+		}
+		variable = oxr_mdlc_origin_wm_planet_district_dmg
+	}
+	# 100 extra damage per district
+	multiply_variable = {
+		which = oxr_mdlc_origin_wm_planet_district_dmg
+		value = @oxr_mdlc_world_machine_self_destruct_damage_per_district
+	}
+	# Planet size x 2k = base planet explosion damage
+	multiply_variable = {
+		which = oxr_mdlc_origin_wm_planet_size_dmg
+		value = @oxr_mdlc_world_machine_self_destruct_damage
+	}
+	# Create the total damage var, copy district dmg
+	set_variable = {
+		which = oxr_mdlc_origin_wm_planet_self_destruct_total_dmg
+		value = oxr_mdlc_origin_wm_planet_district_dmg
+	}
+	clear_variable = oxr_mdlc_origin_wm_planet_district_dmg
+	# Add base planet dmg
+	change_variable = {
+		which = oxr_mdlc_origin_wm_planet_self_destruct_total_dmg
+		value = oxr_mdlc_origin_wm_planet_size_dmg
+	}
+	clear_variable = oxr_mdlc_origin_wm_planet_size_dmg
+	log = "Self destruct full dmg: \\[This.oxr_mdlc_origin_wm_planet_self_destruct_total_dmg]"
+	# print_scope_effect = yes
+	# Damage ranges:
+	# 0-50: 100%
+	# 50-100: 50%
+	# 100-150: 25%
+	solar_system = {
+		every_ship_in_system = {
+			limit = {
+				# target all ships .. friendly and hostile
+				# you can't tell a planet to selectively damage a ship
+				# unless you are super good friends?
+				NOT = { is_ship_class = shipclass_starbase }
+
+				# target ships which are in a certain range
+				distance = {
+					source = root
+					max_distance < 25
+					# type = euclidian
+					same_solar_system = yes
+				}
+			}
+			reduce_hp = root.oxr_mdlc_origin_wm_planet_self_destruct_total_dmg
+		}
+	}
+	# Now apply 50% damage
+	divide_variable = {
+		which = oxr_mdlc_origin_wm_planet_self_destruct_total_dmg
+		value = 2
+	}
+	solar_system = {
+		every_ship_in_system = {
+			limit = {
+				distance = {
+					source = root
+					max_distance <= 50
+					min_distance >= 25
+					# type = euclidian
+					same_solar_system = yes
+				}
+				NOT = { is_ship_class = shipclass_starbase }
+			}
+			# OUCH!
+			reduce_hp = root.oxr_mdlc_origin_wm_planet_self_destruct_total_dmg
+		}
+	}
+	log = "Self destruct HALF dmg: \\[This.oxr_mdlc_origin_wm_planet_self_destruct_total_dmg]"
+	# now apply 25% damage
+	divide_variable = {
+		which = oxr_mdlc_origin_wm_planet_self_destruct_total_dmg
+		value = 2
+	}
+	solar_system = {
+		every_ship_in_system = {
+			limit = {
+				distance = {
+					source = root
+					max_distance <= 150
+					min_distance > 75
+					# type = euclidian
+					same_solar_system = yes
+				}
+				NOT = { is_ship_class = shipclass_starbase }
+			}
+			# OUCH!
+			reduce_hp = root.oxr_mdlc_origin_wm_planet_self_destruct_total_dmg
+		}
+	}
+	log = "Self destruct quarter dmg: \\[This.oxr_mdlc_origin_wm_planet_self_destruct_total_dmg]"
+}
