@@ -111,3 +111,21 @@ While the installation shaft is being excavated, shielded tunnel walls are being
 Large channels crossing the planet are dug out from the surface, each terminating in the center of each district planning area. All channels connect at some point from pathways connecting to the central core.
 
 By the time the security shaft has been completed, and the core has been lowered down to secure depths, the rest of the planet infrastructure will have been developed simultaneously.
+
+## Converting Unusual Worlds to World-Machines
+
+Several types of planetary bodies do not lend themselves easily to being built on, namely molten worlds, ocean worlds, and frozen worlds.
+
+Molten World Strategy:
+
+(TBD)
+
+Frozen World Strategy:
+
+Frozen worlds are covered in a permanent layer of ice and rock. The amount of ammonia on the planet will determine how low the temperature is and how much of the planet is frozen vs simply extremely cold.
+
+(TBD)
+
+Ocean World Strategy:
+
+Ocean worlds have a surface nearly completely covered in water. A World-Machine core must have a flat surface to work on.
