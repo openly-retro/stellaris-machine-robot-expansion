@@ -30,23 +30,35 @@ rikk_mdlc_decision_world_machine_solidify_molten = {
 	}
 	
 	allow = {
-		space_owner = { 
-			AND = {
-				has_technology = oxr_mdlc_tech_geologic_heat_shielding_1
+		space_owner = {
+			OR = {
+				AND = {
+					has_technology = oxr_mdlc_tech_geologic_heat_shielding_1
+					has_origin = oxr_mdlc_origin_world_machine_awakened
+				}
 				has_technology = rikk_mdlc_tech_world_machine_crust_upgrade
 			}
 		}
 	}
 	
 	effect = {
-		add_modifier = { modifier = rikk_mdlc_world_machine_molten_mod }
-		hidden_effect = { set_planet_flag = rikk_mdlc_world_machine_suitable }
+		custom_tooltip = rikk_mdlc_decision_world_machine_solidify_molten_effect
 		space_owner = {
 			create_message = {
 				type = TERRAFORM_MESSAGE_TYPE
 				localization = MESSAGE_MOLTEN_WORLD_SOLIDIFIED
 				days = 36
 				target = THIS
+			}
+		}
+		hidden_effect = { 
+			set_planet_flag = rikk_mdlc_world_machine_suitable
+			while = {
+				count = 3
+				random_list = {
+					40 = {}
+					20 = { rikk_mdlc_wm_upgrades_add_world_modifier = { MODIFIER_TYPE = rikk_mdlc_world_machine_molten_mod } }
+				}
 			}
 		}
 	}
