@@ -1,0 +1,28 @@
+resources = {
+	category = terraforming
+	cost = { oxr_mdlc_world_machine_core = 1 }
+}
+duration = @oxr_mdlc_world_machine_direct_time
+potential = {
+	has_origin = oxr_mdlc_origin_world_machine_awakened
+}
+condition = {
+	has_resource = {
+		type = oxr_mdlc_world_machine_core amount >= 1
+	}
+}
+ai_weight = {
+	weight = 10
+	modifier = {
+		factor = 0	
+		resource_stockpile_compare = { resource = oxr_mdlc_world_machine_core value < 10 }
+	}
+}
+effect = {
+	from = {
+		fire_on_action = {
+			on_action = on_world_machine_pc_machine_auto_terraforming_complete
+		}
+	}
+	fire_on_action = { on_action = on_world_machine_core_terraforming_complete }
+}
