@@ -59,6 +59,7 @@ country_event = {
 }
 
 # Planet has been terraformed
+# on_world_machine_pc_machine_auto_terraforming_complete
 # This = Planet
 # From = Terraforming country
 planet_event = {
@@ -70,6 +71,8 @@ planet_event = {
 		from = {
 			has_origin = oxr_mdlc_origin_world_machine_awakened
 		}
+		NOT = { has_deposit = oxr_mdlc_d_world_machine_core }
+		is_colony = no
 	}
 
 	immediate = {
@@ -132,6 +135,7 @@ planet_event = {
 	}
 }
 
+# transformation complete
 planet_event = {
 	id = oxr_mdlc_origin_wm_main.501
 	title = oxr_mdlc_origin_wm_main.501.title
@@ -171,6 +175,7 @@ planet_event = {
 	}
 }
 
+# unplug and plug it back in
 planet_event = {
 	id = oxr_mdlc_origin_wm_main.502
 	title = oxr_mdlc_origin_wm_main.502.title
@@ -283,7 +288,9 @@ country_event = {
 	immediate = {
 		event_target:oxr_mdlc_ruined_world_machine = {
 			change_pc = xvcv_mdlc_pc_machine_auto
-			planet_event = { id = oxr_mdlc_origin_wm_main.500 }
+			fire_on_action = {
+				on_action = on_world_machine_pc_machine_auto_terraforming_complete
+			}
 		}
 	}
 
