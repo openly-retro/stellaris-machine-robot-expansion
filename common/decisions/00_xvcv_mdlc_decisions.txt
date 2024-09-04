@@ -334,20 +334,23 @@ xvcv_mdlc_decision_machine_ecu_project = {
 	}
 
 	potential = {
-		OR = {
-			exists = owner
-			AND = {
-				exists = space_owner
-				has_planet_flag = rikk_mdlc_world_machine_suitable
-			}
-		}
-		OR = {
-			owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
-			space_owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
-		}
+		# OR = {
+		#	exists = owner
+		#	AND = {
+		#		exists = space_owner
+		#		has_planet_flag = rikk_mdlc_world_machine_suitable
+		#	}
+		#}
+		#OR = {
+		#	owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		#	space_owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		#}
+		# Planet is not a T3 world-machine already, but Auto-Machine World is OK
 		xvcv_mdlc_world_machines_planet_classes_trigger = no
+		# Not allowed for habitats/ringworlds
 		habitable_structure = no
-		rikk_mdlc_planet_can_become_world_machine_AP = yes
+		# rikk_mdlc_planet_can_become_world_machine_AP = yes
+		oxr_mdlc_country_can_make_t3_ecu = yes
 	}
 
 	allow = {
