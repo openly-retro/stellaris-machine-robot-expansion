@@ -152,7 +152,7 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 		add_resource = {
 			oxr_mdlc_world_machine_core = @oxr_mdlc_world_machine_starting_cores_amount
 		}
-		oxr_mdlc_world_machine_cores_recalc_amount = yes
+		oxr_mdlc_country_world_machine_cores_recalc_amount = yes
 	}
 	# Now, calculate the planet's storage, since we are doing WMC stuff here
 	oxr_mdlc_planet_calculate_max_core_storage = yes
@@ -678,7 +678,7 @@ oxr_mdlc_world_machine_cores_update_max_var = {
 		value = modifier:country_resource_max_oxr_mdlc_world_machine_core_add
 	}
 }
-oxr_mdlc_world_machine_cores_recalc_amount = {
+oxr_mdlc_country_world_machine_cores_recalc_amount = {
 	export_resource_stockpile_to_variable = {
 		resource = oxr_mdlc_world_machine_core
 		variable = oxr_mdlc_origin_wm_cores_current_count
@@ -688,6 +688,14 @@ oxr_mdlc_world_machine_cores_recalc_amount = {
 		value = modifier:country_resource_max_oxr_mdlc_world_machine_core_add
 	}
 }
+oxr_mdlc_world_machines_planet_recalc_storage_max = {
+	set_variable = {
+		which = oxr_mdlc_planet_world_machine_cores_amount_max
+		value = value:oxr_mdlc_planet_calculate_max_core_storage
+	}
+}
+
+
 #endregion
 
 oxr_mdlc_situation_core_insights_add_progress = {
