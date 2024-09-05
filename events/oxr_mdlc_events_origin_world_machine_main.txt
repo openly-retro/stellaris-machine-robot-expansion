@@ -473,6 +473,24 @@ country_event = {
 	}
 }
 
+# Trigger the loop for manufacturing WMCs on a planet
+planet_event = {
+	id = oxr_mdlc_origin_wm_main.1299
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = {
+				has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_toggle_active
+			}
+			planet_event = {
+				id = oxr_mdlc_origin_wm_main.1300
+			}
+		}
+	}
+}
+
 # Manufacturing WMC
 planet_event = {
 	id = oxr_mdlc_origin_wm_main.1300
@@ -608,6 +626,11 @@ planet_event = {
 				localization = OXR_MDLC_ORIGIN_WM_CORE_FABRICATION_PLANET
 				scope = this
 			}
+		}
+		# If player has not turned off WMC manufacture via decision,
+		# it'll do a check here and then call the entry event again
+		planet_event = {
+			id = oxr_mdlc_origin_wm_main.1299
 		}
 	}
 }
