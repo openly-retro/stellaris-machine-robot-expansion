@@ -88,10 +88,6 @@ oxr_mdlc_decisions_origin_wm_manufacture_core = {
 			energy = @oxr_mdlc_world_machine_core_build_cost_energy  # 5000
 			alloys = @oxr_mdlc_world_machine_core_build_cost_alloys  # 1500
 		}
-		# upkeep = {
-		# 	energy = 50
-		# 	physics_research = 3
-		# }
 	}
 	potential = {
 		exists = space_owner
@@ -105,6 +101,7 @@ oxr_mdlc_decisions_origin_wm_manufacture_core = {
 		is_planet_world_machine = yes
 		NOT = {
 			has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
+			# has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_toggle_active
 		}
 	}
 	allow = {
@@ -121,13 +118,15 @@ oxr_mdlc_decisions_origin_wm_manufacture_core = {
 		}
 		# oxr_mdlc_planet_has_room_for_more_cores = yes
 		NOR = {
-			has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
-			has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_on_standby
+			# has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
+			# has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_on_standby
+			has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_toggle_active
 		}
 	}
 	effect = {
 		custom_tooltip = "oxr_mdlc_decisions_origin_wm_manufacture_core.tooltip"
 		hidden_effect = {
+			add_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_toggle_active
 			planet_event = {
 				id = oxr_mdlc_origin_wm_main.1300
 			}
@@ -152,7 +151,10 @@ oxr_mdlc_decisions_origin_wm_manufacture_core_stop = {
 			}
 		}
 		is_planet_world_machine = yes
-		has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
+		OR = {
+			has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_toggle_active
+			has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
+		}
 	}
 	allow = {
 		# has_building = oxr_mdlc_world_machines_building_core_fabrication_depot
@@ -163,6 +165,7 @@ oxr_mdlc_decisions_origin_wm_manufacture_core_stop = {
 		# custom_tooltip = "oxr_mdlc_decisions_origin_wm_manufacture_core_stop.tooltip"
 		hidden_effect = {
 			remove_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
+			remove_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_toggle_active
 		}
 		
 	}
