@@ -482,7 +482,24 @@ planet_event = {
 	immediate = {
 		if = {
 			limit = {
-				has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_toggle_active
+				# has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_toggle_active
+				has_planet_flag = oxr_mdlc_origin_world_machine_core_auto_build_enabled
+			}
+			log = "oxr_mdlc_origin_world_machine_core_auto_build_enabled flag is set"
+			if = {
+				limit = {
+					NOT = { is_variable_set = oxr_mdlc_planet_world_machine_core_countdown }
+				}
+				log = "oxr_mdlc_planet_world_machine_core_countdown wasn't set.. supposedly setting it now"
+				set_variable = {
+					which = oxr_mdlc_planet_world_machine_core_countdown
+					# value = @oxr_mdlc_world_machine_core_build_time_days
+					value = 60
+				}
+				# Otherwise, RESUME wmc construction
+			}
+			else = {
+				log = "apparently the oxr_mdlc_planet_world_machine_core_countdown is set to \\[This.oxr_mdlc_planet_world_machine_core_countdown]"
 			}
 			planet_event = {
 				id = oxr_mdlc_origin_wm_main.1300
@@ -501,12 +518,7 @@ planet_event = {
 		add_modifier = {
 			modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
 			# days = @oxr_mdlc_world_machine_core_build_time_days
-			days = 15
-		}
-		set_variable = {
-			which = oxr_mdlc_planet_world_machine_core_countdown
-			# value = @oxr_mdlc_world_machine_core_build_time_days
-			value = 15
+			days = -1
 		}
 		planet_event = {
 			id = oxr_mdlc_origin_wm_main.1305
@@ -548,10 +560,12 @@ planet_event = {
 					}
 				}
 				# Manufacturing is complete!
+				clear_variable = oxr_mdlc_planet_world_machine_core_countdown
 				planet_event = {
 					id = oxr_mdlc_origin_wm_main.1310
 					days = 1
 				}
+				
 			}
 			else_if = {
 				limit = {
@@ -563,6 +577,9 @@ planet_event = {
 				log = "Something weird happen while counting down WMC construction."
 				log = "The counter was below 0"
 				# Stop and don't loop
+				clear_variable = oxr_mdlc_planet_world_machine_core_countdown
+				remove_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
+				remove_planet_flag = oxr_mdlc_origin_world_machine_core_auto_build_enabled
 			}
 			else = {
 				# Loop
@@ -603,18 +620,13 @@ planet_event = {
 					value = 1
 				}
 			}
-			# planet
-			# change_variable = {
-			# 	which = oxr_mdlc_planet_world_machine_cores_amount
-			# 	value = 1
-			# }
 		}
 		# oxr_mdlc_world_machine_cores_update_max_var = yes
 		set_variable = {
 			which = oxr_mdlc_origin_wm_cores_max
 			value = modifier:country_resource_max_oxr_mdlc_world_machine_core_add
 		}
-		remove_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
+		# remove_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
 		# create message
 		create_message = {
 			type = OXR_MDLC_ORIGIN_WM_CORE_FABRICATION_FINISHED
