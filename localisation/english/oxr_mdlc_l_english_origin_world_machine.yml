@@ -373,7 +373,9 @@
  mod_country_situations_society_research_produces_add: "Monthly £society_research£ $society_research$"
  mod_country_situations_engineering_research_produces_add: "Monthly £engineering_research£ $engineering_research$"
  mod_oxr_mdlc_category_world_machines_buildings_upkeep_mult: "World Machine Automated Buildings upkeep"
- oxr_mdlc_decisions_origin_wm_start_auto_build_core.tooltip: "Fabricate a single $oxr_mdlc_world_machine_core_res$. §YCores will be continuously manufactured until a decision is made to stop fabrication.§!\nEffects while active:\n- $oxr_mdlc_world_machines_building_core_fabrication_depot$ upkeep: §R-$@oxr_mdlc_modifier_wmc_fabrication_monthly_energy$§! £energy£ $energy$\n-$@oxr_mdlc_modifier_wmc_fabrication_monthly_alloys$ £alloys£ $alloys$\n§R-3§! £physics_research£ $physics_research$\nAdditionally, planetary build speed will be slowed by §R25%§!\n\nAfter the 15-day countdown, the fabricator will begin production."
+ oxr_mdlc_decisions_origin_wm_start_auto_build_core.tooltip: "Continuously fabricate $oxr_mdlc_world_machine_core_res$s, until a decision is made to stop fabrication.\n$oxr_mdlc_world_machines_building_core_fabrication_depot$ upkeep while active:\n- £energy£ §R-$@oxr_mdlc_modifier_wmc_fabrication_monthly_energy$§! $energy$\n- £alloys£ §R-$@oxr_mdlc_modifier_wmc_fabrication_monthly_alloys$§! $alloys$\n- £physics_research£ §R-3§! $physics_research$\n- Planetary build speed §R-25%§!"
+ oxr_mdlc_decisions_origin_wm_manufacture_core_stop.tooltip: "Stops manufacturing cores. Fabricator upkeep returns to normal. Current core progress is saved for when fabrication begins again."
+
 
  # Fill-in vanilla tooltips
  mod_shipclass_military_build_cost_mult: "Military Ship Build Cost"
@@ -398,7 +400,7 @@
 
  oxr_mdlc_decisions_origin_wm_requisition_automatons_tooltip: "Automaton shells will be drawn from deep storage, assembled, and will be deactivated after a set time."
  # Second tooltip is show depending on the tech level
- oxr_mdlc_decisions_origin_wm_requisition_automatons_tooltip_1: "Number of Automatons: $@oxr_mdlc_world_machine_decision_temp_automaton_amount_1$\nInitial Assembly time (days): $@oxr_mdlc_world_machine_decision_temp_automaton_assembly_days_1$ Requisition duration (days): $@oxr_mdlc_world_machine_decision_temp_automaton_days_1$"
+ oxr_mdlc_decisions_origin_wm_requisition_automatons_tooltip_1: "Number of Automatons: §G$@oxr_mdlc_world_machine_decision_temp_automaton_amount_1$§!\nInitial Assembly time (days): §Y$@oxr_mdlc_world_machine_decision_temp_automaton_assembly_days_1$§!\nRequisition duration (days): §Y$@oxr_mdlc_world_machine_decision_temp_automaton_days_1$§!"
  oxr_mdlc_decisions_origin_wm_requisition_automatons_tooltip_2: "Number of Automatons: $@oxr_mdlc_world_machine_decision_temp_automaton_amount_2$\nRequisition duration (days): $@oxr_mdlc_world_machine_decision_temp_automaton_days_2$"
  oxr_mdlc_decisions_origin_wm_requisition_automatons_tooltip_3: "Number of Automatons: $@oxr_mdlc_world_machine_decision_temp_automaton_amount_3$\nRequisition duration (days): $@oxr_mdlc_world_machine_decision_temp_automaton_days_3$"
 
@@ -798,7 +800,7 @@
  oxr_mdlc_origin_world_machine_world_rebooting_stage_5: "Reactivation Stage 5: Installing"
  oxr_mdlc_origin_world_machine_world_rebooting_stage_5_desc: "World Machine Operating system is resuming installation of automated structures across the planet's surface."
  oxr_mdlc_origin_world_machine_core_manufacturing_in_progress: "W.M.C. Fabricator Active"
- oxr_mdlc_origin_world_machine_core_manufacturing_in_progress_desc: "W.M.C energy upkeep increased by: £energy£ §R+$@oxr_mdlc_modifier_wmc_fabrication_monthly_energy$§!\nW.M.C £physics_research£ $physics_research$ upkeep increased by: §R+3§!\nDays remaining for current core production: §G[This.oxr_mdlc_planet_world_machine_core_countdown]§!"
+ oxr_mdlc_origin_world_machine_core_manufacturing_in_progress_desc: "Fabricator upkeep increased by: £energy£ §R+$@oxr_mdlc_modifier_wmc_fabrication_monthly_energy$§! £alloys£ §R+$@oxr_mdlc_modifier_wmc_fabrication_monthly_alloys$§! £physics_research£ §R+3§!\nDays remaining for current core production: §G[This.oxr_mdlc_planet_world_machine_core_countdown]§!"
 
  oxr_mdlc_world_machine_district_army_restock_in_progress: "Restock ['concept_oxr_mdlc_world_machine_district_defense_army']"
  oxr_mdlc_world_machine_district_army_restock_in_progress_desc: "District Defense armies are being automatically replenished, one squadron per $@oxr_mdlc_world_machine_defense_armies_refill_time$ days.\nMax District Armies: [This.oxr_mdlc_world_machine_num_max_district_armies]\nCurrent District Armies: [This.oxr_mdlc_world_machine_num_existing_district_armies]"
@@ -864,12 +866,12 @@
  oxr_mdlc_decisions_origin_wm_reboot_ruined_world: "Attempt World Machine Restoration"
  oxr_mdlc_decisions_origin_wm_reboot_ruined_world_desc: "We can attempt to bring this world back online. It will take time and resources to do so. Success is plausible, but not guaranteed."
  oxr_mdlc_decisions_origin_wm_start_auto_build_core: "Start W.M.C Fabrication"
- oxr_mdlc_decisions_origin_wm_start_auto_build_core_desc: "The fabrication plant will be brought online, which takes approximately 15 days, after which, World-Machine Cores will start being produced.\n\n§GA World-Machine core will first have the reactor housing assembled, then the reactor assembled and installed, and finally the hundreds of tons of electronics and communication infrastructure will be put together. The core will remain dormant until it is initialized with a powerful surge of energy.§!"
+ oxr_mdlc_decisions_origin_wm_start_auto_build_core_desc: "The fabrication plant will be brought online, which takes approximately 15 days, after which, World-Machine Cores will start being produced.\n\nA World-Machine core will first have the reactor housing assembled, then the reactor assembled and installed, and finally the hundreds of tons of electronics and communication infrastructure will be put together. The core will remain dormant until it is initialized with a powerful surge of energy."
  oxr_mdlc_decisions_origin_wm_start_auto_build_core_stop: "Stop W.M.C Fabrication"
- oxr_mdlc_decisions_origin_wm_start_auto_build_core_stop_desc: "The fabrication plant will be powered down, and we will have to start from the beginning if we want to construct another core, since the fabrication process relies on procedural generation of components. The termination process takes approximately 15 days."
+ oxr_mdlc_decisions_origin_wm_start_auto_build_core_stop_desc: "The fabrication plant will be powered down, and we will have to start from the beginning if we want to construct another core, since the fabrication process relies on procedural generation of components. The termination process takes 15 days."
  oxr_mdlc_decisions_origin_wm_restock_armies: "Restock District Defense Armies"
  oxr_mdlc_decisions_origin_wm_restock_armies_desc: "The World-Machine is programmed to deploy remote automatons for utility and defense purposes.$oxr_mdlc_mod_tag$"
- oxr_mdlc_decisions_origin_wm_restock_armies_effect: "District Defense armies will be fabricated to replace any units which were destroyed, §G+$@oxr_mdlc_world_machine_defense_armies_per_district$§! per district."
+ oxr_mdlc_decisions_origin_wm_restock_armies_effect: "['concept_oxr_mdlc_world_machine_district_defense_army_plural'] will be fabricated to replace any defense units which were destroyed, §G+$@oxr_mdlc_world_machine_defense_armies_per_district$§! per district."
  oxr_mdlc_decisions_origin_wm_requisition_automatons: "Requisition Automaton Pops"
  oxr_mdlc_decisions_origin_wm_requisition_automatons_desc: "Temporary Automaton Pops will be requisitioned from deep storage, and then recycled at the end of their time, since World-Machines have no capacity for continuously constructing or maintaining any pops.$oxr_mdlc_mod_tag$"
  # oxr_mdlc_decisions_origin_wm_expand_planet: "World-Machine Expansion"
