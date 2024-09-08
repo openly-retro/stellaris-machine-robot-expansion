@@ -30,7 +30,8 @@ oxr_mdlc_trait_world_machine_automaton = {
 	# Penalties if not on world-machine or machine world
 	triggered_pop_modifier = {
 		potential = {
-			exists = planet
+			# exists = owner
+			# is_same_species_class = owner
 			planet = {
 				NOR = {
 					is_planet_world_machine = yes
@@ -38,9 +39,16 @@ oxr_mdlc_trait_world_machine_automaton = {
 				}
 			}
 		}
-		pop_housing_usage_mult = 0.2
-		pop_amenities_usage_mult = 0.2
-		pop_environment_tolerance = -0.2
+		# pop_housing_usage_mult = 1
+		# pop_amenities_usage_mult = 1
+		pop_environment_tolerance = -2
+		habitability_floor_add = -1  # inverse of trait_machine_unit
+		pop_amenities_usage_add = 2
+		# pop_housing_usage_add = 1
+		planet_pops_energy_upkeep_add = 2
+		habitability_ceil_add = -2
+		# empire_size_add = 1
+		planet_jobs_produces_mult = -0.75
 	}
 
 	species_potential_add = {
