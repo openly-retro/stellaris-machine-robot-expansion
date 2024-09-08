@@ -381,35 +381,45 @@ planet_event = {
 }
 
 # Restock armies on_world_machine_district_completed
-planet_event = {
+# incoming scope = country
+# from = planet
+country_event = {
 	id = oxr_mdlc_on_world_machine_action.1905
 	is_triggered_only = yes
 	hide_window = yes
 
 	trigger = {
 		owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
-		is_planet_world_machine = yes
+		from = {
+			is_planet_world_machine = yes
+		}
+		
 	}
 	immediate = {
 		# Check District Defense armies count, restock them if needed
-		oxr_mdlc_origin_world_machine_calc_max_district_armies = yes
-		if = {
-			limit = {
-				check_variable = {
-					which = oxr_mdlc_world_machine_num_existing_district_armies
-					value < oxr_mdlc_world_machine_num_max_district_armies
+		from = {
+			oxr_mdlc_origin_world_machine_calc_max_district_armies = yes
+			if = {
+				limit = {
+					check_variable = {
+						which = oxr_mdlc_world_machine_num_existing_district_armies
+						value < oxr_mdlc_world_machine_num_max_district_armies
+					}
+					NOT = {
+						has_modifier = oxr_mdlc_world_machine_district_army_restock_in_progress
+					}
+					NOT = {
+						has_planet_flag = oxr_mdlc_world_machines_refilling_armies_active
+					}
 				}
-				NOT = {
-					has_modifier = oxr_mdlc_world_machine_district_army_restock_in_progress
-				}
-				NOT = {
-					has_planet_flag = oxr_mdlc_world_machines_refilling_armies_active
+				# oxr_mdlc_planet_start_refilling_district_defense_armies = yes
+				planet_event = {
+					id = oxr_mdlc_origin_wm_main.2000
 				}
 			}
-			oxr_mdlc_planet_start_refilling_district_defense_armies = yes
-		}
-		else = {
-			log = "WM District built, but armies at max, not building more."
+			else = {
+				log = "WM District built, but armies at max, not building more."
+			}
 		}
 	}
 }

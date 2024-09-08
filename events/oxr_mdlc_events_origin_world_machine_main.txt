@@ -794,6 +794,28 @@ country_event = {
 	}
 }
 
+planet_event = {
+	id = oxr_mdlc_origin_wm_main.2000
+	is_triggered_only = yes
+	hide_window = yes
+	trigger = {
+		space_owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+		is_planet_world_machine = yes
+		NOT = { has_planet_flag = oxr_mdlc_world_machines_refilling_armies_active }
+	}
+	immediate = {
+		set_planet_flag = oxr_mdlc_world_machines_refilling_armies_active
+		add_modifier = {
+			modifier = oxr_mdlc_world_machine_district_army_restock_in_progress
+			days = 7
+		}
+		planet_event = {
+			id = oxr_mdlc_origin_wm_main.2001
+			days = 7
+		}
+	}
+}
+
 
 # Start the loop of refilling planetary district armies
 planet_event = {
@@ -803,8 +825,6 @@ planet_event = {
 	trigger = {
 		space_owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
 		is_planet_world_machine = yes
-		# re-use trigger to check if last district changed was WM district
-		# xvcv_mdlc_world_machines_districts_heat_indicators_calc_trigger = yes
 		has_planet_flag = oxr_mdlc_world_machines_refilling_armies_active
 	}
 
@@ -813,6 +833,7 @@ planet_event = {
 	}
 
 	immediate = {
+		set_planet_flag = oxr_mdlc_world_machines_refilling_armies_active
 		oxr_mdlc_origin_world_machine_calc_max_district_armies = yes
 		oxr_mdlc_origin_world_machine_calc_current_district_armies = yes
 		if = {
