@@ -381,46 +381,42 @@ planet_event = {
 }
 
 # Restock armies on_world_machine_district_completed
-# incoming scope = country
+# incoming scope = planet (was country)
 # from = planet
-country_event = {
+planet_event = {
 	id = oxr_mdlc_on_world_machine_action.1905
 	is_triggered_only = yes
 	hide_window = yes
 
 	trigger = {
 		owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
-		from = {
-			is_planet_world_machine = yes
-		}
-		
+		is_planet_world_machine = yes
 	}
 	immediate = {
 		# Check District Defense armies count, restock them if needed
-		from = {
-			oxr_mdlc_origin_world_machine_calc_max_district_armies = yes
-			if = {
-				limit = {
-					check_variable = {
-						which = oxr_mdlc_world_machine_num_existing_district_armies
-						value < oxr_mdlc_world_machine_num_max_district_armies
-					}
-					NOT = {
-						has_modifier = oxr_mdlc_world_machine_district_army_restock_in_progress
-					}
-					NOT = {
-						has_planet_flag = oxr_mdlc_world_machines_refilling_armies_active
-					}
+		oxr_mdlc_origin_world_machine_calc_max_district_armies = yes
+		if = {
+			limit = {
+				check_variable = {
+					which = oxr_mdlc_world_machine_num_existing_district_armies
+					value < oxr_mdlc_world_machine_num_max_district_armies
 				}
-				# oxr_mdlc_planet_start_refilling_district_defense_armies = yes
-				planet_event = {
-					id = oxr_mdlc_origin_wm_main.2000
+				NOT = {
+					has_modifier = oxr_mdlc_world_machine_district_army_restock_in_progress
+				}
+				NOT = {
+					has_planet_flag = oxr_mdlc_world_machines_refilling_armies_active
 				}
 			}
-			else = {
-				log = "WM District built, but armies at max, not building more."
+			# oxr_mdlc_planet_start_refilling_district_defense_armies = yes
+			planet_event = {
+				id = oxr_mdlc_origin_wm_main.2000
 			}
 		}
+		else = {
+			log = "WM District built, but armies at max, not building more."
+		}
+		
 	}
 }
 
@@ -510,6 +506,49 @@ planet_event = {
 		}
 		else = {
 			log = "WM District destroyed, but army count OK, not building more."
+		}
+	}
+}
+
+# The 'mundane data' event
+# count free/used districts on demolished or built, so that between either of these events
+# we can refer to the defined number of them, rather than export triggers redundantly
+### CALLED ON COMPLETED 
+planet_event = {
+	id = oxr_mdlc_on_world_machine_action.1920
+	is_triggered_only = yes
+	hide_window = yes
+	immediate = {
+		set_variable = {
+			which = oxr_mdlc_planet_built_districts_amount
+			value = value:oxr_mdlc_planet_count_built_districts
+		}
+		set_variable = {
+			which = oxr_mdlc_planet_free_districts_amount
+			value = value:oxr_mdlc_planet_count_free_districts
+		}
+		planet_event = {
+			id = oxr_mdlc_on_world_machine_action.1905  # restock district defense armies
+		}
+	}
+}
+### CALLED ON DESTROYED
+# After calculating these vars, then call other events
+planet_event = {
+	id = oxr_mdlc_on_world_machine_action.1921
+	is_triggered_only = yes
+	hide_window = yes
+	immediate = {
+		set_variable = {
+			which = oxr_mdlc_planet_built_districts_amount
+			value = value:oxr_mdlc_planet_count_built_districts
+		}
+		set_variable = {
+			which = oxr_mdlc_planet_free_districts_amount
+			value = value:oxr_mdlc_planet_count_free_districts
+		}
+		planet_event = {
+			id = oxr_mdlc_on_world_machine_action.1909  # Recalculate district armies, decommission
 		}
 	}
 }

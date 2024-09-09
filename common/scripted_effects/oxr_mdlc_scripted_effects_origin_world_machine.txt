@@ -259,6 +259,13 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 	planet_event = {
 		id = oxr_mdlc_origin_wm_main.2001
 	}
+	owner = {
+		set_variable = {
+			which = oxr_mdlc_world_machine_defense_armies_per_district
+			value = @oxr_mdlc_world_machine_defense_armies_per_district
+		}
+	}
+
 
 
 	# Fix founder species habitability *eyeroll*
@@ -453,7 +460,7 @@ oxr_mdlc_origin_world_machine_calc_max_district_armies = {
 	}
 	multiply_variable = {
 		which = oxr_mdlc_world_machine_num_max_district_armies_temp
-		value = @oxr_mdlc_world_machine_defense_armies_per_district
+		value = owner.oxr_mdlc_world_machine_defense_armies_per_district
 	}
 	set_variable = {
 		which = oxr_mdlc_world_machine_num_max_district_armies
@@ -533,7 +540,7 @@ oxr_mdlc_origin_world_machine_refill_armies = {
 
 	multiply_variable = {
 		which = oxr_mdlc_world_machines_num_armies_to_restock_temp
-		value = @oxr_mdlc_world_machine_defense_armies_per_district
+		value = owner.oxr_mdlc_world_machine_defense_armies_per_district
 	}
 	subtract_variable = {
 		which = oxr_mdlc_world_machines_num_armies_to_restock_temp
