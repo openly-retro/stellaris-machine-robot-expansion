@@ -463,14 +463,19 @@ oxr_mdlc_origin_world_machine_calc_max_district_armies = {
 }
 oxr_mdlc_origin_world_machine_calc_current_district_armies = {
 	optimize_memory
-	export_trigger_value_to_variable = {
-		trigger = count_planet_army
-		parameters = {
-			exists = owner
-			army_type = oxr_mdlc_world_machine_district_defense_army
-		}
-		variable = oxr_mdlc_world_machine_num_existing_district_armies
+	set_variable = {
+		which = oxr_mdlc_world_machine_num_existing_district_armies
+		value = value:oxr_mdlc_planet_count_district_defense_armies
 	}
+	# export_trigger_value_to_variable = {
+	# 	trigger = count_planet_army
+	# 	parameters = {
+	# 		# count = all
+	# 		is_defensive_army = yes
+	# 		army_type = oxr_mdlc_world_machine_district_defense_army
+	# 	}
+	# 	variable = oxr_mdlc_world_machine_num_existing_district_armies
+	# }
 }
 
 
