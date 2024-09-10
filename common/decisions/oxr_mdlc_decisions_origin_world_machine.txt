@@ -281,3 +281,239 @@ oxr_mdlc_decisions_origin_wm_requisition_automatons = {
 # 		}
 # 	}
 # }
+
+oxr_mdlc_decision_machine_ecu_project = {
+	owned_planets_only = yes
+	enactment_time = 3600
+
+	resources = {
+		category = decisions
+		cost = {
+			influence = 200
+			minerals = 20000
+		}
+	}
+
+	potential = {
+		exists = from
+		# Planet is not a T3 world-machine already, but Auto-Machine World is OK
+		xvcv_mdlc_world_machines_planet_classes_trigger = no
+		# Not allowed for habitats/ringworlds
+		habitable_structure = no
+		# rikk_mdlc_planet_can_become_world_machine_AP = yes
+		owner = { oxr_mdlc_country_can_make_t3_ecu = yes }
+	}
+
+	allow = {
+		custom_tooltip_fail = {
+			text = xvcv_mdlc_world_machines_decisions_tooltip.fail
+			num_districts = { type = any value < 1 }
+		}
+		num_uncleared_blockers < 1
+	}
+
+	effect = {
+		custom_tooltip = xvcv_mdlc_decision_machine_ecu_project_tooltip
+		hidden_effect = {
+			clear_deposits = yes
+			change_pc = xvcv_mdlc_pc_machine_ecu
+			owner = {
+				if = {
+					limit = { has_country_flag = xvcv_mdlc_decision_machine_ecu_project_message_on }
+					create_message = {
+						type = XVCV_MDLC_WORLD_MACHINES_COMPLETION_MESSAGE_TYPE
+						localization = XVCV_MDLC_DECISION_MACHINE_ECU_PROJECT_DONE_MESSAGE
+						days = 10
+						target = prev
+						variable = {
+							type = name
+							localization = XVCV_MDLC_DECISION_MACHINE_ECU_PROJECT_PLANET
+							scope = prev
+						}
+					}
+				}
+			}
+			if = {
+				limit = { NOT = { has_modifier = planet_population_control_gestalt } }
+				add_modifier = { modifier = planet_population_control_gestalt days = -1 }
+			}
+			add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral days = -1 }
+			xvcv_mdlc_planet_terraforming_resolution_breached_effect = yes
+		}
+		owner = {
+			if = {
+				limit = {
+					#one time only #wait until it appears in the tech option list if you are to research it further
+					NOR = {
+						has_tech_option = xvcv_mdlc_tech_world_machines_districts_produces
+						has_technology = xvcv_mdlc_tech_world_machines_districts_produces
+					}
+				}
+				add_research_option = xvcv_mdlc_tech_world_machines_districts_produces
+			}
+		}
+	}
+
+	ai_weight = {
+		weight = 0
+		modifier = {
+			weight = 100
+			owner = { NOT = { any_owned_planet = { is_planet_class = xvcv_mdlc_pc_machine_ecu } } }
+		}
+	}
+}
+oxr_mdlc_decision_machine_cpu_project = {
+	owned_planets_only = yes
+	enactment_time = 3600
+
+	resources = {
+		category = decisions
+		cost = {
+			influence = 200
+			minerals = 20000
+		}
+	}
+
+	potential = {
+		exists = owner
+		xvcv_mdlc_world_machines_planet_classes_trigger = no
+		habitable_structure = no
+		rikk_mdlc_planet_can_become_world_machine_AP = yes
+		owner = { oxr_mdlc_country_can_make_t3_cpu = yes }
+	}
+
+	allow = {
+		custom_tooltip_fail = {
+			text = xvcv_mdlc_world_machines_decisions_tooltip.fail
+			num_districts = { type = any value < 1 }
+		}
+		num_uncleared_blockers < 1
+	}
+
+	effect = {
+		custom_tooltip = xvcv_mdlc_decision_machine_cpu_project_tooltip
+		hidden_effect = {
+			clear_deposits = yes
+			change_pc = xvcv_mdlc_pc_machine_cpu
+			owner = {
+				if = {
+					limit = { has_country_flag = xvcv_mdlc_decision_machine_cpu_project_message_on }
+					create_message = {
+						type = XVCV_MDLC_WORLD_MACHINES_COMPLETION_MESSAGE_TYPE
+						localization = XVCV_MDLC_DECISION_MACHINE_CPU_PROJECT_DONE_MESSAGE
+						days = 10
+						target = prev
+						variable = {
+							type = name
+							localization = XVCV_MDLC_DECISION_MACHINE_CPU_PROJECT_PLANET
+							scope = prev
+						}
+					}
+				}
+			}
+			if = {
+				limit = { NOT = { has_modifier = planet_population_control_gestalt } }
+				add_modifier = { modifier = planet_population_control_gestalt days = -1 }
+			}
+			add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral days = -1 }
+			xvcv_mdlc_planet_terraforming_resolution_breached_effect = yes
+		}
+		owner = {
+			if = {
+				limit = {
+					NOR = {
+						has_tech_option = xvcv_mdlc_tech_world_machines_districts_produces
+						has_technology = xvcv_mdlc_tech_world_machines_districts_produces
+					}
+				}
+				add_research_option = xvcv_mdlc_tech_world_machines_districts_produces
+			}
+		}
+	}
+
+	ai_weight = {
+		weight = 0
+		modifier = {
+			weight = 100
+			owner = { NOT = { any_owned_planet = { is_planet_class = xvcv_mdlc_pc_machine_cpu } } }
+		}
+	}
+}
+oxr_mdlc_decision_machine_ser_project = {
+	owned_planets_only = yes
+	enactment_time = 3600
+
+	resources = {
+		category = decisions
+		cost = {
+			influence = 200
+			minerals = 20000
+		}
+	}
+
+	potential = {
+		exists = owner
+		# owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		xvcv_mdlc_world_machines_planet_classes_trigger = no
+		habitable_structure = no
+		rikk_mdlc_planet_can_become_world_machine_AP = yes
+		owner = { oxr_mdlc_country_can_make_t3_ser = yes }
+	}
+
+	allow = {
+		custom_tooltip_fail = {
+			text = xvcv_mdlc_world_machines_decisions_tooltip.fail
+			num_districts = { type = any value < 1 }
+		}
+		num_uncleared_blockers < 1
+	}
+
+	effect = {
+		custom_tooltip = xvcv_mdlc_decision_machine_ser_project_tooltip
+		hidden_effect = {
+			clear_deposits = yes
+			change_pc = xvcv_mdlc_pc_machine_ser
+			owner = {
+				if = {
+					limit = { has_country_flag = xvcv_mdlc_decision_machine_ser_project_message_on }
+					create_message = {
+						type = XVCV_MDLC_WORLD_MACHINES_COMPLETION_MESSAGE_TYPE
+						localization = XVCV_MDLC_DECISION_MACHINE_SER_PROJECT_DONE_MESSAGE
+						days = 10
+						target = prev
+						variable = {
+							type = name
+							localization = XVCV_MDLC_DECISION_MACHINE_SER_PROJECT_PLANET
+							scope = prev
+						}
+					}
+				}
+			}
+			if = {
+				limit = { NOT = { has_modifier = planet_population_control_gestalt } }
+				add_modifier = { modifier = planet_population_control_gestalt days = -1 }
+			}
+			add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral days = -1 }
+			xvcv_mdlc_planet_terraforming_resolution_breached_effect = yes
+		}
+		owner = {
+			if = {
+				limit = {
+					NOR = {
+						has_tech_option = xvcv_mdlc_tech_world_machines_districts_produces
+						has_technology = xvcv_mdlc_tech_world_machines_districts_produces
+					}
+				}
+				add_research_option = xvcv_mdlc_tech_world_machines_districts_produces
+			}
+		}
+	}
+
+	ai_weight = {
+		weight = 0
+		modifier = {
+			weight = 100
+			owner = { NOT = { any_owned_planet = { is_planet_class = xvcv_mdlc_pc_machine_ser } } }
+		}
+	}
+}

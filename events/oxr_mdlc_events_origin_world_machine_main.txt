@@ -923,3 +923,104 @@ pop_event = {
 		kill_pop = yes
 	}
 }
+
+## TERRAFORM / CHANGE PC MENU ##
+planet_event = {
+	id = oxr_mdlc_origin_wm_main.3000
+	title = oxr_mdlc_origin_wm_main.3000.title
+	desc = oxr_mdlc_origin_wm_main.3000.desc
+	picture = GFX_evt_ai_planet
+	is_triggered_only = yes
+
+	# auto machine world
+	option = {
+		name = oxr_mdlc_origin_wm_main.3000.a
+		custom_tooltip = oxr_mdlc_origin_wm_main.3000.a.desc
+		trigger = { NOT = { is_planet_class = xvcv_mdlc_pc_machine_auto } }
+		allow = {
+			is_planet_world_machine = yes
+			owner = { has_resource = { type = energy amount > 2500 } }
+			custom_tooltip_fail = {
+				text = xvcv_mdlc_world_machines_decisions_tooltip.fail
+				num_districts = { type = any value < 1 }
+			}
+			num_uncleared_blockers < 1
+		}
+		owner = { add_resource = { energy = -2500 } }
+		hidden_effect = {
+			start_terraform_process = xvcv_mdlc_pc_machine_auto
+		}
+	}
+	# ecu
+	option = {
+		name = oxr_mdlc_origin_wm_main.3000.b
+		custom_tooltip = oxr_mdlc_origin_wm_main.3000.b.desc
+		trigger = {
+			NOT = { is_planet_class = xvcv_mdlc_pc_machine_ecu }
+			owner = {
+				# has_technology = oxr_mdlc_tech_world_machine_ecu
+			}
+		}
+		allow = {
+			is_planet_world_machine = yes
+			owner = { has_resource = { type = energy amount > 2500 } }
+			custom_tooltip_fail = {
+				text = xvcv_mdlc_world_machines_decisions_tooltip.fail
+				num_districts = { type = any value < 1 }
+			}
+			num_uncleared_blockers < 1
+		}
+		owner = { add_resource = { energy = -2500 } }
+		hidden_effect = {
+			start_terraform_process = xvcv_mdlc_pc_machine_ecu
+		}
+	}
+	# cpu
+	option = {
+		name = oxr_mdlc_origin_wm_main.3000.c
+		custom_tooltip = oxr_mdlc_origin_wm_main.3000.c.desc
+		trigger = {
+			NOT = { is_planet_class = xvcv_mdlc_pc_machine_cpu }
+			owner = {
+				# has_technology = oxr_mdlc_tech_world_machine_cpu
+			}
+		}
+		allow = {
+			is_planet_world_machine = yes
+			owner = { has_resource = { type = energy amount > 2500 } }
+			custom_tooltip_fail = {
+				text = xvcv_mdlc_world_machines_decisions_tooltip.fail
+				num_districts = { type = any value < 1 }
+			}
+			num_uncleared_blockers < 1
+		}
+		owner = { add_resource = { energy = -2500 } }
+		hidden_effect = {
+			start_terraform_process = xvcv_mdlc_pc_machine_cpu
+		}
+	}
+	# ser
+	option = {
+		name = oxr_mdlc_origin_wm_main.3000.d
+		custom_tooltip = oxr_mdlc_origin_wm_main.3000.d.desc
+		trigger = {
+			NOT = { is_planet_class = xvcv_mdlc_pc_machine_ser }
+			owner = {
+				# has_technology = oxr_mdlc_tech_world_machine_ser
+			}
+		}
+		allow = {
+			is_planet_world_machine = yes
+			owner = { has_resource = { type = energy amount > 2500 } }
+			custom_tooltip_fail = {
+				text = xvcv_mdlc_world_machines_decisions_tooltip.fail
+				num_districts = { type = any value < 1 }
+			}
+			num_uncleared_blockers < 1
+		}
+		owner = { add_resource = { energy = -2500 } }
+		hidden_effect = {
+			start_terraform_process = xvcv_mdlc_pc_machine_ser
+		}
+	}
+}
