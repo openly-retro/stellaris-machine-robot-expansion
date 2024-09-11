@@ -32,15 +32,7 @@ oxr_mdlc_world_machines_building_auto_capital = {
 
 	category = government
 
-	potential = {
-		exists = owner
-		owner = {
-			OR = {
-				has_origin = oxr_mdlc_origin_world_machine_awakened
-			}
-		}
-		is_planet_world_machine = yes
-	}
+	inline_script = planet/buildings/oxr_mdlc_wm_auto
 
 	destroy_trigger = {
 		exists = owner
@@ -86,15 +78,7 @@ oxr_mdlc_world_machines_building_auto_capital_upgraded = {
 
 	category = government
 
-	potential = {
-		exists = owner
-		owner = {
-			OR = {
-				has_origin = oxr_mdlc_origin_world_machine_awakened
-			}
-		}
-		is_planet_world_machine = yes
-	}
+	inline_script = planet/buildings/oxr_mdlc_wm_auto
 
 	destroy_trigger = {
 		exists = owner
@@ -219,15 +203,7 @@ oxr_mdlc_world_machines_building_auto_capital_major_upgraded = {
 
 	category = government
 
-	potential = {
-		exists = owner
-		owner = {
-			OR = {
-				has_origin = oxr_mdlc_origin_world_machine_awakened
-			}
-		}
-		is_planet_world_machine = yes
-	}
+	inline_script = planet/buildings/oxr_mdlc_wm_auto
 
 	destroy_trigger = {
 		exists = owner
@@ -358,15 +334,7 @@ oxr_mdlc_world_machines_building_auto_capital_fully_upgraded = {
 
 	category = government
 
-	potential = {
-		exists = owner
-		owner = {
-			OR = {
-				has_origin = oxr_mdlc_origin_world_machine_awakened
-			}
-		}
-		is_planet_world_machine = yes
-	}
+	inline_script = planet/buildings/oxr_mdlc_wm_auto
 
 	destroy_trigger = {
 		exists = owner
@@ -667,18 +635,7 @@ oxr_mdlc_world_machines_building_maintenance_legion = {
 	category = army
 	exempt_from_ai_planet_specialization = no
 
-	potential = {
-		NOT = { has_modifier = resort_colony }
-		exists = owner
-		owner = {
-			OR = {
-				has_origin = oxr_mdlc_origin_world_machine_awakened
-				has_ascension_perk = xvcv_mdlc_ap_world_machines
-			}
-			oxr_mdlc_origin_world_machine_feature_enabled = yes
-		}
-		is_planet_world_machine = yes
-	}
+	inline_script = planet/buildings/oxr_mdlc_wm_auto
 
 	triggered_planet_modifier = {
 		potential = {
@@ -730,18 +687,7 @@ oxr_mdlc_world_machines_building_fractal_sanitizer = {
 
 	category = research
 
-	potential = {
-		NOT = { has_modifier = resort_colony }
-		exists = owner
-		owner = {
-			OR = {
-				has_origin = oxr_mdlc_origin_world_machine_awakened
-				has_ascension_perk = xvcv_mdlc_ap_world_machines
-			}
-			oxr_mdlc_origin_world_machine_feature_enabled = yes
-		}
-		is_planet_world_machine = yes
-	}
+	inline_script = planet/buildings/oxr_mdlc_wm_auto
 
 	destroy_trigger = {
 		OR = {
@@ -789,18 +735,7 @@ oxr_mdlc_world_machines_building_fractal_sanitizer_2 = {
 
 	category = research
 
-	potential = {
-		NOT = { has_modifier = resort_colony }
-		exists = owner
-		owner = {
-			OR = {
-				has_origin = oxr_mdlc_origin_world_machine_awakened
-				has_ascension_perk = xvcv_mdlc_ap_world_machines
-			}
-			oxr_mdlc_origin_world_machine_feature_enabled = yes
-		}
-		is_planet_world_machine = yes
-	}
+	inline_script = planet/buildings/oxr_mdlc_wm_auto
 
 	destroy_trigger = {
 		OR = {
@@ -844,18 +779,8 @@ xvcv_mdlc_world_machine_auto_farm = {
 
 	base_buildtime = @b1_time
 	category = resource
-	potential = {
-		exists = owner
-		owner = {
-			OR = {
-				country_uses_food = yes
-				is_ai = no
-			}
-			oxr_mdlc_origin_world_machine_feature_enabled = yes
-		}
-        is_planet_world_machine = yes
-        NOT = { has_modifier = resort_colony }
-    }
+	
+	inline_script = planet/buildings/oxr_mdlc_wm_auto
 
 	destroy_trigger = {
 		exists = owner
@@ -904,14 +829,7 @@ oxr_mdlc_world_machines_building_auto_farm_logistics = {
 	base_cap_amount = 1
 	category = resource
 
-	potential = {
-		NOT = { has_modifier = resort_colony }
-		exists = owner
-		owner = {
-			oxr_mdlc_planet_owner_can_build_wm_districts = yes
-		}
-		is_planet_world_machine = yes
-	}
+	inline_script = planet/buildings/oxr_mdlc_wm_auto
 
 	destroy_trigger = {
 		exists = owner
@@ -978,19 +896,7 @@ oxr_mdlc_world_machines_building_welding_colony = {
 	exempt_from_ai_planet_specialization = no
 	category = manufacturing
 
-	potential = {
-		NOT = { has_modifier = resort_colony }
-		exists = owner
-		owner = {
-			OR = {
-				has_origin = oxr_mdlc_origin_world_machine_awakened
-				has_ascension_perk = xvcv_mdlc_ap_world_machines
-			}
-			has_technology = oxr_mdlc_tech_world_machines_unlocked
-			has_technology = tech_exotic_gases
-		}
-		is_planet_world_machine = yes
-	}
+	inline_script = planet/buildings/oxr_mdlc_wm_auto
 
 	resources = {
 		category = oxr_mdlc_category_world_machines_buildings
@@ -1023,19 +929,7 @@ oxr_mdlc_world_machines_building_particle_collider = {
 	exempt_from_ai_planet_specialization = no
 	category = manufacturing
 
-	potential = {
-		NOT = { has_modifier = resort_colony }
-		exists = owner
-		owner = {
-			OR = {
-				has_origin = oxr_mdlc_origin_world_machine_awakened
-				has_ascension_perk = xvcv_mdlc_ap_world_machines
-			}
-			has_technology = oxr_mdlc_tech_world_machines_unlocked
-			has_technology = tech_volatile_motes
-		}
-		is_planet_world_machine = yes
-	}
+	inline_script = planet/buildings/oxr_mdlc_wm_auto
 
 	resources = {
 		category = oxr_mdlc_category_world_machines_buildings
@@ -1068,18 +962,7 @@ oxr_mdlc_world_machines_building_crystal_cultivation_tank = {
 	exempt_from_ai_planet_specialization = no
 	category = manufacturing
 
-	potential = {
-		NOT = { has_modifier = resort_colony }
-		exists = owner
-		owner = {
-			OR = {
-				has_origin = oxr_mdlc_origin_world_machine_awakened
-				has_ascension_perk = xvcv_mdlc_ap_world_machines
-				has_technology = tech_rare_crystals
-			}
-		}
-		is_planet_world_machine = yes
-	}
+	inline_script = planet/buildings/oxr_mdlc_wm_auto
 
 	resources = {
 		category = oxr_mdlc_category_world_machines_buildings
@@ -1099,7 +982,8 @@ oxr_mdlc_world_machines_building_crystal_cultivation_tank = {
 		xvcv_mdlc_world_machine_auto_food_processing_center
 	}
 	prerequisites = {
-		"tech_food_processing_1"
+		"oxr_mdlc_tech_world_machines_unlocked"
+		"tech_rare_crystals"
 	}
 }
 
@@ -1112,6 +996,8 @@ xvcv_mdlc_world_machine_auto_food_processing_center = {
 		exists = owner
 		has_upgraded_capital = yes
 	}
+
+	inline_script = planet/buildings/oxr_mdlc_wm_auto
 
 	destroy_trigger = {
 		OR = {
@@ -1181,7 +1067,6 @@ xvcv_mdlc_world_machine_auto_food_processing_center = {
 	}
 
 	prerequisites = {
-		"tech_rare_crystals"
 		"oxr_mdlc_tech_world_machines_unlocked"
 	}
 	on_built = {
@@ -1205,22 +1090,8 @@ oxr_mdlc_world_machines_building_cohesion_supervisor = {
 
 	category = unity
 
-	potential = {
-		exists = owner
-		NOR = {
-			has_modifier = resort_colony
-			# has_modifier = crucible_colony
-		}
-		exists = owner
-		# owner = {
-		# 	has_origin = oxr_mdlc_origin_world_machine_awakened
-		# }
-		is_planet_world_machine = yes
-		owner = {
-			oxr_mdlc_origin_world_machine_feature_enabled = yes
-		}
-		
-	}
+	inline_script = planet/buildings/oxr_mdlc_wm_auto
+
 	destroy_trigger = {
 		exists = owner
 		owner = {
@@ -1248,9 +1119,9 @@ oxr_mdlc_world_machines_building_cohesion_supervisor = {
 		produces = { unity = 8 }
 	}
 
-	triggered_desc = {
-		text = job_coordinator_effect_desc
-	}
+	# triggered_desc = {
+	# 	text = job_coordinator_effect_desc
+	# }
 
 	upgrades = {
 		"oxr_mdlc_world_machines_building_cohesion_hub"
@@ -1280,15 +1151,7 @@ oxr_mdlc_world_machines_building_cohesion_hub = {
 
 	category = unity
 
-	potential = {
-		NOT = { has_modifier = resort_colony }
-		exists = owner
-		owner = {
-			oxr_mdlc_planet_owner_can_build_wm_districts = yes
-			oxr_mdlc_origin_world_machine_feature_enabled = yes
-		}
-		is_planet_world_machine = yes
-	}
+	inline_script = planet/buildings/oxr_mdlc_wm_auto
 
 	# allow = {
 	# 	has_upgraded_capital = yes
@@ -1351,15 +1214,7 @@ oxr_mdlc_world_machines_building_storage_cradle = {
 	base_buildtime = @b3_time
 	category = resource
 
-	potential = {
-		NOT = { has_modifier = resort_colony }
-		exists = owner
-		owner = {
-			oxr_mdlc_planet_owner_can_build_wm_districts = yes
-			has_technology = oxr_mdlc_tech_world_machine_wmc_core
-		}
-		is_planet_world_machine = yes
-	}
+	inline_script = planet/buildings/oxr_mdlc_wm_auto
 
 	resources = {
 		category = oxr_mdlc_category_world_machines_buildings
@@ -1383,6 +1238,7 @@ oxr_mdlc_world_machines_building_storage_cradle = {
 
 	prerequisites = {
 		"oxr_mdlc_tech_world_machines_unlocked"
+		"oxr_mdlc_tech_world_machine_wmc_core"
 	}
 	on_destroy = {
 		oxr_mdlc_planet_calculate_max_core_storage = yes
@@ -1402,15 +1258,8 @@ oxr_mdlc_world_machines_building_storage_cradle = {
 oxr_mdlc_world_machines_building_core_fabrication_depot = {
 	base_buildtime = @b3_time
 	category = manufacturing
-	potential = {
-		NOT = { has_modifier = resort_colony }
-		exists = owner
-		owner = {
-			oxr_mdlc_planet_owner_can_build_wm_districts = yes
-			has_technology = oxr_mdlc_tech_world_machine_wmc_core
-		}
-		is_planet_world_machine = yes
-	}
+
+	inline_script = planet/buildings/oxr_mdlc_wm_auto
 
 	resources = {
 		category = oxr_mdlc_category_world_machines_buildings
