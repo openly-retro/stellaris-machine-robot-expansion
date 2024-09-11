@@ -1,3 +1,8 @@
+# How many traits can be picked
+@xvcv_mdlc_leader_making_base_num_trait_picks = 3
+# How many points the player has for picking
+@xvcv_mdlc_leader_making_base_num_trait_points = 4
+
 xvcv_mdlc_leader_making_trait_pick_effect = {
     optimize_memory
     custom_tooltip = xvcv_mdlc_leader_making_tooltip_$CLASS$_$ID$
@@ -10,6 +15,7 @@ xvcv_mdlc_leader_making_trait_pick_effect = {
     }
 }
 xvcv_mdlc_leader_making_trait_pick_alt_effect = {
+    # Use this trigger to set additional limits on when a trait can be picked
     optimize_memory
     if = {
         limit = { $SCRIPTED_TRIGGER$ = $BOOLEAN$ }
@@ -24,66 +30,79 @@ xvcv_mdlc_leader_making_trait_pick_alt_effect = {
         }
     }
 }
+
 xvcv_mdlc_leader_making_clear_skill_levels_effect = {
     optimize_memory
-    switch = {
-        trigger = has_country_flag
-        xvcv_mdlc_leader_skill_level_set_1 = {
-            remove_country_flag = xvcv_mdlc_leader_skill_level_set_1
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = -100 }
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = -100 }
-        }
-        xvcv_mdlc_leader_skill_level_set_2 = {
-            remove_country_flag = xvcv_mdlc_leader_skill_level_set_2
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = -200 }
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = -200 }
-        }
-        xvcv_mdlc_leader_skill_level_set_3 = {
-            remove_country_flag = xvcv_mdlc_leader_skill_level_set_3
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = -300 }
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = -300 }
-        }
-        xvcv_mdlc_leader_skill_level_set_4 = {
-            remove_country_flag = xvcv_mdlc_leader_skill_level_set_4
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = -400 }
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = -400 }
-        }
-        xvcv_mdlc_leader_skill_level_set_5 = {
-            remove_country_flag = xvcv_mdlc_leader_skill_level_set_5
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = -500 }
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = -500 }
-        }
-        xvcv_mdlc_leader_skill_level_set_6 = {
-            remove_country_flag = xvcv_mdlc_leader_skill_level_set_6
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = -600 }
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = -600 }
-        }
-        xvcv_mdlc_leader_skill_level_set_7 = {
-            remove_country_flag = xvcv_mdlc_leader_skill_level_set_7
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = -700 }
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = -700 }
-        }
-        xvcv_mdlc_leader_skill_level_set_8 = {
-            remove_country_flag = xvcv_mdlc_leader_skill_level_set_8
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = -800 }
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = -800 }
-        }
-        xvcv_mdlc_leader_skill_level_set_9 = {
-            remove_country_flag = xvcv_mdlc_leader_skill_level_set_9
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = -900 }
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = -900 }
-        }
-        xvcv_mdlc_leader_skill_level_set_10 = {
-            remove_country_flag = xvcv_mdlc_leader_skill_level_set_10
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = -1000 }
-            change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = -1000 }
-        }
+    # WHAT HAPPENS HERE:
+    # - Reduce the cost of building the leader by the skill level set
+    # Accomplished by:
+    # 2. Set a temporary var
+    # 3. Mult by -100
+    # 4. Mult by value:xvcv_mdlc_leader_making_skill_level
+    # 5. Change xvcv_mdlc_leader_making_trait_costs_count_energy and *_alloys by this amount
+    # 6. Reset the skill level var to 0
+    # log = "IN xvcv_mdlc_leader_making_clear_skill_levels_effect"
+    # log = "Leader-making currently at level \\[Root.xvcv_mdlc_leader_making_skill_level]"
+    set_variable = {
+        which = xvcv_mdlc_leader_making_costs_refund_amount
+        value = -100
     }
+    multiply_variable = {
+        which = xvcv_mdlc_leader_making_costs_refund_amount
+        value = xvcv_mdlc_leader_making_skill_level
+    }
+    # log = "Will decrease (refund) leader-making cost by \\[This.xvcv_mdlc_leader_making_costs_refund_amount]"
+    change_variable = {
+        which = xvcv_mdlc_leader_making_trait_costs_count_energy
+        value = xvcv_mdlc_leader_making_costs_refund_amount
+    }
+    change_variable = {
+        which = xvcv_mdlc_leader_making_trait_costs_count_alloys
+        value = xvcv_mdlc_leader_making_costs_refund_amount
+    }
+    # log = "alloys cost is \\[Root.xvcv_mdlc_leader_making_trait_costs_count_alloys]"
+    # log = "energy cost is \\[Root.xvcv_mdlc_leader_making_trait_costs_count_energy]"
 }
-xvcv_mdlc_leader_making_clear_traits_variables_effect = {
+
+oxr_mdlc_leader_making_increase_skill_level_costs = {
+    # for a given skill level, player has clicked into it
+    # deduct the costs by the given skill level
     optimize_memory
-	set_variable = { which = xvcv_mdlc_leader_making_trait_points value = 4 } #max trait points
-    set_variable = { which = xvcv_mdlc_leader_making_max_traits_number value = 3 } #max traits number
+    # log = "IN oxr_mdlc_leader_making_increase_skill_level_costs"
+    # log = "Going to deduct level costs for level $LEVEL$"
+    set_variable = {
+        which = xvcv_mdlc_leader_making_costs_increase_amount
+        value = 100
+    }
+    multiply_variable = {
+        which = xvcv_mdlc_leader_making_costs_increase_amount
+        value = $LEVEL$
+    }
+    # log = "Will increase leader-making cost by \\[This.xvcv_mdlc_leader_making_costs_increase_amount]"
+    change_variable = {
+        which = xvcv_mdlc_leader_making_trait_costs_count_energy
+        value = xvcv_mdlc_leader_making_costs_increase_amount
+    }
+    change_variable = {
+        which = xvcv_mdlc_leader_making_trait_costs_count_alloys
+        value = xvcv_mdlc_leader_making_costs_increase_amount
+    }
+    # log = "alloys cost is \\[Root.xvcv_mdlc_leader_making_trait_costs_count_alloys]"
+    # log = "energy cost is \\[Root.xvcv_mdlc_leader_making_trait_costs_count_energy]"
+}
+
+xvcv_mdlc_leader_making_clear_traits_variables_effect = {
+    # This effect is called when the leader-making GUI is opened,
+    # and when a player clicks the reset button
+    optimize_memory
+	set_variable = {
+        which = xvcv_mdlc_leader_making_trait_points
+        value = @xvcv_mdlc_leader_making_base_num_trait_points
+    } #max trait points
+    set_variable = { 
+        which = xvcv_mdlc_leader_making_max_traits_number
+        value = @xvcv_mdlc_leader_making_base_num_trait_picks
+    } #max traits number
     if = {
         limit = { has_technology = xvcv_mdlc_tech_leader_making_improvement }
         change_variable = { which = xvcv_mdlc_leader_making_trait_points value = 1 } #increase max trait points by 1
@@ -99,171 +118,259 @@ xvcv_mdlc_leader_making_clear_traits_variables_effect = {
     set_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy_for_displaying value = 0 }
     set_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys_for_displaying value = 0 }
 }
+oxr_mdlc_leader_making_set_leader_skill_level = {
+    # Set a variable to track which leader-making level the player has chosen
+    # in the leader-making GUI
+    optimize_memory
+    set_variable = {
+        which = xvcv_mdlc_leader_making_skill_level
+        value = $LEVEL$
+    }
+    # log = "Player set leader-making skill level to \\[This.xvcv_mdlc_leader_making_skill_level]"
+}
+oxr_mdlc_leader_making_set_maximum_allowed_leader_level = {
+    # Set a variable to track the maximum allowed leader level that can be chosen
+    # but don't write over it if the new value will be lower!
+    # record the highest-ever level the player HAS HAD
+    optimize_memory
+    if = {
+        limit = {
+            check_variable = {
+                which = oxr_mdlc_leader_making_maximum_allowed_leader_level
+                value < $LEVEL$
+            }
+        }
+        set_variable = {
+            which = oxr_mdlc_leader_making_maximum_allowed_leader_level
+            value = $LEVEL$
+        }
+        # log = "Maximum allowed leader level was set to \\[This.oxr_mdlc_leader_making_maximum_allowed_leader_level]"
+    }
+    # else = {
+    #     log = "Maximum leader level was NOT overwritten because $LEVEL$  is lower than the highest-recorded level of \\[Root.oxr_mdlc_leader_making_maximum_allowed_leader_level]"
+    # }
+}
+
+### AUTOGENERATED VERSION ###
+
 xvcv_mdlc_leader_making_clear_values_effect = {
     optimize_memory
-	if = {
-		limit = { xvcv_mdlc_leader_making_picked_any_skill_level_trigger = yes }
-		xvcv_mdlc_leader_making_clear_skill_levels_effect = yes
-	}
-	if = {
-		limit = { has_country_flag = xvcv_mdlc_leader_class_set_to_governor }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_subclass_governor_pioneer } remove_country_flag = xvcv_mdlc_leader_governor_subclass_governor_pioneer }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_subclass_governor_economist } remove_country_flag = xvcv_mdlc_leader_governor_subclass_governor_economist }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_xvcv_mdlc_subclass_governor_none } remove_country_flag = xvcv_mdlc_leader_governor_xvcv_mdlc_subclass_governor_none }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_xvcv_mdlc_leader_trait_shared_memory } remove_country_flag = xvcv_mdlc_leader_governor_xvcv_mdlc_leader_trait_shared_memory }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_xvcv_mdlc_leader_trait_memory_backup } remove_country_flag = xvcv_mdlc_leader_governor_xvcv_mdlc_leader_trait_memory_backup }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_adventurous_spirit_3 } remove_country_flag = xvcv_mdlc_leader_governor_leader_trait_adventurous_spirit_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_resilient_2 } remove_country_flag = xvcv_mdlc_leader_governor_leader_trait_resilient_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_adaptable_2 } remove_country_flag = xvcv_mdlc_leader_governor_leader_trait_adaptable_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_capitalist_2 } remove_country_flag = xvcv_mdlc_leader_governor_leader_trait_capitalist_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_private_mines_2 } remove_country_flag = xvcv_mdlc_leader_governor_leader_trait_private_mines_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_gifted_2 } remove_country_flag = xvcv_mdlc_leader_governor_leader_trait_gifted_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_scrapper_2 } remove_country_flag = xvcv_mdlc_leader_governor_leader_trait_scrapper_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_venerated_2 } remove_country_flag = xvcv_mdlc_leader_governor_leader_trait_venerated_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_bureaucrat_2 } remove_country_flag = xvcv_mdlc_leader_governor_leader_trait_bureaucrat_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_agrarian_upbringing_2 } remove_country_flag = xvcv_mdlc_leader_governor_leader_trait_agrarian_upbringing_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_righteous_2 } remove_country_flag = xvcv_mdlc_leader_governor_leader_trait_righteous_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_environmental_engineer_2 } remove_country_flag = xvcv_mdlc_leader_governor_leader_trait_environmental_engineer_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_enlister_2 } remove_country_flag = xvcv_mdlc_leader_governor_leader_trait_enlister_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_shipwright_2 } remove_country_flag = xvcv_mdlc_leader_governor_leader_trait_shipwright_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_architectural_interest_2 } remove_country_flag = xvcv_mdlc_leader_governor_leader_trait_architectural_interest_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_generator_focus_3 } remove_country_flag = xvcv_mdlc_leader_governor_leader_trait_generator_focus_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_mining_focus_3 } remove_country_flag = xvcv_mdlc_leader_governor_leader_trait_mining_focus_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_farming_focus_3 } remove_country_flag = xvcv_mdlc_leader_governor_leader_trait_farming_focus_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_settler_3 } remove_country_flag = xvcv_mdlc_leader_governor_leader_trait_settler_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_cartographer_3 } remove_country_flag = xvcv_mdlc_leader_governor_leader_trait_cartographer_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_expeditionist_3 } remove_country_flag = xvcv_mdlc_leader_governor_leader_trait_expeditionist_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_geologist_3 } remove_country_flag = xvcv_mdlc_leader_governor_leader_trait_geologist_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_naturalist_3 } remove_country_flag = xvcv_mdlc_leader_governor_leader_trait_naturalist_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_forge_focus_3 } remove_country_flag = xvcv_mdlc_leader_governor_leader_trait_forge_focus_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_refinement_focus_3 } remove_country_flag = xvcv_mdlc_leader_governor_leader_trait_refinement_focus_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_urbanist_3 } remove_country_flag = xvcv_mdlc_leader_governor_leader_trait_urbanist_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_assembler_3 } remove_country_flag = xvcv_mdlc_leader_governor_leader_trait_assembler_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_pop_focused_3 } remove_country_flag = xvcv_mdlc_leader_governor_leader_trait_pop_focused_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_intellectual } remove_country_flag = xvcv_mdlc_leader_governor_leader_trait_intellectual }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_academic_3 } remove_country_flag = xvcv_mdlc_leader_governor_leader_trait_academic_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_distribution_lines_3 } remove_country_flag = xvcv_mdlc_leader_governor_leader_trait_distribution_lines_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_governor_leader_trait_automation_champion } remove_country_flag = xvcv_mdlc_leader_governor_leader_trait_automation_champion }
-		remove_country_flag = xvcv_mdlc_leader_class_set_to_governor
-	}
-	if = {
-		limit = { has_country_flag = xvcv_mdlc_leader_class_set_to_scientist }
+    if = {
+        limit = { xvcv_mdlc_leader_making_picked_any_skill_level_trigger = yes }
+        xvcv_mdlc_leader_making_clear_skill_levels_effect = yes
+    }
+    set_variable = {
+        which = xvcv_mdlc_leader_making_start_number
+        value = 1
+    }
+    set_variable = {
+        which = xvcv_mdlc_leader_making_skill_level
+        value = 1
+    }
+
+    #commander
+    if = {
+        limit = { has_country_flag = xvcv_mdlc_leader_class_set_to_commander }
+        # SUBCLASSES
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_subclass_commander_general } remove_country_flag = xvcv_mdlc_leader_commander_subclass_commander_general }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_subclass_commander_councilor } remove_country_flag = xvcv_mdlc_leader_commander_subclass_commander_councilor }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_subclass_commander_governor } remove_country_flag = xvcv_mdlc_leader_commander_subclass_commander_governor }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_subclass_commander_admiral } remove_country_flag = xvcv_mdlc_leader_commander_subclass_commander_admiral }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_xvcv_mdlc_subclass_commander_none } remove_country_flag = xvcv_mdlc_leader_commander_xvcv_mdlc_subclass_commander_none }
+        # TRAITS
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_xvcv_mdlc_leader_trait_memory_backup } remove_country_flag = xvcv_mdlc_leader_commander_xvcv_mdlc_leader_trait_memory_backup }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_xvcv_mdlc_leader_trait_shared_memory } remove_country_flag = xvcv_mdlc_leader_commander_xvcv_mdlc_leader_trait_shared_memory }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_adaptable_2 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_adaptable_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_adventurous_spirit_3 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_adventurous_spirit_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_aggressive_2 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_aggressive_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_agrarian_upbringing_2 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_agrarian_upbringing_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_annihilator_3 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_annihilator_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_arbiter } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_arbiter }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_archaeo_specialization_3 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_archaeo_specialization_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_artillerist_3 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_artillerist_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_artillery_specialization_3 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_artillery_specialization_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_bureaucrat_2 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_bureaucrat_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_butcher_2 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_butcher_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_capitalist_2 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_capitalist_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_carrier_specialization_3 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_carrier_specialization_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_cautious_2 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_cautious_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_chainbreaker } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_chainbreaker }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_commanding_presence_3 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_commanding_presence_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_conscripter_3 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_conscripter_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_corsair_3 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_corsair_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_crusader_3 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_crusader_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_demolisher_3 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_demolisher_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_destiny_engineer } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_destiny_engineer }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_dreaded_3 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_dreaded_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_engineer_2 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_engineer_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_enlister_2 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_enlister_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_entrepreneur_2 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_entrepreneur_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_environmental_engineer_2 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_environmental_engineer_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_farming_focus_3 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_farming_focus_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_fleet_logistician } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_fleet_logistician }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_fortress_cracker } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_fortress_cracker }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_generator_focus_3 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_generator_focus_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_gifted_2 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_gifted_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_guerilla_tactics } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_guerilla_tactics }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_gunship_specialization_3 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_gunship_specialization_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_hardy_3 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_hardy_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_heavy_hitter_3 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_heavy_hitter_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_homesteader_2 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_homesteader_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_honored_warmaster } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_honored_warmaster }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_interrogator_3 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_interrogator_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_iron_fist_2 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_iron_fist_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_juryrigger_3 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_juryrigger_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_martinet_3 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_martinet_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_master_gunner } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_master_gunner }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_mediator } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_mediator }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_mining_focus_3 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_mining_focus_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_observant_3 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_observant_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_private_mines_2 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_private_mines_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_reinforcer_3 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_reinforcer_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_resilient_2 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_resilient_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_restrained_2 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_restrained_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_righteous_2 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_righteous_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_rocketry_specialization_3 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_rocketry_specialization_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_scout_3 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_scout_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_scrapper_2 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_scrapper_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_shipbreaker_3 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_shipbreaker_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_space_miner_3 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_space_miner_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_supreme_warrior } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_supreme_warrior }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_surgical_bombardment_3 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_surgical_bombardment_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_surveyor } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_surveyor }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_survivalist } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_survivalist }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_tactical_algorithms } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_tactical_algorithms }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_taskmaster } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_taskmaster }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_trickster_2 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_trickster_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_unyielding_2 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_unyielding_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_venerated_2 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_venerated_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_warden_3 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_warden_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_commander_leader_trait_wrecker_3 } remove_country_flag = xvcv_mdlc_leader_commander_leader_trait_wrecker_3 }
+        remove_country_flag = xvcv_mdlc_leader_class_set_to_commander
+    }
+    #official
+    if = {
+        # SUBCLASSES
+        limit = { has_country_flag = xvcv_mdlc_leader_class_set_to_official }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_subclass_official_governor } remove_country_flag = xvcv_mdlc_leader_official_subclass_official_governor }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_subclass_official_economy_councilor } remove_country_flag = xvcv_mdlc_leader_official_subclass_official_economy_councilor }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_subclass_official_diplomacy_councilor } remove_country_flag = xvcv_mdlc_leader_official_subclass_official_diplomacy_councilor }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_subclass_official_delegate } remove_country_flag = xvcv_mdlc_leader_official_subclass_official_delegate }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_xvcv_mdlc_subclass_official_none } remove_country_flag = xvcv_mdlc_leader_official_xvcv_mdlc_subclass_official_none }
+        # TRAITS
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_xvcv_mdlc_leader_trait_memory_backup } remove_country_flag = xvcv_mdlc_leader_official_xvcv_mdlc_leader_trait_memory_backup }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_xvcv_mdlc_leader_trait_shared_memory } remove_country_flag = xvcv_mdlc_leader_official_xvcv_mdlc_leader_trait_shared_memory }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_xvcv_mdlc_subclass_official_none } remove_country_flag = xvcv_mdlc_leader_official_xvcv_mdlc_subclass_official_none }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_leader_trait_adaptable_2 } remove_country_flag = xvcv_mdlc_leader_official_leader_trait_adaptable_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_leader_trait_adventurous_spirit_3 } remove_country_flag = xvcv_mdlc_leader_official_leader_trait_adventurous_spirit_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_leader_trait_agrarian_upbringing_2 } remove_country_flag = xvcv_mdlc_leader_official_leader_trait_agrarian_upbringing_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_leader_trait_architectural_interest_2 } remove_country_flag = xvcv_mdlc_leader_official_leader_trait_architectural_interest_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_leader_trait_assembler_3 } remove_country_flag = xvcv_mdlc_leader_official_leader_trait_assembler_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_leader_trait_bureaucrat_2 } remove_country_flag = xvcv_mdlc_leader_official_leader_trait_bureaucrat_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_leader_trait_capitalist_2 } remove_country_flag = xvcv_mdlc_leader_official_leader_trait_capitalist_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_leader_trait_distribution_lines_3 } remove_country_flag = xvcv_mdlc_leader_official_leader_trait_distribution_lines_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_leader_trait_efficient } remove_country_flag = xvcv_mdlc_leader_official_leader_trait_efficient }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_leader_trait_entrepreneur_2 } remove_country_flag = xvcv_mdlc_leader_official_leader_trait_entrepreneur_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_leader_trait_environmental_engineer_2 } remove_country_flag = xvcv_mdlc_leader_official_leader_trait_environmental_engineer_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_leader_trait_forge_focus_3 } remove_country_flag = xvcv_mdlc_leader_official_leader_trait_forge_focus_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_leader_trait_galvanizer } remove_country_flag = xvcv_mdlc_leader_official_leader_trait_galvanizer }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_leader_trait_gifted_2 } remove_country_flag = xvcv_mdlc_leader_official_leader_trait_gifted_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_leader_trait_homesteader_2 } remove_country_flag = xvcv_mdlc_leader_official_leader_trait_homesteader_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_leader_trait_industrial_focus_3 } remove_country_flag = xvcv_mdlc_leader_official_leader_trait_industrial_focus_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_leader_trait_intellectual } remove_country_flag = xvcv_mdlc_leader_official_leader_trait_intellectual }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_leader_trait_manufacturer_3 } remove_country_flag = xvcv_mdlc_leader_official_leader_trait_manufacturer_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_leader_trait_mediator } remove_country_flag = xvcv_mdlc_leader_official_leader_trait_mediator }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_leader_trait_naturalist_3 } remove_country_flag = xvcv_mdlc_leader_official_leader_trait_naturalist_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_leader_trait_pop_focused_3 } remove_country_flag = xvcv_mdlc_leader_official_leader_trait_pop_focused_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_leader_trait_private_mines_2 } remove_country_flag = xvcv_mdlc_leader_official_leader_trait_private_mines_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_leader_trait_refinement_focus_3 } remove_country_flag = xvcv_mdlc_leader_official_leader_trait_refinement_focus_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_leader_trait_resilient_2 } remove_country_flag = xvcv_mdlc_leader_official_leader_trait_resilient_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_leader_trait_righteous_2 } remove_country_flag = xvcv_mdlc_leader_official_leader_trait_righteous_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_leader_trait_scrapper_2 } remove_country_flag = xvcv_mdlc_leader_official_leader_trait_scrapper_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_leader_trait_settler_3 } remove_country_flag = xvcv_mdlc_leader_official_leader_trait_settler_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_leader_trait_space_miner_3 } remove_country_flag = xvcv_mdlc_leader_official_leader_trait_space_miner_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_leader_trait_trade_focus_2 } remove_country_flag = xvcv_mdlc_leader_official_leader_trait_trade_focus_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_leader_trait_urbanist } remove_country_flag = xvcv_mdlc_leader_official_leader_trait_urbanist }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_leader_trait_utopian_idealist } remove_country_flag = xvcv_mdlc_leader_official_leader_trait_utopian_idealist }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_official_leader_trait_venerated_2 } remove_country_flag = xvcv_mdlc_leader_official_leader_trait_venerated_2 }
+        remove_country_flag = xvcv_mdlc_leader_class_set_to_official
+    }
+    #scientist
+    if = {
+        limit = { has_country_flag = xvcv_mdlc_leader_class_set_to_scientist }
+        # SUBCLASSES
         if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_subclass_scientist_explorer } remove_country_flag = xvcv_mdlc_leader_scientist_subclass_scientist_explorer }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_subclass_scientist_analyst } remove_country_flag = xvcv_mdlc_leader_scientist_subclass_scientist_analyst }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_subclass_scientist_councilor } remove_country_flag = xvcv_mdlc_leader_scientist_subclass_scientist_councilor }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_subclass_scientist_governor } remove_country_flag = xvcv_mdlc_leader_scientist_subclass_scientist_governor }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_subclass_scientist_scholar } remove_country_flag = xvcv_mdlc_leader_scientist_subclass_scientist_scholar }
         if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_xvcv_mdlc_subclass_scientist_none } remove_country_flag = xvcv_mdlc_leader_scientist_xvcv_mdlc_subclass_scientist_none }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_xvcv_mdlc_leader_trait_shared_memory } remove_country_flag = xvcv_mdlc_leader_scientist_xvcv_mdlc_leader_trait_shared_memory }
+        # TRAITS
         if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_xvcv_mdlc_leader_trait_memory_backup } remove_country_flag = xvcv_mdlc_leader_scientist_xvcv_mdlc_leader_trait_memory_backup }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_adventurous_spirit_3 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_adventurous_spirit_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_resilient_2 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_resilient_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_xvcv_mdlc_leader_trait_shared_memory } remove_country_flag = xvcv_mdlc_leader_scientist_xvcv_mdlc_leader_trait_shared_memory }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_xvcv_mdlc_subclass_scientist_none } remove_country_flag = xvcv_mdlc_leader_scientist_xvcv_mdlc_subclass_scientist_none }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_academic_dig_site_expert_3 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_academic_dig_site_expert_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_academic_minor_artifacts_expert_3 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_academic_minor_artifacts_expert_3 }
         if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_adaptable_2 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_adaptable_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_capitalist_2 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_capitalist_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_private_mines_2 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_private_mines_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_gifted_2 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_gifted_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_scrapper_2 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_scrapper_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_venerated_2 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_venerated_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_carefree_2 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_carefree_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_roamer_2 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_roamer_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_adventurous_spirit_3 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_adventurous_spirit_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_agrarian_upbringing_2 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_agrarian_upbringing_2 }
         if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_archaeologist_2 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_archaeologist_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_meticulous_2 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_meticulous_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_slippery_3 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_slippery_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_prospector_3 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_prospector_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_observant_3 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_observant_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_collective_wisdom_3 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_collective_wisdom_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_tuner_3 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_tuner_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_insightful_3 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_insightful_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_architectural_interest_2 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_architectural_interest_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_assembler_3 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_assembler_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_bureaucrat_2 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_bureaucrat_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_capitalist_2 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_capitalist_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_carefree_2 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_carefree_2 }
         if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_collaborator_3 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_collaborator_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_experimenter_3 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_experimenter_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_civil_engineer_3 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_civil_engineer_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_collective_wisdom } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_collective_wisdom }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_custom_AI_assistant } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_custom_AI_assistant }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_engineering_focus_3 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_engineering_focus_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_entrepreneur_2 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_entrepreneur_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_environmental_engineer_2 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_environmental_engineer_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_explorer_cloaking_focus_3 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_explorer_cloaking_focus_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_frontier_adventurer } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_frontier_adventurer }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_gifted_2 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_gifted_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_homesteader_2 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_homesteader_2 }
         if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_manufacturer_3 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_manufacturer_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_mediator } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_mediator }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_meticulous_2 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_meticulous_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_midas_touch } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_midas_touch }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_naturalist_3 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_naturalist_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_observant_3 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_observant_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_physics_focus_3 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_physics_focus_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_private_mines_2 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_private_mines_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_prospector_3 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_prospector_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_resilient_2 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_resilient_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_roamer_2 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_roamer_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_robotist } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_robotist }
         if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_salvager_3 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_salvager_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_sapient_AI_assistant } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_sapient_AI_assistant }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_scout_3 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_scout_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_scrapper_2 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_scrapper_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_slippery_3 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_slippery_3 }
         if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_space_miner_3 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_space_miner_3 }
         if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_surveyor } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_surveyor }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_midas_touch } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_midas_touch }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_repair_crew } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_repair_crew }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_great_researcher } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_great_researcher }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_deep_space_explorer } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_deep_space_explorer }
-		remove_country_flag = xvcv_mdlc_leader_class_set_to_scientist
-	}
-	if = {
-		limit = { has_country_flag = xvcv_mdlc_leader_class_set_to_admiral }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_subclass_admiral_aggressor } remove_country_flag = xvcv_mdlc_leader_admiral_subclass_admiral_aggressor }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_subclass_admiral_tactician } remove_country_flag = xvcv_mdlc_leader_admiral_subclass_admiral_tactician }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_xvcv_mdlc_subclass_admiral_none } remove_country_flag = xvcv_mdlc_leader_admiral_xvcv_mdlc_subclass_admiral_none }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_xvcv_mdlc_leader_trait_shared_memory } remove_country_flag = xvcv_mdlc_leader_admiral_xvcv_mdlc_leader_trait_shared_memory }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_xvcv_mdlc_leader_trait_memory_backup } remove_country_flag = xvcv_mdlc_leader_admiral_xvcv_mdlc_leader_trait_memory_backup }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_adventurous_spirit_3 } remove_country_flag = xvcv_mdlc_leader_admiral_leader_trait_adventurous_spirit_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_resilient_2 } remove_country_flag = xvcv_mdlc_leader_admiral_leader_trait_resilient_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_adaptable_2 } remove_country_flag = xvcv_mdlc_leader_admiral_leader_trait_adaptable_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_capitalist_2 } remove_country_flag = xvcv_mdlc_leader_admiral_leader_trait_capitalist_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_private_mines_2 } remove_country_flag = xvcv_mdlc_leader_admiral_leader_trait_private_mines_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_gifted_2 } remove_country_flag = xvcv_mdlc_leader_admiral_leader_trait_gifted_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_scrapper_2 } remove_country_flag = xvcv_mdlc_leader_admiral_leader_trait_scrapper_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_venerated_2 } remove_country_flag = xvcv_mdlc_leader_admiral_leader_trait_venerated_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_fleet_logistician } remove_country_flag = xvcv_mdlc_leader_admiral_leader_trait_fleet_logistician }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_aggressive_2 } remove_country_flag = xvcv_mdlc_leader_admiral_leader_trait_aggressive_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_cautious_2 } remove_country_flag = xvcv_mdlc_leader_admiral_leader_trait_cautious_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_unyielding_2 } remove_country_flag = xvcv_mdlc_leader_admiral_leader_trait_unyielding_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_engineer_2 } remove_country_flag = xvcv_mdlc_leader_admiral_leader_trait_engineer_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_trickster_2 } remove_country_flag = xvcv_mdlc_leader_admiral_leader_trait_trickster_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_wrecker_3 } remove_country_flag = xvcv_mdlc_leader_admiral_leader_trait_wrecker_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_annihilator_3 } remove_country_flag = xvcv_mdlc_leader_admiral_leader_trait_annihilator_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_artillerist_3 } remove_country_flag = xvcv_mdlc_leader_admiral_leader_trait_artillerist_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_commanding_presence_3 } remove_country_flag = xvcv_mdlc_leader_admiral_leader_trait_commanding_presence_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_corsair_3 } remove_country_flag = xvcv_mdlc_leader_admiral_leader_trait_corsair_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_demolisher_3 } remove_country_flag = xvcv_mdlc_leader_admiral_leader_trait_demolisher_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_shipbreaker_3 } remove_country_flag = xvcv_mdlc_leader_admiral_leader_trait_shipbreaker_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_artillery_specialization_3 } remove_country_flag = xvcv_mdlc_leader_admiral_leader_trait_artillery_specialization_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_carrier_specialization_3 } remove_country_flag = xvcv_mdlc_leader_admiral_leader_trait_carrier_specialization_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_rocketry_specialization_3 } remove_country_flag = xvcv_mdlc_leader_admiral_leader_trait_rocketry_specialization_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_gunship_specialization_3 } remove_country_flag = xvcv_mdlc_leader_admiral_leader_trait_gunship_specialization_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_juryrigger_3 } remove_country_flag = xvcv_mdlc_leader_admiral_leader_trait_juryrigger_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_surgical_bombardment_3 } remove_country_flag = xvcv_mdlc_leader_admiral_leader_trait_surgical_bombardment_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_scout_3 } remove_country_flag = xvcv_mdlc_leader_admiral_leader_trait_scout_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_watchdog_3 } remove_country_flag = xvcv_mdlc_leader_admiral_leader_trait_watchdog_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_scholar_of_war_3 } remove_country_flag = xvcv_mdlc_leader_admiral_leader_trait_scholar_of_war_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_master_gunner } remove_country_flag = xvcv_mdlc_leader_admiral_leader_trait_master_gunner }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_supreme_admiral } remove_country_flag = xvcv_mdlc_leader_admiral_leader_trait_supreme_admiral }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_destiny_engineer } remove_country_flag = xvcv_mdlc_leader_admiral_leader_trait_destiny_engineer }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_admiral_leader_trait_guerilla_tactics } remove_country_flag = xvcv_mdlc_leader_admiral_leader_trait_guerilla_tactics }
-		remove_country_flag = xvcv_mdlc_leader_class_set_to_admiral
-	}
-	if = {
-		limit = { has_country_flag = xvcv_mdlc_leader_class_set_to_general }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_general_subclass_general_invader } remove_country_flag = xvcv_mdlc_leader_general_subclass_general_invader }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_general_subclass_general_protector } remove_country_flag = xvcv_mdlc_leader_general_subclass_general_protector }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_general_xvcv_mdlc_subclass_general_none } remove_country_flag = xvcv_mdlc_leader_general_xvcv_mdlc_subclass_general_none }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_general_xvcv_mdlc_leader_trait_shared_memory } remove_country_flag = xvcv_mdlc_leader_general_xvcv_mdlc_leader_trait_shared_memory }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_general_xvcv_mdlc_leader_trait_memory_backup } remove_country_flag = xvcv_mdlc_leader_general_xvcv_mdlc_leader_trait_memory_backup }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_adventurous_spirit_3 } remove_country_flag = xvcv_mdlc_leader_general_leader_trait_adventurous_spirit_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_resilient_2 } remove_country_flag = xvcv_mdlc_leader_general_leader_trait_resilient_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_adaptable_2 } remove_country_flag = xvcv_mdlc_leader_general_leader_trait_adaptable_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_capitalist_2 } remove_country_flag = xvcv_mdlc_leader_general_leader_trait_capitalist_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_private_mines_2 } remove_country_flag = xvcv_mdlc_leader_general_leader_trait_private_mines_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_gifted_2 } remove_country_flag = xvcv_mdlc_leader_general_leader_trait_gifted_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_scrapper_2 } remove_country_flag = xvcv_mdlc_leader_general_leader_trait_scrapper_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_venerated_2 } remove_country_flag = xvcv_mdlc_leader_general_leader_trait_venerated_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_butcher_2 } remove_country_flag = xvcv_mdlc_leader_general_leader_trait_butcher_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_army_logistician_2 } remove_country_flag = xvcv_mdlc_leader_general_leader_trait_army_logistician_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_restrained_2 } remove_country_flag = xvcv_mdlc_leader_general_leader_trait_restrained_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_glory_seeker_2 } remove_country_flag = xvcv_mdlc_leader_general_leader_trait_glory_seeker_2 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_dreaded_3 } remove_country_flag = xvcv_mdlc_leader_general_leader_trait_dreaded_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_heavy_hitter_3 } remove_country_flag = xvcv_mdlc_leader_general_leader_trait_heavy_hitter_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_kidnapper_3 } remove_country_flag = xvcv_mdlc_leader_general_leader_trait_kidnapper_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_interrogator_3 } remove_country_flag = xvcv_mdlc_leader_general_leader_trait_interrogator_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_industrial_espionage_3 } remove_country_flag = xvcv_mdlc_leader_general_leader_trait_industrial_espionage_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_crusader_3 } remove_country_flag = xvcv_mdlc_leader_general_leader_trait_crusader_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_hardy_3 } remove_country_flag = xvcv_mdlc_leader_general_leader_trait_hardy_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_martinet_3 } remove_country_flag = xvcv_mdlc_leader_general_leader_trait_martinet_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_warden_3 } remove_country_flag = xvcv_mdlc_leader_general_leader_trait_warden_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_reinforcer_3 } remove_country_flag = xvcv_mdlc_leader_general_leader_trait_reinforcer_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_conscripter_3 } remove_country_flag = xvcv_mdlc_leader_general_leader_trait_conscripter_3 }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_taskmaster } remove_country_flag = xvcv_mdlc_leader_general_leader_trait_taskmaster }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_fortress_cracker } remove_country_flag = xvcv_mdlc_leader_general_leader_trait_fortress_cracker }
-        if = { limit = { has_country_flag = xvcv_mdlc_leader_general_leader_trait_supreme_warrior } remove_country_flag = xvcv_mdlc_leader_general_leader_trait_supreme_warrior }
-		remove_country_flag = xvcv_mdlc_leader_class_set_to_general
-	}
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_truth_seeker } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_truth_seeker }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_tuner_3 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_tuner_3 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_venerated_2 } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_venerated_2 }
+        if = { limit = { has_country_flag = xvcv_mdlc_leader_scientist_leader_trait_xeno_cataloger } remove_country_flag = xvcv_mdlc_leader_scientist_leader_trait_xeno_cataloger }
+        remove_country_flag = xvcv_mdlc_leader_class_set_to_scientist
+    }
     xvcv_mdlc_leader_making_clear_traits_variables_effect = yes
 }
+
+oxr_mdlc_leader_making_clear_veteran_paragon_traits_selected_flags = {
+    optimize_memory
+    if = {
+        limit = { has_country_flag = oxr_mdlc_leader_making_veteran_trait_selected }
+        remove_country_flag = oxr_mdlc_leader_making_veteran_trait_selected
+        log = "Cleared veterain trait selected flag"
+    }
+    if = {
+        limit = { has_country_flag = oxr_mdlc_leader_making_paragon_trait_selected }
+        remove_country_flag = oxr_mdlc_leader_making_paragon_trait_selected
+        log = "Cleared paragon trait selected flag"
+    }
+}
+###
 #for common traits
 xvcv_mdlc_leader_making_trait_count_points_costs_effect = {
     optimize_memory
@@ -279,6 +386,8 @@ xvcv_mdlc_leader_making_trait_count_points_costs_alt_effect = {
     change_variable = { which = xvcv_mdlc_leader_making_max_traits_number value = -1 }
     change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = 500 }
     change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = 500 }
+    set_country_flag = oxr_mdlc_leader_making_veteran_trait_selected
+    log = "Set veteran trait selected flag"
 }
 #for destiny traits
 xvcv_mdlc_leader_making_trait_count_points_costs_alt_2_effect = {
@@ -287,4 +396,6 @@ xvcv_mdlc_leader_making_trait_count_points_costs_alt_2_effect = {
     change_variable = { which = xvcv_mdlc_leader_making_max_traits_number value = -1 }
     change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = 1000 }
     change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = 1000 }
+    set_country_flag = oxr_mdlc_leader_making_paragon_trait_selected
+    log = "Set paragon trait selected flag"
 }

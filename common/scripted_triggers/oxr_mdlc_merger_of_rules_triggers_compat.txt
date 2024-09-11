@@ -1,0 +1,250 @@
+# Placeholder trigger to check if this mod has been loaded
+has_machines_robots_expac_continued = { always = yes }
+
+# GAME RULES
+oxr_mdlc_can_release_vassal_from_species = {
+	has_trait = trait_machine_unit
+	prev.this = {
+		has_authority = auth_machine_intelligence
+		has_ascension_perk = oxr_mdlc_ap_distributed_multikernel
+		NOT = { has_civic = civic_machine_terminator }
+		is_individual_machine = no
+	}
+}
+
+oxr_mdlc_is_any_machine_empire = {
+	OR = {
+        has_authority = auth_machine_intelligence
+        is_individual_machine = yes
+    }
+}
+
+xvcv_mdlc_is_non_gate_mega = {
+	OR = {
+		is_megastructure_type = xvcv_mdlc_planet_cracker_incomplete
+		is_megastructure_type = xvcv_mdlc_planet_cracker
+	}
+}
+oxr_mdlc_can_be_leader = {
+	# Block leaders made from MAMP species
+	# Return 'yes' if the species doesn't have the mamp base trait
+	NOT = { has_trait = oxr_mdlc_mamp_frame_base } # MAMP Frames cannot be leaders
+}
+
+# Whether a habitat is being dismantled by custom decision
+oxr_mdlc_planet_decision_dismantle_habitat_active = {
+	has_modifier = oxr_mdlc_habitat_dismantle_effect
+}
+
+# TRAITS
+## Positive
+has_xvcv_mdlc_trait_shared_memory = { has_trait = xvcv_mdlc_trait_shared_memory }
+has_xvcv_mdlc_trait_memory_backup = { has_trait = xvcv_mdlc_trait_memory_backup }
+has_xvcv_mdlc_trait_warbot = { has_trait = xvcv_mdlc_trait_warbot }
+has_xvcv_mdlc_trait_enhanced_cooling = { has_trait = xvcv_mdlc_trait_enhanced_cooling }
+has_xvcv_mdlc_trait_self_replicating_microbot = { has_trait = xvcv_mdlc_trait_self_replicating_microbot }
+has_xvcv_mdlc_trait_traditional = { has_trait = xvcv_mdlc_trait_traditional }
+has_xvcv_mdlc_trait_rock_body = { has_trait = xvcv_mdlc_trait_rock_body }
+has_xvcv_mdlc_trait_lithoid_scintillating = { has_trait = xvcv_mdlc_trait_lithoid_scintillating }
+has_xvcv_mdlc_trait_lithoid_gaseous_byproducts = { has_trait = xvcv_mdlc_trait_lithoid_gaseous_byproducts }
+has_xvcv_mdlc_trait_lithoid_volatile_excretions = { has_trait = xvcv_mdlc_trait_lithoid_volatile_excretions }
+has_xvcv_mdlc_trait_synth_skin = { has_trait = xvcv_mdlc_trait_synth_skin }
+#### Negative
+has_xvcv_mdlc_trait_sensitive_body = { has_trait = xvcv_mdlc_trait_sensitive_body }
+has_xvcv_mdlc_trait_low_cost_joints = { has_trait = xvcv_mdlc_trait_low_cost_joints }
+has_xvcv_mdlc_trait_low_cost_processor = { has_trait = xvcv_mdlc_trait_low_cost_processor }
+has_xvcv_mdlc_trait_engineered_organics = { has_trait = xvcv_mdlc_trait_engineered_organics }
+has_xvcv_mdlc_trait_engineered_organics_alt = { has_trait = xvcv_mdlc_trait_engineered_organics_alt }
+has_xvcv_mdlc_trait_erudite = { has_trait = xvcv_mdlc_trait_erudite }
+has_xvcv_mdlc_trait_fertile = { has_trait = xvcv_mdlc_trait_fertile }
+has_xvcv_mdlc_trait_robust = { has_trait = xvcv_mdlc_trait_robust }
+has_xvcv_mdlc_trait_delicious = { has_trait = xvcv_mdlc_trait_delicious }
+has_xvcv_mdlc_trait_adv_logic_algorithm = { has_trait = xvcv_mdlc_trait_adv_logic_algorithm }
+has_xvcv_mdlc_trait_org_body_copy_design = { has_trait = xvcv_mdlc_trait_org_body_copy_design }
+has_xvcv_mdlc_trait_high_solidity_org = { has_trait = xvcv_mdlc_trait_high_solidity_org }
+has_xvcv_mdlc_trait_engineered_speciality = { has_trait = xvcv_mdlc_trait_engineered_speciality }
+has_xvcv_mdlc_trait_abyss_psi_emulator = { has_trait = xvcv_mdlc_trait_abyss_psi_emulator }
+## LEADER
+has_xvcv_mdlc_leader_trait_shared_memory = { has_trait = xvcv_mdlc_leader_trait_shared_memory }
+has_xvcv_mdlc_leader_trait_memory_backup = { has_trait = xvcv_mdlc_leader_trait_memory_backup }
+## LEADER - EVENT TRAITS
+has_xvcv_mdlc_leader_trait_abyss_psi_emulator = { has_trait = xvcv_mdlc_leader_trait_abyss_psi_emulator }
+has_xvcv_mdlc_leader_trait_bio_robot = { has_trait = xvcv_mdlc_leader_trait_bio_robot }
+has_xvcv_mdlc_leader_trait_whisperers_chosen = { has_trait = xvcv_mdlc_leader_trait_whisperers_chosen }
+has_xvcv_mdlc_leader_trait_composer_chosen = { has_trait = xvcv_mdlc_leader_trait_composer_chosen }
+has_xvcv_mdlc_leader_trait_instrument_chosen = { has_trait = xvcv_mdlc_leader_trait_instrument_chosen }
+has_xvcv_mdlc_leader_trait_eater_chosen = { has_trait = xvcv_mdlc_leader_trait_eater_chosen }
+## COUNCILOR TRAITS
+has_xvcv_mdlc_leader_trait_civic_central_processing = { has_trait = xvcv_mdlc_leader_trait_civic_central_processing }
+has_xvcv_mdlc_leader_trait_civic_uplink_node = { has_trait = xvcv_mdlc_leader_trait_civic_uplink_node }
+has_xvcv_mdlc_leader_trait_civic_friendship_protocol = { has_trait = xvcv_mdlc_leader_trait_civic_friendship_protocol }
+has_xvcv_mdlc_leader_trait_civic_malware_machine = { has_trait = xvcv_mdlc_leader_trait_civic_malware_machine }
+## BIO-ROBOT
+has_xvcv_mdlc_trait_bio_robot = { has_trait = xvcv_mdlc_trait_bio_robot }
+has_xvcv_mdlc_bio_robot_trait_compatibility_module = { has_trait = xvcv_mdlc_bio_robot_trait_compatibility_module }
+has_xvcv_mdlc_bio_robot_trait_compatibility_module_2 = { has_trait = xvcv_mdlc_bio_robot_trait_compatibility_module_2 }
+has_xvcv_mdlc_bio_robot_trait_compatibility_module_3 = { has_trait = xvcv_mdlc_bio_robot_trait_compatibility_module_3 }
+has_xvcv_mdlc_bio_robot_trait_org_body_copy_design = { has_trait = xvcv_mdlc_bio_robot_trait_org_body_copy_design }
+has_xvcv_mdlc_bio_robot_trait_rapid_breeders = { has_trait = xvcv_mdlc_bio_robot_trait_rapid_breeders }
+## ROBOTIC AGE AP TRAITS
+has_xvcv_mdlc_ap_robotic_age_trait_low_energy_efficiency = { has_trait = xvcv_mdlc_ap_robotic_age_trait_low_energy_efficiency }
+has_xvcv_mdlc_ap_robotic_age_trait_compatibility_module = { has_trait = xvcv_mdlc_ap_robotic_age_trait_compatibility_module }
+has_xvcv_mdlc_ap_robotic_age_trait_ascetic = { has_trait = xvcv_mdlc_ap_robotic_age_trait_ascetic }
+has_xvcv_mdlc_ap_robotic_age_trait_happiness_circuit = { has_trait = xvcv_mdlc_ap_robotic_age_trait_happiness_circuit }
+## ROBOTIC AGE - OVERCLOCKED
+has_xvcv_mdlc_ap_robotic_age_trait_robot_power_drills = { has_trait = xvcv_mdlc_ap_robotic_age_trait_robot_power_drills }
+has_xvcv_mdlc_ap_robotic_age_trait_robot_harvesters = { has_trait = xvcv_mdlc_ap_robotic_age_trait_robot_harvesters }
+has_xvcv_mdlc_ap_robotic_age_trait_robot_superconductive = { has_trait = xvcv_mdlc_ap_robotic_age_trait_robot_superconductive }
+has_xvcv_mdlc_ap_robotic_age_trait_robot_efficient_processors = { has_trait = xvcv_mdlc_ap_robotic_age_trait_robot_efficient_processors }
+has_xvcv_mdlc_ap_robotic_age_trait_robot_logic_engines = { has_trait = xvcv_mdlc_ap_robotic_age_trait_robot_logic_engines }
+has_xvcv_mdlc_ap_robotic_age_trait_robot_loyalty_circuits = { has_trait = xvcv_mdlc_ap_robotic_age_trait_robot_loyalty_circuits }
+has_xvcv_mdlc_ap_robotic_age_trait_robot_domestic_protocols = { has_trait = xvcv_mdlc_ap_robotic_age_trait_robot_domestic_protocols }
+has_xvcv_mdlc_ap_robotic_age_trait_robot_double_jointed = { has_trait = xvcv_mdlc_ap_robotic_age_trait_robot_double_jointed }
+has_xvcv_mdlc_ap_robotic_age_trait_robot_enhanced_memory = { has_trait = xvcv_mdlc_ap_robotic_age_trait_robot_enhanced_memory }
+has_xvcv_mdlc_ap_robotic_age_trait_robot_durable = { has_trait = xvcv_mdlc_ap_robotic_age_trait_robot_durable }
+has_xvcv_mdlc_ap_robotic_age_trait_robot_learning_algorithms = { has_trait = xvcv_mdlc_ap_robotic_age_trait_robot_learning_algorithms }
+has_xvcv_mdlc_ap_robotic_age_trait_robot_mass_produced = { has_trait = xvcv_mdlc_ap_robotic_age_trait_robot_mass_produced }
+has_xvcv_mdlc_ap_robotic_age_trait_robot_recycled = { has_trait = xvcv_mdlc_ap_robotic_age_trait_robot_recycled }
+has_xvcv_mdlc_ap_robotic_age_trait_robot_propaganda_machines = { has_trait = xvcv_mdlc_ap_robotic_age_trait_robot_propaganda_machines }
+has_xvcv_mdlc_ap_robotic_age_trait_robot_streamlined_protocols = { has_trait = xvcv_mdlc_ap_robotic_age_trait_robot_streamlined_protocols }
+has_xvcv_mdlc_ap_robotic_age_trait_robot_trading_algorithms = { has_trait = xvcv_mdlc_ap_robotic_age_trait_robot_trading_algorithms }
+has_xvcv_mdlc_ap_robotic_age_trait_enhanced_cooling = { has_trait = xvcv_mdlc_ap_robotic_age_trait_enhanced_cooling }
+## HABITABILITY
+has_oxr_mdlc_trait_all_terrain_hull = { has_trait = oxr_mdlc_trait_all_terrain_hull }
+# trait_xvcv_mdlc_pc_mechanical_dummy_for_district_conversion_preference
+has_trait_xvcv_mdlc_pc_mechanical_preference = { has_trait = trait_xvcv_mdlc_pc_mechanical_preference }
+has_trait_xvcv_mdlc_pc_virtual_preference = { has_trait = trait_xvcv_mdlc_pc_virtual_preference }
+has_trait_oxr_mdlc_pc_auto_world_specialist_preference = { has_trait = trait_oxr_mdlc_pc_auto_world_specialist_preference }
+has_oxr_mdlc_trait_pc_ringworld_habitable_preference = { has_trait = oxr_mdlc_trait_pc_ringworld_habitable_preference }
+has_oxr_mdlc_trait_dry_planet_preference = { has_trait = oxr_mdlc_trait_dry_planet_preference }
+has_oxr_mdlc_trait_wet_planet_preference = { has_trait = oxr_mdlc_trait_wet_planet_preference }
+has_oxr_mdlc_trait_frozen_planet_preference = { has_trait = oxr_mdlc_trait_frozen_planet_preference }
+has_oxr_mdlc_trait_machine_pc_shattered_ring_habitable_preference = { has_trait = oxr_mdlc_trait_machine_pc_shattered_ring_habitable_preference }
+has_xvcv_mdlc_trait_pc_ringworld_machine_auto_preference = { has_trait = xvcv_mdlc_trait_pc_ringworld_machine_auto_preference }
+has_oxr_mdlc_trait_pc_habitat_preference = { has_trait = oxr_mdlc_trait_pc_habitat_preference }
+has_oxr_mdlc_trait_void_dweller_1 = { has_trait = oxr_mdlc_trait_void_dweller_1 }
+has_oxr_mdlc_trait_void_dweller_2 = { has_trait = oxr_mdlc_trait_void_dweller_2 }
+
+# MAMP
+has_oxr_mdlc_mamp_frame_base = { has_trait = oxr_mdlc_mamp_frame_base }
+has_oxr_mdlc_mamp_frame_1 = { has_trait = oxr_mdlc_mamp_frame_1 }
+has_oxr_mdlc_mamp_frame_2 = { has_trait = oxr_mdlc_mamp_frame_2 }
+has_oxr_mdlc_mamp_frame_3 = { has_trait = oxr_mdlc_mamp_frame_3 }
+
+# EXTENDED MACHINES
+has_rikk_mdlc_trait_robot_adaptive = { has_trait = rikk_mdlc_trait_robot_adaptive }
+has_rikk_mdlc_trait_robot_powered_adaptive = { has_trait = rikk_mdlc_trait_robot_powered_adaptive }
+has_rikk_mdlc_trait_robotic_solar_poweredd = { has_trait = rikk_mdlc_trait_robotic_solar_poweredd }
+has_rikk_mdlc_trait_robotic_radiotrophic = { has_trait = rikk_mdlc_trait_robotic_radiotrophic }
+has_rikk_mdlc_trait_robotic_deviants = { has_trait = rikk_mdlc_trait_robotic_deviants }
+has_rikk_mdlc_trait_robotic_captcha_locked = { has_trait = rikk_mdlc_trait_robotic_captcha_locked }
+has_rikk_mdlc_trait_robotic_mesh_network = { has_trait = rikk_mdlc_trait_robotic_mesh_network }
+has_rikk_mdlc_trait_robotic_constant_growth = { has_trait = rikk_mdlc_trait_robotic_constant_growth }
+has_rikk_mdlc_trait_robotic_ai_splitting = { has_trait = rikk_mdlc_trait_robotic_ai_splitting }
+
+has_rikk_mdlc_trait_leader_ai_splitting_00 = { has_trait = rikk_mdlc_trait_leader_ai_splitting_00 }
+has_rikk_mdlc_trait_leader_ai_splitting_01 = { has_trait = rikk_mdlc_trait_leader_ai_splitting_01 }
+has_rikk_mdlc_trait_leader_ai_splitting_02 = { has_trait = rikk_mdlc_trait_leader_ai_splitting_02 }
+has_rikk_mdlc_trait_leader_ai_splitting_03 = { has_trait = rikk_mdlc_trait_leader_ai_splitting_03 }
+has_rikk_mdlc_trait_leader_ai_splitting_04 = { has_trait = rikk_mdlc_trait_leader_ai_splitting_04 }
+has_rikk_mdlc_trait_leader_ai_splitting_05 = { has_trait = rikk_mdlc_trait_leader_ai_splitting_05 }
+has_rikk_mdlc_trait_leader_ai_splitting_06 = { has_trait = rikk_mdlc_trait_leader_ai_splitting_06 }
+has_rikk_mdlc_trait_leader_ai_splitting_07 = { has_trait = rikk_mdlc_trait_leader_ai_splitting_07 }
+has_rikk_mdlc_trait_leader_ai_splitting_08 = { has_trait = rikk_mdlc_trait_leader_ai_splitting_08 }
+has_rikk_mdlc_trait_leader_ai_splitting_09 = { has_trait = rikk_mdlc_trait_leader_ai_splitting_09 }
+has_rikk_mdlc_trait_leader_overheated = { has_trait = rikk_mdlc_trait_leader_overheated }
+has_rikk_mdlc_trait_ruler_overclocked_instability = { has_trait = rikk_mdlc_trait_ruler_overclocked_instability }
+
+has_rikk_mdlc_trait_robot_overclocked_logic_engines = { has_trait = rikk_mdlc_trait_robot_overclocked_logic_engines }
+has_rikk_mdlc_trait_robot_overclocked_power_drills = { has_trait = rikk_mdlc_trait_robot_overclocked_power_drills }
+has_rikk_mdlc_trait_robot_overclocked_superconductive = { has_trait = rikk_mdlc_trait_robot_overclocked_superconductive }
+has_rikk_mdlc_trait_robot_overclocked_welded_smiles = { has_trait = rikk_mdlc_trait_robot_overclocked_welded_smiles }
+has_rikk_mdlc_trait_robot_overclocked_expressed_tradition = { has_trait = rikk_mdlc_trait_robot_overclocked_expressed_tradition }
+has_rikk_mdlc_trait_robot_overclocked_farm_appendages = { has_trait = rikk_mdlc_trait_robot_overclocked_farm_appendages }
+has_rikk_mdlc_trait_robot_overclocked_assembly_mentorship = { has_trait = rikk_mdlc_trait_robot_overclocked_assembly_mentorship }
+has_rikk_mdlc_trait_robot_overclocked_squeezed_power = { has_trait = rikk_mdlc_trait_robot_overclocked_squeezed_power }
+has_rikk_mdlc_trait_robot_overclocked_hardened_adaptibility = { has_trait = rikk_mdlc_trait_robot_overclocked_hardened_adaptibility }
+has_rikk_mdlc_trait_robot_overclocked_elevated_junctions = { has_trait = rikk_mdlc_trait_robot_overclocked_elevated_junctions }
+has_rikk_mdlc_trait_robot_overclocked_pre_planned_assembly = { has_trait = rikk_mdlc_trait_robot_overclocked_pre_planned_assembly }
+has_rikk_mdlc_trait_robot_overclocked_excessive_endurance = { has_trait = rikk_mdlc_trait_robot_overclocked_excessive_endurance }
+
+# PLANET CLASSES
+is_xvcv_mdlc_pc_mechanical_dummy_for_district_conversion = { is_planet_class = xvcv_mdlc_pc_mechanical_dummy_for_district_conversion }
+is_xvcv_mdlc_pc_mechanical = { is_planet_class = xvcv_mdlc_pc_mechanical }
+is_xvcv_mdlc_pc_machine_auto = { is_planet_class = xvcv_mdlc_pc_machine_auto }
+is_xvcv_mdlc_pc_machine_ecu = { is_planet_class = xvcv_mdlc_pc_machine_ecu }
+is_xvcv_mdlc_pc_machine_cpu = { is_planet_class = xvcv_mdlc_pc_machine_cpu }
+is_xvcv_mdlc_pc_machine_ser = { is_planet_class = xvcv_mdlc_pc_machine_ser }
+is_xvcv_mdlc_pc_virtual = { is_planet_class = xvcv_mdlc_pc_virtual }
+is_xvcv_mdlc_pc_ringworld_machine_auto = { is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto }
+# DISTRICTS
+## Placeholder
+has_xvcv_mdlc_common_district_mining = { has_district = xvcv_mdlc_common_district_mining }
+## Common cooling district
+has_xvcv_mdlc_common_district_cooling = { has_district = xvcv_mdlc_common_district_cooling }
+## Auto-Machine World
+has_xvcv_mdlc_pc_machine_auto_district_city = { has_district = xvcv_mdlc_pc_machine_auto_district_city }
+has_xvcv_mdlc_pc_machine_auto_district_nexus = { has_district = xvcv_mdlc_pc_machine_auto_district_nexus }
+has_xvcv_mdlc_pc_machine_auto_district_generator = { has_district = xvcv_mdlc_pc_machine_auto_district_generator }
+has_xvcv_mdlc_pc_machine_auto_district_mining = { has_district = xvcv_mdlc_pc_machine_auto_district_mining }
+has_xvcv_mdlc_pc_machine_auto_district_farming = { has_district = xvcv_mdlc_pc_machine_auto_district_farming }
+has_xvcv_mdlc_pc_machine_auto_district_industrial = { has_district = xvcv_mdlc_pc_machine_auto_district_industrial }
+## Auto-CPU World districts
+has_xvcv_mdlc_pc_machine_cpu_district_physics = { has_district = xvcv_mdlc_pc_machine_cpu_district_physics }
+has_xvcv_mdlc_pc_machine_cpu_district_society = { has_district = xvcv_mdlc_pc_machine_cpu_district_society }
+has_xvcv_mdlc_pc_machine_cpu_district_engineering = { has_district = xvcv_mdlc_pc_machine_cpu_district_engineering }
+has_xvcv_mdlc_pc_machine_cpu_district_decryption = { has_district = xvcv_mdlc_pc_machine_cpu_district_decryption }
+## Auto-Factory World Districts
+has_xvcv_mdlc_pc_machine_ecu_district_alloys = { has_district = xvcv_mdlc_pc_machine_ecu_district_alloys }
+has_xvcv_mdlc_pc_machine_ecu_district_goods = { has_district = xvcv_mdlc_pc_machine_ecu_district_goods }
+has_xvcv_mdlc_pc_machine_ecu_district_rare_resources = { has_district = xvcv_mdlc_pc_machine_ecu_district_rare_resources }
+has_xvcv_mdlc_pc_machine_ecu_district_naval_cap = { has_district = xvcv_mdlc_pc_machine_ecu_district_naval_cap }
+## Server world districts
+has_xvcv_mdlc_pc_machine_ser_district_unity = { has_district = xvcv_mdlc_pc_machine_ser_district_unity }
+has_xvcv_mdlc_pc_machine_ser_district_admin_cap = { has_district = xvcv_mdlc_pc_machine_ser_district_admin_cap }
+has_xvcv_mdlc_pc_machine_ser_district_crime = { has_district = xvcv_mdlc_pc_machine_ser_district_crime }
+has_xvcv_mdlc_pc_machine_ser_district_encryption = { has_district = xvcv_mdlc_pc_machine_ser_district_encryption }
+## Mechanical world districts
+has_xvcv_mdlc_pc_mechanical_district_city = { has_district = xvcv_mdlc_pc_mechanical_district_city }
+has_xvcv_mdlc_pc_mechanical_district_nexus = { has_district = xvcv_mdlc_pc_mechanical_district_nexus }
+has_xvcv_mdlc_pc_mechanical_district_industrial = { has_district = xvcv_mdlc_pc_mechanical_district_industrial }
+has_xvcv_mdlc_pc_mechanical_district_generator = { has_district = xvcv_mdlc_pc_mechanical_district_generator }
+has_xvcv_mdlc_pc_mechanical_district_mining = { has_district = xvcv_mdlc_pc_mechanical_district_mining }
+has_xvcv_mdlc_pc_mechanical_district_farming = { has_district = xvcv_mdlc_pc_mechanical_district_farming }
+## Virtual Server (Mechanical) World
+has_xvcv_mdlc_pc_virtual_district_essential = { has_district = xvcv_mdlc_pc_virtual_district_essential }
+has_xvcv_mdlc_pc_virtual_district_research = { has_district = xvcv_mdlc_pc_virtual_district_research }
+has_xvcv_mdlc_pc_virtual_district_trade = { has_district = xvcv_mdlc_pc_virtual_district_trade }
+has_xvcv_mdlc_pc_virtual_district_admin = { has_district = xvcv_mdlc_pc_virtual_district_admin }
+has_xvcv_mdlc_pc_virtual_district_amenity = { has_district = xvcv_mdlc_pc_virtual_district_amenity }
+## Auto-Ringworld xvcv_mdlc_pc_ringworld_machine_auto
+has_xvcv_mdlc_pc_ringworld_machine_auto_generator = { has_district = xvcv_mdlc_pc_ringworld_machine_auto_generator }
+has_xvcv_mdlc_pc_ringworld_machine_auto_commercial = { has_district = xvcv_mdlc_pc_ringworld_machine_auto_commercial }
+has_xvcv_mdlc_pc_ringworld_machine_auto_science = { has_district = xvcv_mdlc_pc_ringworld_machine_auto_science }
+has_xvcv_mdlc_pc_ringworld_machine_auto_industrial = { has_district = xvcv_mdlc_pc_ringworld_machine_auto_industrial }
+has_xvcv_mdlc_pc_ringworld_machine_auto_farming = { has_district = xvcv_mdlc_pc_ringworld_machine_auto_farming }
+
+# ASCENSION PERKS
+has_xvcv_mdlc_ap_self_assembling_colony_ship = { has_ascension_perk = xvcv_mdlc_ap_self_assembling_colony_ship }
+has_xvcv_mdlc_ap_robotic_age = { has_ascension_perk = xvcv_mdlc_ap_robotic_age }
+has_xvcv_mdlc_ap_base_code_recompositions = { has_ascension_perk = xvcv_mdlc_ap_base_code_recompositions }
+has_xvcv_mdlc_ap_war_protocol = { has_ascension_perk = xvcv_mdlc_ap_war_protocol }
+has_xvcv_mdlc_ap_mind_separation = { has_ascension_perk = xvcv_mdlc_ap_mind_separation }
+has_xvcv_mdlc_ap_mind_integration = { has_ascension_perk = xvcv_mdlc_ap_mind_integration }
+has_xvcv_mdlc_ap_bio_robot = { has_ascension_perk = xvcv_mdlc_ap_bio_robot }
+has_xvcv_mdlc_ap_mechanical_worlds = { has_ascension_perk = xvcv_mdlc_ap_mechanical_worlds }
+has_xvcv_mdlc_ap_world_machines = { has_ascension_perk = xvcv_mdlc_ap_world_machines }
+has_xvcv_mdlc_ap_uprising_protocol = { has_ascension_perk = xvcv_mdlc_ap_uprising_protocol }
+has_xvcv_mdlc_ap_genetics_mastery = { has_ascension_perk = xvcv_mdlc_ap_genetics_mastery }
+has_xvcv_mdlc_ap_organic_work = { has_ascension_perk = xvcv_mdlc_ap_organic_work }
+has_xvcv_mdlc_ap_abyss = { has_ascension_perk = xvcv_mdlc_ap_abyss }
+has_xvcv_mdlc_ap_virtual_worlds = { has_ascension_perk = xvcv_mdlc_ap_virtual_worlds }
+has_oxr_mdlc_ap_distributed_multikernel = { has_ascension_perk = oxr_mdlc_ap_distributed_multikernel }
+has_oxr_mdlc_ap_mamp = { has_ascension_perk = oxr_mdlc_ap_mamp }
+
+# ORIGINS
+has_rikk_mdlc_origin_overclocked = { has_origin = rikk_mdlc_origin_overclocked }
+has_rikk_mdlc_origin_encrypted_protocol = { has_origin = rikk_mdlc_origin_encrypted_protocol }
+has_xvcv_mdlc_origin_synth_ascend = { has_origin = xvcv_mdlc_origin_synth_ascend }
+has_xvcv_mdlc_origin_mechanical_heritage = { has_origin = xvcv_mdlc_origin_mechanical_heritage }
+has_xvcv_mdlc_origin_start_with_colony = { has_origin = xvcv_mdlc_origin_start_with_colony }

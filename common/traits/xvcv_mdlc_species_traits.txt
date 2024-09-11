@@ -6,7 +6,7 @@ xvcv_mdlc_trait_shared_memory = {
 	randomized = no
     allowed_archetypes = { MACHINE ROBOT XVCV_MDLC_BIO_ROBOT }
 	custom_tooltip = xvcv_mdlc_trait_shared_memory_tooltip
-
+	inline_script = trait/sorting/oxr_mdlc_robotic
 	slave_cost = { energy = 500 }
 }
 xvcv_mdlc_trait_memory_backup = {
@@ -15,14 +15,14 @@ xvcv_mdlc_trait_memory_backup = {
 	randomized = no
     allowed_archetypes = { MACHINE ROBOT XVCV_MDLC_BIO_ROBOT }
 	custom_tooltip = xvcv_mdlc_trait_memory_backup_tooltip
-
+	inline_script = trait/sorting/oxr_mdlc_robotic
 	slave_cost = { energy = 500 }
 }
 xvcv_mdlc_trait_warbot = {
 	cost = 1
 	initial = yes
 	allowed_archetypes = { MACHINE ROBOT XVCV_MDLC_BIO_ROBOT }
-
+	inline_script = trait/sorting/oxr_mdlc_robotic
 	modifier = {
 		army_damage_mult = 0.2
 		planet_pops_upkeep_mult = -0.05
@@ -34,7 +34,7 @@ xvcv_mdlc_trait_enhanced_cooling = {
 	cost = 2
 	initial = yes
 	allowed_archetypes = { MACHINE ROBOT XVCV_MDLC_BIO_ROBOT }
-
+	inline_script = trait/sorting/oxr_mdlc_robotic
 	modifier = {
 		planet_jobs_alloys_produces_mult = 0.1
 		planet_pops_upkeep_mult = -0.05
@@ -46,7 +46,7 @@ xvcv_mdlc_trait_self_replicating_microbot = {
 	cost = 2
 	initial = yes
 	allowed_archetypes = { MACHINE ROBOT XVCV_MDLC_BIO_ROBOT }
-
+	inline_script = trait/sorting/oxr_mdlc_robotic
 	custom_tooltip = xvcv_mdlc_trait_self_replicating_microbot_tooltip #look for: xvcv_mdlc.80
 
 	slave_cost = { energy = 2000 }
@@ -56,7 +56,7 @@ xvcv_mdlc_trait_traditional = {
 	cost = 1
 	initial = yes
 	allowed_archetypes = { MACHINE }
-
+	inline_script = trait/sorting/oxr_mdlc_robotic
 	species_potential_add = {
 		exists = from
 		from = { has_authority = auth_machine_intelligence }
@@ -68,15 +68,41 @@ xvcv_mdlc_trait_traditional = {
 
 	slave_cost = { energy = 150 }
 }
+oxr_mdlc_trait_all_terrain_hull = {
+	cost = 2
+	initial = yes
+	allowed_archetypes = { MACHINE }
+	inline_script = trait/sorting/oxr_mdlc_robotic
+	species_potential_add = {
+		exists = from
+		from = { has_authority = auth_machine_intelligence }
+	}
+	opposites = {
+		"xvcv_mdlc_trait_sensitive_body"
+	}
+	modifier = {
+		habitability_floor_add = 0.8
+		pop_housing_usage_mult = 0.1
+		planet_pops_upkeep_mult = 0.1
+		pop_resettlement_cost_mult = 0.25
+	}
+	slave_cost = {
+		energy = 2000
+	}
+}
+
 #bad traits
 xvcv_mdlc_trait_sensitive_body = {
 	cost = -1
 	initial = yes
 	allowed_archetypes = { MACHINE ROBOT }
 	opposites = { "trait_robot_durable" }
-
+	inline_script = trait/sorting/oxr_mdlc_robotic
 	modifier = {
 		pop_environment_tolerance = -1.0
+	}
+	opposites = {
+		"oxr_mdlc_trait_all_terrain_hull"
 	}
 
 	slave_cost = { energy = 100 }
@@ -85,7 +111,7 @@ xvcv_mdlc_trait_low_cost_joints = {
 	cost = -3
 	initial = yes
 	allowed_archetypes = { MACHINE ROBOT }
-
+	inline_script = trait/sorting/oxr_mdlc_robotic
 	modifier = {
 		planet_jobs_produces_mult = -0.05
 		planet_jobs_upkeep_mult = 0.05
@@ -97,7 +123,7 @@ xvcv_mdlc_trait_low_cost_processor = {
 	cost = -2
 	initial = yes
 	allowed_archetypes = { MACHINE ROBOT }
-
+	inline_script = trait/sorting/oxr_mdlc_robotic
 	modifier = {
 		planet_jobs_physics_research_produces_mult = -0.1
 		planet_jobs_society_research_produces_mult = -0.1
@@ -106,6 +132,7 @@ xvcv_mdlc_trait_low_cost_processor = {
 
 	slave_cost = { energy = 200 }
 }
+
 #for 'xvcv_mdlc_ap_base_code_recompositions' ascension perk
 xvcv_mdlc_trait_engineered_organics = {
 	cost = 0
@@ -113,7 +140,7 @@ xvcv_mdlc_trait_engineered_organics = {
     sorting_priority = 20
 	initial = no
 	randomized = no
-
+	inline_script = trait/sorting/oxr_mdlc_bio
 	species_potential_add = { always = no }
 
 	modifier = {
@@ -127,7 +154,7 @@ xvcv_mdlc_trait_engineered_organics_alt = {
 	initial = no
 	randomized = no
 	icon = "gfx/interface/icons/traits/xvcv_mdlc_trait_engineered_organics.dds"
-
+	inline_script = trait/sorting/oxr_mdlc_bio
 	species_potential_add = { always = no }
 
 	modifier = {
@@ -143,7 +170,7 @@ xvcv_mdlc_trait_erudite = {
 	randomized = no
 	allowed_archetypes = { BIOLOGICAL LITHOID }
 	icon = "gfx/interface/icons/traits/trait_erudite.dds"
-
+	inline_script = trait/sorting/oxr_mdlc_bio
 	species_potential_add = {
 		exists = from
 		from = { has_technology = xvcv_mdlc_tech_genetic_resequencing }
@@ -177,7 +204,7 @@ xvcv_mdlc_trait_fertile = {
 	randomized = no
 	allowed_archetypes = { BIOLOGICAL }
 	icon = "gfx/interface/icons/traits/trait_fertile.dds"
-
+	inline_script = trait/sorting/oxr_mdlc_bio
 	species_potential_add = {
 		exists = from
 		from = { has_technology = xvcv_mdlc_tech_genetic_resequencing }
@@ -197,7 +224,7 @@ xvcv_mdlc_trait_robust = {
 	randomized = no
 	allowed_archetypes = { BIOLOGICAL }
 	icon = "gfx/interface/icons/traits/trait_robust.dds"
-
+	inline_script = trait/sorting/oxr_mdlc_bio
 	species_potential_add = {
 		exists = from
 		from = { has_technology = xvcv_mdlc_tech_genetic_resequencing }
@@ -206,7 +233,7 @@ xvcv_mdlc_trait_robust = {
 	modifier = {
 		pop_environment_tolerance = 0.30
 		planet_jobs_produces_mult = 0.05
-		leader_age = 50
+		leader_lifespan_add = 50
 	}
 
 	slave_cost = { energy = 2000 }
@@ -220,7 +247,7 @@ xvcv_mdlc_trait_delicious = {
 	randomized = no
 	allowed_archetypes = { BIOLOGICAL }
 	icon = "gfx/interface/icons/traits/trait_delicious.dds"
-
+	inline_script = trait/sorting/oxr_mdlc_bio
 	species_potential_add = {
 		exists = from
 		from = { has_technology = xvcv_mdlc_tech_genetic_resequencing }
@@ -240,7 +267,7 @@ xvcv_mdlc_trait_adv_logic_algorithm = {
 	randomized = no
 	allowed_archetypes = { MACHINE ROBOT XVCV_MDLC_BIO_ROBOT }
 	icon = "gfx/interface/icons/traits/trait_erudite.dds"
-
+	inline_script = trait/sorting/oxr_mdlc_advanced
 	species_potential_add = {
 		exists = from
 		from = { has_technology = xvcv_mdlc_tech_bio_unique_case_analysis }
@@ -274,6 +301,7 @@ xvcv_mdlc_trait_org_body_copy_design = {
 	randomized = no
 	allowed_archetypes = { MACHINE ROBOT XVCV_MDLC_BIO_ROBOT }
 	icon = "gfx/interface/icons/traits/trait_fertile.dds"
+	inline_script = trait/sorting/oxr_mdlc_advanced
 
 	species_potential_add = {
 		exists = from
@@ -294,6 +322,7 @@ xvcv_mdlc_trait_high_solidity_org = {
 	randomized = no
 	allowed_archetypes = { MACHINE ROBOT XVCV_MDLC_BIO_ROBOT }
 	icon = "gfx/interface/icons/traits/trait_robust.dds"
+	inline_script = trait/sorting/oxr_mdlc_advanced
 
 	species_potential_add = {
 		exists = from
@@ -317,6 +346,7 @@ xvcv_mdlc_trait_engineered_speciality = {
 	randomized = no
 	allowed_archetypes = { MACHINE ROBOT XVCV_MDLC_BIO_ROBOT }
 	icon = "gfx/interface/icons/traits/trait_delicious.dds"
+	inline_script = trait/sorting/oxr_mdlc_advanced
 
 	species_potential_add = {
 		exists = from
@@ -333,11 +363,12 @@ xvcv_mdlc_trait_engineered_speciality = {
 xvcv_mdlc_trait_abyss_psi_emulator = {
 	cost = 0
 	allowed_archetypes = { MACHINE ROBOT XVCV_MDLC_BIO_ROBOT }
-	sorting_priority = 20
+	# sorting_priority = 20
 	initial = no
 	randomized = no
 	improves_leaders = yes
-	
+	inline_script = trait/sorting/oxr_mdlc_advanced
+
 	species_potential_add = {
 		exists = from
 		from = { has_country_flag = xvcv_mdlc_trait_abyss_psi_emulator_possible }

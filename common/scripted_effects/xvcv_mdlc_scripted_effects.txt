@@ -13,7 +13,7 @@ xvcv_mdlc_dominant_species_changing_effect = {
 			is_councilor = yes
 			is_ruler = no
 		}
-		set_gestalt_node_protrait_effect = yes
+		set_gestalt_node_portrait_effect = yes
 	}
 	every_envoy = {
 		limit = { is_same_species = prev.species }
@@ -107,143 +107,6 @@ xvcv_mdlc_modify_species_change_traits_for_lithoid_effect = {
 	if = { limit = { has_trait = trait_lithoid_scintillating } modify_species = { base = none remove_trait = trait_lithoid_scintillating add_trait = xvcv_mdlc_trait_lithoid_scintillating } }
 	if = { limit = { has_trait = trait_lithoid_gaseous_byproducts } modify_species = { base = none remove_trait = trait_lithoid_gaseous_byproducts add_trait = xvcv_mdlc_trait_lithoid_gaseous_byproducts } }
 	if = { limit = { has_trait = trait_lithoid_volatile_excretions } modify_species = { base = none remove_trait = trait_lithoid_volatile_excretions add_trait = xvcv_mdlc_trait_lithoid_volatile_excretions } }
-}
-xvcv_mdlc_civic_trading_machine_target_all_trade_value_calc_effect = {
-	optimize_memory
-	#clear the variable for recalculating it again
-	event_target:xvcv_mdlc_trading_machine_owner = {
-		if = {
-			limit = { is_variable_set = xvcv_mdlc_target_$ID$_trade_value }
-			clear_variable = xvcv_mdlc_target_$ID$_trade_value
-		}
-	}
-	every_system_within_border = {
-		limit = { has_system_trade_value > 0 }
-		event_target:xvcv_mdlc_trading_machine_owner = { change_variable = { which = xvcv_mdlc_target_$ID$_trade_value value = prev.trigger:has_system_trade_value } }
-	}
-	event_target:xvcv_mdlc_trading_machine_owner = {
-		divide_variable = { which = xvcv_mdlc_target_$ID$_trade_value value = 10 } #10% of the total trade value
-		if = { limit = { has_technology = xvcv_mdlc_tech_negotiation_algorithms } multiply_variable = { which = xvcv_mdlc_target_$ID$_trade_value value = 2 } } #20% of the total trade value, with the required tech
-		round_variable = xvcv_mdlc_target_$ID$_trade_value #rounds the variable to the closest integer
-	}
-}
-xvcv_mdlc_civic_trading_machine_target_all_energy_income_calc_effect = {
-	optimize_memory
-	export_resource_income_to_variable = { resource = energy variable = xvcv_mdlc_energy_income_from_target_$ID$ }
-	event_target:xvcv_mdlc_trading_machine_owner = {
-		#this will reset the previous value to new one
-		set_variable = { which = xvcv_mdlc_target_$ID$_energy_income value = prev.xvcv_mdlc_energy_income_from_target_$ID$ }
-		divide_variable = { which = xvcv_mdlc_target_$ID$_energy_income value = 10 }
-		if = { limit = { has_technology = xvcv_mdlc_tech_negotiation_algorithms } multiply_variable = { which = xvcv_mdlc_target_$ID$_energy_income value = 2 } }
-		round_variable = xvcv_mdlc_target_$ID$_energy_income
-	}
-}
-xvcv_mdlc_civic_trading_machine_reset_variables_flags_effect = {
-	optimize_memory
-	if = {
-		limit = { is_variable_set = xvcv_mdlc_target_$ID$_trade_value }
-		clear_variable = xvcv_mdlc_target_$ID$_trade_value
-	}
-	if = {
-		limit = { is_variable_set = xvcv_mdlc_target_$ID$_energy_income }
-		clear_variable = xvcv_mdlc_target_$ID$_energy_income
-	}
-	if = {
-		limit = { has_country_flag = xvcv_mdlc_target_$ID$_trade_value_added_to_all_trade_value }
-		remove_country_flag = xvcv_mdlc_target_$ID$_trade_value_added_to_all_trade_value
-	}
-	if = {
-		limit = { has_country_flag = xvcv_mdlc_target_$ID$_energy_income_is_added_to_all_energy_income_from_trade }
-		remove_country_flag = xvcv_mdlc_target_$ID$_energy_income_is_added_to_all_energy_income_from_trade
-	}
-}
-xvcv_mdlc_civic_trading_machine_trade_stop_effect = {
-	optimize_memory
-	random_country = {
-		limit = { is_country_type = xvcv_mdlc_trading_machine_controller }
-		random_owned_fleet = {
-			limit = { has_fleet_flag = xvcv_mdlc_civic_trading_machine_fleet_$ID$_owner_id_@root }
-			random_country = {
-				limit = { has_country_flag = xvcv_mdlc_civic_trading_machine_target_country_@prev }
-				root = {
-					if = {
-						limit = { prev = { NOT = { has_ethic = ethic_gestalt_consciousness } } }
-						subtract_variable = { which = xvcv_mdlc_all_trade_value_from_trade value = xvcv_mdlc_target_$ID$_trade_value }
-						else = { subtract_variable = { which = xvcv_mdlc_all_energy_income_from_trade value = xvcv_mdlc_target_$ID$_energy_income } }
-					}
-					xvcv_mdlc_civic_trading_machine_resource_deposit_calc_effect = yes
-					remove_country_flag = xvcv_mdlc_civic_trading_machine_owner_country_@prevprev #unassign the fleet's id
-					xvcv_mdlc_civic_trading_machine_reset_variables_flags_effect = { ID = $ID$ }
-				}
-				remove_country_flag = xvcv_mdlc_civic_trading_machine_target_country_@prev #unassign the fleet's id
-				remove_country_flag = xvcv_mdlc_civic_trading_machine_saved_target_$ID$_@root #unassign the fleet owner's id
-			}
-			destroy_fleet = this
-		}
-	}
-}
-xvcv_mdlc_civic_trading_machine_ship_build_project_abort_effect = {
-	optimize_memory
-	add_resource = { energy = 300 alloys = 700 }
-	random_country = {
-		limit = { has_country_flag = xvcv_mdlc_civic_trading_machine_saved_target_$ID$_@prev }
-		remove_country_flag = xvcv_mdlc_civic_trading_machine_saved_target_$ID$_@prev
-	}
-}
-xvcv_mdlc_civic_trading_machine_all_trade_value_or_energy_income_from_trade_calc_effect = {
-	optimize_memory
-	if = {
-		limit = { NOT = { has_ethic = ethic_gestalt_consciousness } }
-		event_target:xvcv_mdlc_trading_machine_owner = { set_variable = { which = xvcv_mdlc_target_$ID$_trade_value_old value = xvcv_mdlc_target_$ID$_trade_value } }
-		xvcv_mdlc_civic_trading_machine_target_all_trade_value_calc_effect = { ID = $ID$ }
-		event_target:xvcv_mdlc_trading_machine_owner = {
-			change_variable = { which = xvcv_mdlc_all_trade_value_from_trade value = xvcv_mdlc_target_$ID$_trade_value }
-			if = {
-				limit = { NOT = { has_country_flag = xvcv_mdlc_target_$ID$_trade_value_added_to_all_trade_value } }
-				set_country_flag = xvcv_mdlc_target_$ID$_trade_value_added_to_all_trade_value
-				else = { subtract_variable = { which = xvcv_mdlc_all_trade_value_from_trade value = xvcv_mdlc_target_$ID$_trade_value_old } }
-			}
-		}
-		else = {
-			event_target:xvcv_mdlc_trading_machine_owner = { set_variable = { which = xvcv_mdlc_target_$ID$_energy_income_old value = xvcv_mdlc_target_$ID$_energy_income } }
-			xvcv_mdlc_civic_trading_machine_target_all_energy_income_calc_effect = { ID = $ID$ }
-			event_target:xvcv_mdlc_trading_machine_owner = {
-				change_variable = { which = xvcv_mdlc_all_energy_income_from_trade value = xvcv_mdlc_target_$ID$_energy_income }
-				if = {
-					limit = { NOT = { has_country_flag = xvcv_mdlc_target_$ID$_energy_income_is_added_to_all_energy_income_from_trade } }
-					set_country_flag = xvcv_mdlc_target_$ID$_energy_income_is_added_to_all_energy_income_from_trade
-					else = { subtract_variable = { which = xvcv_mdlc_all_energy_income_from_trade value = xvcv_mdlc_target_$ID$_energy_income_old } }
-				}
-			}
-		}
-	}
-}
-xvcv_mdlc_civic_trading_machine_resource_deposit_clear_effect = {
-	optimize_memory
-	capital_scope = {
-		#clear deposits
-		every_deposit = { limit = { is_deposit_type = xvcv_mdlc_d_civic_trading_machine_energy } remove_deposit = yes }
-		every_deposit = { limit = { is_deposit_type = xvcv_mdlc_d_civic_trading_machine_minerals } remove_deposit = yes }
-		every_deposit = { limit = { is_deposit_type = xvcv_mdlc_d_civic_trading_machine_alloys } remove_deposit = yes }
-		every_deposit = { limit = { is_deposit_type = xvcv_mdlc_d_civic_trading_machine_influence } remove_deposit = yes }
-		every_deposit = { limit = { is_deposit_type = xvcv_mdlc_d_civic_trading_machine_unity } remove_deposit = yes }
-		every_deposit = { limit = { is_deposit_type = xvcv_mdlc_d_civic_trading_machine_rares } remove_deposit = yes }
-		every_deposit = { limit = { is_deposit_type = xvcv_mdlc_d_civic_trading_machine_energy_alt } remove_deposit = yes }
-	}
-}
-xvcv_mdlc_civic_trading_machine_resource_deposit_calc_effect = {
-	optimize_memory
-	xvcv_mdlc_civic_trading_machine_resource_deposit_clear_effect = yes
-	switch = {
-		trigger = has_policy_flag
-		xvcv_mdlc_civic_trading_machine_trade_energy = { while = { count = xvcv_mdlc_all_trade_value_from_trade capital_scope = { add_deposit = xvcv_mdlc_d_civic_trading_machine_energy } } }
-		xvcv_mdlc_civic_trading_machine_trade_minerals = { while = { count = xvcv_mdlc_all_trade_value_from_trade capital_scope = { add_deposit = xvcv_mdlc_d_civic_trading_machine_minerals } } }
-		xvcv_mdlc_civic_trading_machine_trade_alloys = { while = { count = xvcv_mdlc_all_trade_value_from_trade capital_scope = { add_deposit = xvcv_mdlc_d_civic_trading_machine_alloys } } }
-		xvcv_mdlc_civic_trading_machine_trade_influence = { while = { count = xvcv_mdlc_all_trade_value_from_trade capital_scope = { add_deposit = xvcv_mdlc_d_civic_trading_machine_influence } } }
-		xvcv_mdlc_civic_trading_machine_trade_unity = { while = { count = xvcv_mdlc_all_trade_value_from_trade capital_scope = { add_deposit = xvcv_mdlc_d_civic_trading_machine_unity } } }
-		xvcv_mdlc_civic_trading_machine_trade_rares = { while = { count = xvcv_mdlc_all_trade_value_from_trade capital_scope = { add_deposit = xvcv_mdlc_d_civic_trading_machine_rares } } }			
-	}
-	while = { count = xvcv_mdlc_all_energy_income_from_trade capital_scope = { add_deposit = xvcv_mdlc_d_civic_trading_machine_energy_alt } }
 }
 xvcv_mdlc_leader_tied_traits_add_effect = {
 	optimize_memory
@@ -376,37 +239,7 @@ xvcv_mdlc_planet_terraforming_resolution_breached_effect = {
 		owner = { set_timed_country_flag = { flag = resolution_breached_terraformed days = 3600 } }
 	}
 }
-xvcv_mdlc_world_machines_output_value_calc_effect = {
-	optimize_memory
-	#for 'xvcv_mdlc_world_machines_districts_heat_indicator_tooltip' tooltips too
-	export_modifier_to_variable = { modifier = xvcv_mdlc_world_machines_districts_produces_mult variable = xvcv_mdlc_world_machines_districts_output_var }
-	xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect = yes
-}
-xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect = {
-	optimize_memory
-	switch = {
-		trigger = has_modifier
-		xvcv_mdlc_world_machines_districts_heat_indicator_good = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_good }
-		xvcv_mdlc_world_machines_districts_heat_indicator_neutral = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral }
-		xvcv_mdlc_world_machines_districts_heat_indicator_bad = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad }
-	}
-	if = {
-		limit = { check_variable = { which = xvcv_mdlc_world_machines_districts_output_var value > 0 } }
-		add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_good days = -1 }
-	}
-	else_if = {
-		limit = { check_variable = { which = xvcv_mdlc_world_machines_districts_output_var value = 0 } }
-		add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral days = -1 }
-	}
-	else_if = {
-		limit = { check_variable = { which = xvcv_mdlc_world_machines_districts_output_var value < 0 } }
-		add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad days = -1 }
-	}
-	set_variable = { which = xvcv_mdlc_world_machines_districts_current_output_for_display_var value = 1 }
-	change_variable = { which = xvcv_mdlc_world_machines_districts_current_output_for_display_var value = xvcv_mdlc_world_machines_districts_output_var }
-	multiply_variable = { which = xvcv_mdlc_world_machines_districts_current_output_for_display_var value = 100 }
-}
-xvcv_mdlc_civic_emotion_emulator_pop_bonus_effect = {
+xvcv_mdlc_civic_goods_distributor_pop_bonus_effect = {
 	optimize_memory
 	if = {
 		limit = { has_modifier = xvcv_mdlc_goods_for_pop_unity_bonus }
@@ -414,13 +247,13 @@ xvcv_mdlc_civic_emotion_emulator_pop_bonus_effect = {
 	}
 	export_resource_income_to_variable = {
 		resource = consumer_goods
-		variable = xvcv_mdlc_civic_emotion_emulator_income_var
+		variable = xvcv_mdlc_civic_goods_distributor_income_var
 	}
 	if = {
 		limit = { is_ai = no }
 		add_resource = {
 			consumer_goods = -1
-			mult = xvcv_mdlc_civic_emotion_emulator_income_var
+			mult = xvcv_mdlc_civic_goods_distributor_income_var
 		}
 	}
 	export_trigger_value_to_variable = {
@@ -433,7 +266,7 @@ xvcv_mdlc_civic_emotion_emulator_pop_bonus_effect = {
 				}
 			}
 		}
-		variable = xvcv_mdlc_civic_emotion_emulator_pop_var
+		variable = xvcv_mdlc_civic_goods_distributor_pop_var
 	}
 	#calculation e.g.
 	#the total income = 19
@@ -442,10 +275,10 @@ xvcv_mdlc_civic_emotion_emulator_pop_bonus_effect = {
 	#and this means about 0.57 more goods can be distributed per drone pop for additional unity creation
 	#so it's 0.57 more unity per pop
 	divide_variable = {
-		which = xvcv_mdlc_civic_emotion_emulator_income_var
-		value = xvcv_mdlc_civic_emotion_emulator_pop_var
+		which = xvcv_mdlc_civic_goods_distributor_income_var
+		value = xvcv_mdlc_civic_goods_distributor_pop_var
 	}
-	add_modifier = { modifier = xvcv_mdlc_goods_for_pop_unity_bonus days = -1 multiplier = xvcv_mdlc_civic_emotion_emulator_income_var }
+	add_modifier = { modifier = xvcv_mdlc_goods_for_pop_unity_bonus days = -1 multiplier = xvcv_mdlc_civic_goods_distributor_income_var }
 }
 xvcv_mdlc_situation_machine_learning_add_progress_effect = {
 	optimize_memory
@@ -494,5 +327,208 @@ xvcv_mdlc_ap_genetics_mastery_species_new_template_create_effect = {
 			change_species = last_created_species
 			xvcv_mdlc_machine_species_rights_adjustments_effect = yes
 		}
+	}
+}
+xvcv_mdlc_set_memory_share_level_up_happened_for_commander = {
+	owner = {
+		set_timed_country_flag = {
+			flag = xvcv_mdlc_memory_share_leveled_up_commander
+			days = 1
+		}
+	}
+	log = "Set country flag that we leveled up commanders, inside scripted effect"
+}
+xvcv_mdlc_set_memory_share_level_up_happened_for_scientist = {
+	owner = {
+		set_timed_country_flag = {
+			flag = xvcv_mdlc_memory_share_leveled_up_scientist
+			days = 1
+		}
+	}
+	log = "Set country flag that we leveled up scientists, inside scripted effect"
+}
+xvcv_mdlc_set_memory_share_level_up_happened_for_official = {
+	owner = {
+		set_timed_country_flag = {
+			flag = xvcv_mdlc_memory_share_leveled_up_official
+			days = 1
+		}
+	}
+	log = "Set country flag that we leveled up officials, inside scripted effect"
+}
+
+xvcv_mdlc_iterate_leaders_level_up_classes_under_skill = {
+	# scope here is 'prev'
+	# call with CLASS and SKILL_LEVEL
+	# set_variable = {
+	# 	which = xvcv_total_class_specific_leaders_under_level_2
+	# 	# value = value:count_leaders_of_class|CLASS|commander|
+	# 	value = value:count_leaders_of_class_under_level|CLASS|$CLASS$|SKILL_LEVEL|$SKILL_LEVEL|
+	# }
+	# log = "There are \[This.xvcv_total_class_specific_leaders_under_level_2] $CLASS$ leaders to level up that are below level $SKILL_LEVEL$"
+
+	every_owned_leader = {
+		limit = {
+			is_councilor = no
+			has_trait = xvcv_mdlc_leader_trait_shared_memory
+			leader_class = $CLASS$
+			has_skill < $SKILL_LEVEL$
+			NOT = { has_leader_flag = xvcv_mdlc_leader_trait_shared_memory_target_@this }
+		}
+		# log = "Leveling \\[prev.xvcv_total_class_specific_leaders_under_level_2] scientists level below 2"
+		root = { xvcv_mdlc_set_memory_share_level_up_happened_for_scientist = yes }
+		set_timed_leader_flag = { flag = xvcv_mdlc_leader_trait_shared_memory_target_@this days = 1 }
+		add_skill_without_trait_selection = 1
+	}
+}
+# Call from the create_species effect block when creating a synth species to set planet preference.
+# prev: Original species
+# this: New synth species
+oxr_mdlc_set_custom_species_habitability = {
+	if = {
+		limit = {
+			prev = {
+				OR = {
+					has_trait = trait_pc_desert_preference
+					has_trait = trait_pc_arid_preference
+					has_trait = trait_pc_savannah_preference
+					has_trait = trait_dry_planet_preference
+				}
+			}
+		}
+		change_species_characteristics = {
+			add_trait = oxr_mdlc_trait_dry_planet_preference
+			add_traits_at_start_of_list = yes
+		}
+		log = "Changed species: added dry planet preference to \\[This.species.GetName]"
+	}
+	else_if = {
+		limit = {
+			prev = {
+				OR = {
+					has_trait = trait_pc_tropical_preference
+					has_trait = trait_pc_continental_preference
+					has_trait = trait_pc_ocean_preference
+					has_trait = trait_wet_planet_preference
+				}
+			}
+		}
+		change_species_characteristics = {
+			add_trait = oxr_mdlc_trait_wet_planet_preference
+			add_traits_at_start_of_list = yes
+		}
+		log = "Changed species: added wet planet preference to \\[This.species.GetName]"
+	}
+	else_if = {
+		limit = {
+			prev = {
+				OR = {
+					has_trait = trait_pc_arctic_preference
+					has_trait = trait_pc_tundra_preference
+					has_trait = trait_pc_alpine_preference
+					has_trait = trait_frozen_planet_preference
+				}
+			}
+		}
+		change_species_characteristics = {
+			add_trait = oxr_mdlc_trait_frozen_planet_preference
+			add_traits_at_start_of_list = yes
+		}
+		log = "Changed species: added frozen planet preference to \\[This.species.GetName]"
+	}
+	else_if = {
+		limit = { 
+			prev = {
+				OR = {
+					has_trait = trait_machine_habitat_planet_preference
+					has_trait = trait_pc_habitat_preference 
+				}
+			}
+		}
+		change_species_characteristics = {
+			add_trait = oxr_mdlc_trait_pc_habitat_preference
+			add_traits_at_start_of_list = yes
+		}
+		log = "Changed species: added habitat preference"
+	}
+	else_if = {
+		limit = {
+			prev = { 
+				OR = {
+					has_trait = trait_pc_shattered_ring_habitable_preference
+					has_trait = trait_machine_pc_shattered_ring_habitable_preference
+				}
+			}
+		}
+		change_species_characteristics = {
+			add_trait = oxr_mdlc_trait_pc_ringworld_habitable_preference
+			add_traits_at_start_of_list = yes
+		}
+		log = "Changed species: add ringworld pref "
+	}
+	else = {
+		random_list = {
+			1 = {
+				change_species_characteristics = {
+					add_trait = oxr_mdlc_trait_dry_planet_preference
+					add_traits_at_start_of_list = yes
+				}
+				log = "changed species to randomly have dry planet preference"
+			}
+			1 = {
+				change_species_characteristics = {
+					add_trait = oxr_mdlc_trait_wet_planet_preference
+					add_traits_at_start_of_list = yes
+				}
+				log = "changed species to randomly have wet planet peference"
+			}
+			1 = {
+				change_species_characteristics = {
+					add_trait = oxr_mdlc_trait_frozen_planet_preference
+					add_traits_at_start_of_list = yes
+				}
+				log = "Changed species to randomly have frozen planet preference"
+			}
+		}
+	}
+	# Void dweller
+	if = {
+		limit = {
+			prev = {
+				has_trait = trait_void_dweller_1
+			}
+		}
+		change_species_characteristics = {
+			add_trait = oxr_mdlc_trait_void_dweller_1
+		}
+		log = "Changed species: added void dweller 1 to species"
+	}
+	else_if = {
+		limit = { prev = { has_trait = trait_void_dweller_2 } }
+		change_species_characteristics = {
+			add_trait = oxr_mdlc_trait_void_dweller_2
+		}
+		log = "Changed species: Added void dweller 2 to species"
+	}
+}
+# Remove the automatically assigned habitability at game start
+# Add mechanical preference BACK
+oxr_mdlc_set_mechanical_heritage_species_habitability = {
+	optimize_memory
+	if = {
+		limit = { prev = { has_trait = trait_frozen_planet_preference } }
+		change_species_characteristics = { remove_trait = trait_frozen_planet_preference }
+	}
+	else_if = {
+		limit = { prev = { has_trait = trait_dry_planet_preference } }
+		change_species_characteristics = { remove_trait = trait_dry_planet_preference }
+	}
+	else_if = {
+		limit = { prev = { has_trait = trait_wet_planet_preference } }
+		change_species_characteristics = { remove_trait = trait_wet_planet_preference }
+	}
+	change_species_characteristics = {
+		add_trait = trait_xvcv_mdlc_pc_mechanical_preference
+		add_traits_at_start_of_list = yes
 	}
 }

@@ -2,7 +2,7 @@
 xvcv_mdlc_trait_bio_robot = {
 	cost = 0
 	allowed_archetypes = { MACHINE ROBOT XVCV_MDLC_BIO_ROBOT }
-    sorting_priority = 19
+    inline_script = trait/sorting/oxr_mdlc_bio_robot
 	initial = no
 	randomized = no
 	improves_leaders = yes
@@ -26,7 +26,7 @@ xvcv_mdlc_trait_bio_robot = {
 xvcv_mdlc_bio_robot_trait_compatibility_module = {
 	cost = -1
 	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-
+	inline_script = trait/sorting/oxr_mdlc_bio_robot
 	modifier = {
 		planet_pops_upkeep_mult = 0.10
 	}
@@ -36,7 +36,7 @@ xvcv_mdlc_bio_robot_trait_compatibility_module = {
 xvcv_mdlc_bio_robot_trait_compatibility_module_2 = {
 	cost = -2
 	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-
+	inline_script = trait/sorting/oxr_mdlc_bio_robot
 	modifier = {
 		planet_pops_upkeep_mult = 0.20
 	}
@@ -46,7 +46,7 @@ xvcv_mdlc_bio_robot_trait_compatibility_module_2 = {
 xvcv_mdlc_bio_robot_trait_compatibility_module_3 = {
 	cost = -3
 	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-
+	inline_script = trait/sorting/oxr_mdlc_bio_robot
 	modifier = {
 		planet_pops_upkeep_mult = 0.30
 	}
@@ -58,6 +58,7 @@ xvcv_mdlc_bio_robot_trait_org_body_copy_design = {
 	initial = no
 	randomized = no
 	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
+	inline_script = trait/sorting/oxr_mdlc_bio_robot
 	icon = "gfx/interface/icons/traits/trait_fertile.dds"
 
 	species_potential_add = {
@@ -73,424 +74,20 @@ xvcv_mdlc_bio_robot_trait_org_body_copy_design = {
 	slave_cost = { energy = 200 }
 }
 #biological traits
-xvcv_mdlc_bio_robot_trait_agrarian = {
-	cost = 2
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_agrarian.dds"
 
-	modifier = {
-		planet_jobs_food_produces_mult = 0.2
-	}
-
-	slave_cost = { energy = 50 }
-}
-xvcv_mdlc_bio_robot_trait_ingenious = {
-	cost = 2
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_ingenious.dds"
-
-	modifier = {
-		planet_jobs_energy_produces_mult = 0.2
-	}
-
-	slave_cost = { energy = 50 }
-}
-xvcv_mdlc_bio_robot_trait_industrious = {
-	cost = 2
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_industrious.dds"
-
-	modifier = {
-		planet_jobs_minerals_produces_mult = 0.2
-	}
-
-	slave_cost = { energy = 50 }
-}
-xvcv_mdlc_bio_robot_trait_intelligent = {
-	cost = 2
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_intelligent.dds"
-
-	modifier = {
-		planet_jobs_engineering_research_produces_mult = 0.15
-		planet_jobs_physics_research_produces_mult = 0.15
-		planet_jobs_society_research_produces_mult = 0.15
-	}
-}
-xvcv_mdlc_bio_robot_trait_thrifty = {
-	cost = 2
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_thrifty.dds"
-
-	species_potential_add = {
-		exists = from
-		from = { NOT = { has_authority = auth_machine_intelligence } }
-	}
-
-	modifier = {
-		pop_job_trade_mult = 0.30
-	}
-}
-xvcv_mdlc_bio_robot_trait_natural_engineers = {
-	cost = 1
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_natural_engineers.dds"
-
-	modifier = {
-		planet_jobs_engineering_research_produces_mult = 0.2
-	}
-}
-xvcv_mdlc_bio_robot_trait_natural_physicists = {
-	cost = 1
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_natural_physicists.dds"
-
-	modifier = {
-		planet_jobs_physics_research_produces_mult = 0.2
-	}
-}
-xvcv_mdlc_bio_robot_trait_natural_sociologists = {
-	cost = 1
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_natural_sociologists.dds"
-
-	modifier = {
-		planet_jobs_society_research_produces_mult = 0.2
-	}
-}
-xvcv_mdlc_bio_robot_trait_extremely_adaptive = {
-	cost = 4
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_extremely_adaptive.dds"
-
-	modifier = {
-		planet_pops_upkeep_mult = -0.25
-		pop_amenities_usage_mult = -0.25
-	}
-
-	slave_cost = { energy = 100 }
-}
-xvcv_mdlc_bio_robot_trait_adaptive = {
-	cost = 2
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_adaptive.dds"
-
-	modifier = {
-		planet_pops_upkeep_mult = -0.15
-		pop_amenities_usage_mult = -0.15
-	}
-
-	slave_cost = { energy = 50 }
-}
 #also see 'xvcv_mdlc.42' event
+# possibly rename to "synthetic cloning hormones"
 xvcv_mdlc_bio_robot_trait_rapid_breeders = {
 	cost = 2
 	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
 	icon = "gfx/interface/icons/traits/trait_rapid_breeders.dds"
-
+	inline_script = trait/sorting/oxr_mdlc_bio_robot
 	modifier = {
 		xvcv_mdlc_bio_robot_growth_add = @xvcv_mdlc_bio_robot_growth_add_1
 	}
-
-	slave_cost = { energy = 200 }
-}
-xvcv_mdlc_bio_robot_trait_talented = {
-	cost = 1
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_talented.dds"
-
-	modifier = {
-		negative_leader_traits_species = -1
-		leaders_upkeep_mult = -0.1
-	}
-}
-xvcv_mdlc_bio_robot_trait_quick_learners = {
-	cost = 1
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_quick_learners.dds"
-
-	modifier = {
-		species_leader_exp_gain = 0.30
-	}
-}
-xvcv_mdlc_bio_robot_trait_traditional = {
-	cost = 1
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_traditional.dds"
-
-	modifier = {
-		planet_jobs_unity_produces_mult = 0.15
-	}
-}
-xvcv_mdlc_bio_robot_trait_docile = {
-	cost = 2
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_docile.dds"
-
-	modifier = {
-		species_empire_size_mult = -0.15
-	}
-}
-xvcv_mdlc_bio_robot_trait_very_strong = {
-	cost = 3
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_very_strong.dds"
-
-	modifier = {
-		army_damage_mult = 0.50
-		planet_jobs_produces_mult = 0.10
-	}
-
-	slave_cost = { energy = 150 }
-}
-xvcv_mdlc_bio_robot_trait_strong = {
-	cost = 1
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_strong.dds"
-
-	modifier = {
-		army_damage_mult = 0.25
-		planet_jobs_produces_mult = 0.05
-	}
-
-	slave_cost = { energy = 50 }
-}
-xvcv_mdlc_bio_robot_trait_nomadic = {
-	cost = 1
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_nomadic.dds"
-
-	modifier = {
-		pop_resettlement_cost_mult = -0.75
-	}
-}
-xvcv_mdlc_bio_robot_trait_communal = {
-	cost = 1
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_communal.dds"
-
-	modifier = {
-		pop_housing_usage_mult = -0.15
-	}
-}
-xvcv_mdlc_bio_robot_trait_charismatic = {
-	cost = 2
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_charismatic.dds"
-
-	modifier = {
-		pop_job_amenities_mult = 0.25
-	}
-}
-xvcv_mdlc_bio_robot_trait_conformists = {
-	cost = 2
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_conformists.dds"
-
-	species_potential_add = {
-		exists = from
-		from = { NOT = { has_authority = auth_machine_intelligence } }
-	}
-
-	modifier = {
-		pop_government_ethic_attraction = 0.35
-	}
-
-	ai_weight = { weight = 0 }
-}
-xvcv_mdlc_bio_robot_trait_resilient = {
-	cost = 1
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_resilient.dds"
-
-	modifier = {
-		army_defense_damage_mult = 0.75
-	}
-}
-xvcv_mdlc_bio_robot_trait_conservational = {
-	cost = 1
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_conservational.dds"
-
-	species_potential_add = {
-		exists = from
-		from = { NOT = { has_authority = auth_machine_intelligence } }
-	}
-
-	modifier = {
-		planet_pops_consumer_goods_upkeep_mult = -0.15
-	}
-}
-#robotic traits
-xvcv_mdlc_bio_robot_trait_robot_power_drills = {
-	cost = 2
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_robot_power_drills.dds"
-
-	modifier = {
-		planet_jobs_minerals_produces_mult = 0.20
-	}
-}
-xvcv_mdlc_bio_robot_trait_robot_harvesters = {
-	cost = 2
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_robot_harvesters.dds"
-
-	modifier = {
-		planet_jobs_food_produces_mult = 0.20
-	}
-}
-xvcv_mdlc_bio_robot_trait_robot_superconductive = {
-	cost = 2
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_robot_superconductive.dds"
-
-	modifier = {
-		planet_jobs_energy_produces_mult = 0.20
-	}
-}
-xvcv_mdlc_bio_robot_trait_robot_efficient_processors = {
-	cost = 3
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_robot_efficient_processors.dds"
-
-	modifier = {
-		planet_jobs_produces_mult = 0.1
-	}
-}
-xvcv_mdlc_bio_robot_trait_robot_logic_engines = {
-	cost = 2
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_robot_logic_engines.dds"
-
-	modifier = {
-		planet_jobs_society_research_produces_mult = 0.15
-		planet_jobs_physics_research_produces_mult = 0.15
-		planet_jobs_engineering_research_produces_mult = 0.15
-	}
-}
-xvcv_mdlc_bio_robot_trait_robot_loyalty_circuits = {
-	cost = 2
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_robot_loyalty_circuits.dds"
-
-	species_potential_add = {
-		exists = from
-		from = { NOT = { has_authority = auth_machine_intelligence } }
-	}
-
-	modifier = {
-		pop_happiness = 0.15
-	}
-}
-xvcv_mdlc_bio_robot_trait_robot_domestic_protocols = {
-	cost = 2
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_robot_domestic_protocols.dds"
-
-	species_potential_add = {
-		exists = from
-		from = { NOT = { has_authority = auth_machine_intelligence } }
-	}
-
-	modifier = {
-		pop_job_amenities_mult = 0.25
-	}
-}
-xvcv_mdlc_bio_robot_trait_robot_double_jointed = {
-	cost = 1
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_robot_double_jointed.dds"
-
-	modifier = {
-		pop_housing_usage_mult = -0.15
-	}
-}
-xvcv_mdlc_bio_robot_trait_robot_enhanced_memory = {
-	cost = 2
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_robot_enhanced_memory.dds"
-
-	modifier = {
-		negative_leader_traits_species = -1
-		leaders_upkeep_mult = -0.25
-	}
-
-	ai_weight = { factor = 0 }
-}
-xvcv_mdlc_bio_robot_trait_robot_emotion_emulators = {
-	cost = 2
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_robot_emotion_emulators.dds"
-
-	species_potential_add = {
-		exists = from
-		from = { has_authority = auth_machine_intelligence }
-	}
-
-	modifier = {
-		pop_job_amenities_mult = 0.25
-	}
-}
-xvcv_mdlc_bio_robot_trait_robot_durable = {
-	cost = 1
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_robot_durable.dds"
-
-	modifier = {
-		planet_pops_robotics_upkeep_mult = -0.15
-	}
-}
-xvcv_mdlc_bio_robot_trait_robot_learning_algorithms = {
-	cost = 1
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_robot_learning_algorithms.dds"
-
-	modifier = {
-		species_leader_exp_gain = 0.30
-	}
-}
-xvcv_mdlc_bio_robot_trait_robot_mass_produced = {
-	cost = 2
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_robot_mass_produced.dds"
-
-	modifier = {
-		xvcv_mdlc_bio_robot_growth_add = @xvcv_mdlc_bio_robot_growth_add_1
+	opposites = {
+		trait_rapid_breeders
 	}
 
 	slave_cost = { energy = 200 }
-}
-xvcv_mdlc_bio_robot_trait_robot_recycled = {
-	cost = 2
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_robot_recycled.dds"
-
-	#assembling_modifier, declining_modifier, growing_modifier are applied to planet when pop is the one assembling/declining/growing
-	assembling_modifier = {
-		planet_pop_assemblers_upkeep_mult = -0.25
-	}
-}
-xvcv_mdlc_bio_robot_trait_robot_propaganda_machines = {
-	cost = 1
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_robot_propaganda_machines.dds"
-
-	species_potential_add = {
-		exists = from
-		from = { NOT = { has_authority = auth_machine_intelligence } }
-	}
-
-	modifier = {
-		planet_jobs_unity_produces_mult = 0.20
-	}
-}
-xvcv_mdlc_bio_robot_trait_robot_streamlined_protocols = {
-	cost = 2
-	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
-	icon = "gfx/interface/icons/traits/trait_robot_streamlined_protocols.dds"
-
-	modifier = {
-		species_empire_size_mult = -0.15
-	}
 }

@@ -13,41 +13,45 @@ country_event = {
 	immediate = {
 		xvcv_mdlc_leader_making_clear_traits_variables_effect = yes
 		set_variable = { which = xvcv_mdlc_leader_making_start_number value = 1 } #one-time only
+		# Reset the maximum allowed leader level each time the GUI opens,
+		# and re-evaluate it.
+		oxr_mdlc_leader_making_set_maximum_allowed_leader_level = { LEVEL = 1 }
+		oxr_mdlc_leader_making_set_leader_skill_level = { LEVEL = 0 }
 		if = {
-			limit = { NOT = { has_country_flag = xvcv_mdlc_leader_making_set_skill_level_2_granted } any_owned_leader = { has_skill >= 2 } }
-			set_country_flag = xvcv_mdlc_leader_making_set_skill_level_2_granted
+			limit = { any_owned_leader = { has_skill >= 2 } }
+			oxr_mdlc_leader_making_set_maximum_allowed_leader_level = { LEVEL = 2 }
 		}
 		if = {
-			limit = { NOT = { has_country_flag = xvcv_mdlc_leader_making_set_skill_level_3_granted } any_owned_leader = { has_skill >= 3 } }
-			set_country_flag = xvcv_mdlc_leader_making_set_skill_level_3_granted
+			limit = { any_owned_leader = { has_skill >= 3 } }
+			oxr_mdlc_leader_making_set_maximum_allowed_leader_level = { LEVEL = 3 }
 		}
 		if = {
-			limit = { NOT = { has_country_flag = xvcv_mdlc_leader_making_set_skill_level_4_granted } any_owned_leader = { has_skill >= 4 } }
-			set_country_flag = xvcv_mdlc_leader_making_set_skill_level_4_granted
+			limit = { any_owned_leader = { has_skill >= 4 } }
+			oxr_mdlc_leader_making_set_maximum_allowed_leader_level = { LEVEL = 4 }
 		}
 		if = {
-			limit = { NOT = { has_country_flag = xvcv_mdlc_leader_making_set_skill_level_5_granted } any_owned_leader = { has_skill >= 5 } }
-			set_country_flag = xvcv_mdlc_leader_making_set_skill_level_5_granted
+			limit = { any_owned_leader = { has_skill >= 5 } }
+			oxr_mdlc_leader_making_set_maximum_allowed_leader_level = { LEVEL = 5 }
 		}
 		if = {
-			limit = { NOT = { has_country_flag = xvcv_mdlc_leader_making_set_skill_level_6_granted } any_owned_leader = { has_skill >= 6 } }
-			set_country_flag = xvcv_mdlc_leader_making_set_skill_level_6_granted
+			limit = { any_owned_leader = { has_skill >= 6 } }
+			oxr_mdlc_leader_making_set_maximum_allowed_leader_level = { LEVEL = 6 }
 		}
 		if = {
-			limit = { NOT = { has_country_flag = xvcv_mdlc_leader_making_set_skill_level_7_granted } any_owned_leader = { has_skill >= 7 } }
-			set_country_flag = xvcv_mdlc_leader_making_set_skill_level_7_granted
+			limit = { any_owned_leader = { has_skill >= 7 } }
+			oxr_mdlc_leader_making_set_maximum_allowed_leader_level = { LEVEL = 7 }
 		}
 		if = {
-			limit = { NOT = { has_country_flag = xvcv_mdlc_leader_making_set_skill_level_8_granted } any_owned_leader = { has_skill >= 8 } }
-			set_country_flag = xvcv_mdlc_leader_making_set_skill_level_8_granted
+			limit = { any_owned_leader = { has_skill >= 8 } }
+			oxr_mdlc_leader_making_set_maximum_allowed_leader_level = { LEVEL = 8 }
 		}
 		if = {
-			limit = { NOT = { has_country_flag = xvcv_mdlc_leader_making_set_skill_level_9_granted } any_owned_leader = { has_skill >= 9 } }
-			set_country_flag = xvcv_mdlc_leader_making_set_skill_level_9_granted
+			limit = { any_owned_leader = { has_skill >= 9 } }
+			oxr_mdlc_leader_making_set_maximum_allowed_leader_level = { LEVEL = 9 }
 		}
 		if = {
-			limit = { NOT = { has_country_flag = xvcv_mdlc_leader_making_set_skill_level_10_granted } any_owned_leader = { has_skill >= 10 } }
-			set_country_flag = xvcv_mdlc_leader_making_set_skill_level_10_granted
+			limit = { any_owned_leader = { has_skill >= 10 } }
+			oxr_mdlc_leader_making_set_maximum_allowed_leader_level = { LEVEL = 10 }
 		}
 	}
 	custom_gui = xvcv_mdlc_leader_making
@@ -89,20 +93,23 @@ country_event = {
 		#clear the previous flag
 		switch = {
 			trigger = has_country_flag
-			xvcv_mdlc_core_modifying_ruler_leader_class_governor = { remove_country_flag = xvcv_mdlc_core_modifying_ruler_leader_class_governor }
+			xvcv_mdlc_core_modifying_ruler_leader_class_official = { remove_country_flag = xvcv_mdlc_core_modifying_ruler_leader_class_official }
 			xvcv_mdlc_core_modifying_ruler_leader_class_scientist = { remove_country_flag = xvcv_mdlc_core_modifying_ruler_leader_class_scientist }
-			xvcv_mdlc_core_modifying_ruler_leader_class_admiral = { remove_country_flag = xvcv_mdlc_core_modifying_ruler_leader_class_admiral }
-			xvcv_mdlc_core_modifying_ruler_leader_class_general = { remove_country_flag = xvcv_mdlc_core_modifying_ruler_leader_class_general }
+			xvcv_mdlc_core_modifying_ruler_leader_class_commander = { remove_country_flag = xvcv_mdlc_core_modifying_ruler_leader_class_commander }
 		}
 		#and check the leader class again
 		ruler = {
+			# Start setting vars scoped to ruler
+			save_global_event_target_as = xvcv_mdlc_core_modifying_empire_ruler
+			event_target:xvcv_mdlc_core_modifying_empire_ruler = {
+				xvcv_mdlc_core_modifying_clear_trait_variables_effect = yes
+			}
 			switch = {
 				trigger = leader_class
 				#sadly, this won't support modded leader classes
-				governor = { prev = { set_country_flag = xvcv_mdlc_core_modifying_ruler_leader_class_governor } }
+				official = { prev = { set_country_flag = xvcv_mdlc_core_modifying_ruler_leader_class_official } }
 				scientist = { prev = { set_country_flag = xvcv_mdlc_core_modifying_ruler_leader_class_scientist } }
-				admiral = { prev = { set_country_flag = xvcv_mdlc_core_modifying_ruler_leader_class_admiral } }
-				general = { prev = { set_country_flag = xvcv_mdlc_core_modifying_ruler_leader_class_general } }
+				commander = { prev = { set_country_flag = xvcv_mdlc_core_modifying_ruler_leader_class_commander } }
 			}
 		}
 		if = {
@@ -110,6 +117,7 @@ country_event = {
 			set_country_flag = xvcv_mdlc_core_modifying_trait_points_set #one-time only
 			xvcv_mdlc_core_modifying_clear_trait_variables_effect = yes
 		}
+		oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = yes
 	}
 	custom_gui = xvcv_mdlc_core_modifying
 
@@ -132,7 +140,7 @@ country_event = {
 
 	immediate = {
 		change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = 1 }
-		change_variable = { which = xvcv_mdlc_core_modifying_max_traits_number value = 1 }
+		change_variable = { which = xvcv_mdlc_core_modifying_trait_picks value = 1 }
 	}
 }
 #reset core modifying variables when a new ruler drone is set
@@ -149,3 +157,4 @@ country_event = {
 		xvcv_mdlc_core_modifying_clear_trait_variables_effect = yes
 	}
 }
+

@@ -1,0 +1,126 @@
+#calculates the bonus from overclocked pops
+rikk_mdlc_overclocked_leader_trait_calc_effect = {
+	if = {
+		limit = { NOT = { is_variable_set = rikk_mdlc_overclocked_leader_instability_counter } }
+		set_variable = {
+			which = rikk_mdlc_overclocked_leader_instability_counter
+			value = 20
+		}
+	}
+	
+	#log = "rikk_mdlc_overclocked_leader_instability_counter = \\[this.rikk_mdlc_overclocked_leader_instability_counter]"
+	set_variable = {
+		which = rikk_mdlc_overclocked_glitch_bonus
+		value = value:rikk_mdlc_counter_ruler_glitch_bonus_traits
+	}
+	#log = "rikk_mdlc_overclocked_glitch_bonus = \\[this.rikk_mdlc_overclocked_glitch_bonus]"
+	multiply_variable = {
+		which = rikk_mdlc_overclocked_glitch_bonus
+		value = rikk_mdlc_overclocked_leader_instability_counter
+	}
+	divide_variable = {
+		which = rikk_mdlc_overclocked_glitch_bonus
+		value = 5
+	}
+	#log = "rikk_mdlc_overclocked_glitch_bonus AFTER = \\[this.rikk_mdlc_overclocked_glitch_bonus]"
+	
+	add_modifier = { 
+		modifier = rikk_mdlc_overclocked_empire_instability_mod
+		mult = rikk_mdlc_overclocked_glitch_bonus
+		days = 30
+	}
+	
+	set_variable = { #This tells the ruler trait what number to show
+		which = rikk_mdlc_overclocked_bonus_mod 
+		value = this.rikk_mdlc_overclocked_glitch_bonus
+	}
+	if = {
+		limit = {
+			check_variable = { 
+				which = rikk_mdlc_overclocked_bonus_mod
+				value < 0
+			}
+		}
+		multiply_variable = {
+			which = rikk_mdlc_overclocked_bonus_mod
+			value = -1
+		}
+	}
+	#log = "rikk_mdlc_overclocked_bonus_mod AFTER = \\[this.rikk_mdlc_overclocked_bonus_mod]"
+}
+
+#whenever the country glitches this makes the leader more unstable, lowering its "trait" bonus (actually a modifier)
+rikk_mdlc_overclocked_leader_instability_change = {
+	if = {
+		limit = { NOT = { is_variable_set = rikk_mdlc_overclocked_leader_instability_min } }
+		set_variable = {
+			which = rikk_mdlc_overclocked_leader_instability_min
+			value = -10
+		}
+	}
+	if = {
+		limit = { NOT = { is_variable_set = rikk_mdlc_overclocked_leader_instability_sub } }
+		set_variable = {
+			which = rikk_mdlc_overclocked_leader_instability_sub
+			value = 1
+		}
+	}
+	if = {
+		limit = {
+			AND = {
+				check_variable = {
+					which = rikk_mdlc_overclocked_leader_instability_counter
+					value > rikk_mdlc_overclocked_leader_instability_min
+				}
+				check_variable = {
+					which = rikk_mdlc_overclocked_leader_instability_counter
+					value <= 20
+				}
+			}
+		}
+		subtract_variable = {
+			which = rikk_mdlc_overclocked_leader_instability_counter
+			value = rikk_mdlc_overclocked_leader_instability_sub
+		}
+	}
+}
+
+rikk_mdlc_overclocked_leader_instability_framework_repair = {
+	set_variable = {
+		which = rikk_mdlc_overclocked_leader_instability_min
+		value = 0
+	}
+	if = {
+		limit = {
+			check_variable = {
+				which = rikk_mdlc_overclocked_leader_instability_counter
+				value < 0
+			}
+		}
+		set_variable = {
+			which = rikk_mdlc_overclocked_leader_instability_counter
+			value = 0
+		}
+	}
+}
+	
+rikk_mdlc_overclocked_leader_instability_repair_response = {
+	set_variable = {
+		which = rikk_mdlc_overclocked_leader_instability_sub
+		value = -1
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

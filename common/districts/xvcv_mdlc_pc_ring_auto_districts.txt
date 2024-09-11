@@ -1,0 +1,381 @@
+@rw_cost = 1000
+@rw_cost_sr = 50
+@rw_maintenance = 5
+@rw_maintenance_sr = 1
+@rw_district_buildtime = 360
+
+# No housing districts needed on an auto-ringworld!
+
+xvcv_mdlc_pc_ringworld_machine_auto_generator = {
+	base_buildtime = @rw_district_buildtime
+	is_capped_by_modifier = no
+
+	show_on_uncolonized = {
+		uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
+		exists = from
+		from = {
+			OR = {
+				is_gestalt = yes
+				is_fallen_empire = yes
+			}
+		}
+	}
+
+	potential = {
+		exists = owner
+		owner = { is_gestalt = yes }
+		uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
+	}
+
+	convert_to = {
+		district_rw_commercial
+	}
+
+	planet_modifier = {
+		xvcv_mdlc_world_machines_districts_produces_mult = -0.1
+		xvcv_mdlc_world_machines_districts_upkeep_mult = 0.1
+	}
+
+	resources = {
+		category = xvcv_mdlc_world_machines_districts
+		cost = {
+			minerals = @rw_cost
+			rare_crystals = @rw_cost_sr
+		}
+		upkeep = {
+			energy = @rw_maintenance
+			rare_crystals = @rw_maintenance_sr
+		}
+		# auto_district_generator produces 20 in lieu of 2 jobs,
+		# so 1 job = 10 automated energy, x10 ringworld jobs = 100 energy
+		produces = {
+			energy = 100
+		}
+	}
+	ai_resource_production = {
+		energy = 50
+		trigger = { always = yes }
+	}
+
+}
+
+xvcv_mdlc_pc_ringworld_machine_auto_commercial = {
+	base_buildtime = @rw_district_buildtime
+	is_capped_by_modifier = no
+
+	show_on_uncolonized = {
+		uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
+		exists = from
+		from = {
+			is_gestalt = no
+			is_fallen_empire = no
+		}
+	}
+
+	potential = {
+		exists = owner
+		owner = {
+			is_gestalt = no
+			is_fallen_empire = no
+		}
+		uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
+	}
+
+	convert_to = {
+		district_rw_generator
+	}
+
+	planet_modifier = {
+		xvcv_mdlc_world_machines_districts_produces_mult = -0.1
+		xvcv_mdlc_world_machines_districts_upkeep_mult = 0.1
+	}
+
+	resources = {
+		category = xvcv_mdlc_world_machines_districts
+		cost = {
+			minerals = @rw_cost
+			rare_crystals = @rw_cost_sr
+		}
+		upkeep = {
+			energy = @rw_maintenance
+			rare_crystals = @rw_maintenance_sr
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = { exists = owner }
+		# 6 clerks base 3 make 18, round down to 15
+		# 2 trader jobs @ 8 each, round down to 15 
+		# 15 + 15 = 30
+		trade_value_add = 30  
+		# let's see if use of mult is broken/unbalanced
+		# mult = value:scripted_modifier_mult|MODIFIER|pop_job_trade_mult|
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				has_active_tradition = tr_mercantile_commercial_enterprise
+			}
+		}
+		modifier = {
+			trade_value_add = 15
+			# mult = value:scripted_modifier_mult|MODIFIER|pop_job_trade_mult|
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_active_tradition = tr_virtuality_4 }
+		}
+		modifier = {
+			trade_value_add = 15
+			# mult = value:scripted_modifier_mult|MODIFIER|pop_job_trade_mult|
+		}
+	}
+}
+
+xvcv_mdlc_pc_ringworld_machine_auto_science = {
+	base_buildtime = @rw_district_buildtime
+	is_capped_by_modifier = no
+
+	show_on_uncolonized = { uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set }
+
+	potential = { uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set }
+
+	prerequisites = {
+		tech_basic_science_lab_1
+	}
+
+	allow = {
+		hidden_trigger = {
+			OR = {
+				NOT = { exists = owner }
+				owner = {
+					has_technology = tech_basic_science_lab_1
+				}
+			}
+		}
+	}
+	planet_modifier = {
+		xvcv_mdlc_world_machines_districts_produces_mult = -0.1
+		xvcv_mdlc_world_machines_districts_upkeep_mult = 0.1
+	}
+
+	resources = {
+		category = xvcv_mdlc_world_machines_districts
+		cost = {
+			minerals = @rw_cost
+			exotic_gases = @rw_cost_sr
+		}
+		upkeep = {
+			energy = @rw_maintenance
+			exotic_gases = @rw_maintenance_sr
+		}
+		# Research lab 3 gives 6 jobs
+		# Base researcher makes 3 of each
+		# With average bonuses gets up to 5-6 research each
+		# each auto-cpu district type gives 30 of each (6 jobs @ 5 output)
+		# RW gives 10 jobs @ 5 output each
+		produces = {
+			physics_research = 50
+			engineering_research = 50
+			society_research = 50
+		}
+		produces = {
+			# 5 jobs added from Virtuality ascension
+			trigger = {
+				exists = owner
+				owner = {
+					has_active_tradition = tr_virtuality_4
+				}
+			}
+			physics_research = 25
+			engineering_research = 25
+			society_research = 25
+		}
+	}
+}
+
+xvcv_mdlc_pc_ringworld_machine_auto_industrial = {
+	base_buildtime = @rw_district_buildtime
+	is_capped_by_modifier = no
+
+	show_on_uncolonized = { uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set }
+
+	potential = {
+		uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
+	}
+	planet_modifier = {
+		xvcv_mdlc_world_machines_districts_produces_mult = -0.1
+		xvcv_mdlc_world_machines_districts_upkeep_mult = 0.1
+	}
+
+	resources = {
+		category = xvcv_mdlc_world_machines_districts
+		cost = {
+			minerals = @rw_cost
+			volatile_motes = @rw_cost_sr
+		}
+		upkeep = {
+			energy = @rw_maintenance
+			volatile_motes = @rw_maintenance_sr
+		}
+		upkeep = {
+			trigger = {
+				exists = owner
+				owner = {
+					has_edict = industrial_maintenance
+				}
+			}
+			energy = 4
+		}
+		# Default, if no designation
+		produces = {
+			consumer_goods = 60  # uses 30 minerals
+			alloys = 30
+		}
+		# Foundry designation
+		produces = {
+			trigger = {
+				OR = {
+					has_designation = col_capital_foundry
+					has_designation = col_ecu_foundry
+					has_designation = col_foundry
+				}
+			}
+			alloys = 30  # total of 60, equal to ECU alloys district
+			consumer_goods = -60
+		}
+		upkeep = {
+			trigger = {
+				OR = {
+					has_designation = col_capital_foundry
+					has_designation = col_ecu_foundry
+					has_designation = col_foundry
+				}
+				exists = owner
+				owner = { is_catalytic_empire = no }
+			}
+			minerals = 60
+		}
+		upkeep = {
+			trigger = {
+				OR = {
+					has_designation = col_capital_foundry
+					has_designation = col_ecu_foundry
+					has_designation = col_foundry
+				}
+				exists = owner
+				owner = { is_catalytic_empire = yes }
+			}
+			food = 90
+			minerals = -60
+		}
+		# Factory designation
+		produces = {
+			trigger = {
+				OR = {
+					has_designation = col_capital_factory
+					has_designation = col_ecu_factory
+					has_designation = col_factory
+				}
+			}
+			alloys = -15
+			consumer_goods = 90  # total of 120, equal to ECU goods district
+		}
+		upkeep = {
+			trigger = {
+				OR = {
+					has_designation = col_capital_factory
+					has_designation = col_ecu_factory
+					has_designation = col_factory
+				}
+			}
+			minerals = 60
+		}
+	}	
+}
+
+xvcv_mdlc_pc_ringworld_machine_auto_farming = {
+	base_buildtime = @rw_district_buildtime
+	is_capped_by_modifier = no
+
+	show_on_uncolonized = { uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set }
+
+	potential = {
+		uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
+		exists = owner
+		NOT = {
+			AND = {
+				owner = { is_ai = yes }
+				owner = { country_uses_food = no }
+			}
+		}
+	}
+
+	planet_modifier = {
+		xvcv_mdlc_world_machines_districts_produces_mult = -0.1
+		xvcv_mdlc_world_machines_districts_upkeep_mult = 0.1
+	}
+
+	resources = {
+		category = xvcv_mdlc_world_machines_districts
+		cost = {
+			minerals = @rw_cost
+			volatile_motes = @rw_cost_sr
+		}
+		upkeep = {
+			energy = @rw_maintenance
+			volatile_motes = @rw_maintenance_sr
+		}
+		produces = {
+			food = 60
+		}
+		produces = {
+			trigger = {
+				exists = owner
+				owner = {
+					is_robot_empire = yes
+				}
+			}
+			food = -10
+		}
+		produces = {
+			trigger = {
+				planet = {
+					has_planet_flag = has_produce_requisitorium
+				}
+			}
+			food = -30
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				has_valid_civic = civic_agrarian_idyll
+			}
+		}
+		modifier = {
+			planet_housing_add = 5
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				has_technology = tech_housing_agrarian_idyll
+				has_valid_civic = civic_agrarian_idyll
+			}
+		}
+		modifier = {
+			planet_housing_add = 5
+		}
+	}
+
+}

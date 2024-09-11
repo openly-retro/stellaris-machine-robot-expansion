@@ -1,4 +1,4 @@
-#for 'xvcv_mdlc_civic_emotion_emulator' civic
+#for 'xvcv_mdlc_civic_goods_distributor' civic
 xvcv_mdlc_tech_automated_goods_manufacturing_1 = {
 	cost = @tier1cost3
 	area = engineering
@@ -7,7 +7,7 @@ xvcv_mdlc_tech_automated_goods_manufacturing_1 = {
 	weight = @tier1weight3
 
 	potential = {
-		has_valid_civic = xvcv_mdlc_civic_emotion_emulator
+		has_valid_civic = xvcv_mdlc_civic_goods_distributor
 	}
 
 	modifier = {
@@ -23,7 +23,7 @@ xvcv_mdlc_tech_automated_goods_manufacturing_2 = {
 	weight = @tier3weight1
 
 	potential = {
-		has_valid_civic = xvcv_mdlc_civic_emotion_emulator
+		has_valid_civic = xvcv_mdlc_civic_goods_distributor
 	}
 
 	modifier = {
@@ -81,11 +81,14 @@ xvcv_mdlc_tech_orbital_cracker_upgrade_1 = {
 	}
 }
 xvcv_mdlc_tech_orbital_cracker_upgrade_2 = {
-	cost = @tier4cost1
+	cost = @tier3cost3
 	area = engineering
-	tier = 4
+	tier = 3
 	category = { industry }
 	weight = @tier4weight1
+	prerequisites = {
+		"xvcv_mdlc_tech_orbital_cracker_upgrade_1"
+	}
 
 	potential = {
 		has_valid_civic = xvcv_mdlc_civic_planet_cracker
@@ -172,7 +175,8 @@ xvcv_mdlc_tech_spirit_energy_theory = {
 	area = physics
 	tier = 3
 	category = { field_manipulation }
-	prerequisites = { "tech_physics_2" }
+	# prerequisites = { "tech_physics_2" }
+	prerequisites = { tech_hyper_drive_2 }
 	weight = @tier3weight1
 
 	potential = {
@@ -180,8 +184,9 @@ xvcv_mdlc_tech_spirit_energy_theory = {
 	}
 
 	modifier = {
-		planet_researchers_physics_research_produces_mult = 0.05
-		category_field_manipulation_research_speed_mult = 0.2
+		# planet_researchers_physics_research_produces_mult = 0.05
+		# planet_researchers_upkeep_mult = -0.05
+		category_field_manipulation_research_speed_mult = 0.3
 	}
 }
 xvcv_mdlc_tech_build_design_opt = {
@@ -288,7 +293,8 @@ xvcv_mdlc_tech_organic_base_code_study = {
 	area = society
 	tier = 3
 	category = { biology }
-	prerequisites = { "tech_society_2" }
+	# prerequisites = { "tech_society_2" }
+	prerequisites = { "xvcv_mdlc_tech_biology_xenostudies_2" }
 	weight = @tier3weight1
 
 	potential = {
@@ -564,6 +570,41 @@ xvcv_mdlc_tech_abyss_patron_eater = {
 xvcv_mdlc_tech_world_machines_districts_produces = {
 	area = engineering
 	cost = @repeatableTechBaseCost
+	# cost_per_level = @repeatableTechLevelCost
+	tier = @repeatableTechTier
+	category = { industry }
+	# levels = 10 #5% x 10 = 50% #use '-1' value for infinite researching
+	weight = @repeatableTechWeight
+
+	potential = {
+		has_ascension_perk = xvcv_mdlc_ap_world_machines
+		any_owned_planet = { xvcv_mdlc_world_machines_planet_classes_trigger = yes }
+	}
+
+	weight_modifier = {
+		factor = @repatableTechFactor
+	}
+	
+	ai_weight = {
+		factor = 1.0
+	}
+
+	# weight_groups = {
+	# 	repeatable
+	# }
+	# mod_weight_if_group_picked = {
+	# 	repeatable = 0.01
+	# }
+	
+	modifier = {
+		xvcv_mdlc_world_machines_districts_produces_mult = 0.05
+	}
+}
+
+xvcv_mdlc_tech_world_machines_districts_produces_repeat = {
+	# icon = "GFX_xvcv_mdlc_tech_world_machines_districts_produces"
+	area = engineering
+	cost = @repeatableTechBaseCost
 	cost_per_level = @repeatableTechLevelCost
 	tier = @repeatableTechTier
 	category = { industry }
@@ -573,6 +614,9 @@ xvcv_mdlc_tech_world_machines_districts_produces = {
 	potential = {
 		has_ascension_perk = xvcv_mdlc_ap_world_machines
 		any_owned_planet = { xvcv_mdlc_world_machines_planet_classes_trigger = yes }
+	}
+	prerequisites = {
+		"xvcv_mdlc_tech_world_machines_districts_produces"
 	}
 
 	weight_modifier = {
@@ -663,5 +707,103 @@ xvcv_mdlc_tech_bio_robot_resource_produces = {
 			factor = 2
 			has_origin = origin_mechanists
 		}
+	}
+}
+
+xvcv_mdlc_tech_military_synth_army_upgrade = {
+	cost = @tier3cost3
+	area = society
+	tier = 4
+	category = { military_theory }
+	weight = @xvcv_mdlc_not_researchable_tech_weight
+	is_reverse_engineerable = no
+
+	potential = {
+		is_synthetic_empire = yes
+		has_technology = tech_regenerative_hull_tissue
+	}
+
+	modifier = {
+		army_health = 0.2
+		army_defense_health_mult = 0.2
+	}
+
+	ai_weight = {
+		factor = @robots_ai_tech_factor
+		modifier = {
+			factor = 2
+			OR = {
+				has_ethic = ethic_militarist
+				has_ethic = ethic_fanatic_materialist
+			}
+		}
+		modifier = {
+			factor = 2
+			has_origin = origin_mechanists
+		}
+	}
+}
+# Substitute for tech_society_1
+xvcv_mdlc_tech_biology_xenostudies_1 = {
+	cost = @tier1cost1
+	area = society
+	tier = 2
+	category = { biology }
+	prerequisites = {  }
+	weight = @tier2weight1
+	is_rare = no
+
+	potential = {
+		is_synthetic_empire = yes
+	}
+	modifier = {
+		planet_colony_development_speed_mult = 0.10
+		planet_pops_organics_food_upkeep_mult = -0.05
+	}
+
+	weight_modifier = {
+		factor = 0.1
+		modifier = {
+			factor = 5
+			OR = {
+				is_machine_empire = yes
+				is_mechanical_empire = yes
+			}
+		}
+	}
+
+	ai_weight = {
+
+	}
+}
+
+# Substitute for tech_society_2
+xvcv_mdlc_tech_biology_xenostudies_2 = {
+	cost = @tier2cost3
+	area = society
+	tier = 2
+	category = { biology }
+	prerequisites = { "xvcv_mdlc_tech_biology_xenostudies_1" }
+	weight = @tier2weight1
+	is_rare = no
+
+	modifier = {
+		modify_species_cost_mult = -0.10
+		planet_pops_organics_food_upkeep_mult = -0.05
+	}
+
+	weight_modifier = {
+		factor = 0.1
+		modifier = {
+			factor = 5
+			OR = {
+				is_machine_empire = yes
+				is_mechanical_empire = yes
+			}
+		}
+	}
+
+	ai_weight = {
+		factor = @ai_society_tech_speed_factor
 	}
 }

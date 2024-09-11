@@ -63,3 +63,61 @@ xvcv_mdlc_count_maintenance_drone = {
 	}
 	min = 0
 }
+
+count_leaders_of_class_under_level = {
+	base = 0
+	complex_trigger_modifier = {
+		trigger = count_owned_leader
+		parameters = {
+			limit = {
+				is_councilor = no
+				has_trait = xvcv_mdlc_leader_trait_shared_memory
+				leader_class = $CLASS$
+				has_skill < $SKILL_LEVEL$
+				NOT = { has_leader_flag = xvcv_leader_leveled_up }
+			}
+		}
+		mode = add
+	}
+}
+
+count_world_machines_districts_of_type = {
+	base = 0
+	complex_trigger_modifier = {
+		trigger = num_districts
+		parameters = {
+			limit = {
+				type = $DISTRICT_NAME$
+			}
+		}
+		mode = add
+	}
+}
+
+count_cat_1_mamp_on_planet = {
+	base = 0
+	complex_trigger_modifier = {
+		trigger = count_owned_pop
+		parameters = {
+			limit = {
+				species = event_target:oxr_mdlc_mamp_cat_1_pop_species
+			}
+		}
+		mode = add
+	}
+}
+count_non_mamp_non_bio_pops_on_planet = {
+	base = 0
+	complex_trigger_modifier = {
+		trigger = count_owned_pop
+		parameters = {
+			limit = {
+				species = {
+					NOT = { is_archetype = OXR_MDLC_MAMP }
+				}
+				has_trait = trait_machine_unit
+			}
+		}
+		mode = add
+	}
+}

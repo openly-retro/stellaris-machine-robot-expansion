@@ -1,0 +1,222 @@
+# oxr_mdlc_decision_mamp_construct_cat_1 = {
+# 	owned_planets_only = yes
+# 	enactment_time = 60
+
+# 	resources = {
+# 		category = decisions
+# 		cost = {
+# 			energy = 500
+# 			alloys = 250
+# 		}
+# 	}
+# 	potential = {
+# 		owner = {
+# 			is_machine_empire = yes
+# 			has_ascension_perk = oxr_mdlc_ap_mamp
+# 			has_technology = oxr_mdlc_tech_mamp_1
+# 		}
+# 		OR = {
+# 			has_building = oxr_mdlc_mamp_frame_factory_1
+# 			has_building = oxr_mdlc_mamp_frame_factory_2
+# 			has_building = oxr_mdlc_mamp_frame_factory_3
+# 		}
+# 	}
+	
+# 	allow = {
+# 		# Have to be more than 1 non-MAMP pop
+# 		oxr_mdlc_mamp_planet_can_construct_cat1_frames = yes
+# 		NOT = { has_modifier = oxr_mdlc_mamp_auto_construction_active }
+# 		this.space_owner = {
+# 			oxr_mdlc_mamp_empire_can_afford_cat_1 = yes
+# 		}
+# 	}
+
+# 	effect = {
+# 		custom_tooltip = oxr_mdlc_mamp_decision_construct_cat1_tooltip
+# 		hidden_effect = {
+# 			random_owned_pop = {
+# 				limit = {
+# 					species = {
+# 						is_archetype = MACHINE
+# 						NOT = { is_archetype = OXR_MDLC_MAMP }
+# 					}
+# 					# NOT = { has_job_category = ruler }
+# 				}
+# 				kill_pop = yes
+# 			}
+# 			create_pop = {
+# 				species = event_target:oxr_mdlc_mamp_cat_1_pop_species
+# 			}
+# 			last_created_pop = {
+# 				set_citizenship_type = {
+# 					country = root.owner
+# 					type = citizenship_full_machine
+# 					cooldown = no
+# 				}
+# 			}
+# 		}
+# 	}
+# }
+
+oxr_mdlc_decision_mamp_enable_auto_construction_cat_1 = {
+	owned_planets_only = yes
+	potential = {
+		owner = {
+			is_machine_empire = yes
+			has_ascension_perk = oxr_mdlc_ap_mamp
+			has_technology = oxr_mdlc_tech_mamp_1
+		}
+		OR = {
+			has_building = oxr_mdlc_mamp_frame_factory_1
+			has_building = oxr_mdlc_mamp_frame_factory_2
+			has_building = oxr_mdlc_mamp_frame_factory_3
+		}
+		NOT = { has_modifier = oxr_mdlc_mamp_auto_construction_active }
+	}
+	allow = {
+		oxr_mdlc_mamp_planet_can_auto_construct_frames = yes
+		this.space_owner = {
+			oxr_mdlc_mamp_empire_can_afford_cat_1 = yes
+		}
+		custom_tooltip_fail = {
+			text = oxr_mdlc_mamp_auto_construction_active.fail_active
+			NOT = { has_modifier = oxr_mdlc_mamp_auto_construction_active }
+		}
+	}
+	effect = {
+		# Fire the event that adds the countdown modifier
+		# The same event will kick off the "create species" event
+		# a 3rd event will check whether it's fine to loop
+		custom_tooltip = oxr_mdlc_mamp_auto_construction_active.set_modifier
+		custom_tooltip = oxr_mdlc_mamp_planet_set_autoconstruction_cat_level.1
+		custom_tooltip = oxr_mdlc_mamp_auto_construction_active.begin
+		custom_tooltip = newline
+		custom_tooltip = oxr_mdlc_decision_mamp_enable_auto_construction_cat_1_tooltip
+		hidden_effect = {
+			if = {
+				limit = { has_modifier = oxr_mdlc_mamp_auto_construction_was_disabled_during_event }
+				remove_modifier = oxr_mdlc_mamp_auto_construction_was_disabled_during_event
+			}
+			add_modifier = { modifier = oxr_mdlc_mamp_auto_construction_active }
+			oxr_mdlc_mamp_planet_set_autoconstruction_cat_level = { LEVEL = 1 }
+			# If there's a construction in progress, don't trigger another one
+			if = {
+				limit = { oxr_mdlc_mamp_planet_constructions_are_in_progress = no }
+				planet_event = { id = oxr_mdlc_mamp.1000 }
+				log = "Player activated MAMP auto-construction L1 on \\[This.GetName]"
+			}
+			else = {
+				log = "Player re-activated MAMP auto-construction L1 on \\[This.GetName] while mamp was being built."
+			}
+		}
+	}
+}
+
+oxr_mdlc_decision_mamp_deactivate_auto_construction_cat_1 = {
+	owned_planets_only = yes
+	potential = {
+		owner = {
+			is_machine_empire = yes
+			has_ascension_perk = oxr_mdlc_ap_mamp
+			has_technology = oxr_mdlc_tech_mamp_1
+		}
+		has_modifier = oxr_mdlc_mamp_auto_construction_active
+		check_variable = {
+			which = oxr_mdlc_mamp_auto_construction_cat_level
+			value = 1
+		}
+	}
+	allow = { always = yes }
+
+	effect = {
+		custom_tooltip = oxr_mdlc_mamp_auto_construction_active.stop
+		custom_tooltip = oxr_mdlc_mamp_planet_end_autoconstruction_cat_level.1
+		hidden_effect = {
+			remove_modifier = oxr_mdlc_mamp_auto_construction_active
+			set_variable = {
+				which = oxr_mdlc_mamp_auto_construction_cat_level
+				value = 0
+			}
+			log = "Player deactivated MAMP auto-construction L1 on \\[This.GetName]"
+		}
+	}
+}
+
+oxr_mdlc_decision_mamp_enable_auto_construction_cat_2 = {
+	owned_planets_only = yes
+	potential = {
+		owner = {
+			is_machine_empire = yes
+			has_ascension_perk = oxr_mdlc_ap_mamp
+			has_technology = oxr_mdlc_tech_mamp_2
+		}
+		OR = {
+			has_building = oxr_mdlc_mamp_frame_factory_2
+			has_building = oxr_mdlc_mamp_frame_factory_3
+		}
+		NOT = { has_modifier = oxr_mdlc_mamp_auto_construction_active }
+	}
+	allow = {
+		oxr_mdlc_mamp_planet_can_construct_cat_2_frames = yes
+		this.space_owner = {
+			oxr_mdlc_mamp_empire_can_afford_cat_2 = yes
+		}
+		custom_tooltip_fail = {
+			text = oxr_mdlc_mamp_auto_construction_active.fail_active
+			NOT = { has_modifier = oxr_mdlc_mamp_auto_construction_active }
+		}
+	}
+	effect = {
+		# Fire the event that adds the countdown modifier
+		# The same event will kick off the "create species" event
+		# a 3rd event will check whether it's fine to loop
+		custom_tooltip = oxr_mdlc_mamp_auto_construction_active.set_modifier
+		custom_tooltip = oxr_mdlc_mamp_planet_set_autoconstruction_cat_level.2
+		custom_tooltip = oxr_mdlc_mamp_auto_construction_active.begin
+		custom_tooltip = newline
+		custom_tooltip = oxr_mdlc_decision_mamp_enable_auto_construction_cat_2_tooltip
+		hidden_effect = {
+			if = {
+				limit = { has_modifier = oxr_mdlc_mamp_auto_construction_was_disabled_during_event }
+				remove_modifier = oxr_mdlc_mamp_auto_construction_was_disabled_during_event
+			}
+			add_modifier = { modifier = oxr_mdlc_mamp_auto_construction_active }
+			oxr_mdlc_mamp_planet_set_autoconstruction_cat_level = { LEVEL = 2 }
+			# If there's a construction in progress, don't trigger another one
+			if = {
+				limit = { oxr_mdlc_mamp_planet_constructions_are_in_progress = no }
+				planet_event = { id = oxr_mdlc_mamp.1000 }
+				log = "Player activated MAMP auto-construction L2 on \\[This.GetName]"
+			}
+			else = {
+				log = "Player re-activated MAMP auto-construction L2 on \\[This.GetName] while mamp was being built."
+			}
+		}
+	}
+}
+
+oxr_mdlc_decision_mamp_deactivate_auto_construction_cat_2 = {
+	owned_planets_only = yes
+	potential = {
+		owner = {
+			is_machine_empire = yes
+			has_ascension_perk = oxr_mdlc_ap_mamp
+			has_technology = oxr_mdlc_tech_mamp_2
+		}
+		has_modifier = oxr_mdlc_mamp_auto_construction_active
+		check_variable = {
+			which = oxr_mdlc_mamp_auto_construction_cat_level
+			value = 2
+		}
+	}
+	allow = { always = yes }
+
+	effect = {
+		remove_modifier = oxr_mdlc_mamp_auto_construction_active
+		set_variable = {
+			which = oxr_mdlc_mamp_auto_construction_cat_level
+			value = 0
+		}
+		log = "Player deactivated MAMP auto-construction L2 on \\[This.GetName]"
+	}
+}

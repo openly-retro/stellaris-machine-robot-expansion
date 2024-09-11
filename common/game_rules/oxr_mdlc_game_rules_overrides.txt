@@ -1,0 +1,80 @@
+#Root = species
+#This = country
+can_release_vassal_from_species = {
+	root = {
+		OR = {
+			# Vanilla
+			AND = {
+				is_sapient = yes
+				NOR = {
+					AND = {
+						has_trait = trait_machine_unit
+						prev.this = { is_individual_machine = no }
+					}
+					AND = {
+						has_trait = trait_hive_mind
+						NOT = { prev.this = { has_origin = origin_progenitor_hive } }
+					}
+					AND = {
+						NOT = { has_trait = trait_hive_mind }
+						prev.this = { has_authority = auth_hive_mind }
+					}
+					has_trait = trait_mechanical
+					can_think = no
+					has_trait = trait_clone_soldier_infertile
+					has_trait = trait_clone_soldier_infertile_full_potential
+				}
+			}
+			# MREC
+			oxr_mdlc_can_release_vassal_from_species = yes
+		}
+		
+	}
+}
+
+#Root = country
+#This = planet
+can_colonize_planet = {
+	custom_tooltip = {
+		fail_text = "COLONIZATION_IMPOSSIBLE_UNDER_INVESTIGATION"
+		NOT = { has_planet_flag = planet_under_investigation }
+	}
+	custom_tooltip = {
+		fail_text = "COLONIZATION_IMPOSSIBLE_DYSON_SPHERE"
+		if = {
+			limit = {
+				is_artificial = no	# Colonizing habitats is fine
+			}
+			system_has_dyson_sphere = no
+		}
+	}
+	custom_tooltip = {
+		fail_text = "COLONIZATION_IMPOSSIBLE_DYSON_SPHERE_CONSTRUCTION"
+		if = {
+			limit = {
+				system_has_dyson_sphere = no
+				is_artificial = no	# Colonizing habitats is fine
+			}
+			NOT = {
+				solar_system = {
+					has_star_flag = dyson_sphere_construction
+				}
+			}
+		}
+	}
+	custom_tooltip = {
+		fail_text = "COLONIZATION_IMPOSSIBLE_COSMOGENESIS_EXODUS"
+		exists = root
+		root = {
+			NOT = { owner = { has_event_chain = cosmogenesis_planet_pickup_chain } }
+		}
+	}
+	custom_tooltip = {
+		# Machine & Robot Expansion Continued
+		fail_text = oxr_mdlc_can_colonize_planet_pc_habitat.fail_active
+		NAND = {
+			is_planet_class = pc_habitat
+			oxr_mdlc_planet_decision_dismantle_habitat_active = yes
+		}
+	}
+}

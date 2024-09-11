@@ -7,9 +7,7 @@ xvcv_mdlc_planet_cracker_incomplete = {
 
 	construction_blocks_and_blocked_by = none
 
-	potential = {
-		always = no
-	}
+	potential = { always = no }
 }
 xvcv_mdlc_planet_cracker = {
 	entity = "xvcv_mdlc_planet_cracker_entity"
@@ -17,17 +15,22 @@ xvcv_mdlc_planet_cracker = {
 	place_entity_on_planet_plane = yes
 	show_galactic_map_icon = no
 	show_in_outliner = no
-
+	use_planet_resource = yes  # linked to deposit?
 	build_time = 720
+	entity_offset = { x = 0 y = 0 }
 
 	construction_blocks_and_blocked_by = none
 
-	upgrade_from = {
-		xvcv_mdlc_planet_cracker_incomplete
-	}
+	upgrade_from = { xvcv_mdlc_planet_cracker_incomplete }
+	dismantle_cost = { category = megastructures cost = { energy = 500 } }
+	dismantle_time = 180
+	dismantle_potential = { always = yes }
+	dismantle_possible = { always = yes }
 	
 	on_build_complete = {
 		fromfrom.planet = {
+			set_planet_flag = has_megastructure
+			set_planet_flag = xvcv_mdlc_planet_cracker_placed
 			if = {
 				limit = { planet_size > 10 }
 				set_planet_size = 10
@@ -47,47 +50,66 @@ xvcv_mdlc_planet_cracker = {
 				}
 				change_pc = pc_shattered
 			}
-			else_if = {
-				limit = { is_planet_class = pc_habitat }
-				remove_planet = yes
-				spawn_habitat_cracker_effect = yes
+			# Turn off wrecking artificial worlds due to new deposit mechanics
+			# else_if = {
+			# 	limit = { is_planet_class = pc_habitat }
+			# 	remove_planet = yes
+			# 	spawn_habitat_cracker_effect = yes
+			# }
+			# Ringworlds technically don't have minerals in them
+			# else_if = {
+			# 	limit = { is_planet_class = pc_ringworld_habitable }
+			# 	change_pc = pc_ringworld_habitable_damaged
+			# 	spawn_ringworld_cracker_effect = yes
+			# }
+			# else_if = {
+			# 	limit = { is_planet_class = pc_ringworld_tech }
+			# 	change_pc = pc_ringworld_tech_damaged
+			# 	spawn_ringworld_cracker_effect = yes
+			# }
+			# else_if = {
+			# 	limit = { is_planet_class = pc_ringworld_seam }
+			# 	change_pc = pc_ringworld_seam_damaged
+			# 	spawn_ringworld_cracker_effect = yes
+			# }
+			# Fun with deposits! TBD
+			if = {
+				limit = { root.owner = { has_technology = xvcv_mdlc_tech_orbital_cracker_upgrade_1 } }
+				add_deposit = d_minerals_4
 			}
-			else_if = {
-				limit = { is_planet_class = pc_ringworld_habitable }
-				change_pc = pc_ringworld_habitable_damaged
-				spawn_ringworld_cracker_effect = yes
+			if = {
+				limit = { root.owner = { has_technology = xvcv_mdlc_tech_orbital_cracker_upgrade_2 } }
+				add_deposit = d_minerals_6
 			}
-			else_if = {
-				limit = { is_planet_class = pc_ringworld_tech }
-				change_pc = pc_ringworld_tech_damaged
-				spawn_ringworld_cracker_effect = yes
-			}
-			else_if = {
-				limit = { is_planet_class = pc_ringworld_seam }
-				change_pc = pc_ringworld_seam_damaged
-				spawn_ringworld_cracker_effect = yes
-			}
+			add_deposit = d_minerals_10
 		}
 	}
-
+	on_dismantle_complete = {
+		this.planet = {
+			clear_deposits = yes
+			remove_planet_flag = has_megastructure
+			remove_planet_flag = xvcv_mdlc_planet_cracker_placed
+		}
+	}
 	resources = {
 		category = station_gatherers
-		produces = { minerals = 10 }
+		# category = megastructures
+		# produces = { minerals = 10 }
 		upkeep = { energy = 5 }
 		#with tech 1
-		produces = {
-			trigger = { owner = { has_technology = xvcv_mdlc_tech_orbital_cracker_upgrade_1 } }
-			minerals = 4
-		}
+		# produces = {
+		# 	trigger = { owner = { has_technology = xvcv_mdlc_tech_orbital_cracker_upgrade_1 } }
+		# 	minerals = 4
+		# }
 		upkeep = {
 			trigger = { owner = { has_technology = xvcv_mdlc_tech_orbital_cracker_upgrade_1 } }
 			energy = 2
 		}
 		#with tech 2
-		produces = {
-			trigger = { owner = { has_technology = xvcv_mdlc_tech_orbital_cracker_upgrade_2 } }
-			minerals = 6
-		}
+		# produces = {
+		# 	trigger = { owner = { has_technology = xvcv_mdlc_tech_orbital_cracker_upgrade_2 } }
+		# 	minerals = 6
+		# }
 		upkeep = {
 			trigger = { owner = { has_technology = xvcv_mdlc_tech_orbital_cracker_upgrade_2 } }
 			energy = 3

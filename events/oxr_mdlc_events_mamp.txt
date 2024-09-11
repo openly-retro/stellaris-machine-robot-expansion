@@ -1,0 +1,324 @@
+namespace = oxr_mdlc_mamp
+
+#############
+## M A M P ##
+#############
+
+# Beginning of MAMP event chain
+country_event = {
+	id = oxr_mdlc_mamp.1
+	title = oxr_mdlc_mamp.1.name
+	desc = oxr_mdlc_mamp.1.desc
+	is_triggered_only = yes
+	picture = GFX_evt_physics_research
+
+	trigger = {
+		NOT = {
+			has_country_flag = oxr_mdlc_mamp_event_chain_started
+		}
+		is_machine_empire = yes
+		has_ascension_perk = oxr_mdlc_ap_mamp
+	}
+
+	immediate = {
+		set_country_flag = oxr_mdlc_mamp_event_chain_started
+		enable_special_project = {
+			name = OXR_MDLC_MAMP_CAT_1_FIRST_PROJECT
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_event_chain = oxr_mdlc_mamp_chain
+				}
+			}
+			begin_event_chain = {
+				event_chain = oxr_mdlc_mamp_chain
+				target = this
+			}
+		}
+	}
+	option = {
+		name = oxr_mdlc_mamp.event_default_option.name
+		allow = { always = yes }
+	}
+}
+# Conclusion of first research project
+# Create a special project in space
+country_event = {
+	id = oxr_mdlc_mamp.2
+	title = oxr_mdlc_mamp.2.name
+	desc = oxr_mdlc_mamp.2.desc
+	is_triggered_only = yes
+	picture = GFX_evt_space_hangar
+
+	trigger = { }
+
+	immediate = {
+		capital_scope = {
+			solar_system = {
+				random_system_planet = {
+					limit = {
+						is_star = no
+						is_colony = no
+						is_capital = no
+					}
+					save_global_event_target_as = oxr_mdlc_mamp_cat_1_research_site
+				}
+			}
+		}
+		event_target:oxr_mdlc_mamp_cat_1_research_site = {
+			enable_special_project = {
+				name = OXR_MDLC_MAMP_CAT_1_FIRST_SITE_PROJECT
+				location = this
+				owner = ROOT
+			}
+		}
+	}
+	option = {
+		name = oxr_mdlc_mamp.event_default_option.name
+		allow = { always = yes }
+	}
+}
+
+# Conclusion of first in-space project
+# Trigger second research project in space
+country_event = {
+	id = oxr_mdlc_mamp.3
+	title = oxr_mdlc_mamp.3.name
+	desc = oxr_mdlc_mamp.3.desc
+	is_triggered_only = yes
+	picture = GFX_evt_space_hangar
+	
+	immediate = {
+		event_target:oxr_mdlc_mamp_cat_1_research_site = {
+			enable_special_project = {
+				name = OXR_MDLC_MAMP_CAT_1_SECOND_SITE_PROJECT
+				location = this
+				owner = ROOT
+			}
+		}
+	}
+	option = {
+		name = oxr_mdlc_mamp.3.option_1.name
+		allow = { always = yes }
+	}
+}
+# Conclusion of second in-space project
+country_event = {
+	id = oxr_mdlc_mamp.4
+	title = oxr_mdlc_mamp.4.name
+	desc = oxr_mdlc_mamp.4.desc
+	is_triggered_only = yes
+	picture = GFX_evt_space_walk
+
+	immediate = {
+		enable_special_project = {
+			name = OXR_MDLC_MAMP_CAT_1_THIRD_STAGE_GROWTH_PROJ
+		}
+	}
+	option = {
+		name = oxr_mdlc_mamp.4.option_1.name
+		allow = { always = yes }
+	}
+}
+# Conclusion of special project to make species prototype
+country_event = {
+	id = oxr_mdlc_mamp.5
+	title = oxr_mdlc_mamp.5.name
+	desc = oxr_mdlc_mamp.5.desc
+	is_triggered_only = yes
+	picture = GFX_evt_sapient_AI
+
+	immediate = {
+		give_technology = {
+			tech = oxr_mdlc_tech_mamp_1
+		}
+		hidden_effect = {
+			create_mamp_cat1_species = yes
+		}
+	}
+	option = {
+		name = oxr_mdlc_mamp.5.option_1.name
+		allow = { always = yes }
+		custom_tooltip = oxr_mdlc_mamp.5.option_1.tooltip
+	}
+}
+
+
+#### AUTO CONSTRUCTION ####
+# This is the entry event that checks what level of Frame to build
+# It deducts resources and extracts 1 pop, then sets a timer to build the new pop
+# If insufficient resources or pops, it will auto-cancel
+planet_event = {
+	id = oxr_mdlc_mamp.1000
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		has_modifier = oxr_mdlc_mamp_auto_construction_active
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				oxr_mdlc_mamp_planet_auto_constructing_cat_1 = yes
+			}
+			# Check on loop that empire can still afford to construct
+			if = {
+				limit = {
+					OR = {
+						this.space_owner = { oxr_mdlc_mamp_empire_can_afford_cat_1 = no }
+						oxr_mdlc_mamp_planet_can_auto_construct_frames = no
+					}
+				}
+				# Can't afford, stop the presses
+				log = "Forced stopping auto-construction due to lack of pops or funds."
+				planet_event = {
+					id = oxr_mdlc_mamp.1001 days = 1
+				}
+			}
+			else = {
+				# Checks out, start up
+				log = "Beginning event loop for auto-constructing MAMP Cat 1"
+				# Deduct resources
+				this.space_owner = {
+					oxr_mdlc_mamp_deduct_empire_costs_cat_1 = yes
+				}
+				# "kill" pop
+				oxr_mdlc_mamp_planet_kill_pop_for_frame = yes
+				add_modifier = {
+					modifier = oxr_mdlc_mamp_auto_construction_active_cat_1
+					days = @oxr_mdlc_mamp_cat_1_build_time_days
+				}
+				planet_event = {
+					id = oxr_mdlc_mamp.1002 days = 61
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				oxr_mdlc_mamp_planet_auto_constructing_cat_2 = yes
+			}
+			# Check on loop that empire can still afford to construct
+			if = {
+				limit = {
+					OR = {
+						this.space_owner = { oxr_mdlc_mamp_empire_can_afford_cat_2 = no }
+						oxr_mdlc_mamp_planet_can_auto_construct_frames = no
+					}
+				}
+				# Can't afford, stop the presses
+				planet_event = { id = oxr_mdlc_mamp.1001 days = 0 }
+			}
+			else = {
+				# Checks out, start up
+				log = "Beginning event loop for auto-constructing MAMP Cat 2"
+				# Deduct resources
+				this.space_owner = {
+					oxr_mdlc_mamp_deduct_empire_costs_cat_2 = yes
+				}
+				# "kill" pop
+				oxr_mdlc_mamp_planet_kill_pop_for_frame = yes
+				add_modifier = {
+					modifier = oxr_mdlc_mamp_auto_construction_active_cat_2
+					days = @oxr_mdlc_mamp_cat_2_build_time_days
+				}
+				planet_event = {
+					id = oxr_mdlc_mamp.1002 days = @oxr_mdlc_mamp_cat_2_build_time_days
+				}
+			}
+		}
+	}
+}
+
+# Stop autoconstruction. Can be used for all CAT levels
+planet_event = {
+	id = oxr_mdlc_mamp.1001
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { }
+	immediate = {
+		log = "Stopping auto-construction on \\[This.GetName]"
+		log = "Removing auto-construction planet modifiers."
+		remove_modifier = oxr_mdlc_mamp_auto_construction_active
+		if = {
+			limit = { has_modifier = oxr_mdlc_mamp_auto_construction_active_cat_1 }
+			remove_modifier = oxr_mdlc_mamp_auto_construction_active_cat_1
+		}
+		if = {
+			limit = { has_modifier = oxr_mdlc_mamp_auto_construction_active_cat_2 }
+			remove_modifier = oxr_mdlc_mamp_auto_construction_active_cat_2
+		}
+		if = {
+			limit = { has_modifier = oxr_mdlc_mamp_auto_construction_active_cat_3 }
+			remove_modifier = oxr_mdlc_mamp_auto_construction_active_cat_3
+		}
+		# Unset the variable which tracks the Cat level
+		set_variable = {
+			which = oxr_mdlc_mamp_auto_construction_cat_level
+			value = 0
+		}
+		# Create a minimized message
+		add_modifier = {
+			modifier = oxr_mdlc_mamp_auto_construction_was_disabled_during_event
+			days = -1
+		}
+		create_message = {
+			type = OXR_MDLC_MAMP_AUTO_CONSTRUCTION_DEACTIVATED_MESSAGE_TYPE
+			localization = OXR_MDLC_MAMP_AUTO_CONSTRUCTION_DEACTIVATED_MESSAGE
+			days = 20
+			target = this
+			variable = {
+				type = name
+				localization = OXR_MDLC_MAMP_AUTO_CONSTRUCTION_DEACTIVATED_ON
+				scope = this
+			}
+		}
+	}
+}
+
+# Create MAMP pop and LOOP autoconstruction
+planet_event = {
+	id = oxr_mdlc_mamp.1002
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { }
+
+	immediate = {
+		# At this point, costs and pop were already deducted
+		# so create the new pop & loop
+		log = "Meets criteria to create MAMP: Creating ..."
+		if = {
+			limit = {
+				oxr_mdlc_mamp_planet_auto_constructing_cat_1 = yes
+			}
+			create_pop = {
+				species = event_target:oxr_mdlc_mamp_cat_1_pop_species
+			}
+		}
+		else_if = {
+			limit = { oxr_mdlc_mamp_planet_auto_constructing_cat_2 = yes }
+			# TODO: UPDATE THIS TO REAL CAT 2 SPECIES :)
+			create_pop = {
+				species = event_target:oxr_mdlc_mamp_cat_1_pop_species
+			}
+		}
+		last_created_pop = {
+			set_citizenship_type = {
+				country = root.owner
+				type = citizenship_full_machine
+				cooldown = no
+			}
+		}
+		# Message popup
+		oxr_mdlc_mamp_notify_pop_construction_complete = yes
+		# Check the player wants to keep building MAMP Frames
+		if = {
+			limit = { has_modifier = oxr_mdlc_mamp_auto_construction_active }
+			planet_event = { id = oxr_mdlc_mamp.1000 }
+		}
+		else = {
+			log = "Autoconstruction was deactivated on \\[This.GetName] during assembly. Stopping ..."
+		}
+	}
+}
