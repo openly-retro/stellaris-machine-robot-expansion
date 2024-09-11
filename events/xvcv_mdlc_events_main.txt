@@ -661,6 +661,7 @@ country_event = {
 					effect = {
 						modify_species = {
 							remove_trait = trait_machine_unit
+							ideal_planet_class = this
 							change_scoped_species = no
 						}
 					}
@@ -1173,6 +1174,7 @@ country_event = {
 					effect = {
 						modify_species = {
 							remove_trait = trait_mechanical
+							ideal_planet_class = this
 							change_scoped_species = no
 						}
 					}
@@ -1474,11 +1476,6 @@ country_event = {
 			while = {
 				limit = { has_building = building_communal_housing_large }
 				remove_building = building_communal_housing_large
-				add_building = building_drone_megastorage
-			}
-			while = {
-				limit = { has_building = building_slave_huts }
-				remove_building = building_slave_huts
 				add_building = building_drone_megastorage
 			}
 			if = {
@@ -2115,6 +2112,8 @@ country_event = {
 			limit = { any_owned_planet = { num_artificial_pops_per_year > 0 } }
 			random_owned_planet = {
 				limit = { num_artificial_pops_per_year > 0 }
+				# Copy the planet's current assembly rate to xvcv assembly rate
+				# Copy both pop assembly add, and pop assembly mult to xvcv vars
 				export_modifier_to_variable = { modifier = planet_pop_assembly_add variable = xvcv_mdlc_pop_assembly_add_var }
 				if = {
 					limit = { check_modifier_value = { modifier = planet_pop_assembly_mult value > 0 } }
@@ -2123,7 +2122,10 @@ country_event = {
 					multiply_variable = { which = xvcv_mdlc_pop_assembly_add_var value = xvcv_mdlc_pop_assembly_mult_var }
 				}
 				#log = "Assembly per Month: [This.xvcv_mdlc_pop_assembly_add_var]"
-		
+				
+				# Calculate the base assembly requirement for a bio mech pop
+				# look at the amount of "artificial" pops/yr, ex: 0.41
+				# The assembly requirement 
 				export_trigger_value_to_variable = { trigger = num_artificial_pops_per_year variable = xvcv_mdlc_pops_per_year_var }
 				set_variable = { which = xvcv_mdlc_assembly_requirement_var value = xvcv_mdlc_pop_assembly_add_var }
 				multiply_variable = { which = xvcv_mdlc_assembly_requirement_var value = 12 }
@@ -2345,19 +2347,22 @@ country_event = {
 				#choose a species to be born (if there are more than one hybrid)
 				weights = {
 					base = 1
-					modifier = { add = @xvcv_mdlc_bio_robot_growth_add_1 has_trait = xvcv_mdlc_bio_robot_trait_rapid_breeders }
-					modifier = { add = @xvcv_mdlc_bio_robot_growth_add_1 has_trait = xvcv_mdlc_bio_robot_trait_robot_mass_produced }
+					# modifier = { add = @xvcv_mdlc_bio_robot_growth_add_1 has_trait = xvcv_mdlc_bio_robot_trait_rapid_breeders }
+					modifier = { add = @xvcv_mdlc_bio_robot_growth_add_1 has_trait = trait_rapid_breeders }
+					modifier = { add = @xvcv_mdlc_bio_robot_growth_add_1 has_trait = trait_robot_mass_produced }
+					# modifier = { add = @xvcv_mdlc_bio_robot_growth_add_1 has_trait = xvcv_mdlc_bio_robot_trait_robot_mass_produced }
 					modifier = { add = @xvcv_mdlc_bio_robot_growth_add_2 has_trait = xvcv_mdlc_bio_robot_trait_org_body_copy_design }
 				}
 				if = {
-					limit = { has_trait = xvcv_mdlc_bio_robot_trait_rapid_breeders }
+					# limit = { has_trait = xvcv_mdlc_bio_robot_trait_rapid_breeders }
+					limit = { has_trait = trait_rapid_breeders }
 					prev = {
 						change_variable = { which = xvcv_mdlc_bio_robot_growth_progress_var value = @xvcv_mdlc_bio_robot_growth_add_1 }
 						change_variable = { which = xvcv_mdlc_bio_robot_growth_rate_per_month_var value = @xvcv_mdlc_bio_robot_growth_add_1 } #the variable used for 'xvcv_mdlc_bio_robot_growth_progress_percent_desc'
 					}
 				}
 				if = {
-					limit = { has_trait = xvcv_mdlc_bio_robot_trait_robot_mass_produced }
+					limit = { has_trait = trait_robot_mass_produced }
 					prev = {
 						change_variable = { which = xvcv_mdlc_bio_robot_growth_progress_var value = @xvcv_mdlc_bio_robot_growth_add_1 }
 						change_variable = { which = xvcv_mdlc_bio_robot_growth_rate_per_month_var value = @xvcv_mdlc_bio_robot_growth_add_1 }
