@@ -186,7 +186,7 @@ def gen_councilor_editor_traits_button_effects_code(
             allowances.append(f"has_technology = {tech}")
 
     leader_class = GESTALT_COUNCILOR_CLASS_MAP[councilor_type]
-    subclass_check_trigger = f"oxr_mdlc_councilor_editor_check_leader_has_required_subclass = {{ SUBCLASS = {required_subclass} }}"
+    subclass_check_trigger = f"oxr_mdlc_councilor_editor_check_leader_has_required_subclass = {{ CLASS = {leader_class} SUBCLASS = {required_subclass} }}"
 
     return f"""
 #{councilor_type} #{trait_name} #{rarity}
