@@ -21,7 +21,14 @@ country_event = {
 	picture = GFX_evt_engineering_research
 	is_triggered_only = yes
 
-	trigger = { }
+	trigger = {
+		NOT = {
+			has_technology = oxr_mdlc_tech_world_machine_planetary_proficiency
+		}
+		NOT = {
+			has_completed_special_project_in_log = OXR_MDLC_ORIGIN_WM_TECH_PROFICIENCY
+		}
+	}
 
 	option = {
 		name = oxr_mdlc_origin_wm_main.50.a
@@ -34,6 +41,42 @@ country_event = {
 	immediate = {
 		owner = {
 			end_event_chain = oxr_mdlc_origin_wm_chain_clear_blockers
+			begin_event_chain = {
+				event_chain = oxr_mdlc_origin_wm_chain_clear_blockers_2
+			}
+			add_event_chain_counter = {
+				event_chain = "oxr_mdlc_origin_wm_chain_clear_blockers_2"
+				counter = "oxr_mdlc_origin_wm_blockers"
+				amount = 6
+			}
+		}
+	}
+}
+
+# award world machine mastery
+country_event = {
+	id = oxr_mdlc_origin_wm_main.51
+	title = oxr_mdlc_origin_wm_main.51.title
+	desc = oxr_mdlc_origin_wm_main.51.desc
+	picture = GFX_evt_engineering_research
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = {
+			has_technology = oxr_mdlc_tech_world_machine_planetary_mastery
+		}
+	}
+	option = {
+		name = oxr_mdlc_origin_wm_main.51.a
+		owner = {
+			give_technology = {
+				tech = oxr_mdlc_tech_world_machine_planetary_mastery
+			}
+		}
+	}
+	immediate = {
+		owner = {
+			end_event_chain = oxr_mdlc_origin_wm_chain_clear_blockers_2
 		}
 	}
 }
@@ -59,6 +102,7 @@ country_event = {
 }
 
 # Planet has been terraformed
+# on_world_machine_pc_machine_auto_terraforming_complete
 # This = Planet
 # From = Terraforming country
 planet_event = {
@@ -70,6 +114,8 @@ planet_event = {
 		from = {
 			has_origin = oxr_mdlc_origin_world_machine_awakened
 		}
+		NOT = { has_deposit = oxr_mdlc_d_world_machine_core }
+		is_colony = no
 	}
 
 	immediate = {
@@ -80,6 +126,8 @@ planet_event = {
 			# then according to that, set the name
 		}
 		add_deposit = oxr_mdlc_d_world_machine_core
+		remove_building = building_deployment_post
+		add_building = oxr_mdlc_world_machines_building_auto_capital
 		if = {
 			limit = {
 				from = {
@@ -105,7 +153,7 @@ planet_event = {
 		}
 		add_modifier = { modifier = "planet_population_control_gestalt" days = -1 }
 		from = {
-			oxr_mdlc_world_machine_cores_recalc_amount = yes
+			oxr_mdlc_country_world_machine_cores_recalc_amount = yes
 			fire_on_action = {
 				on_action = on_world_machine_core_terraforming_complete
 			}
@@ -132,6 +180,7 @@ planet_event = {
 	}
 }
 
+# transformation complete
 planet_event = {
 	id = oxr_mdlc_origin_wm_main.501
 	title = oxr_mdlc_origin_wm_main.501.title
@@ -171,6 +220,7 @@ planet_event = {
 	}
 }
 
+# unplug and plug it back in
 planet_event = {
 	id = oxr_mdlc_origin_wm_main.502
 	title = oxr_mdlc_origin_wm_main.502.title
@@ -283,7 +333,9 @@ country_event = {
 	immediate = {
 		event_target:oxr_mdlc_ruined_world_machine = {
 			change_pc = xvcv_mdlc_pc_machine_auto
-			planet_event = { id = oxr_mdlc_origin_wm_main.500 }
+			fire_on_action = {
+				on_action = on_world_machine_pc_machine_auto_terraforming_complete
+			}
 		}
 	}
 
@@ -379,9 +431,9 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		has_completed_special_project_in_log = OXR_MDLC_ORIGIN_WM_CORE_TECH_RESEARCH_ENGINEERING
-		has_completed_special_project_in_log = OXR_MDLC_ORIGIN_WM_CORE_TECH_RESEARCH_PHYSICS_1
-		has_completed_special_project_in_log = OXR_MDLC_ORIGIN_WM_CORE_TECH_RESEARCH_SOCIETY
+		# has_completed_special_project_in_log = OXR_MDLC_ORIGIN_WM_CORE_TECH_RESEARCH_ENGINEERING
+		# has_completed_special_project_in_log = OXR_MDLC_ORIGIN_WM_CORE_TECH_RESEARCH_PHYSICS_1
+		# has_completed_special_project_in_log = OXR_MDLC_ORIGIN_WM_CORE_TECH_RESEARCH_SOCIETY
 	}
 
 	immediate = {
@@ -390,7 +442,6 @@ country_event = {
 				has_completed_special_project_in_log = OXR_MDLC_ORIGIN_WM_CORE_TECH_RESEARCH_ENGINEERING
 				has_completed_special_project_in_log = OXR_MDLC_ORIGIN_WM_CORE_TECH_RESEARCH_PHYSICS_1
 				has_completed_special_project_in_log = OXR_MDLC_ORIGIN_WM_CORE_TECH_RESEARCH_SOCIETY
-		
 			}
 			country_event = {
 				id = oxr_mdlc_origin_wm_main.1210
@@ -422,6 +473,41 @@ country_event = {
 	}
 }
 
+# Trigger the loop for manufacturing WMCs on a planet
+planet_event = {
+	id = oxr_mdlc_origin_wm_main.1299
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = {
+				# has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_toggle_active
+				has_planet_flag = oxr_mdlc_origin_world_machine_core_auto_build_enabled
+			}
+			log = "oxr_mdlc_origin_world_machine_core_auto_build_enabled flag is set"
+			if = {
+				limit = {
+					NOT = { is_variable_set = oxr_mdlc_planet_world_machine_core_countdown }
+				}
+				log = "oxr_mdlc_planet_world_machine_core_countdown wasn't set.. supposedly setting it now"
+				set_variable = {
+					which = oxr_mdlc_planet_world_machine_core_countdown
+					# value = @oxr_mdlc_world_machine_core_build_time_days
+					value = 60
+				}
+				# Otherwise, RESUME wmc construction
+			}
+			else = {
+				log = "apparently the oxr_mdlc_planet_world_machine_core_countdown is set to \\[This.oxr_mdlc_planet_world_machine_core_countdown]"
+			}
+			planet_event = {
+				id = oxr_mdlc_origin_wm_main.1300
+			}
+		}
+	}
+}
+
 # Manufacturing WMC
 planet_event = {
 	id = oxr_mdlc_origin_wm_main.1300
@@ -432,12 +518,7 @@ planet_event = {
 		add_modifier = {
 			modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
 			# days = @oxr_mdlc_world_machine_core_build_time_days
-			days = 15
-		}
-		set_variable = {
-			which = oxr_mdlc_planet_world_machine_core_countdown
-			# value = @oxr_mdlc_world_machine_core_build_time_days
-			value = 15
+			days = -1
 		}
 		planet_event = {
 			id = oxr_mdlc_origin_wm_main.1305
@@ -479,10 +560,12 @@ planet_event = {
 					}
 				}
 				# Manufacturing is complete!
+				clear_variable = oxr_mdlc_planet_world_machine_core_countdown
 				planet_event = {
 					id = oxr_mdlc_origin_wm_main.1310
 					days = 1
 				}
+				
 			}
 			else_if = {
 				limit = {
@@ -494,6 +577,9 @@ planet_event = {
 				log = "Something weird happen while counting down WMC construction."
 				log = "The counter was below 0"
 				# Stop and don't loop
+				clear_variable = oxr_mdlc_planet_world_machine_core_countdown
+				remove_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
+				remove_planet_flag = oxr_mdlc_origin_world_machine_core_auto_build_enabled
 			}
 			else = {
 				# Loop
@@ -534,18 +620,13 @@ planet_event = {
 					value = 1
 				}
 			}
-			# planet
-			change_variable = {
-				which = oxr_mdlc_planet_world_machine_cores_amount
-				value = 1
-			}
 		}
 		# oxr_mdlc_world_machine_cores_update_max_var = yes
 		set_variable = {
 			which = oxr_mdlc_origin_wm_cores_max
 			value = modifier:country_resource_max_oxr_mdlc_world_machine_core_add
 		}
-		remove_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
+		# remove_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
 		# create message
 		create_message = {
 			type = OXR_MDLC_ORIGIN_WM_CORE_FABRICATION_FINISHED
@@ -557,6 +638,11 @@ planet_event = {
 				localization = OXR_MDLC_ORIGIN_WM_CORE_FABRICATION_PLANET
 				scope = this
 			}
+		}
+		# If player has not turned off WMC manufacture via decision,
+		# it'll do a check here and then call the entry event again
+		planet_event = {
+			id = oxr_mdlc_origin_wm_main.1299
 		}
 	}
 }
@@ -708,6 +794,28 @@ country_event = {
 	}
 }
 
+planet_event = {
+	id = oxr_mdlc_origin_wm_main.2000
+	is_triggered_only = yes
+	hide_window = yes
+	trigger = {
+		space_owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+		is_planet_world_machine = yes
+		NOT = { has_planet_flag = oxr_mdlc_world_machines_refilling_armies_active }
+	}
+	immediate = {
+		set_planet_flag = oxr_mdlc_world_machines_refilling_armies_active
+		add_modifier = {
+			modifier = oxr_mdlc_world_machine_district_army_restock_in_progress
+			days = 7
+		}
+		planet_event = {
+			id = oxr_mdlc_origin_wm_main.2001
+			days = 7
+		}
+	}
+}
+
 
 # Start the loop of refilling planetary district armies
 planet_event = {
@@ -717,8 +825,6 @@ planet_event = {
 	trigger = {
 		space_owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
 		is_planet_world_machine = yes
-		# re-use trigger to check if last district changed was WM district
-		# xvcv_mdlc_world_machines_districts_heat_indicators_calc_trigger = yes
 		has_planet_flag = oxr_mdlc_world_machines_refilling_armies_active
 	}
 
@@ -727,6 +833,7 @@ planet_event = {
 	}
 
 	immediate = {
+		set_planet_flag = oxr_mdlc_world_machines_refilling_armies_active
 		oxr_mdlc_origin_world_machine_calc_max_district_armies = yes
 		oxr_mdlc_origin_world_machine_calc_current_district_armies = yes
 		if = {
@@ -814,5 +921,106 @@ pop_event = {
 	}
 	immediate = {
 		kill_pop = yes
+	}
+}
+
+## TERRAFORM / CHANGE PC MENU ##
+planet_event = {
+	id = oxr_mdlc_origin_wm_main.3000
+	title = oxr_mdlc_origin_wm_main.3000.title
+	desc = oxr_mdlc_origin_wm_main.3000.desc
+	picture = GFX_evt_ai_planet
+	is_triggered_only = yes
+
+	# auto machine world
+	option = {
+		name = oxr_mdlc_origin_wm_main.3000.a
+		custom_tooltip = oxr_mdlc_origin_wm_main.3000.a.desc
+		trigger = { NOT = { is_planet_class = xvcv_mdlc_pc_machine_auto } }
+		allow = {
+			is_planet_world_machine = yes
+			owner = { has_resource = { type = energy amount > 2500 } }
+			custom_tooltip_fail = {
+				text = xvcv_mdlc_world_machines_decisions_tooltip.fail
+				num_districts = { type = any value < 1 }
+			}
+			num_uncleared_blockers < 1
+		}
+		owner = { add_resource = { energy = -2500 } }
+		hidden_effect = {
+			start_terraform_process = xvcv_mdlc_pc_machine_auto
+		}
+	}
+	# ecu
+	option = {
+		name = oxr_mdlc_origin_wm_main.3000.b
+		custom_tooltip = oxr_mdlc_origin_wm_main.3000.b.desc
+		trigger = {
+			NOT = { is_planet_class = xvcv_mdlc_pc_machine_ecu }
+			owner = {
+				# has_technology = oxr_mdlc_tech_world_machine_ecu
+			}
+		}
+		allow = {
+			is_planet_world_machine = yes
+			owner = { has_resource = { type = energy amount > 2500 } }
+			custom_tooltip_fail = {
+				text = xvcv_mdlc_world_machines_decisions_tooltip.fail
+				num_districts = { type = any value < 1 }
+			}
+			num_uncleared_blockers < 1
+		}
+		owner = { add_resource = { energy = -2500 } }
+		hidden_effect = {
+			start_terraform_process = xvcv_mdlc_pc_machine_ecu
+		}
+	}
+	# cpu
+	option = {
+		name = oxr_mdlc_origin_wm_main.3000.c
+		custom_tooltip = oxr_mdlc_origin_wm_main.3000.c.desc
+		trigger = {
+			NOT = { is_planet_class = xvcv_mdlc_pc_machine_cpu }
+			owner = {
+				# has_technology = oxr_mdlc_tech_world_machine_cpu
+			}
+		}
+		allow = {
+			is_planet_world_machine = yes
+			owner = { has_resource = { type = energy amount > 2500 } }
+			custom_tooltip_fail = {
+				text = xvcv_mdlc_world_machines_decisions_tooltip.fail
+				num_districts = { type = any value < 1 }
+			}
+			num_uncleared_blockers < 1
+		}
+		owner = { add_resource = { energy = -2500 } }
+		hidden_effect = {
+			start_terraform_process = xvcv_mdlc_pc_machine_cpu
+		}
+	}
+	# ser
+	option = {
+		name = oxr_mdlc_origin_wm_main.3000.d
+		custom_tooltip = oxr_mdlc_origin_wm_main.3000.d.desc
+		trigger = {
+			NOT = { is_planet_class = xvcv_mdlc_pc_machine_ser }
+			owner = {
+				# has_technology = oxr_mdlc_tech_world_machine_ser
+			}
+		}
+		allow = {
+			is_planet_world_machine = yes
+			owner = { has_resource = { type = energy amount > 2500 } }
+			custom_tooltip_fail = {
+				text = xvcv_mdlc_world_machines_decisions_tooltip.fail
+				num_districts = { type = any value < 1 }
+			}
+			num_uncleared_blockers < 1
+		}
+		owner = { add_resource = { energy = -2500 } }
+		hidden_effect = {
+			start_terraform_process = xvcv_mdlc_pc_machine_ser
+		}
 	}
 }

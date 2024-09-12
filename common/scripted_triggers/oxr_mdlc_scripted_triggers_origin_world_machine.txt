@@ -1,15 +1,11 @@
 oxr_mdlc_origin_world_machine_feature_enabled = {
-	has_country_flag = oxr_mdlc_origin_world_machine_feature_enabled
+	has_global_flag = oxr_mdlc_origin_world_machine_feature_enabled
 }
 
 oxr_mdlc_planet_owner_can_build_wm_districts = {
 	optimize_memory
 	OR = {
-		exists = owner
-		exists = space_owner
-	}
-	OR = {
-		has_ascension_perk = xvcv_mdlc_ap_world_machines
+		# has_ascension_perk = xvcv_mdlc_ap_world_machines
 		has_origin = oxr_mdlc_origin_world_machine_awakened
 	}
 }
@@ -61,7 +57,7 @@ oxr_mdlc_world_machine_blocker_yields_insights = {
 
 oxr_mdlc_planet_can_become_world_machine = {
 	OR = {
-		is_planet_class = pc_machine
+		# is_planet_class = pc_machine  # this will require AP
 		is_planet_class = pc_barren
 		is_planet_class = pc_barren_cold
 		is_planet_class = pc_nuked
@@ -77,7 +73,39 @@ oxr_mdlc_planet_can_become_world_machine = {
 		is_planet_class = pc_tropical
 		is_planet_class = pc_ocean
 		has_planet_flag = rikk_mdlc_world_machine_suitable
+		# is_colonizable = yes  # support other mods that add colonizable classes
 	}
+}
+
+# Can the country make an auto-machine world
+oxr_mdlc_country_can_make_t2_world_machine = {
+	if = {
+		limit = {
+			owner = {
+				has_ascension_perk = xvcv_mdlc_ap_world_machines
+			}
+			is_planet_class = pc_machine
+		}
+		always = yes
+	}
+	else_if = {
+		limit = {
+			owner = {
+				has_origin = oxr_mdlc_origin_world_machine_awakened
+			}
+			oxr_mdlc_planet_can_become_world_machine = yes
+		}
+		always = yes
+	}
+	else = {
+		always = no
+	}
+}
+
+oxr_mdlc_planet_can_become_t3_world_machine = {
+	is_colonizable = yes
+	is_artificial = no
+	xvcv_mdlc_world_machines_planet_classes_trigger = no
 }
 
 oxr_mdlc_planet_is_core_storage_full = {
@@ -194,4 +222,84 @@ oxr_mdlc_trigger_variable_distance = {
 		same_solar_system = yes
 		type = euclidean
 	}
+}
+
+oxr_mdlc_country_can_make_t3_ecu = {
+	if = {
+		limit = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+			has_technology = oxr_mdlc_tech_world_machine_ecu
+		}
+		always = yes
+	}
+	else_if = {
+		limit = {
+			NOT = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+			has_ascension_perk = xvcv_mdlc_ap_world_machines
+		}
+		always = yes
+	}
+	else = { always = no }
+}
+
+oxr_mdlc_country_can_make_t3_cpu = {
+	if = {
+		limit = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+			has_technology = oxr_mdlc_tech_world_machine_cpu
+		}
+		always = yes
+	}
+	else_if = {
+		limit = {
+			NOT = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+			has_ascension_perk = xvcv_mdlc_ap_world_machines
+		}
+		always = yes
+	}
+	else = { always = no }
+}
+
+oxr_mdlc_country_can_make_t3_ser = {
+	if = {
+		limit = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+			has_technology = oxr_mdlc_tech_world_machine_ser
+		}
+		always = yes
+	}
+	else_if = {
+		limit = {
+			NOT = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+			has_ascension_perk = xvcv_mdlc_ap_world_machines
+		}
+		always = yes
+	}
+	else = { always = no }
+}
+
+oxr_mdlc_planet_is_t3_world_machine = {
+	OR = {
+		is_planet_class = xvcv_mdlc_pc_machine_ecu
+		is_planet_class = xvcv_mdlc_pc_machine_cpu
+		is_planet_class = xvcv_mdlc_pc_machine_ser
+	}
+}
+
+oxr_mdlc_planet_can_become_t2_world_machine = {
+	if = {
+		limit = {
+			owner = { has_ascension_perk = xvcv_mdlc_ap_world_machines }
+			is_planet_class = pc_machine
+		}
+		always = yes
+	}
+	else_if = {
+		limit = {
+			owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+			oxr_mdlc_planet_can_become_world_machine = yes
+		}
+		always = yes
+	}
+	else = { always = no }
 }

@@ -8,12 +8,9 @@ oxr_mdlc_tech_world_machines_unlocked = {
 	weight = @tier3cost1
 
 	potential = {
-		OR = {
-			has_origin = oxr_mdlc_origin_world_machine_awakened
-			has_ascension_perk = xvcv_mdlc_ap_world_machines
-		}
-		oxr_mdlc_origin_world_machine_feature_enabled = yes
+		has_origin = oxr_mdlc_origin_world_machine_awakened
 	}
+
 	is_reverse_engineerable = no
 
 	weight_modifier = {
@@ -55,8 +52,8 @@ oxr_mdlc_tech_world_machine_planetary_proficiency = {
 
 	potential = {
 		has_origin = oxr_mdlc_origin_world_machine_awakened
-		oxr_mdlc_origin_world_machine_feature_enabled = yes
 	}
+
 	is_reverse_engineerable = no
 
 	weight_modifier = {
@@ -90,6 +87,7 @@ oxr_mdlc_tech_world_machine_planetary_mastery = {
 	potential = {
 		has_origin = oxr_mdlc_origin_world_machine_awakened
 	}
+
 	is_reverse_engineerable = no
 
 	weight_modifier = {
@@ -158,10 +156,12 @@ oxr_mdlc_tech_world_machine_district_infrastructure = {
 	weight = @tier3cost1
 	potential = {
 		has_origin = oxr_mdlc_origin_world_machine_awakened
-		has_technology = oxr_mdlc_tech_world_machines_unlocked
-		has_technology = oxr_mdlc_tech_world_machine_planetary_proficiency
 	}
 	is_reverse_engineerable = no
+	prerequisites = {
+		"oxr_mdlc_tech_world_machines_unlocked"
+		"oxr_mdlc_tech_world_machine_planetary_proficiency"
+	}
 }
 
 ## World-Machine upgrades tech (Alternate)
@@ -169,7 +169,6 @@ oxr_mdlc_tech_world_machine_district_infrastructure = {
 oxr_mdlc_tech_geologic_world_expansion_theory = {
 	potential = {
 		has_origin = oxr_mdlc_origin_world_machine_awakened
-		has_technology = oxr_mdlc_tech_world_machine_planetary_mastery
 	}
 	area = society
 	category = { new_worlds }
@@ -177,12 +176,14 @@ oxr_mdlc_tech_geologic_world_expansion_theory = {
 	cost = @tier3cost1
 	weight = @tier3cost1
 	is_rare = yes
+	prerequisites = {
+		"oxr_mdlc_tech_world_machine_planetary_mastery"
+	}
 }
 
 oxr_mdlc_tech_geologic_heat_shielding_1 = {
 	potential = {
 		has_origin = oxr_mdlc_origin_world_machine_awakened
-		has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
 	}
 	category = { field_manipulation }
 	area = physics
@@ -192,11 +193,13 @@ oxr_mdlc_tech_geologic_heat_shielding_1 = {
 		ship_shield_mult = 0.1
 		ship_shield_regen_add_perc = 0.1
 	}
+	prerequisites = {
+		"oxr_mdlc_tech_geologic_world_expansion_theory"
+	}
 }
 oxr_mdlc_tech_geologic_heat_shielding_2 = {
 	potential = {
 		has_origin = oxr_mdlc_origin_world_machine_awakened
-		has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
 	}
 	category = { field_manipulation }
 	area = physics
@@ -204,13 +207,13 @@ oxr_mdlc_tech_geologic_heat_shielding_2 = {
 	cost = @tier4cost1 weight = @tier4cost1
 	prerequisites = {
 		oxr_mdlc_tech_geologic_heat_shielding_1
+		oxr_mdlc_tech_geologic_world_expansion_theory
 	}
 	modifier = { ship_shield_hardening_add = 0.05 }
 }
 oxr_mdlc_tech_geologic_heat_shielding_3 = {
 	potential = {
 		has_origin = oxr_mdlc_origin_world_machine_awakened
-		has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
 	}
 	category = { field_manipulation }
 	area = physics
@@ -219,13 +222,13 @@ oxr_mdlc_tech_geologic_heat_shielding_3 = {
 	prerequisites = {
 		oxr_mdlc_tech_geologic_heat_shielding_2
 		oxr_mdlc_tech_geologic_heat_shielding_1
+		oxr_mdlc_tech_geologic_world_expansion_theory
 	}
 	modifier = { ship_shield_hardening_add = 0.05 }
 }
 oxr_mdlc_tech_geologic_scaling_thermoelectrics = {
 	potential = {
 		has_origin = oxr_mdlc_origin_world_machine_awakened
-		has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
 	}
 	category = { industry }
 	area = engineering
@@ -234,11 +237,13 @@ oxr_mdlc_tech_geologic_scaling_thermoelectrics = {
 	modifier = {
 		country_energy_produces_mult = 0.05
 	}
+	prerequisites = {
+		oxr_mdlc_tech_geologic_world_expansion_theory
+	}
 }
 oxr_mdlc_tech_geologic_pressurized_construction_1 = {
 	potential = {
 		has_origin = oxr_mdlc_origin_world_machine_awakened
-		has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
 	}
 	category = { industry }
 	area = engineering
@@ -248,11 +253,13 @@ oxr_mdlc_tech_geologic_pressurized_construction_1 = {
 		shipclass_military_build_speed_mult = 0.05
 		shipsize_colonizer_build_speed_mult = 0.05
 	}
+	prerequisites = {
+		oxr_mdlc_tech_geologic_world_expansion_theory
+	}
 }
 oxr_mdlc_tech_geologic_pressurized_construction_2 = {
 	potential = {
 		has_origin = oxr_mdlc_origin_world_machine_awakened
-		has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
 	}
 	category = { industry }
 	area = engineering
@@ -263,13 +270,16 @@ oxr_mdlc_tech_geologic_pressurized_construction_2 = {
 		shipclass_colonizer_build_cost_mult = -0.05
 		shipclass_science_ship_build_cost_mult = -0.05
 		shipclass_transport_build_cost_mult = -0.05
-		shipsize_constructor_build_cost_mult = -0.05
+		shipclass_constructor_build_cost_mult = -0.05
+	}
+	prerequisites = {
+		oxr_mdlc_tech_geologic_pressurized_construction_1
+		oxr_mdlc_tech_geologic_world_expansion_theory
 	}
 }
 oxr_mdlc_tech_geologic_elastic_materials_1 = {
 	potential = {
 		has_origin = oxr_mdlc_origin_world_machine_awakened
-		has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
 	}
 	category = { materials }
 	area = engineering
@@ -279,11 +289,13 @@ oxr_mdlc_tech_geologic_elastic_materials_1 = {
 		ship_hull_mult = 0.05
 		ship_armor_mult = 0.05
 	}
+	prerequisites = {
+		oxr_mdlc_tech_geologic_world_expansion_theory
+	}
 }
 oxr_mdlc_tech_geologic_elastic_materials_2 = {
 	potential = {
 		has_origin = oxr_mdlc_origin_world_machine_awakened
-		has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
 	}
 	category = { materials }
 	area = engineering
@@ -292,11 +304,14 @@ oxr_mdlc_tech_geologic_elastic_materials_2 = {
 	modifier = {
 		ship_armor_hardening_add = 0.1
 	}
+	prerequisites = {
+		oxr_mdlc_tech_geologic_elastic_materials_1
+		oxr_mdlc_tech_geologic_world_expansion_theory
+	}
 }
 oxr_mdlc_tech_geologic_seismic_wave_harvesting_1 = {
 	potential = {
 		has_origin = oxr_mdlc_origin_world_machine_awakened
-		has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
 	}
 	area = physics
 	category = { oxr_mdlc_tech_physics_category_mechanics }
@@ -306,11 +321,13 @@ oxr_mdlc_tech_geologic_seismic_wave_harvesting_1 = {
 		ship_sensor_range_add = 3
 		planet_sensor_range_add = 3
 	}
+	prerequisites = {
+		oxr_mdlc_tech_geologic_world_expansion_theory
+	}
 }
 oxr_mdlc_tech_geologic_geodynamo_theory = {
 	potential = {
 		has_origin = oxr_mdlc_origin_world_machine_awakened
-		has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
 	}
 	category = { oxr_mdlc_tech_physics_category_geophysics }
 	area = physics
@@ -320,24 +337,32 @@ oxr_mdlc_tech_geologic_geodynamo_theory = {
 		terraform_speed_mult = 0.3
 		terraforming_cost_mult = -0.3
 	}
+	prerequisites = {
+		oxr_mdlc_tech_geologic_seismic_wave_harvesting_1
+		oxr_mdlc_tech_geologic_elastic_materials_1
+		oxr_mdlc_tech_geologic_pressurized_construction_1
+		oxr_mdlc_tech_geologic_heat_shielding_2
+		oxr_mdlc_tech_geologic_world_expansion_theory
+	}
 }
 
 ## T3 World Tech
 oxr_mdlc_tech_world_machine_t3_worlds = {
 	potential = {
 		has_origin = oxr_mdlc_origin_world_machine_awakened
-		has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
 	}
 	category = { new_worlds }
 	area = society
 	tier = 4
 	cost = @tier4cost1
 	weight = 0
+	prerequisites = {
+		oxr_mdlc_tech_geologic_world_expansion_theory
+	}
 }
 oxr_mdlc_tech_world_machine_cpu = {
 	potential = {
 		has_origin = oxr_mdlc_origin_world_machine_awakened
-		has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
 		has_completed_special_project_in_log = OXR_MDLC_ORIGIN_WM_T3_CPU_WORLD
 	}
 	category = { new_worlds }
@@ -345,11 +370,13 @@ oxr_mdlc_tech_world_machine_cpu = {
 	tier = 4
 	cost = @tier4cost1
 	weight = 0
+	prerequisites = {
+		oxr_mdlc_tech_geologic_world_expansion_theory
+	}
 }
 oxr_mdlc_tech_world_machine_ecu = {
 	potential = {
 		has_origin = oxr_mdlc_origin_world_machine_awakened
-		has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
 		has_completed_special_project_in_log = OXR_MDLC_ORIGIN_WM_T3_ECU_WORLD
 	}
 	category = { new_worlds }
@@ -357,11 +384,13 @@ oxr_mdlc_tech_world_machine_ecu = {
 	tier = 4
 	cost = @tier4cost1
 	weight = 0
+	prerequisites = {
+		oxr_mdlc_tech_geologic_world_expansion_theory
+	}
 }
 oxr_mdlc_tech_world_machine_ser = {
 	potential = {
 		has_origin = oxr_mdlc_origin_world_machine_awakened
-		has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
 		has_completed_special_project_in_log = OXR_MDLC_ORIGIN_WM_T3_SER_WORLD
 	}
 	category = { new_worlds }
@@ -369,4 +398,7 @@ oxr_mdlc_tech_world_machine_ser = {
 	tier = 4
 	cost = @tier4cost1
 	weight = 0
+	prerequisites = {
+		oxr_mdlc_tech_geologic_world_expansion_theory
+	}
 }

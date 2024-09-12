@@ -4,6 +4,7 @@ on_world_machine_blocker_cleared = {
 	events = {
 		oxr_mdlc_on_world_machine_action.100  # blocker situation increment progress
 		oxr_mdlc_on_world_machine_action.1001  # points towards insight situation
+		oxr_mdlc_on_world_machine_action.1010  # blockers count towards mastery
 	}
 }
 on_world_machine_insight_blocker_cleared = {
@@ -37,15 +38,19 @@ on_world_machine_popless_building_constructed = {
 		oxr_mdlc_on_world_machine_action.1005
 	}
 }
-on_world_machine_district_completed = {
+on_world_machine_district_completed_planet = {
 	events = {
-		oxr_mdlc_on_world_machine_action.1005  # Record situation points
-		oxr_mdlc_on_world_machine_action.1905  # restock district defense armies
+		oxr_mdlc_on_world_machine_action.1905  # planet: restock district defense armies
+	}
+}
+on_world_machine_district_completed_country = {
+	events = {
+		oxr_mdlc_on_world_machine_action.1005  # country: Record situation points
 	}
 }
 on_world_machine_district_demolished = {
 	events = {
-		oxr_mdlc_on_world_machine_action.1909  # Recalculate district armies, decommission
+		oxr_mdlc_on_world_machine_action.1909  # planet: Recalculate district armies, decommission
 	}
 }
 on_world_machine_ruined_planet_discovered = {
@@ -64,11 +69,19 @@ on_world_machine_restoration_finished = {
 		oxr_mdlc_on_world_machine_action.1008  # points towards insight situation
 	}
 }
-on_terraforming_complete = {
+# on_terraforming_complete = {
+# 	events = {
+
+# 	}
+# }
+
+# planets scope
+on_world_machine_pc_machine_auto_terraforming_complete = {
 	events = {
-		oxr_mdlc_origin_wm_main.500  # immediately create colony, blockers, and digsite. Add core.
+		oxr_mdlc_origin_wm_main.500
 	}
 }
+# country scope
 on_world_machine_core_terraforming_complete = {
 	events = {
 		oxr_mdlc_origin_wm_main.1100  # increment 'deploy world core' situation counter
@@ -88,13 +101,18 @@ on_planet_surveyed = {
 		oxr_mdlc_on_world_machine_action.1100  # Check if ruined wm, make arc site
 	}
 }
-on_district_demolished = {
-	events = {
-		oxr_mdlc_on_world_machine_action.1900  # Hook for calling on_world_machine_district_demolished
-	}
-}
+# on_district_demolished = {
+# 	events = {
+# 		oxr_mdlc_on_world_machine_action.1900  # Hook for calling on_world_machine_district_demolished
+# 	}
+# }
 on_custom_diplomacy = {
 	events = {
 		oxr_mdlc_on_world_machine_action.3000
+	}
+}
+on_tech_increased = {
+	events = {
+		oxr_mdlc_on_world_machine_action.1200  # show info about world expansion theory
 	}
 }

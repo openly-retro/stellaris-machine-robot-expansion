@@ -274,6 +274,47 @@ country_event = {
 	}
 }
 
+country_event = {
+	id = oxr_mdlc_on_world_machine_action.1010
+	is_triggered_only = yes
+	hide_window = yes
+	trigger = {
+		has_event_chain = "oxr_mdlc_origin_wm_chain_clear_blockers_2"
+		NOT = { has_completed_event_chain = oxr_mdlc_origin_wm_chain_clear_blockers_2 }
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				has_event_chain = "oxr_mdlc_origin_wm_chain_clear_blockers_2"
+				NOT = { has_completed_event_chain = oxr_mdlc_origin_wm_chain_clear_blockers_2 }
+			}
+			add_event_chain_counter = {
+				event_chain = "oxr_mdlc_origin_wm_chain_clear_blockers_2"
+				counter = "oxr_mdlc_origin_wm_blockers"
+				amount = 1
+			}
+			log = "Incremented 'Clear Blocker' event chain by 1"
+			# TODO: contribute towards ongoing situation
+			if = {
+				limit = {
+					has_completed_event_chain_counter = {
+						event_chain = "oxr_mdlc_origin_wm_chain_clear_blockers_2"
+						counter = "oxr_mdlc_origin_wm_blockers"
+					}
+					NOT = {
+						has_technology = oxr_mdlc_tech_world_machine_planetary_mastery
+					}
+				}
+				# Trigger completion
+				country_event = {
+					id = oxr_mdlc_origin_wm_main.51
+				}
+			}
+		}
+	}
+}
+
 # on_planet_surveyed, see if it's a ruined WM and trigger an arc site
 planet_event = {
 	id = oxr_mdlc_on_world_machine_action.1100
@@ -292,6 +333,30 @@ planet_event = {
 			# Random arc site from blocker
 			oxr_mdlc_origin_world_machine_create_digsite_for_blocker = yes
 			log = "Created initial dig site on ruined WM, [This.GetName] for [This.From.GetName]"
+		}
+	}
+}
+
+country_event = {
+	id = oxr_mdlc_on_world_machine_action.1200
+	title = oxr_mdlc_on_world_machine_action.1200.title
+	desc = oxr_mdlc_on_world_machine_action.1200.desc
+	is_triggered_only = yes
+	picture = GFX_evt_oxr_mdlc_wm_expansion
+
+	trigger = {
+		last_increased_tech = oxr_mdlc_tech_geologic_world_expansion_theory
+	}
+
+	option = {
+		name = oxr_mdlc_on_world_machine_action.1200.a
+		hidden_effect = {
+			begin_event_chain = {
+				event_chain = oxr_mdlc_origin_wm_chain_geologic_upgrade_tree
+			}
+			begin_event_chain = {
+				event_chain = oxr_mdlc_origin_wm_t3_worlds_chain
+			}
 		}
 	}
 }
@@ -316,6 +381,8 @@ planet_event = {
 }
 
 # Restock armies on_world_machine_district_completed
+# incoming scope = planet (was country)
+# from = planet
 planet_event = {
 	id = oxr_mdlc_on_world_machine_action.1905
 	is_triggered_only = yes
@@ -341,11 +408,15 @@ planet_event = {
 					has_planet_flag = oxr_mdlc_world_machines_refilling_armies_active
 				}
 			}
-			oxr_mdlc_planet_start_refilling_district_defense_armies = yes
+			# oxr_mdlc_planet_start_refilling_district_defense_armies = yes
+			planet_event = {
+				id = oxr_mdlc_origin_wm_main.2000
+			}
 		}
 		else = {
 			log = "WM District built, but armies at max, not building more."
 		}
+		
 	}
 }
 
@@ -435,6 +506,49 @@ planet_event = {
 		}
 		else = {
 			log = "WM District destroyed, but army count OK, not building more."
+		}
+	}
+}
+
+# The 'mundane data' event
+# count free/used districts on demolished or built, so that between either of these events
+# we can refer to the defined number of them, rather than export triggers redundantly
+### CALLED ON COMPLETED 
+planet_event = {
+	id = oxr_mdlc_on_world_machine_action.1920
+	is_triggered_only = yes
+	hide_window = yes
+	immediate = {
+		set_variable = {
+			which = oxr_mdlc_planet_built_districts_amount
+			value = value:oxr_mdlc_planet_count_built_districts
+		}
+		set_variable = {
+			which = oxr_mdlc_planet_free_districts_amount
+			value = value:oxr_mdlc_planet_count_free_districts
+		}
+		planet_event = {
+			id = oxr_mdlc_on_world_machine_action.1905  # restock district defense armies
+		}
+	}
+}
+### CALLED ON DESTROYED
+# After calculating these vars, then call other events
+planet_event = {
+	id = oxr_mdlc_on_world_machine_action.1921
+	is_triggered_only = yes
+	hide_window = yes
+	immediate = {
+		set_variable = {
+			which = oxr_mdlc_planet_built_districts_amount
+			value = value:oxr_mdlc_planet_count_built_districts
+		}
+		set_variable = {
+			which = oxr_mdlc_planet_free_districts_amount
+			value = value:oxr_mdlc_planet_count_free_districts
+		}
+		planet_event = {
+			id = oxr_mdlc_on_world_machine_action.1909  # Recalculate district armies, decommission
 		}
 	}
 }
