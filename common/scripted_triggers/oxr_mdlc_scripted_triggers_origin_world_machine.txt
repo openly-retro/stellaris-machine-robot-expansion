@@ -63,17 +63,17 @@ oxr_mdlc_planet_can_become_world_machine = {
 		is_planet_class = pc_nuked
 		is_planet_class = pc_gaia
 		is_planet_class = pc_hive
-		# is_planet_class = pc_desert
-		# is_planet_class = pc_arid
-		# is_planet_class = pc_savannah
-		# is_planet_class = pc_arctic
-		# is_planet_class = pc_tundra
-		# is_planet_class = pc_alpine
-		# is_planet_class = pc_continental
-		# is_planet_class = pc_tropical
-		# is_planet_class = pc_ocean
+		is_planet_class = pc_desert
+		is_planet_class = pc_arid
+		is_planet_class = pc_savannah
+		is_planet_class = pc_arctic
+		is_planet_class = pc_tundra
+		is_planet_class = pc_alpine
+		is_planet_class = pc_continental
+		is_planet_class = pc_tropical
+		is_planet_class = pc_ocean
 		has_planet_flag = rikk_mdlc_world_machine_suitable
-		is_colonizable = yes  # support other mods that add colonizable classes
+		# is_colonizable = yes  # support other mods that add colonizable classes
 	}
 }
 
@@ -226,8 +226,11 @@ oxr_mdlc_trigger_variable_distance = {
 
 oxr_mdlc_country_can_make_t3_ecu = {
 	if = {
-		limit = { has_origin = oxr_mdlc_origin_world_machine_awakened }
-		has_technology = oxr_mdlc_tech_world_machine_ecu
+		limit = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+			has_technology = oxr_mdlc_tech_world_machine_ecu
+		}
+		always = yes
 	}
 	else_if = {
 		limit = {
@@ -241,8 +244,11 @@ oxr_mdlc_country_can_make_t3_ecu = {
 
 oxr_mdlc_country_can_make_t3_cpu = {
 	if = {
-		limit = { has_origin = oxr_mdlc_origin_world_machine_awakened }
-		has_technology = oxr_mdlc_tech_world_machine_cpu
+		limit = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+			has_technology = oxr_mdlc_tech_world_machine_cpu
+		}
+		always = yes
 	}
 	else_if = {
 		limit = {
@@ -256,8 +262,11 @@ oxr_mdlc_country_can_make_t3_cpu = {
 
 oxr_mdlc_country_can_make_t3_ser = {
 	if = {
-		limit = { has_origin = oxr_mdlc_origin_world_machine_awakened }
-		has_technology = oxr_mdlc_tech_world_machine_ser
+		limit = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+			has_technology = oxr_mdlc_tech_world_machine_ser
+		}
+		always = yes
 	}
 	else_if = {
 		limit = {
@@ -275,4 +284,22 @@ oxr_mdlc_planet_is_t3_world_machine = {
 		is_planet_class = xvcv_mdlc_pc_machine_cpu
 		is_planet_class = xvcv_mdlc_pc_machine_ser
 	}
+}
+
+oxr_mdlc_planet_can_become_t2_world_machine = {
+	if = {
+		limit = {
+			owner = { has_ascension_perk = xvcv_mdlc_ap_world_machines }
+			is_planet_class = pc_machine
+		}
+		always = yes
+	}
+	else_if = {
+		limit = {
+			owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+			oxr_mdlc_planet_can_become_world_machine = yes
+		}
+		always = yes
+	}
+	else = { always = no }
 }
