@@ -401,85 +401,42 @@ xvcv_mdlc_pc_machine_auto_district_industrial = {
 			energy = 2
 			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machines_industrial_districts_upkeep_mult|
 		}
-		inline_script = planet/resources/produces/auto_industrial/oxr_mdlc_non_gestalt
+		# Unless otherwise specified, all triggers in inline_scripts
+		# are assumed to be for ethic_gestalt_consciousness
+		# Since the AP is locked behind that.
+		## Moved to inline_scripts for code organization
+		# inline_script = planet/resources/produces/auto_industrial/oxr_mdlc_non_gestalt
+		# inline_script = planet/resources/produces/auto_industrial/oxr_mdlc_servitor
+
+		# Industrial districts give fabricator jobs
+		# using goods = 1 fabricator, 1 artisan
+		# not using goods = 2 fabricator
+		# using goods, catalytic = 1 fabricator, 1 catalytic
+		# not using goods, catalytic = 2 catalytic drones
+
+		# not using goods, factory = 2 fabricators
+		# using goods, factory = 2 fabricators
+		# not using goods, forge = 2 artisan
+		# not using goods, catalytic, forge = 2 catalytic
+
+		# No colony designation: covers catalytic and "uses goods"
+		inline_script = planet/resources/produces/auto_industrial/oxr_mdlc_default
+
+		## old code
 
 		produces = {
 			trigger = {
-				planet = { has_designation = col_factory }
 				exists = owner
 				owner = {
-					OR = {
-						NOT = { has_ethic = ethic_gestalt_consciousness }
-						has_valid_civic = civic_machine_servitor
-					}
-				}
-			}
-			alloys = -5
-		}
-		produces = {
-			trigger = {
-				planet = { has_designation = col_factory }
-				exists = owner
-				owner = {
-					OR = {
-						NOT = { has_ethic = ethic_gestalt_consciousness }
-						has_valid_civic = civic_machine_servitor
-					}
-				}
-			}
-			consumer_goods = 8
-			mult = value:collected_world_machine_bonuses
-		}
-		upkeep = {
-			trigger = {
-				planet = { has_designation = col_factory }
-				exists = owner
-				owner = {
-					OR = {
-						NOT = { has_ethic = ethic_gestalt_consciousness }
-						has_valid_civic = civic_machine_servitor
-					}
-					is_catalytic_empire = no
-				}
-			}
-			minerals = -2
-		}
-		upkeep = {
-			trigger = {
-				planet = { has_designation = col_foundry }
-				exists = owner
-				owner = {
-					OR = {
-						NOT = { has_ethic = ethic_gestalt_consciousness }
-						has_valid_civic = civic_machine_servitor
-					}
 					is_catalytic_empire = yes
+					NOT = { has_valid_civic = civic_machine_servitor }
+				}
+				NOT = {
+					planet = { has_designation = col_factory }
 				}
 			}
-			minerals = -8
-		}
-		upkeep = {
-			trigger = {
-				planet = { has_designation = col_foundry }
-				exists = owner
-				owner = {
-					OR = {
-						NOT = { has_ethic = ethic_gestalt_consciousness }
-						has_valid_civic = civic_machine_servitor
-					}
-					is_catalytic_empire = yes
-				}
-			}
-			food = 12
-			mult =  value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machines_industrial_districts_upkeep_mult|
-		}
-		produces = {
-			trigger = {
-				exists = owner
-				owner = { has_ethic = ethic_gestalt_consciousness }
-			}
-			alloys = 8
-			mult = value:collected_world_machine_bonuses
+			# ADD 2 to the base 8
+			alloys = 2  # To result in a value of 10
 		}
 		upkeep = {
 			trigger = {
@@ -487,17 +444,24 @@ xvcv_mdlc_pc_machine_auto_district_industrial = {
 				owner = {
 					has_ethic = ethic_gestalt_consciousness
 					is_catalytic_empire = no
+				}
+				NOT = {
+					planet = { has_designation = col_factory }
 				}
 			}
 			minerals = 16
 			mult =  value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machines_industrial_districts_upkeep_mult|
 		}
+		# only charge food upkeep if forge designation or other
 		upkeep = {
 			trigger = {
 				exists = owner
 				owner = {
 					has_ethic = ethic_gestalt_consciousness
 					is_catalytic_empire = yes
+				}
+				NOT = {
+					planet = { has_designation = col_factory }
 				}
 			}
 			food = 24
@@ -549,6 +513,7 @@ xvcv_mdlc_pc_machine_auto_district_industrial = {
 		fire_on_action = { on_action = on_world_machine_district_demolished }
 	}
 }
+
 oxr_mdlc_pc_machine_auto_district_infrastructure = {
 	base_buildtime = @xvcv_mdlc_district_time_3
 	icon = oxr_mdlc_pc_machine_auto_district_infrastructure
