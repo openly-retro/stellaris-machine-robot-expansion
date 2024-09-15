@@ -1,0 +1,59 @@
+# This inline script addresses the following scenarios:
+# 1 - NOT rogue servitor (see oxr_mdlc_servitor)
+# 2 - is / is not catalytic
+# 3 - planet is FOUNDRY
+
+# When in foundry designation, 2 artisans / catalytic
+produces = {
+	trigger = {
+		exists = owner
+		planet = { has_designation = col_foundry }
+		owner = {
+			NOT = {
+				has_valid_civic = civic_machine_servitor
+				# is_catalytic_empire = no
+			}
+		}
+	}
+	alloys = 8
+}
+produces = {
+	trigger = {
+		exists = owner
+		planet = { has_designation = col_foundry }
+		owner = {
+			NOT = { has_valid_civic = civic_machine_servitor }
+			is_catalytic_empire = yes
+		}
+	}
+	# ADD 2 ALLOYS
+	alloys = 2
+}
+upkeep = {
+	trigger = {
+		exists = owner
+		owner = {
+			has_ethic = ethic_gestalt_consciousness
+			is_catalytic_empire = no
+		}
+		NOT = {
+			planet = { has_designation = col_foundry }
+		}
+	}
+	minerals = @oxr_mdlc_auto_industrial_alloys_upkeep  # 16
+	# mult =  value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machines_industrial_districts_upkeep_mult|
+}
+upkeep = {
+	trigger = {
+		exists = owner
+		owner = {
+			has_ethic = ethic_gestalt_consciousness
+			is_catalytic_empire = yes
+		}
+		NOT = {
+			planet = { has_designation = col_foundry }
+		}
+	}
+	food = @oxr_mdlc_auto_industrial_catalytic_upkeep  # 24
+	# mult =  value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machines_industrial_districts_upkeep_mult|
+}
