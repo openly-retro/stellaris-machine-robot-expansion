@@ -1,0 +1,50 @@
+# Auto-generator has 1 mineral upkeep (job-to-minerals: 2:1)
+# ringworld generator has 10 jobs so minerals should = 5 (10/2)
+
+resources = {
+	category = planet_technician
+	# category = xvcv_mdlc_world_machines_districts
+	cost = {
+		trigger = {
+			is_planet_class = xvcv_mdlc_pc_machine_auto
+		}
+		minerals = @xvcv_mdlc_district_cost_2
+		# mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_mineral_cost_add|
+	}
+	cost = {
+		trigger = {
+			is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
+		}
+		minerals = @rw_cost
+		rare_crystals = @rw_cost_sr
+	}
+	# auto_district_generator produces 20 in lieu of 2 jobs,
+	# so 1 job = 10 automated energy, x10 ringworld jobs = 100 energy
+	produces = {
+		# energy = @\[ $JOBS_SCALE|1$ * 8 ]  # base for gestalt
+		trigger = { is_planet_class = xvcv_mdlc_pc_machine_auto }
+		energy = 16
+	}
+	produces = {
+		# energy = @\[ $JOBS_SCALE|1$ * 8 ]  # base for gestalt
+		trigger = { is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto }
+		energy = 80
+		# mult = value:oxr_mdlc_wm_output|OUTPUT_VAR|xvcv_mdlc_world_machines_districts_output_var|
+	}
+	upkeep = {
+		# mineral upkeep for both auto-machine world and ringworld
+		# minerals = @\[ $JOBS_SCALE|1$ * 0.5 ] # xvcv set base 1. 2 
+		trigger = { is_planet_class = xvcv_mdlc_pc_machine_auto }
+		minerals = 2
+		# mult = this.planet.modifier:xvcv_mdlc_world_machines_districts_upkeep_mult
+	}
+	## RW - SR
+	upkeep = {
+		trigger = { is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto }
+		minerals = 5
+		rare_crystals = 1  # static 1 per district
+		# mult = $JOBS_SCALE$
+		mult = xvcv_mdlc_world_machines_districts_output_var
+	}
+
+}
