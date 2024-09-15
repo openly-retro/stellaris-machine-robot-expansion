@@ -1,7 +1,7 @@
 # This inline script addresses the following scenarios:
 # 1 - NOT rogue servitor (see oxr_mdlc_servitor)
 # 2 - is / is not catalytic
-# 3 - planet is forge / foundry
+# 3 - planet is FACTORY designation
 
 # Notes: Base production is 10 alloys for catalytic. this is already scripted
 # before getting to this point. So maths here will take that assumption.
@@ -9,6 +9,8 @@
 
 # When in factory designation, produce 2 artisan drone output
 # 20 good production, 20 minerals upkeep
+
+# NOthing to add for catalytic empires here bc factory mode means goods
 produces = {
 	trigger = {
 		exists = owner
@@ -19,8 +21,8 @@ produces = {
 	}
 	consumer_goods = 20
 }
-produces = {
-	# Subtract the default alloy production amount
+# When on factory designation, minerals are used
+upkeep = {
 	trigger = {
 		exists = owner
 		planet = { has_designation = col_factory }
@@ -28,34 +30,6 @@ produces = {
 			NOT = { has_valid_civic = civic_machine_servitor }
 		}
 	}
-	alloys = -8
-}
-# When on factory designation, minerals are used
-upkeep = {
-	trigger = {
-		exists = owner
-		owner = {
-			has_ethic = ethic_gestalt_consciousness
-			is_catalytic_empire = yes
-		}
-	}
 	food = 24
 	mult =  value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machines_industrial_districts_upkeep_mult|
-}
-
-
-
-produces = {
-	# equivalent of two artisan drones
-	# 20 good production, 20 minerals upkeep
-	trigger = {
-		exists = owner
-		planet = { has_designation = col_factory }
-		owner = {
-			NOT = {
-				has_valid_civic = civic_machine_servitor
-				is_catalytic_empire = yes
-			}
-		}
-	}
 }

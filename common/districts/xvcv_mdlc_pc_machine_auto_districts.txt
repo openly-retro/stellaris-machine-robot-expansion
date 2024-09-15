@@ -421,53 +421,19 @@ xvcv_mdlc_pc_machine_auto_district_industrial = {
 
 		# No colony designation: covers catalytic and "uses goods"
 		inline_script = planet/resources/produces/auto_industrial/oxr_mdlc_default
+		# Factory designation
+		inline_script = planet/resources/produces/auto_industrial/oxr_mdlc_factory
+		# Foundry designation
+		inline_script = planet/resources/produces/auto_industrial/oxr_mdlc_foundry
+		# Servitor (COMMENTED OUT)
+		# - bio pops cant live on machine worlds, what difference does it make?
+		# inline_script = planet/resources/produces/auto_industrial/oxr_mdlc_servitor
+		
+		# Non-gestalt are not permitted to take the AP
+		# And the planet will change its districts, so no reason
+		# to maintain any special rules for individual machines (right now)
 
-		## old code
 
-		produces = {
-			trigger = {
-				exists = owner
-				owner = {
-					is_catalytic_empire = yes
-					NOT = { has_valid_civic = civic_machine_servitor }
-				}
-				NOT = {
-					planet = { has_designation = col_factory }
-				}
-			}
-			# ADD 2 to the base 8
-			alloys = 2  # To result in a value of 10
-		}
-		upkeep = {
-			trigger = {
-				exists = owner
-				owner = {
-					has_ethic = ethic_gestalt_consciousness
-					is_catalytic_empire = no
-				}
-				NOT = {
-					planet = { has_designation = col_factory }
-				}
-			}
-			minerals = 16
-			mult =  value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machines_industrial_districts_upkeep_mult|
-		}
-		# only charge food upkeep if forge designation or other
-		upkeep = {
-			trigger = {
-				exists = owner
-				owner = {
-					has_ethic = ethic_gestalt_consciousness
-					is_catalytic_empire = yes
-				}
-				NOT = {
-					planet = { has_designation = col_factory }
-				}
-			}
-			food = 24
-			mult =  value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machines_industrial_districts_upkeep_mult|
-		}
-	}
 	# Designation Job Changes
 
 	triggered_planet_modifier = {
