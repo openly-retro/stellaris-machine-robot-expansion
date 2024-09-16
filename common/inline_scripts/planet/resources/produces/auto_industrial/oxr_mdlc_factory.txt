@@ -1,11 +1,6 @@
 # This inline script addresses the following scenarios:
 # 1 - NOT rogue servitor (see oxr_mdlc_servitor)
-# 2 - is / is not catalytic
-# 3 - planet is FACTORY designation
-
-# Notes: Base production is 10 alloys for catalytic. this is already scripted
-# before getting to this point. So maths here will take that assumption.
-# Upkeep is already calculated for catalytics (24 food)
+# 2 - planet is FACTORY designation
 
 # When in factory designation, produce 2 artisan drone output
 # 20 good production, 20 minerals upkeep
@@ -14,22 +9,24 @@
 produces = {
 	trigger = {
 		exists = owner
-		planet = { has_designation = col_factory }
+		oxr_mdlc_col_is_factory = yes
 		owner = {
 			NOT = { has_valid_civic = civic_machine_servitor }
 		}
 	}
-	consumer_goods = 20
+	consumer_goods = $GOODS$
+	mult = $PRODUCES_MULT$
 }
 # When on factory designation, minerals are used
 upkeep = {
 	trigger = {
 		exists = owner
-		planet = { has_designation = col_factory }
+		oxr_mdlc_col_is_factory = yes
 		owner = {
 			NOT = { has_valid_civic = civic_machine_servitor }
 		}
 	}
-	food = 24
-	mult =  value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machines_industrial_districts_upkeep_mult|
+	minerals = $GOODS_UPKEEP$
+	volatile_motes = $RARE$
+	mult = $UPKEEP_MULT$
 }
