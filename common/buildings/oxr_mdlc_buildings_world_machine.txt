@@ -638,10 +638,12 @@ oxr_mdlc_world_machines_building_maintenance_legion = {
 
 	inline_script = planet/buildings/oxr_mdlc_wm_auto
 
-	triggered_planet_modifier = {
+	triggered_country_modifier = {
 		potential = {
-			exists = owner
-			owner = { is_gestalt = yes }
+			planet = {
+				exists = owner
+				owner = { is_gestalt = yes }
+			}
 		}
 		modifier = {
 			country_naval_cap_add = 8  # base of 4, times 2 jobs
@@ -965,6 +967,7 @@ oxr_mdlc_world_machines_building_crystal_cultivation_tank = {
 		}
 		produces = {
 			rare_crystals = 3
+		}
 	}
 	upgrades = {
 		xvcv_mdlc_world_machine_auto_food_processing_center
@@ -1005,7 +1008,7 @@ xvcv_mdlc_world_machine_auto_food_processing_center = {
 				}
 			}
 			has_modifier = resort_colony
-			has_modifier = crucible_colony
+			# has_modifier = crucible_colony
 		}
 	}
 
@@ -1179,9 +1182,6 @@ oxr_mdlc_world_machines_building_cohesion_hub = {
 	prerequisites = {
 		"tech_colonial_bureaucracy"
 		"oxr_mdlc_tech_world_machines_unlocked"
-	}
-	upgrades = {
-		"oxr_mdlc_world_machines_building_cohesion_supervisor"
 	}
 
 	show_tech_unlock_if = {
