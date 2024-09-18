@@ -840,52 +840,102 @@ oxr_mdlc_world_machines_building_fractal_sanitizer_4 = {
 
 #### RESOURCE ####
 # Replace some vanilla buildings with world-machine versions
-xvcv_mdlc_world_machine_auto_farm = {
-	# icon = xvcv_mdlc_pc_mechanical_district_farming
-
-	base_buildtime = @b1_time
-	category = resource
-	
+oxr_mdlc_world_machines_auto_farm_1 = {
+	can_build = yes
+	# POTENTIAL
 	inline_script = planet/buildings/oxr_mdlc_wm_auto
-
-	destroy_trigger = {
-		exists = owner
-		OR = {
-			owner = {
-				is_ai = yes
-				country_uses_food = no
-			}
-			planet = {
-				NOT = { is_planet_class = pc_habitat }
-				free_building_slots = 0
-				owner = {
-					is_ai = yes
-					has_monthly_income = {
-						resource = food
-						value > 100
-					}
-				}
-			}
-		}
-	}
-	resources = {
-		category = oxr_mdlc_category_world_machines_buildings
-		cost = { minerals = @xvcv_mdlc_district_cost_2 }
-		produces = { food = 14 } #{1 job = 6 -1 (is_robot_empire = yes) + 2 (building_food_processing_center) minerals} X 2 jobs #stellaris v3.0.3
-		upkeep = { energy = 1 }
-	}
-	ai_resource_production = {
-		food = 10
-		trigger = { always = yes }
+	# RESOURCES & THE REST
+	inline_script = {
+		script = planet/buildings/oxr_mdlc_auto_farm
+		FOOD = 10
+		BUILD_COST = @b0_minerals
+		UPKEEP = @b0_upkeep
+		# AI_FOOD = 10
+		BUILD_TIME = @b0_time
 	}
 	prerequisites = {
-		"tech_hydroponics"
+		"tech_industrial_farming"
 		"oxr_mdlc_tech_world_machines_unlocked"
 	}
-	on_built = {
-		owner = {
-			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
-		}
+	upgrades = {
+		oxr_mdlc_world_machines_auto_farm_2
+	}
+}
+oxr_mdlc_world_machines_auto_farm_2 = {
+	can_build = no
+	# POTENTIAL
+	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	# RESOURCES & THE REST
+	inline_script = {
+		script = planet/buildings/oxr_mdlc_auto_farm
+		FOOD = 20
+		BUILD_COST = @b1_minerals
+		UPKEEP = @b_upkeep
+		BUILD_TIME = @b1_time
+	}
+	prerequisites = {
+		"tech_eco_simulation"
+		"oxr_mdlc_tech_world_machines_unlocked"
+	}
+	upgrades = {
+		oxr_mdlc_world_machines_auto_farm_3
+	}
+}
+oxr_mdlc_world_machines_auto_farm_3 = {
+	can_build = no
+	# POTENTIAL
+	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	# RESOURCES & THE REST
+	inline_script = {
+		script = planet/buildings/oxr_mdlc_auto_farm
+		FOOD = 30
+		BUILD_COST = @b2_minerals
+		UPKEEP = @b2_upkeep
+		BUILD_TIME = @b2_time
+	}
+	prerequisites = {
+		"tech_gene_crops"
+		"oxr_mdlc_tech_world_machines_unlocked"
+	}
+	upgrades = {
+		oxr_mdlc_world_machines_auto_farm_4
+	}
+}
+oxr_mdlc_world_machines_auto_farm_4 = {
+	can_build = no
+	# POTENTIAL
+	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	# RESOURCES & THE REST
+	inline_script = {
+		script = planet/buildings/oxr_mdlc_auto_farm
+		FOOD = 40
+		BUILD_COST = @b3_minerals
+		UPKEEP = @b3_upkeep
+		BUILD_TIME = @b2_time
+	}
+	prerequisites = {
+		"tech_nano_vitality_crops"
+		"oxr_mdlc_tech_world_machines_unlocked"
+	}
+	upgrades = {
+		oxr_mdlc_world_machines_auto_farm_5
+	}
+}
+oxr_mdlc_world_machines_auto_farm_5 = {
+	can_build = no
+	# POTENTIAL
+	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	# RESOURCES & THE REST
+	inline_script = {
+		script = planet/buildings/oxr_mdlc_auto_farm
+		FOOD = 50
+		BUILD_COST = @b3_minerals
+		UPKEEP = @b4_upkeep
+		BUILD_TIME = @b3_time
+	}
+	prerequisites = {
+		"tech_food_processing_2"
+		"oxr_mdlc_tech_world_machines_unlocked"
 	}
 }
 
