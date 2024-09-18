@@ -636,6 +636,7 @@ oxr_mdlc_world_machines_building_maintenance_legion = {
 	category = army
 	exempt_from_ai_planet_specialization = no
 
+	inline_script = planet/buildings/oxr_sort_important
 	inline_script = planet/buildings/oxr_mdlc_wm_auto
 
 	triggered_country_modifier = {
@@ -689,7 +690,7 @@ oxr_mdlc_world_machines_building_fractal_sanitizer = {
 	exempt_from_ai_planet_specialization = no
 
 	category = research
-
+	inline_script = planet/buildings/oxr_sort_important
 	inline_script = planet/buildings/oxr_mdlc_wm_auto
 
 	destroy_trigger = {
@@ -842,6 +843,7 @@ oxr_mdlc_world_machines_building_fractal_sanitizer_4 = {
 # Replace some vanilla buildings with world-machine versions
 oxr_mdlc_world_machines_auto_farm_1 = {
 	can_build = yes
+	inline_script = planet/buildings/oxr_sort_important
 	# POTENTIAL
 	inline_script = planet/buildings/oxr_mdlc_wm_auto
 	# RESOURCES & THE REST
@@ -938,13 +940,192 @@ oxr_mdlc_world_machines_auto_farm_5 = {
 		"oxr_mdlc_tech_world_machines_unlocked"
 	}
 }
+# Mining
+oxr_mdlc_world_machines_building_auto_mining_support = {
+	can_build = yes
+	inline_script = planet/buildings/oxr_sort_important
+	# POTENTIAL
+	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	# RESOURCES & THE REST
+	inline_script = {
+		script = planet/buildings/auto/oxr_mining_boost
+		BUILD_TIME = @b1_time
+		COST = 200
+		UPKEEP = 2
+		COST_MOTES = 0
+	}
+	inline_script = planet/buildings/auto/oxr_destroy
+	prerequisites = {
+		tech_mineral_purification_1
+	}
+	upgrades = {
+		oxr_mdlc_world_machines_building_auto_mining_support_2
+	}
+}
+oxr_mdlc_world_machines_building_auto_mining_support_2 = {
+	can_build = no
+	# POTENTIAL
+	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	# RESOURCES & THE REST
+	inline_script = {
+		script = planet/buildings/auto/oxr_mining_boost
+		BUILD_TIME = @b2_time
+		COST = @b2_minerals
+		COST_MOTES = @b2_rare_cost
+		UPKEEP = 2
+	}
+
+	allow = {
+		oxr_mdlc_has_upgraded_capital = yes
+		NOR = {
+			has_modifier = resort_colony
+		}
+	}
+	inline_script = planet/buildings/auto/oxr_destroy
+
+		# upkeep = {
+		# 	trigger = {
+		# 		has_ringworld_output_boost = no
+		# 	}
+		# 	energy = 2
+		# 	volatile_motes = @b2_rare_upkeep
+		# }
+		# upkeep = {
+		# 	trigger = {
+		# 		has_ringworld_output_boost = yes
+		# 	}
+		# 	energy = 5
+		# 	volatile_motes = 3
+		# }
+	prerequisites = {
+		tech_mineral_purification_2
+	}
+}
+# Mining resource building - new
+oxr_mdlc_world_machines_auto_mine_1 = {
+	can_build = yes
+	inline_script = planet/buildings/oxr_sort_important
+	# POTENTIAL
+	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	# RESOURCES & THE REST
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_mining
+		PRODUCES_MINERALS = 8
+		BUILD_COST = @b0_minerals
+		RARE_COST = 0
+		UPKEEP = @b0_upkeep
+		BUILD_TIME = @b0_time
+		RARE_UPKEEP = 0
+	}
+	inline_script = planet/buildings/auto/oxr_destroy
+	prerequisites = {
+		"tech_basic_industry"
+		"oxr_mdlc_tech_world_machines_unlocked"
+	}
+	upgrades = {
+		oxr_mdlc_world_machines_auto_mine_2
+	}
+}
+oxr_mdlc_world_machines_auto_mine_2 = {
+	can_build = no
+	# POTENTIAL
+	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	# RESOURCES & THE REST
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_mining
+		PRODUCES_MINERALS = 16
+		BUILD_COST = @b1_minerals
+		RARE_COST = 0
+		UPKEEP = @b1_upkeep
+		BUILD_TIME = @b1_time
+		RARE_UPKEEP = 0
+	}
+	inline_script = planet/buildings/auto/oxr_destroy
+	prerequisites = {
+		"tech_mining_1"
+	}
+	upgrades = {
+		oxr_mdlc_world_machines_auto_mine_3
+	}
+}
+oxr_mdlc_world_machines_auto_mine_3 = {
+	can_build = no
+	# POTENTIAL
+	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	# RESOURCES & THE REST
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_mining
+		PRODUCES_MINERALS = 24
+		BUILD_COST = @b2_minerals
+		RARE_COST = @b2_rare_cost
+		UPKEEP = @b2_upkeep
+		BUILD_TIME = @b2_time
+		RARE_UPKEEP = @b2_rare_upkeep
+	}
+	inline_script = planet/buildings/auto/oxr_destroy
+	prerequisites = {
+		"tech_mining_2"
+	}
+	upgrades = {
+		oxr_mdlc_world_machines_auto_mine_4
+	}
+}
+oxr_mdlc_world_machines_auto_mine_4 = {
+	can_build = no
+	# POTENTIAL
+	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	# RESOURCES & THE REST
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_mining
+		PRODUCES_MINERALS = 32
+		BUILD_COST = @b3_minerals
+		RARE_COST = @b3_rare_cost
+		UPKEEP = @b3_upkeep
+		BUILD_TIME = @b3_time
+		RARE_UPKEEP = @b3_rare_upkeep
+	}
+	inline_script = planet/buildings/auto/oxr_destroy
+	prerequisites = {
+		"tech_mining_3"
+	}
+	allow = {
+		oxr_mdlc_has_upgraded_capital = yes
+	}
+	upgrades = {
+		oxr_mdlc_world_machines_auto_mine_5
+	}
+}
+oxr_mdlc_world_machines_auto_mine_5 = {
+	can_build = no
+	# POTENTIAL
+	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	# RESOURCES & THE REST
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_mining
+		PRODUCES_MINERALS = 40
+		BUILD_COST = @b3_minerals
+		RARE_COST = @b3_rare_cost
+		UPKEEP = @b3_upkeep
+		BUILD_TIME = @b3_time
+		RARE_UPKEEP = @b3_rare_upkeep
+	}
+	inline_script = planet/buildings/auto/oxr_destroy
+	prerequisites = {
+		"tech_mining_3"
+		"tech_mineral_purification_2"
+	}
+	allow = {
+		oxr_mdlc_has_upgraded_capital = yes
+	}
+}
+
 
 # Replace building_food_processing_facility
 oxr_mdlc_world_machines_building_auto_farm_logistics = {
 	base_buildtime = @b1_time
 	base_cap_amount = 1
 	category = resource
-
+	inline_script = planet/buildings/oxr_sort_important
 	inline_script = planet/buildings/oxr_mdlc_wm_auto
 
 	destroy_trigger = {
@@ -998,7 +1179,7 @@ oxr_mdlc_world_machines_building_welding_colony = {
 
 	exempt_from_ai_planet_specialization = no
 	category = manufacturing
-
+	inline_script = planet/buildings/oxr_sort_important
 	inline_script = planet/buildings/oxr_mdlc_wm_auto
 
 	resources = {
@@ -1031,7 +1212,7 @@ oxr_mdlc_world_machines_building_particle_collider = {
 
 	exempt_from_ai_planet_specialization = no
 	category = manufacturing
-
+	inline_script = planet/buildings/oxr_sort_important
 	inline_script = planet/buildings/oxr_mdlc_wm_auto
 
 	resources = {
@@ -1064,7 +1245,7 @@ oxr_mdlc_world_machines_building_crystal_cultivation_tank = {
 
 	exempt_from_ai_planet_specialization = no
 	category = manufacturing
-
+	inline_script = planet/buildings/oxr_sort_important
 	inline_script = planet/buildings/oxr_mdlc_wm_auto
 
 	resources = {
@@ -1100,7 +1281,7 @@ xvcv_mdlc_world_machine_auto_food_processing_center = {
 		exists = owner
 		has_upgraded_capital = yes
 	}
-
+	inline_script = planet/buildings/oxr_sort_important
 	inline_script = planet/buildings/oxr_mdlc_wm_auto
 
 	destroy_trigger = {
@@ -1189,11 +1370,12 @@ xvcv_mdlc_world_machine_auto_food_processing_center = {
 # UNITY T1
 oxr_mdlc_world_machines_building_cohesion_supervisor = {
 	base_buildtime = @b1_time
+	can_build = yes
 
 	exempt_from_ai_planet_specialization = no
 
 	category = unity
-
+	inline_script = planet/buildings/oxr_sort_important
 	inline_script = planet/buildings/oxr_mdlc_wm_auto
 
 	destroy_trigger = {
@@ -1315,6 +1497,7 @@ oxr_mdlc_world_machines_building_storage_cradle = {
 	base_buildtime = @b3_time
 	category = resource
 
+	inline_script = planet/buildings/oxr_sort_important
 	inline_script = planet/buildings/oxr_mdlc_wm_auto
 
 	resources = {
@@ -1359,7 +1542,7 @@ oxr_mdlc_world_machines_building_storage_cradle = {
 oxr_mdlc_world_machines_building_core_fabrication_depot = {
 	base_buildtime = @b3_time
 	category = manufacturing
-
+	inline_script = planet/buildings/oxr_sort_important
 	inline_script = planet/buildings/oxr_mdlc_wm_auto
 
 	resources = {
