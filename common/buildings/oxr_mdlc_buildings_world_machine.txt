@@ -6,10 +6,12 @@
 @tier_2_capital_defense_armies = 4
 @tier_3_capital_defense_armies = 8
 @tier_4_capital_defense_armies = 16
+@tier_5_capital_defense_armies = 24
 
 @oxr_capital_upgrade_t2_districts_num = 10
-@oxr_capital_upgrade_t3_districts_num = 20
-@oxr_capital_upgrade_t4_districts_num = 30
+@oxr_capital_upgrade_t3_districts_num = 18
+@oxr_capital_upgrade_t4_districts_num = 25
+@oxr_capital_upgrade_t5_districts_num = 32
 
 #### AMENITY ####
 
@@ -21,25 +23,26 @@
 
 
 ### CAPITAL BUILDINGS ###
-oxr_mdlc_world_machines_building_auto_capital = {
-	base_buildtime = @b2_time
-	capital = yes
-	can_build = no
-	can_demolish = no
-	can_be_ruined = no
-	can_be_disabled = no
-	position_priority = 0
 
-	category = government
+# Technically this is T2
+oxr_mdlc_world_machines_building_auto_capital = {
+	# resources
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_capital
+		COST = @b2_minerals
+		UPKEEP = @b2_upkeep
+		BUILD_TIME = @b2_time
+		HOUSING_ADD = 3
+		AMENITIES_ADD = 3
+		HIBERNATION_JOBS = 3
+		MAX_BUILDINGS_ADD = 0
+		DEFENSE_ARMIES = 0
+		# allow upgrade if >= this many districts
+		# 0 in this instance
+		REQ_MIN_NUM_DISTRICTS = 0
+	}
 
 	inline_script = planet/buildings/oxr_mdlc_wm_auto
-
-	destroy_trigger = {
-		exists = owner
-		owner = {
-			NOT = { has_origin = oxr_mdlc_origin_world_machine_awakened }
-		}
-	}
 
 	convert_to = {
 		building_hive_capital
@@ -49,44 +52,33 @@ oxr_mdlc_world_machines_building_auto_capital = {
 		building_machine_capital_nanotech
 	}
 
-	prerequisites = {
-		"tech_planetary_government"
-	}
+	prerequisites = { "tech_planetary_government" }
 
 	show_tech_unlock_if = {
 		has_origin = oxr_mdlc_origin_world_machine_awakened
-	}
-
-	planet_modifier = {
-		job_oxr_mdlc_world_machine_hibernation_slot_add = 3
-		planet_housing_add = 5
-		planet_amenities_add = 10
 	}
 
 	upgrades = {
 		oxr_mdlc_world_machines_building_auto_capital_upgraded
 	}
 }
-# 2
+# T2
 oxr_mdlc_world_machines_building_auto_capital_upgraded = {
-	base_buildtime = @b2_time
-	capital = yes
-	can_build = no
-	can_demolish = no
-	can_be_ruined = no
-	can_be_disabled = no
-	position_priority = 0
-
-	category = government
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_capital
+		COST = @b2_minerals
+		UPKEEP = @b2_upkeep
+		BUILD_TIME = @b2_time
+		HOUSING_ADD = 4
+		AMENITIES_ADD = 4
+		HIBERNATION_JOBS = 4
+		MAX_BUILDINGS_ADD = @buildings_t2
+		DEFENSE_ARMIES = @tier_2_capital_defense_armies
+		# allow upgrade if >= this many districts
+		REQ_MIN_NUM_DISTRICTS = @oxr_capital_upgrade_t2_districts_num
+	}
 
 	inline_script = planet/buildings/oxr_mdlc_wm_auto
-
-	destroy_trigger = {
-		exists = owner
-		owner = {
-			NOT = { has_origin = oxr_mdlc_origin_world_machine_awakened }
-		}
-	}
 
 	convert_to = {
 		building_hive_capital
@@ -94,13 +86,6 @@ oxr_mdlc_world_machines_building_auto_capital_upgraded = {
 		building_ancient_control_center
 		building_ancient_palace
 		building_machine_capital_nanotech
-	}
-
-	allow = {
-		num_districts = {
-			type = any
-			value >= @oxr_capital_upgrade_t2_districts_num
-		}
 	}
 
 	prerequisites = {
@@ -111,107 +96,30 @@ oxr_mdlc_world_machines_building_auto_capital_upgraded = {
 		has_origin = oxr_mdlc_origin_world_machine_awakened
 	}
 
-	planet_modifier = {
-		job_oxr_mdlc_world_machine_hibernation_slot_add = 4
-		planet_housing_add = 5
-		planet_amenities_add = 10
-		planet_max_buildings_add = @buildings_t2
-		defense_armies_add = @tier_2_capital_defense_armies
-	}
-
-	# inline_script = {
-	# 	script = buildings/on_all_capital_buildings
-	# }
-
-	# triggered_planet_modifier = {
-	# 	potential = {
-	# 		exists = owner
-	# 		owner = { has_civic = civic_machine_assimilator }
-	# 	}
-	# 	modifier = {
-	# 		job_replicator_add = -1
-	# 		job_maintenance_drone_add = 1
-	# 	}
-	# }
-
-	# triggered_planet_modifier = {
-	# 	potential = {
-	# 		has_modifier = gestation_colony
-	# 	}
-	# 	modifier = {
-	# 		job_replicator_add = -1
-	# 		job_gestation_drone_add = 2
-	# 	}
-	# }
-
-	# triggered_planet_modifier = {
-	# 	potential = {
-	# 		exists = owner
-	# 		owner = { has_technology = tech_capital_productivity_1 }
-	# 	}
-	# 	modifier = {
-	# 		# planet_districts_produces_mult = 0.1
-	# 		planet_jobs_productive_upkeep_mult = 0.1
-	# 		planet_jobs_productive_produces_mult = 0.1
-	# 	}
-	# }
-
-	resources = {
-		category = planet_buildings
-		cost = {
-			minerals = @b2_minerals
-		}
-		upkeep = {
-			energy = @b2_upkeep
-		}
-	}
+	# boost production w/ capital productivity tech
+	inline_script = planet/buildings/auto/oxr_mdlc_capital_t2
 
 	upgrades = {
 		oxr_mdlc_world_machines_building_auto_capital_major_upgraded
 	}
-
-	# triggered_desc = {
-	# 	trigger = {
-	# 		NOT = { has_modifier = gestation_colony }
-	# 	}
-	# 	text = job_replicator_effect_desc
-	# }
-
-	# triggered_desc = {
-	# 	trigger = {
-	# 		has_modifier = gestation_colony
-	# 	}
-	# 	text = job_gestation_drone_effect_desc
-	# }
-
-	# triggered_desc = {
-	# 	text = job_patrol_drone_effect_desc
-	# }
-
-	# triggered_desc = {
-	# 	text = job_maintenance_drone_effect_desc
-	# }
 }
-# 3
+# T3
 oxr_mdlc_world_machines_building_auto_capital_major_upgraded = {
-	base_buildtime = @b3_time
-	capital = yes
-	can_build = no
-	can_demolish = no
-	can_be_ruined = no
-	can_be_disabled = no
-	position_priority = 0
-
-	category = government
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_capital
+		COST = @b3_minerals
+		UPKEEP = @b3_upkeep
+		BUILD_TIME = @b3_time
+		HOUSING_ADD = 5
+		AMENITIES_ADD = 5
+		HIBERNATION_JOBS = 5
+		MAX_BUILDINGS_ADD = @buildings_t3
+		DEFENSE_ARMIES = @tier_3_capital_defense_armies
+		# allow upgrade if >= this many districts
+		REQ_MIN_NUM_DISTRICTS = @oxr_capital_upgrade_t3_districts_num
+	}
 
 	inline_script = planet/buildings/oxr_mdlc_wm_auto
-
-	destroy_trigger = {
-		exists = owner
-		owner = {
-			NOT = { has_origin = oxr_mdlc_origin_world_machine_awakened }
-		}
-	}
 
 	convert_to = {
 		building_hive_major_capital
@@ -219,13 +127,6 @@ oxr_mdlc_world_machines_building_auto_capital_major_upgraded = {
 		building_ancient_control_center
 		building_ancient_palace
 		building_machine_major_capital_nanotech
-	}
-
-	allow = {
-		num_districts = {
-			type = any
-			value >= @oxr_capital_upgrade_t3_districts_num
-		}
 	}
 
 	prerequisites = {
@@ -236,113 +137,32 @@ oxr_mdlc_world_machines_building_auto_capital_major_upgraded = {
 		has_origin = oxr_mdlc_origin_world_machine_awakened
 	}
 
-	planet_modifier = {
-		job_oxr_mdlc_world_machine_hibernation_slot_add = 5
-		planet_housing_add = 8
-		planet_amenities_add = 12
-		planet_max_buildings_add = @buildings_t3
-		defense_armies_add = @tier_3_capital_defense_armies
-	}
-
-	# inline_script = {
-	# 	script = buildings/on_all_capital_buildings
-	# }
-
-	# triggered_planet_modifier = {
-	# 	potential = {
-	# 		exists = owner
-	# 		owner = { has_civic = civic_machine_assimilator }
-	# 	}
-	# 	modifier = {
-	# 		job_replicator_add = -1
-	# 		job_maintenance_drone_add = 1
-	# 	}
-	# }
-
-	# triggered_planet_modifier = {
-	# 	potential = {
-	# 		has_modifier = gestation_colony
-	# 	}
-	# 	modifier = {
-	# 		job_replicator_add = -1
-	# 		job_gestation_drone_add = 2
-	# 	}
-	# }
-
-	# triggered_planet_modifier = {
-	# 	potential = {
-	# 		exists = owner
-	# 		owner = { has_technology = tech_capital_productivity_1 }
-	# 	}
-	# 	modifier = {
-	# 		planet_jobs_productive_upkeep_mult = 0.1
-	# 		planet_jobs_productive_produces_mult = 0.1
-	# 	}
-	# }
-
-	# triggered_planet_modifier = {
-	# 	potential = {
-	# 		exists = owner
-	# 		owner = { has_technology = tech_capital_productivity_2 }
-	# 	}
-	# 	modifier = {
-	# 		planet_jobs_productive_upkeep_mult = 0.1
-	# 		planet_jobs_productive_produces_mult = 0.1
-	# 	}
-	# }
-
-	resources = {
-		category = planet_buildings
-		cost = {
-			minerals = @b3_minerals
-		}
-		upkeep = {
-			energy = @b3_upkeep
-		}
-	}
-
-	# triggered_desc = {
-	# 	trigger = {
-	# 		NOT = { has_modifier = gestation_colony }
-	# 	}
-	# 	text = job_replicator_effect_desc
-	# }
-
-	# triggered_desc = {
-	# 	trigger = {
-	# 		has_modifier = gestation_colony
-	# 	}
-	# 	text = job_gestation_drone_effect_desc
-	# }
-
-	# triggered_desc = {
-	# 	text = job_patrol_drone_effect_desc
-	# }
+	# boost production w/ capital productivity tech
+	inline_script = planet/buildings/auto/oxr_mdlc_capital_t2
+	inline_script = planet/buildings/auto/oxr_mdlc_capital_t3
 
 	upgrades = {
 		"oxr_mdlc_world_machines_building_auto_capital_fully_upgraded"
 	}
 }
-# 4
+# T4
 oxr_mdlc_world_machines_building_auto_capital_fully_upgraded = {
-	base_buildtime = @b4_time
-	capital = yes
-	can_build = no
-	can_demolish = no
-	can_be_ruined = no
-	can_be_disabled = no
-	position_priority = 0
-
-	category = government
+	# resources
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_capital
+		COST = @b4_minerals
+		UPKEEP = @b4_upkeep
+		BUILD_TIME = @b4_time
+		HOUSING_ADD = 6
+		AMENITIES_ADD = 6
+		HIBERNATION_JOBS = 6
+		MAX_BUILDINGS_ADD = @buildings_t4
+		DEFENSE_ARMIES = @tier_5_capital_defense_armies
+		# allow upgrade if >= this many districts
+		REQ_MIN_NUM_DISTRICTS = @oxr_capital_upgrade_t4_districts_num
+	}
 
 	inline_script = planet/buildings/oxr_mdlc_wm_auto
-
-	destroy_trigger = {
-		exists = owner
-		owner = {
-			NOT = { has_origin = oxr_mdlc_origin_world_machine_awakened }
-		}
-	}
 
 	convert_to = {
 		building_hive_major_capital
@@ -353,275 +173,65 @@ oxr_mdlc_world_machines_building_auto_capital_fully_upgraded = {
 		building_machine_system_capital_nanotech
 	}
 
-	allow = {
-		num_districts = {
-			type = any
-			value >= @oxr_capital_upgrade_t4_districts_num
-		}
-	}
-
-	prerequisites = {
-		"tech_galactic_administration"
-	}
+	prerequisites = { "tech_galactic_administration" }
 
 	show_tech_unlock_if = {
 		has_origin = oxr_mdlc_origin_world_machine_awakened
 	}
 
-	planet_modifier = {
-		planet_housing_add = 12
-		planet_amenities_add = 18
-		job_oxr_mdlc_world_machine_hibernation_slot_add = 6
-		planet_max_buildings_add = @buildings_t4
-		defense_armies_add = @tier_4_capital_defense_armies
-	}
-
-	# inline_script = {
-	# 	script = buildings/on_all_capital_buildings
-	# }
-
-	# triggered_planet_modifier = {
-	# 	potential = {
-	# 		num_sapient_pops >= 10
-	# 	}
-	# 	modifier = {
-	# 		job_replicator_add = 1
-	# 	}
-	# }
-	# triggered_planet_modifier = {
-	# 	potential = {
-	# 		num_sapient_pops >= 40
-	# 	}
-	# 	modifier = {
-	# 		job_replicator_add = 1
-	# 	}
-	# }
-	# triggered_planet_modifier = {
-	# 	potential = {
-	# 		exists = owner
-	# 		owner = { has_civic = civic_machine_assimilator }
-	# 	}
-	# 	modifier = {
-	# 		job_replicator_add = -1
-	# 		job_maintenance_drone_add = 1
-	# 	}
-	# }
-
-	# triggered_planet_modifier = {
-	# 	potential = {
-	# 		has_modifier = gestation_colony
-	# 	}
-	# 	modifier = {
-	# 		job_replicator_add = -1
-	# 		job_gestation_drone_add = 2
-	# 	}
-	# }
-
-	# triggered_planet_modifier = {
-	# 	potential = {
-	# 		exists = owner
-	# 		owner = { has_technology = tech_capital_productivity_1 }
-	# 	}
-	# 	modifier = {
-	# 		planet_jobs_productive_upkeep_mult = 0.1
-	# 		planet_jobs_productive_produces_mult = 0.1
-	# 	}
-	# }
-
-	# triggered_planet_modifier = {
-	# 	potential = {
-	# 		exists = owner
-	# 		owner = { has_technology = tech_capital_productivity_2 }
-	# 	}
-	# 	modifier = {
-	# 		planet_jobs_productive_upkeep_mult = 0.1
-	# 		planet_jobs_productive_produces_mult = 0.1
-	# 	}
-	# }
-
-	# triggered_planet_modifier = {
-	# 	potential = {
-	# 		exists = owner
-	# 		owner = { has_technology = tech_capital_productivity_3 }
-	# 	}
-	# 	modifier = {
-	# 		planet_jobs_productive_upkeep_mult = 0.1
-	# 		planet_jobs_productive_produces_mult = 0.1
-	# 	}
-	# }
-
-	resources = {
-		category = planet_buildings
-		cost = {
-			minerals = @b4_minerals
-		}
-		upkeep = {
-			energy = @b4_upkeep
-		}
-	}
+	# boost production w/ capital productivity tech
+	inline_script = planet/buildings/auto/oxr_mdlc_capital_t2
+	inline_script = planet/buildings/auto/oxr_mdlc_capital_t3
+	inline_script = planet/buildings/auto/oxr_mdlc_capital_t4
 
 	upgrades = {
-		"building_imperial_machine_capital"
+		"oxr_mdlc_world_machines_building_imperial_capital"
 	}
 }
 
-# Imperial Center - TODO
-# oxr_mdlc_world_machines_building_imperial_capital = {
-# 	base_buildtime = @b4_time
-# 	capital = yes
-# 	can_build = no
-# 	can_demolish = no
-# 	can_be_ruined = no
-# 	can_be_disabled = no
-# 	position_priority = 0
+# Imperial Capital - T6
+oxr_mdlc_world_machines_building_imperial_capital = {
+	# resources
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_capital
+		COST = @b4_minerals
+		UPKEEP = @b4_upkeep
+		BUILD_TIME = @b4_time
+		HOUSING_ADD = 6
+		AMENITIES_ADD = 6
+		HIBERNATION_JOBS = 6
+		MAX_BUILDINGS_ADD = @buildings_t4
+		DEFENSE_ARMIES = @tier_5_capital_defense_armies
+		# allow upgrade if >= this many districts
+		REQ_MIN_NUM_DISTRICTS = @oxr_capital_upgrade_t5_districts_num
+	}
 
-# 	category = government
+	potential = {
+		exists = owner
+		owner = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+			# oxr_mdlc_origin_world_machine_feature_enabled = yes
+			is_galactic_emperor = yes
+		}
+	}
 
-# 	potential = {
-# 		exists = owner
-# 		owner = {
-# 			OR = {
-# 				is_machine_empire = yes
-# 				is_country_type = ai_empire
-# 			}
-# 			is_galactic_emperor = yes
-# 		}
-# 		planet = { is_capital = yes }
-# 	}
+	convert_to = {
+		building_hive_major_capital
+		building_machine_system_capital
+		building_system_capital
+		building_hab_major_capital
+		building_ancient_control_center
+		building_ancient_palace
+	}
 
-# 	convert_to = {
-# 		building_hive_major_capital
-# 		building_machine_system_capital
-# 		building_system_capital
-# 		building_hab_major_capital
-# 		building_ancient_control_center
-# 		building_ancient_palace
-# 	}
+	prerequisites = { }
 
-# 	allow = {
-# 		num_sapient_pops >= 50
-# 	}
+	# boost production w/ capital productivity tech
+	inline_script = planet/buildings/auto/oxr_mdlc_capital_t2
+	inline_script = planet/buildings/auto/oxr_mdlc_capital_t3
+	inline_script = planet/buildings/auto/oxr_mdlc_capital_t4
 
-# 	prerequisites = {
-# 	}
-
-# 	planet_modifier = {
-# 		planet_housing_add = 18
-# 		planet_amenities_add = 20
-# 		job_replicator_add = 4
-# 		job_patrol_drone_add = 5
-# 		job_maintenance_drone_add = 6
-# 		planet_max_buildings_add = 11
-# 		planet_max_branch_office_buildings_add = 3
-# 		defense_armies_add = @tier_4_capital_defense_armies
-# 	}
-
-# 	inline_script = {
-# 		script = buildings/on_all_capital_buildings
-# 	}
-
-# 	triggered_desc = {
-# 		trigger = {
-# 			has_planet_flag = habitat
-# 		}
-# 		text = building_hab_system_capital_tooltip
-# 	}
-
-# 	triggered_planet_modifier = {
-# 		potential = {
-# 			num_sapient_pops >= 10
-# 		}
-# 		modifier = {
-# 			job_replicator_add = 1
-# 		}
-# 	}
-# 	triggered_planet_modifier = {
-# 		potential = {
-# 			num_sapient_pops >= 40
-# 		}
-# 		modifier = {
-# 			job_replicator_add = 1
-# 		}
-# 	}
-# 	triggered_planet_modifier = {
-# 		potential = {
-# 			exists = owner
-# 			owner = { has_civic = civic_machine_assimilator }
-# 		}
-# 		modifier = {
-# 			job_replicator_add = -1
-# 			job_maintenance_drone_add = 1
-# 		}
-# 	}
-
-# 	triggered_planet_modifier = {
-# 		potential = {
-# 			has_modifier = gestation_colony
-# 		}
-# 		modifier = {
-# 			job_replicator_add = -1
-# 			job_gestation_drone_add = 2
-# 		}
-# 	}
-
-# 	triggered_planet_modifier = {
-# 		potential = {
-# 			exists = owner
-# 			owner = { has_technology = tech_capital_productivity_1 }
-# 		}
-# 		modifier = {
-# 			planet_jobs_productive_upkeep_mult = 0.1
-# 			planet_jobs_productive_produces_mult = 0.1
-# 		}
-# 	}
-
-# 	triggered_planet_modifier = {
-# 		potential = {
-# 			exists = owner
-# 			owner = { has_technology = tech_capital_productivity_2 }
-# 		}
-# 		modifier = {
-# 			planet_jobs_productive_upkeep_mult = 0.1
-# 			planet_jobs_productive_produces_mult = 0.1
-# 		}
-# 	}
-
-# 	triggered_planet_modifier = {
-# 		potential = {
-# 			exists = owner
-# 			owner = { has_technology = tech_capital_productivity_3 }
-# 		}
-# 		modifier = {
-# 			planet_jobs_productive_upkeep_mult = 0.1
-# 			planet_jobs_productive_produces_mult = 0.1
-# 		}
-# 	}
-
-# 	resources = {
-# 		category = planet_buildings
-# 		cost = {
-# 			minerals = @b4_minerals
-# 		}
-# 		upkeep = {
-# 			energy = @b4_upkeep
-# 		}
-# 	}
-
-# 	triggered_desc = {
-# 		text = job_replicator_effect_desc
-# 	}
-
-# 	triggered_desc = {
-# 		trigger = {
-# 			has_modifier = gestation_colony
-# 		}
-# 		text = job_gestation_drone_effect_desc
-# 	}
-
-# 	triggered_desc = {
-# 		text = job_patrol_drone_effect_desc
-# 	}
-# }
+}
 
 #### MANUFACTURING ###
 
