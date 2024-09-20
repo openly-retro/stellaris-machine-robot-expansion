@@ -62,7 +62,7 @@ oxr_mdlc_world_machines_building_auto_capital = {
 		oxr_mdlc_world_machines_building_auto_capital_upgraded
 	}
 }
-# T2
+# T3
 oxr_mdlc_world_machines_building_auto_capital_upgraded = {
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_capital
@@ -103,7 +103,7 @@ oxr_mdlc_world_machines_building_auto_capital_upgraded = {
 		oxr_mdlc_world_machines_building_auto_capital_major_upgraded
 	}
 }
-# T3
+# T4
 oxr_mdlc_world_machines_building_auto_capital_major_upgraded = {
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_capital
@@ -145,7 +145,7 @@ oxr_mdlc_world_machines_building_auto_capital_major_upgraded = {
 		"oxr_mdlc_world_machines_building_auto_capital_fully_upgraded"
 	}
 }
-# T4
+# T5
 oxr_mdlc_world_machines_building_auto_capital_fully_upgraded = {
 	# resources
 	inline_script = {
@@ -185,12 +185,12 @@ oxr_mdlc_world_machines_building_auto_capital_fully_upgraded = {
 	inline_script = planet/buildings/auto/oxr_mdlc_capital_t4
 
 	upgrades = {
-		"oxr_mdlc_world_machines_building_imperial_capital"
+		"oxr_mdlc_world_machines_building_auto_imperial_capital"
 	}
 }
 
 # Imperial Capital - T6
-oxr_mdlc_world_machines_building_imperial_capital = {
+oxr_mdlc_world_machines_building_auto_imperial_capital = {
 	# resources
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_capital
@@ -235,6 +235,124 @@ oxr_mdlc_world_machines_building_imperial_capital = {
 
 #### MANUFACTURING ###
 
+oxr_mdlc_world_machines_building_auto_forge_1 = {
+	base_buildtime = @b1_time
+	base_cap_amount = 1
+	category = manufacturing
+
+	potential = {
+		NOR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+		}
+		OR = {
+			owner = {
+				is_ai = no
+			}
+			has_any_industry_district = yes
+		}
+	}
+
+	inline_script = planet/buildings/auto/oxr_destroy
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			minerals = @b1_minerals
+		}
+		upkeep = {
+			energy = @b1_upkeep
+		}
+		inline_script = planet/buildings/auto/oxr_mdlc_foundry_produces
+	}
+
+	upgrades = {
+		building_foundry_2
+	}
+
+	prerequisites = {
+		tech_basic_industry
+	}
+}
+
+oxr_mdlc_world_machines_building_auto_forge_2 = {
+	base_buildtime = @b2_time
+	can_build = no
+
+	allow = {
+		has_upgraded_capital = yes
+	}
+	inline_script = planet/buildings/auto/oxr_destroy
+
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_foundry
+		COST = @b2_minerals
+		RARE_COST = @b3_rare_cost
+		UPKEEP = @b2_upkeep
+		RARE_UKPEEP = @b3_rare_upkeep
+		MODIFIER_ALLOYS_PRODUCES_ADD = 1
+		MODIFIER_UPKEEP_ADD = 2  # MINERALS
+		MODIFIER_CATALYTIC_ALLOYS_PRODUCES_ADD = 1.25
+		MODIFIER_CATALYTIC_UPKEEP_ADD = 3
+		# is_ringworld stuff D:
+		RING_COST = 0
+		RING_RARE_COST = 0
+		RING_UPKEEP = 0
+		RING_RARE_UPKEEP = 0
+		RING_MODIFIER_ALLOYS_PRODUCES_ADD = 1
+		RING_MODIFIER_UPKEEP_ADD = 2
+		RING_MODIFIER_CATALYTIC_ALLOYS_PRODUCES_ADD = 1.25
+		RING_MODIFIER_CATALYTIC_UPKEEP_ADD = 3
+	}
+
+	upgrades = {
+		building_foundry_3
+	}
+
+	prerequisites = {
+		tech_alloys_1
+	}
+}
+
+oxr_mdlc_world_machines_building_auto_forge_3 = {
+	base_buildtime = @b3_time
+	can_build = no
+
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_foundry
+		COST = @b3_minerals
+		RARE_COST = @b4_rare_cost
+		UPKEEP = @b3_upkeep
+		RARE_UKPEEP = @b4_rare_upkeep
+		MODIFIER_ALLOYS_PRODUCES_ADD = 2
+		MODIFIER_UPKEEP_ADD = 4  # MINERALS
+		MODIFIER_CATALYTIC_ALLOYS_PRODUCES_ADD = 2.5
+		MODIFIER_CATALYTIC_UPKEEP_ADD = 6
+		# has_ringworld_boost D:
+		RING_COST = 1500
+		RING_RARE_COST = 600
+		RING_UPKEEP = 15
+		RING_RARE_UPKEEP = 8
+		RING_MODIFIER_ALLOYS_PRODUCES_ADD = 1
+		RING_MODIFIER_UPKEEP_ADD = 2
+		RING_MODIFIER_CATALYTIC_ALLOYS_PRODUCES_ADD = 1.25
+		RING_MODIFIER_CATALYTIC_UPKEEP_ADD = 3
+	}
+	# inline_script = {
+	# 	script = jobs/foundry_add
+	# 	AMOUNT = @b1_jobs
+	# }
+
+	allow = {
+		has_major_upgraded_capital = yes
+	}
+	# boom if no ap or wm origin
+	inline_script = planet/buildings/auto/oxr_destroy
+
+	prerequisites = {
+		tech_alloys_2
+	}
+}
 
 
 #### MILITARY ####
