@@ -1,0 +1,108 @@
+category = manufacturing
+# This trigger in vanilla checks is_ringworld, but,
+# this can never be built on a vanilla ringworld , only a world machine
+# and then only on a auto-ringworld
+resources = {
+	category = planet_buildings
+	# is_ringworld = no
+	cost = {
+		trigger = { NOT = { is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto } }
+		minerals = $COST$
+		volatile_motes = $RARE_COST$
+	}
+	upkeep = {
+		trigger = { NOT = { is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto } }
+		energy = $UPKEEP$
+		volatile_motes = $RARE_UKPEEP$
+	}
+	# is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto and is t2 or t3
+	cost = {
+		trigger = {
+			is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
+			OR = {
+				has_building = oxr_mdlc_world_machines_building_auto_forge_3
+				has_building = oxr_mdlc_world_machines_building_auto_forge_2
+			}
+		}
+		minerals = $RING_COST$
+		volatile_motes = $RING_RARE_COST$
+	}
+	upkeep = {
+		trigger = {
+			is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
+			OR = {
+				has_building = oxr_mdlc_world_machines_building_auto_forge_3
+				has_building = oxr_mdlc_world_machines_building_auto_forge_2
+			}
+		}
+		energy = $RING_UPKEEP$
+		volatile_motes = $RING_RARE_UPKEEP$
+	}
+	# produces
+	inline_script = planet/buildings/auto/oxr_mdlc_foundry_produces
+}
+# is_ringworld / xvcv_mdlc_pc_ringworld_machine_auto = no
+triggered_planet_modifier = {
+	potential = {
+		exists = owner
+		owner = { is_catalytic_empire = no }
+		OR = {
+			has_building = oxr_mdlc_world_machines_building_auto_forge_3
+			has_building = oxr_mdlc_world_machines_building_auto_forge_2
+		}
+	}
+	modifier = {
+		planet_metallurgists_alloys_produces_add = $MODIFIER_ALLOYS_PRODUCES_ADD$
+		planet_metallurgists_minerals_upkeep_add = $MODIFIER_UPKEEP_ADD$
+	}
+}
+
+triggered_planet_modifier = {
+	potential = {
+		exists = owner
+		owner = { is_catalytic_empire = yes }
+		OR = {
+			has_building = oxr_mdlc_world_machines_building_auto_forge_3
+			has_building = oxr_mdlc_world_machines_building_auto_forge_2
+		}
+	}
+	modifier = {
+		planet_metallurgists_alloys_produces_add = $MODIFIER_CATALYTIC_ALLOYS_PRODUCES_ADD$
+		planet_metallurgists_food_upkeep_add = $MODIFIER_CATALYTIC_UPKEEP_ADD$
+	}
+}
+# is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
+triggered_planet_modifier = {
+	potential = {
+		is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
+		exists = owner
+		owner = { is_catalytic_empire = no }
+		OR = {
+			has_building = oxr_mdlc_world_machines_building_auto_forge_3
+			has_building = oxr_mdlc_world_machines_building_auto_forge_2
+		}
+	}
+	modifier = {
+		planet_metallurgists_alloys_produces_add = $RING_MODIFIER_ALLOYS_PRODUCES_ADD$
+		planet_metallurgists_minerals_upkeep_add = $RING_MODIFIER_UPKEEP_ADD$
+	}
+}
+
+triggered_planet_modifier = {
+	potential = {
+		exists = owner
+		owner = { is_catalytic_empire = yes }
+		OR = {
+			has_building = oxr_mdlc_world_machines_building_auto_forge_3
+			has_building = oxr_mdlc_world_machines_building_auto_forge_2
+		}
+	}
+	modifier = {
+		planet_metallurgists_alloys_produces_add = $RING_MODIFIER_CATALYTIC_ALLOYS_PRODUCES_ADD$
+		planet_metallurgists_food_upkeep_add = $RING_MODIFIER_CATALYTIC_UPKEEP_ADD$
+	}
+}
+# inline_script = {
+# 	script = jobs/foundry_add
+# 	AMOUNT = @b1_jobs
+# }
