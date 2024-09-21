@@ -54,10 +54,6 @@ oxr_mdlc_world_machines_building_auto_capital = {
 
 	prerequisites = { "tech_planetary_government" }
 
-	show_tech_unlock_if = {
-		has_origin = oxr_mdlc_origin_world_machine_awakened
-	}
-
 	upgrades = {
 		oxr_mdlc_world_machines_building_auto_capital_upgraded
 	}
@@ -90,10 +86,6 @@ oxr_mdlc_world_machines_building_auto_capital_upgraded = {
 
 	prerequisites = {
 		"tech_planetary_government"
-	}
-
-	show_tech_unlock_if = {
-		has_origin = oxr_mdlc_origin_world_machine_awakened
 	}
 
 	# boost production w/ capital productivity tech
@@ -131,10 +123,6 @@ oxr_mdlc_world_machines_building_auto_capital_major_upgraded = {
 
 	prerequisites = {
 		"tech_colonial_centralization"
-	}
-
-	show_tech_unlock_if = {
-		has_origin = oxr_mdlc_origin_world_machine_awakened
 	}
 
 	# boost production w/ capital productivity tech
@@ -175,10 +163,6 @@ oxr_mdlc_world_machines_building_auto_capital_fully_upgraded = {
 
 	prerequisites = { "tech_galactic_administration" }
 
-	show_tech_unlock_if = {
-		has_origin = oxr_mdlc_origin_world_machine_awakened
-	}
-
 	# boost production w/ capital productivity tech
 	inline_script = planet/buildings/auto/oxr_mdlc_capital_t2
 	inline_script = planet/buildings/auto/oxr_mdlc_capital_t3
@@ -191,6 +175,9 @@ oxr_mdlc_world_machines_building_auto_capital_fully_upgraded = {
 
 # Imperial Capital - T6
 oxr_mdlc_world_machines_building_auto_imperial_capital = {
+	# not including this script bc potential is different
+	# inline_script = planet/buildings/oxr_mdlc_wm_auto
+
 	# resources
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_capital
@@ -213,6 +200,9 @@ oxr_mdlc_world_machines_building_auto_imperial_capital = {
 			# oxr_mdlc_origin_world_machine_feature_enabled = yes
 			is_galactic_emperor = yes
 		}
+	}
+	show_tech_unlock_if = {
+		has_origin = oxr_mdlc_origin_world_machine_awakened
 	}
 
 	convert_to = {
@@ -267,7 +257,7 @@ oxr_mdlc_world_machines_building_auto_forge_1 = {
 oxr_mdlc_world_machines_building_auto_forge_2 = {
 	base_buildtime = @b2_time
 	can_build = no
-
+	inline_script = planet/buildings/oxr_mdlc_wm_auto
 	allow = {
 		has_upgraded_capital = yes
 	}
@@ -306,7 +296,7 @@ oxr_mdlc_world_machines_building_auto_forge_2 = {
 oxr_mdlc_world_machines_building_auto_forge_3 = {
 	base_buildtime = @b3_time
 	can_build = no
-
+	inline_script = planet/buildings/oxr_mdlc_wm_auto
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_foundry
 		COST = @b3_minerals
@@ -888,6 +878,8 @@ oxr_mdlc_world_machines_building_auto_farm_logistics = {
 		}
 	}
 }
+# T2 - TODO
+
 
 #### STRATEGIC ####
 # Gases
@@ -1135,12 +1127,6 @@ oxr_mdlc_world_machines_building_cohesion_supervisor = {
 		"oxr_mdlc_tech_world_machines_unlocked"
 	}
 
-	show_tech_unlock_if = {
-		is_machine_empire = yes
-		NOT = {
-			has_valid_civic = civic_machine_servitor
-		}
-	}
 	on_built = {
 		owner = {
 			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
@@ -1196,12 +1182,6 @@ oxr_mdlc_world_machines_building_cohesion_hub = {
 		"oxr_mdlc_tech_world_machines_unlocked"
 	}
 
-	show_tech_unlock_if = {
-		is_machine_empire = yes
-		NOT = {
-			has_valid_civic = civic_machine_servitor
-		}
-	}
 	on_built = {
 		owner = {
 			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
