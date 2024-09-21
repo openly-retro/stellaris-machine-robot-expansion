@@ -91,14 +91,45 @@ oxr_mdlc_can_remove_beneficial_genetic_traits = {
 
 oxr_mdlc_is_machine_empire = {
 	OR = {
-        has_authority = auth_machine_intelligence
-        is_individual_machine = yes
-    }
-	[[IS_GESTALT] oxr_mdlc_machine_is_gestalt = $IS_GESTALT$ ]
+		owner_species = { has_trait = trait_machine_unit }
+		is_virtual_empire = $IS_VIRTUAL|yes$
+	}
+	oxr_mdlc_machine_is_gestalt = $IS_GESTALT|no$
 }
 
 oxr_mdlc_machine_is_gestalt = {
-	has_authority = auth_machine_intelligence
+	# has_authority = auth_machine_intelligence
+	has_ethic = ethic_gestalt_consciousness
+}
+
+# Is the empire ANY kind of robot / machine / synth (but not cyborg or virtual)
+oxr_mdlc_is_robot_empire = {
+	optimize_memory
+	OR = {
+		owner_species = { is_archetype = ROBOT }
+		owner_species = { is_archetype = MACHINE }
+		# mechanical
+		oxr_mldc_is_mechanical_empire = yes
+	}
+}
+
+oxr_mldc_is_mechanical_empire = {
+	optimize_memory
+	OR = {
+		owner_species = { has_trait = trait_mechanical }
+		owner_species = { has_trait = trait_machine_unit }
+		owner_species = { is_archetype = XVCV_MDLC_BIO_ROBOT }
+	}
+}
+
+# Scopes: country, leader, pop, army, (colony) ship
+is_mechanical_species = {
+	species = {
+		OR = {
+			has_trait = trait_machine_unit # Machine Intelligence
+			has_trait = trait_mechanical # Robots & Synthetically-ascended Pops
+		}
+	}
 }
 
 oxr_mdlc_show_debug_logs = {
