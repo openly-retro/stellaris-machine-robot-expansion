@@ -42,7 +42,7 @@ oxr_mdlc_world_machines_building_auto_capital = {
 		REQ_MIN_NUM_DISTRICTS = 0
 	}
 
-	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 
 	convert_to = {
 		building_hive_capital
@@ -74,7 +74,7 @@ oxr_mdlc_world_machines_building_auto_capital_upgraded = {
 		REQ_MIN_NUM_DISTRICTS = @oxr_capital_upgrade_t2_districts_num
 	}
 
-	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 
 	convert_to = {
 		building_hive_capital
@@ -111,7 +111,7 @@ oxr_mdlc_world_machines_building_auto_capital_major_upgraded = {
 		REQ_MIN_NUM_DISTRICTS = @oxr_capital_upgrade_t3_districts_num
 	}
 
-	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 
 	convert_to = {
 		building_hive_major_capital
@@ -150,7 +150,7 @@ oxr_mdlc_world_machines_building_auto_capital_fully_upgraded = {
 		REQ_MIN_NUM_DISTRICTS = @oxr_capital_upgrade_t4_districts_num
 	}
 
-	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 
 	convert_to = {
 		building_hive_major_capital
@@ -176,7 +176,7 @@ oxr_mdlc_world_machines_building_auto_capital_fully_upgraded = {
 # Imperial Capital - T6
 oxr_mdlc_world_machines_building_auto_imperial_capital = {
 	# not including this script bc potential is different
-	# inline_script = planet/buildings/oxr_mdlc_wm_auto
+	# inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 
 	# resources
 	inline_script = {
@@ -230,7 +230,7 @@ oxr_mdlc_world_machines_building_auto_forge_1 = {
 	base_cap_amount = 1
 	category = manufacturing
 
-	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 
 	inline_script = planet/buildings/auto/oxr_destroy
 
@@ -257,7 +257,7 @@ oxr_mdlc_world_machines_building_auto_forge_1 = {
 oxr_mdlc_world_machines_building_auto_forge_2 = {
 	base_buildtime = @b2_time
 	can_build = no
-	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 	allow = {
 		has_upgraded_capital = yes
 	}
@@ -296,7 +296,7 @@ oxr_mdlc_world_machines_building_auto_forge_2 = {
 oxr_mdlc_world_machines_building_auto_forge_3 = {
 	base_buildtime = @b3_time
 	can_build = no
-	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_foundry
 		COST = @b3_minerals
@@ -337,49 +337,24 @@ oxr_mdlc_world_machines_building_auto_forge_3 = {
 #### MILITARY ####
 # MILITARY T1
 oxr_mdlc_world_machines_building_maintenance_legion = {
-	base_buildtime = 240
-	position_priority = 100
-	can_be_ruined = no
 	category = army
+	can_be_ruined = no
 	exempt_from_ai_planet_specialization = no
 
-	inline_script = planet/buildings/oxr_sort_important
-	inline_script = planet/buildings/oxr_mdlc_wm_auto
-
-	triggered_country_modifier = {
-		potential = {
-			planet = {
-				exists = owner
-				owner = { is_gestalt = yes }
-			}
-		}
-		modifier = {
-			country_naval_cap_add = 8  # base of 4, times 2 jobs
-		}
-	}
-	triggered_country_modifier = {
-		potential = {
-			planet = {
-				exists = owner
-				owner = { has_technology = "tech_ground_defense_planning" }
-			}
-		}
-		modifier = {
-			country_naval_cap_add = 2
-		}
-	}
-
-	resources = {
-		category = oxr_mdlc_category_world_machines_buildings
-		cost = {
-			minerals = @b1_minerals
-		}
-		upkeep = {
-			energy = 1
-		}
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_army
+		BUILD_TIME = @b1_time
+		MINERALS_COST = @b1_minerals
+		DEFENSE_ARMIES = 3
+		NAVAL_CAP_ADD = 4
+		# RARE_COST = @b2_rare_cost
+		# ENERGY_UPKEEP = 1
+		# RARE_UPKEEP = @b2_rare_upkeep
 	}
 
 	prerequisites = {
+		"tech_planetary_defenses"
 		"oxr_mdlc_tech_world_machines_unlocked"
 	}
 	on_built = {
@@ -387,7 +362,36 @@ oxr_mdlc_world_machines_building_maintenance_legion = {
 			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
 		}
 	}
+	upgrades = {
+		oxr_mdlc_world_machines_building_maintenance_legion_2
+	}
 }
+# MILITARY T2
+oxr_mdlc_world_machines_building_maintenance_legion_2 = {
+	can_build = no
+	planetary_ftl_inhibitor = yes
+	can_be_ruined = no
+	category = army
+
+	allow = { has_upgraded_capital = yes }
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_army
+		BUILD_TIME = @b1_time
+		MINERALS_COST = @b2_minerals
+		RARE_COST = @b2_rare_cost
+		ENERGY_UPKEEP = 1
+		RARE_UPKEEP = @b2_rare_upkeep
+		DEFENSE_ARMIES = 6
+		NAVAL_CAP_ADD = 8
+	}
+
+	prerequisites = {
+		"tech_global_defense_grid"
+	}
+}
+
 
 #### RESEARCH ####
 # RESEARCH T1
@@ -398,7 +402,7 @@ oxr_mdlc_world_machines_building_fractal_sanitizer = {
 
 	category = research
 	inline_script = planet/buildings/oxr_sort_important
-	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 
 	destroy_trigger = {
 		OR = {
@@ -409,7 +413,7 @@ oxr_mdlc_world_machines_building_fractal_sanitizer = {
 	}
 
 	inline_script = {
-		script = planet/buildings/oxr_mdlc_research
+		script = planet/buildings/auto/oxr_mdlc_research
 		OUTPUT = 6
 		UPKEEP = 10
 		COST = @b1_minerals
@@ -439,7 +443,7 @@ oxr_mdlc_world_machines_building_fractal_sanitizer_2 = {
 
 	category = research
 
-	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 
 	destroy_trigger = {
 		OR = {
@@ -450,7 +454,7 @@ oxr_mdlc_world_machines_building_fractal_sanitizer_2 = {
 	}
 
 	inline_script = {
-		script = planet/buildings/oxr_mdlc_research
+		script = planet/buildings/auto/oxr_mdlc_research
 		OUTPUT = 12
 		UPKEEP = 14
 		COST = @b2_minerals
@@ -478,7 +482,7 @@ oxr_mdlc_world_machines_building_fractal_sanitizer_3 = {
 
 	category = research
 
-	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 
 	destroy_trigger = {
 		OR = {
@@ -489,7 +493,7 @@ oxr_mdlc_world_machines_building_fractal_sanitizer_3 = {
 	}
 
 	inline_script = {
-		script = planet/buildings/oxr_mdlc_research
+		script = planet/buildings/auto/oxr_mdlc_research
 		OUTPUT = 18
 		UPKEEP = 21
 		COST = @b3_minerals
@@ -517,7 +521,7 @@ oxr_mdlc_world_machines_building_fractal_sanitizer_4 = {
 
 	category = research
 
-	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 
 	destroy_trigger = {
 		OR = {
@@ -528,7 +532,7 @@ oxr_mdlc_world_machines_building_fractal_sanitizer_4 = {
 	}
 
 	inline_script = {
-		script = planet/buildings/oxr_mdlc_research
+		script = planet/buildings/auto/oxr_mdlc_research
 		OUTPUT = 24
 		UPKEEP = 32
 		COST = @b4_minerals
@@ -552,10 +556,10 @@ oxr_mdlc_world_machines_auto_farm_1 = {
 	can_build = yes
 	inline_script = planet/buildings/oxr_sort_important
 	# POTENTIAL
-	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 	# RESOURCES & THE REST
 	inline_script = {
-		script = planet/buildings/oxr_mdlc_auto_farm
+		script = planet/buildings/auto/oxr_mdlc_auto_farm
 		FOOD = 10
 		BUILD_COST = @b0_minerals
 		UPKEEP = @b0_upkeep
@@ -573,10 +577,10 @@ oxr_mdlc_world_machines_auto_farm_1 = {
 oxr_mdlc_world_machines_auto_farm_2 = {
 	can_build = no
 	# POTENTIAL
-	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 	# RESOURCES & THE REST
 	inline_script = {
-		script = planet/buildings/oxr_mdlc_auto_farm
+		script = planet/buildings/auto/oxr_mdlc_auto_farm
 		FOOD = 20
 		BUILD_COST = @b1_minerals
 		UPKEEP = @b1_upkeep
@@ -593,10 +597,10 @@ oxr_mdlc_world_machines_auto_farm_2 = {
 oxr_mdlc_world_machines_auto_farm_3 = {
 	can_build = no
 	# POTENTIAL
-	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 	# RESOURCES & THE REST
 	inline_script = {
-		script = planet/buildings/oxr_mdlc_auto_farm
+		script = planet/buildings/auto/oxr_mdlc_auto_farm
 		FOOD = 30
 		BUILD_COST = @b2_minerals
 		UPKEEP = @b2_upkeep
@@ -613,10 +617,10 @@ oxr_mdlc_world_machines_auto_farm_3 = {
 oxr_mdlc_world_machines_auto_farm_4 = {
 	can_build = no
 	# POTENTIAL
-	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 	# RESOURCES & THE REST
 	inline_script = {
-		script = planet/buildings/oxr_mdlc_auto_farm
+		script = planet/buildings/auto/oxr_mdlc_auto_farm
 		FOOD = 40
 		BUILD_COST = @b3_minerals
 		UPKEEP = @b3_upkeep
@@ -633,10 +637,10 @@ oxr_mdlc_world_machines_auto_farm_4 = {
 oxr_mdlc_world_machines_auto_farm_5 = {
 	can_build = no
 	# POTENTIAL
-	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 	# RESOURCES & THE REST
 	inline_script = {
-		script = planet/buildings/oxr_mdlc_auto_farm
+		script = planet/buildings/auto/oxr_mdlc_auto_farm
 		FOOD = 50
 		BUILD_COST = @b3_minerals
 		UPKEEP = @b4_upkeep
@@ -652,7 +656,7 @@ oxr_mdlc_world_machines_building_auto_mining_support = {
 	can_build = yes
 	inline_script = planet/buildings/oxr_sort_important
 	# POTENTIAL
-	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 	# RESOURCES & THE REST
 	inline_script = {
 		script = planet/buildings/auto/oxr_mining_boost
@@ -672,7 +676,7 @@ oxr_mdlc_world_machines_building_auto_mining_support = {
 oxr_mdlc_world_machines_building_auto_mining_support_2 = {
 	can_build = no
 	# POTENTIAL
-	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 	# RESOURCES & THE REST
 	inline_script = {
 		script = planet/buildings/auto/oxr_mining_boost
@@ -713,7 +717,7 @@ oxr_mdlc_world_machines_auto_mine_1 = {
 	can_build = yes
 	inline_script = planet/buildings/oxr_sort_important
 	# POTENTIAL
-	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 	# RESOURCES & THE REST
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_mining
@@ -736,7 +740,7 @@ oxr_mdlc_world_machines_auto_mine_1 = {
 oxr_mdlc_world_machines_auto_mine_2 = {
 	can_build = no
 	# POTENTIAL
-	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 	# RESOURCES & THE REST
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_mining
@@ -758,7 +762,7 @@ oxr_mdlc_world_machines_auto_mine_2 = {
 oxr_mdlc_world_machines_auto_mine_3 = {
 	can_build = no
 	# POTENTIAL
-	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 	# RESOURCES & THE REST
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_mining
@@ -780,7 +784,7 @@ oxr_mdlc_world_machines_auto_mine_3 = {
 oxr_mdlc_world_machines_auto_mine_4 = {
 	can_build = no
 	# POTENTIAL
-	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 	# RESOURCES & THE REST
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_mining
@@ -805,7 +809,7 @@ oxr_mdlc_world_machines_auto_mine_4 = {
 oxr_mdlc_world_machines_auto_mine_5 = {
 	can_build = no
 	# POTENTIAL
-	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 	# RESOURCES & THE REST
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_mining
@@ -833,7 +837,7 @@ oxr_mdlc_world_machines_building_auto_farm_logistics = {
 	base_cap_amount = 1
 	category = resource
 	inline_script = planet/buildings/oxr_sort_important
-	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 
 	destroy_trigger = {
 		exists = owner
@@ -848,26 +852,19 @@ oxr_mdlc_world_machines_building_auto_farm_logistics = {
 			}
 		}
 	}
-
-	planet_modifier = { planet_farmers_food_produces_add = 1 }
-
-	resources = {
-		category = planet_buildings
-		cost = {
-			minerals = @b1_minerals
-		}
-		upkeep = {
-			energy = 2
-		}
-		produces = {
-			trigger = { exists = owner }
-			food = 4
-			mult = value:count_world_machines_districts_of_type|DISTRICT_NAME|xvcv_mdlc_pc_machine_auto_district_farming|
-		}
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_auto_farm_boost
+		AUTO_FARM_PRODUCES_ADD = 2
+		# PRODUCES = 10
+		MINERALS_COST = @b1_minerals
+		RARE_COST = 0
+		UPKEEP = 2
+		RARE_UPKEEP = @b2_rare_upkeep
 	}
-	# upgrades = {
-	# 	xvcv_mdlc_world_machine_auto_food_processing_center
-	# }
+
+	upgrades = {
+		oxr_mdlc_world_machines_building_auto_farm_logistics_2
+	}
 	prerequisites = {
 		"tech_food_processing_1"
 		"oxr_mdlc_tech_world_machines_unlocked"
@@ -879,7 +876,29 @@ oxr_mdlc_world_machines_building_auto_farm_logistics = {
 	}
 }
 # T2 - TODO
+oxr_mdlc_world_machines_building_auto_farm_logistics_2 = {
+	base_buildtime = @b2_time
+	can_build = no
+	
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	allow = {
+		exists = owner
+		has_upgraded_capital = yes
+	}
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_auto_farm_boost
+		AUTO_FARM_PRODUCES_ADD = 4
+		# PRODUCES = 10 
+		MINERALS_COST = @b2_minerals
+		RARE_COST = @b2_rare_cost
+		UPKEEP = 2
+		RARE_UPKEEP = @b2_rare_upkeep
+	}
 
+	prerequisites = {
+		"tech_food_processing_2"
+	}
+}
 
 #### STRATEGIC ####
 # Gases
@@ -889,7 +908,7 @@ oxr_mdlc_world_machines_building_welding_colony = {
 	exempt_from_ai_planet_specialization = no
 	category = manufacturing
 	inline_script = planet/buildings/oxr_sort_important
-	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 
 	resources = {
 		category = oxr_mdlc_category_world_machines_buildings
@@ -922,7 +941,7 @@ oxr_mdlc_world_machines_building_particle_collider = {
 	exempt_from_ai_planet_specialization = no
 	category = manufacturing
 	inline_script = planet/buildings/oxr_sort_important
-	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 
 	resources = {
 		category = oxr_mdlc_category_world_machines_buildings
@@ -955,7 +974,7 @@ oxr_mdlc_world_machines_building_crystal_cultivation_tank = {
 	exempt_from_ai_planet_specialization = no
 	category = manufacturing
 	inline_script = planet/buildings/oxr_sort_important
-	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 
 	resources = {
 		category = oxr_mdlc_category_world_machines_buildings
@@ -991,7 +1010,7 @@ xvcv_mdlc_world_machine_auto_food_processing_center = {
 		has_upgraded_capital = yes
 	}
 	inline_script = planet/buildings/oxr_sort_important
-	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 
 	destroy_trigger = {
 		OR = {
@@ -1085,7 +1104,7 @@ oxr_mdlc_world_machines_building_cohesion_supervisor = {
 
 	category = unity
 	inline_script = planet/buildings/oxr_sort_important
-	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 
 	destroy_trigger = {
 		exists = owner
@@ -1140,7 +1159,7 @@ oxr_mdlc_world_machines_building_cohesion_hub = {
 
 	category = unity
 
-	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 
 	# allow = {
 	# 	has_upgraded_capital = yes
@@ -1195,7 +1214,7 @@ oxr_mdlc_world_machines_building_storage_cradle = {
 	category = resource
 
 	inline_script = planet/buildings/oxr_sort_important
-	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 
 	resources = {
 		category = oxr_mdlc_category_world_machines_buildings
@@ -1240,7 +1259,7 @@ oxr_mdlc_world_machines_building_core_fabrication_depot = {
 	base_buildtime = @b3_time
 	category = manufacturing
 	inline_script = planet/buildings/oxr_sort_important
-	inline_script = planet/buildings/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 
 	resources = {
 		category = oxr_mdlc_category_world_machines_buildings
