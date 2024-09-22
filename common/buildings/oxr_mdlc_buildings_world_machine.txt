@@ -20,7 +20,61 @@
 
 
 #### GOVERNMENT ####
+oxr_mdlc_world_machines_building_auto_stabilizer_1 = {
+	base_buildtime = @b1_time
 
+	category = government
+
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_stability
+		BUILD_COST = @b1_minerals
+		RARE_COST = 0
+		UPKEEP_ENERGY = 2
+		RARE_UPKEEP = @b2_rare_upkeep
+		PRODUCES_UNITY = 2  # mult x 2
+		UPKEEP_ENERGY = 2  # mult x 2
+		REDUCE_CRIME = -50
+		REDUCE_CRIME_CAMPAIGN = -10
+		STABILITY_ADD = 5
+	}
+
+	prerequisites = {
+		"tech_planetary_government"
+	}
+
+	upgrades = {
+		oxr_mdlc_world_machines_building_auto_stabilizer_2
+	}
+}
+
+oxr_mdlc_world_machines_building_auto_stabilizer_2 = {
+	base_buildtime = @b2_time
+
+	category = government
+	can_build = no
+
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_stability
+		BUILD_COST = @b2_minerals
+		RARE_COST = @b2_rare_cost
+		UPKEEP_ENERGY = @b1_upkeep
+		RARE_UPKEEP = @b2_rare_upkeep
+		PRODUCES_UNITY = 5  # mult x 5
+		UPKEEP_ENERGY = 10  # mult x 15
+		REDUCE_CRIME = -125
+		REDUCE_CRIME_CAMPAIGN = -50
+		STABILITY_ADD = 5
+	}
+
+	prerequisites = {
+		"tech_colonial_centralization"
+	}
+
+}
 
 ### CAPITAL BUILDINGS ###
 
@@ -235,7 +289,7 @@ oxr_mdlc_world_machines_building_auto_forge_1 = {
 	inline_script = planet/buildings/auto/oxr_destroy
 
 	resources = {
-		category = planet_buildings
+		category = oxr_mdlc_category_world_machines_buildings
 		cost = {
 			minerals = @b1_minerals
 		}
@@ -877,7 +931,7 @@ oxr_mdlc_world_machines_building_auto_farm_logistics = {
 		}
 	}
 }
-# T2 - TODO
+# T2
 oxr_mdlc_world_machines_building_auto_farm_logistics_2 = {
 	base_buildtime = @b2_time
 	can_build = no
@@ -1050,7 +1104,7 @@ xvcv_mdlc_world_machine_auto_food_processing_center = {
 	}
 
 	resources = {
-		category = planet_buildings
+		category = oxr_mdlc_category_world_machines_buildings
 		cost = {
 			trigger = {
 				has_ringworld_output_boost = no
