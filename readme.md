@@ -25,6 +25,17 @@ Warnings about working with Clausewitz syntax (what base Stellaris traits files 
 - It wiLL DaNcE On yOuR SaNiTy
 - You may lose yourself to possession of a psionic avatar if you stare too long or try to apply your ideas of "rules" and "well this could be standardized pretty easily"
 
+### Patches
+
+I do updates using the concept of patches. A patch consists of:
+
+1. A group of bug fixes or small features, OR
+2. A large feature
+
+Workflow:
+
+1. Create a branch for the patch, following the next in the series at https://github.com/openly-retro/stellaris-machine-robot-expansion/tags (if 2.3.2 is the latest then the next is 2.3.3), named `patch-#.#.#` where #.#.# is the patch version
+2. Do some work in your feature or bug branch and then make a pull request to the patch branch
 
 
 # Code generation workflow (The Good Stuff)
