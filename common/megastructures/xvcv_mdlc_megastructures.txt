@@ -26,6 +26,17 @@ xvcv_mdlc_planet_cracker = {
 	dismantle_time = 180
 	dismantle_potential = { always = yes }
 	dismantle_possible = { always = yes }
+
+	on_dismantle_start = {
+		fromfrom.planet = {
+			set_planet_flag = oxr_mdlc_clear_dismantled_planet_cracker
+		}
+	}
+	on_dismantle_cancel = {
+		fromfrom.planet = {
+			remove_planet_flag = oxr_mdlc_clear_dismantled_planet_cracker
+		}
+	}
 	
 	on_build_complete = {
 		fromfrom.planet = {
@@ -85,10 +96,20 @@ xvcv_mdlc_planet_cracker = {
 		}
 	}
 	on_dismantle_complete = {
-		this.planet = {
-			clear_deposits = yes
-			remove_planet_flag = has_megastructure
+		# fromfrom.planet = {
+		# 	clear_deposits = yes
+		# 	remove_planet_flag = has_megastructure
+		# 	remove_planet_flag = xvcv_mdlc_planet_cracker_placed
+		# }
+		# This only works if there is ONLY 1 being dismantled in the system
+		random_system_planet = {
+			limit = {
+				has_planet_flag = oxr_mdlc_clear_dismantled_planet_cracker
+			}
 			remove_planet_flag = xvcv_mdlc_planet_cracker_placed
+			remove_planet_flag = has_megastructure
+			remove_planet_flag = oxr_mdlc_clear_dismantled_planet_cracker
+			clear_deposits = yes
 		}
 	}
 	resources = {
@@ -114,5 +135,37 @@ xvcv_mdlc_planet_cracker = {
 			trigger = { owner = { has_technology = xvcv_mdlc_tech_orbital_cracker_upgrade_2 } }
 			energy = 3
 		}
+	}
+}
+xvcv_mdlc_planet_cracker_2 = {
+	entity = "xvcv_mdlc_planet_cracker_entity"
+	portrait = "GFX_megastructure_xvcv_mdlc_planet_cracker"
+	place_entity_on_planet_plane = yes
+	show_galactic_map_icon = no
+	show_in_outliner = no
+	build_time = 180
+	resources = {
+		category = megastructures
+		cost = {
+			energy = 500
+		}
+	}
+	construction_blocks_and_blocked_by = none
+	upgrade_from = {
+		xvcv_mdlc_planet_cracker
+	}
+	
+	on_build_complete = {
+		from = {
+			add_resource = {
+				alloys = 100
+			}
+		}
+		fromfrom.planet = {
+			remove_planet_flag = has_megastructure
+			remove_planet_flag = xvcv_mdlc_planet_cracker_placed
+			clear_deposits = yes
+		}
+		remove_megastructure = fromfrom
 	}
 }
