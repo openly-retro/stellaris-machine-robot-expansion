@@ -75,7 +75,7 @@ oxr_mdlc_world_machines_building_auto_stabilizer_1 = {
 		BUILD_COST = @b1_minerals
 		RARE_COST = 0
 		UPKEEP_ENERGY = 2
-		RARE_UPKEEP = @b2_rare_upkeep
+		RARE_UPKEEP = 0
 		PRODUCES_UNITY = 2  # mult x 2
 		UPKEEP_ENERGY = 2  # mult x 2
 		REDUCE_CRIME = -50
@@ -427,6 +427,174 @@ oxr_mdlc_world_machines_building_auto_forge_3 = {
 
 	prerequisites = {
 		tech_alloys_2
+	}
+}
+
+# Factories
+
+oxr_mdlc_world_machines_building_auto_factory_1 = {
+	base_buildtime = @b1_time
+	base_cap_amount = 1
+
+	potential = {
+		exists = owner
+		is_planet_world_machine = yes
+		owner = {
+			country_uses_consumer_goods = yes
+			OR = {
+				has_origin = oxr_mdlc_origin_world_machine_awakened
+				has_ascension_perk = xvcv_mdlc_ap_world_machines
+			}
+		}
+		NOR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+		}
+		# OR = {
+		# 	owner = {
+		# 		is_ai = no
+		# 	}
+		# 	and = {
+		# 		has_any_industry_district = yes
+		# 		owner = {
+		# 			should_ai_focus_on_trade = no
+		# 		}
+		# 	}
+		# }
+	}
+	show_tech_unlock_if = {
+		has_origin = oxr_mdlc_origin_world_machine_awakened
+	}
+
+	inline_script = planet/buildings/auto/oxr_destroy
+
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_factory
+		MINERALS_COST = @b1_minerals
+		RARE_COST = 0
+		RING_MINERALS_COST = 300
+		RING_RARE_COST = 0
+		ENERGY_UPKEEP = @b1_upkeep
+		RARE_UPKEEP = 0
+		RING_ENERGY_UPKEEP = 1.5
+		RING_RARE_UPKEEP = 0
+		MODIFIER_GOODS_PRODUCES_ADD = 0
+		MODIFIER_UPKEEP_ADD = 0
+		RING_MODIFIER_GOODS_PRODUCES_ADD = 0
+		RING_MODIFIER_UPKEEP_ADD = 0
+	}
+
+	prerequisites = {
+		"tech_basic_industry"
+	}
+
+	upgrades = {
+		oxr_mdlc_world_machines_building_auto_factory_2
+	}
+}
+# T2
+oxr_mdlc_world_machines_building_auto_factory_2 = {
+	base_buildtime = @b2_time
+	can_build = no
+
+	allow = {
+		OR = {
+			has_upgraded_capital = yes
+			oxr_mdlc_has_upgraded_capital = yes
+		}
+	}
+
+	potential = {
+		exists = owner
+		owner = {
+			OR = {
+				has_origin = oxr_mdlc_origin_world_machine_awakened
+				has_ascension_perk = xvcv_mdlc_ap_world_machines
+			}
+			country_uses_consumer_goods = yes
+		}
+		is_planet_world_machine = yes
+	}
+	show_tech_unlock_if = {
+		OR = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+			has_ascension_perk = xvcv_mdlc_ap_world_machines
+		}
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_factory
+		MINERALS_COST = @b2_minerals
+		RARE_COST = @b3_rare_cost
+		RING_MINERALS_COST = 0
+		RING_RARE_COST = 0
+		ENERGY_UPKEEP = @b2_upkeep
+		RARE_UPKEEP = @b3_rare_upkeep
+		RING_ENERGY_UPKEEP = 0
+		RING_RARE_UPKEEP = 0
+		MODIFIER_GOODS_PRODUCES_ADD = 1
+		MODIFIER_UPKEEP_ADD = 1
+		RING_MODIFIER_GOODS_PRODUCES_ADD = 1
+		RING_MODIFIER_UPKEEP_ADD = 1
+	}
+
+	prerequisites = {
+		"tech_luxuries_1"
+	}
+
+	upgrades = {
+		"oxr_mdlc_world_machines_building_auto_factory_3"
+	}
+}
+# T3
+oxr_mdlc_world_machines_building_auto_factory_3 = {
+	base_buildtime = @b3_time
+	can_build = no
+
+	allow = {
+		OR = {
+			has_major_upgraded_capital = yes
+			oxr_mdlc_has_upgraded_capital = yes
+		}
+	}
+
+	potential = {
+		exists = owner
+		owner = {
+			OR = {
+				has_origin = oxr_mdlc_origin_world_machine_awakened
+				has_ascension_perk = xvcv_mdlc_ap_world_machines
+			}
+			country_uses_consumer_goods = yes
+		}
+		is_planet_world_machine = yes
+	}
+	show_tech_unlock_if = {
+		OR = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+			has_ascension_perk = xvcv_mdlc_ap_world_machines
+		}
+	}
+
+	# I'd rather not deal with extra costs on ringworlds
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_factory
+		MINERALS_COST = @b3_minerals
+		RARE_COST = @b4_rare_cost
+		RING_MINERALS_COST = 1500
+		RING_RARE_COST = 600
+		ENERGY_UPKEEP = @b3_upkeep
+		RARE_UPKEEP = @b4_rare_upkeep
+		RING_ENERGY_UPKEEP = 15
+		RING_RARE_UPKEEP = 8
+		MODIFIER_GOODS_PRODUCES_ADD = 2
+		MODIFIER_UPKEEP_ADD = 2
+		RING_MODIFIER_GOODS_PRODUCES_ADD = 1
+		RING_MODIFIER_UPKEEP_ADD = 1
+	}
+
+	prerequisites = {
+		"tech_luxuries_2"
 	}
 }
 
