@@ -432,6 +432,13 @@ oxr_mdlc_world_machines_building_auto_forge_3 = {
 
 # Factories
 
+# I decided not to implement output_add to this for now
+# so to make up for that, boost base output by 20% , which is what the factory does
+# it boosts artisan output by 20% essentially
+# .. let's make it 50%
+# goods_produces_add is 2 for T3 and 1 for T2
+# minerals_upkeep_add is 2 for T3 and 1 for T2
+# to balance this (+2 goods needs +2 minerals)
 oxr_mdlc_world_machines_building_auto_factory_1 = {
 	base_buildtime = @b1_time
 	base_cap_amount = 1
@@ -471,17 +478,10 @@ oxr_mdlc_world_machines_building_auto_factory_1 = {
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_factory
 		MINERALS_COST = @b1_minerals
-		RARE_COST = 0
-		RING_MINERALS_COST = 300
-		RING_RARE_COST = 0
 		ENERGY_UPKEEP = @b1_upkeep
 		RARE_UPKEEP = 0
-		RING_ENERGY_UPKEEP = 1.5
-		RING_RARE_UPKEEP = 0
-		MODIFIER_GOODS_PRODUCES_ADD = 0
-		MODIFIER_UPKEEP_ADD = 0
-		RING_MODIFIER_GOODS_PRODUCES_ADD = 0
-		RING_MODIFIER_UPKEEP_ADD = 0
+		PRODUCES_GOODS = 30   # 20 * 1.5
+		UPKEEP_MINERALS = 30  # 20 * 1.5
 	}
 
 	prerequisites = {
@@ -530,12 +530,8 @@ oxr_mdlc_world_machines_building_auto_factory_2 = {
 		RING_RARE_COST = 0
 		ENERGY_UPKEEP = @b2_upkeep
 		RARE_UPKEEP = @b3_rare_upkeep
-		RING_ENERGY_UPKEEP = 0
-		RING_RARE_UPKEEP = 0
-		MODIFIER_GOODS_PRODUCES_ADD = 1
-		MODIFIER_UPKEEP_ADD = 1
-		RING_MODIFIER_GOODS_PRODUCES_ADD = 1
-		RING_MODIFIER_UPKEEP_ADD = 1
+		PRODUCES_GOODS = 45  # 30 * 1.5
+		UPKEEP_MINERALS = 45 # 30 * 1.5
 	}
 
 	prerequisites = {
@@ -545,6 +541,8 @@ oxr_mdlc_world_machines_building_auto_factory_2 = {
 	upgrades = {
 		"oxr_mdlc_world_machines_building_auto_factory_3"
 	}
+	custom_tooltip = oxr_mdlc_planet_district_industrial_produces_add_1
+	custom_tooltip = oxr_mdlc_planet_district_industrial_upkeep_add_1
 }
 # T3
 oxr_mdlc_world_machines_building_auto_factory_3 = {
@@ -577,20 +575,16 @@ oxr_mdlc_world_machines_building_auto_factory_3 = {
 	}
 
 	# I'd rather not deal with extra costs on ringworlds
+	# THIS DOESNT BOOST DISTRICT OUTPUT ..
+	# MY BRAIN HURTS
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_factory
 		MINERALS_COST = @b3_minerals
 		RARE_COST = @b4_rare_cost
-		RING_MINERALS_COST = 1500
-		RING_RARE_COST = 600
 		ENERGY_UPKEEP = @b3_upkeep
 		RARE_UPKEEP = @b4_rare_upkeep
-		RING_ENERGY_UPKEEP = 15
-		RING_RARE_UPKEEP = 8
-		MODIFIER_GOODS_PRODUCES_ADD = 2
-		MODIFIER_UPKEEP_ADD = 2
-		RING_MODIFIER_GOODS_PRODUCES_ADD = 1
-		RING_MODIFIER_UPKEEP_ADD = 1
+		PRODUCES_GOODS = 60  # 40 * 1.5
+		UPKEEP_MINERALS = 60 # 40 * 1.5
 	}
 
 	prerequisites = {
