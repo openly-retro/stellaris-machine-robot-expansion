@@ -322,6 +322,7 @@ oxr_mdlc_world_machines_building_auto_imperial_capital = {
 
 #### MANUFACTURING ###
 
+# Forge booster
 oxr_mdlc_world_machines_building_auto_forge_1 = {
 	base_buildtime = @b1_time
 	base_cap_amount = 1
@@ -343,7 +344,7 @@ oxr_mdlc_world_machines_building_auto_forge_1 = {
 	}
 
 	upgrades = {
-		building_foundry_2
+		oxr_mdlc_world_machines_building_auto_forge_2
 	}
 
 	prerequisites = {
@@ -356,7 +357,8 @@ oxr_mdlc_world_machines_building_auto_forge_2 = {
 	can_build = no
 	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 	allow = {
-		has_upgraded_capital = yes
+		# has_upgraded_capital = yes
+		oxr_mdlc_has_upgraded_capital = yes
 	}
 	inline_script = planet/buildings/auto/oxr_destroy
 
@@ -371,18 +373,18 @@ oxr_mdlc_world_machines_building_auto_forge_2 = {
 		MODIFIER_CATALYTIC_ALLOYS_PRODUCES_ADD = 1.25
 		MODIFIER_CATALYTIC_UPKEEP_ADD = 3
 		# is_ringworld stuff D:
-		RING_COST = 0
-		RING_RARE_COST = 0
-		RING_UPKEEP = 0
-		RING_RARE_UPKEEP = 0
-		RING_MODIFIER_ALLOYS_PRODUCES_ADD = 1
-		RING_MODIFIER_UPKEEP_ADD = 2
-		RING_MODIFIER_CATALYTIC_ALLOYS_PRODUCES_ADD = 1.25
-		RING_MODIFIER_CATALYTIC_UPKEEP_ADD = 3
+		# RING_COST = 0
+		# RING_RARE_COST = 0
+		# RING_UPKEEP = 0
+		# RING_RARE_UPKEEP = 0
+		# RING_MODIFIER_ALLOYS_PRODUCES_ADD = 1
+		# RING_MODIFIER_UPKEEP_ADD = 2
+		# RING_MODIFIER_CATALYTIC_ALLOYS_PRODUCES_ADD = 1.25
+		# RING_MODIFIER_CATALYTIC_UPKEEP_ADD = 3
 	}
 
 	upgrades = {
-		building_foundry_3
+		oxr_mdlc_world_machines_building_auto_forge_3
 	}
 
 	prerequisites = {
@@ -405,14 +407,14 @@ oxr_mdlc_world_machines_building_auto_forge_3 = {
 		MODIFIER_CATALYTIC_ALLOYS_PRODUCES_ADD = 2.5
 		MODIFIER_CATALYTIC_UPKEEP_ADD = 6
 		# has_ringworld_boost D:
-		RING_COST = 1500
-		RING_RARE_COST = 600
-		RING_UPKEEP = 15
-		RING_RARE_UPKEEP = 8
-		RING_MODIFIER_ALLOYS_PRODUCES_ADD = 1
-		RING_MODIFIER_UPKEEP_ADD = 2
-		RING_MODIFIER_CATALYTIC_ALLOYS_PRODUCES_ADD = 1.25
-		RING_MODIFIER_CATALYTIC_UPKEEP_ADD = 3
+		# RING_COST = 1500
+		# RING_RARE_COST = 600
+		# RING_UPKEEP = 15
+		# RING_RARE_UPKEEP = 8
+		# RING_MODIFIER_ALLOYS_PRODUCES_ADD = 1
+		# RING_MODIFIER_UPKEEP_ADD = 2
+		# RING_MODIFIER_CATALYTIC_ALLOYS_PRODUCES_ADD = 1.25
+		# RING_MODIFIER_CATALYTIC_UPKEEP_ADD = 3
 	}
 	# inline_script = {
 	# 	script = jobs/foundry_add
@@ -420,7 +422,7 @@ oxr_mdlc_world_machines_building_auto_forge_3 = {
 	# }
 
 	allow = {
-		has_major_upgraded_capital = yes
+		oxr_mdlc_has_major_upgraded_capital = yes
 	}
 	# boom if no ap or wm origin
 	inline_script = planet/buildings/auto/oxr_destroy
@@ -429,6 +431,8 @@ oxr_mdlc_world_machines_building_auto_forge_3 = {
 		tech_alloys_2
 	}
 }
+
+# New building - Forge w/ no boost
 
 # Factories
 
@@ -541,8 +545,6 @@ oxr_mdlc_world_machines_building_auto_factory_2 = {
 	upgrades = {
 		"oxr_mdlc_world_machines_building_auto_factory_3"
 	}
-	custom_tooltip = oxr_mdlc_planet_district_industrial_produces_add_1
-	custom_tooltip = oxr_mdlc_planet_district_industrial_upkeep_add_1
 }
 # T3
 oxr_mdlc_world_machines_building_auto_factory_3 = {
@@ -892,6 +894,9 @@ oxr_mdlc_world_machines_auto_farm_4 = {
 	upgrades = {
 		oxr_mdlc_world_machines_auto_farm_5
 	}
+	allow = {
+		always = no  # block for now
+	}
 }
 oxr_mdlc_world_machines_auto_farm_5 = {
 	can_build = no
@@ -918,7 +923,7 @@ oxr_mdlc_world_machines_building_auto_mining_support = {
 	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 	# RESOURCES & THE REST
 	inline_script = {
-		script = planet/buildings/auto/oxr_mining_boost
+		script = planet/buildings/auto/oxr_mdlc_mining_boost
 		BUILD_TIME = @b1_time
 		COST = 200
 		UPKEEP = 2
@@ -938,7 +943,7 @@ oxr_mdlc_world_machines_building_auto_mining_support_2 = {
 	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 	# RESOURCES & THE REST
 	inline_script = {
-		script = planet/buildings/auto/oxr_mining_boost
+		script = planet/buildings/auto/oxr_mdlc_mining_boost
 		BUILD_TIME = @b2_time
 		COST = @b2_minerals
 		COST_MOTES = @b2_rare_cost
@@ -953,27 +958,13 @@ oxr_mdlc_world_machines_building_auto_mining_support_2 = {
 	}
 	inline_script = planet/buildings/auto/oxr_destroy
 
-		# upkeep = {
-		# 	trigger = {
-		# 		has_ringworld_output_boost = no
-		# 	}
-		# 	energy = 2
-		# 	volatile_motes = @b2_rare_upkeep
-		# }
-		# upkeep = {
-		# 	trigger = {
-		# 		has_ringworld_output_boost = yes
-		# 	}
-		# 	energy = 5
-		# 	volatile_motes = 3
-		# }
 	prerequisites = {
 		tech_mineral_purification_2
 	}
 }
 # Mining resource building - new
 oxr_mdlc_world_machines_auto_mine_1 = {
-	can_build = yes
+	can_build = yes  # for now
 	inline_script = planet/buildings/oxr_sort_important
 	# POTENTIAL
 	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
@@ -1059,7 +1050,8 @@ oxr_mdlc_world_machines_auto_mine_4 = {
 		"tech_mining_3"
 	}
 	allow = {
-		oxr_mdlc_has_upgraded_capital = yes
+		# oxr_mdlc_has_upgraded_capital = yes
+		always = no # block for now
 	}
 	upgrades = {
 		oxr_mdlc_world_machines_auto_mine_5
@@ -1088,6 +1080,125 @@ oxr_mdlc_world_machines_auto_mine_5 = {
 		oxr_mdlc_has_upgraded_capital = yes
 	}
 }
+# ENERGY - "new" old building
+oxr_mdlc_world_machines_auto_generator_1 = {
+	can_build = yes  # for now, off
+	inline_script = planet/buildings/oxr_sort_important
+	# POTENTIAL
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	# RESOURCES & THE REST
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_generator
+		PRODUCES_ENERGY = 16
+		BUILD_COST = @b0_minerals
+		RARE_COST = 0
+		UPKEEP = @b0_upkeep
+		BUILD_TIME = @b0_time
+		RARE_UPKEEP = 0
+	}
+	inline_script = planet/buildings/auto/oxr_destroy
+	prerequisites = {
+		"tech_power_plant_1"
+		"oxr_mdlc_tech_world_machines_unlocked"
+	}
+	upgrades = {
+		oxr_mdlc_world_machines_auto_generator_2
+	}
+}
+oxr_mdlc_world_machines_auto_generator_2 = {
+	can_build = no
+	# POTENTIAL
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	# RESOURCES & THE REST
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_generator
+		PRODUCES_ENERGY = 32
+		BUILD_COST = @b1_minerals
+		RARE_COST = 0
+		UPKEEP = @b1_upkeep
+		BUILD_TIME = @b1_time
+		RARE_UPKEEP = 0
+	}
+	inline_script = planet/buildings/auto/oxr_destroy
+	prerequisites = {
+		"tech_power_plant_2"
+	}
+	upgrades = {
+		oxr_mdlc_world_machines_auto_generator_3
+	}
+}
+oxr_mdlc_world_machines_auto_generator_3 = {
+	can_build = no
+	# POTENTIAL
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	# RESOURCES & THE REST
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_generator
+		PRODUCES_ENERGY = 48
+		BUILD_COST = @b2_minerals
+		RARE_COST = @b2_rare_cost
+		UPKEEP = @b2_upkeep
+		BUILD_TIME = @b2_time
+		RARE_UPKEEP = @b2_rare_upkeep
+	}
+	inline_script = planet/buildings/auto/oxr_destroy
+	prerequisites = {
+		"tech_power_plant_3"
+	}
+	upgrades = {
+		oxr_mdlc_world_machines_auto_generator_4
+	}
+}
+oxr_mdlc_world_machines_auto_generator_4 = {
+	can_build = no
+	# POTENTIAL
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	# RESOURCES & THE REST
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_generator
+		PRODUCES_ENERGY = 64
+		BUILD_COST = @b3_minerals
+		RARE_COST = @b3_rare_cost
+		UPKEEP = @b3_upkeep
+		BUILD_TIME = @b3_time
+		RARE_UPKEEP = @b3_rare_upkeep
+	}
+	inline_script = planet/buildings/auto/oxr_destroy
+	prerequisites = {
+		"tech_power_plant_4"
+	}
+	allow = {
+		# oxr_mdlc_has_upgraded_capital = yes
+		always = no  # off for now
+	}
+	upgrades = {
+		oxr_mdlc_world_machines_auto_generator_5
+	}
+}
+oxr_mdlc_world_machines_auto_generator_5 = {
+	can_build = no
+	# POTENTIAL
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	# RESOURCES & THE REST
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_generator
+		PRODUCES_ENERGY = 80
+		BUILD_COST = @b3_minerals
+		RARE_COST = @b3_rare_cost
+		UPKEEP = @b3_upkeep
+		BUILD_TIME = @b3_time
+		RARE_UPKEEP = @b3_rare_upkeep
+	}
+	inline_script = planet/buildings/auto/oxr_destroy
+	prerequisites = {
+		"tech_power_plant_4"
+		"tech_power_hub_2"
+	}
+	allow = {
+		oxr_mdlc_has_upgraded_capital = yes
+	}
+}
+
 
 
 # Replace building_food_processing_facility
@@ -1112,7 +1223,7 @@ oxr_mdlc_world_machines_building_auto_farm_logistics = {
 	}
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_auto_farm_boost
-		AUTO_FARM_PRODUCES_ADD = 2
+		# AUTO_FARM_PRODUCES_ADD = 2
 		PRODUCES = 10
 		MINERALS_COST = @b1_minerals
 		RARE_COST = 0
@@ -1147,7 +1258,7 @@ oxr_mdlc_world_machines_building_auto_farm_logistics_2 = {
 	}
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_auto_farm_boost
-		AUTO_FARM_PRODUCES_ADD = 4
+		# AUTO_FARM_PRODUCES_ADD = 4
 		PRODUCES = 10
 		MINERALS_COST = @b2_minerals
 		RARE_COST = @b2_rare_cost
