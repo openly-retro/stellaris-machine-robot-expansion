@@ -422,6 +422,16 @@ country_event = {
 		enable_special_project = {
 			name = OXR_MDLC_ORIGIN_WM_CORE_TECH_RESEARCH_SOCIETY
 		}
+		default_hide_option = yes
+	}
+	immediate = {
+		random_situation = {
+			limit = {
+				is_situation_type = oxr_mdlc_origin_wm_situation_recover_core_tech
+			}
+			destroy_situation = this
+		}
+		# end_event_chain = oxr_mdlc_origin_wm_chain_gather_insights
 	}
 }
 
@@ -494,7 +504,8 @@ planet_event = {
 				set_variable = {
 					which = oxr_mdlc_planet_world_machine_core_countdown
 					# value = @oxr_mdlc_world_machine_core_build_time_days
-					value = 60
+					# value = 60
+					value = @oxr_mdlc_world_machine_core_build_time_days
 				}
 				# Otherwise, RESUME wmc construction
 			}
