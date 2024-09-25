@@ -25,6 +25,24 @@ Warnings about working with Clausewitz syntax (what base Stellaris traits files 
 - It wiLL DaNcE On yOuR SaNiTy
 - You may lose yourself to possession of a psionic avatar if you stare too long or try to apply your ideas of "rules" and "well this could be standardized pretty easily"
 
+## Translations
+
+Welcome translators!! I am very happy to have you here.
+
+If you would like to submit a translation, please go ahead and create a pull request from a fork of this repo.
+
+The translation files should go in:
+
+`localisation/<language>/replace`
+
+So if you are translating Korean files, the changes should go in `localisation/korean/replace/` because I have a language copy tool which copies all changes from English to all other languge folders.
+
+If you place the files in `localisation/<language>` and not in `localisation/<language>/replace` then the files will be overwritten.
+
+If they are in the `replace` folder then your correctly translated files will always take precedence over the English version. If your translation files are missing any keys then the missing keys will show up in English.
+
+This way, players will never see only the localisation key with no content if there are translations missing.
+
 ### Patches
 
 I do updates using the concept of patches. A patch consists of:
