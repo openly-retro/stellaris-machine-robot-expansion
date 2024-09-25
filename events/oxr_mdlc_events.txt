@@ -188,9 +188,15 @@ leader_event = {
 
 country_event = {
 	id = oxr_mdlc.30
-	title = "Change vassal to machine empire"
-	desc = "Because vassal country templates default to non-gestalt"
+	hide_window = yes
 	is_triggered_only = yes
+
+	trigger = {
+		from = {
+			has_authority = auth_machine_intelligence
+			has_ascension_perk = oxr_mdlc_ap_distributed_multikernel
+		}
+	}
 	
 	immediate = {
 		set_origin = origin_default
@@ -235,6 +241,7 @@ country_event = {
 				is_event_leader = no
 				NOT = { has_ethic = ethic_gestalt_consciousness }
 			}
+			change_background_ethic = ethic_gestalt_consciousness
 		}
 		ruler = {
 			remove_all_traits = yes
@@ -452,11 +459,6 @@ country_event = {
 				remove_building = building_communal_housing_large
 				add_building = building_drone_megastorage
 			}
-			while = {
-				limit = { has_building = building_slave_huts }
-				remove_building = building_slave_huts
-				add_building = building_drone_megastorage
-			}
 			if = {
 				limit = { has_building = building_clone_vats }
 				remove_building = building_clone_vats
@@ -566,9 +568,8 @@ country_event = {
 # Add opinion modifier to newly created vassals
 country_event = {
 	id = oxr_mdlc.35
-	title = ""
-	desc = ""
 	is_triggered_only = yes
+	hide_window = yes
 	diplomatic = yes
 
 	# Releasing non-machine vassals isn't supported by me yet

@@ -158,8 +158,7 @@ containerWindowType = {{
 }}
 """
 
-if __name__ == "__main__":
-    print(CODE_HEADER)
+def do_all_work():
     print("Generate Councilor Editor button effects code")
     
     for councilor in GESTALT_COUNCILOR_TYPES:
@@ -180,3 +179,7 @@ if __name__ == "__main__":
             )
         sys.stdout.write("Done."); print("")
     print("Done writing GUI code.")
+
+if __name__ == "__main__":
+    print(CODE_HEADER)
+    do_all_work()

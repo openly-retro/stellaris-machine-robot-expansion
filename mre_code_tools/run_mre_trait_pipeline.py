@@ -39,6 +39,12 @@ from generate_traits_gui_and_effects import (
 )
 from mre_translation_key_normalizer import do_all_work as do_uppercase_modifier_mapping_work
 from mre_harvest_machine_tooltips import do_all_work as harvest_machine_tooltips
+from mre_generate_councilor_editor_gui import do_all_work as generate_councilor_editor_gui
+from mre_generate_councilor_editor_scripted_triggers import do_all_work as generate_councilor_editor_scripted_triggers
+from mre_generate_councilor_editor_button_effects import do_all_work as generate_councilor_editor_button_effects
+from mre_generate_gui_traits_limits_effects import do_all_work as generate_councilor_gui_traits_limits_effects
+from mre_generate_ruler_limits_scripted_effect import do_all_work as generate_ruler_limits_scripted_effect
+
 
 from mre_common_vars import (
     BUILD_FOLDER,
@@ -83,8 +89,8 @@ def batch_process_base_files_into_yaml(stellaris_path: str) -> list:
         generated_files.append(target_converted_file_name)
         with open(target_converted_file_name, "w") as dest_file:
             dest_file.write(buffer)
-            sys.stdout.write(
-                f"Chopped up base file {base_file} successfully. Written to {dest_file.name}\n"
+            print(
+                f"Chopped up base file {base_file} successfully. Written to {dest_file.name}"
             )
     return generated_files
 
@@ -153,6 +159,9 @@ def sort_and_write_filtered_trait_data():
     all_traits_processed_data = sort_and_filter_pipeline_files()
     write_sorted_filtered_data_to_json_files(all_traits_processed_data)
 
+horiz = "***************************************************************"
+def sanity_check():
+    return f"Sanity levels at {randint(15,115)}% of normal."
 
 if __name__=="__main__":
     start_time = time.perf_counter()
@@ -171,9 +180,9 @@ if __name__=="__main__":
             f"Couldnt find {args.stellaris_path}. Check that you entered the correct "
             "base path for Stellaris (the folder with \\common\\ in it)"
         )
-    sys.stdout.write(
-        "Starting the M&RE Trait Data pipeline, phase 1: Make trait data fun to play with!\n"
-        f"Code by 0xRetro. Sanity levels at {randint(15,115)}% of normal.\n"
+    print(
+        "Starting the M&RE Trait Data pipeline, phase 1: Make trait data fun to play with!"
+        f"Code by 0xRetro. {sanity_check()}"
     )
     if not os.path.exists(
         os.path.join(
@@ -185,61 +194,62 @@ if __name__=="__main__":
             "!Whoops! Run this script from the mod root folder, not in the mre_code_tools folder,"
             "because it will write to some of the mod files directly."
         )
-    sys.stdout.write("***************************************************************\n")
-    sys.stdout.write("**** Phase 1 starting! ... ****\n")
-    sys.stdout.write("** Resetting the build folder (_boom_)**\n")
+    print(horiz)
+    print("**** Phase 1: Reset build folder and crunch base files into JSON ****")
     clean_up_build_folder()
-    sys.stdout.write("** Reading base Stellaris files & gleefully chopping them up **\n")
+    print("** Reading base Stellaris files & gleefully chopping them up **")
     base_files_processed_to_yaml = batch_process_base_files_into_yaml(args.stellaris_path)
-    sys.stdout.write("** Sauteeing & serving chopped-up data **\n")
+    print("** Sauteeing & serving chopped-up data **")
     # Here, we switch from fake YAML to dumping data to JSON, a reliable data standard
     useful_traits_json_files = crunch_trait_data_from_processed_yaml(base_files_processed_to_yaml)
-    sys.stdout.write("** Sorting traits data & writing files **\n")
+    print(horiz)
+    print("** Sorting traits data & writing files **")
+    print(horiz)
     just_three_traits_files = sort_merge_traits_files(useful_traits_json_files)
-    sys.stdout.write("**** Mm mm, delicious, sane, predictable data! ****\n")
-    sys.stdout.write("** Doing a QA check on our shiny new datafiles ... **\n")
+    # print("**** Mm mm, delicious, sane, predictable data! ****")
+    print(horiz)
+    print("** Doing a QA check on our shiny new datafiles ... **")
+    print(horiz)
     qa_pipeline_files()
-    sys.stdout.write("***************************************************************\n")
-    sys.stdout.write("**** Phase 2 starting! ... ****\n")
-    sys.stdout.write("** Sorting, filtering, and getting data ready for code gen scripts ... **\n")
+    print(horiz)
+    print("**** Phase 2: Sorting, filtering, and getting data ready for code gen scripts ... **")
     sort_and_write_filtered_trait_data()
-    sys.stdout.write("** Side quest: some modifier loc keys are in uppercase! Fixing ... **\n")
+    print("** Side quest: some modifier loc keys are in uppercase! Fixing ... **")
     do_uppercase_modifier_mapping_work(args.stellaris_path)
-    sys.stdout.write("***************************************************************\n")
-    sys.stdout.write("**** Phase 3 starting! ... Wait, what? there's a Phase 3?? ****\n")
-    sys.stdout.write("** Jumpin' jumpgates, time to finally crank out some working mod code! **\n")
-    sys.stdout.write("** Side quest: Harvest machine-specific trait localisations >:D ... **\n")
+    print(horiz)
+    print("**** Phase 3: Create effects, triggers, and GUI code *****")
     harvest_machine_tooltips(args.stellaris_path)
-    generate_mod_ready_code_files()
-    sys.stdout.write("**** Making copy/pasta for dinner! ****\n")
-    sys.stdout.write("** Making lines of EFFECTS code for xvcv_mdlc_leader_making_start_button_effect ... **\n")
+    generate_mod_ready_code_files()                 # copy pasta
+    generate_councilor_editor_gui()                 # copy pasta
+    generate_councilor_editor_scripted_triggers()   # copy pasta
+    generate_councilor_editor_button_effects()      # Traits effects in-place, other needs copy
+    generate_councilor_gui_traits_limits_effects()  # copy pasta
+    generate_ruler_limits_scripted_effect()         # # copy pasta
+    print("** Making lines of EFFECTS code for xvcv_mdlc_leader_making_start_button_effect ... **")
     pipeline_make_leader_start_button_code()
-    sys.stdout.write("** Making lines of TRIGGER code for xvcv_mdlc_core_modifying_ruler_traits_trigger ... **\n")
+    print("** Making lines of TRIGGER code for xvcv_mdlc_core_modifying_ruler_traits_trigger ... **")
     pipeline_make_xvcv_mdlc_core_modifying_ruler_traits_trigger()
-    sys.stdout.write("** Making lines of EFFECTS code for xvcv_mdlc_leader_making_clear_values_effect ... **\n")
+    print("** Making lines of EFFECTS code for xvcv_mdlc_leader_making_clear_values_effect ... **")
     pipeline_make_leader_making_clear_values_effect()
-    sys.stdout.write("** Making lines of EFFECTS code for core_modifying_reset_traits_button_effect ... **\n")
+    print("** Making lines of EFFECTS code for core_modifying_reset_traits_button_effect ... **")
     pipeline_make_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines()
-    sys.stdout.write("** Making lines of GUI code for core_modifying subclasses_gui_code ... **\n")
+    print("** Making lines of GUI code for core_modifying subclasses_gui_code ... **")
     pipeline_make_core_modifying_subclasses_gui_code()
 
-    sys.stdout.write(
-        "\n*burp* We just cranked out a TON of mod code! A lot of it should be in place now.\n"
-        "Button effects and localisation files don't need fixing. But go check that the contents look sane.\n"
-        "Also, GUI CODE NEEDS TO BE COPIED BY HAND INTO THE .GUI FILES IN THE INTERFACE FOLDER.\n"
-        "Look in the build folder for the files starting with 86 and ending in _gui.txt..\n"
-    )
+    print(horiz)
     print("** TO DO by humans **")
-    print("""
-- Look in all build files beginning with 85_. They have code to be copy-pasted to certain effects.
-  The file name tells in which effect/place they go where they go.
-- Copy/paste from 86_mre_autogenerated_core (or leader) into the 6 gui files. (core modifying and leader making)
-""")
-    sys.stdout.write("There's still more automation to be done. Till then -- \n")
+    print(
+        "- Copy GUI code for leader builder, ruler gui, councilor gui\n"
+        "- Copy generated scripted triggers to their destinations\n"
+        "- Copy generated scripted effects to their destinations\n"
+        "- Generate loc files\n"
+        "*** GOOD LUCK BIO BRAIN ***\n"
+        f"Is tired. {sanity_check()}"
+    )
 
     print(UNICORN)
     end_time = time.perf_counter()
     execution_time = end_time - start_time
-    sys.stdout.write(
-        f"\nDone in {str(execution_time)[:5]} seconds"
+    print(
+        f"Done in {str(execution_time)[:5]} seconds"
     )

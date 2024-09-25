@@ -40,17 +40,21 @@ xvcv_mdlc_leader_making_trait_skill_level_trigger = {
     optimize_memory
     custom_tooltip_fail = {
         text = xvcv_mdlc_leader_making_trait_skill_level.fail
-        OR = {
-            has_country_flag = xvcv_mdlc_leader_skill_level_set_2
-            has_country_flag = xvcv_mdlc_leader_skill_level_set_3
-            has_country_flag = xvcv_mdlc_leader_skill_level_set_4
-            has_country_flag = xvcv_mdlc_leader_skill_level_set_5
-            has_country_flag = xvcv_mdlc_leader_skill_level_set_6
-            has_country_flag = xvcv_mdlc_leader_skill_level_set_7
-            has_country_flag = xvcv_mdlc_leader_skill_level_set_8
-            has_country_flag = xvcv_mdlc_leader_skill_level_set_9
-            has_country_flag = xvcv_mdlc_leader_skill_level_set_10
+        check_variable = {
+            which = xvcv_mdlc_leader_making_skill_level
+            value >= 2
         }
+        # OR = {
+        #     has_country_flag = xvcv_mdlc_leader_skill_level_set_2
+        #     has_country_flag = xvcv_mdlc_leader_skill_level_set_3
+        #     has_country_flag = xvcv_mdlc_leader_skill_level_set_4
+        #     has_country_flag = xvcv_mdlc_leader_skill_level_set_5
+        #     has_country_flag = xvcv_mdlc_leader_skill_level_set_6
+        #     has_country_flag = xvcv_mdlc_leader_skill_level_set_7
+        #     has_country_flag = xvcv_mdlc_leader_skill_level_set_8
+        #     has_country_flag = xvcv_mdlc_leader_skill_level_set_9
+        #     has_country_flag = xvcv_mdlc_leader_skill_level_set_10
+        # }
     }
 }
 #for veteran traits
@@ -73,15 +77,19 @@ xvcv_mdlc_leader_making_trait_skill_level_alt_trigger = {
     optimize_memory
     custom_tooltip_fail = {
         text = xvcv_mdlc_leader_making_trait_skill_level.fail_alt
-        OR = {
-            has_country_flag = xvcv_mdlc_leader_skill_level_set_4
-            has_country_flag = xvcv_mdlc_leader_skill_level_set_5
-            has_country_flag = xvcv_mdlc_leader_skill_level_set_6
-            has_country_flag = xvcv_mdlc_leader_skill_level_set_7
-            has_country_flag = xvcv_mdlc_leader_skill_level_set_8
-            has_country_flag = xvcv_mdlc_leader_skill_level_set_9
-            has_country_flag = xvcv_mdlc_leader_skill_level_set_10
+        check_variable = {
+            which = xvcv_mdlc_leader_making_skill_level
+            value >= 4
         }
+        # OR = {
+        #     has_country_flag = xvcv_mdlc_leader_skill_level_set_4
+        #     has_country_flag = xvcv_mdlc_leader_skill_level_set_5
+        #     has_country_flag = xvcv_mdlc_leader_skill_level_set_6
+        #     has_country_flag = xvcv_mdlc_leader_skill_level_set_7
+        #     has_country_flag = xvcv_mdlc_leader_skill_level_set_8
+        #     has_country_flag = xvcv_mdlc_leader_skill_level_set_9
+        #     has_country_flag = xvcv_mdlc_leader_skill_level_set_10
+        # }
     }
 }
 #for destiny traits
@@ -104,11 +112,15 @@ xvcv_mdlc_leader_making_trait_skill_level_alt_2_trigger = {
     optimize_memory
     custom_tooltip_fail = {
         text = xvcv_mdlc_leader_making_trait_skill_level.fail_alt_2
-        OR = {
-            has_country_flag = xvcv_mdlc_leader_skill_level_set_8
-            has_country_flag = xvcv_mdlc_leader_skill_level_set_9
-            has_country_flag = xvcv_mdlc_leader_skill_level_set_10
+        check_variable = {
+            which = xvcv_mdlc_leader_making_skill_level
+            value >= 8
         }
+        # OR = {
+        #     has_country_flag = xvcv_mdlc_leader_skill_level_set_8
+        #     has_country_flag = xvcv_mdlc_leader_skill_level_set_9
+        #     has_country_flag = xvcv_mdlc_leader_skill_level_set_10
+        # }
     }
 }
 #and that ends here
@@ -121,17 +133,9 @@ xvcv_mdlc_leader_making_trait_max_number_trigger = {
 }
 xvcv_mdlc_leader_making_picked_any_skill_level_trigger = {
     optimize_memory
-    OR = {
-        has_country_flag = xvcv_mdlc_leader_skill_level_set_1
-        has_country_flag = xvcv_mdlc_leader_skill_level_set_2
-        has_country_flag = xvcv_mdlc_leader_skill_level_set_3
-        has_country_flag = xvcv_mdlc_leader_skill_level_set_4
-        has_country_flag = xvcv_mdlc_leader_skill_level_set_5
-        has_country_flag = xvcv_mdlc_leader_skill_level_set_6
-        has_country_flag = xvcv_mdlc_leader_skill_level_set_7
-        has_country_flag = xvcv_mdlc_leader_skill_level_set_8
-        has_country_flag = xvcv_mdlc_leader_skill_level_set_9
-        has_country_flag = xvcv_mdlc_leader_skill_level_set_10
+    check_variable = {
+        which = xvcv_mdlc_leader_making_skill_level
+        value >= 1
     }
 }
 xvcv_mdlc_leader_making_picked_any_class_trigger = {
@@ -211,5 +215,24 @@ xvcv_mdlc_leader_making_requires_leader_subclass_trigger = {
     custom_tooltip_fail = {
         text = xvcv_mdlc_leader_making_requires_leader_subclass_$CLASS$_$ID$_tooltip.fail
         has_country_flag = xvcv_mdlc_leader_$CLASS$_$ID$
+    }
+}
+
+oxr_mdlc_leader_making_check_maximum_allowed_leader_level = {
+    # Compare a value against the tracked variable
+    # for what level of leader-making a player is allowed to pick
+    optimize_memory
+    check_variable = {
+        which = oxr_mdlc_leader_making_maximum_allowed_leader_level
+        value >= $LEVEL$
+    }
+}
+oxr_mdlc_leader_making_check_leader_level_set_to = {
+    optimize_memory
+    root = {
+        check_variable = {
+            which = xvcv_mdlc_leader_making_skill_level
+            value = $LEVEL$
+        }
     }
 }

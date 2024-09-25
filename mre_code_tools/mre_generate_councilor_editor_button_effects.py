@@ -186,7 +186,7 @@ def gen_councilor_editor_traits_button_effects_code(
             allowances.append(f"has_technology = {tech}")
 
     leader_class = GESTALT_COUNCILOR_CLASS_MAP[councilor_type]
-    subclass_check_trigger = f"oxr_mdlc_councilor_editor_check_leader_has_required_subclass = {{ SUBCLASS = {required_subclass} }}"
+    subclass_check_trigger = f"oxr_mdlc_councilor_editor_check_leader_has_required_subclass = {{ CLASS = {leader_class} SUBCLASS = {required_subclass} }}"
 
     return f"""
 #{councilor_type} #{trait_name} #{rarity}
@@ -237,6 +237,35 @@ oxr_mdlc_councilor_editor_{councilor_type}_{trait_name}_remove_button_effect = {
 	}}
 }}
 """
+def do_all_work():
+    # Trait effects
+    for councilor in GESTALT_COUNCILOR_TYPES:
+        source_file = GESTALT_COUNCILOR_SOURCE_TRAITS_FILES[councilor]
+        btn_fx_outfile = OUTPUT_FILES_DESTINATIONS[COUNCILOR_EDITOR]["effects"][councilor]
+
+        traits_json_blob = ""
+        with open(source_file, "r") as source_codegen_data:
+            traits_json_blob = json_load(source_codegen_data)
+        
+        sys.stdout.write(f"Going to make {councilor} button effects code, writing to {btn_fx_outfile}...")
+        councilor_gui_blob = iterate_traits_generate_button_effects_for_councilor(
+            councilor_type=councilor, organized_traits_dict=traits_json_blob
+        )
+        with open(btn_fx_outfile, "wb") as councilor_btn_fx_outfile:
+            councilor_btn_fx_outfile.write(
+                councilor_gui_blob.encode('utf-8')
+            )
+        sys.stdout.write("Done.\n")
+    # Reset button effect
+    reset_traits_effect = gen_reset_trait_button_effect_for_councilors()
+    with open(
+        os.path.join(
+            BUILD_FOLDER,
+            f"{FILE_NUM_PREFIXES["effects"]}_oxr_mdlc_councilor_editor_reset_traits_button_effect.txt"
+        ), "wb"
+    ) as outfile:
+        outfile.write(reset_traits_effect.encode('utf-8'))
+    print("Done writing 50_oxr_mdlc_councilor_editor_reset_traits_button_effect")
 
 if __name__ == "__main__":
     print(CODE_HEADER)

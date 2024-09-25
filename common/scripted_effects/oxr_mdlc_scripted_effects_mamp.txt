@@ -10,9 +10,11 @@ create_mamp_cat1_species = {
 			trait = "oxr_mdlc_mamp_frame_1"
 			trait = "trait_machine_unit"
 		}
+		homeworld = this.capital_scope
 		allow_negative_traits = no
 		effect = {
-			set_species_flag = mechanical_species@prev
+			# set_species_flag = mechanical_species@prev
+			oxr_mdlc_set_custom_species_habitability = yes
 			if = {
 				limit = {
 					prev = { use_robot_portrait_sd_hum_robot = yes }
@@ -87,6 +89,247 @@ create_mamp_cat1_species = {
 			}
 		}
 	}
-	last_created_species = { save_global_event_target_as = oxr_mdlc_mamp_cat_1_pop_species }
+	last_created_species = {
+		save_global_event_target_as = oxr_mdlc_mamp_cat_1_pop_species
+	}
 	set_built_species = last_created_species
+
+}
+
+oxr_mdlc_mamp_deduct_empire_costs_cat_1 = {
+	optimize_memory
+	# Call from planet this.space_owner scope
+	add_resource = {
+		alloys = @oxr_mdlc_mamp_cat_1_cost_energy
+		mult = -1
+	}
+	add_resource = {
+		energy = @oxr_mdlc_mamp_cat_1_cost_energy
+		mult = -1
+	}
+	log = "Deducted costs for Cat-1 Frame"
+}
+
+oxr_mdlc_mamp_deduct_empire_costs_cat_2 = {
+	optimize_memory
+	# Call from planet this.space_owner scope
+	add_resource = {
+		alloys = @oxr_mdlc_mamp_cat_2_cost_energy
+		mult = -1
+	}
+	add_resource = {
+		energy = @oxr_mdlc_mamp_cat_2_cost_energy
+		mult = -1
+	}
+	log = "Deducted costs for Cat-2 Frame"
+}
+
+oxr_mdlc_mamp_deduct_empire_costs_cat_3 = {
+	optimize_memory
+	# Call from planet this.space_owner scope
+	add_resource = {
+		alloys = @oxr_mdlc_mamp_cat_3_cost_energy
+		mult = -1
+	}
+	add_resource = {
+		energy = @oxr_mdlc_mamp_cat_3_cost_energy
+		mult = -1
+	}
+	log = "Deducted costs for Cat-3 Frame"
+}
+
+
+oxr_mdlc_mamp_construct_cat_1_pop = {
+	# Construct a pop from an existing MAMP species
+	optimize_memory
+	random_owned_pop = {
+		limit = {
+			species = {
+				# is_archetype = MACHINE
+				has_trait = trait_machine_unit
+				NOT = { is_archetype = OXR_MDLC_MAMP }
+			}
+		}
+		kill_pop = yes
+	}
+	create_pop = {
+		species = event_target:oxr_mdlc_mamp_cat_1_pop_species
+	}
+	last_created_pop = {
+		set_citizenship_type = {
+			country = root.owner
+			type = citizenship_full_machine
+			cooldown = no
+		}
+	}
+}
+
+oxr_mdlc_mamp_planet_kill_pop_for_frame = {
+	# Must be called from planet scope; must do check before hand
+	optimize_memory
+	random_owned_pop = {
+		limit = {
+			species = {
+				# is_archetype = MACHINE
+				has_trait = trait_machine_unit
+				NOT = { is_archetype = OXR_MDLC_MAMP }
+			}
+			# NOT = { has_job_category = ruler }
+		}
+		kill_pop = yes
+	}
+	log = "Killed 1 pop on \\[This.GetName] to construct a MAMP Frame"
+}
+
+oxr_mdlc_mamp_notify_pop_construction_complete = {
+	# Called from planet_event oxr_mdlc_mamp.1002
+	optimize_memory
+	create_message = {
+		type = OXR_MDLC_MAMP_AUTO_CONSTRUCTION_COMPLETION_MESSAGE_TYPE
+		localization = OXR_MDLC_MAMP_AUTO_CONSTRUCTION_CAT_1_DONE_MESSAGE
+		days = 10
+		target = this
+		variable = {
+			type = name
+			localization = OXR_MDLC_MAMP_AUTO_CONSTRUCTION_PLANET
+			scope = this
+		}
+	}
+}
+
+oxr_mdlc_mamp_planet_set_autoconstruction_cat_level = {
+	# Quick helper to set a var. Acceptable values: 0, 1, 2, 3
+	optimize_memory
+	set_variable = {
+		which = oxr_mdlc_mamp_auto_construction_cat_level
+		value = $LEVEL$
+	}
+}
+
+# oxr_mdlc_mamp_planet_reset_frame_habitability = {
+# 	# Change pop's habitability based on planet type
+# 	any_owned_pop = {
+# 		oxr_mdlc_mamp_pop_remove_habitability_preference = yes
+# 	}
+# 	oxr_mdlc_mamp_pop_remove_habitability_preference = yes
+# }
+
+oxr_mdlc_mamp_pop_remove_habitability_preference = {
+	if = {
+		limit = { 
+			last_created_pop = {
+				species = { is_archetype = OXR_MDLC_MAMP }
+			}
+		}
+		if = {
+			limit = {
+				species = { has_trait = trait_dry_planet_preference }
+			}
+			modify_species = { remove_trait = trait_dry_planet_preference }
+		}
+		# vanilla, wet
+		if = {
+			limit = {
+				species = { has_trait = trait_wet_planet_preference }
+			}
+			modify_species = { remove_trait = trait_wet_planet_preference }
+		}
+		# vanilla, frozen
+		if = {
+			limit = {
+				species = { has_trait = trait_frozen_planet_preference }
+			}
+			modify_species = { remove_trait = trait_frozen_planet_preference }
+		}
+		# custom, dry
+		if = {
+			limit = {
+				species = { has_trait = oxr_mdlc_trait_dry_planet_preference }
+			}
+			modify_species = { remove_trait = oxr_mdlc_trait_dry_planet_preference }
+		}
+		# custom, wet
+		if = {
+			limit = {
+				species = { has_trait = oxr_mdlc_trait_wet_planet_preference }
+			}
+			modify_species = { remove_trait = oxr_mdlc_trait_wet_planet_preference }
+		}
+		# custom, frozen
+		if = {
+			limit = {
+				species = { has_trait = oxr_mdlc_trait_frozen_planet_preference }
+			}
+			modify_species = { remove_trait = oxr_mdlc_trait_frozen_planet_preference }
+		}
+	}
+
+}
+oxr_mdlc_mamp_pop_change_habitability_preference = {
+	if = {
+		limit = { 
+			random_owned_pop = {
+				species = { is_archetype = OXR_MDLC_MAMP }
+			}
+		}
+		random_owned_pop = {
+			modify_species = {
+				ideal_planet_class = root
+			}
+		}
+	}
+}
+
+oxr_mdlc_mamp_planet_update_all_frames_habitability = {
+	every_owned_pop = {
+		limit = {
+			species = { is_archetype = OXR_MDLC_MAMP }
+		}
+		# vanilla, dry
+		if = {
+			limit = {
+				species = { has_trait = trait_dry_planet_preference }
+			}
+			modify_species = { remove_trait = trait_dry_planet_preference }
+		}
+		# vanilla, wet
+		if = {
+			limit = {
+				species = { has_trait = trait_wet_planet_preference }
+			}
+			modify_species = { remove_trait = trait_wet_planet_preference }
+		}
+		# vanilla, frozen
+		if = {
+			limit = {
+				species = { has_trait = trait_frozen_planet_preference }
+			}
+			modify_species = { remove_trait = trait_frozen_planet_preference }
+		}
+		# custom, dry
+		if = {
+			limit = {
+				species = { has_trait = oxr_mdlc_trait_dry_planet_preference }
+			}
+			modify_species = { remove_trait = oxr_mdlc_trait_dry_planet_preference }
+		}
+		# custom, wet
+		if = {
+			limit = {
+				species = { has_trait = oxr_mdlc_trait_wet_planet_preference }
+			}
+			modify_species = { remove_trait = oxr_mdlc_trait_wet_planet_preference }
+		}
+		# custom, frozen
+		if = {
+			limit = {
+				species = { has_trait = oxr_mdlc_trait_frozen_planet_preference }
+			}
+			modify_species = { remove_trait = oxr_mdlc_trait_frozen_planet_preference }
+		}
+		# Use built-in .. will this stick?
+		modify_species = {
+			ideal_planet_class = root
+		}
+	}
 }

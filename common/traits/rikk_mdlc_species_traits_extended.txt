@@ -1,0 +1,335 @@
+#########################################################################################################
+#Base Traits from Extended Machines
+# Updated by Legit-Rikk
+#########################################################################################################
+#trait_robot_aquatic = {}	#not re-adding this one because there is a base game version
+
+rikk_mdlc_trait_robot_adaptive = {
+	inline_script = trait/rikk_extended
+	cost = 1
+	modifier = {
+		habitability_floor_add = 0.15			#lowered from 1.0 and made into hab floor to fit current version
+	}
+}
+
+rikk_mdlc_trait_robot_powered_adaptive = { #added this trait because, why not?
+	cost = 1
+	inline_script = trait/rikk_extended
+	modifier = {
+		pop_environment_tolerance = 0.25		
+		planet_pops_energy_upkeep_mult = 0.15
+	}
+}
+
+#lowered the habitability bonuses but slightly increased the upkeep bonus because A, B, F, G are already majority of stars with planets
+# Made the negatives more punishing because pdx added minimum habitability
+rikk_mdlc_trait_robotic_solar_poweredd = {
+	cost = 1
+	inline_script = trait/rikk_extended
+	opposites = { "rikk_mdlc_trait_robotic_radiotrophic" }
+
+	modifier = {
+		habitability_floor_add = -0.25	#makes it more punishing
+	}
+	
+	triggered_planet_growth_habitability_modifier = {
+		potential = {
+			exists = system_star
+			system_star = {
+				OR = {
+					is_planet_class = pc_b_star
+					is_planet_class = pc_a_star
+				}
+			}
+		}
+		pop_environment_tolerance = 0.50
+	}
+
+	triggered_pop_modifier = {
+		potential = {
+			exists = system_star
+			system_star = {
+				OR = {
+					is_planet_class = pc_b_star
+					is_planet_class = pc_a_star
+				}
+			}
+		}
+		planet_pops_energy_upkeep_mult = -0.25
+	}
+
+	triggered_planet_growth_habitability_modifier = {
+		potential = {
+			exists = system_star
+			system_star = {
+				OR = {
+					is_planet_class = pc_f_star
+					is_planet_class = pc_g_star
+				}
+			}
+		}
+		pop_environment_tolerance = 0.25
+	}
+
+	triggered_pop_modifier = {
+		potential = {
+			exists = system_star
+			system_star = {
+				OR = {
+					is_planet_class = pc_f_star
+					is_planet_class = pc_g_star
+				}
+			}
+		}
+		planet_pops_energy_upkeep_mult = -0.10
+	}
+
+	triggered_planet_growth_habitability_modifier = {
+		potential = {
+			exists = system_star
+			system_star = {
+				OR = {
+					is_planet_class = pc_t_star
+					is_planet_class = pc_m_star
+				}
+			}
+		}
+		pop_environment_tolerance = -0.25
+	}
+
+	triggered_pop_modifier = {
+		potential = {
+			exists = system_star
+			system_star = {
+				OR = {
+					is_planet_class = pc_t_star
+					is_planet_class = pc_m_star
+				}
+			}
+		}
+		planet_pops_energy_upkeep_mult = 0.10
+	}
+	
+	triggered_planet_growth_habitability_modifier = {
+		potential = {
+			exists = system_star
+			system_star = {
+				OR = {
+					is_planet_class = pc_pulsar
+					is_planet_class = pc_black_hole
+					is_planet_class = pc_neutron_star
+					is_planet_class = pc_toxoid_star
+				}
+			}
+		}
+		pop_environment_tolerance = -0.50
+	}
+
+	triggered_pop_modifier = {
+		potential = {
+			exists = system_star
+			system_star = {
+				OR = {
+					is_planet_class = pc_pulsar
+					is_planet_class = pc_black_hole
+					is_planet_class = pc_neutron_star
+					is_planet_class = pc_toxoid_star
+				}
+			}
+		}
+		planet_pops_energy_upkeep_mult = 0.25	
+	}
+
+	custom_tooltip_with_modifiers = rikk_mdlc_trait_robotic_solar_poweredd_effect
+}
+
+#change tooltip to reflect stars and habitability, change name to radioconductive because that makes more sense
+#Change this to also add all the different stars that put out crazy amounts of radiation
+rikk_mdlc_trait_robotic_radiotrophic = {	
+	cost = 1
+	inline_script = trait/rikk_extended
+	opposites = { "rikk_mdlc_trait_robotic_solar_poweredd" }
+
+	triggered_pop_modifier = {
+		potential = {
+			OR = {
+				AND = {
+					exists = planet
+					planet = {
+						is_planet_class = pc_nuked
+					}
+				}
+				AND = {
+					exists = system_star
+					system_star = {
+						OR = {
+							is_planet_class = pc_pulsar
+							is_planet_class = pc_black_hole
+							is_planet_class = pc_neutron_star
+							is_planet_class = pc_toxoid_star
+						}
+					}
+				}
+			}
+		}
+		planet_pops_energy_upkeep_mult = -0.50
+	}
+	triggered_planet_growth_habitability_modifier = {
+		potential = {
+			exists = system_star
+			system_star = {
+				OR = {
+					is_planet_class = pc_pulsar
+					is_planet_class = pc_black_hole
+					is_planet_class = pc_neutron_star
+					is_planet_class = pc_toxoid_star
+				}
+			}
+		}
+		pop_environment_tolerance = 0.25
+	}
+	triggered_planet_growth_habitability_modifier = {
+		potential = {
+			exists = planet
+			planet = {
+				is_planet_class = pc_nuked
+			}
+		}
+		habitability_floor_add = 0.25	#makes it more interesting
+	}
+
+	modifier = {
+	}
+	custom_tooltip_with_modifiers = rikk_mdlc_trait_robotic_radiotrophic_effect 
+}
+
+#crime for robots is really bad. This basically doubles it, along with a unity negative so I'm making it a -4 trait.
+rikk_mdlc_trait_robotic_deviants = {
+	cost = -4
+	opposites = { "rikk_mdlc_trait_robotic_mesh_network" }
+	inline_script = trait/rikk_extended
+
+	modifier = {
+		#+1 deviancy per pop, doubles deviancy
+	}
+	
+	custom_tooltip_with_modifiers = rikk_mdlc_trait_robotic_deviants_effect
+}
+
+# Added a negative that should be easy to overcome (if you're picking this you're prob rogue serv or assimilators)
+# I don't understand why there is a habitability bonus, so I got rid of it and made the unity bonus to an everything bonus.
+# decreased it to match the other all job bonus and made it 1 point cheaper
+rikk_mdlc_trait_robotic_captcha_locked = {
+	cost = 2
+	inline_script = trait/rikk_extended
+
+	triggered_pop_modifier = {
+		potential = {
+			exists = planet
+			planet = {
+				any_owned_pop = {
+					OR = {
+						has_trait = trait_machine_unit
+						has_trait = trait_mechanical
+					}
+				}
+			}
+		}
+		planet_jobs_produces_mult = -0.05
+	}
+	triggered_pop_modifier = {
+		potential = {
+			exists = planet
+			planet = {
+				any_owned_pop = {
+					NOR = {
+						has_trait = trait_machine_unit
+						has_trait = trait_mechanical
+					}
+				}
+			}
+		}
+		planet_jobs_produces_mult = 0.05
+	}
+	custom_tooltip_with_modifiers = rikk_mdlc_trait_robotic_captcha_locked_effect
+}
+
+#The bonuses for 0.1% per pop only really come into effect later game (a starting world with 35-ish pops gets a 3.5% bonus? who cares.) 
+#increased it to 0.25% so it makes sense no matter when it is used
+#it has a max of 100 so 100 pop world gets a 25% bonus which is more on tier with usual bonuses at mid-end game
+rikk_mdlc_trait_robotic_mesh_network = {
+	cost = 2
+	inline_script = trait/rikk_extended
+	opposites = { "rikk_mdlc_trait_robotic_deviants" }
+
+	triggered_pop_modifier = {
+		potential = {
+			exists = planet
+			planet = {
+				any_owned_pop = {
+					has_trait = rikk_mdlc_trait_robotic_mesh_network
+				}
+			}
+		}
+		planet_jobs_unity_produces_mult = 0.0025
+		planet_jobs_physics_research_produces_mult = 0.0025
+		planet_jobs_society_research_produces_mult = 0.0025
+		planet_jobs_engineering_research_produces_mult = 0.0025
+
+		mult = owner.value:rikk_mdlc_counter_mesh_network
+	}
+	custom_tooltip_with_modifiers = rikk_mdlc_trait_robotic_mesh_network_effect
+}
+ 
+#########################################################################################################
+### Mini-Origins; Can't be picked or removed during game ###
+#########################################################################################################
+
+# Change the text to make it more apparent that it provides bonus for a high amount of pops, also lowered housing reduction
+# originally it provided a bonus for a low amount and negatives for a high amount but that didn't make sense?
+rikk_mdlc_trait_robotic_constant_growth = {
+	cost = 3
+	inline_script = trait/rikk_extended_origin
+
+	# species_possible_add = { always = no }
+	species_possible_remove = { always = no }
+	species_possible_merge_add = { always = no }
+	species_possible_merge_remove = { always = no }
+
+	modifier = {
+		pop_housing_usage_add = -0.5
+	}
+
+	triggered_pop_modifier = {
+        potential = {
+            exists = planet
+            planet = {
+                any_owned_pop = {
+                    has_trait = rikk_mdlc_trait_robotic_constant_growth
+                }
+            }
+        }
+		species_empire_size_mult = 0.002
+		pop_amenities_usage_add = 0.005
+		planet_pops_robotics_upkeep_mult = 0.004
+        mult = planet.value:rikk_mdlc_counter_nano_pops
+    }
+
+	custom_tooltip_with_modifiers = rikk_mdlc_trait_robotic_constant_growth_effect
+}
+
+rikk_mdlc_trait_robotic_ai_splitting = {
+	cost = 2
+	inline_script = trait/rikk_extended_origin
+
+	# species_possible_add = { always = no }
+	species_possible_remove = { always = no }
+	species_possible_merge_add = { always = no }
+	species_possible_merge_remove = { always = no }
+
+	modifier = {
+		#New Leaders start with levels equal to ruler level
+		#Leaders have -10% Exp gain for each level they skipped 
+	}
+	custom_tooltip = rikk_mdlc_trait_robotic_ai_splitting_effect
+}

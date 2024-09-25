@@ -317,7 +317,7 @@ xvcv_mdlc_leader_making_clear_values_effect = {
 def generate_class_specific_lines_for_leader_making_clear_values_effect(list_of_traits, for_class):
     # TODO: Exclude core_modifying traits that we dont want ?
 
-    print(f"Generatint clear values effects for {for_class}")
+    print(f"Generating clear values effects for {for_class}")
     opening_lines = f"""
     #{for_class}
     if = {{
@@ -325,10 +325,16 @@ def generate_class_specific_lines_for_leader_making_clear_values_effect(list_of_
     closing_lines = f"""        remove_country_flag = xvcv_mdlc_leader_class_set_to_{for_class}
     }}"""
     trait_limit_declarations = []
+    trait_limit_line = "        if = {{ limit = {{ has_country_flag = xvcv_mdlc_leader_{for_class}_{trait_name} }} remove_country_flag = xvcv_mdlc_leader_{for_class}_{trait_name} }}"
     for leader_trait in list_of_traits:
         trait_name = [*leader_trait][0]
-        trait_limit_line = f"        if = {{ limit = {{ has_country_flag = xvcv_mdlc_leader_{for_class}_{trait_name} }} remove_country_flag = xvcv_mdlc_leader_{for_class}_{trait_name} }}"
-        trait_limit_declarations.append(trait_limit_line)
+        trait_limit_declarations.append(trait_limit_line.format(for_class=for_class, trait_name=trait_name))
+    # Remember to generate subclasses code!
+    for subclass_trait in LEADER_SUBCLASSES:
+        if for_class in subclass_trait:
+            trait_limit_declarations.append(
+                trait_limit_line.format(for_class=for_class, trait_name=subclass_trait)
+            )
     # Preserve this during autogeneration
     add_custom_traits_class_block = f"""
         if = {{ limit = {{ has_country_flag = xvcv_mdlc_leader_{for_class}_xvcv_mdlc_leader_trait_memory_backup }} remove_country_flag = xvcv_mdlc_leader_{for_class}_xvcv_mdlc_leader_trait_memory_backup }}
@@ -634,12 +640,8 @@ def gen_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines(input_files_li
     effect_contents_items = []
     ruler_effect_line = (
         "if = {{ limit = {{ has_trait = {trait_name} }} remove_trait = {trait_name} prev ="
-        " {{ xvcv_mdlc_core_modifying_trait_return_cost_{alt_modifier}effect = yes }} }}"
+        " {{ xvcv_mdlc_core_modifying_refund_trait_resources_cost_{rarity} = yes }} }}"
     )
-    alt_modifier_lookup = {
-        "veteran": "alt_",
-        "paragon": "alt_2_"
-    }
     for trait_json_data_path in input_files_list:
         with open(trait_json_data_path, "r") as codegen_stream:
             _tmp = json_load(codegen_stream)
@@ -649,16 +651,18 @@ def gen_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines(input_files_li
                 for trait in _tmp['core_modifying_traits'][rarity]:
                     trait_name = [*trait][0]
                     root = trait[trait_name]
-                    alt_modifier = alt_modifier_lookup.get(
-                        root['rarity'], ""
-                    )
+                    rarity = root['rarity']
                     effect_contents_items.append(
-                        ruler_effect_line.format(trait_name=trait_name, alt_modifier=alt_modifier)
+                        ruler_effect_line.format(trait_name=trait_name, rarity=rarity)
                     )
+    subclass_effect_line = (
+        "if = {{ limit = {{ has_trait = {trait_name} }} remove_trait = {trait_name} prev ="
+        " {{ xvcv_mdlc_core_modifying_trait_return_cost_effect = yes }} }}"
+    )
     for subclass in LEADER_SUBCLASSES:
         alt_modifier = ""
         effect_contents_items.append(
-            ruler_effect_line.format(trait_name=subclass, alt_modifier=alt_modifier)
+            subclass_effect_line.format(trait_name=subclass, alt_modifier=alt_modifier)
         )
     return "\n".join(effect_contents_items)
 

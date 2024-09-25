@@ -70,9 +70,21 @@ country_event = {
 				food = -200
 			}
 			give_technology = { tech = tech_bio_reactor message = no }
-			add_tradition = tr_synthetics_adopt
-			add_tradition = tr_synthetics_synthetic_age
-			country_event = { id = xvcv_mdlc.4 days = 1 }
+
+			# country_event = { id = xvcv_mdlc.4 days = 1 }
+			if = {
+				limit = { has_machine_age_dlc = yes }
+				country_event = {
+					id = xvcv_mdlc.1011
+					days = 0
+				}
+			}
+			else = {
+				country_event = {
+					id = xvcv_mdlc.1010
+					days = 0
+				}
+			}
 		}
 		capital_scope = {
 			if = {
@@ -116,6 +128,8 @@ country_event = {
 							is_star = no
 							is_colony = no
 							is_colonizable = no
+							# asteroids are deleted in generate_home_planet_final_pass for "Resource Consolidation" origin
+							is_asteroid = no
 							NOR = {
 								is_planet_class = pc_shattered
 								is_planet_class = pc_ringworld_habitable_damaged
@@ -134,6 +148,7 @@ country_event = {
 							is_star = no
 							is_colony = no
 							is_colonizable = no
+							is_asteroid = no
 						}
 						save_event_target_as = xvcv_mdlc_civic_planet_cracker_target
 					}
@@ -143,6 +158,7 @@ country_event = {
 							NOT = { exists = event_target:xvcv_mdlc_civic_planet_cracker_target }
 							is_star = no
 							is_colony = no
+							is_asteroid = no
 						}
 						save_event_target_as = xvcv_mdlc_civic_planet_cracker_target
 					}
@@ -187,21 +203,32 @@ country_event = {
 								remove_planet = yes
 								spawn_habitat_cracker_effect = yes
 							}
-							else_if = {
-								limit = { is_planet_class = pc_ringworld_habitable }
-								change_pc = pc_ringworld_habitable_damaged
-								spawn_ringworld_cracker_effect = yes
+							# else_if = {
+							# 	limit = { is_planet_class = pc_ringworld_habitable }
+							# 	change_pc = pc_ringworld_habitable_damaged
+							# 	spawn_ringworld_cracker_effect = yes
+							# }
+							# else_if = {
+							# 	limit = { is_planet_class = pc_ringworld_tech }
+							# 	change_pc = pc_ringworld_tech_damaged
+							# 	spawn_ringworld_cracker_effect = yes
+							# }
+							# else_if = {
+							# 	limit = { is_planet_class = pc_ringworld_seam }
+							# 	change_pc = pc_ringworld_seam_damaged
+							# 	spawn_ringworld_cracker_effect = yes
+							# }
+						
+							# print_scope_effect = yes 
+							if = {
+								limit = { root = { has_technology = xvcv_mdlc_tech_orbital_cracker_upgrade_1 } }
+								add_deposit = d_minerals_4
 							}
-							else_if = {
-								limit = { is_planet_class = pc_ringworld_tech }
-								change_pc = pc_ringworld_tech_damaged
-								spawn_ringworld_cracker_effect = yes
+							if = {
+								limit = { root = { has_technology = xvcv_mdlc_tech_orbital_cracker_upgrade_2 } }
+								add_deposit = d_minerals_6
 							}
-							else_if = {
-								limit = { is_planet_class = pc_ringworld_seam }
-								change_pc = pc_ringworld_seam_damaged
-								spawn_ringworld_cracker_effect = yes
-							}
+							add_deposit = d_minerals_10
 						}
 					}
 				}
@@ -316,6 +343,13 @@ planet_event = {
 						traits = this
 						homeworld = prev.capital_scope
 					}
+				}
+				if = {
+					limit = { has_origin = xvcv_mdlc_origin_mechanical_heritage }
+					last_created_species = {
+						oxr_mdlc_set_mechanical_heritage_species_habitability = yes
+					}
+					log = "Added pc mech preference at dominant species modification"
 				}
 				xvcv_mdlc_dominant_species_changing_effect = yes
 			}
@@ -496,6 +530,7 @@ event = {
 	}
 }
 #'xvcv_mdlc_origin_synth_ascend' origin effect event #also see: 'xvcv_mdlc.1'
+
 country_event = {
 	id = xvcv_mdlc.4
 	hide_window = yes
@@ -503,13 +538,15 @@ country_event = {
 
 	trigger = {
 		xvcv_mdlc_synthetic_start_origin_trigger = yes
+		NOT = { has_country_flag = xvcv_mdlc_synth_origin_start_project_cleared }
 	}
 
 	immediate = {
 		if = {
 			limit = { has_special_project = SYNTHETIC_EVOLUTION_PROJECT }
 			abort_special_project = { type = SYNTHETIC_EVOLUTION_PROJECT }
-			# else = { country_event = { id = xvcv_mdlc.4 days = 1 } } #check per day
+			# Prevent this event from looping every single day
+			set_country_flag = xvcv_mdlc_synth_origin_start_project_cleared
 		}
 		else = { country_event = { id = xvcv_mdlc.4 days = 1 } } #check per day
 	}
@@ -624,6 +661,7 @@ country_event = {
 					effect = {
 						modify_species = {
 							remove_trait = trait_machine_unit
+							ideal_planet_class = this
 							change_scoped_species = no
 						}
 					}
@@ -1136,6 +1174,7 @@ country_event = {
 					effect = {
 						modify_species = {
 							remove_trait = trait_mechanical
+							ideal_planet_class = this
 							change_scoped_species = no
 						}
 					}
@@ -1437,11 +1476,6 @@ country_event = {
 			while = {
 				limit = { has_building = building_communal_housing_large }
 				remove_building = building_communal_housing_large
-				add_building = building_drone_megastorage
-			}
-			while = {
-				limit = { has_building = building_slave_huts }
-				remove_building = building_slave_huts
 				add_building = building_drone_megastorage
 			}
 			if = {
@@ -1931,132 +1965,132 @@ country_event = {
 	is_triggered_only = yes
 
 	option = {
-		name = "Remove $xvcv_mdlc_civic_central_processing$"
+		name = xvcv_mdlc_400.option.1
 		trigger = { has_civic = xvcv_mdlc_civic_central_processing }
 		force_remove_civic = xvcv_mdlc_civic_central_processing
 	}
 	option = {
-		name = "Remove $civic_machine_builder$"
+		name = xvcv_mdlc_400.option.2
 		trigger = { has_civic = civic_machine_builder }
 		force_remove_civic = civic_machine_builder
 	}
 	option = {
-		name = "Remove $xvcv_mdlc_civic_assimilating_swarm$"
+		name = xvcv_mdlc_400.option.3
 		trigger = { has_civic = xvcv_mdlc_civic_assimilating_swarm }
 		force_remove_civic = xvcv_mdlc_civic_assimilating_swarm
 	}
 	option = {
-		name = "Remove $civic_machine_delegated_functions$"
+		name = xvcv_mdlc_400.option.4
 		trigger = { has_civic = civic_machine_delegated_functions }
 		force_remove_civic = civic_machine_delegated_functions
 	}
 	option = {
-		name = "Remove $xvcv_mdlc_civic_efficient_administration$"
+		name = xvcv_mdlc_400.option.5
 		trigger = { has_civic = xvcv_mdlc_civic_efficient_administration }
 		force_remove_civic = xvcv_mdlc_civic_efficient_administration
 	}
 	option = {
-		name = "Remove $civic_machine_ascensionists$"
+		name = xvcv_mdlc_400.option.6
 		trigger = { has_civic = civic_machine_ascensionists }
 		force_remove_civic = civic_machine_ascensionists
 	}
 	option = {
-		name = "Remove $xvcv_mdlc_civic_expander$"
+		name = xvcv_mdlc_400.option.7
 		trigger = { has_civic = xvcv_mdlc_civic_expander }
 		force_remove_civic = xvcv_mdlc_civic_expander
 	}
 	option = {
-		name = "Remove $civic_memory_vault_machine$"
+		name = xvcv_mdlc_400.option.8
 		trigger = { has_civic = civic_memory_vault_machine }
 		force_remove_civic = civic_memory_vault_machine
 	}
 	option = {
-		name = "Remove $civic_machine_factory_overclock$"
+		name = xvcv_mdlc_400.option.9
 		trigger = { has_civic = civic_machine_factory_overclock }
 		force_remove_civic = civic_machine_factory_overclock
 	}
 	option = {
-		name = "Remove $xvcv_mdlc_civic_warfleet$"
+		name = xvcv_mdlc_400.option.10
 		trigger = { has_civic = xvcv_mdlc_civic_warfleet }
 		force_remove_civic = xvcv_mdlc_civic_warfleet
 	}
 	option = {
-		name = "Remove $xvcv_mdlc_civic_friendship_protocol$"
+		name = xvcv_mdlc_400.option.11
 		trigger = { has_civic = xvcv_mdlc_civic_friendship_protocol }
 		force_remove_civic = xvcv_mdlc_civic_friendship_protocol
 	}
 	option = {
-		name = "Remove $civic_machine_introspective$"
+		name = xvcv_mdlc_400.option.12
 		trigger = { has_civic = civic_machine_introspective }
 		force_remove_civic = civic_machine_introspective
 	}
 	option = {
-		name = "Remove $xvcv_mdlc_civic_maintenance_depot$"
+		name = xvcv_mdlc_400.option.13
 		trigger = { has_civic = xvcv_mdlc_civic_maintenance_depot }
 		force_remove_civic = xvcv_mdlc_civic_maintenance_depot
 	}
 	option = {
-		name = "Remove $civic_machine_maintenance_protocols$"
+		name = xvcv_mdlc_400.option.14
 		trigger = { has_civic = civic_machine_maintenance_protocols }
 		force_remove_civic = civic_machine_maintenance_protocols
 	}
 	option = {
-		name = "Remove $xvcv_mdlc_civic_malware_machine$"
+		name = xvcv_mdlc_400.option.15
 		trigger = { has_civic = xvcv_mdlc_civic_malware_machine }
 		force_remove_civic = xvcv_mdlc_civic_malware_machine
 	}
 	option = {
-		name = "Remove $xvcv_mdlc_civic_trading_machine$"
+		name = xvcv_mdlc_400.option.16
 		trigger = { has_civic = xvcv_mdlc_civic_trading_machine }
 		force_remove_civic = xvcv_mdlc_civic_trading_machine
 	}
 	option = {
-		name = "Remove $xvcv_mdlc_civic_nanobot_building$"
+		name = xvcv_mdlc_400.option.17
 		trigger = { has_civic = xvcv_mdlc_civic_nanobot_building }
 		force_remove_civic = xvcv_mdlc_civic_nanobot_building
 	}
 	option = {
-		name = "Remove $civic_machine_ota_updates$"
+		name = xvcv_mdlc_400.option.18
 		trigger = { has_civic = civic_machine_ota_updates }
 		force_remove_civic = civic_machine_ota_updates
 	}
 	option = {
-		name = "Remove $civic_machine_replication$"
+		name = xvcv_mdlc_400.option.19
 		trigger = { has_civic = civic_machine_replication }
 		force_remove_civic = civic_machine_replication
 	}
 	option = {
-		name = "Remove $civic_machine_rockbreakers$"
+		name = xvcv_mdlc_400.option.20
 		trigger = { has_civic = civic_machine_rockbreakers }
 		force_remove_civic = civic_machine_rockbreakers
 	}
 	option = {
-		name = "Remove $xvcv_mdlc_civic_uplink_node$"
+		name = xvcv_mdlc_400.option.21
 		trigger = { has_civic = xvcv_mdlc_civic_uplink_node }
 		force_remove_civic = xvcv_mdlc_civic_uplink_node
 	}
 	option = {
-		name = "Remove $civic_machine_upkeep_twister$"
+		name = xvcv_mdlc_400.option.22
 		trigger = { has_civic = civic_machine_upkeep_twister }
 		force_remove_civic = civic_machine_upkeep_twister
 	}
 	option = {
-		name = "Remove $civic_machine_predictive_analysis$"
+		name = xvcv_mdlc_400.option.23
 		trigger = { has_civic = civic_machine_predictive_analysis }
 		force_remove_civic = civic_machine_predictive_analysis
 	}
 	option = {
-		name = "Remove $civic_machine_unitary_cohesion$"
+		name = xvcv_mdlc_400.option.24
 		trigger = { has_civic = civic_machine_unitary_cohesion }
 		force_remove_civic = civic_machine_unitary_cohesion
 	}
 	option = {
-		name = "Remove $civic_machine_warbots$"
+		name = xvcv_mdlc_400.option.25
 		trigger = { has_civic = civic_machine_warbots }
 		force_remove_civic = civic_machine_warbots
 	}
 	option = {
-		name = "Remove $civic_machine_zero_waste_protocols$"
+		name = xvcv_mdlc_400.option.26
 		trigger = { has_civic = civic_machine_zero_waste_protocols }
 		force_remove_civic = civic_machine_zero_waste_protocols
 	}
@@ -2078,6 +2112,8 @@ country_event = {
 			limit = { any_owned_planet = { num_artificial_pops_per_year > 0 } }
 			random_owned_planet = {
 				limit = { num_artificial_pops_per_year > 0 }
+				# Copy the planet's current assembly rate to xvcv assembly rate
+				# Copy both pop assembly add, and pop assembly mult to xvcv vars
 				export_modifier_to_variable = { modifier = planet_pop_assembly_add variable = xvcv_mdlc_pop_assembly_add_var }
 				if = {
 					limit = { check_modifier_value = { modifier = planet_pop_assembly_mult value > 0 } }
@@ -2086,7 +2122,10 @@ country_event = {
 					multiply_variable = { which = xvcv_mdlc_pop_assembly_add_var value = xvcv_mdlc_pop_assembly_mult_var }
 				}
 				#log = "Assembly per Month: [This.xvcv_mdlc_pop_assembly_add_var]"
-		
+				
+				# Calculate the base assembly requirement for a bio mech pop
+				# look at the amount of "artificial" pops/yr, ex: 0.41
+				# The assembly requirement 
 				export_trigger_value_to_variable = { trigger = num_artificial_pops_per_year variable = xvcv_mdlc_pops_per_year_var }
 				set_variable = { which = xvcv_mdlc_assembly_requirement_var value = xvcv_mdlc_pop_assembly_add_var }
 				multiply_variable = { which = xvcv_mdlc_assembly_requirement_var value = 12 }
@@ -2127,6 +2166,7 @@ country_event = {
 	}
 
 	option = {
+		# Create new bio-mech pops
 		name = xvcv_mdlc.41.a
 		custom_tooltip = xvcv_mdlc.41.a.tooltip
 		hidden_effect = {
@@ -2138,32 +2178,34 @@ country_event = {
 				class = "XVCV_MDLC_BIO_ROBOT"
 				portrait = human
 				traits = { trait = xvcv_mdlc_trait_bio_robot }
+				traits = this
 				homeworld = this.capital_scope
 				effect = {
 					if = {
-						limit = { prev = { has_authority = auth_machine_intelligence } }
-						modify_species = {
-							add_trait = trait_machine_unit
-							change_scoped_species = no
+						limit = {
+							OR = {
+								root = { is_individual_machine = yes }
+								root = { has_authority = auth_machine_intelligence }
+							}
 						}
-						# else = {
-						# 	modify_species = {
-						# 		add_trait = trait_mechanical
-						# 		change_scoped_species = no
-						# 	}
-						# }
+						change_species_characteristics = {
+							add_trait = trait_machine_unit
+						}
 					}
 					else = {
-						modify_species = {
+						change_species_characteristics = {
 							add_trait = trait_mechanical
-							change_scoped_species = no
 						}
 					}
+					# oxr_mdlc_set_custom_species_habitability = yes
 					rename_species = {
 						prompt_country = prev
 						name_list = ascension_list
 					}
 				}
+			}
+			last_created_species = {
+				save_global_event_target_as = xvcv_mdlc_bio_robot_species
 			}
 			every_owned_planet = { create_pop = { species = last_created_species } }
 			every_owned_pop = {
@@ -2187,6 +2229,7 @@ country_event = {
 		ai_chance = { factor = 10 }
 	}
 	option = {
+		# Convert primary species to bio-mech
 		name = xvcv_mdlc.41.b
 		custom_tooltip = xvcv_mdlc.41.b.tooltip
 		hidden_effect = {
@@ -2199,25 +2242,23 @@ country_event = {
 					class = "XVCV_MDLC_BIO_ROBOT"
 					portrait = this
 					traits = { trait = xvcv_mdlc_trait_bio_robot }
+					traits = this
 					homeworld = prev.capital_scope
 					effect = {
 						if = {
-							limit = { prevprev = { has_authority = auth_machine_intelligence } }
-							modify_species = {
-								add_trait = trait_machine_unit
-								change_scoped_species = no
+							limit = {
+								OR = {
+									root = { is_individual_machine = yes }
+									root = { has_authority = auth_machine_intelligence }
+								}
 							}
-							# else = {
-							# 	modify_species = {
-							# 		add_trait = trait_mechanical
-							# 		change_scoped_species = no
-							# 	}
-							# }
+							change_species_characteristics = {
+								add_trait = trait_machine_unit
+							}
 						}
 						else = {
-							modify_species = {
+							change_species_characteristics = {
 								add_trait = trait_mechanical
-								change_scoped_species = no
 							}
 						}
 						rename_species = {
@@ -2226,6 +2267,9 @@ country_event = {
 						}
 					}
 				}
+			}
+			last_created_species = {
+				save_global_event_target_as = xvcv_mdlc_bio_robot_species
 			}
 			every_owned_pop = {
 				limit = { is_same_species = prev.species }
@@ -2243,6 +2287,14 @@ country_event = {
 			}
 			xvcv_mdlc_leader_tied_traits_add_effect = yes
 			xvcv_mdlc_leader_tied_traits_remove_effect = yes
+			owner = {
+				set_country_flag = synthetic_empire
+				set_policy = {
+					policy = artificial_intelligence_policy
+					option = ai_full_rights
+					cooldown = yes
+				}
+			}
 		}
 	}
 }
@@ -2295,19 +2347,22 @@ country_event = {
 				#choose a species to be born (if there are more than one hybrid)
 				weights = {
 					base = 1
-					modifier = { add = @xvcv_mdlc_bio_robot_growth_add_1 has_trait = xvcv_mdlc_bio_robot_trait_rapid_breeders }
-					modifier = { add = @xvcv_mdlc_bio_robot_growth_add_1 has_trait = xvcv_mdlc_bio_robot_trait_robot_mass_produced }
+					# modifier = { add = @xvcv_mdlc_bio_robot_growth_add_1 has_trait = xvcv_mdlc_bio_robot_trait_rapid_breeders }
+					modifier = { add = @xvcv_mdlc_bio_robot_growth_add_1 has_trait = trait_rapid_breeders }
+					modifier = { add = @xvcv_mdlc_bio_robot_growth_add_1 has_trait = trait_robot_mass_produced }
+					# modifier = { add = @xvcv_mdlc_bio_robot_growth_add_1 has_trait = xvcv_mdlc_bio_robot_trait_robot_mass_produced }
 					modifier = { add = @xvcv_mdlc_bio_robot_growth_add_2 has_trait = xvcv_mdlc_bio_robot_trait_org_body_copy_design }
 				}
 				if = {
-					limit = { has_trait = xvcv_mdlc_bio_robot_trait_rapid_breeders }
+					# limit = { has_trait = xvcv_mdlc_bio_robot_trait_rapid_breeders }
+					limit = { has_trait = trait_rapid_breeders }
 					prev = {
 						change_variable = { which = xvcv_mdlc_bio_robot_growth_progress_var value = @xvcv_mdlc_bio_robot_growth_add_1 }
 						change_variable = { which = xvcv_mdlc_bio_robot_growth_rate_per_month_var value = @xvcv_mdlc_bio_robot_growth_add_1 } #the variable used for 'xvcv_mdlc_bio_robot_growth_progress_percent_desc'
 					}
 				}
 				if = {
-					limit = { has_trait = xvcv_mdlc_bio_robot_trait_robot_mass_produced }
+					limit = { has_trait = trait_robot_mass_produced }
 					prev = {
 						change_variable = { which = xvcv_mdlc_bio_robot_growth_progress_var value = @xvcv_mdlc_bio_robot_growth_add_1 }
 						change_variable = { which = xvcv_mdlc_bio_robot_growth_rate_per_month_var value = @xvcv_mdlc_bio_robot_growth_add_1 }
@@ -2686,7 +2741,7 @@ country_event = {
 	}
 
 	immediate = {
-		clone_leader = { target = from }
+		clone_leader = { target = from set_age = 1 }
 	}
 }
 #add / remove a unique leader trait for gestalt nodes when the empire does have certain civics or does not
@@ -2912,70 +2967,72 @@ planet_event = {
 	is_triggered_only = yes
 
 	trigger = {
+		# is_planet_world_machine = yes
 		xvcv_mdlc_world_machines_districts_heat_indicators_calc_trigger = yes
 	}
 
 	immediate = {
+		log = "A district was built on \\[This.GetName]."
 		xvcv_mdlc_world_machines_output_value_calc_effect = yes
 	}
 }
+
+# Workaround to get updated modifier state after the district has been built
+# Update it a day later >_>
+planet_event = {
+	id = xvcv_mdlc.701
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = { xvcv_mdlc_world_machines_districts_heat_indicators_calc_trigger = yes }
+	immediate = {
+		planet_event = {
+			id = xvcv_mdlc.70 days = 1
+		}
+	}
+}
+
 #on district destroyed
 planet_event = {
 	id = xvcv_mdlc.71
 	hide_window = yes
 	is_triggered_only = yes
 
-	trigger = {
-		xvcv_mdlc_world_machines_districts_heat_indicators_calc_trigger = yes
-	}
-
+	trigger = { xvcv_mdlc_world_machines_districts_heat_indicators_calc_trigger = yes }
 	immediate = {
-		#I've found that the 'export_modifier_to_variable' effect doesn't work proper when it's combined with the 'on_district_demolished' trigger #stellaris v3.0.3
-		# Sadly this is still an issue in 3.11 --0xRetro
-		if = {
-			limit = { last_district_changed = xvcv_mdlc_common_district_cooling }
-			change_variable = {
-				which = xvcv_mdlc_world_machines_districts_output_var
-				value = -0.3
-			} #minus 0.3 output as a cooler is gone
-		}
-		else = {
-			change_variable = {
-				which = xvcv_mdlc_world_machines_districts_output_var
-				value = 0.1
-			}
-		} #plus 0.1 output as a heat source is gone
-		log = "A district was removed from a world-machine."
-		xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect = yes
-		# xvcv_mdlc_world_machines_output_value_calc_effect = yes
-
-		# if = {
-		# 	limit = {
-		# 		xvcv_mdlc_world_machines_planet_needs_cooling_offset = yes
-		# 	}
-		# 	xvcv_mdlc_world_machines_calculate_cooling_district_offset = yes
-		# }
+		log = "A district was removed from \\[This.GetName]."
+		xvcv_mdlc_world_machines_output_value_calc_effect = yes
 	}
 }
+# on district destroyed
+# Delay updating planet variables for 1 day after 
+planet_event = {
+	id = xvcv_mdlc.710
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { xvcv_mdlc_world_machines_districts_heat_indicators_calc_trigger = yes }
+	immediate = {
+		planet_event = { id = xvcv_mdlc.71 days = 1 }
+	}
+}
+
 #'xvcv_mdlc_d_pc_machine_ser_crime' or 'xvcv_mdlc_d_pc_machine_ser_admin_cap' deposits count
 #on district built or destroyed
+planet_event = {
+	id = xvcv_mdlc.720
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = { xvcv_mdlc_world_machines_production_district_is_empire_resource = yes }
+	immediate = { planet_event = { id = xvcv_mdlc.72 days = 1 } }
+}
+
 planet_event = {
 	id = xvcv_mdlc.72
 	hide_window = yes
 	is_triggered_only = yes
 
-	trigger = {
-		OR = {
-			#xvcv_mdlc_pc_machine_ecu
-			last_district_changed = xvcv_mdlc_pc_machine_ecu_district_naval_cap
-			#xvcv_mdlc_pc_machine_cpu
-			last_district_changed = xvcv_mdlc_pc_machine_cpu_district_decryption
-			#xvcv_mdlc_pc_machine_ser
-			last_district_changed = xvcv_mdlc_pc_machine_ser_district_admin_cap
-			last_district_changed = xvcv_mdlc_pc_machine_ser_district_crime
-			last_district_changed = xvcv_mdlc_pc_machine_ser_district_encryption
-		}
-	}
+	trigger = { xvcv_mdlc_world_machines_production_district_is_empire_resource = yes }
 
 	immediate = {
 		switch = {
@@ -3424,6 +3481,47 @@ country_event = {
 	}
 }
 
+### ORBITAL CRACKER ###
+country_event = {
+	id = xvcv_mdlc.100
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		OR = {
+			last_increased_tech = xvcv_mdlc_tech_orbital_cracker_upgrade_1
+			last_increased_tech = xvcv_mdlc_tech_orbital_cracker_upgrade_2
+		}
+	}
+	immediate = {
+		if = {
+			limit = { last_increased_tech = xvcv_mdlc_tech_orbital_cracker_upgrade_1 }
+			every_owned_megastructure = {
+				limit = {
+					is_megastructure_type = xvcv_mdlc_planet_cracker
+				}
+				this.planet = {
+					log = "Adding Orbital Cracker deposit to \\[This.GetName]"
+					add_deposit = d_minerals_4
+				}
+			}
+		}
+		else_if = {
+			limit = { last_increased_tech = xvcv_mdlc_tech_orbital_cracker_upgrade_2 }
+			every_owned_megastructure = {
+				limit = {
+					is_megastructure_type = xvcv_mdlc_planet_cracker
+				}
+				this.planet = {
+					log = "Adding Orbital Cracker deposit to \\[This.GetName]"
+					add_deposit = d_minerals_6
+				}
+			}
+		}
+	}
+}
+
+
 ### ETC Events ###
 #'xvcv_mdlc_servitor_morale' empire modifiers calculations event
 country_event = {
@@ -3709,5 +3807,149 @@ planet_event = {
 	immediate = {
 		remove_building = building_deployment_post
 		add_building = building_machine_capital
+	}
+}
+
+## Synthetic Origin setup - no TMA
+country_event = {
+	id = xvcv_mdlc.1010
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		xvcv_mdlc_synthetic_start_origin_trigger = yes
+	}
+
+	immediate = {
+		add_tradition = tr_synthetics_adopt
+		add_tradition = tr_synthetics_synthetic_age
+
+		country_event = { id = xvcv_mdlc.4 days = 1 }
+	}
+}
+## Synthetic origin - TMA compat
+# called from xvcv_mdlc.1
+country_event = {
+	id = xvcv_mdlc.1011
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		xvcv_mdlc_synthetic_start_origin_trigger = yes
+	}
+
+	immediate = {
+		
+		# Give certain flags
+		owner = {
+			set_country_flag = edict_subsidized_identity_backups
+			remove_country_flag = synth_assembly_stopped
+			remove_country_flag = identity_designer_converter
+			give_technology = {
+				tech = tech_identity_copy message = no
+			}
+			set_country_flag = edict_optimized_identity_creation
+			set_country_flag = advanced_identity_creation
+			set_country_flag = identity_complex_available
+			add_research_option = tech_identity_initialization
+			add_research_option = tech_identity_fusion
+		}
+		capital_scope = {
+			add_building = building_identity_complex
+		}
+		
+		# mix identities?
+		country_event = {
+			id = xvcv_mdlc.1014
+		}
+	}
+}
+
+# end the origin stuff
+country_event = {
+	id = xvcv_mdlc.1014
+	title = xvcv_mdlc.1014.title
+	desc = xvcv_mdlc.1014.desc
+	picture = GFX_evt_synth_situation
+	is_triggered_only = yes
+
+	trigger = { }
+	immediate = {
+		
+	}
+	option = {
+		name = xvcv_mdlc.1014.a.name
+		hidden_effect = {}
+	}
+}
+
+# oxr_mdlc_decision_dismantle_habitat
+planet_event = {
+	id = xvcv_mdlc.2000
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		
+	}
+	immediate = {
+		add_modifier = {
+			modifier = oxr_mdlc_habitat_dismantle_effect
+			days = 180
+		}
+		planet_event = {
+			id = xvcv_mdlc.2001
+			days = 180
+		}
+	}
+}
+# oxr_mdlc_decision_dismantle_habitat
+planet_event = {
+	id = xvcv_mdlc.2001
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { }
+
+	immediate = {
+		this.space_owner = {
+			add_resource = {
+				alloys = 750
+			}
+			log = "Should have refunded 750 alloys"
+		}
+		remove_planet = yes
+		this.solar_system = {
+			remove_star_flag = has_habitat
+			every_fleet_in_system = {
+				limit = {
+					is_ship_class = shipclass_habitat_station
+				}
+				orbit = {
+					if = {
+						limit = {
+							NOT = {
+								has_planet_flag = habitat_build_site
+							}
+						}
+						remove_planet_flag = has_megastructure
+					}
+				}
+				this.owner = {
+					add_resource = {
+						alloys = 75
+					}
+				}
+				log = "Should have refunded 75 alloys for 1 orbital"
+				delete_fleet = this
+				
+			}
+			random_system_planet = {
+				limit = {
+					has_planet_flag = habitat
+				}
+				remove_planet_flag = habitat
+				remove_planet_flag = has_megastructure
+			}
+		}
 	}
 }

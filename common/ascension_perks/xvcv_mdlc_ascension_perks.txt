@@ -184,12 +184,17 @@ xvcv_mdlc_ap_mind_integration = {
 	}
 
 	potential = {
-		is_mechanical_empire = yes
+		OR = {
+			is_mechanical_empire = yes
+			is_individual_machine = yes
+		}
+		NOT = { has_authority = auth_machine_intelligence }
 		NOT = { has_ascension_perk = xvcv_mdlc_ap_mind_integration }
 	}
 
 	possible = {
-		has_synthethic_dawn = yes
+		# has_synthethic_dawn = yes
+		host_has_dlc = "Synthetic Dawn Story Pack"
 		custom_tooltip = {
 			fail_text = "xvcv_mdlc_ap_requires_tech_sapient_ai"
 			has_technology = tech_sapient_ai
@@ -244,6 +249,12 @@ xvcv_mdlc_ap_bio_robot = {
 				has_technology = xvcv_mdlc_tech_biology_xenostudies_2
 			}
 		}
+		# custom_tooltip = {
+		# 	fail_text = xvcv_mdlc_ap_bio_robot_fail.ai_rights
+		# 	from = {
+		# 		has_policy_flag = ai_full_rights
+		# 	}
+		# }
 	}
 
 	ai_weight = {
@@ -492,7 +503,7 @@ oxr_mdlc_ap_distributed_multikernel = {
 	}
 	potential = {
 		is_machine_empire = yes
-		
+		is_individual_machine = no
 	}
 	possible = {
 		custom_tooltip = {
@@ -508,13 +519,10 @@ oxr_mdlc_ap_distributed_multikernel = {
 }
 oxr_mdlc_ap_mamp = {
 	potential = {
-		# OR = {
-		# 	is_mechanical_empire = yes
-		# 	is_machine_empire = yes
-		# }
 		is_machine_empire = yes
 		NOT = { has_ascension_perk = oxr_mdlc_ap_mamp }
-		# has_country_flag = oxr_mdlc_debug_mamp
+		is_individual_machine = no
+		has_country_flag = oxr_mdlc_ap_mamp_enabled
 	}
 	possible = {
 		# has_technology = tech_robot_assembly_complex

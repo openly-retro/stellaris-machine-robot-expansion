@@ -25,6 +25,35 @@ Warnings about working with Clausewitz syntax (what base Stellaris traits files 
 - It wiLL DaNcE On yOuR SaNiTy
 - You may lose yourself to possession of a psionic avatar if you stare too long or try to apply your ideas of "rules" and "well this could be standardized pretty easily"
 
+## Translations
+
+Welcome translators!! I am very happy to have you here.
+
+If you would like to submit a translation, please go ahead and create a pull request from a fork of this repo.
+
+The translation files should go in:
+
+`localisation/<language>/replace`
+
+So if you are translating Korean files, the changes should go in `localisation/korean/replace/` because I have a language copy tool which copies all changes from English to all other languge folders.
+
+If you place the files in `localisation/<language>` and not in `localisation/<language>/replace` then the files will be overwritten.
+
+If they are in the `replace` folder then your correctly translated files will always take precedence over the English version. If your translation files are missing any keys then the missing keys will show up in English.
+
+This way, players will never see only the localisation key with no content if there are translations missing.
+
+### Patches
+
+I do updates using the concept of patches. A patch consists of:
+
+1. A group of bug fixes or small features, OR
+2. A large feature
+
+Workflow:
+
+1. Create a branch for the patch, following the next in the series at https://github.com/openly-retro/stellaris-machine-robot-expansion/tags (if 2.3.2 is the latest then the next is 2.3.3), named `patch-#.#.#` where #.#.# is the patch version
+2. Do some work in your feature or bug branch and then make a pull request to the patch branch
 
 
 # Code generation workflow (The Good Stuff)

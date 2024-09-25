@@ -93,8 +93,7 @@ oxr_mdlc_councilor_editor_check_can_use_reset_button = {
 {"\n".join(trait_limit_lines)}
 {scripted_trigger_footer}"""
 
-if __name__ == "__main__":
-    print("0xRetro Magic COde creat0r")
+def do_all_work():
     print("Making oxr_mdlc_councilor_editor_check_can_use_reset_button ...")
     scripted_trigger = gen_councilor_check_can_use_reset_button()
     with open(
@@ -105,3 +104,8 @@ if __name__ == "__main__":
     ) as outfile:
         outfile.write(scripted_trigger.encode('utf-8'))
     print("done.")
+    
+
+if __name__ == "__main__":
+    print("0xRetro Magic COde creat0r")
+    do_all_work()
