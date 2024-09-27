@@ -127,7 +127,7 @@ country_event = {
 			# Check if this was enough to trigger the finish
 			if = {
 				limit = {
-					NOT = { has_completed_event_chain = oxr_mdlc_origin_wm_chain_gather_insights }
+					# NOT = { has_completed_event_chain = oxr_mdlc_origin_wm_chain_gather_insights }
 					NOR = {
 						has_special_project = OXR_MDLC_ORIGIN_WM_CORE_TECH_RESEARCH_ENGINEERING
 						has_special_project = OXR_MDLC_ORIGIN_WM_CORE_TECH_RESEARCH_PHYSICS_1
@@ -136,6 +136,11 @@ country_event = {
 					has_completed_event_chain_counter = {
 						event_chain = oxr_mdlc_origin_wm_chain_gather_insights
 						counter = oxr_mdlc_origin_wm_core_insights
+					}
+					# Don't fire the completion event if the core situation is finished/gone
+					any_situation = {
+						is_situation_type = oxr_mdlc_origin_wm_situation_recover_core_tech
+					}
 					}
 				}
 				# Trigger completion
