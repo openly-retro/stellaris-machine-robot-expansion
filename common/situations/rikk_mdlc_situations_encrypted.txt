@@ -79,13 +79,38 @@ rikk_mdlc_situation_encrypted_protocol = {
 	
 	on_progress_complete = {
 		custom_tooltip = rikk_mdlc_situation_encrypted_protocol_finish
-		hidden_effect = {
-			owner = {
-				country_event = {
-					id = rikk_mdlc_encrypted.211
+		owner = {
+			if = {
+				limit = { has_country_flag = rikk_mdlc_origin_encrypted_protocol_scrapbot_end }
+				set_origin = rikk_mdlc_origin_encrypted_protocol_scrapbot
+				remove_country_flag = rikk_mdlc_origin_encrypted_protocol_scrapbot_end
+			}
+			if = {
+				limit = { has_country_flag = rikk_mdlc_origin_encrypted_protocol_warmachine_end }
+				set_origin = rikk_mdlc_origin_encrypted_protocol_warmachine
+				remove_country_flag = rikk_mdlc_origin_encrypted_protocol_warmachine_end
+			}
+			if = {
+				limit = { has_country_flag = rikk_mdlc_origin_encrypted_protocol_research_end }
+				set_origin = rikk_mdlc_origin_encrypted_protocol_research
+				remove_country_flag = rikk_mdlc_origin_encrypted_protocol_research_end
+			}
+			if = {
+				limit = { has_country_flag = rikk_mdlc_origin_encrypted_protocol_production_end }
+				set_origin = rikk_mdlc_origin_encrypted_protocol_production
+				remove_country_flag = rikk_mdlc_origin_encrypted_protocol_production_end
+			}
+			if = {
+				limit = { has_country_flag = rikk_mdlc_encrypted_closure_end }
+				remove_country_flag = rikk_mdlc_encrypted_closure_end
+				add_modifier = {
+					modifier = rikk_mdlc_encrypted_closure_mod
+					years = 50
 				}
 			}
-			destroy_situation = this
+			hidden_effect = {
+				destroy_situation = this
+			}
 		}
 	}
 
