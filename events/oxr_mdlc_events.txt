@@ -631,3 +631,44 @@ country_event = {
 # 		}
 # 	}		
 # }
+
+#Reanimated Armies: Reanimating the enemy's army as your own
+#An army has been killed in ground combat
+# This = owner
+# From = army
+# FromFrom = opponent
+# FromFromFrom = planet
+country_event = {
+	id = oxr_mdlc.900
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = fromfrom
+		fromfrom = {
+			has_valid_civic = civic_reanimated_armies
+		}
+		from = {
+			exists = species
+			species = {
+				is_robotic = no
+			}
+		}
+		NOT = { is_country_type = "gate_builders" }
+	}
+
+	immediate = {
+		random_list = {
+			2 = { }
+			1 = {
+				fromfromfrom = {
+					create_army = {
+						owner = root.fromfrom
+						type = undead_army
+						species = root.from.species
+					}
+				}
+			}
+		}
+	}
+}
