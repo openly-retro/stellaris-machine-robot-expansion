@@ -895,7 +895,10 @@ oxr_mdlc_world_machines_auto_farm_4 = {
 		oxr_mdlc_world_machines_auto_farm_5
 	}
 	allow = {
-		always = no  # block for now
+		oxr_mdlc_has_upgraded_capital = yes
+		owner = {
+			has_ascension_perk = oxr_mdlc_ap_fractal_production_automation
+		}
 	}
 }
 oxr_mdlc_world_machines_auto_farm_5 = {
@@ -913,6 +916,12 @@ oxr_mdlc_world_machines_auto_farm_5 = {
 	prerequisites = {
 		"tech_food_processing_2"
 		"oxr_mdlc_tech_world_machines_unlocked"
+	}
+	allow = {
+		oxr_mdlc_has_upgraded_capital = yes
+		owner = {
+			has_ascension_perk = oxr_mdlc_ap_fractal_production_automation
+		}
 	}
 }
 # Mining
@@ -1038,23 +1047,29 @@ oxr_mdlc_world_machines_auto_mine_4 = {
 	# RESOURCES & THE REST
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_mining
-		PRODUCES_MINERALS = 32
-		BUILD_COST = @b3_minerals
-		RARE_COST = @b3_rare_cost
-		UPKEEP = @b3_upkeep
-		BUILD_TIME = @b3_time
-		RARE_UPKEEP = @b3_rare_upkeep
+		PRODUCES_MINERALS = 48  # 12 x 4
+		BUILD_COST = @c6_minerals
+		RARE_COST = @c6_rare_cost
+		UPKEEP = @c6_upkeep
+		BUILD_TIME = @c6_time
+		RARE_UPKEEP = @c6_rare_upkeep
 	}
 	inline_script = planet/buildings/auto/oxr_destroy
 	prerequisites = {
 		"tech_mining_3"
 	}
 	allow = {
-		# oxr_mdlc_has_upgraded_capital = yes
-		always = no # block for now
+		oxr_mdlc_has_upgraded_capital = yes
+		owner = {
+			has_ascension_perk = oxr_mdlc_ap_fractal_production_automation
+		}
 	}
 	upgrades = {
 		oxr_mdlc_world_machines_auto_mine_5
+	}
+	planet_modifier = {
+		empire_size_add = 1
+		planet_stability_add = -1
 	}
 }
 oxr_mdlc_world_machines_auto_mine_5 = {
@@ -1064,12 +1079,12 @@ oxr_mdlc_world_machines_auto_mine_5 = {
 	# RESOURCES & THE REST
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_mining
-		PRODUCES_MINERALS = 40
-		BUILD_COST = @b3_minerals
-		RARE_COST = @b3_rare_cost
-		UPKEEP = @b3_upkeep
-		BUILD_TIME = @b3_time
-		RARE_UPKEEP = @b3_rare_upkeep
+		PRODUCES_MINERALS = 80
+		BUILD_COST = @c10_minerals
+		RARE_COST = @c10_rare_cost
+		UPKEEP = @c10_upkeep
+		BUILD_TIME = @c10_time
+		RARE_UPKEEP = @c10_rare_upkeep
 	}
 	inline_script = planet/buildings/auto/oxr_destroy
 	prerequisites = {
@@ -1078,6 +1093,13 @@ oxr_mdlc_world_machines_auto_mine_5 = {
 	}
 	allow = {
 		oxr_mdlc_has_upgraded_capital = yes
+		owner = {
+			has_ascension_perk = oxr_mdlc_ap_fractal_production_automation
+		}
+	}
+	planet_modifier = {
+		empire_size_add = 2
+		planet_stability_add = -2
 	}
 }
 # ENERGY - "new" old building
@@ -1168,11 +1190,17 @@ oxr_mdlc_world_machines_auto_generator_4 = {
 		"tech_power_plant_4"
 	}
 	allow = {
-		# oxr_mdlc_has_upgraded_capital = yes
-		always = no  # off for now
+		oxr_mdlc_has_upgraded_capital = yes
+		owner = {
+			has_ascension_perk = oxr_mdlc_ap_fractal_production_automation
+		}
 	}
 	upgrades = {
 		oxr_mdlc_world_machines_auto_generator_5
+	}
+	planet_modifier = {
+		empire_size_add = 1
+		planet_stability_add = -1
 	}
 }
 oxr_mdlc_world_machines_auto_generator_5 = {
@@ -1196,6 +1224,13 @@ oxr_mdlc_world_machines_auto_generator_5 = {
 	}
 	allow = {
 		oxr_mdlc_has_upgraded_capital = yes
+		owner = {
+			has_ascension_perk = oxr_mdlc_ap_fractal_production_automation
+		}
+	}
+	planet_modifier = {
+		empire_size_add = 2
+		planet_stability_add = -2
 	}
 }
 
