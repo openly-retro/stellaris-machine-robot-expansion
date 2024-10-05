@@ -12,12 +12,57 @@ oxr_mdlc_can_release_vassal_from_species = {
 	}
 }
 
+# is_robot_empire in vanilla means 'is this an assembled species / non-biological'
+# it is used a lot to distinguish assembled vs grown/cloned species
+# the terminology is not good so I am changing it,
+# as I believe robots, synths, and machines are related, but still distinct
+
+oxr_mdlc_is_non_organic_empire = {
+	OR = {
+		owner_species = { has_trait = trait_mechanical }
+		oxr_mdlc_is_synthetic_empire = yes
+		oxr_mdlc_is_any_machine_empire = yes
+	}
+}
+
+# IMO "Robot" empires don't exist .. yet! :) sorry PDX ... this is my logic now
+# IMO "Robots" are non-self-aware, assembled not-ascended mechanicals. They can't start empires.
+# Talking about actual country empires, those can only be led by synths or machines
+
+# Synths: self aware, assembled, ascended from organic bodies
+oxr_mdlc_is_synthetic_empire = {
+	OR = {
+		# owner_species = { has_trait = trait_mechanical }
+		founder_species = { is_archetype = XVCV_MDLC_BIO_ROBOT }  # AP
+		has_country_flag = synthetic_empire
+		founder_species = { is_species_class = XVCV_MDLC_ROBOT }  # origin
+	}
+}
+# Machines: self aware, assembled, did not ascend from organic bodies
 oxr_mdlc_is_any_machine_empire = {
 	OR = {
-        has_authority = auth_machine_intelligence
-        is_individual_machine = yes
+        founder_species = { is_archetype = MACHINE }
+		owner_species = { has_trait = trait_machine_unit }
     }
 }
+oxr_mdlc_is_individual_machine = {
+	oxr_mdlc_is_any_machine_empire = yes
+	is_gestalt = no
+}
+oxr_mdlc_is_gestalt_machine = {
+	oxr_mdlc_is_any_machine_empire = yes
+	is_gestalt = yes
+}
+
+# vanilla 'is_robotic' is not transparent, so redefine it here
+# oxr_mdlc_is_species_non_organic = {
+# 	OR = {
+# 		is_archetype = ROBOT
+# 		is_archetype = MACHINE
+# 		is_archetype = XVCV_MDLC_BIO_ROBOT
+# 	}
+# }
+
 
 xvcv_mdlc_is_non_gate_mega = {
 	OR = {
@@ -25,11 +70,11 @@ xvcv_mdlc_is_non_gate_mega = {
 		is_megastructure_type = xvcv_mdlc_planet_cracker
 	}
 }
-oxr_mdlc_can_be_leader = {
-	# Block leaders made from MAMP species
-	# Return 'yes' if the species doesn't have the mamp base trait
-	NOT = { has_trait = oxr_mdlc_mamp_frame_base } # MAMP Frames cannot be leaders
-}
+# oxr_mdlc_can_be_leader = {
+# 	# Block leaders made from MAMP species
+# 	# Return 'yes' if the species doesn't have the mamp base trait
+# 	NOT = { has_trait = oxr_mdlc_mamp_frame_base } # MAMP Frames cannot be leaders
+# }
 
 # Whether a habitat is being dismantled by custom decision
 oxr_mdlc_planet_decision_dismantle_habitat_active = {
