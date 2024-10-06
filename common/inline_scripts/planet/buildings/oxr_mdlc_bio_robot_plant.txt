@@ -1,0 +1,60 @@
+category = pop_assembly
+
+allow = {
+	custom_tooltip_fail = {
+		text = xvcv_mdlc_building_bio_robot_clone_plants_tooltip.fail
+		exists = owner
+		owner = { NOT = { has_special_project = XVCV_MDLC_AP_BIO_ROBOT_PROJECT } }
+	}
+}
+
+destroy_trigger = {
+	exists = owner
+	owner = { NOT = { has_ascension_perk = xvcv_mdlc_ap_bio_robot } }
+}
+triggered_planet_modifier = {
+	potential = {
+		exists = owner
+		owner = { has_authority = auth_machine_intelligence }
+	}
+	job_xvcv_mdlc_bio_robot_clone_drone_add = $NUM_JOBS$ #also see: xvcv_mdlc.42
+}
+triggered_planet_modifier = {
+	potential = {
+		exists = owner
+		owner = { NOT = { has_authority = auth_machine_intelligence } }
+	}
+	job_xvcv_mdlc_bio_robot_clone_technician_add = $NUM_JOBS$
+}
+
+triggered_desc = {
+	trigger = {
+		exists = owner
+		owner = { has_authority = auth_machine_intelligence }
+	}
+	text = job_xvcv_mdlc_bio_robot_clone_drone_effect_desc
+}
+triggered_desc = {
+	trigger = {
+		exists = owner
+		owner = { NOT = { has_authority = auth_machine_intelligence } }
+	}
+	text = job_xvcv_mdlc_bio_robot_clone_technician_effect_desc
+}
+
+resources = {
+	category = planet_buildings
+	cost = {
+		minerals = $MINERALS_COST$
+		exotic_gases = $RARE_COST$
+	}
+	upkeep = {
+		energy = $ENERGY_UPKEEP$
+		exotic_gases = $RARE_UPKEEP$
+	}
+}
+
+ai_resource_production = {
+	society_research = 10
+	trigger = { always = yes }
+}

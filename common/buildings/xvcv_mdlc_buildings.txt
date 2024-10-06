@@ -180,9 +180,7 @@ xvcv_mdlc_building_uplink_node_facility = {
 xvcv_mdlc_building_bio_robot_clone_plants = {
 	base_buildtime = @b2_time
 	base_cap_amount = 1
-	icon = building_clone_vats
-
-	category = pop_assembly
+	can_build = yes
 
 	potential = {
 		exists = owner
@@ -192,66 +190,66 @@ xvcv_mdlc_building_bio_robot_clone_plants = {
 		}
 	}
 
-	allow = {
-		custom_tooltip_fail = {
-			text = xvcv_mdlc_building_bio_robot_clone_plants_tooltip.fail
-			exists = owner
-			owner = { NOT = { has_special_project = XVCV_MDLC_AP_BIO_ROBOT_PROJECT } }
-		}
+	inline_script = {
+		script = planet/buildings/oxr_mdlc_bio_robot_plant
+		NUM_JOBS = 4
+		MINERALS_COST = @b2_minerals
+		RARE_COST = @b2_rare_cost
+		ENERGY_UPKEEP = @b2_upkeep
+		RARE_UPKEEP = @b2_rare_upkeep
 	}
 
-	destroy_trigger = {
-		exists = owner
-		owner = { NOT = { has_ascension_perk = xvcv_mdlc_ap_bio_robot } }
-	}
-
-	triggered_planet_modifier = {
-		potential = {
-			exists = owner
-			owner = { has_authority = auth_machine_intelligence }
-		}
-		job_xvcv_mdlc_bio_robot_clone_drone_add = @b2_jobs #also see: xvcv_mdlc.42
-	}
-	triggered_planet_modifier = {
-		potential = {
-			exists = owner
-			owner = { NOT = { has_authority = auth_machine_intelligence } }
-		}
-		job_xvcv_mdlc_bio_robot_clone_technician_add = @b2_jobs
-	}
-
-	triggered_desc = {
-		trigger = {
-			exists = owner
-			owner = { has_authority = auth_machine_intelligence }
-		}
-		text = job_xvcv_mdlc_bio_robot_clone_drone_effect_desc
-	}
-	triggered_desc = {
-		trigger = {
-			exists = owner
-			owner = { NOT = { has_authority = auth_machine_intelligence } }
-		}
-		text = job_xvcv_mdlc_bio_robot_clone_technician_effect_desc
-	}
-
-	resources = {
-		category = planet_buildings
-		cost = {
-			minerals = @b2_minerals
-			exotic_gases = @b2_rare_cost
-		}
-		upkeep = {
-			energy = @b2_upkeep
-			exotic_gases = @b2_rare_upkeep
-		}
-	}
-
-	ai_resource_production = {
-		society_research = 10
-		trigger = { always = yes }
+	upgrades = {
+		"xvcv_mdlc_building_bio_robot_clone_plants_2"
 	}
 }
+
+xvcv_mdlc_building_bio_robot_clone_plants_2 = {
+	base_buildtime = @b3_time
+	can_build = no
+
+	potential = {
+		exists = owner
+		owner = {
+			is_ai = no
+			has_ascension_perk = xvcv_mdlc_ap_bio_robot
+		}
+		has_major_upgraded_capital = yes
+	}
+
+	inline_script = {
+		script = planet/buildings/oxr_mdlc_bio_robot_plant
+		NUM_JOBS = 6
+		MINERALS_COST = @b3_minerals
+		RARE_COST = @b3_rare_cost
+		ENERGY_UPKEEP = @b3_upkeep
+		RARE_UPKEEP = @b3_rare_upkeep
+	}
+}
+xvcv_mdlc_building_bio_robot_clone_plants_3 = {
+	base_buildtime = @b4_time
+	can_build = no
+
+	potential = {
+		exists = owner
+		owner = {
+			is_ai = no
+			has_ascension_perk = xvcv_mdlc_ap_bio_robot
+		}
+		has_fully_upgraded_capital = yes
+	}
+
+	inline_script = {
+		script = planet/buildings/oxr_mdlc_bio_robot_plant
+		NUM_JOBS = 8
+		MINERALS_COST = @b4_minerals
+		RARE_COST = @b4_rare_cost
+		ENERGY_UPKEEP = @b4_upkeep
+		RARE_UPKEEP = @b4_rare_upkeep
+	}
+}
+
+
 #for 'xvcv_mdlc_ap_organic_work' ascension perk
 xvcv_mdlc_building_organic_foundry = {
 	base_buildtime = @b1_time
