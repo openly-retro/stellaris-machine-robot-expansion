@@ -186,6 +186,7 @@ leader_event = {
 	option = { name = xvcv_mdlc_customgui.1.a }
 }
 
+# this = vassal, from = overlord
 country_event = {
 	id = oxr_mdlc.30
 	hide_window = yes
@@ -201,6 +202,13 @@ country_event = {
 	immediate = {
 		set_origin = origin_default
 		clear_ethos = yes
+		country_add_ethic = ethic_gestalt_consciousness
+		change_government = {
+			authority = auth_machine_intelligence
+			civics = {}
+			remove_invalid_civics = yes
+			cooldown = no
+		}
 		copy_ethos_and_authority = from
 		copy_techs_from = {
 			target = from
@@ -215,13 +223,7 @@ country_event = {
 			who = from
 			modifier = oxr_mdlc_ap_distributed_multikernel_vassal
 		}
-		change_government = {
-			authority = auth_machine_intelligence
-			civics = random
-			remove_invalid_civics = yes
-			cooldown = no
-		}
-		country_add_ethic = ethic_gestalt_consciousness
+		
 		every_owned_leader = {
 			limit = {
 				is_event_leader = no
@@ -292,12 +294,6 @@ country_event = {
 			if = {
 				limit = { has_modifier = penal_colony }
 				remove_modifier = penal_colony
-			}
-	
-			if = {
-				limit = { has_building = building_colony_shelter }
-				remove_building = building_colony_shelter
-				add_building = building_deployment_post
 			}
 			if = {
 				limit = { has_building = building_capital }
@@ -548,19 +544,22 @@ country_event = {
 				add_building = building_alpha_hub
 			}
 			planet_event = {
+				# on_initialize_advanced_colony: remove tile blockers on capital
 				id = game_start.20
 			}
 			planet_event = {
+				# on_initialize_advanced_colony: upgrade colony shelter
 				id = game_start.21
 			}
 			planet_event = {
+				# on_initialize_advanced_colony: 
+				# set up additional buildings (mines, farms, power plants)
 				id = game_start.22
 			}
 		}
 		country_event = {
 			id = war_in_heaven.22
 		}
-		
 	}
 }
 
