@@ -618,11 +618,7 @@ oxr_mdlc_world_machines_building_maintenance_legion = {
 		"tech_planetary_defenses"
 		"oxr_mdlc_tech_world_machines_unlocked"
 	}
-	on_built = {
-		owner = {
-			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
-		}
-	}
+
 	upgrades = {
 		oxr_mdlc_world_machines_building_maintenance_legion_2
 	}
@@ -689,11 +685,7 @@ oxr_mdlc_world_machines_building_fractal_sanitizer = {
 		"tech_basic_science_lab_1"
 		"oxr_mdlc_tech_world_machines_unlocked"
 	}
-	on_built = {
-		owner = {
-			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
-		}
-	}
+
 }
 # RESEARCH T2
 oxr_mdlc_world_machines_building_fractal_sanitizer_2 = {
@@ -728,11 +720,7 @@ oxr_mdlc_world_machines_building_fractal_sanitizer_2 = {
 		"tech_basic_science_lab_2"
 		"oxr_mdlc_tech_world_machines_unlocked"
 	}
-	on_built = {
-		owner = {
-			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
-		}
-	}
+
 }
 # RESEARCH T3
 oxr_mdlc_world_machines_building_fractal_sanitizer_3 = {
@@ -767,11 +755,7 @@ oxr_mdlc_world_machines_building_fractal_sanitizer_3 = {
 		"tech_basic_science_lab_3"
 		"oxr_mdlc_tech_world_machines_unlocked"
 	}
-	on_built = {
-		owner = {
-			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
-		}
-	}
+
 }
 # RESEARCH T4
 oxr_mdlc_world_machines_building_fractal_sanitizer_4 = {
@@ -804,11 +788,7 @@ oxr_mdlc_world_machines_building_fractal_sanitizer_4 = {
 		"tech_zero_point_power"
 		"oxr_mdlc_tech_world_machines_unlocked"
 	}
-	on_built = {
-		owner = {
-			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
-		}
-	}
+
 }
 
 #### RESOURCE ####
@@ -1275,11 +1255,7 @@ oxr_mdlc_world_machines_building_auto_farm_logistics = {
 		"tech_food_processing_1"
 		"oxr_mdlc_tech_world_machines_unlocked"
 	}
-	on_built = {
-		owner = {
-			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
-		}
-	}
+
 }
 # T2
 oxr_mdlc_world_machines_building_auto_farm_logistics_2 = {
@@ -1334,11 +1310,7 @@ oxr_mdlc_world_machines_building_welding_colony = {
 		"oxr_mdlc_tech_world_machines_unlocked"
 		"tech_exotic_gases"
 	}
-	on_built = {
-		owner = {
-			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
-		}
-	}
+
 }
 # Motes
 oxr_mdlc_world_machines_building_particle_collider = {
@@ -1367,11 +1339,7 @@ oxr_mdlc_world_machines_building_particle_collider = {
 		"oxr_mdlc_tech_world_machines_unlocked"
 		"tech_volatile_motes"
 	}
-	on_built = {
-		owner = {
-			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
-		}
-	}
+
 }
 # Crystals
 oxr_mdlc_world_machines_building_crystal_cultivation_tank = {
@@ -1490,11 +1458,7 @@ xvcv_mdlc_world_machine_auto_food_processing_center = {
 	prerequisites = {
 		"oxr_mdlc_tech_world_machines_unlocked"
 	}
-	on_built = {
-		owner = {
-			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
-		}
-	}
+
 }
 
  # Convert biomass to minerals by burning them ?
@@ -1504,7 +1468,7 @@ xvcv_mdlc_world_machine_auto_food_processing_center = {
 #### UNITY ####
 
 # UNITY T1
-oxr_mdlc_world_machines_building_cohesion_supervisor = {
+oxr_mdlc_world_machines_building_auto_unity_1 = {
 	base_buildtime = @b1_time
 	can_build = yes
 
@@ -1541,27 +1505,17 @@ oxr_mdlc_world_machines_building_cohesion_supervisor = {
 		produces = { unity = 8 }
 	}
 
-	# triggered_desc = {
-	# 	text = job_coordinator_effect_desc
-	# }
-
 	upgrades = {
-		"oxr_mdlc_world_machines_building_cohesion_hub"
+		"oxr_mdlc_world_machines_building_auto_unity_2"
 	}
 
 	prerequisites = {
 		"tech_planetary_government"
 		"oxr_mdlc_tech_world_machines_unlocked"
 	}
-
-	on_built = {
-		owner = {
-			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
-		}
-	}
 }
 # UNITY T2
-oxr_mdlc_world_machines_building_cohesion_hub = {
+oxr_mdlc_world_machines_building_auto_unity_2 = {
 	base_buildtime = @b2_time
 	can_build = no
 
@@ -1589,32 +1543,122 @@ oxr_mdlc_world_machines_building_cohesion_hub = {
 		building_hive_cluster
 	}
 
-	resources = {
-		category = oxr_mdlc_category_world_machines_buildings
-		cost = {
-			minerals = @b2_minerals
-			rare_crystals = @b2_rare_cost
-		}
-		upkeep = {
-			energy = 21 # @b2_upkeep is 5 + 4 jobs * 4E upkeep
-			rare_crystals = @b2_rare_upkeep
-		}
-		produces = {
-			unity = 16
-		}
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_unity
+		# BUILD_RESOURCE = minerals
+		BUILD_COST = @b2_minerals
+		# RARE_BUILD_RESOURCE = rare_crystals
+		RARE_BUILD_COST = @b2_rare_cost
+		UPKEEP_COST = @b2_upkeep
+		# UPKEEP_RARE_RESOURCE = rare_crystals
+		UPKEEP_RARE_COST = @b2_rare_upkeep
+		PRODUCES_AMOUNT = 16
 	}
 
 	prerequisites = {
 		"tech_colonial_bureaucracy"
 		"oxr_mdlc_tech_world_machines_unlocked"
 	}
-
-	on_built = {
-		owner = {
-			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
-		}
+	upgrades = {
+		"oxr_mdlc_world_machines_building_auto_unity_3"
 	}
 }
+# UNITY T3
+oxr_mdlc_world_machines_building_auto_unity_3 = {
+	base_buildtime = @b3_time
+	can_build = no
+
+	category = unity
+
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+
+	allow = {
+		oxr_mdlc_has_upgraded_capital = yes
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = {
+			OR = {
+				is_machine_empire = no
+				has_valid_civic = civic_machine_servitor
+			}
+		}
+	}
+
+	convert_to = {
+		building_bureaucratic_3
+		building_holotemple
+		building_hive_cluster
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_unity
+		# BUILD_RESOURCE = minerals
+		BUILD_COST = @b3_minerals
+		# RARE_BUILD_RESOURCE = rare_crystals
+		RARE_BUILD_COST = @b3_rare_cost
+		UPKEEP_COST = @b3_upkeep
+		# UPKEEP_RARE_RESOURCE = rare_crystals
+		UPKEEP_RARE_COST = @b3_rare_upkeep
+		PRODUCES_AMOUNT = 24
+	}
+
+	prerequisites = {
+		"tech_colonial_bureaucracy"
+		"oxr_mdlc_tech_world_machines_unlocked"
+	}
+	upgrades = {
+		"oxr_mdlc_world_machines_building_auto_unity_4"
+	}
+}
+# UNITY T4
+oxr_mdlc_world_machines_building_auto_unity_4 = {
+	base_buildtime = @b4_time
+	can_build = no
+
+	category = unity
+
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+
+	allow = {
+		oxr_mdlc_has_major_upgraded_capital = yes
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = {
+			OR = {
+				is_machine_empire = no
+				has_valid_civic = civic_machine_servitor
+			}
+		}
+	}
+
+	convert_to = {
+		building_bureaucratic_3
+		building_holotemple
+		building_hive_cluster
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_unity
+		# BUILD_RESOURCE = minerals
+		BUILD_COST = @b4_minerals
+		# RARE_BUILD_RESOURCE = rare_crystals
+		RARE_BUILD_COST = @b4_rare_cost
+		UPKEEP_COST = @b4_upkeep
+		# UPKEEP_RARE_RESOURCE = rare_crystals
+		UPKEEP_RARE_COST = @b4_rare_upkeep
+		PRODUCES_AMOUNT = 32
+	}
+
+	prerequisites = {
+		"tech_colonial_bureaucracy"
+		"oxr_mdlc_tech_world_machines_unlocked"
+	}
+}
+
 
 #### UNIQUE ####
 oxr_mdlc_world_machines_building_storage_cradle = {
@@ -1649,18 +1693,16 @@ oxr_mdlc_world_machines_building_storage_cradle = {
 		"oxr_mdlc_tech_world_machine_wmc_core"
 	}
 	on_destroy = {
-		oxr_mdlc_planet_calculate_max_core_storage = yes
-	}
-	on_repaired = {
-		oxr_mdlc_planet_calculate_max_core_storage = yes
-	}
-
-	on_built = {
-		oxr_mdlc_planet_calculate_max_core_storage = yes
 		owner = {
-			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
+			oxr_mdlc_country_world_machine_cores_recalc_amount = yes
 		}
 	}
+	on_repaired = {
+		owner = {
+			oxr_mdlc_country_world_machine_cores_recalc_amount = yes
+		}
+	}
+
 }
 
 oxr_mdlc_world_machines_building_core_fabrication_depot = {
