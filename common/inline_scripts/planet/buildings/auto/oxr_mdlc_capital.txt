@@ -1,0 +1,37 @@
+base_buildtime = $BUILD_TIME$
+capital = yes
+can_build = no
+can_demolish = no
+can_be_ruined = no
+can_be_disabled = no
+position_priority = 0
+
+category = government
+
+resources = {
+	# category = planet_buildings
+	category = oxr_mdlc_category_world_machines_buildings
+	cost = { minerals = $COST$ }
+	upkeep = { energy = $UPKEEP$ }
+}
+
+planet_modifier = {
+	planet_housing_add = $HOUSING_ADD$
+	planet_amenities_add = $AMENITIES_ADD$
+	job_oxr_mdlc_world_machine_hibernation_slot_add = $HIBERNATION_JOBS$
+	planet_max_buildings_add = $MAX_BUILDINGS_ADD$
+	defense_armies_add = $DEFENSE_ARMIES$
+}
+allow = {
+	num_districts = {
+		type = any
+		value >= $REQ_MIN_NUM_DISTRICTS$
+	}
+}
+
+destroy_trigger = {
+	exists = owner
+	owner = {
+		NOT = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+	}
+}

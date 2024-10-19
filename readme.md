@@ -1,16 +1,16 @@
-This is an attempt to bring XVCV's "Machines & Robot Expansion" mod for Stellaris up to date, to be compatible with Stellaris version 3.10.*, and potentially carry on maintaining it.
+This is an attempt to keep XVCV's "Machines & Robot Expansion" mod compatible with current Stellaris versions, and carry on maintaining it and adding new content.
 
 The original author has abandoned the work and is no longer available for contact.
 
 # Welcome
 
-I (openly-retro) am a web developer by day, and a fan of Stellaris. Just cleared 1k hours with the game.. yay?
+I (openly-retro) am a web developer by day, and a fan of Stellaris.
 
 I invite you to collaborate, but I also want you to know I'm not desperate for help and this mod will live again even if you just stop by to say hi.
 
 ## Communicating
 
-Chat with me about this mod in the [Stellaris Modding Den](https://discord.gg/vKwNs93g ) discord! Look for `mag-sanchusa#4206 (openlyretro)`. We can discuss this mod in the `xvcv_mods` channel.
+Chat with me about this mod in the [Stellaris Modding Den](https://discord.gg/vKwNs93g ) discord! Look for `mag-sanchusa#4206 (openlyretro)`. We can discuss this mod in the `machines-robots-expac` channel.
 
 I will also respond to comments in the Github wiki for this project.
 
@@ -55,6 +55,18 @@ Workflow:
 1. Create a branch for the patch, following the next in the series at https://github.com/openly-retro/stellaris-machine-robot-expansion/tags (if 2.3.2 is the latest then the next is 2.3.3), named `patch-#.#.#` where #.#.# is the patch version
 2. Do some work in your feature or bug branch and then make a pull request to the patch branch
 
+# Art Credits
+
+- https://pixabay.com/illustrations/water-technology-sci-fi-futuristic-7547817/ by [https://pixabay.com/users/joker39-30858803/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=7547817](Melvyn Thevenin) from [https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=7547817"](Pixabay) , used for World Machine planetary deposits and other artworks
+- https://pixabay.com/illustrations/futuristic-architecture-wallpaper-6694976/ by  <a href="https://pixabay.com/users/tommyvideo-3092371/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=6694976">Tomislav Jakupec</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=6694976">Pixabay</a>, used for World Machine technology art
+- https://pixabay.com/illustrations/blueprint-engineering-technology-6944719/ by Image by <a href="https://pixabay.com/users/xresch-7410129/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=6944719">Reto Scheiwiller</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=6944719">Pixabay</a>, used for World Machine event art
+- https://pixabay.com/illustrations/futuristic-background-pattern-7831598/ Image by <a href="https://pixabay.com/users/placidplace-25572496/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=7831598">Peace,love,happiness</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=7831598">Pixabay</a>, used for World Machine art
+- https://pixabay.com/illustrations/fantastic-technology-futuristic-4805591/ Image by <a href="https://pixabay.com/users/gtuignatov-3540393/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=4805591">Alexander Ignatov</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=4805591">Pixabay</a>
+- https://pixabay.com/illustrations/blur-background-pattern-geometric-7281360/ Image by <a href="https://pixabay.com/users/placidplace-25572496/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=7281360">Peace,love,happiness</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=7281360">Pixabay</a>, used for World Machine event art
+
+
+
+- [https://www.deviantart.com/xxaries1970xx/art/Digital-Circuit-936780185](Digital Circuit, by XxAries1970xX) , used for the Source Code Reprogramming event-related banners and other artworks.
 
 # Code generation workflow (The Good Stuff)
 
