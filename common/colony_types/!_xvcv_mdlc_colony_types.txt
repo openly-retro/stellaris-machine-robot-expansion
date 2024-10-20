@@ -649,7 +649,9 @@ xvcv_mdlc_col_machine_auto_farming = {
 
 	planet_modifier = {
 		planet_xvcv_mdlc_pc_machine_auto_district_farming_build_speed_mult = 0.25
-		planet_farmers_produces_mult = 0.25
+		# planet_farmers_produces_mult = 0.25
+		xvcv_mdlc_world_machines_food_districts_food_produces_mult = 0.25
+		oxr_mdlc_world_machines_food_buildings_food_produces_mult = 0.25
 	}
 
 	triggered_planet_modifier = {
@@ -834,5 +836,51 @@ xvcv_mdlc_col_machine_auto_industrial = {
 				}
 			}
 		}
+	}
+}
+# Capital Planet - Machine Empire
+xvcv_mdlc_col_machine_auto_capital = {
+	icon = GFX_colony_type_capital
+
+	potential = {
+		is_capital = yes
+		exists = owner
+		owner = {
+			is_country_type = default
+			is_machine_empire = yes
+			OR = {
+				has_origin = oxr_mdlc_origin_world_machine_awakened
+				# has_ascension_perk = xvcv_mdlc_ap_world_machines
+			}
+		}
+	}
+
+	planet_modifier = {
+		planet_stability_add = 5
+		planet_amenities_no_happiness_add = 10
+		planet_crime_no_happiness_add = -6
+		planet_jobs_produces_mult = 0.15
+		oxr_mdlc_category_world_machines_buildings_produces_mult = 0.15
+		# planet_resettlement_unemployed_destination_mult = 0.1
+		xvcv_mdlc_world_machines_districts_produces_mult = 0.15
+	}
+	triggered_planet_modifier = {
+		potential = {
+			owner = {
+				has_origin = oxr_mdlc_origin_world_machine_awakened
+			}
+		}
+		planet_jobs_produces_mult = -0.15
+	}
+
+	triggered_planet_modifier = {
+		potential = { uses_district_set = ring_world }
+		pop_growth_speed = 0.1
+		planet_pop_assembly_mult = 0.1
+		planet_pop_assembly_organic_mult = 0.1
+	}
+
+	weight_modifier = {
+		base = 1000
 	}
 }
