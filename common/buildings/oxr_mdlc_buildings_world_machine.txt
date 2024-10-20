@@ -917,6 +917,7 @@ oxr_mdlc_world_machines_building_auto_mining_support = {
 		COST = 200
 		UPKEEP = 2
 		COST_MOTES = 0
+		PRODUCES_MULT = 0.2
 	}
 	inline_script = planet/buildings/auto/oxr_destroy
 	prerequisites = {
@@ -937,6 +938,7 @@ oxr_mdlc_world_machines_building_auto_mining_support_2 = {
 		COST = @b2_minerals
 		COST_MOTES = @b2_rare_cost
 		UPKEEP = 2
+		PRODUCES_MULT = 0.4
 	}
 
 	allow = {
@@ -1214,7 +1216,49 @@ oxr_mdlc_world_machines_auto_generator_5 = {
 	}
 }
 
+# Energy hub T1
+oxr_mdlc_world_machines_auto_energy_grid_1 = {
+	can_build = yes
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_destroy
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_generator_boost
+		MINERALS_COST = 100
+		ALLOYS_COST = 100
+		COST_GASES = 0
+		UPKEEP = 2
+		PRODUCES = 8
+		PRODUCES_MULT = 0.2
+		BUILD_TIME = @b1_time
+	}
 
+	prerequisites = {
+		tech_power_hub_1
+	}
+	upgrades = {
+		oxr_mdlc_world_machines_auto_energy_grid_2
+	}
+}
+# Energy hub T2
+oxr_mdlc_world_machines_auto_energy_grid_2 = {
+	can_build = yes
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_destroy
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_generator_boost
+		MINERALS_COST = 100
+		ALLOYS_COST = 100
+		COST_GASES = 0
+		UPKEEP = 4
+		PRODUCES = 16
+		PRODUCES_MULT = 0.4
+		BUILD_TIME = @b2_time
+	}
+
+	prerequisites = {
+		tech_power_hub_2
+	}
+}
 
 # Replace building_food_processing_facility
 oxr_mdlc_world_machines_building_auto_farm_logistics = {
