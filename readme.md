@@ -63,9 +63,6 @@ Workflow:
 - https://pixabay.com/illustrations/futuristic-background-pattern-7831598/ Image by <a href="https://pixabay.com/users/placidplace-25572496/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=7831598">Peace,love,happiness</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=7831598">Pixabay</a>, used for World Machine art
 - https://pixabay.com/illustrations/fantastic-technology-futuristic-4805591/ Image by <a href="https://pixabay.com/users/gtuignatov-3540393/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=4805591">Alexander Ignatov</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=4805591">Pixabay</a>
 - https://pixabay.com/illustrations/blur-background-pattern-geometric-7281360/ Image by <a href="https://pixabay.com/users/placidplace-25572496/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=7281360">Peace,love,happiness</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=7281360">Pixabay</a>, used for World Machine event art
-
-
-
 - [https://www.deviantart.com/xxaries1970xx/art/Digital-Circuit-936780185](Digital Circuit, by XxAries1970xX) , used for the Source Code Reprogramming event-related banners and other artworks.
 
 # Code generation workflow (The Good Stuff)
