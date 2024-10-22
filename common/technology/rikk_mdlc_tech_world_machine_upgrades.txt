@@ -1,132 +1,9 @@
-#World Machine Upgrades
-#unlocks Crust Roots, Cooling Towers
-rikk_mdlc_tech_world_machine_crust_upgrade = {
-	area = engineering
-	cost = @tier3cost3
-	tier = 3
-	category = { industry }
-	weight = 100
-	
-	potential = {
-		oxr_mdlc_planet_owner_can_build_wm_districts = yes
-		has_technology = oxr_mdlc_tech_world_machine_wmc_core
-	}
-
-	weight_modifier = {
-		factor = 0.25
-	}
-	
-	ai_weight = {
-		factor = 1.0
-	}
-	
-	modifier = {
-		custom_tooltip = rikk_mdlc_tech_world_machine_crust_upgrade_tooltip
-	}
-}
-
-#unlocks mantle roots, mantle engines
-rikk_mdlc_tech_world_machine_mantle_upgrade = {
-	area = engineering
-	cost = @tier4cost3
-	tier = 4
-	category = { industry }
-	weight = 100
-	
-	potential = {
-		oxr_mdlc_planet_owner_can_build_wm_districts = yes
-		any_owned_planet = { xvcv_mdlc_world_machines_planet_classes_trigger = yes }
-	}
-
-	weight_modifier = {
-		factor = 0.25
-	}
-	
-	prerequisites = {
-		"rikk_mdlc_tech_world_machine_crust_upgrade"
-	}
-	
-	ai_weight = {
-		factor = 1.0
-	}
-	
-	modifier = {
-		custom_tooltip = rikk_mdlc_tech_world_machine_mantle_upgrade_tooltip
-	}
-}
-
-#unlocks Core Roots, Outer Core Tap, outer core cooling
-rikk_mdlc_tech_world_machine_outer_core_upgrade = {
-	area = engineering
-	cost = @tier5cost1
-	tier = 5
-	category = { industry }
-	weight = 100
-	
-	potential = {
-		oxr_mdlc_planet_owner_can_build_wm_districts = yes
-		any_owned_planet = { xvcv_mdlc_world_machines_planet_classes_trigger = yes }
-	}
-
-	weight_modifier = {
-		factor = 0.25
-	}
-	
-	prerequisites = {
-		"rikk_mdlc_tech_world_machine_mantle_upgrade"
-	}
-	
-	ai_weight = {
-		factor = 1.0
-	}
-	
-	modifier = {
-		custom_tooltip = rikk_mdlc_tech_world_machine_outer_core_upgrade_tooltip
-	}
-}
-
-#unlocks Inner Core Tap, Core Core
-rikk_mdlc_tech_world_machine_inner_core_upgrade = {
-	area = engineering
-	cost = @tier5cost3
-	tier = 5
-	category = { industry }
-	weight = 100
-	is_rare = yes
-	
-	potential = {
-		oxr_mdlc_planet_owner_can_build_wm_districts = yes
-		any_owned_planet = { xvcv_mdlc_world_machines_planet_classes_trigger = yes }
-	}
-
-	weight_modifier = {
-		factor = 0.25
-		inline_script = {
-			script = technologies/rare_technologies_weight_modifiers
-			TECHNOLOGY = tech_science_nexus
-		}
-	}
-	
-	prerequisites = {
-		"rikk_mdlc_tech_world_machine_outer_core_upgrade"
-	}
-	
-	ai_weight = {
-		factor = 1.0
-	}
-	
-	modifier = {
-		custom_tooltip = rikk_mdlc_tech_world_machine_inner_core_upgrade_tooltip
-	}
-}
-
 #unlocks Dyson Deflector, Dyson Receiver
 rikk_mdlc_tech_world_machine_dyson = {
 	area = physics
 	cost = @tier5cost3
 	tier = 5
 	category = { field_manipulation }
-	weight = 100
 	is_rare = yes
 	
 	potential = {
@@ -143,7 +20,7 @@ rikk_mdlc_tech_world_machine_dyson = {
 	}
 	
 	prerequisites = {
-		"rikk_mdlc_tech_world_machine_outer_core_upgrade"
+		"oxr_mdlc_tech_geologic_heat_shielding_3"
 		"tech_dyson_sphere"
 	}
 	
