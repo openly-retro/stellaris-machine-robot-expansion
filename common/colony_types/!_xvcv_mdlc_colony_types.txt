@@ -838,7 +838,7 @@ xvcv_mdlc_col_machine_auto_industrial = {
 		}
 	}
 }
-# Capital Planet - Machine Empire
+# Capital Planet - Resource Extraction
 xvcv_mdlc_col_machine_auto_capital = {
 	icon = GFX_colony_type_capital
 
@@ -850,7 +850,7 @@ xvcv_mdlc_col_machine_auto_capital = {
 			is_machine_empire = yes
 			OR = {
 				has_origin = oxr_mdlc_origin_world_machine_awakened
-				# has_ascension_perk = xvcv_mdlc_ap_world_machines
+				has_ascension_perk = xvcv_mdlc_ap_world_machines
 			}
 		}
 	}
@@ -859,10 +859,71 @@ xvcv_mdlc_col_machine_auto_capital = {
 		planet_stability_add = 5
 		planet_amenities_no_happiness_add = 10
 		planet_crime_no_happiness_add = -6
-		planet_jobs_produces_mult = 0.15
-		oxr_mdlc_category_world_machines_buildings_produces_mult = 0.15
+		xvcv_mdlc_world_machines_districts_produces_mult = 0.1
+		oxr_mdlc_category_world_machines_buildings_produces_mult = 0.1
 		# planet_resettlement_unemployed_destination_mult = 0.1
-		xvcv_mdlc_world_machines_districts_produces_mult = 0.15
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			owner = {
+				has_ascension_perk = xvcv_mdlc_ap_world_machines
+			}
+		}
+		planet_jobs_produces_mult = 0.05
+		planet_crime_no_happiness_add = -14
+	}
+
+	triggered_planet_modifier = {
+		potential = { uses_district_set = ring_world }
+		pop_growth_speed = 0.1
+		planet_pop_assembly_mult = 0.1
+		planet_pop_assembly_organic_mult = 0.1
+	}
+
+	weight_modifier = {
+		base = 1000
+	}
+}
+# Capital Planet - Resource Extraction
+xvcv_mdlc_col_machine_auto_capital_extraction = {
+	icon = GFX_colony_type_capital_extraction
+
+	potential = {
+		is_capital = yes
+		exists = owner
+		owner = {
+			is_country_type = default
+			is_machine_empire = yes
+			OR = {
+				has_origin = oxr_mdlc_origin_world_machine_awakened
+				has_ascension_perk = xvcv_mdlc_ap_world_machines
+			}
+		}
+	}
+
+	planet_modifier = {
+		planet_stability_add = 5
+		planet_amenities_no_happiness_add = 10
+		planet_crime_no_happiness_add = -6
+
+		xvcv_mdlc_world_machines_food_districts_produces_mult = 0.15
+		xvcv_mdlc_world_machines_mining_districts_produces_mult = 0.15
+		xvcv_mdlc_world_machines_generator_districts_produces_mult = 0.15
+
+		oxr_mdlc_world_machines_food_buildings_produces_mult = 0.15
+		oxr_mdlc_world_machines_mining_buildings_produces_mult = 0.15
+		oxr_mdlc_world_machines_generator_buildings_produces_mult = 0.15
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			owner = {
+				has_ascension_perk = xvcv_mdlc_ap_world_machines
+			}
+		}
+		planet_jobs_produces_mult = 0.2
+		planet_crime_no_happiness_add = -14
 	}
 
 	triggered_planet_modifier = {
