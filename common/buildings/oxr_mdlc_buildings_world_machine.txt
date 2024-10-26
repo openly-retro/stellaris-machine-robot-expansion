@@ -61,6 +61,99 @@ oxr_mdlc_world_machines_building_auto_astral_3 = {
 	}
 }
 
+#### ARCHAEOSTUDIES ####
+oxr_mdlc_world_machines_building_archaeostudies_recombinator = {
+	base_buildtime = @b2_time
+
+	category = research
+
+	empire_limit = {
+		base = 1
+	}
+
+	potential = {
+		NOR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+			has_modifier = penal_colony
+		}
+		exists = owner
+		owner = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+		}
+	}
+
+	destroy_trigger = {
+		exists = owner
+		OR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+			has_modifier = penal_colony
+		}
+		owner = {
+			NOT = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+		}
+	}
+
+	allow = {
+		oxr_mdlc_has_upgraded_capital = yes
+	}
+
+	resources = {
+		category = oxr_mdlc_world_machines_science_buildings
+		cost = {
+			minerals = @b2_minerals
+			minor_artifacts = @b2_rare_cost
+		}
+		upkeep = {
+			energy = @b4_upkeep
+		}
+		produces = {
+			physics_research = @[ 2 * 3 ]
+			engineering_research = @[ 2 * 3 ]
+			society_research = @[ 5 * 3 ]
+		}
+		produces = {
+			trigger = {
+				owner = {
+					has_ascension_perk = ap_archaeoengineers
+				}
+			}
+			physics_research = @[ 2 * 2 ]
+			engineering_research = @[ 2 * 2 ]
+			society_research = @[ 5 * 2 ]
+		}
+	}
+
+	country_modifier = {
+		category_archaeostudies_research_speed_mult = 0.5
+		country_resource_max_minor_artifacts_add = 1000
+	}
+
+	triggered_country_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				has_ascension_perk = ap_archaeoengineers
+			}
+		}
+		country_resource_max_minor_artifacts_add = 2000
+	}
+
+	# triggered_country_modifier = {
+	# 	potential = { planet = { is_planet_class = pc_relic } }
+	# 	category_archaeostudies_research_speed_mult = 0.5
+	# }
+
+	prerequisites = {
+		"tech_archaeostudies"
+	}
+
+	# triggered_desc = {
+	# 	text = building_archaeostudies_faculty_relic_effect
+	# }
+}
+
 
 #### GOVERNMENT ####
 oxr_mdlc_world_machines_building_auto_stabilizer_1 = {
@@ -792,6 +885,134 @@ oxr_mdlc_world_machines_building_fractal_sanitizer_4 = {
 	}
 
 }
+# SUPERCOMPUTER (gestalt version of institute)
+oxr_mdlc_world_machines_building_cold_storage_datacenter = {
+	base_buildtime = @b2_time
+	empire_limit = {
+		base = 1
+	}
+	icon = oxr_mdlc_world_machines_auto_research_institute
+
+	category = research
+
+	potential = {
+		exists = owner
+		owner = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+		}
+		NOR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+			has_modifier = penal_colony
+		}
+	}
+
+	allow = {
+		oxr_mdlc_has_major_upgraded_capital = yes
+	}
+
+	destroy_trigger = {
+		exists = owner
+		OR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+			has_modifier = penal_colony
+			owner = {
+				NOT = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+			}
+		}
+	}
+
+	convert_to = {
+		building_institute
+	}
+
+	resources = {
+		category = oxr_mdlc_world_machines_science_buildings
+		cost = {
+			minerals = @b2_minerals
+			exotic_gases = @b2_rare_cost
+		}
+		upkeep = {
+			energy = @b2_upkeep
+			exotic_gases = @b2_rare_upkeep
+		}
+		produces = {
+			physics_research = 10
+			society_research = 10
+			engineering_research = 10
+		}
+	}
+
+	country_modifier = {
+		country_scientist_cap_add = 1
+		all_technology_research_speed = 0.05
+	}
+
+	planet_modifier = {
+		xvcv_mdlc_world_machines_computer_districts_produces_mult = 0.2
+		oxr_mdlc_world_machines_science_buildings_produces_mult = 0.2
+	}
+
+	prerequisites = {
+		"tech_global_research_initiative"
+		"oxr_mdlc_tech_world_machine_wmc_core"
+	}
+
+	show_tech_unlock_if = {
+		has_origin = oxr_mdlc_origin_world_machine_awakened
+	}
+
+	ai_resource_production = {
+		trigger = {
+			planet_resource_compare = {
+				resource = physics_research
+				value >= 20
+			}
+		}
+		physics_research = 8
+		society_research = 8
+		engineering_research = 8
+	}
+	ai_resource_production = {
+		trigger = {
+			planet_resource_compare = {
+				resource = physics_research
+				value >= 40
+			}
+		}
+		physics_research = 8
+		society_research = 8
+		engineering_research = 8
+	}
+}
+# RESEARCH BOOSTER
+# oxr_mdlc_world_machines_building_central_data_router = {
+# 	base_buildtime = @b2_time
+# 	category = research
+
+# 	potential = {
+# 		exists = owner
+# 		owner = {
+# 			has_origin = oxr_mdlc_origin_world_machine_awakened
+# 		}
+# 	}
+# 	allow = {
+# 		# oxr_mdlc_has_major_upgraded_capital = yes
+# 		if = {
+# 			limit = {
+# 				NOT = { is_planet_class = xvcv_mdlc_pc_machine_cpu }
+# 			}
+# 			check_variable = {
+# 				which = owner.math_number_five
+# 				value >= value:oxr_mdlc_num_base_science_buildings
+# 			}
+# 		}
+# 		else = {
+
+# 		}
+# 	}
+# }
 
 #### RESOURCE ####
 # Replace some vanilla buildings with world-machine versions
