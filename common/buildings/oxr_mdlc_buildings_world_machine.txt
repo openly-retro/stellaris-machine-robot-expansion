@@ -923,6 +923,7 @@ oxr_mdlc_world_machines_building_cold_storage_datacenter = {
 	}
 	ai_resource_production = {
 		trigger = {
+
 			planet_resource_compare = {
 				resource = physics_research
 				value >= 40
@@ -933,53 +934,155 @@ oxr_mdlc_world_machines_building_cold_storage_datacenter = {
 		engineering_research = 8
 	}
 }
-# RESEARCH BOOSTER
-oxr_mdlc_world_machines_building_central_data_router = {
-	base_buildtime = @b2_time
-	category = research
+# RESEARCH BOOSTER - TODO (?)
+# oxr_mdlc_world_machines_building_central_data_router = {
+# 	base_buildtime = @b2_time
+# 	category = research
+# 	base_cap_amount = 1
+# 	can_build = no
+
+# 	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+# 	inline_script = planet/buildings/auto/oxr_destroy
+
+# 	allow = {
+# 		oxr_mdlc_has_major_upgraded_capital = yes
+# 		# if = {
+# 		# 	limit = {
+# 		# 		NOT = { is_planet_class = xvcv_mdlc_pc_machine_cpu }
+# 		# 	}
+# 		# 	check_variable = {
+# 		# 		which = owner.math_number_five
+# 		# 		value >= value:oxr_mdlc_num_base_science_buildings
+# 		# 	}
+# 		# }
+# 		# else = {
+# 		# }
+# 	}
+# 	resources = {
+# 		category = oxr_mdlc_world_machines_science_buildings
+# 		cost = {
+# 			minerals = @b2_minerals
+# 			volatile_motes = @b2_rare_cost
+# 		}
+# 		upkeep = {
+# 			energy = @b2_upkeep
+# 			volatile_motes = @b2_rare_upkeep
+# 		}
+# 		# produces = {
+# 		# 	physics_research = 10
+# 		# 	society_research = 10
+# 		# 	engineering_research = 10
+# 		# }
+# 	}
+# 	planet_modifier = {
+# 		xvcv_mdlc_world_machines_computer_districts_produces_mult = 0.2
+# 		oxr_mdlc_world_machines_science_buildings_produces_mult = 0.2
+# 		xvcv_mdlc_world_machines_computer_districts_energy_upkeep_add = 10
+# 		oxr_mdlc_world_machines_science_buildings_energy_upkeep_add = 10
+# 	}
+# }
+# REPROGRAM CPU WORLDS
+oxr_mdlc_world_machines_building_fractal_fpga = {
+	base_buildtime = @b3_time
 	base_cap_amount = 1
-	can_build = no
+	can_build = yes
+	category = research
 
 	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 	inline_script = planet/buildings/auto/oxr_destroy
 
 	allow = {
-		oxr_mdlc_has_major_upgraded_capital = yes
-		# if = {
-		# 	limit = {
-		# 		NOT = { is_planet_class = xvcv_mdlc_pc_machine_cpu }
-		# 	}
-		# 	check_variable = {
-		# 		which = owner.math_number_five
-		# 		value >= value:oxr_mdlc_num_base_science_buildings
-		# 	}
-		# }
-		# else = {
-		# }
+		custom_tooltip_fail = {
+			oxr_mdlc_has_major_upgraded_capital = yes
+			text = oxr_mdlc_world_machines_building_fractal_fpga_not_major_capital
+		}
+		custom_tooltip_fail = {
+			text = oxr_mdlc_world_machines_building_fractal_fpga_not_cpu_world
+			is_planet_class = xvcv_mdlc_pc_machine_cpu
+		}
+		
 	}
 	resources = {
 		category = oxr_mdlc_world_machines_science_buildings
 		cost = {
 			minerals = @b2_minerals
-			volatile_motes = @b2_rare_cost
+			exotic_gases = @b2_rare_cost
 		}
 		upkeep = {
 			energy = @b2_upkeep
-			volatile_motes = @b2_rare_upkeep
+			exotic_gases = @b2_rare_upkeep
 		}
-		# produces = {
-		# 	physics_research = 10
-		# 	society_research = 10
-		# 	engineering_research = 10
-		# }
 	}
 	planet_modifier = {
-		xvcv_mdlc_world_machines_computer_districts_produces_mult = 0.2
-		oxr_mdlc_world_machines_science_buildings_produces_mult = 0.2
 		xvcv_mdlc_world_machines_computer_districts_energy_upkeep_add = 10
-		oxr_mdlc_world_machines_science_buildings_energy_upkeep_add = 10
+		xvcv_mdlc_world_machines_computer_districts_volatile_motes_upkeep_add = 1
+		xvcv_mdlc_world_machines_cooling_districts_upkeep_mult = 0.5
+		oxr_mdlc_world_machines_science_buildings_energy_upkeep_add = 7
+		oxr_mdlc_world_machines_science_buildings_volatile_motes_upkeep_add = 0.25
+	}
+	# ENG
+	triggered_planet_modifier = {
+		potential = {
+			has_designation = xvcv_mdlc_col_machine_cpu_engineering
+		}
+		xvcv_mdlc_world_machines_computer_districts_engineering_research_produces_mult = 0.5
+		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_mult = 1.5
+		oxr_mdlc_world_machines_science_buildings_physics_research_produces_mult = -1
+		oxr_mdlc_world_machines_science_buildings_society_research_produces_mult = -1
+	}
+	triggered_desc = {
+		trigger = {
+			has_designation = xvcv_mdlc_col_machine_cpu_engineering
+		}
+		text = oxr_mdlc_world_machines_building_fractal_fpga_focus_engineering
+	}
+	# PHYS
+	triggered_planet_modifier = {
+		potential = {
+			has_designation = xvcv_mdlc_col_machine_cpu_physics
+		}
+		xvcv_mdlc_world_machines_computer_districts_physics_research_produces_mult = 0.5
+		oxr_mdlc_world_machines_science_buildings_physics_research_produces_mult = 1.5
+		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_mult = -1
+		oxr_mdlc_world_machines_science_buildings_society_research_produces_mult = -1
+	}
+	triggered_desc = {
+		trigger = {
+			has_designation = xvcv_mdlc_col_machine_cpu_physics
+		}
+		text = oxr_mdlc_world_machines_building_fractal_fpga_focus_physics
+	}
+	# SOC
+	triggered_planet_modifier = {
+		potential = {
+			has_designation = xvcv_mdlc_col_machine_cpu_society
+		}
+		xvcv_mdlc_world_machines_computer_districts_society_research_produces_mult = 0.5
+		oxr_mdlc_world_machines_science_buildings_society_research_produces_mult = 1.5
+		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_mult = -1
+		oxr_mdlc_world_machines_science_buildings_physics_research_produces_mult = -1
+	}
+	triggered_desc = {
+		trigger = {
+			has_designation = xvcv_mdlc_col_machine_cpu_society
+		}
+		text = oxr_mdlc_world_machines_building_fractal_fpga_focus_society
+	}
+	triggered_desc = {
+		trigger = {
+			NOR = {
+				has_designation = xvcv_mdlc_col_machine_cpu_society
+				has_designation = xvcv_mdlc_col_machine_cpu_engineering
+				has_designation = xvcv_mdlc_col_machine_cpu_physics
+			}
+		}
+		text = oxr_mdlc_world_machines_building_fractal_fpga_focus_none
+	}
+	prerequisites = {
+		"oxr_mdlc_tech_world_machine_cpu_reprogrammable_gate"
 	}
 }
+
 
 #### RESOURCE ####
 # Replace some vanilla buildings with world-machine versions
