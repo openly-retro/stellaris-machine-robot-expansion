@@ -33,15 +33,25 @@ xvcv_mdlc_pc_machine_cpu_district_physics = {
 			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_mineral_cost_add|
 		}
 		cost = { exotic_gases = 100 }
-		produces = { 
+		produces = {
+			trigger = {
+				NOT = {
+					has_active_building = oxr_mdlc_world_machines_building_fractal_fpga
+				}
+			}
 			physics_research = 30 # was 70
 			mult =  value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
+		}
+		inline_script = {
+			script = planet/districts/pc_cpu/oxr_auto_fpga_produces
+			CPU_DISTRICT_PRODUCES = physics_research
 		}
 		upkeep = {
 			energy = 20
 			exotic_gases = 1
 		}
 	}
+	inline_script = planet/districts/pc_cpu/oxr_auto_fpga_desc
 
 	ai_resource_production = {
 		physics_research = 10
@@ -82,15 +92,22 @@ xvcv_mdlc_pc_machine_cpu_district_society = {
 			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_mineral_cost_add|
 		}
 		cost = { exotic_gases = 100 }
-		produces = { 
+		produces = {
+			trigger = {
+				NOT = {
+					has_active_building = oxr_mdlc_world_machines_building_fractal_fpga
+				}
+			}
 			society_research = 30 # was 70
 			mult =  value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
 		}
+		inline_script = planet/districts/pc_cpu/oxr_auto_fpga_produces
 		upkeep = {
 			energy = 20
 			exotic_gases = 1
 		}
 	}
+	inline_script = planet/districts/pc_cpu/oxr_auto_fpga_desc
 
 	ai_resource_production = {
 		society_research = 10
@@ -131,16 +148,20 @@ xvcv_mdlc_pc_machine_cpu_district_engineering = {
 			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_mineral_cost_add|
 		}
 		cost = { exotic_gases = 100 }
-		produces = { 
+		produces = {
+			trigger = {
+				NOT = { has_active_building = oxr_mdlc_world_machines_building_fractal_fpga }
+			}
 			engineering_research = 30 # was 70
 			mult =  value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
 		}
+		inline_script = planet/districts/pc_cpu/oxr_auto_fpga_produces
 		upkeep = {
 			energy = 20
 			exotic_gases = 1
 		}
 	}
-
+	inline_script = planet/districts/pc_cpu/oxr_auto_fpga_desc
 	ai_resource_production = {
 		engineering_research = 10
 		trigger = { always = yes }
