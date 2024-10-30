@@ -24,12 +24,8 @@ rikk_mdlc_decision_world_machine_solidify_molten = {
 	potential = {
 		exists = space_owner
 		is_planet_class = pc_molten
-		space_owner = { 
-			AND = {
-				has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
-				oxr_mdlc_planet_owner_can_build_wm_districts = yes 
-			}
-		}
+		space_owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		NOT = { has_planet_flag = rikk_mdlc_world_machine_suitable }
 	}
 	
 	allow = {
@@ -47,6 +43,7 @@ rikk_mdlc_decision_world_machine_solidify_molten = {
 			}
 		}
 		hidden_effect = { 
+			set_planet_flag = rikk_mdlc_world_machine_suitable
 			set_planet_flag = rikk_mdlc_world_machine_molten_solidified
 			while = {
 				count = 3
@@ -75,6 +72,7 @@ rikk_mdlc_decision_world_machine_harness_nanites = {
 		exists = space_owner
 		is_planet_class = pc_gray_goo
 		space_owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		NOT = { has_planet_flag = rikk_mdlc_world_machine_suitable }
 	}
 	
 	allow = { 
@@ -92,6 +90,7 @@ rikk_mdlc_decision_world_machine_harness_nanites = {
 	effect = {
 		add_modifier = { modifier = rikk_mdlc_world_machine_nanite_mod }
 		hidden_effect = { 
+			set_planet_flag = rikk_mdlc_world_machine_suitable
 			set_planet_flag = rikk_mdlc_world_machine_nanites_harnessed 
 		}
 		space_owner = {
@@ -121,12 +120,8 @@ rikk_mdlc_decision_world_machine_cleanse_toxic = {
 	potential = {
 		exists = space_owner
 		is_planet_class = pc_toxic
-		space_owner = { 
-			AND = {
-				has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
-				oxr_mdlc_planet_owner_can_build_wm_districts = yes 
-			}
-		}
+		space_owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		NOT = { has_planet_flag = rikk_mdlc_world_machine_suitable }
 	}
 	
 	allow = {
@@ -143,6 +138,7 @@ rikk_mdlc_decision_world_machine_cleanse_toxic = {
 	effect = {
 		add_modifier = { modifier = rikk_mdlc_world_machine_toxic_mod }
 		hidden_effect = { 
+			set_planet_flag = rikk_mdlc_world_machine_suitable
 			set_planet_flag = rikk_mdlc_world_machine_toxic_cleansed 
 		}
 		space_owner = {
@@ -170,12 +166,8 @@ rikk_mdlc_decision_world_machine_defrost_cryosphere = {
 	potential = {
 		exists = space_owner
 		is_planet_class = pc_frozen
-		space_owner = { 
-			AND = {
-				has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
-				oxr_mdlc_planet_owner_can_build_wm_districts = yes 
-			}
-		}
+		space_owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		NOT = { has_planet_flag = rikk_mdlc_world_machine_suitable }
 	}
 	
 	allow = {
@@ -185,6 +177,7 @@ rikk_mdlc_decision_world_machine_defrost_cryosphere = {
 	effect = {
 		add_modifier = { modifier = rikk_mdlc_world_machine_toxic_mod }
 		hidden_effect = { 
+			set_planet_flag = rikk_mdlc_world_machine_suitable
 			set_planet_flag = rikk_mdlc_world_machine_frozen_defrosted 
 		}
 		space_owner = {
