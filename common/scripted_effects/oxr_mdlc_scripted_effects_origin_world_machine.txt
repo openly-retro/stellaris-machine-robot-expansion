@@ -903,20 +903,42 @@ oxr_mdlc_planet_self_destruct = {
 	# 3) apply half damage .. quarter damage .. based on range, up to 100 range
 
 	## WE WANT EYE CANDY NAO
-	create_ambient_object = {
-		location = this
-		type = habitat_cracker_object
-		play_animation_once = yes
-		duration = 5
-
-		use_3d_location = yes
-		base_angle_towards = star
-		entity_face_object = star
-
-		entity_offset = { min = 0 max = 0 }
-
-		entity_scale_to_size = yes
-		scale = 0.10
+	if = {
+		limit = {
+			is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
+		}
+		create_ambient_object = {
+			location = this
+			type = ringworld_cracker_object
+			duration = 5
+			play_animation_once = yes
+	
+			use_3d_location = yes
+			base_angle_towards = star
+			entity_face_object = star
+	
+			entity_offset = { min = 0 max = 0 }
+	
+			entity_scale_to_size = yes
+			scale = 0.10
+		}
+	}
+	else = {
+		create_ambient_object = {
+			location = this
+			type = habitat_cracker_object
+			play_animation_once = yes
+			duration = 5
+	
+			use_3d_location = yes
+			base_angle_towards = star
+			entity_face_object = star
+	
+			entity_offset = { min = 0 max = 0 }
+	
+			entity_scale_to_size = yes
+			scale = 0.10
+		}
 	}
 
 	export_trigger_value_to_variable = {
@@ -1184,6 +1206,18 @@ oxr_mdlc_planet_self_destruct = {
 		kill_pop = yes
 	}
 	destroy_colony = yes
-	change_pc = pc_shattered
+	if = {
+		limit = {
+			OR = {
+				is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
+			}
+		}
+		change_pc = pc_ringworld_habitable_damaged
+		spawn_ringworld_cracker_effect = yes
+	}
+	else = {
+		change_pc = pc_shattered
+	}
+	
 	reset_planet = yes
 }
