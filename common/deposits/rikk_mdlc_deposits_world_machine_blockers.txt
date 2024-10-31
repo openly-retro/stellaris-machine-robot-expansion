@@ -1,5 +1,5 @@
-
-rikk_mdlc_d_world_machine_core_refuse = {
+#blocker for after upgrading the world core on a planet, if player selects punishment option in stage 2 (?)
+rikk_mdlc_d_world_machine_world_machine_core_refuse = {
 	potential = { always = no }
 	time = 720
 	icon = d_rich_mountain
@@ -28,7 +28,11 @@ rikk_mdlc_d_world_machine_core_refuse = {
 	on_cleared = { owner = { add_resource = { minerals = 1000 } } }
 }
 
-rikk_mdlc_d_chemical_glacier = {
+#blockers for molten/frozen/toxic worlds after auto wm terraform
+#molten
+
+#frozen
+rikk_mdlc_d_world_machine_chemical_glacier = {
 	time = 270
 
 	icon = d_massive_glacier
@@ -44,7 +48,6 @@ rikk_mdlc_d_chemical_glacier = {
 	}
 
 	planet_modifier = {
-		planet_max_districts_add = -1
 		planet_max_buildings_add = -1
 		rikk_mdlc_world_machine_districts_rare_resource_base_production = 0.10
 	}
@@ -52,7 +55,7 @@ rikk_mdlc_d_chemical_glacier = {
 	prerequisites = { "tech_massive_glacier" }
 }
 
-rikk_mdlc_d_subsurface_sea = {
+rikk_mdlc_d_world_machine_subsurface_sea = {
 	time = 270
 
 	icon = d_frozen_gas_lake
@@ -63,24 +66,23 @@ rikk_mdlc_d_subsurface_sea = {
 	resources = {
 		category = deposit_blockers_natural
 		cost = {
-			energy = 2000
-			minerals = 1000
+			energy = 750
+			minerals = 500
 		}
 	}
 
 	planet_modifier = { #destabilizes surface and continent
 		planet_max_districts_mult = -0.10
-		planet_max_buildings_add = -1
-		rikk_mdlc_world_machine_cooling_district_effectiveness = 0.05
+		rikk_mdlc_world_machine_cooling_district_effectiveness = 0.03
 	}
 
-	prerequisites = { } #?
+	prerequisites = { "tech_noxious_swamp" }
 }
 
-rikk_mdlc_d_natural_super_geyser = {
+rikk_mdlc_d_world_machine_natural_super_geyser = {
 	time = 270
 
-	icon = d_frozen_gas_lake
+	icon = d_geothermal_vent
 	is_for_colonizable = yes
 	potential = { always = no }
 	category = deposit_cat_blockers
@@ -89,6 +91,7 @@ rikk_mdlc_d_natural_super_geyser = {
 		category = deposit_blockers_natural
 		cost = {
 			energy = 500
+			minerals = 250
 		}
 	}
 
@@ -97,13 +100,14 @@ rikk_mdlc_d_natural_super_geyser = {
 		rikk_mdlc_world_machine_cooling_district_effectiveness = 0.02
 	}
 
-	prerequisites = { "tech_massive_glacier" }
+	prerequisites = { "tech_volcano" }
 }
 
-rikk_mdlc_d_sulfur_geysers = {
+#toxic
+rikk_mdlc_d_world_machine_sulfur_geysers = {
 	time = 270
 
-	icon = d_massive_glacier
+	icon = d_gaseous_eruption
 	is_for_colonizable = yes
 	potential = { always = no }
 	category = deposit_cat_blockers
@@ -117,9 +121,57 @@ rikk_mdlc_d_sulfur_geysers = {
 
 	planet_modifier = {
 		planet_max_districts_add = -2
+		rikk_mdlc_world_machine_districts_rare_resource_base_production = 0.10
 	}
 
 	prerequisites = { "tech_volcano" }
+}
+
+rikk_mdlc_d_world_machine_carbonic_sea = {
+	time = 270
+
+	icon = d_fuming_bog
+	is_for_colonizable = yes
+	potential = { always = no }
+	category = deposit_cat_blockers
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 500
+		}
+	}
+
+	planet_modifier = {
+		xvcv_mdlc_world_machines_industrial_districts_produces_mult = 0.03
+		planet_max_districts_add = -2
+	}
+
+	prerequisites = { "tech_noxious_swamp" }
+}
+
+rikk_mdlc_d_world_machine_acidic_basin = {
+	time = 270
+
+	icon = d_rotten_soil_blocker
+	is_for_colonizable = yes
+	potential = { always = no }
+	category = deposit_cat_blockers
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 250
+			minerals = 250
+		}
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -2
+		planet_building_build_speed_mult = 0.25
+	}
+
+	prerequisites = { "tech_quicksand_basin" }
 }
 
 d_noxious_swamp tech_noxious_swamp
