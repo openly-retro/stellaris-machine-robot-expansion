@@ -260,3 +260,30 @@ oxr_mdlc_decisions_origin_wm_requisition_automatons = {
 		}
 	}
 }
+
+oxr_mdlc_decisions_origin_wm_self_destruct = {
+	owned_planets_only = yes
+	enactment_time = 5
+	resources = {
+		category = oxr_mdlc_category_wm_decisions
+		cost = {
+			energy = 1000
+		}
+	}
+	potential = {
+		exists = space_owner
+		space_owner = {
+			# for release, dont bother restricting to AP or origin, rely on the tradition's potential/allow
+			has_tradition = oxr_mdlc_tr_defensive_directives_self_destruct
+		}
+		is_planet_world_machine = yes
+	}
+	allow = {
+		# cant think of a reason not to allow self-destruct
+		always = yes
+	}
+
+	effect = {
+		oxr_mdlc_planet_self_destruct = yes
+	}
+}
