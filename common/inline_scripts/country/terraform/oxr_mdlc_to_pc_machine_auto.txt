@@ -1,15 +1,28 @@
 resources = {
 	category = terraforming
-	cost = { oxr_mdlc_world_machine_core = 1 }
+	cost = { 
+		trigger = {
+			exists = owner
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+		}
+		oxr_mdlc_world_machine_core = 1 
+	}
+	cost = { 
+		trigger = {
+			exists = owner
+			AND = {
+				has_ascension_perk = xvcv_mdlc_ap_world_machines
+				NOT = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+			}
+		}
+		energy = 10000
+	}
 }
 duration = @oxr_mdlc_world_machine_direct_time
 potential = {
-	has_origin = oxr_mdlc_origin_world_machine_awakened
+	oxr_mdlc_planet_owner_can_build_wm_districts = yes
 }
 condition = {
-	has_resource = {
-		type = oxr_mdlc_world_machine_core amount >= 1
-	}
 }
 ai_weight = {
 	weight = 10
