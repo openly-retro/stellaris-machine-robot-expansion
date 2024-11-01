@@ -1907,7 +1907,56 @@ oxr_mdlc_world_machines_building_auto_unity_4 = {
 		"oxr_mdlc_tech_world_machines_unlocked"
 	}
 }
+# Alpha hub replacement - 
+oxr_mdlc_world_machines_building_auto_unity_alpha_hub = {
+	base_buildtime = @b2_time
+	empire_limit = {
+		base = 1
+	}
+	# TODO: Make the auto- version of this icon
+	icon = building_autocurating_vault
 
+	category = unity
+
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+
+	inline_script = planet/buildings/auto/oxr_destroy
+
+	convert_to = {
+		building_autocurating_vault
+		building_citadel_of_faith
+		building_corporate_vault
+	}
+
+	resources = {
+		category = oxr_mdlc_world_machines_unity_buildings
+		cost = {
+			minerals = @b2_minerals
+			rare_crystals = @b2_rare_cost
+		}
+		upkeep = {
+			energy = @b2_upkeep
+			rare_crystals = @b2_rare_upkeep
+		}
+		produces = {
+			unity = 6
+		}
+
+	}
+
+	country_modifier = {
+		country_official_cap_add = 1
+		country_unity_produces_mult = 0.05
+	}
+
+	prerequisites = {
+		"tech_autocurating_vault"
+	}
+
+	show_tech_unlock_if = {
+		has_origin = oxr_mdlc_origin_world_machine_awakened
+	}
+}
 
 #### UNIQUE ####
 oxr_mdlc_world_machines_building_storage_cradle = {
