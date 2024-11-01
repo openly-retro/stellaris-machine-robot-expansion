@@ -1,5 +1,52 @@
 namespace = oxr_mdlc
 
+
+country_event = {
+	id = oxr_mdlc.100
+	title = oxr_mdlc.100.title
+	desc = oxr_mdlc.100.desc
+	picture = GFX_evt_oxr_mdlc_cyborg_reanimation
+	is_triggered_only = yes
+
+	trigger = {
+		has_ascension_perk = ap_mechromancy
+		has_civic = xvcv_mdlc_civic_assimilating_swarm
+		NOR = {
+			has_policy_flag = oxr_mdlc_army_reanimation_control_cyborg
+			has_policy_flag = oxr_mdlc_army_reanimation_control_undead
+			has_policy_flag = oxr_mdlc_army_reanimation_control_mixed
+		}
+	}
+
+	option = {
+		name = oxr_mdlc.100.a
+		allow = { always = yes }
+		set_policy = {
+			policy = oxr_mdlc_army_reanimation_control
+			option = oxr_mdlc_army_reanimation_control_undead
+		}
+		default_hide_option = no
+	}
+	option = {
+		name = oxr_mdlc.100.b
+		allow = { always = yes }
+		set_policy = {
+			policy = oxr_mdlc_army_reanimation_control
+			option = oxr_mdlc_army_reanimation_control_cyborg
+		}
+		default_hide_option = no
+	}
+	option = {
+		name = oxr_mdlc.100.c
+		allow = { always = yes }
+		set_policy = {
+			policy = oxr_mdlc_army_reanimation_control
+			option = oxr_mdlc_army_reanimation_control_mixed
+		}
+		default_hide_option = yes
+	}
+}
+
 country_event = {
 	# Use while debugging
 	id = oxr_mdlc.999
