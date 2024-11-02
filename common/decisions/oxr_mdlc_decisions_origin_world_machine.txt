@@ -19,6 +19,7 @@ oxr_mdlc_decisions_origin_wm_start_world_with_core = {
 				type = oxr_mdlc_world_machine_core amount >= 1
 			}
 		}
+		has_anomaly = no
 	}
 	resources = {
 		category = decisions
@@ -40,6 +41,7 @@ oxr_mdlc_decisions_origin_wm_reboot_ruined_world = {
 	allow = {
 		always = yes
 		is_terraforming = no
+		has_anomaly = no
 		space_owner = {
 			has_resource = {
 				type = energy amount >= 5000
@@ -131,7 +133,6 @@ oxr_mdlc_decisions_origin_wm_start_auto_build_core = {
 			planet_event = {
 				id = oxr_mdlc_origin_wm_main.1299
 			}
-			
 		}
 	}
 }
@@ -257,5 +258,32 @@ oxr_mdlc_decisions_origin_wm_requisition_automatons = {
 				days = 60
 			}
 		}
+	}
+}
+
+oxr_mdlc_decisions_origin_wm_self_destruct = {
+	owned_planets_only = yes
+	enactment_time = 5
+	resources = {
+		category = oxr_mdlc_category_wm_decisions
+		cost = {
+			energy = 1000
+		}
+	}
+	potential = {
+		exists = space_owner
+		space_owner = {
+			# for release, dont bother restricting to AP or origin, rely on the tradition's potential/allow
+			has_tradition = oxr_mdlc_tr_defensive_directives_self_destruct
+		}
+		is_planet_world_machine = yes
+	}
+	allow = {
+		# cant think of a reason not to allow self-destruct
+		always = yes
+	}
+
+	effect = {
+		oxr_mdlc_planet_self_destruct = yes
 	}
 }

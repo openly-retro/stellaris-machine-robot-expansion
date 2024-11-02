@@ -12,6 +12,9 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 	prev = {
 		set_country_flag = oxr_mdlc_origin_world_machine_feature_enabled
 	}
+	# set homeworld to auto-capital
+	set_colony_type = xvcv_mdlc_col_machine_auto_capital
+
 	# optimize_memory
 	# This is starting in the PLANET scope
 	# prev = { set_country_flag = oxr_mdlc_origin_world_machine_awakened }
@@ -88,7 +91,7 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 		}
 		random_owned_pop = {
 			kill_pop = yes
-			root = { add_resource = { alloys = 75 } }
+			root = { add_resource = { alloys = 10 } }  # was 75
 		}
 	}
 	log = "Reduced starting population to 3"
@@ -208,7 +211,7 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 	while = {
 		limit = { has_building = building_uplink_node }
 		remove_building = building_uplink_node
-		add_building = oxr_mdlc_world_machines_building_cohesion_supervisor
+		add_building = oxr_mdlc_world_machines_building_auto_unity_1
 	}
 	### Research
 	while = {
@@ -223,8 +226,8 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 		add_building = oxr_mdlc_world_machines_building_maintenance_legion
 	}
 	### Roleplaying
-	add_building = oxr_mdlc_world_machines_building_storage_cradle
-	ruin_building = oxr_mdlc_world_machines_building_storage_cradle
+	# add_building = oxr_mdlc_world_machines_building_storage_cradle
+	# ruin_building = oxr_mdlc_world_machines_building_storage_cradle
 	### Capital
 	if = {
 		limit = {
@@ -749,6 +752,9 @@ oxr_mdlc_find_neighbor_planet_and_convert_to_ruined_world_machine = {
 				# oxr_mdlc_origin_world_machine_random_add_all_blockers = yes
 				log = "Starting setup: Changed \\[This.GetName] to Ruined World Machine"
 				set_planet_flag = oxr_mdlc_ruined_world_machine
+				add_anomaly = {
+					category = oxr_mdlc_anomaly_ruined_wm
+				}
 			}
 		}
 	}
@@ -868,26 +874,26 @@ oxr_mdlc_country_create_world_machine_mass_shipping_country = {
 	}
 }
 
-oxr_mdlc_origin_wm_cheat_gain_core_tech = {
-	country_event = {
-		id = oxr_mdlc_origin_wm_main.1210
-	}
-	give_technology = {
-		tech = oxr_mdlc_tech_world_machine_planetary_proficiency
-		message = no
-	}
-	give_technology = {
-		tech = oxr_mdlc_tech_world_machine_planetary_mastery
-		message = no
-	}
-	give_technology = {
-		tech = oxr_mdlc_tech_world_machine_district_infrastructure
-		message = no
-	}
-	give_technology = {
-		tech = oxr_mdlc_tech_geologic_world_expansion_theory
-	}
-}
+# oxr_mdlc_origin_wm_cheat_gain_core_tech = {
+# 	country_event = {
+# 		id = oxr_mdlc_origin_wm_main.1210
+# 	}
+# 	give_technology = {
+# 		tech = oxr_mdlc_tech_world_machine_planetary_proficiency
+# 		message = no
+# 	}
+# 	give_technology = {
+# 		tech = oxr_mdlc_tech_world_machine_planetary_mastery
+# 		message = no
+# 	}
+# 	give_technology = {
+# 		tech = oxr_mdlc_tech_world_machine_district_infrastructure
+# 		message = no
+# 	}
+# 	give_technology = {
+# 		tech = oxr_mdlc_tech_geologic_world_expansion_theory
+# 	}
+# }
 
 
 oxr_mdlc_planet_self_destruct = {
@@ -897,20 +903,42 @@ oxr_mdlc_planet_self_destruct = {
 	# 3) apply half damage .. quarter damage .. based on range, up to 100 range
 
 	## WE WANT EYE CANDY NAO
-	create_ambient_object = {
-		location = this
-		type = habitat_cracker_object
-		play_animation_once = yes
-		duration = 5
-
-		use_3d_location = yes
-		base_angle_towards = star
-		entity_face_object = star
-
-		entity_offset = { min = 0 max = 0 }
-
-		entity_scale_to_size = yes
-		scale = 0.10
+	if = {
+		limit = {
+			is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
+		}
+		create_ambient_object = {
+			location = this
+			type = ringworld_cracker_object
+			duration = 5
+			play_animation_once = yes
+	
+			use_3d_location = yes
+			base_angle_towards = star
+			entity_face_object = star
+	
+			entity_offset = { min = 0 max = 0 }
+	
+			entity_scale_to_size = yes
+			scale = 0.10
+		}
+	}
+	else = {
+		create_ambient_object = {
+			location = this
+			type = habitat_cracker_object
+			play_animation_once = yes
+			duration = 5
+	
+			use_3d_location = yes
+			base_angle_towards = star
+			entity_face_object = star
+	
+			entity_offset = { min = 0 max = 0 }
+	
+			entity_scale_to_size = yes
+			scale = 0.10
+		}
 	}
 
 	export_trigger_value_to_variable = {
@@ -1178,6 +1206,18 @@ oxr_mdlc_planet_self_destruct = {
 		kill_pop = yes
 	}
 	destroy_colony = yes
-	change_pc = pc_shattered
+	if = {
+		limit = {
+			OR = {
+				is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
+			}
+		}
+		change_pc = pc_ringworld_habitable_damaged
+		spawn_ringworld_cracker_effect = yes
+	}
+	else = {
+		change_pc = pc_shattered
+	}
+	
 	reset_planet = yes
 }

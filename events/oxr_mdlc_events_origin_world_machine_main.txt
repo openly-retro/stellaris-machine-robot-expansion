@@ -12,6 +12,46 @@ country_event = {
 	}
 }
 
+ship_event = {
+	id = oxr_mdlc_origin_wm_main.10
+	is_triggered_only = yes
+	hide_window = yes
+
+	trigger = {
+		owner = {
+			NOT = {
+				has_completed_special_project_in_log = OXR_MDLC_ORIGIN_WM_INFO_RUINED_WM_FOUND
+			}
+		}
+	}
+
+	immediate = {
+		log = "oxr_mdlc_origin_wm_main.10 was entered"
+		owner = {
+			enable_special_project = {
+				name = OXR_MDLC_ORIGIN_WM_INFO_RUINED_WM_FOUND
+			}
+			complete_special_project = {
+				type = OXR_MDLC_ORIGIN_WM_INFO_RUINED_WM_FOUND
+			}
+			country_event = {
+				id = oxr_mdlc_origin_wm_main.11
+			}
+		}
+	}
+}
+country_event = {
+	id = oxr_mdlc_origin_wm_main.11
+	picture = GFX_evt_scholarium_anomaly
+	title = oxr_mdlc_origin_wm_main.10.title
+	desc = oxr_mdlc_origin_wm_main.10.desc
+	is_triggered_only = yes
+
+	option = {
+		name = oxr_mdlc_origin_wm_main.10.a
+	}
+}
+
 # Trigger project to get proficiency tech
 # although I am on the fence and maybe just award it
 country_event = {
@@ -77,6 +117,19 @@ country_event = {
 	immediate = {
 		owner = {
 			end_event_chain = oxr_mdlc_origin_wm_chain_clear_blockers_2
+		}
+	}
+}
+
+country_event = {
+	id = oxr_mdlc_origin_wm_main.55
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		give_technology = {
+			tech = oxr_mdlc_tech_world_machine_planetary_proficiency
+			message = yes
 		}
 	}
 }
@@ -422,6 +475,15 @@ country_event = {
 		enable_special_project = {
 			name = OXR_MDLC_ORIGIN_WM_CORE_TECH_RESEARCH_SOCIETY
 		}
+		default_hide_option = yes
+	}
+	immediate = {
+		random_situation = {
+			limit = {
+				is_situation_type = oxr_mdlc_origin_wm_situation_recover_core_tech
+			}
+			destroy_situation = this
+		}
 	}
 }
 
@@ -470,6 +532,16 @@ country_event = {
 			tech = oxr_mdlc_tech_world_machine_wmc_core
 			message = no
 		}
+		hidden_effect = {
+			enable_special_project = {
+				name = OXR_MDLC_ORIGIN_WM_INFO_CORE_TECH_FINISHED
+			}
+			complete_special_project = {
+				type = OXR_MDLC_ORIGIN_WM_INFO_CORE_TECH_FINISHED
+			}
+			end_event_chain = oxr_mdlc_origin_wm_chain_gather_insights
+			# TODO: Add info project about core tech
+		}
 	}
 }
 
@@ -494,7 +566,8 @@ planet_event = {
 				set_variable = {
 					which = oxr_mdlc_planet_world_machine_core_countdown
 					# value = @oxr_mdlc_world_machine_core_build_time_days
-					value = 60
+					# value = 60
+					value = @oxr_mdlc_world_machine_core_build_time_days
 				}
 				# Otherwise, RESUME wmc construction
 			}
@@ -539,8 +612,9 @@ planet_event = {
 	immediate = {
 		if = {
 			limit = {
-				NOT = {
+				NOR = {
 					has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
+					has_building = oxr_mdlc_world_machines_building_core_fabrication_depot
 				}
 			}
 			# Player cancelled the construction, so stop

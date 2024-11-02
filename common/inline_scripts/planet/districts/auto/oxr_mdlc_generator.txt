@@ -7,14 +7,14 @@
 # Auto-Machine World generator districts are NOT (affected by wm district output/mult)
 
 resources = {
-	category = planet_technician
-	# category = xvcv_mdlc_world_machines_districts
+	# category = planet_technician
+	category = xvcv_mdlc_world_machines_generator_districts
 	cost = {
 		trigger = {
 			is_planet_class = xvcv_mdlc_pc_machine_auto
 		}
 		minerals = @xvcv_mdlc_district_cost_2
-		mult = value:oxr_add_modifier_to_base_1|MODIFIER|rikk_mdlc_world_machine_districts_mineral_cost_add|
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_mineral_cost_add|
 	}
 	cost = {
 		trigger = {
@@ -43,5 +43,15 @@ resources = {
 		rare_crystals = 1  # static 1 per district
 		mult = $UPKEEP_MULT$
 	}
-
+	produces = {
+		trigger = { has_active_building = rikk_mdlc_world_machine_SR_building }
+		exotic_gases = 0.20
+		mult = $PRODUCES_MULT$
+	}
+	upkeep = {
+		trigger = { has_active_building = rikk_mdlc_world_machine_SR_building }
+		minerals = 2
+		mult = $UPKEEP_MULT$
+	}
+	
 }

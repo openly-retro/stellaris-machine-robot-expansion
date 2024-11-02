@@ -1,4 +1,25 @@
 
+rikk_mdlc_origin_world_machine_add_molten_blocker = {
+	# hard / insight blockers
+	random_list = {
+	}
+}
+
+rikk_mdlc_origin_world_machine_add_frozen_blocker = {
+	# hard / insight blockers
+	random_list = {
+	}
+}
+
+rikk_mdlc_origin_world_machine_add_toxic_blocker = {
+	# hard / insight blockers
+	random_list = {
+		25 = {
+			add_blocker = { type = oxr_mdlc_d_world_machine_offline_data_routers }
+		}
+	}
+}
+
 rikk_mdlc_wm_upgrades_add_world_modifier = {
 	optimize_memory
 	if = {
@@ -10,4 +31,25 @@ rikk_mdlc_wm_upgrades_add_world_modifier = {
 			add_modifier = { modifier = $MODIFIER_TYPE$ }
 		}
 	}
+}
+
+rikk_mdlc_origin_world_machine_add_random_blockers = {
+	set_variable_to_random_value = {
+		which = oxr_mdlc_world_machine_random_blockers
+		min = 2 max = 4
+	}
+	while = {
+		limit = {
+			check_variable = {
+				which = oxr_mdlc_world_machine_random_blockers
+				value > 0
+			}
+		}
+		subtract_variable = {
+			which = oxr_mdlc_world_machine_random_blockers
+			value = 1
+		}
+		rikk_mdlc_origin_world_machine_add_$WORLD_TYPE$_blocker = yes
+	}
+	clear_variable = oxr_mdlc_world_machine_random_blockers
 }

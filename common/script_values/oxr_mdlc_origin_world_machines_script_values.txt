@@ -84,17 +84,48 @@ oxr_mdlc_join_mults = {
 	add = $MULT1$
 	add = $MULT2$
 }
-oxr_add_modifier_to_base_1 = {
-	base = 1
-	add = $MODIFIER$
-}
+#The below is already done in vanilla via scripted_modifier_mult
+#oxr_add_modifier_to_base_1 = {
+#	base = 1
+#	add = $MODIFIER$
+#}
 # vanilla
-scripted_modifier_add = {
+# scripted_modifier_add = {
+# 	base = 0
+# 	add = modifier:$MODIFIER$
+# }
+# scripted_modifier_mult = {
+# 	base = 1
+# 	add = modifier:$MODIFIER$
+# 	min = 0
+# }
+
+oxr_mdlc_num_base_science_buildings = {
 	base = 0
-	add = modifier:$MODIFIER$
+	complex_trigger_modifier = {
+		trigger = num_buildings
+		parameters = {
+			OR = {
+				type = oxr_mdlc_world_machines_building_fractal_sanitizer
+				type = oxr_mdlc_world_machines_building_fractal_sanitizer_2
+				type = oxr_mdlc_world_machines_building_fractal_sanitizer_3
+				type = oxr_mdlc_world_machines_building_fractal_sanitizer_4
+			}
+		}
+		mode = add
+	}
 }
-scripted_modifier_mult = {
-	base = 1
-	add = modifier:$MODIFIER$
-	min = 0
+oxr_mdlc_num_science_districts = {
+	base = 0
+	complex_trigger_modifier = {
+		trigger = num_districts
+		parameters = {
+			OR = {
+				type = xvcv_mdlc_pc_machine_cpu_district_engineering
+				type = xvcv_mdlc_pc_machine_cpu_district_society
+				type = xvcv_mdlc_pc_machine_cpu_district_physics
+			}
+		}
+		mode = add
+	}
 }
