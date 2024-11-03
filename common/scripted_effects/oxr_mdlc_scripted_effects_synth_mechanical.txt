@@ -1,0 +1,49 @@
+# Scripted effects for synth/mechanical origin, and species
+# By 0xRetro, adapted from XVCV's code
+
+oxr_mdlc_adjust_planet_mechanical_heritage_start = {
+	# Regular empires start with 24 jobs; machine 27
+	# 11 districts to start
+	# Special cases:
+	# 1) empire uses food (from catalytic or traits)
+	# 2) empire uses goods (from civics)
+	export_trigger_value_to_variable = {
+		trigger = num_districts
+		variable = oxr_mdlc_mechanical_start_tmp
+	}
+	# for food & goods empires:
+	# 3 nexus, 2 industrial, 3 mining, 3 food
+	# if there are 2 temples, replace 1 with something else
+
+	# for goods-only empires: TBD
+
+	# catalytic empires:
+	# 3 nexus, 3 industrial, 4 food, +1 something else to make 11
+}
+
+oxr_mdlc_planet_swap_vanilla_to_mechanical_world_districts = {
+	while = {
+		limit = { has_district = district_city }
+		remove_district = district_city
+		add_district = xvcv_mdlc_pc_mechanical_district_city
+	}
+	while = {
+		limit = { has_district = district_generator }
+		remove_district = district_generator
+		add_district = xvcv_mdlc_pc_mechanical_district_generator
+	}
+	while = {
+		limit = { has_district = district_mining }
+		remove_district = district_mining
+		add_district = xvcv_mdlc_pc_mechanical_district_mining
+	}
+	while = {
+		limit = { has_district = district_farming }
+		remove_district = district_farming
+	}
+	while = {
+		limit = { has_district = district_industrial }
+		remove_district = district_industrial
+		add_district = xvcv_mdlc_pc_mechanical_district_industrial
+	}
+}

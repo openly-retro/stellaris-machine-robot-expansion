@@ -70,7 +70,15 @@ country_event = {
 				food = -200
 			}
 			give_technology = { tech = tech_bio_reactor message = no }
-
+			if = {
+				limit = {
+					has_origin = xvcv_mdlc_origin_mechanical_heritage
+				}
+				add_modifier = {
+					modifier = oxr_mdlc_origin_mechanical_temp_pop_demotion
+					days = 360
+				}
+			}
 			# country_event = { id = xvcv_mdlc.4 days = 1 }
 			if = {
 				limit = { has_machine_age_dlc = yes }
@@ -87,6 +95,16 @@ country_event = {
 			}
 		}
 		capital_scope = {
+			if = {
+				limit = {
+					prev = {
+						has_origin = xvcv_mdlc_origin_mechanical_heritage
+					}
+				}
+				# Do the swaps now so as not to lose num of districts
+				oxr_mdlc_planet_swap_vanilla_to_mechanical_world_districts = yes
+			}
+			# Rock body trait
 			if = {
 				limit = { prev.species = { has_trait = xvcv_mdlc_trait_rock_body } }
 				if = {
@@ -106,6 +124,7 @@ country_event = {
 					}
 				}
 			}
+			# Organic skin trait
 			if = {
 				limit = { prev.species = { has_trait = xvcv_mdlc_trait_synth_skin } }
 				prev = { add_resource = { food = 200 } }
@@ -117,6 +136,41 @@ country_event = {
 				else_if = {
 					limit = { uses_district_set = machine_world }
 					add_deposit = d_organic_slurry
+				}
+				else_if = {
+					limit = { uses_district_set = xvcv_mdlc_pc_mechanical_district_set }
+					add_district = xvcv_mdlc_pc_mechanical_district_farming
+					add_district = xvcv_mdlc_pc_mechanical_district_farming
+				}
+			}
+			# Catalytic empires
+			if = {
+				limit = { prev = { has_civic = civic_catalytic_processing } }
+				if = {
+					limit = { uses_district_set = xvcv_mdlc_pc_mechanical_district_set }
+					remove_district = xvcv_mdlc_pc_mechanical_district_generator
+					remove_district = xvcv_mdlc_pc_mechanical_district_industrial
+					add_district = xvcv_mdlc_pc_mechanical_district_farming
+					add_district = xvcv_mdlc_pc_mechanical_district_farming
+					if = {
+						limit = {
+							num_buildings = {
+								type = building_temple
+								value > 1
+							}
+						}
+						remove_building = building_temple
+						add_building = building_factory_1
+					}
+					if = {
+						limit = {
+							host_has_dlc = "Galactic Paragons"
+						}
+						set_colony_type = col_capital_extraction
+					}
+				}
+				else = {
+					add_district = district_farming
 				}
 			}
 			if = {
@@ -275,30 +329,7 @@ country_event = {
 			if = {
 				limit = { prev = { has_origin = xvcv_mdlc_origin_mechanical_heritage } }
 				prev = { set_country_flag = xvcv_mdlc_origin_mechanical_heritage_empire } #also see: xvcv_mdlc_pc_mechanical_district_set
-				while = {
-					limit = { has_district = district_city }
-					remove_district = district_city
-					add_district = xvcv_mdlc_pc_mechanical_district_city
-				}
-				while = {
-					limit = { has_district = district_generator }
-					remove_district = district_generator
-					add_district = xvcv_mdlc_pc_mechanical_district_generator
-				}
-				while = {
-					limit = { has_district = district_mining }
-					remove_district = district_mining
-					add_district = xvcv_mdlc_pc_mechanical_district_mining
-				}
-				while = {
-					limit = { has_district = district_farming }
-					remove_district = district_farming
-				}
-				while = {
-					limit = { has_district = district_industrial }
-					remove_district = district_industrial
-					add_district = xvcv_mdlc_pc_mechanical_district_industrial
-				}
+				# oxr_mdlc_planet_swap_vanilla_to_mechanical_world_districts = yes
 				remove_district = xvcv_mdlc_pc_mechanical_district_generator
 				create_pop = { species = prev.species }
 			}
@@ -3856,10 +3887,10 @@ country_event = {
 			add_research_option = tech_identity_initialization
 			add_research_option = tech_identity_fusion
 		}
-		capital_scope = {
-			add_building = building_identity_complex
-		}
-		
+		# capital_scope = {
+		# 	add_building = building_identity_complex
+		# }
+
 		# mix identities?
 		country_event = {
 			id = xvcv_mdlc.1014
