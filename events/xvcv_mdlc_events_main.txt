@@ -103,6 +103,9 @@ country_event = {
 				}
 				# Do the swaps now so as not to lose num of districts
 				oxr_mdlc_planet_swap_vanilla_to_mechanical_world_districts = yes
+				# Make adjustments to homeworld based on traits, civics, etc
+				# So as to avoid changing what XVCV has designed
+				# oxr_mdlc_adjust_capital_scope_mechanical_heritage_start = yes
 			}
 			# Rock body trait
 			if = {
@@ -128,17 +131,23 @@ country_event = {
 			if = {
 				limit = { prev.species = { has_trait = xvcv_mdlc_trait_synth_skin } }
 				prev = { add_resource = { food = 200 } }
+				# Standard planets
 				if = {
-					limit = { has_district = district_generator }
+					limit = { uses_district_set = standard }
+					log = "SYNTH SETUP (standard) | Organic skin | Removing 2 generators, adding 1 farm, 1 mine"
 					remove_district = district_generator
+					# remove_district = district_generator
+					# add_district = district_generator
 					add_district = district_farming
 				}
 				else_if = {
 					limit = { uses_district_set = machine_world }
 					add_deposit = d_organic_slurry
 				}
+				# Mechanical
 				else_if = {
 					limit = { uses_district_set = xvcv_mdlc_pc_mechanical_district_set }
+					log = "SYNTH SETUP (Mechanical) | Organic skin | Adding 2 farms"
 					add_district = xvcv_mdlc_pc_mechanical_district_farming
 					add_district = xvcv_mdlc_pc_mechanical_district_farming
 				}
@@ -146,12 +155,24 @@ country_event = {
 			# Catalytic empires
 			if = {
 				limit = { prev = { has_civic = civic_catalytic_processing } }
+				# Standard planets
 				if = {
+					limit = { uses_district_set = standard }
+					log = "SYNTH SETUP (standard) | Catalytic | Removing 2 generators and adding 2 farms"
+					remove_district = district_generator
+					remove_district = district_generator
+					# add_district = district_farming
+					add_district = district_farming
+				}
+				# Mechanical
+				else_if = {
 					limit = { uses_district_set = xvcv_mdlc_pc_mechanical_district_set }
+					log = "SYNTH SETUP (Mechanical) | Catalytic | Removing 1 generator, 1 industrial, adding 2 farms"
 					remove_district = xvcv_mdlc_pc_mechanical_district_generator
 					remove_district = xvcv_mdlc_pc_mechanical_district_industrial
 					add_district = xvcv_mdlc_pc_mechanical_district_farming
 					add_district = xvcv_mdlc_pc_mechanical_district_farming
+					# Additional resource balancing
 					if = {
 						limit = {
 							num_buildings = {
@@ -162,16 +183,19 @@ country_event = {
 						remove_building = building_temple
 						add_building = building_factory_1
 					}
-					if = {
-						limit = {
-							host_has_dlc = "Galactic Paragons"
-						}
-						set_colony_type = col_capital_extraction
-					}
 				}
-				else = {
-					add_district = district_farming
+			}
+			# Situational tweak for organic skin + synth ascended start
+			if = {
+				limit = {
+					prev = { has_civic = civic_catalytic_processing }
+					prev.species = { has_trait = xvcv_mdlc_trait_synth_skin }
+					prev = { has_origin = xvcv_mdlc_origin_synth_ascend }
 				}
+				# Ends up with 
+				remove_district = district_farming
+				remove_district = district_city
+				add_district = district_generator
 			}
 			if = {
 				limit = { prev = { has_valid_civic = xvcv_mdlc_civic_planet_cracker } }
@@ -308,23 +332,34 @@ country_event = {
 			}
 			if = {
 				limit = { prev = { has_origin = xvcv_mdlc_origin_synth_ascend } }
-				remove_district = district_generator
-				add_district = district_mining
-				while = {
-					limit = { has_district = district_farming }
-					remove_district = district_farming
-					if = {
-						limit = { num_free_districts = { type = district_generator value <= 1 } } #equal to or less than 1 #this is intentional
-						add_deposit = xvcv_mdlc_d_district_generator_slot_plus_1
+				# dont alter previous district balancing
+				if = {
+					limit = {
+						NAND = {
+							prev = { has_civic = civic_catalytic_processing }
+							prev.species = { has_trait = xvcv_mdlc_trait_synth_skin }
+						}
 					}
-					add_district = district_generator
+					remove_district = district_generator
+					add_district = district_mining
+					while = {
+						limit = { has_district = district_farming }
+						remove_district = district_farming
+						if = {
+							limit = { num_free_districts = { type = district_generator value <= 1 } } #equal to or less than 1 #this is intentional
+							add_deposit = xvcv_mdlc_d_district_generator_slot_plus_1
+						}
+						add_district = district_generator
+					}
 				}
+
 				if = {
 					limit = { free_building_slots = 0 }
 					add_deposit = xvcv_mdlc_d_building_slot_plus_1
 				}
 				add_building = building_robot_assembly_plant
-				while = { create_pop = { species = prev.species } count = 2 }
+				# while = { create_pop = { species = prev.species } count = 2 }
+				# create_pop = { species = prev.species }
 			}
 			if = {
 				limit = { prev = { has_origin = xvcv_mdlc_origin_mechanical_heritage } }
