@@ -23,8 +23,8 @@ oxr_mdlc_world_machines_edict_all_power_to_shields = {
 		# shipclass_military_station_shield_mult = 4.5
 		# shipclass_military_station_fire_rate = -2
 		ship_shield_hardening_add = 0.75
-		ship_shield_regen_add_static = 50
-		ship_shield_regen_add_perc = 0.5
+		ship_shield_regen_add_static = 150
+		ship_shield_regen_add_perc = 0.5   # this could delete ships if bumped too high
 	}
 
 	potential = {
@@ -35,7 +35,9 @@ oxr_mdlc_world_machines_edict_all_power_to_shields = {
 	}
 
 	allow = {
-		always = yes
+		NOT = {
+			has_edict = oxr_mdlc_world_machines_edict_all_power_to_shields
+		}
 	}
 
 	ai_weight = {
