@@ -1,0 +1,128 @@
+# Adapted by Retro
+xvcv_mdlc_country_bio_mech_set_growth_scaling = {
+	random_country = {
+		limit = { any_owned_planet = { num_artificial_pops_per_year > 0 } }
+		random_owned_planet = {
+			limit = { num_artificial_pops_per_year > 0 }
+			# Copy the planet's current assembly rate to xvcv assembly rate
+			# Copy both pop assembly add, and pop assembly mult to xvcv vars
+			export_modifier_to_variable = { modifier = planet_pop_assembly_add variable = xvcv_mdlc_pop_assembly_add_var }
+			if = {
+				limit = { check_modifier_value = { modifier = planet_pop_assembly_mult value > 0 } }
+				set_variable = { which = xvcv_mdlc_pop_assembly_mult_var value = 1 }
+				change_variable = { which = xvcv_mdlc_pop_assembly_mult_var value = modifier:planet_pop_assembly_mult }
+				multiply_variable = { which = xvcv_mdlc_pop_assembly_add_var value = xvcv_mdlc_pop_assembly_mult_var }
+			}
+			#log = "Assembly per Month: [This.xvcv_mdlc_pop_assembly_add_var]"
+			
+			# Calculate the base assembly requirement for a bio mech pop
+			# look at the amount of "artificial" pops/yr, ex: 0.41
+			# The assembly requirement 
+			export_trigger_value_to_variable = { trigger = num_artificial_pops_per_year variable = xvcv_mdlc_pops_per_year_var }
+			set_variable = { which = xvcv_mdlc_assembly_requirement_var value = xvcv_mdlc_pop_assembly_add_var }
+			multiply_variable = { which = xvcv_mdlc_assembly_requirement_var value = 12 }
+			divide_variable = { which = xvcv_mdlc_assembly_requirement_var value = xvcv_mdlc_pops_per_year_var }
+			#log = "Total Progress Required for New Pop: [This.xvcv_mdlc_assembly_requirement_var]"
+	
+			set_variable = { which = xvcv_mdlc_pop_growth_scale_var value = xvcv_mdlc_assembly_requirement_var }
+			change_variable = { which = xvcv_mdlc_pop_growth_scale_var value = -100 }
+			divide_variable = { which = xvcv_mdlc_pop_growth_scale_var value = prev.trigger:num_pops }
+			multiply_variable = { which = xvcv_mdlc_pop_growth_scale_var value = 100 }
+			floor_variable = xvcv_mdlc_pop_growth_scale_var
+			divide_variable = { which = xvcv_mdlc_pop_growth_scale_var value = 100 }
+			#log = "Current Growth Scale: [This.xvcv_mdlc_pop_growth_scale_var]"
+
+			if = {
+				limit = { check_variable = { which = xvcv_mdlc_pop_growth_scale_var value < 0 } }
+				set_variable = { which = xvcv_mdlc_pop_growth_scale_var value = 0 } #failsafe
+			}
+
+			random_country = {
+				limit = { is_country_type = xvcv_mdlc_data_storage }
+				set_variable = {
+					which = xvcv_mdlc_pop_growth_scale_var
+					value = prev.xvcv_mdlc_pop_growth_scale_var
+				}
+			}
+
+			#xvcv_mdlc_pops_per_year_var = (xvcv_mdlc_pop_assembly_add_var x 12) / total_assembly_required
+			#total_assembly_required = (xvcv_mdlc_pop_assembly_add_var x 12) / xvcv_mdlc_pops_per_year_var
+			#xvcv_mdlc_pop_growth_scale_var = total_assembly_required - 100 / empire_total_pop_number
+		}
+	}
+}
+
+xvcv_mdlc_country_bio_mech_create_species = {
+	create_species = {
+		adjective = "xvcv_mdlc_bio_robot_adjective"
+		name = "xvcv_mdlc_bio_robot_name"
+		namelist = this
+		plural = "xvcv_mdlc_bio_robot_plural"
+		class = "XVCV_MDLC_BIO_ROBOT"
+		portrait = human
+		traits = { trait = xvcv_mdlc_trait_bio_robot }
+		traits = this
+		homeworld = this.capital_scope
+		effect = {
+			if = {
+				limit = {
+					OR = {
+						root = { is_individual_machine = yes }
+						root = { has_authority = auth_machine_intelligence }
+					}
+				}
+				change_species_characteristics = {
+					add_trait = trait_machine_unit
+				}
+			}
+			else = {
+				change_species_characteristics = {
+					add_trait = trait_mechanical
+				}
+			}
+			# oxr_mdlc_set_custom_species_habitability = yes
+			rename_species = {
+				prompt_country = prev
+				name_list = ascension_list
+			}
+		}
+	}
+}
+
+xvcv_mdlc_country_bio_mech_create_species_from_primary = {
+	this.species = {
+		create_species = {
+			adjective = this
+			name = this
+			namelist = prev
+			plural = this
+			class = "XVCV_MDLC_BIO_ROBOT"
+			portrait = this
+			traits = { trait = xvcv_mdlc_trait_bio_robot }
+			traits = this
+			homeworld = prev.capital_scope
+			effect = {
+				if = {
+					limit = {
+						OR = {
+							root = { is_individual_machine = yes }
+							root = { has_authority = auth_machine_intelligence }
+						}
+					}
+					change_species_characteristics = {
+						add_trait = trait_machine_unit
+					}
+				}
+				else = {
+					change_species_characteristics = {
+						add_trait = trait_mechanical
+					}
+				}
+				rename_species = {
+					prompt_country = prevprev
+					name_list = ascension_list
+				}
+			}
+		}
+	}
+}

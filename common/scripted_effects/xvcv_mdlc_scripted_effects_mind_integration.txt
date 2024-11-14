@@ -1,0 +1,576 @@
+xvcv_mdlc_country_change_to_gestalt_machines = {
+	# Country must be Bio-Mech, Synthetic, or individual machine
+	if = {
+		limit = {
+			OR = {
+				#jeez, PDX, you are too harsh to Gestalts!
+				has_origin = origin_mechanists
+				has_origin = origin_syncretic_evolution
+				has_origin = origin_life_seeded
+				has_origin = origin_post_apocalyptic
+				has_origin = origin_void_dwellers
+				has_origin = origin_scion
+				has_origin = origin_tree_of_life
+				has_origin = origin_shoulders_of_giants
+				has_origin = origin_lithoid
+				has_origin = origin_common_ground
+				has_origin = origin_hegemon
+				has_origin = origin_necrophage
+				has_origin = origin_clone_army
+				has_origin = origin_ocean_paradise
+				has_origin = origin_progenitor_hive
+				has_origin = origin_subterranean
+				has_origin = origin_shroudwalker_apprentice
+				#origins from this mod
+				has_origin = xvcv_mdlc_origin_synth_ascend
+				has_origin = xvcv_mdlc_origin_mechanical_heritage
+			}
+		}
+		set_origin = origin_default
+	}
+
+	clear_ethos = yes
+	# Hack to get machine intelligence onto country
+	if = {
+		limit = { 
+			this.species = {
+				has_trait = xvcv_mdlc_trait_bio_robot
+			}
+		}
+		oxr_mdlc_country_hack_authority_to_machine = yes
+	}
+	else = {
+		country_add_ethic = ethic_gestalt_consciousness
+		change_government = {
+			authority = auth_machine_intelligence
+			civics = {}
+			cooldown = no
+			remove_invalid_civics = yes
+		}
+		reset_policy_cooldowns = yes
+	}
+
+	if = {
+		limit = { has_country_flag = flesh_weakened }
+		remove_country_flag = flesh_weakened
+	}
+	remove_country_flag = synthetic_empire
+	remove_country_flag = synth_assimilation
+
+	if = {
+		limit = { NOT = { has_technology = tech_bio_reactor } }
+		give_technology = { tech = tech_bio_reactor message = no }
+	}
+	if = {
+		limit = { has_technology = tech_robomodding }
+		give_technology = { tech = tech_robomodding_m message = no }
+	}
+	if = {
+		limit = { has_technology = tech_robomodding_points_1 }
+		give_technology = { tech = tech_binary_motivators message = no }
+	}
+	if = {
+		limit = { has_technology = tech_robomodding_points_2 }
+		give_technology = { tech = tech_nanite_assemblers message = no }
+	}
+
+	every_owned_pop = {
+		limit = { has_trait = xvcv_mdlc_trait_bio_robot }
+		modify_species = {
+			add_trait = trait_machine_unit
+			remove_trait = trait_mechanical
+		}
+	}
+	this.species = {
+		if = {
+			limit = { NOT = { has_trait = xvcv_mdlc_trait_bio_robot } }
+			create_species = {
+				adjective = this
+				name = this
+				namelist = prev
+				plural = this
+				class = "MACHINE"
+				portrait = this
+				traits = { trait = trait_machine_unit }
+				traits = this
+				homeworld = prev.capital_scope
+				effect = {
+					modify_species = {
+						remove_trait = trait_mechanical
+						ideal_planet_class = this
+						change_scoped_species = no
+					}
+				}
+			}
+			prev = {
+				set_country_flag = xvcv_mdlc_created_machine_species_for_integration
+			}
+		}
+	}
+	if = {
+		limit = {
+			has_country_flag = xvcv_mdlc_created_machine_species_for_integration
+		}
+		xvcv_mdlc_dominant_species_changing_effect = yes
+		every_owned_pop = {
+			limit = { has_trait = trait_mechanical }
+			change_species = last_created_species
+		}
+		remove_country_flag = xvcv_mdlc_created_machine_species_for_integration
+	}
+
+	random_owned_pop = {
+		limit = { is_same_species = prev.species }
+		xvcv_mdlc_machine_species_rights_adjustments_effect = yes
+	}
+	every_owned_army = {
+		limit = { is_defensive_army = no }
+		modify_army = {
+			name = random
+			type = "machine_assault_1"
+			species = this
+		}
+	}
+	every_owned_army = {
+		limit = { is_defensive_army = yes }
+		modify_army = {
+			name = random
+			type = "machine_defense"
+			species = this
+		}
+	}
+	every_owned_leader = {
+		limit = {
+			is_event_leader = no
+			NOT = { has_ethic = ethic_gestalt_consciousness }
+		}
+		change_background_ethic = ethic_gestalt_consciousness
+		if = {
+			limit = {
+				prev = { NOT = { has_active_tradition = tr_synthetics_finish_machine } } #also see: tr_synthetics_finish_machine_desc
+				has_trait = leader_trait_synthetic
+			}
+			remove_trait = leader_trait_synthetic
+		}
+	}
+	every_envoy = {
+		limit = {
+			is_event_leader = no
+			NOT = { has_ethic = ethic_gestalt_consciousness }
+		}
+		change_background_ethic = ethic_gestalt_consciousness
+	}
+	every_pool_leader = {
+		limit = {
+			is_event_leader = no
+			NOT = { has_ethic = ethic_gestalt_consciousness }
+		}
+		change_background_ethic = ethic_gestalt_consciousness
+		if = {
+			limit = {
+				prev = { NOT = { has_active_tradition = tr_synthetics_finish_machine } }
+				has_trait = leader_trait_synthetic
+			}
+			remove_trait = leader_trait_synthetic
+		}
+	}
+
+	ruler = {
+		remove_all_traits = yes
+		add_trait_no_notify = leader_trait_ruler_machine_intelligence
+	}
+
+	if = {
+		limit = { NOT = { has_authority = auth_machine_intelligence } }
+		set_origin = origin_default
+		change_government = {
+			authority = auth_machine_intelligence
+			civics = {}
+			cooldown = no
+			remove_invalid_civics = yes
+		}
+	}
+
+	country_create_gestalt_councilor = {
+		CLASS = official
+		COUNCIL_POS = councilor_gestalt_regulatory
+		DESC = councilor_gestalt_regulatory_desc
+	}
+	country_create_gestalt_councilor = {
+		CLASS = scientist
+		COUNCIL_POS = councilor_gestalt_cognitive
+		DESC = councilor_gestalt_cognitive_desc
+	}
+	country_create_gestalt_councilor = {
+		CLASS = commander
+		COUNCIL_POS = councilor_gestalt_legion
+		DESC = councilor_gestalt_legion_desc
+	}
+	country_create_gestalt_councilor = {
+		CLASS = official
+		COUNCIL_POS = councilor_gestalt_growth
+		DESC = councilor_gestalt_growth_desc
+	}
+	every_owned_planet = {
+		while = {
+			limit = { has_district = district_city }
+			remove_district = district_city
+			add_district = district_nexus
+		}
+		while = {
+			limit = { has_district = district_rw_city }
+			remove_district = district_rw_city
+			add_district = district_rw_nexus
+		}
+		while = {
+			limit = { has_district = xvcv_mdlc_pc_mechanical_district_city }
+			remove_district = xvcv_mdlc_pc_mechanical_district_city
+			add_district = xvcv_mdlc_pc_mechanical_district_nexus
+		}
+		while = {
+			limit = { has_district = xvcv_mdlc_pc_machine_auto_district_city }
+			remove_district = xvcv_mdlc_pc_machine_auto_district_city
+			add_district = xvcv_mdlc_pc_machine_auto_district_nexus
+		}
+
+		if = {
+			limit = { has_modifier = slave_colony }
+			remove_modifier = slave_colony
+		}
+		if = {
+			limit = { has_modifier = resort_colony }
+			remove_modifier = resort_colony
+		}
+		if = {
+			limit = { has_modifier = penal_colony }
+			remove_modifier = penal_colony
+		}
+
+		if = {
+			limit = { has_building = building_colony_shelter }
+			remove_building = building_colony_shelter
+			add_building = building_deployment_post
+		}
+		if = {
+			limit = { has_building = building_capital }
+			remove_building = building_capital
+			add_building = building_machine_capital
+		}			
+		if = {
+			limit = { has_building = building_major_capital }
+			remove_building = building_major_capital
+			add_building = building_machine_major_capital
+		}
+		if = {
+			limit = { has_building = building_system_capital }
+			remove_building = building_system_capital
+			add_building = building_machine_system_capital
+		}
+
+		if = {
+			limit = { has_building = building_resort_capital }
+			remove_building = building_resort_capital
+			add_building = building_machine_capital
+		}
+		if = {
+			limit = { has_building = building_resort_major_capital }
+			remove_building = building_resort_major_capital
+			add_building = building_machine_system_capital
+		}
+		if = {
+			limit = { has_building = building_slave_capital }
+			remove_building = building_slave_capital
+			add_building = building_machine_capital
+		}
+		if = {
+			limit = { has_building = building_slave_major_capital }
+			remove_building = building_slave_major_capital
+			add_building = building_machine_system_capital
+		}
+
+		if = {
+			limit = { has_building = building_robot_assembly_plant }
+			remove_building = building_robot_assembly_plant
+			add_building = building_machine_assembly_plant
+		}
+		if = {
+			limit = { has_building = building_robot_assembly_complex }
+			remove_building = building_robot_assembly_complex
+			add_building = building_machine_assembly_complex
+		}
+
+		if = {
+			limit = { has_building = building_ministry_production }
+			remove_building = building_ministry_production
+			add_building = building_production_center
+		}
+		if = {
+			limit = { has_building = building_institute }
+			remove_building = building_institute
+			add_building = building_supercomputer
+		}
+
+		if = {
+			limit = { has_building = building_clinic }
+			remove_building = building_clinic
+			add_building = building_uplink_node
+		}
+		if = {
+			limit = { has_building = building_hospital }
+			remove_building = building_hospital
+			add_building = building_network_junction
+		}
+
+		while = {
+			limit = { has_building = building_factory_1 }
+			remove_building = building_factory_1
+			add_building = building_foundry_1
+		}
+		while = {
+			limit = { has_building = building_factory_2 }
+			remove_building = building_factory_2
+			add_building = building_foundry_2
+		}
+		while = {
+			limit = { has_building = building_factory_3 }
+			remove_building = building_factory_3
+			add_building = building_foundry_3
+		}
+
+		if = {
+			limit = { has_building = building_noble_estates }
+			remove_building = building_noble_estates
+			add_building = xvcv_mdlc_building_uplink_node_facility
+		}
+		if = {
+			limit = { has_building = building_galactic_stock_exchange }
+			remove_building = building_galactic_stock_exchange
+			add_building = building_foundry_1
+		}
+
+		if = {
+			limit = { has_building = building_psi_corps }
+			remove_building = building_psi_corps
+			add_building = building_sentinel_posts
+		}
+		while = {
+			limit = { has_building = building_precinct_house }
+			remove_building = building_precinct_house
+			add_building = building_sentinel_posts
+		}
+		while = {
+			limit = { has_building = building_hall_judgment }
+			remove_building = building_hall_judgment
+			add_building = building_sentinel_posts
+		}
+		while = {
+			limit = { has_building = building_overseer_homes }
+			remove_building = building_overseer_homes
+			add_building = building_sentinel_posts
+		}
+
+		while = {
+			limit = { has_building = building_holo_theatres }
+			remove_building = building_holo_theatres
+			add_building = building_simulation_1
+		}
+		while = {
+			limit = { has_building = building_hyper_entertainment_forum }
+			remove_building = building_hyper_entertainment_forum
+			add_building = building_simulation_2
+		}
+
+		while = {
+			limit = { has_building = building_commercial_zone }
+			remove_building = building_commercial_zone
+			add_building = building_foundry_2
+		}
+		while = {
+			limit = { has_building = building_commercial_megaplex }
+			remove_building = building_commercial_megaplex
+			add_building = building_foundry_3
+		}
+
+		while = {
+			limit = { has_building = building_luxury_residence }
+			remove_building = building_luxury_residence
+			add_building = building_drone_storage
+		}
+		while = {
+			limit = { has_building = building_paradise_dome }
+			remove_building = building_paradise_dome
+			add_building = building_drone_megastorage
+		}
+		while = {
+			limit = { has_building = building_communal_housing }
+			remove_building = building_communal_housing
+			add_building = building_drone_storage
+		}
+		while = {
+			limit = { has_building = building_communal_housing_large }
+			remove_building = building_communal_housing_large
+			add_building = building_drone_megastorage
+		}
+		if = {
+			limit = { has_building = building_clone_vats }
+			remove_building = building_clone_vats
+		}
+		while = {
+			limit = { has_building = building_xeno_zoo }
+			remove_building = building_xeno_zoo
+			add_building = building_simulation_1
+		}
+
+		while = {
+			limit = { has_building = building_bureaucratic_1 }
+			remove_building = building_bureaucratic_1
+			add_building = building_uplink_node
+		}
+		while = {
+			limit = { has_building = building_bureaucratic_2 }
+			remove_building = building_bureaucratic_2
+			add_building = building_network_junction
+		}
+		while = {
+			limit = { has_building = building_bureaucratic_3 }
+			remove_building = building_bureaucratic_3
+			add_building = building_system_conflux
+		}
+
+		while = {
+			limit = { has_building = building_autochthon_monument }
+			remove_building = building_autochthon_monument
+			add_building = building_simulation_1
+		}
+		while = {
+			limit = { has_building = building_heritage_site }
+			remove_building = building_heritage_site
+			add_building = building_simulation_2
+		}
+		while = {
+			limit = { has_building = building_hypercomms_forum }
+			remove_building = building_hypercomms_forum
+			add_building = building_simulation_3
+		}
+		if = {
+			limit = { has_building = building_autocurating_vault }
+			remove_building = building_autocurating_vault
+			add_building = building_alpha_hub
+		}
+
+		while = {
+			limit = { has_building = building_temple }
+			remove_building = building_temple
+			add_building = building_simulation_1
+		}
+		while = {
+			limit = { has_building = building_holotemple }
+			remove_building = building_holotemple
+			add_building = building_simulation_2
+		}
+		while = {
+			limit = { has_building = building_sacred_nexus }
+			remove_building = building_sacred_nexus
+			add_building = building_simulation_3
+		}
+		if = {
+			limit = { has_building = building_citadel_of_faith }
+			remove_building = building_citadel_of_faith
+			add_building = building_alpha_hub
+		}
+
+		while = {
+			limit = { has_building = building_corporate_monument }
+			remove_building = building_corporate_monument
+			add_building = building_simulation_1
+		}
+		while = {
+			limit = { has_building = building_corporate_site }
+			remove_building = building_corporate_site
+			add_building = building_simulation_2
+		}
+		while = {
+			limit = { has_building = building_corporate_forum }
+			remove_building = building_corporate_forum
+			add_building = building_simulation_3
+		}
+		if = {
+			limit = { has_building = building_corporate_vault }
+			remove_building = building_corporate_vault
+			add_building = building_alpha_hub
+		}
+	}
+}
+
+xvcv_mdlc_species_create_machine_type = {
+	create_species = {
+		adjective = this
+		name = this
+		namelist = prev
+		plural = this
+		class = "MACHINE"
+		portrait = this
+		traits = { trait = trait_machine_unit }
+		traits = this
+		homeworld = prev.capital_scope
+		effect = {
+			modify_species = {
+				remove_trait = trait_mechanical
+				ideal_planet_class = this
+				change_scoped_species = no
+			}
+		}
+	}
+}
+
+oxr_mdlc_country_hack_authority_to_machine = {
+	create_species = {
+		adjective = this
+		name = this
+		namelist = prev
+		plural = this
+		class = "MACHINE"
+		portrait = this
+		traits = {
+			trait = trait_machine_unit
+		}
+		traits = this
+		homeworld = prev.capital_scope
+	}
+	last_created_species = {
+		save_global_event_target_as = xvcv_temp_machine_species
+	}
+	change_dominant_species = { species = event_target:xvcv_temp_machine_species }
+	country_add_ethic = ethic_gestalt_consciousness
+	change_government = {
+		authority = auth_machine_intelligence
+		civics = {}
+		cooldown = no
+		remove_invalid_civics = yes
+	}
+	reset_policy_cooldowns = yes
+	# Put back the bio robot species
+	if = {
+		limit = {
+			exists = event_target:xvcv_mdlc_bio_robot_species
+		}
+		change_dominant_species = {
+			species = xvcv_mdlc_bio_robot_species
+		}
+	}
+
+	this.species = {
+		if = {
+			limit = { has_trait = trait_mechanical }
+			change_species_characteristics = {
+				remove_trait = trait_mechanical
+			}
+		}
+		if = {
+			limit = { NOT = { has_trait = trait_machine_unit } }
+			change_species_characteristics = {
+				add_trait = trait_machine_unit
+			}
+		}
+	}
+}
