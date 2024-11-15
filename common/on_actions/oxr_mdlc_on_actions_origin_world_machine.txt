@@ -68,6 +68,7 @@ on_world_machine_restoration_stage_complete = {
 on_world_machine_restoration_finished = {
 	events = {
 		oxr_mdlc_on_world_machine_action.1008  # points towards insight situation
+		oxr_mdlc_origin_wm_main.503            # increment world machine counter
 	}
 }
 # Executed when a country picks an ascension perk
@@ -88,6 +89,7 @@ on_world_machine_pc_machine_auto_terraforming_complete = {
 on_world_machine_core_terraforming_complete = {
 	events = {
 		oxr_mdlc_origin_wm_main.1100  # increment 'deploy world core' situation counter
+		oxr_mdlc_origin_wm_main.503   # increment world machine planet total counter
 	}
 }
 on_world_machine_core_fabrication_complete = {
@@ -95,6 +97,14 @@ on_world_machine_core_fabrication_complete = {
 		
 	}
 }
+# self-destruct, bombardment, etc
+on_world_machine_planet_lost = {
+	events = {
+		oxr_mdlc_origin_wm_main.503    # decrement world machine counter
+	}
+}
+
+### EXTENSION OF VANILLA ON_ACTIONS ###
 
 # Root = Planet
 # From = Country
@@ -117,5 +127,19 @@ on_custom_diplomacy = {
 on_tech_increased = {
 	events = {
 		oxr_mdlc_on_world_machine_action.1200  # show info about world expansion theory
+	}
+}
+
+# A colony has been destroyed. Called just before owner and controller is cleared
+# Scope = Planet
+on_colony_destroyed = {
+
+}
+
+# A colony has been destroyed by bombardment. Called after the planet's colony status has been cleared
+# This = Planet
+# From = Bombarder
+on_colony_destroyed_by_bombardment = {
+	events = {
 	}
 }

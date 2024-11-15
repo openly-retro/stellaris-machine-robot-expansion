@@ -29,8 +29,9 @@ oxr_mdlc_decisions_origin_wm_start_world_with_core = {
 		}
 	}
 	effect = {
-		start_terraform_process = xvcv_mdlc_pc_machine_auto
+		custom_tooltip = oxr_mdlc_decisions_origin_wm_start_world_with_core_effect
 		hidden_effect = {
+			start_terraform_process = xvcv_mdlc_pc_machine_auto
 			owner = {
 				oxr_mdlc_country_world_machine_cores_recalc_amount = yes
 			}
@@ -124,6 +125,11 @@ oxr_mdlc_decisions_origin_wm_start_auto_build_core = {
 				type = energy
 				amount >= @oxr_mdlc_world_machine_core_build_cost_energy
 			}
+			custom_tooltip = {
+				fail_text = oxr_mdlc_country_max_wmc_reached.fail
+				oxr_mdlc_country_has_room_for_more_wmc = yes
+			}
+			
 		}
 		NOT = {
 			has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
