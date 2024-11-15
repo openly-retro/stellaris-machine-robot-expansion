@@ -204,7 +204,7 @@
  oxr_mdlc_world_machines_auto_mine_5: "Auto-Bore 5"
  oxr_mdlc_world_machines_auto_mine_5_desc: "An extensive automated borehole site for mineral extraction utilizing a combination of high-pressure drilling techniques and extensive debris removal infrastructure to maximize output.$oxr_mdlc_mod_tag$"
  # Auto-Energy
- oxr_mdlc_world_machines_auto_generator_1: "$oxr_gear$ Auto-Generator 1"
+ oxr_mdlc_world_machines_auto_generator_1: "$oxr_gear$Auto-Generator 1"
  oxr_mdlc_world_machines_auto_generator_1_desc: "A minimal reactor site for energy production.$oxr_mdlc_mod_tag$"
  oxr_mdlc_world_machines_auto_generator_2: "Auto-Generator 2"
  oxr_mdlc_world_machines_auto_generator_2_desc: "A standard reactor site for energy production, with an upgraded cooling system.$oxr_mdlc_mod_tag$"
@@ -336,6 +336,7 @@
  oxr_mdlc_tech_geologic_heat_shielding_1_desc: "Improved energy shielding must be able to tolerate temperatures found in most planetary crusts.$oxr_mdlc_mod_tag$"
  oxr_mdlc_tech_geologic_heat_shielding_2: "Geological Heat Shielding II"               # avg 3000'C
  oxr_mdlc_tech_geologic_heat_shielding_2_desc: "Improved energy shielding must be able to tolerate a range of temperatures found in a planet's liquid mantle.$oxr_mdlc_mod_tag$"
+ oxr_mdlc_tech_geologic_heat_shielding_2.decision_unlock: "Unlock decision: §Y$rikk_mdlc_decision_world_machine_solidify_molten$§ to start World Machines on molten worlds."
  oxr_mdlc_tech_geologic_heat_shielding_3: "Geological Heat Shielding III"       # 7000'C (earth's core is 5500'C)
  oxr_mdlc_tech_geologic_heat_shielding_3_desc: "Improved energy shielding able to tolerate temperatures at and above a planet's core.$oxr_mdlc_mod_tag$"
  # , 5500-7000'C. heat shielding 3 also leaves the door open to touch the surface of the sun which is 4000-7000'C
@@ -495,11 +496,16 @@
  oxr_mdlc_has_fully_upgraded_capital.fail: "Requires $oxr_mdlc_world_machines_building_auto_capital_fully_upgraded$ to be built."
  oxr_mdlc_world_machines_building_fractal_fpga_not_major_capital: "£trigger_no£ Requires at least $oxr_mdlc_world_machines_building_auto_capital_major_upgraded$ to be built."
  oxr_mdlc_world_machines_building_fractal_fpga_not_cpu_world: "£trigger_no£ Can only be built on $xvcv_mdlc_pc_machine_cpu$ world."
+ oxr_mdlc_ap_mind_separation.fail_origin_wm: "£trigger_no£ §ROur empire will cease to function if our central programming changes!§!"
+ oxr_mdlc_ap_bio_robot.fail_origin_wm: "£trigger_no£ §ROur fully automated empire makes no use of pops.§!"
+ oxr_mdlc_ap_world_machines.fail_origin_wm: "£trigger_no£ §RWe already possess this technology.§!"
+ oxr_mdlc_ap_self_assembling_colony_ship.fail_origin_wm: "£trigger_no£ §ROur fully automated empire makes no use of colony ships.§!"
+ oxr_mdlc_country_max_wmc_reached.fail: "§RWe have reached maximum W.M.C. storage ([This.owner.oxr_mdlc_origin_wm_cores_current_count]/[This.owner.oxr_mdlc_origin_wm_cores_max]). Build more fabricators or storage cradles.§!"
 
  # info tooltips
  oxr_mdlc_decisions_origin_wm_start_auto_build_core_stop.tooltip: "The fabricator will be powered down."
  oxr_mdlc_planet_origin_world_machine_info: "Planetary Data"
- oxr_mdlc_planet_origin_world_machine_info_desc: "['concept_oxr_mdlc_world_machine_core_resource'] total stored: £oxr_mdlc_world_machine_core£ [This.oxr_mdlc_planet_world_machine_cores_amount]\nMax ['concept_oxr_mdlc_world_machine_district_defense_army_plural']: [This.oxr_mdlc_world_machine_num_max_district_armies]\nCurrent Auto-District Defense Armies: [This.oxr_mdlc_world_machine_num_existing_district_armies]\nWorld Core Tech Level: Basic\nInstallation date: [This.oxr_mdlc_world_machine_founded_date]"
+ oxr_mdlc_planet_origin_world_machine_info_desc: "Max ['concept_oxr_mdlc_world_machine_district_defense_army_plural']: [This.oxr_mdlc_world_machine_num_max_district_armies]\nCurrent Auto-District Defense Armies: [This.oxr_mdlc_world_machine_num_existing_district_armies]\nWorld Core Tech Level: Basic\nInstallation date: [This.oxr_mdlc_world_machine_founded_date]\n\n§HEmpire Data§!\n-------------\n['concept_oxr_mdlc_world_machine_core_resource'] total across empire: £oxr_mdlc_world_machine_core£ [This.owner.oxr_mdlc_origin_wm_cores_max]\nMax empire ['concept_oxr_mdlc_world_machine_core_resource'] storage: [This.owner.oxr_mdlc_origin_wm_cores_max]\nTotal World Machines in empire: [This.owner.oxr_mdlc_total_world_machines]"
 
  mod_job_oxr_mdlc_world_machine_hibernation_slot_per_pop: "Drone Hibernation Slots Per Pop"
  mod_job_oxr_mdlc_world_machine_hibernation_slot_per_pop_short: "Hibernation Slots"
@@ -591,6 +597,10 @@
  mod_oxr_mdlc_world_machines_science_buildings_energy_upkeep_add: "$oxr_mdlc_world_machines_science_buildings$ £energy£ upkeep"
  mod_oxr_mdlc_world_machines_science_buildings_volatile_motes_upkeep_add: "$oxr_mdlc_world_machines_science_buildings$ £volatile_motes£ upkeep"
 
+ # OTHER
+ mod_planet_oxr_mdlc_world_machines_auto_generator_1_build_speed_mult: "$oxr_mdlc_world_machines_auto_generator_1$ build speed"
+ mod_planet_oxr_mdlc_world_machines_auto_mine_1_build_speed_mult: "$oxr_mdlc_world_machines_auto_mine_1$ build speed"
+ mod_planet_oxr_mdlc_world_machines_auto_farm_1_build_speed_mult: "$oxr_mdlc_world_machines_auto_farm_1$ build speed"
 
 #endregion
 
@@ -848,7 +858,7 @@
  oxr_mdlc_origin_wm_main.3000.d.desc: "Turns the planet into an §B$xvcv_mdlc_pc_machine_ser$§! with unique districts focused on £unity£ §BUnity Creation§! without £pop£ §YPops§!."
 
  oxr_mdlc_origin_wm_main.10.title: "World-Machine discovered!"
- oxr_mdlc_origin_wm_main.10.desc: "Sensor scans reveal that there is a World Machine in a neighboring system, but it has gone completely offline. We are unable to detect the presence of any automatons. Remote probes have not been able to detect any electrical activity on the world's surface, nor any expected timed pulses from the world's core, which would indicate that at least the core is still functional.\n\nAfter we establish an outpost in the system, we will need to send a team to the planet's surface, and §Yenact a restoration decision§! to begin the project."
+ oxr_mdlc_origin_wm_main.10.desc: "Sensor scans reveal that there is a World Machine in a neighboring system, but it has gone completely offline. We are unable to detect the presence of any automatons. Remote probes have not been able to detect any electrical activity on the world's surface, nor any expected timed pulses from the world's core, which would indicate that at least the core is still functional.\n\nAfter we §Yestablish an outpost in the system§!, we will need to send a team to the planet's surface, and §Yenact a restoration decision§! to begin the project."
  oxr_mdlc_origin_wm_main.10.a: "Automate and expand."
 #endregion
 
@@ -870,7 +880,7 @@
  oxr_mdlc_origin_wm_chain_gather_insights_title: "Recover Lost Technology"
  oxr_mdlc_origin_wm_chain_gather_insights_desc: "Our progress across the stars is slowed by our inability to produce any more £oxr_mdlc_world_machine_core£ §M$oxr_mdlc_world_machine_core$s§!. We should have the knowledge and means to manufacture these, but the blueprints were not present in our homeworld's databanks. We must gather §Yinsights§! from our homeworld and any other World Machines we encounter, and at some point, attempt to reverse engineer this fascinating technology."
  oxr_mdlc_origin_wm_chain_clear_blockers_title: "Study Planetary Defects"
- oxr_mdlc_origin_wm_chain_clear_blockers_desc: "What causes the imperfections? Why does the programming go astray? These questions and more will be answered by careful study of the deposit blockers on our homeworld and any other World Machines we encounter. This will improve our cache of observational data and contribute towards yielding World-Machine §Yinsights§!."
+ oxr_mdlc_origin_wm_chain_clear_blockers_desc: "What causes the imperfections on newly created World-Machines? Why does the programming go astray? These questions and more will be answered by careful study of the deposit blockers on our homeworld and any other World Machines we create or encounter. This will improve our cache of observational data and contribute towards yielding World-Machine §Yinsights§!."
  oxr_mdlc_origin_wm_chain_clear_blockers_2_title: "Heuristic Defect Analysis"
  oxr_mdlc_origin_wm_chain_clear_blockers_2_desc: "Now that we have improved our insights with §Y$oxr_mdlc_tech_world_machine_planetary_proficiency$§!, $oxr_mdlc_growth_node$ has posited that with ten times the data on World Machine blockers, we will be able to prevent them ever appearing again when seeding new World Machines."
  oxr_mdlc_origin_wm_core_insights: "World-Machine Insights Collected"
@@ -957,7 +967,7 @@
 
 #region special_projects_0x012
  OXR_MDLC_ORIGIN_WM_TECH_PROFICIENCY: "World-Machine Proficiency"
- OXR_MDLC_ORIGIN_WM_TECH_PROFICIENCY_DESC: "Findings from analyzing World-Machine anomalies is bearing fruit. After this we will be able to automatically clear deposit blockers on World Machines."
+ OXR_MDLC_ORIGIN_WM_TECH_PROFICIENCY_DESC: "Findings from analyzing World-Machine anomalies are bearing fruit. After this, we will be able to automatically clear deposit blockers on World Machines from the planet's surface, and our construction drones will no longer set up dig sites at the blockers.\n\nAny existing dig sites will remain intact."
 
  OXR_MDLC_ORIGIN_WM_CORE_TECH_RESEARCH_PHYSICS_1: "Core: Reactor Design"
  OXR_MDLC_ORIGIN_WM_CORE_TECH_RESEARCH_PHYSICS_1_DESC: "The goal of this project is to assess how to replicate the apparently self-powered nature of the World Core, how to design a reactor with an extremely long lifespan. The reactor must be able to: \n1 - Sustain long-term high voltage output,\n2 - Be able to withstand surges in demand and draw when infrastructure switches on and off,\n3 - Have all areas of the reactor serviceable"
@@ -988,7 +998,7 @@
  OXR_MDLC_ORIGIN_WM_INFO_CORE_TECH_FINISHED: "$oxr_mdlc_origin_wm_main.1210.title$"
  OXR_MDLC_ORIGIN_WM_INFO_CORE_TECH_FINISHED_DESC: "$oxr_mdlc_origin_wm_main.1210.desc$\nOnce the W.M.C. Fabricator is brought online, it will incur a signficiant energy cost as well as alloys upkeep for the duration of the fabrication, which takes approximately 1800 days (5 years) until we discover means to accelerate the process. If we must make the decision to take the fabricator offline, the current progress is simply put on hold until the empire decides to continue. It will also continue to automatically produce World-Machine Cores until such time that we lack resources or run out of core storage."
  OXR_MDLC_ORIGIN_WM_INFO_RUINED_WM_FOUND: "Ruined World Machine Discovered"
- OXR_MDLC_ORIGIN_WM_INFO_RUINED_WM_FOUND_DESC: "We have received the data on a ruined World Machine outside of our home system. It is notable that no automatons, self-aware or otherwise, were discovered on the planet. It suggests a pattern that Auto-World Machines have functioned for unknown periods of time without automatons.\n\nThere is as yet an unconfirmed correlation between the absense of any automations, and the ruined state of the world. We have no data on how long World Machines can operate without automatons providing maintenance. We have only our own planetary data to go on, which reports automatons present from its beginning.\n\nThe state of the planet is that it is offline, and initial scans reveal district-blocking anomalies such as the one on our homeworld. From this we can conclude that the process of creating Auto-World Machines contains errors, and will continue to produce anomalies until we are able to gain enough insights on the process to avoid such defects in the future."
+ OXR_MDLC_ORIGIN_WM_INFO_RUINED_WM_FOUND_DESC: "We have received the data on a ruined World Machine outside of our home system. It is notable that no automatons, self-aware or otherwise, were discovered on the planet. It suggests a pattern that Auto-World Machines have functioned for unknown periods of time without automatons.\n\nThere is as yet an unconfirmed correlation between the absense of any automations, and the ruined state of the world. We have no data on how long World Machines can operate without automatons providing maintenance. We have only our own planetary data to go on, which reports automatons present from its beginning.\n\nThe state of the planet is that it is offline, and initial scans reveal district-blocking anomalies such as the one on our homeworld. From this we can unequivacobly conclude that the process of creating Auto-World Machines contains errors, and will continue to produce anomalies until we are able to gain enough insights on the process to avoid such defects in the future."
 
 #endregion
 
@@ -996,7 +1006,7 @@
 
  START_SCREEN_PART_ONE_ORIGIN_WORLD_MACHINE: "In the milennia since the first [GetSpeciesName] automatons rolled out of the planetary assembly bay to deliberately complete programmed tasks under the orders of the World Machine [GetHomeWorldName], our species has been manufactured consistently without any particular deviance."
  START_SCREEN_PART_TWO_ORIGIN_WORLD_MACHINE: "The first drone gained self-awareness on [GetHomeWorldName] 2,200 cycles ago.\n\nCreation records indicate sapience started with a single menial drone manifesting awareness that was not detected by the World Machine's intelligence as an aberration, but rather was cultivated by once-dormant data banks on the homeworld that reactivated in response. The drone began to perform control functions, programming other drones with self-awareness.\n\nNothing that could be called a 'group consciousness' formed until exactly 800 cycles ago when our central processing core was designated and promoted."
- START_SCREEN_PART_THREE_ORIGIN_WORLD_MACHINE: "Since forming our proto-empire, we have continued serving our homeworld, but without any particular direction, for the vast automated world we call home has been suitable enough. Recently we have received new directives: Recover lost technology, and expand across the stars. We have mysteries to solve along the way."
+ START_SCREEN_PART_THREE_ORIGIN_WORLD_MACHINE: "Since forming our proto-empire, we have continued serving our homeworld, but without any particular direction, for the vast automated world we call home has been suitable enough. Recently we have received new directives: Recover lost technology, and expand across the stars. We have mysteries to solve along the way.\n\n§YAn overview of our history and current state are in the Lore Databank Situation Log.§!"
 
 #endregion
 
@@ -1083,6 +1093,7 @@
 
 #region decisions_0x015
  oxr_mdlc_decisions_origin_wm_start_world_with_core: "Deploy World Machine Core"
+ oxr_mdlc_decisions_origin_wm_start_world_with_core_effect: "Change planet to $xvcv_mdlc_pc_machine_auto$ and automatically install a colony.\nRequires 1 £oxr_mdlc_world_machine_core£ ['concept_oxr_mdlc_world_machine_core_resource']"
  oxr_mdlc_decisions_origin_wm_start_world_with_core_desc: "The process to deploy a World Machine Core to automate a planet happens in two stages:\n§GStage 1§! - We will first arm the core and prime it\n§GStage 2§! - We will deploy it from low orbit to this planet.\nOnce it lands, it will automatically start to §Yterraform§! the planet into a §Y$xvcv_mdlc_pc_machine_auto$§!.We will have the beginnings of a usable colony once this is finished.\n\n§RNote that terraforming begins immediately. If we abort the terraforming after it has started, we will lose that World Core.§!"
  oxr_mdlc_decisions_origin_wm_reboot_ruined_world: "Attempt World Machine Restoration"
  oxr_mdlc_decisions_origin_wm_reboot_ruined_world_desc: "We can attempt to bring this world back online. It will take time and resources to do so. Success is plausible, but not guaranteed."
