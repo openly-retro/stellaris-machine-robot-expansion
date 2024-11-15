@@ -172,64 +172,7 @@ planet_event = {
 	}
 
 	immediate = {
-		create_colony = {
-			owner = from
-			species = from.owner_species
-			# Set name .. read a variable on the planet as a list index
-			# then according to that, set the name
-		}
-		add_deposit = oxr_mdlc_d_world_machine_core
-		remove_building = building_deployment_post
-		add_building = oxr_mdlc_world_machines_building_auto_capital
-		if = {
-			limit = {
-				from = {
-					NOT = {
-						has_technology = oxr_mdlc_tech_world_machine_planetary_mastery
-					}
-				}
-			}
-			oxr_mdlc_origin_world_machine_random_add_all_blockers = yes
-			oxr_mdlc_origin_world_machine_create_digsite_for_blocker = yes
-			# Don't trigger the event post-terraform if planet was ruined
-			if = {
-				limit = {
-					has_planet_flag = oxr_mdlc_ruined_world_machine
-				}
-				remove_planet_flag = oxr_mdlc_ruined_world_machine
-			}
-			else = {
-				planet_event = {
-					id = oxr_mdlc_origin_wm_main.501
-				}
-			}
-		}
-		add_modifier = { modifier = "planet_population_control_gestalt" days = -1 }
-		from = {
-			oxr_mdlc_country_world_machine_cores_recalc_amount = yes
-			fire_on_action = {
-				on_action = on_world_machine_core_terraforming_complete
-			}
-		}
-		# Effectively set max storage amount to 0
-		oxr_mdlc_planet_calculate_max_core_storage = yes
-		# set_variable = {
-		# 	which = oxr_mdlc_world_machine_expansion_levels
-		# 	value = 0
-		# }
-		set_variable = {
-			which = oxr_mdlc_planet_world_machine_cores_amount
-			value = 0
-		}
-		set_saved_date = {
-			key = oxr_mdlc_world_machine_founded_date
-			days_from_present = 0
-			expires = -1
-		}
-		add_modifier = {
-			modifier = oxr_mdlc_planet_origin_world_machine_info
-			days = -1
-		}
+		oxr_mdlc_planet_create_world_machine_colony = yes
 	}
 }
 
