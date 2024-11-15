@@ -46,6 +46,7 @@ country_event = {
 	title = oxr_mdlc_origin_wm_main.10.title
 	desc = oxr_mdlc_origin_wm_main.10.desc
 	is_triggered_only = yes
+	location = fromfrom
 
 	option = {
 		name = oxr_mdlc_origin_wm_main.10.a
@@ -125,6 +126,10 @@ country_event = {
 	id = oxr_mdlc_origin_wm_main.55
 	hide_window = yes
 	is_triggered_only = yes
+
+	trigger = {
+		NOT = { has_technology = oxr_mdlc_tech_world_machine_planetary_proficiency }
+	}
 
 	immediate = {
 		give_technology = {
@@ -231,6 +236,39 @@ planet_event = {
 				limit = { is_situation_type = oxr_mdlc_origin_wm_situation_recover_core_tech }
 				add_situation_progress = @oxr_mdlc_situation_core_tech_fun_points
 			}
+		}
+	}
+}
+
+# count +1 world machines
+country_event = {
+	id = oxr_mdlc_origin_wm_main.503
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		has_origin = oxr_mdlc_origin_world_machine_awakened
+	}
+	immediate = {
+		change_variable = {
+			which = oxr_mdlc_total_world_machines
+			value = 1
+		}
+	}
+}
+# count -1 world machines :(
+country_event = {
+	id = oxr_mdlc_origin_wm_main.504
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		has_origin = oxr_mdlc_origin_world_machine_awakened
+	}
+	immediate = {
+		change_variable = {
+			which = oxr_mdlc_total_world_machines
+			value = 1
 		}
 	}
 }
@@ -637,6 +675,7 @@ planet_event = {
 					value = 1
 				}
 			}
+			oxr_mdlc_country_world_machine_cores_recalc_amount = yes
 		}
 		# oxr_mdlc_world_machine_cores_update_max_var = yes
 		set_variable = {
