@@ -12,11 +12,12 @@ oxr_mdlc_decisions_origin_wm_start_world_with_core = {
 		is_colony = no  # use xvcv's original decision for that one
 	}
 	allow = {
-		always = yes
+		# always = yes
 		is_terraforming = no
 		space_owner = {
 			has_resource = {
-				type = oxr_mdlc_world_machine_core amount >= 1
+				type = oxr_mdlc_world_machine_core
+				amount >= 1
 			}
 		}
 		has_anomaly = no
@@ -29,6 +30,11 @@ oxr_mdlc_decisions_origin_wm_start_world_with_core = {
 	}
 	effect = {
 		start_terraform_process = xvcv_mdlc_pc_machine_auto
+		hidden_effect = {
+			owner = {
+				oxr_mdlc_country_world_machine_cores_recalc_amount = yes
+			}
+		}
 	}
 }
 oxr_mdlc_decisions_origin_wm_reboot_ruined_world = {
@@ -39,7 +45,7 @@ oxr_mdlc_decisions_origin_wm_reboot_ruined_world = {
 		is_planet_class = xvcv_mdlc_pc_machine_auto_ruined
 	}
 	allow = {
-		always = yes
+		# always = yes
 		is_terraforming = no
 		has_anomaly = no
 		space_owner = {
