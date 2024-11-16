@@ -217,14 +217,33 @@ xvcv_mdlc_pc_machine_auto_district_generator = {
 	}
 
 	# produces
-	inline_script = {
-		script = planet/districts/auto/oxr_mdlc_generator
-		# JOBS_SCALE = 2
-		PRODUCES_MULT = 0
-		UPKEEP_MULT = 0
-		ENERGY = @oxr_mdlc_auto_generator_base
-		UPKEEP = @oxr_mdlc_auto_generator_upkeep
+	resources = {
+		inline_script = {
+			script = planet/districts/auto/oxr_mdlc_generator
+			# JOBS_SCALE = 2
+			PRODUCES_MULT = 0
+			UPKEEP_MULT = 0
+			ENERGY = @oxr_mdlc_auto_generator_base
+			UPKEEP = @oxr_mdlc_auto_generator_upkeep
+		}
+		produces = {
+			trigger = { has_active_building = rikk_mdlc_world_machine_SR_building }
+			exotic_gases = 0.20
+			mult = $PRODUCES_MULT$
+		}
+		upkeep = {
+			trigger = { has_active_building = rikk_mdlc_world_machine_SR_building }
+			minerals = 2
+			mult = $UPKEEP_MULT$
+		}
 	}
+	triggered_desc = {
+		trigger = {
+			has_active_building = rikk_mdlc_world_machine_SR_building
+		}
+		text = xvcv_mdlc_generator_district_motes_produces
+	}
+	
 
 	ai_resource_production = {
 		energy = 20
@@ -308,6 +327,12 @@ xvcv_mdlc_pc_machine_auto_district_mining = {
 			mult = value:scripted_modifier_mult|MODIFIER|xvcv_mdlc_world_machines_industrial_districts_upkeep_mult|
 		}
 	}
+	triggered_desc = {
+		trigger = {
+			has_active_building = rikk_mdlc_world_machine_SR_building
+		}
+		text = xvcv_mdlc_mining_district_crystals_produces
+	}
 
 	ai_resource_production = {
 		minerals = 10
@@ -327,6 +352,7 @@ xvcv_mdlc_pc_machine_auto_district_mining = {
 	on_destroy = {
 		fire_on_action = { on_action = on_world_machine_district_demolished }
 	}
+
 }
 xvcv_mdlc_pc_machine_auto_district_farming = {
 	base_buildtime = @xvcv_mdlc_district_time_2
@@ -372,6 +398,12 @@ xvcv_mdlc_pc_machine_auto_district_farming = {
 			energy = 1
 			mult = value:scripted_modifier_mult|MODIFIER|xvcv_mdlc_world_machines_industrial_districts_upkeep_mult|
 		}
+	}
+	triggered_desc = {
+		trigger = {
+			has_active_building = rikk_mdlc_world_machine_SR_building
+		}
+		text = xvcv_mdlc_food_district_gas_produces
 	}
 
 	ai_resource_production = {
