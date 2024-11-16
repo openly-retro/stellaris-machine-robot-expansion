@@ -135,6 +135,8 @@ GARBAGE_MODIFIERS = (
     "FIELD",
     "TIER",
     "mult",
+    "show_if_not_potential",
+    "not_potential_override_text_key",
 )
 
 GENERATED_CODE_TYPES = (
