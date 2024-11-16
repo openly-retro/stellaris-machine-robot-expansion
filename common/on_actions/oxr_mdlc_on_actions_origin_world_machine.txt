@@ -97,10 +97,10 @@ on_world_machine_core_fabrication_complete = {
 		
 	}
 }
-# self-destruct, bombardment, etc
+# COUNTRY scope. called via self destruct
 on_world_machine_planet_lost = {
 	events = {
-		oxr_mdlc_origin_wm_main.503    # decrement world machine counter
+		oxr_mdlc_origin_wm_main.504    # decrement world machine counter
 	}
 }
 
@@ -133,7 +133,9 @@ on_tech_increased = {
 # A colony has been destroyed. Called just before owner and controller is cleared
 # Scope = Planet
 on_colony_destroyed = {
-
+	events = {
+		oxr_mdlc_origin_wm_main.505    # decrement world machine counter
+	}
 }
 
 # A colony has been destroyed by bombardment. Called after the planet's colony status has been cleared
@@ -141,5 +143,23 @@ on_colony_destroyed = {
 # From = Bombarder
 on_colony_destroyed_by_bombardment = {
 	events = {
+		oxr_mdlc_origin_wm_main.505    # decrement world machine counter
+	}
+}
+
+# Planet has been terraformed
+# This = Planet
+# From = Terraforming country
+on_terraforming_complete = {
+	events = {
+		oxr_mdlc_origin_wm_main.506  # increment world machine counter for AP users
+	}
+}
+
+# Executed when a country picks an ascension perk
+# THIS = country
+on_ascension_perk_picked = {
+	events = {
+		oxr_mdlc_origin_wm_main.600  # Initialize country vars for World Machine AP users
 	}
 }

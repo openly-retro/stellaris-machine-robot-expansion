@@ -256,7 +256,7 @@ country_event = {
 		}
 	}
 }
-# count -1 world machines :(
+# COUNTRY count -1 world machines :(
 country_event = {
 	id = oxr_mdlc_origin_wm_main.504
 	hide_window = yes
@@ -268,10 +268,74 @@ country_event = {
 	immediate = {
 		change_variable = {
 			which = oxr_mdlc_total_world_machines
-			value = 1
+			value = -1
 		}
 	}
 }
+# PLANET count -1 world machines :(
+planet_event = {
+	id = oxr_mdlc_origin_wm_main.505
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		is_planet_world_machine = yes
+	}
+	immediate = {
+		owner = {
+			change_variable = {
+				which = oxr_mdlc_total_world_machines
+				value = -1
+			}
+		}
+		
+	}
+}
+# PLANET count +1 world machines :)
+# call from terraform
+planet_event = {
+	id = oxr_mdlc_origin_wm_main.506
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		is_planet_world_machine = yes
+		owner = {
+			has_ascension_perk = xvcv_mdlc_ap_virtual_worlds
+		}
+	}
+	immediate = {
+		owner = {
+			change_variable = {
+				which = oxr_mdlc_total_world_machines
+				value = -1
+			}
+		}
+		
+	}
+}
+
+# on_ascension_perk_picked Initialize country vars for World Machine AP users
+# And do anything else like give tech, etc
+country_event = {
+	id = oxr_mdlc_origin_wm_main.600
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		has_ascension_perk = xvcv_mdlc_ap_world_machines
+		NOT = {
+			is_variable_set = oxr_mdlc_total_world_machines
+		}
+	}
+	immediate = {
+		set_variable = {
+			which = oxr_mdlc_total_world_machines
+			value = 0
+		}
+	}
+}
+
 
 ### RUINED WORLD MACHINE ###
 # Decision triggers this event, which triggers others
