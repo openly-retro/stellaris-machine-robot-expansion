@@ -89,6 +89,12 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
     if root.get('leader_trait_type', '') == 'negative':
         # Skip negative traits
         return {}
+    if council_value := root['inline_script'].get('COUNCIL', False):
+        if council_value == "triggered":
+            print(
+                f"Skipped {trait_name} because it is a triggered / special trait"
+            )
+            return {}
     slim_trait['trait_name'] = trait_name
     if for_class is not None:
         slim_trait['leader_class'] = for_class
@@ -118,9 +124,12 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
     slim_trait['rarity'] = root['inline_script'].get('RARITY', MISSING)
     if slim_trait['rarity'] == MISSING:
         slim_trait['rarity'] = guess_rarity_from_trait_data(root)
-    if council_value := root['inline_script'].get('COUNCIL', False):
-        if council_value is True or council_value == "triggered":
-            slim_trait["is_councilor_trait"] = True
+    # Ignore whether inline_script council is yes.
+    # Just evaluate councilor modifier
+    # And we do NOT want to be able to use triggered traits
+    # if council_value := root['inline_script'].get('COUNCIL', False):
+    #     if council_value is True or council_value == "triggered":
+    #         slim_trait["is_councilor_trait"] = True
     
     for modifier_info in TRAIT_MODIFIER_KEYS:
         if root.get(modifier_info):
@@ -173,8 +182,7 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
         slim_trait['custom_tooltip'] = triggered_desc_text
     if root.get('triggered_councilor_modifier') or root.get('councilor_modifier'):
         slim_trait["is_councilor_trait"] = True
-    
-    
+
     # Collect prerequisites in order to determine certain DLC requirements
     if root.get('prerequisites'):
         # Simple convert to list, also captures just 1 string
