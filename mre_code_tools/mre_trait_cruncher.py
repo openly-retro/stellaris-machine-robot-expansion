@@ -182,6 +182,8 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
         slim_trait['custom_tooltip'] = triggered_desc_text
     if root.get('triggered_councilor_modifier') or root.get('councilor_modifier'):
         slim_trait["is_councilor_trait"] = True
+    if root.get('force_councilor_trait'):
+        slim_trait["is_councilor_trait"] = True
 
     # Collect prerequisites in order to determine certain DLC requirements
     if root.get('prerequisites'):
