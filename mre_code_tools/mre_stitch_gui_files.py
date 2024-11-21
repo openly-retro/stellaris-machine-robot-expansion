@@ -53,12 +53,7 @@ councilor_closing = os.path.join(
     TEMPLATE_FOLDER,'councilor_editor','editor_close.txt'
 )
 
-if __name__ == "__main__":
-
-    print("0xRetro Machine & Robot Expansion Data Tools")
-    print("GUI file stitcher v1.0")
-    sanity_check()
-
+def stitch_gui_files():
     with open(core_gui_location, "w", encoding="utf8") as gui_file:
         for stitch_source in core_stitch_order:
             with open(stitch_source, "r") as stitch_file:
@@ -98,3 +93,11 @@ if __name__ == "__main__":
             with open(councilor_closing) as gui_footer_file:
                 gui_file.write(gui_footer_file.read())
         print(f"Wrote councilor editor file for {councilor} node (we hope)")
+
+
+if __name__ == "__main__":
+
+    print("0xRetro Machine & Robot Expansion Data Tools")
+    print("GUI file stitcher v1.0")
+    sanity_check()
+    stitch_gui_files()
