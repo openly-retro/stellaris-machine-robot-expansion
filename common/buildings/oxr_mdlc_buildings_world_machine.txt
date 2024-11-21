@@ -690,7 +690,22 @@ oxr_mdlc_world_machines_building_maintenance_legion = {
 	can_be_ruined = no
 	exempt_from_ai_planet_specialization = no
 
-	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	potential = {
+		exists = owner
+		owner = {
+			OR = {
+				has_origin = oxr_mdlc_origin_world_machine_awakened
+				# has_ascension_perk = xvcv_mdlc_ap_world_machines
+			}
+		}
+		is_planet_world_machine = yes
+	}
+	show_tech_unlock_if = {
+		OR = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+			# has_ascension_perk = xvcv_mdlc_ap_world_machines
+		}
+	}
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_army
 		BUILD_TIME = @b1_time
@@ -710,16 +725,44 @@ oxr_mdlc_world_machines_building_maintenance_legion = {
 	upgrades = {
 		oxr_mdlc_world_machines_building_maintenance_legion_2
 	}
+	on_built = {
+		owner = {
+			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
+		}
+		fire_on_action = {
+			on_action = on_world_machine_district_completed_planet
+		}
+	}
+	on_destroy = {
+		fire_on_action = {
+			on_action = on_world_machine_district_completed_planet
+		}
+	}
 }
 # MILITARY T2
 oxr_mdlc_world_machines_building_maintenance_legion_2 = {
 	can_build = no
 	planetary_ftl_inhibitor = yes
-	can_be_ruined = no
+	can_be_ruined = yes
 	category = army
 
-	allow = { has_upgraded_capital = yes }
-	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	allow = { oxr_mdlc_has_upgraded_capital = yes }
+	potential = {
+		exists = owner
+		owner = {
+			OR = {
+				has_origin = oxr_mdlc_origin_world_machine_awakened
+				# has_ascension_perk = xvcv_mdlc_ap_world_machines
+			}
+		}
+		is_planet_world_machine = yes
+	}
+	show_tech_unlock_if = {
+		OR = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+			# has_ascension_perk = xvcv_mdlc_ap_world_machines
+		}
+	}
 
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_army
@@ -734,6 +777,19 @@ oxr_mdlc_world_machines_building_maintenance_legion_2 = {
 
 	prerequisites = {
 		"tech_global_defense_grid"
+	}
+	on_built = {
+		owner = {
+			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
+		}
+		fire_on_action = {
+			on_action = on_world_machine_district_completed_planet
+		}
+	}
+	on_destroy = {
+		fire_on_action = {
+			on_action = on_world_machine_district_completed_planet
+		}
 	}
 }
 
