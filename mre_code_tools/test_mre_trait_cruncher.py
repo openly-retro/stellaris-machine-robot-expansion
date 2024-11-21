@@ -794,3 +794,46 @@ def test_3_11_eridanus_filter_negative_traits():
     expected = {}
     actual = filter_trait_info(parsed_trait, for_class="official")
     assert expected == actual
+
+def test_leader_trait_society_focus_3():
+    test_data = {
+        "leader_trait_society_focus_3":  {
+            "leader_trait_type":  "veteran",
+            "replace_traits": "leader_trait_society_focus_2",
+            "inline_script": {
+                "script": "trait/icon_society",
+                "CLASS": "scientist",
+                "ICON": "GFX_leader_trait_society_focus",
+                "RARITY": "veteran",
+                "COUNCIL": "yes",
+                "TIER": "3"
+            },
+            "planet_modifier":  {
+                "planet_jobs_society_research_produces_mult":  0.3
+            },
+            "sector_modifier":  {
+                "planet_jobs_society_research_produces_mult":  0.15
+            },
+            "leader_class":  [ "scientist" ],
+            "triggered_desc":  {
+                "text":  "only_one_scientist_focus"
+            },
+            "ai_weight":  "100"
+        }
+    }
+    expected = {
+        "trait_name": "leader_trait_society_focus_3",
+        "gfx": "GFX_leader_trait_society_focus",
+        "leader_class": "scientist",
+        "rarity": "veteran",
+        "planet_modifier": {
+            "planet_jobs_society_research_produces_mult": 0.3
+        },
+        "sector_modifier": {
+            "planet_jobs_society_research_produces_mult": 0.15
+        },
+        "requires_paragon_dlc": False,
+        "custom_tooltip": "only_one_scientist_focus"
+    }
+    actual = filter_trait_info(test_data, for_class="scientist")
+    assert expected == actual
