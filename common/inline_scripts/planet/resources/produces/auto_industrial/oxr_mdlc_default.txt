@@ -7,12 +7,12 @@ produces = {
 			country_uses_consumer_goods = no
 			is_catalytic_empire = no
 		}
-		NOT = {
+		NAND = {
 			planet = { has_designation = col_factory }
 			planet = { has_designation = col_foundry }
 		}
 	}
-	alloys = @oxr_mdlc_auto_industrial_alloys_base  # 8
+	alloys = @oxr_mdlc_auto_industrial_alloys_base  # 4 x 2
 	mult = value:collected_world_machine_bonuses
 }
 upkeep = {
@@ -23,7 +23,7 @@ upkeep = {
 			country_uses_consumer_goods = no
 			is_catalytic_empire = no
 		}
-		NOT = {
+		NAND = {
 			planet = { has_designation = col_factory }
 			planet = { has_designation = col_foundry }
 		}
@@ -99,7 +99,7 @@ upkeep = {
 			planet = { has_designation = col_foundry }
 		}
 	}
-	minerals = 10  # 10 from artisan, 8 from fabricator
+	minerals = @oxr_mdlc_wm_base_artisan_upkeep
 	mult = value:collected_world_machine_bonuses  # careful this does not resolve to 0
 }
 ## FABRICATOR UPKEEP
@@ -116,24 +116,25 @@ upkeep = {
 			planet = { has_designation = col_foundry }
 		}
 	}
-	minerals = 8  # 10 from artisan, 8 from fabricator
+	minerals = @oxr_mdlc_wm_base_fabricator_upkeep # 10 from artisan, 8 from fabricator
 	mult = value:collected_world_machine_bonuses  # careful this does not resolve to 0
 }
-# DEFAULT DESIGNATION (COUNTRY USES GOODS, IS NOT CATALYTIC)
+
+# DEFAULT DESIGNATION (COUNTRY USES GOODS, IS CATALYTIC)
 produces = {
 	trigger = {
 		exists = owner
 		owner = {
 			has_ethic = ethic_gestalt_consciousness
 			country_uses_consumer_goods = yes
-			is_catalytic_empire = no
+			is_catalytic_empire = yes
 		}
-		NOT = {
+		NAND = {
 			planet = { has_designation = col_factory }
 			planet = { has_designation = col_foundry }
 		}
 	}
-	alloys = @oxr_mdlc_wm_base_fabricator_output  	   #  4
+	alloys = @oxr_mdlc_wm_base_catalytic_output  	   #  5
 	consumer_goods = @oxr_mdlc_wm_base_artisan_output  # 10
 	mult = value:collected_world_machine_bonuses
 }
@@ -143,14 +144,14 @@ upkeep = {
 		owner = {
 			has_ethic = ethic_gestalt_consciousness
 			country_uses_consumer_goods = yes
-			is_catalytic_empire = no
+			is_catalytic_empire = yes
 		}
-		NOT = {
+		NAND = {
 			planet = { has_designation = col_factory }
 			planet = { has_designation = col_foundry }
 		}
 	}
-	minerals = 8    # 8 from fabricator
-	food = 10		# 10 from artisan
+	minerals = @oxr_mdlc_wm_base_artisan_upkeep
+	food = @oxr_mdlc_wm_base_catalytic_upkeep_food
 	mult = value:collected_world_machine_bonuses  # careful this does not resolve to 0
 }
