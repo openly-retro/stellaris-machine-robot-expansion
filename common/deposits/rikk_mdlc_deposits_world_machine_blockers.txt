@@ -6,7 +6,7 @@ rikk_mdlc_d_world_machine_world_machine_core_refuse = {
 
 	is_for_colonizable = yes
 	potential = { always = no }
-	category = deposit_cat_blockers
+	category = oxr_mdlc_deposit_cat_rare_blockers_world_machine
 
 
 	planet_modifier = {
@@ -30,6 +30,75 @@ rikk_mdlc_d_world_machine_world_machine_core_refuse = {
 
 #blockers for molten/frozen/toxic worlds after auto wm terraform
 #molten
+rikk_mdlc_d_world_machine_silica_eruptions = {
+	time = 270
+
+	icon = d_gaseous_eruption
+	is_for_colonizable = yes
+	potential = { always = no }
+	category = oxr_mdlc_deposit_cat_rare_blockers_world_machine
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 500
+		}
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -2
+		planet_building_build_speed_mult = 0.25
+	}
+
+	prerequisites = { "tech_volcano" }
+}
+
+rikk_mdlc_d_world_machine_lightning_delta = {
+	time = 270
+
+	icon = d_tempestous_mountain
+	is_for_colonizable = yes
+	potential = { always = no }
+	category = oxr_mdlc_deposit_cat_rare_blockers_world_machine
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 500
+		}
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -1
+		xvcv_mdlc_world_machines_industrial_districts_produces_mult = 0.05
+	}
+
+	prerequisites = { "tech_mountain_range" }
+}
+
+rikk_mdlc_d_world_machine_pyroclastic_surges = {
+	time = 270
+
+	icon = d_active_volcano
+	is_for_colonizable = yes
+	potential = { always = no }
+	category = oxr_mdlc_deposit_cat_rare_blockers_world_machine
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 250
+			minerals = 250
+		}
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -2
+		xvcv_mdlc_world_machines_industrial_districts_produces_mult = 0.10
+	}
+
+	prerequisites = { "tech_volcano" }
+}
 
 #frozen
 rikk_mdlc_d_world_machine_chemical_glacier = {
@@ -38,7 +107,7 @@ rikk_mdlc_d_world_machine_chemical_glacier = {
 	icon = d_massive_glacier
 	is_for_colonizable = yes
 	potential = { always = no }
-	category = deposit_cat_blockers
+	category = oxr_mdlc_deposit_cat_rare_blockers_world_machine
 
 	resources = {
 		category = deposit_blockers_natural
@@ -61,7 +130,7 @@ rikk_mdlc_d_world_machine_subsurface_sea = {
 	icon = d_frozen_gas_lake
 	is_for_colonizable = yes
 	potential = { always = no }
-	category = deposit_cat_blockers
+	category = oxr_mdlc_deposit_cat_rare_blockers_world_machine
 
 	resources = {
 		category = deposit_blockers_natural
@@ -73,7 +142,7 @@ rikk_mdlc_d_world_machine_subsurface_sea = {
 
 	planet_modifier = { #destabilizes surface and continent
 		planet_max_districts_mult = -0.10
-		rikk_mdlc_world_machine_cooling_district_effectiveness = 0.03
+		rikk_mdlc_world_machine_cooling_district_effectiveness = 0.05
 	}
 
 	prerequisites = { "tech_noxious_swamp" }
@@ -85,7 +154,7 @@ rikk_mdlc_d_world_machine_natural_super_geyser = {
 	icon = d_geothermal_vent
 	is_for_colonizable = yes
 	potential = { always = no }
-	category = deposit_cat_blockers
+	category = oxr_mdlc_deposit_cat_rare_blockers_world_machine
 
 	resources = {
 		category = deposit_blockers_natural
@@ -97,7 +166,7 @@ rikk_mdlc_d_world_machine_natural_super_geyser = {
 
 	planet_modifier = { #destabilizes surface and continent
 		planet_max_districts_add = -1
-		rikk_mdlc_world_machine_cooling_district_effectiveness = 0.02
+		rikk_mdlc_world_machine_cooling_district_effectiveness = 0.025
 	}
 
 	prerequisites = { "tech_volcano" }
@@ -110,7 +179,7 @@ rikk_mdlc_d_world_machine_sulfur_geysers = {
 	icon = d_gaseous_eruption
 	is_for_colonizable = yes
 	potential = { always = no }
-	category = deposit_cat_blockers
+	category = oxr_mdlc_deposit_cat_rare_blockers_world_machine
 
 	resources = {
 		category = deposit_blockers_natural
@@ -133,7 +202,7 @@ rikk_mdlc_d_world_machine_carbonic_sea = {
 	icon = d_fuming_bog
 	is_for_colonizable = yes
 	potential = { always = no }
-	category = deposit_cat_blockers
+	category = oxr_mdlc_deposit_cat_rare_blockers_world_machine
 
 	resources = {
 		category = deposit_blockers_natural
@@ -143,8 +212,8 @@ rikk_mdlc_d_world_machine_carbonic_sea = {
 	}
 
 	planet_modifier = {
-		xvcv_mdlc_world_machines_industrial_districts_produces_mult = 0.03
 		planet_max_districts_add = -2
+		xvcv_mdlc_world_machines_industrial_districts_produces_mult = 0.05
 	}
 
 	prerequisites = { "tech_noxious_swamp" }
@@ -156,7 +225,7 @@ rikk_mdlc_d_world_machine_acidic_basin = {
 	icon = d_rotten_soil_blocker
 	is_for_colonizable = yes
 	potential = { always = no }
-	category = deposit_cat_blockers
+	category = oxr_mdlc_deposit_cat_rare_blockers_world_machine
 
 	resources = {
 		category = deposit_blockers_natural
@@ -173,6 +242,3 @@ rikk_mdlc_d_world_machine_acidic_basin = {
 
 	prerequisites = { "tech_quicksand_basin" }
 }
-
-d_noxious_swamp tech_noxious_swamp
-d_active_volcano tech_volcano tech_mountain_range
