@@ -10,11 +10,21 @@ resources = {
 		energy = $PRODUCES_ENERGY$
 	}
 	upkeep = {
+		trigger = {
+			NOT = { has_active_building = oxr_mdlc_world_machines_biofuel_refit_1 }
+		}
 		minerals = $UPKEEP$
+	}
+	upkeep = {
 		volatile_motes = $RARE_UPKEEP$
 	}
+	# BIOFUEL
+	upkeep = {
+		trigger = {
+			has_active_building = oxr_mdlc_world_machines_biofuel_refit_1
+		}
+		food = $BIOFUEL_UPKEEP$
+	}
 }
-# ai_resource_production = {
-# 	food = $AI_FOOD$
-# 	trigger = { always = yes }
-# }
+# desc
+inline_script = planet/buildings/auto/oxr_auto_biofuel

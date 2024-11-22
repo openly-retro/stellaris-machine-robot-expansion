@@ -27,7 +27,10 @@ produces = {
 	energy = $ENERGY$ # 16  # 8 base technician output * 2 jobs provided by default district
 }
 upkeep = {
-	trigger = { is_planet_class = xvcv_mdlc_pc_machine_auto }
+	trigger = {
+		is_planet_class = xvcv_mdlc_pc_machine_auto
+		NOT = { has_active_building = oxr_mdlc_world_machines_biofuel_refit_1 }
+	}
 	minerals = $UPKEEP$  # 2
 }
 produces = {
@@ -37,9 +40,18 @@ produces = {
 	mult = $PRODUCES_MULT$
 }
 upkeep = {
-	trigger = { is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto }
+	trigger = {
+		is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
+		NOT = { has_active_building = oxr_mdlc_world_machines_biofuel_refit_1 }
+	}
 	minerals = $UPKEEP$
 	rare_crystals = 1  # static 1 per district
 	mult = $UPKEEP_MULT$
 }
-
+# BIOFUEL
+upkeep = {
+	trigger = {
+		has_active_building = oxr_mdlc_world_machines_biofuel_refit_1
+	}
+	food = $BIOFUEL_UPKEEP$
+}
