@@ -425,6 +425,7 @@ xvcv_mdlc_pc_machine_auto_district_farming = {
 		fire_on_action = { on_action = on_world_machine_district_demolished }
 	}
 }
+
 xvcv_mdlc_pc_machine_auto_district_industrial = {
 	base_buildtime = @xvcv_mdlc_district_time_3
 	icon = xvcv_mdlc_pc_mechanical_district_industrial
@@ -448,8 +449,8 @@ xvcv_mdlc_pc_machine_auto_district_industrial = {
 	}
 
 	resources = {
-		category = planet_metallurgists
-		#category = xvcv_mdlc_world_machines_foundry_districts
+		# category = planet_metallurgists
+		category = xvcv_mdlc_world_machines_vanilla_industrial_districts
 		cost = {
 			minerals = @xvcv_mdlc_district_cost_3
 			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_mineral_cost_add|
@@ -527,6 +528,12 @@ xvcv_mdlc_pc_machine_auto_district_industrial = {
 		}
 		modifier = {
 			planet_amenities_no_happiness_add = 4
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			has_active_building = oxr_mdlc_world_machines_building_auto_forge_2
 		}
 	}
 
