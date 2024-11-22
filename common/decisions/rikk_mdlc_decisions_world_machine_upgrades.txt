@@ -34,6 +34,11 @@ rikk_mdlc_decision_world_machine_solidify_molten = {
 
 	effect = {
 		custom_tooltip = rikk_mdlc_decision_world_machine_solidify_molten_effect
+		add_modifier = { modifier = rikk_mdlc_world_machine_molten_mod }
+		hidden_effect = { 
+			set_planet_flag = rikk_mdlc_world_machine_suitable
+			rikk_mdlc_origin_world_machine_add_random_blockers = { WORLD_TYPE = molten}
+		}
 		space_owner = {
 			create_message = {
 				type = TERRAFORM_MESSAGE_TYPE
@@ -42,18 +47,91 @@ rikk_mdlc_decision_world_machine_solidify_molten = {
 				target = THIS
 			}
 		}
+	}
+}
+
+rikk_mdlc_decision_world_machine_defrost_cryosphere = {
+	enactment_time = @wmupgradelength3
+	
+	resources = {
+		category = decisions
+		cost = {
+			energy = 15000
+		}
+	}
+	
+	potential = {
+		exists = space_owner
+		is_planet_class = pc_frozen
+		space_owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		NOT = { has_planet_flag = rikk_mdlc_world_machine_suitable }
+	}
+	
+	allow = {
+		space_owner = { has_technology = oxr_mdlc_tech_geologic_geodynamo_theory }
+	}
+	
+	effect = {
+		add_modifier = { modifier = rikk_mdlc_world_machine_frozen_mod }
 		hidden_effect = { 
 			set_planet_flag = rikk_mdlc_world_machine_suitable
-			set_planet_flag = rikk_mdlc_world_machine_molten_solidified
-			while = {
-				count = 3
-				random_list = {
-					40 = {}
-					20 = { rikk_mdlc_wm_upgrades_add_world_modifier = { MODIFIER_TYPE = rikk_mdlc_world_machine_molten_mod } }
-				}
+		}
+		space_owner = {
+			create_message = {
+				type = TERRAFORM_MESSAGE_TYPE
+				localization = MESSAGE_FROZEN_WORLD_DEFROSTED
+				days = 36
+				target = THIS
 			}
 		}
+	}
+}
+
+rikk_mdlc_decision_world_machine_cleanse_toxic = {
+	enactment_time = @wmupgradelength2
+	
+	resources = {
+		category = decisions
+		cost = {
+			energy = 5000
+			volatile_motes = 750
+			exotic_gases = 750
+		}
+	}
+	
+	potential = {
+		exists = space_owner
+		is_planet_class = pc_toxic
+		space_owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		NOT = { has_planet_flag = rikk_mdlc_world_machine_suitable }
+	}
+	
+	allow = {
+		space_owner = { has_technology = tech_climate_restoration }
+		is_terraforming = no
+		space_owner = {
+			has_resource = {
+				type = oxr_mdlc_world_machine_core amount >= 1
+			}
+		}
+		has_anomaly = no
+	}
+	
+	effect = {
+		add_modifier = { modifier = rikk_mdlc_world_machine_toxic_mod }
 		start_terraform_process = xvcv_mdlc_pc_machine_auto
+		hidden_effect = {
+			set_planet_flag = rikk_mdlc_world_machine_suitable
+			rikk_mdlc_origin_world_machine_add_random_blockers = { WORLD_TYPE = toxic}
+		}
+		space_owner = {
+			create_message = {
+				type = TERRAFORM_MESSAGE_TYPE
+				localization = MESSAGE_TOXIC_WORLD_CLEANSED
+				days = 36
+				target = THIS
+			}
+		}
 	}
 }
 
@@ -102,92 +180,6 @@ rikk_mdlc_decision_world_machine_harness_nanites = {
 			}
 		}
 		start_terraform_process = xvcv_mdlc_pc_machine_auto
-	}
-}
-
-rikk_mdlc_decision_world_machine_cleanse_toxic = {
-	enactment_time = @wmupgradelength2
-	
-	resources = {
-		category = decisions
-		cost = {
-			energy = 5000
-			volatile_motes = 750
-			exotic_gases = 750
-		}
-	}
-	
-	potential = {
-		exists = space_owner
-		is_planet_class = pc_toxic
-		space_owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
-		NOT = { has_planet_flag = rikk_mdlc_world_machine_suitable }
-	}
-	
-	allow = {
-		space_owner = { has_technology = tech_climate_restoration }
-		is_terraforming = no
-		space_owner = {
-			has_resource = {
-				type = oxr_mdlc_world_machine_core amount >= 1
-			}
-		}
-		has_anomaly = no
-	}
-	
-	effect = {
-		add_modifier = { modifier = rikk_mdlc_world_machine_toxic_mod }
-		hidden_effect = { 
-			set_planet_flag = rikk_mdlc_world_machine_suitable
-			set_planet_flag = rikk_mdlc_world_machine_toxic_cleansed 
-		}
-		space_owner = {
-			create_message = {
-				type = TERRAFORM_MESSAGE_TYPE
-				localization = MESSAGE_TOXIC_WORLD_CLEANSED
-				days = 36
-				target = THIS
-			}
-		}
-		start_terraform_process = xvcv_mdlc_pc_machine_auto
-	}
-}
-
-rikk_mdlc_decision_world_machine_defrost_cryosphere = {
-	enactment_time = @wmupgradelength3
-	
-	resources = {
-		category = decisions
-		cost = {
-			energy = 15000
-		}
-	}
-	
-	potential = {
-		exists = space_owner
-		is_planet_class = pc_frozen
-		space_owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
-		NOT = { has_planet_flag = rikk_mdlc_world_machine_suitable }
-	}
-	
-	allow = {
-		space_owner = { has_technology = oxr_mdlc_tech_geologic_geodynamo_theory }
-	}
-	
-	effect = {
-		add_modifier = { modifier = rikk_mdlc_world_machine_toxic_mod }
-		hidden_effect = { 
-			set_planet_flag = rikk_mdlc_world_machine_suitable
-			set_planet_flag = rikk_mdlc_world_machine_frozen_defrosted 
-		}
-		space_owner = {
-			create_message = {
-				type = TERRAFORM_MESSAGE_TYPE
-				localization = MESSAGE_FROZEN_WORLD_CLEANSED
-				days = 36
-				target = THIS
-			}
-		}
 	}
 }
 
