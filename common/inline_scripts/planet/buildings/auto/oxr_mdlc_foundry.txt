@@ -1,56 +1,71 @@
 category = manufacturing
-# This trigger in vanilla checks is_ringworld, but,
-# this can never be built on a vanilla ringworld , only a world machine
-# and then only on a auto-ringworld
+
 resources = {
 	category = oxr_mdlc_world_machines_foundry_buildings
 	cost = {
-		trigger = { NOT = { is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto } }
 		minerals = $COST$
 		volatile_motes = $RARE_COST$
 	}
 	upkeep = {
 		energy = $UPKEEP$
+		volatile_motes = $RARE_UPKEEP$
+	}
+	# produces
+	produces = {
+		trigger = { owner = { is_catalytic_empire = no } }
+		alloys = 4
 	}
 	upkeep = {
-		trigger = {
-			OR = {
-				has_building = oxr_mdlc_world_machines_building_auto_forge_3
-				has_building = oxr_mdlc_world_machines_building_auto_forge_2
-			}
+		trigger = { owner = { is_catalytic_empire = no } }
+		minerals = 8
+	}
+	# catalytic
+	produces = {
+		trigger = { owner = { is_catalytic_empire = yes } }
+		alloys = 5
+	}
+	upkeep = {
+		trigger = { owner = { is_catalytic_empire = yes } }
+		food = 12
+	}
+}
+
+planet_modifier = {
+	oxr_mdlc_world_machines_foundry_buildings_produces_mult = $PRODUCTION_MULT$
+	oxr_mdlc_world_machines_foundry_buildings_upkeep_mult = $PRODUCTION_MULT$
+}
+
+triggered_planet_modifier = {
+	potential = {
+		exists = owner
+		is_planet_class = xvcv_mdlc_pc_machine_auto
+		owner = {
+			has_ascension_perk = xvcv_mdlc_ap_world_machines
 		}
-		volatile_motes = $RARE_UKPEEP$
 	}
-
-	inline_script = planet/buildings/auto/oxr_mdlc_foundry_produces
+	modifier = {
+		planet_metallurgists_alloys_produces_mult = $PRODUCTION_MULT$
+		planet_metallurgists_minerals_upkeep_mult = $PRODUCTION_MULT$
+	}
 }
-
-## NOT CATALYTIC
-# 10% for T2
 triggered_planet_modifier = {
 	potential = {
 		exists = owner
-		# owner = { is_catalytic_empire = no }
-		has_building = oxr_mdlc_world_machines_building_auto_forge_2
+		is_planet_class = xvcv_mdlc_pc_machine_auto
+		owner = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+		}
 	}
 	modifier = {
-		planet_metallurgists_alloys_produces_mult = 0.1
-		planet_metallurgists_minerals_upkeep_mult = 0.1
-		xvcv_mdlc_world_machines_foundry_districts_alloys_produces_mult = 0.1
-		xvcv_mdlc_world_machines_foundry_districts_alloys_upkeep_mult = 0.1
+		xvcv_mdlc_world_machines_vanilla_industrial_districts_alloys_produces_mult = $PRODUCTION_MULT$
+		xvcv_mdlc_world_machines_vanilla_industrial_districts_upkeep_mult = $PRODUCTION_MULT$
 	}
 }
-# 20% for T3
 triggered_planet_modifier = {
 	potential = {
 		exists = owner
-		# owner = { is_catalytic_empire = no }
-		has_building = oxr_mdlc_world_machines_building_auto_forge_3
+		oxr_mdlc_planet_is_t3_world_machine = yes
 	}
-	modifier = {
-		planet_metallurgists_alloys_produces_mult = 0.2
-		planet_metallurgists_minerals_upkeep_mult = 0.2
-		xvcv_mdlc_world_machines_foundry_districts_alloys_produces_mult = 0.2
-		xvcv_mdlc_world_machines_foundry_districts_alloys_upkeep_mult = 0.2
-	}
+	xvcv_mdlc_world_machines_foundry_districts_produces_mult = $PRODUCTION_MULT$
+	xvcv_mdlc_world_machines_foundry_districts_upkeep_mult = $PRODUCTION_MULT$
 }

@@ -419,20 +419,18 @@ oxr_mdlc_world_machines_building_auto_imperial_capital = {
 oxr_mdlc_world_machines_building_auto_forge_1 = {
 	base_buildtime = @b1_time
 	base_cap_amount = 1
-	category = manufacturing
+	can_build = yes
 
 	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 	inline_script = planet/buildings/auto/oxr_destroy
 
-	resources = {
-		category = oxr_mdlc_world_machines_foundry_buildings
-		cost = {
-			minerals = @b1_minerals
-		}
-		upkeep = {
-			energy = @b1_upkeep
-		}
-		inline_script = planet/buildings/auto/oxr_mdlc_foundry_produces
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_foundry
+		COST = @b1_minerals
+		UPKEEP = @b1_upkeep
+		RARE_COST = 0
+		RARE_UPKEEP = 0
+		PRODUCTION_MULT = 0
 	}
 
 	upgrades = {
@@ -459,20 +457,8 @@ oxr_mdlc_world_machines_building_auto_forge_2 = {
 		COST = @b2_minerals
 		RARE_COST = @b3_rare_cost
 		UPKEEP = @b2_upkeep
-		RARE_UKPEEP = @b3_rare_upkeep
-		MODIFIER_ALLOYS_PRODUCES_ADD = 1
-		MODIFIER_UPKEEP_ADD = 2  # MINERALS
-		MODIFIER_CATALYTIC_ALLOYS_PRODUCES_ADD = 1.25
-		MODIFIER_CATALYTIC_UPKEEP_ADD = 3
-		# is_ringworld stuff D:
-		# RING_COST = 0
-		# RING_RARE_COST = 0
-		# RING_UPKEEP = 0
-		# RING_RARE_UPKEEP = 0
-		# RING_MODIFIER_ALLOYS_PRODUCES_ADD = 1
-		# RING_MODIFIER_UPKEEP_ADD = 2
-		# RING_MODIFIER_CATALYTIC_ALLOYS_PRODUCES_ADD = 1.25
-		# RING_MODIFIER_CATALYTIC_UPKEEP_ADD = 3
+		RARE_UPKEEP = @b3_rare_upkeep
+		PRODUCTION_MULT = 0.1
 	}
 
 	upgrades = {
@@ -493,25 +479,9 @@ oxr_mdlc_world_machines_building_auto_forge_3 = {
 		COST = @b3_minerals
 		RARE_COST = @b4_rare_cost
 		UPKEEP = @b3_upkeep
-		RARE_UKPEEP = @b4_rare_upkeep
-		MODIFIER_ALLOYS_PRODUCES_ADD = 2
-		MODIFIER_UPKEEP_ADD = 4  # MINERALS
-		MODIFIER_CATALYTIC_ALLOYS_PRODUCES_ADD = 2.5
-		MODIFIER_CATALYTIC_UPKEEP_ADD = 6
-		# has_ringworld_boost D:
-		# RING_COST = 1500
-		# RING_RARE_COST = 600
-		# RING_UPKEEP = 15
-		# RING_RARE_UPKEEP = 8
-		# RING_MODIFIER_ALLOYS_PRODUCES_ADD = 1
-		# RING_MODIFIER_UPKEEP_ADD = 2
-		# RING_MODIFIER_CATALYTIC_ALLOYS_PRODUCES_ADD = 1.25
-		# RING_MODIFIER_CATALYTIC_UPKEEP_ADD = 3
+		RARE_UPKEEP = @b4_rare_upkeep
+		PRODUCTION_MULT = 0.2
 	}
-	# inline_script = {
-	# 	script = jobs/foundry_add
-	# 	AMOUNT = @b1_jobs
-	# }
 
 	allow = {
 		oxr_mdlc_has_major_upgraded_capital = yes
