@@ -1663,7 +1663,28 @@ oxr_mdlc_world_machines_biofuel_refit_1 = {
 	base_cap_amount = 1
 	base_buildtime = @b2_time
 	category = resource
-	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	potential = {
+		exists = owner
+		owner = {
+			OR = {
+				has_origin = oxr_mdlc_origin_world_machine_awakened
+				# has_ascension_perk = xvcv_mdlc_ap_world_machines
+			}
+			has_civic = civic_machine_catalytic_processing
+		}
+		is_planet_world_machine = yes
+	}
+	show_tech_unlock_if = {
+		OR = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+			# has_ascension_perk = xvcv_mdlc_ap_world_machines
+		}
+	}
+	on_built = {
+		owner = {
+			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
+		}
+	}
 	inline_script = planet/buildings/auto/oxr_destroy
 	custom_tooltip = oxr_mdlc_world_machines_biofuel_refit_1_tooltip
 	prerequisites = {
