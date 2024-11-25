@@ -165,7 +165,17 @@ oxr_mdlc_tech_organoid_1 = {
 	tier = 4
 	category = { computing }
 	weight = @tier4weight1
-	potential = { always = yes }
+	potential = {
+		if = {
+			limit = {
+				has_origin = oxr_mdlc_origin_world_machine_awakened
+			}
+			has_technology = oxr_mdlc_tech_world_machine_planetary_mastery
+		}
+		else = {
+			always = yes
+		}
+	}
 }
 oxr_mdlc_tech_organoid_2 = {
 	cost = @tier4cost2
@@ -173,7 +183,11 @@ oxr_mdlc_tech_organoid_2 = {
 	tier = 4
 	category = { computing }
 	weight = @tier4weight2
-	potential = { always = yes }
+	potential = {
+		NOT = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+		}
+	}
 	prerequisites = {
 		"oxr_mdlc_tech_organoid_1"
 	}
@@ -188,7 +202,11 @@ oxr_mdlc_tech_organoid_3 = {
 	tier = 4
 	category = { computing }
 	weight = @tier4weight2
-	potential = { always = yes }
+	potential = {
+		NOT = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+		}
+	}
 	prerequisites = {
 		"oxr_mdlc_tech_organoid_2"
 	}
