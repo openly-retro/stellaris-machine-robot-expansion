@@ -1304,3 +1304,207 @@ oxr_mdlc_planet_create_world_machine_colony = {
 	# Set these vars
 	oxr_mdlc_origin_world_machine_calc_max_district_armies = yes
 }
+
+oxr_mdlc_planet_create_deposit_upgrade_flags = {
+	# Call before terraform / WM project finishes
+	# Any world machine upgrades will be transferred to the other world machine type
+
+	if = {
+		limit = {
+			has_deposit = rikk_mdlc_d_world_machine_crust_roots
+		}
+		set_planet_flag = has_rikk_mdlc_d_world_machine_crust_roots
+	}
+	if = {
+		limit = {
+			has_deposit = rikk_mdlc_d_world_machine_cooling_towers
+		}
+		set_planet_flag = has_rikk_mdlc_d_world_machine_cooling_towers
+	}
+	if = {
+		limit = {
+			has_deposit = rikk_mdlc_d_world_machine_synchronization_arrays
+		}
+		set_planet_flag = has_rikk_mdlc_d_world_machine_synchronization_arrays
+	}
+	if = {
+		limit = {
+			has_deposit = rikk_mdlc_d_world_machine_mantle_roots
+		}
+		set_planet_flag = has_rikk_mdlc_d_world_machine_mantle_roots
+	}
+	if = {
+		limit = {
+			has_deposit = rikk_mdlc_d_world_machine_mantle_engine
+		}
+		set_planet_flag = has_rikk_mdlc_d_world_machine_mantle_engine
+	}
+	if = {
+		limit = {
+			has_deposit = rikk_mdlc_d_world_machine_mantle_holes
+		}
+		set_planet_flag = has_rikk_mdlc_d_world_machine_mantle_holes
+	}
+	if = {
+		limit = {
+			has_deposit = rikk_mdlc_d_world_machine_mantle_buses
+		}
+		set_planet_flag = has_rikk_mdlc_d_world_machine_mantle_buses
+	}
+	if = {
+		limit = {
+			has_deposit = rikk_mdlc_d_world_machine_outer_core_roots
+		}
+		set_planet_flag = has_rikk_mdlc_d_world_machine_outer_core_roots
+	}
+	if = {
+		limit = {
+			has_deposit = rikk_mdlc_d_world_machine_outer_core_tap
+		}
+		set_planet_flag = has_rikk_mdlc_d_world_machine_outer_core_tap
+	}
+	if = {
+		limit = {
+			has_deposit = rikk_mdlc_d_world_machine_outer_core_cooled
+		}
+		set_planet_flag = has_rikk_mdlc_d_world_machine_outer_core_cooled
+	}
+	if = {
+		limit = {
+			has_deposit = rikk_mdlc_d_world_machine_inner_core_roots
+		}
+		set_planet_flag = has_rikk_mdlc_d_world_machine_inner_core_roots
+	}
+	if = {
+		limit = {
+			has_deposit = rikk_mdlc_d_world_machine_core_core
+		}
+		set_planet_flag = has_rikk_mdlc_d_world_machine_core_core
+	}
+	if = {
+		limit = {
+			has_deposit = rikk_mdlc_d_world_machine_core_tap
+		}
+		set_planet_flag = has_rikk_mdlc_d_world_machine_core_tap
+	}
+	if = {
+		limit = {
+			has_deposit = rikk_mdlc_d_world_machine_core_refuse
+		}
+		set_planet_flag = has_rikk_mdlc_d_world_machine_core_refuse
+	}
+}
+
+oxr_mdlc_planet_restore_deposit_upgrades = {
+	# Look for these flags, and then create the corresponding deposit
+	if = {
+		limit = {
+			has_planet_flag = has_rikk_mdlc_d_world_machine_crust_roots
+		}
+		add_deposit = rikk_mdlc_d_world_machine_crust_roots
+		remove_planet_flag = has_rikk_mdlc_d_world_machine_crust_roots
+	}
+	if = {
+		limit = {
+			has_planet_flag = has_rikk_mdlc_d_world_machine_cooling_towers
+		}
+		add_deposit = rikk_mdlc_d_world_machine_cooling_towers
+		remove_planet_flag = has_rikk_mdlc_d_world_machine_cooling_towers
+	}
+	if = {
+		limit = {
+			has_planet_flag = has_rikk_mdlc_d_world_machine_synchronization_arrays
+		}
+		add_deposit = rikk_mdlc_d_world_machine_synchronization_arrays
+		remove_planet_flag = has_rikk_mdlc_d_world_machine_synchronization_arrays
+	}
+	if = {
+		limit = {
+			has_planet_flag = has_rikk_mdlc_d_world_machine_mantle_roots
+		}
+		add_deposit = rikk_mdlc_d_world_machine_mantle_roots
+		remove_planet_flag = has_rikk_mdlc_d_world_machine_mantle_roots
+	}
+	if = {
+		limit = {
+			has_planet_flag = has_rikk_mdlc_d_world_machine_mantle_engine
+		}
+		add_deposit = rikk_mdlc_d_world_machine_mantle_engine
+		remove_planet_flag = has_rikk_mdlc_d_world_machine_mantle_engine
+	}
+	if = {
+		limit = {
+			has_planet_flag = has_rikk_mdlc_d_world_machine_mantle_holes
+		}
+		add_deposit = rikk_mdlc_d_world_machine_mantle_holes
+		remove_planet_flag = has_rikk_mdlc_d_world_machine_mantle_holes
+	}
+	if = {
+		limit = {
+			has_planet_flag = has_rikk_mdlc_d_world_machine_mantle_buses
+		}
+		add_deposit = rikk_mdlc_d_world_machine_mantle_buses
+		remove_planet_flag = has_rikk_mdlc_d_world_machine_mantle_buses
+	}
+	if = {
+		limit = {
+			has_planet_flag = has_rikk_mdlc_d_world_machine_outer_core_roots
+		}
+		add_deposit = rikk_mdlc_d_world_machine_outer_core_roots
+		remove_planet_flag = has_rikk_mdlc_d_world_machine_outer_core_roots
+	}
+	if = {
+		limit = {
+			has_planet_flag = has_rikk_mdlc_d_world_machine_outer_core_tap
+		}
+		add_deposit = rikk_mdlc_d_world_machine_outer_core_tap
+		remove_planet_flag = has_rikk_mdlc_d_world_machine_outer_core_tap
+	}
+	if = {
+		limit = {
+			has_planet_flag = has_rikk_mdlc_d_world_machine_outer_core_cooled
+		}
+		add_deposit = rikk_mdlc_d_world_machine_outer_core_cooled
+		remove_planet_flag = has_rikk_mdlc_d_world_machine_outer_core_cooled
+	}
+	if = {
+		limit = {
+			has_planet_flag = has_rikk_mdlc_d_world_machine_inner_core_roots
+		}
+		add_deposit = rikk_mdlc_d_world_machine_inner_core_roots
+		remove_planet_flag = has_rikk_mdlc_d_world_machine_inner_core_roots
+	}
+	if = {
+		limit = {
+			has_planet_flag = has_rikk_mdlc_d_world_machine_core_core
+		}
+		add_deposit = rikk_mdlc_d_world_machine_core_core
+		remove_planet_flag = has_rikk_mdlc_d_world_machine_core_core
+	}
+	if = {
+		limit = {
+			has_planet_flag = has_rikk_mdlc_d_world_machine_core_tap
+		}
+		add_deposit = rikk_mdlc_d_world_machine_core_tap
+		remove_planet_flag = has_rikk_mdlc_d_world_machine_core_tap
+	}
+	if = {
+		limit = {
+			has_planet_flag = has_rikk_mdlc_d_world_machine_core_refuse
+		}
+		add_deposit = rikk_mdlc_d_world_machine_core_refuse
+		remove_planet_flag = has_rikk_mdlc_d_world_machine_core_refuse
+	}
+}
+
+oxr_mdlc_planet_add_wmc_core_deposit_if_missing = {
+	if = {
+		limit = {
+			NOT = {
+				has_deposit = oxr_mdlc_d_world_machine_core
+			}
+			is_planet_world_machine = yes
+		}
+		add_deposit = oxr_mdlc_d_world_machine_core
+	}
+}
