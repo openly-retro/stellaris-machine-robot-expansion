@@ -1,0 +1,77 @@
+﻿# Yaml 1.2.2
+buildings:
+  -
+    key: default
+    capital: no
+    can_build: yes
+    can_demolish: yes
+    can_be_ruined: yes
+    can_be_disabled: yes
+    category: government
+    position_priority:
+      help: used to determine where to place the building in the building list. The lower the value, the closest to the beginning it'll be. default value is 200, value for capital buildings is 0.
+    desc: ""
+    empire_limit: ""
+    potential:
+      scope: planet
+      help: used to match with a planet class' building set, can be assigned to multiple sets. Used to remove from construction lists
+    building_sets: ""
+    allow:
+      help: trigger for allowing/graying out building construction
+    abort_trigger:
+      help: ongoing construction will be canceled if this trigger returns true
+    abort_construction_trigger:
+      help: ongoing construction will be canceled if this trigger returns true
+    ruined_trigger:
+      help: set building to ruined if this trigger returns true
+    destroy_trigger:
+      scope: planet
+      help: "building will be destroyed (more likely converted, see below) if this trigger returns true"
+    convert_to:
+      help: a list of buildings this one will be converted to if destroy_trigger returns true
+    planet_modifier: optional_block
+    triggered_planet_modifier: optional_block
+    country_modifier: optional_block
+    army_modifier:
+      type: optional_block
+      help: This modifier is permanently applied to armies built on this planet. To only apply a modifier while the army is on the planet, use planet_modifier.
+    prerequisites:
+      type: list
+      help: list of tech prerequisites, if any
+    on_queued: optional_block
+    on_unqueued: optional_block
+    on_built: optional_block
+    on_destroy: optional_block
+    on_repaired: optional_block
+  - 
+    series: auto_astral
+    tier: 1
+    name: Auto-Astral Siphon
+    desc: > 
+      Carefully calibrated extraction devices automatically gather astral matter slowly over time using nanoscale lattices, while carefully preserving the integrity of the quantum relationships between this dimension and the astral.
+      $oxr_mdlc_mod_tag$
+      $oxr_mdlc_world_machine_building_category_note$
+    base_cap_amount: 1
+    upgrades: auto
+    inline_script:
+      script: planet/buildings/auto/oxr_mdlc_astral_siphon
+      params:
+        - BUILD_TIME: @b1_time
+        - MINERALS_COST: @b1_minerals
+        - ENERGY_UPKEEP: @b1_upkeep
+        - BUILDING_TIER: 1
+        - MAX_THREADS_ADD: 100
+    resources:
+      - cost:
+        minerals: default
+      - upkeep:
+        energy: default
+      - upkeep:
+        minerals: 2
+        mult: tier
+      - produces:
+        physics_research: 5
+        engineering_research: 1
+        society_research: 1
+        astral_threads: 0.3
+        mult: tier

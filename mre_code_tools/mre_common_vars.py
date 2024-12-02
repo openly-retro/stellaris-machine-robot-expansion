@@ -1,5 +1,6 @@
 import os
 from datetime import datetime
+from random import randint
 
 TRAIT_MODIFIER_KEYS = (
     "army_modifier",
@@ -135,6 +136,8 @@ GARBAGE_MODIFIERS = (
     "FIELD",
     "TIER",
     "mult",
+    "show_if_not_potential",
+    "not_potential_override_text_key",
 )
 
 GENERATED_CODE_TYPES = (
@@ -180,6 +183,10 @@ GUI_FOOTER_TEXT = """
 #					{classname}						 #
 ##########################################################
 """
+GUI_FOLDER = os.path.join(
+    os.getcwd(),
+    'interface'
+)
 
 # Files created by mre_process_traits_for_codegen
 INPUT_FILES_FOR_CODEGEN = (
@@ -510,3 +517,6 @@ UNICORN = '''
     ~~:                             `'   `'  `'  :~~
      ~`-----------------------------------------`~
 '''
+
+def sanity_check():
+    return f"Sanity levels at {randint(15,115)}% of normal."

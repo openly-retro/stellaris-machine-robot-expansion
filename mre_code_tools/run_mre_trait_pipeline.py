@@ -44,7 +44,7 @@ from mre_generate_councilor_editor_scripted_triggers import do_all_work as gener
 from mre_generate_councilor_editor_button_effects import do_all_work as generate_councilor_editor_button_effects
 from mre_generate_gui_traits_limits_effects import do_all_work as generate_councilor_gui_traits_limits_effects
 from mre_generate_ruler_limits_scripted_effect import do_all_work as generate_ruler_limits_scripted_effect
-
+from mre_stitch_gui_files import stitch_gui_files
 
 from mre_common_vars import (
     BUILD_FOLDER,
@@ -235,11 +235,12 @@ if __name__=="__main__":
     pipeline_make_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines()
     print("** Making lines of GUI code for core_modifying subclasses_gui_code ... **")
     pipeline_make_core_modifying_subclasses_gui_code()
+    print("** Stitching GUI files together ... **")
+    stitch_gui_files()
 
     print(horiz)
     print("** TO DO by humans **")
     print(
-        "- Copy GUI code for leader builder, ruler gui, councilor gui\n"
         "- Copy generated scripted triggers to their destinations\n"
         "- Copy generated scripted effects to their destinations\n"
         "- Generate loc files\n"

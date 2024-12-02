@@ -70,7 +70,15 @@ country_event = {
 				food = -200
 			}
 			give_technology = { tech = tech_bio_reactor message = no }
-
+			if = {
+				limit = {
+					has_origin = xvcv_mdlc_origin_mechanical_heritage
+				}
+				add_modifier = {
+					modifier = oxr_mdlc_origin_mechanical_temp_pop_demotion
+					days = 30
+				}
+			}
 			# country_event = { id = xvcv_mdlc.4 days = 1 }
 			if = {
 				limit = { has_machine_age_dlc = yes }
@@ -88,6 +96,19 @@ country_event = {
 		}
 		capital_scope = {
 			if = {
+				limit = {
+					prev = {
+						has_origin = xvcv_mdlc_origin_mechanical_heritage
+					}
+				}
+				# Do the swaps now so as not to lose num of districts
+				oxr_mdlc_planet_swap_vanilla_to_mechanical_world_districts = yes
+				# Make adjustments to homeworld based on traits, civics, etc
+				# So as to avoid changing what XVCV has designed
+				# oxr_mdlc_adjust_capital_scope_mechanical_heritage_start = yes
+			}
+			# Rock body trait
+			if = {
 				limit = { prev.species = { has_trait = xvcv_mdlc_trait_rock_body } }
 				if = {
 					limit = { has_district = district_generator }
@@ -96,6 +117,7 @@ country_event = {
 						add_district = district_mining
 						count = 2
 					}
+					log = "\\[prev.GetName] MINERAL BODY | swapped generators for mining districts"
 				}
 				if = {
 					limit = { has_district = district_generator_uncapped }
@@ -105,19 +127,77 @@ country_event = {
 						count = 2
 					}
 				}
+				else_if = {
+					limit = {
+						uses_district_set = xvcv_mdlc_pc_mechanical_district_set
+					}
+					while = {
+						remove_district = xvcv_mdlc_pc_mechanical_district_generator
+						add_district = xvcv_mdlc_pc_mechanical_district_mining
+						count = 2
+						log = "\\[prev.GetName] MINERAL BODY (Mechanical) | swapped generators for mining districts"
+					}
+				}
 			}
+			# Organic skin trait
 			if = {
 				limit = { prev.species = { has_trait = xvcv_mdlc_trait_synth_skin } }
 				prev = { add_resource = { food = 200 } }
+				# Standard planets
 				if = {
-					limit = { has_district = district_generator }
+					limit = { uses_district_set = standard }
+					log = "\\[prev.GetName] SYNTH SETUP (standard) | Organic skin | Removing 2 generators, adding 1 farm, 1 mine"
 					remove_district = district_generator
+					# remove_district = district_generator
+					# add_district = district_generator
 					add_district = district_farming
 				}
 				else_if = {
 					limit = { uses_district_set = machine_world }
 					add_deposit = d_organic_slurry
 				}
+				# Mechanical
+				else_if = {
+					limit = { uses_district_set = xvcv_mdlc_pc_mechanical_district_set }
+					log = "\\[prev.GetName] SYNTH SETUP (Mechanical) | Organic skin | Adding 2 farms"
+					add_district = xvcv_mdlc_pc_mechanical_district_farming
+					add_district = xvcv_mdlc_pc_mechanical_district_farming
+				}
+			}
+			# Catalytic empires
+			if = {
+				limit = { prev = { has_civic = civic_catalytic_processing } }
+				# Standard planets
+				if = {
+					limit = { uses_district_set = standard }
+					log = "\\[prev.GetName] SYNTH SETUP (standard) | Catalytic | Removing 2 generators and adding 2 farms"
+					remove_district = district_generator
+					remove_district = district_generator
+					# add_district = district_farming
+					add_district = district_farming
+				}
+				# Mechanical
+				else_if = {
+					limit = { uses_district_set = xvcv_mdlc_pc_mechanical_district_set }
+					log = "\\[prev.GetName] SYNTH SETUP (Mechanical) | Catalytic | Removing 1 generator, 1 industrial, adding 2 farms"
+					remove_district = xvcv_mdlc_pc_mechanical_district_generator
+					remove_district = xvcv_mdlc_pc_mechanical_district_industrial
+					add_district = xvcv_mdlc_pc_mechanical_district_farming
+					add_district = xvcv_mdlc_pc_mechanical_district_farming
+				}
+			}
+			# Situational tweak for organic skin + synth ascended start
+			if = {
+				limit = {
+					prev = { has_civic = civic_catalytic_processing }
+					prev.species = { has_trait = xvcv_mdlc_trait_synth_skin }
+					prev = { has_origin = xvcv_mdlc_origin_synth_ascend }
+				}
+				# Ends up with 
+				remove_district = district_farming
+				remove_district = district_city
+				add_district = district_generator
+				log = "\\[prev.GetName] SYNTH SETUP (Mechanical) | Catalytic | organic skin | synth ascended | added generator"
 			}
 			if = {
 				limit = { prev = { has_valid_civic = xvcv_mdlc_civic_planet_cracker } }
@@ -254,53 +334,78 @@ country_event = {
 			}
 			if = {
 				limit = { prev = { has_origin = xvcv_mdlc_origin_synth_ascend } }
-				remove_district = district_generator
-				add_district = district_mining
-				while = {
-					limit = { has_district = district_farming }
-					remove_district = district_farming
-					if = {
-						limit = { num_free_districts = { type = district_generator value <= 1 } } #equal to or less than 1 #this is intentional
-						add_deposit = xvcv_mdlc_d_district_generator_slot_plus_1
+				# dont alter previous district balancing
+				if = {
+					limit = {
+						NAND = {
+							prev = { has_civic = civic_catalytic_processing }
+							prev.species = { has_trait = xvcv_mdlc_trait_synth_skin }
+						}
 					}
-					add_district = district_generator
+					remove_district = district_generator
+					add_district = district_mining
+					while = {
+						limit = { has_district = district_farming }
+						remove_district = district_farming
+						if = {
+							limit = { num_free_districts = { type = district_generator value <= 1 } } #equal to or less than 1 #this is intentional
+							add_deposit = xvcv_mdlc_d_district_generator_slot_plus_1
+						}
+						add_district = district_generator
+					}
 				}
+
 				if = {
 					limit = { free_building_slots = 0 }
 					add_deposit = xvcv_mdlc_d_building_slot_plus_1
 				}
 				add_building = building_robot_assembly_plant
-				while = { create_pop = { species = prev.species } count = 2 }
+				# while = { create_pop = { species = prev.species } count = 2 }
+				# create_pop = { species = prev.species }
 			}
 			if = {
 				limit = { prev = { has_origin = xvcv_mdlc_origin_mechanical_heritage } }
 				prev = { set_country_flag = xvcv_mdlc_origin_mechanical_heritage_empire } #also see: xvcv_mdlc_pc_mechanical_district_set
-				while = {
-					limit = { has_district = district_city }
-					remove_district = district_city
-					add_district = xvcv_mdlc_pc_mechanical_district_city
-				}
-				while = {
-					limit = { has_district = district_generator }
-					remove_district = district_generator
-					add_district = xvcv_mdlc_pc_mechanical_district_generator
-				}
-				while = {
-					limit = { has_district = district_mining }
-					remove_district = district_mining
-					add_district = xvcv_mdlc_pc_mechanical_district_mining
-				}
-				while = {
-					limit = { has_district = district_farming }
-					remove_district = district_farming
-				}
-				while = {
-					limit = { has_district = district_industrial }
-					remove_district = district_industrial
-					add_district = xvcv_mdlc_pc_mechanical_district_industrial
-				}
+				# oxr_mdlc_planet_swap_vanilla_to_mechanical_world_districts = yes
 				remove_district = xvcv_mdlc_pc_mechanical_district_generator
 				create_pop = { species = prev.species }
+			}
+			if = {
+				limit = {
+					prev = {
+						has_monthly_income = { resource = minerals value < 0 }
+					}
+					uses_district_set = xvcv_mdlc_pc_mechanical_district_set
+					num_districts = {
+						type = any
+						value < 10
+					}
+				}
+				add_district = xvcv_mdlc_pc_mechanical_district_mining
+				add_district = xvcv_mdlc_pc_mechanical_district_mining
+				log = "\\[prev.GetName] Found mineral deficit, added two mining districts"
+			}
+			# I really don't like adding all these cascading conditionals at the end
+			# Additional resource balancing
+			if = {
+				limit = {
+					num_buildings = {
+						type = building_temple
+						value > 1
+					}
+				}
+				remove_building = building_temple
+				add_building = building_factory_1
+				log = "\\[prev.GetName] Swapped EXTRA temple for factory"
+			}
+			if = {
+				limit = {
+					prev = {
+						has_monthly_income = { resource = food value < 0 }
+					}
+				}
+				add_deposit = d_food_10
+				log = "\\[prev.GetName] Found FOOD deficit, added +10 food deposit"
 			}
 		}
 	}
@@ -3856,10 +3961,10 @@ country_event = {
 			add_research_option = tech_identity_initialization
 			add_research_option = tech_identity_fusion
 		}
-		capital_scope = {
-			add_building = building_identity_complex
-		}
-		
+		# capital_scope = {
+		# 	add_building = building_identity_complex
+		# }
+
 		# mix identities?
 		country_event = {
 			id = xvcv_mdlc.1014

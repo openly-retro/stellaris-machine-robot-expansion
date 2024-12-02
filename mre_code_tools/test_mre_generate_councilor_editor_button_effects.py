@@ -10,12 +10,12 @@ oxr_mdlc_councilor_editor_regulatory_leader_trait_army_veteran_2_add_button_effe
 		event_target:oxr_mdlc_councilor_editor_target = { NOT = { has_trait = leader_trait_army_veteran_2 } }
 	}
 	allow = {
-        custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_official_leader_trait_army_veteran_2
+		custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_official_leader_trait_army_veteran_2
 		oxr_mdlc_councilor_editor_check_trait_resources_cost_common = yes
 		event_target:oxr_mdlc_councilor_editor_target = {
 			oxr_mdlc_councilor_editor_check_trait_points_cost_common = yes
 			oxr_mdlc_councilor_editor_check_trait_picks = yes
-			#oxr_mdlc_councilor_editor_check_leader_has_required_subclass = { SUBCLASS = None }
+			#oxr_mdlc_councilor_editor_check_leader_has_required_subclass = { CLASS = official SUBCLASS = None }
 		}
 		
 	}
@@ -76,18 +76,18 @@ def test_gen_councilor_editor_btn_fx_code__veteran_trait():
 		}
 	}
     expected = """
-#regulatory #leader_trait_armada_logistician_3 #veteran
-oxr_mdlc_councilor_editor_regulatory_leader_trait_armada_logistician_3_add_button_effect = {
+#legion #leader_trait_armada_logistician_3 #veteran
+oxr_mdlc_councilor_editor_legion_leader_trait_armada_logistician_3_add_button_effect = {
 	potential = {
 		event_target:oxr_mdlc_councilor_editor_target = { NOT = { has_trait = leader_trait_armada_logistician_3 } }
 	}
 	allow = {
-		custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_official_leader_trait_armada_logistician_3
+		custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_commander_leader_trait_armada_logistician_3
 		oxr_mdlc_councilor_editor_check_trait_resources_cost_veteran = yes
 		event_target:oxr_mdlc_councilor_editor_target = {
 			oxr_mdlc_councilor_editor_check_trait_points_cost_veteran = yes
 			oxr_mdlc_councilor_editor_check_trait_picks = yes
-			oxr_mdlc_councilor_editor_check_leader_has_required_subclass = { SUBCLASS = subclass_commander_councilor }
+			oxr_mdlc_councilor_editor_check_leader_has_required_subclass = { CLASS = commander SUBCLASS = subclass_commander_councilor }
 		}
 		
 	}
@@ -106,13 +106,13 @@ oxr_mdlc_councilor_editor_regulatory_leader_trait_armada_logistician_3_add_butto
 		}
 	}
 }
-oxr_mdlc_councilor_editor_regulatory_leader_trait_armada_logistician_3_remove_button_effect = {
+oxr_mdlc_councilor_editor_legion_leader_trait_armada_logistician_3_remove_button_effect = {
 	potential = {
 		event_target:oxr_mdlc_councilor_editor_target = { has_trait = leader_trait_armada_logistician_3 }
 	}
 	allow = { always = yes }
 	effect = {
-		custom_tooltip = xvcv_mdlc_core_modifying_tooltip_remove_official_leader_trait_armada_logistician_3
+		custom_tooltip = xvcv_mdlc_core_modifying_tooltip_remove_commander_leader_trait_armada_logistician_3
 		hidden_effect = {
 			event_target:oxr_mdlc_councilor_editor_target = {
 				remove_trait = leader_trait_armada_logistician_3
@@ -125,7 +125,7 @@ oxr_mdlc_councilor_editor_regulatory_leader_trait_armada_logistician_3_remove_bu
 }
 """
     actual = gen_councilor_editor_traits_button_effects_code(
-        councilor_type="regulatory",
+        councilor_type="legion",
         trait_name="leader_trait_armada_logistician_3",
         rarity="veteran", required_subclass="subclass_commander_councilor"
     )
