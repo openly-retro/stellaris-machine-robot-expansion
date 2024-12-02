@@ -117,6 +117,7 @@ country_event = {
 						add_district = district_mining
 						count = 2
 					}
+					log = "\\[prev.GetName] MINERAL BODY | swapped generators for mining districts"
 				}
 				if = {
 					limit = { has_district = district_generator_uncapped }
@@ -124,6 +125,17 @@ country_event = {
 						remove_district = district_generator_uncapped
 						add_district = district_mining_uncapped
 						count = 2
+					}
+				}
+				else_if = {
+					limit = {
+						uses_district_set = xvcv_mdlc_pc_mechanical_district_set
+					}
+					while = {
+						remove_district = xvcv_mdlc_pc_mechanical_district_generator
+						add_district = xvcv_mdlc_pc_mechanical_district_mining
+						count = 2
+						log = "\\[prev.GetName] MINERAL BODY (Mechanical) | swapped generators for mining districts"
 					}
 				}
 			}
@@ -134,7 +146,7 @@ country_event = {
 				# Standard planets
 				if = {
 					limit = { uses_district_set = standard }
-					log = "SYNTH SETUP (standard) | Organic skin | Removing 2 generators, adding 1 farm, 1 mine"
+					log = "\\[prev.GetName] SYNTH SETUP (standard) | Organic skin | Removing 2 generators, adding 1 farm, 1 mine"
 					remove_district = district_generator
 					# remove_district = district_generator
 					# add_district = district_generator
@@ -147,7 +159,7 @@ country_event = {
 				# Mechanical
 				else_if = {
 					limit = { uses_district_set = xvcv_mdlc_pc_mechanical_district_set }
-					log = "SYNTH SETUP (Mechanical) | Organic skin | Adding 2 farms"
+					log = "\\[prev.GetName] SYNTH SETUP (Mechanical) | Organic skin | Adding 2 farms"
 					add_district = xvcv_mdlc_pc_mechanical_district_farming
 					add_district = xvcv_mdlc_pc_mechanical_district_farming
 				}
@@ -158,7 +170,7 @@ country_event = {
 				# Standard planets
 				if = {
 					limit = { uses_district_set = standard }
-					log = "SYNTH SETUP (standard) | Catalytic | Removing 2 generators and adding 2 farms"
+					log = "\\[prev.GetName] SYNTH SETUP (standard) | Catalytic | Removing 2 generators and adding 2 farms"
 					remove_district = district_generator
 					remove_district = district_generator
 					# add_district = district_farming
@@ -167,22 +179,11 @@ country_event = {
 				# Mechanical
 				else_if = {
 					limit = { uses_district_set = xvcv_mdlc_pc_mechanical_district_set }
-					log = "SYNTH SETUP (Mechanical) | Catalytic | Removing 1 generator, 1 industrial, adding 2 farms"
+					log = "\\[prev.GetName] SYNTH SETUP (Mechanical) | Catalytic | Removing 1 generator, 1 industrial, adding 2 farms"
 					remove_district = xvcv_mdlc_pc_mechanical_district_generator
 					remove_district = xvcv_mdlc_pc_mechanical_district_industrial
 					add_district = xvcv_mdlc_pc_mechanical_district_farming
 					add_district = xvcv_mdlc_pc_mechanical_district_farming
-					# Additional resource balancing
-					if = {
-						limit = {
-							num_buildings = {
-								type = building_temple
-								value > 1
-							}
-						}
-						remove_building = building_temple
-						add_building = building_factory_1
-					}
 				}
 			}
 			# Situational tweak for organic skin + synth ascended start
@@ -196,6 +197,7 @@ country_event = {
 				remove_district = district_farming
 				remove_district = district_city
 				add_district = district_generator
+				log = "\\[prev.GetName] SYNTH SETUP (Mechanical) | Catalytic | organic skin | synth ascended | added generator"
 			}
 			if = {
 				limit = { prev = { has_valid_civic = xvcv_mdlc_civic_planet_cracker } }
@@ -367,6 +369,33 @@ country_event = {
 				# oxr_mdlc_planet_swap_vanilla_to_mechanical_world_districts = yes
 				remove_district = xvcv_mdlc_pc_mechanical_district_generator
 				create_pop = { species = prev.species }
+			}
+			if = {
+				limit = {
+					prev = {
+						has_monthly_income = { resource = minerals value < 0 }
+					}
+					uses_district_set = xvcv_mdlc_pc_mechanical_district_set
+					num_districts = {
+						type = any
+						value < 10
+					}
+				}
+				add_district = xvcv_mdlc_pc_mechanical_district_mining
+				add_district = xvcv_mdlc_pc_mechanical_district_mining
+				log = "\\[prev.GetName] Found mineral deficit, added two mining districts"
+			}
+			# I really don't like adding all these cascading conditionals at the end
+			# Additional resource balancing
+			if = {
+				limit = {
+					num_buildings = {
+						type = building_temple
+						value > 1
+					}
+				}
+				remove_building = building_temple
+				add_building = building_factory_1
 			}
 		}
 	}
