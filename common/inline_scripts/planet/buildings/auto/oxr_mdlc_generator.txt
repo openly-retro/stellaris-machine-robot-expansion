@@ -1,0 +1,30 @@
+base_buildtime = $BUILD_TIME$
+category = resource
+resources = {
+	category = oxr_mdlc_world_machines_generator_buildings
+	cost = {
+		minerals = $BUILD_COST$
+		volatile_motes = $RARE_COST$
+	}
+	produces = {
+		energy = $PRODUCES_ENERGY$
+	}
+	upkeep = {
+		trigger = {
+			NOT = { has_active_building = oxr_mdlc_world_machines_biofuel_refit_1 }
+		}
+		minerals = $UPKEEP$
+	}
+	upkeep = {
+		volatile_motes = $RARE_UPKEEP$
+	}
+	# BIOFUEL
+	upkeep = {
+		trigger = {
+			has_active_building = oxr_mdlc_world_machines_biofuel_refit_1
+		}
+		food = $BIOFUEL_UPKEEP$
+	}
+}
+# desc
+inline_script = planet/buildings/auto/oxr_auto_biofuel
