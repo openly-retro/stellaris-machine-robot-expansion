@@ -34,9 +34,11 @@
  # Anomalies    0x029
  # TRADITIONS   0x030
  # EDICTS       0x031
+ # OVERRIDES    0x032
 
 # symbols: £energy£ §R
 
+ empty: ""
  oxr_mdlc_cognitive_node: "§B$councilor_gestalt_cognitive_with_icon$§!"
  oxr_mdlc_growth_node: "§Y$councilor_gestalt_growth_with_icon$§!"
  oxr_mdlc_regulatory_node: "§Y$councilor_gestalt_regulatory_with_icon$§!"
@@ -605,7 +607,8 @@
  # CUSTOM DISTRICT UPKEEP MULT
  mod_xvcv_mdlc_world_machines_mining_districts_energy_upkeep_mult: " $xvcv_mdlc_world_machines_mining_districts$ £energy£ upkeep"
  mod_xvcv_mdlc_world_machines_computer_districts_upkeep_mult: "$xvcv_mdlc_world_machines_computer_districts$ £energy£ upkeep"
- mod_xvcv_mdlc_world_machines_cooling_districts_upkeep_mult: "$xvcv_mdlc_world_machines_cooling_districts$ upkeep"
+ mod_xvcv_mdlc_world_machines_cooling_districts_upkeep_mult: "$xvcv_mdlc_world_machines_cooling_districts$ $upkeep$"
+ mod_xvcv_mdlc_world_machines_mining_districts_upkeep_mult: "$xvcv_mdlc_world_machines_mining_districts$ $upkeep$"
 
  # CUSTOM DISTRICT PRODUCES MULT
  mod_xvcv_mdlc_world_machines_generator_districts_energy_produces_mult: "$xvcv_mdlc_world_machines_generator_districts$ £energy£ $OUTPUT$"
@@ -637,6 +640,11 @@
  mod_xvcv_mdlc_world_machines_science_districts_upkeep_mult: "$xvcv_mdlc_world_machines_science_districts$ upkeep"
  mod_oxr_mdlc_world_machines_unity_buildings_produces_mult: "$oxr_mdlc_world_machines_unity_buildings$ $OUTPUT$"
 
+ # CUSTOM DISTRICT UPKEEP MULT
+ mod_xvcv_mdlc_world_machines_vanilla_industrial_districts_consumer_goods_produces_mult: "$xvcv_mdlc_world_machines_vanilla_industrial_districts$ £consumer_goods£ $OUTPUT$"
+ mod_xvcv_mdlc_world_machines_food_districts_upkeep_mult: "$xvcv_mdlc_world_machines_food_districts$ $upkeep$"
+ mod_xvcv_mdlc_world_machines_generator_districts_upkeep_mult: "$xvcv_mdlc_world_machines_generator_districts$ $upkeep$"
+
 
  # CUSTOM BUILDING PRODUCES MULT
  mod_oxr_mdlc_world_machines_generator_buildings_energy_produces_mult: "$oxr_mdlc_world_machines_generator_buildings$ £energy£ $OUTPUT$"
@@ -660,6 +668,10 @@
  mod_oxr_mdlc_world_machines_science_buildings_upkeep_mult: "$oxr_mdlc_world_machines_science_buildings$ £energy£ upkeep"
  mod_oxr_mdlc_world_machines_unity_buildings_upkeep_mult: "$oxr_mdlc_world_machines_unity_buildings$ $oxr_upkeep$"
  mod_oxr_mdlc_world_machines_government_buildings_upkeep_mult: "$oxr_mdlc_world_machines_government_buildings$ $oxr_upkeep$"
+ mod_oxr_mdlc_world_machines_food_buildings_upkeep_mult: "$oxr_mdlc_world_machines_food_buildings$ $oxr_upkeep$"
+ mod_oxr_mdlc_world_machines_generator_buildings_upkeep_mult: "$oxr_mdlc_world_machines_generator_buildings$ $oxr_upkeep$"
+ mod_oxr_mdlc_world_machines_mining_buildings_upkeep_mult: "$oxr_mdlc_world_machines_mining_buildings$ $oxr_upkeep$"
+ mod_oxr_mdlc_world_machines_factory_buildings_upkeep_mult: "$oxr_mdlc_world_machines_factory_buildings$ $oxr_upkeep$"
 
  # CUSTOM DISTRICT UPKEEP ADD
  mod_xvcv_mdlc_world_machines_generator_districts_food_upkeep_add: "$xvcv_mdlc_world_machines_generator_districts$ £food£ upkeep"
@@ -1195,7 +1207,7 @@
 
 #region scripted_loc_0x016
 
-
+ oxr_mdlc_edict_is_redudant_for_wm: "§R(No effect on World-Machines)§!"
 
 #endregion
 
@@ -1439,8 +1451,25 @@
 
 #region edicts_0x031
  # EDICTS
- oxr_mdlc_world_machines_edict_all_power_to_shields: "All Power to Shields"
- oxr_mdlc_world_machines_edict_all_power_to_shields_desc: "Attention all ships: Extreme defensive maneuver: Divert all weapons systems power to shields and brace for impact."
- edict_oxr_mdlc_world_machines_edict_all_power_to_shields: "$oxr_mdlc_world_machines_edict_all_power_to_shields$"
+ edict_oxr_mdlc_world_machines_edict_all_power_to_shields: "All Power to Shields"
+ edict_oxr_mdlc_world_machines_edict_all_power_to_shields_desc: "Attention all ships: Extreme defensive maneuver: Divert all weapons systems power to shields and brace for impact."
+
+ edict_oxr_mdlc_edict_wm_capacity_subsidies: "$oxr_wm$ £energy£ Production Boost"
+ edict_oxr_mdlc_edict_wm_capacity_subsidies_desc: "Resources will be diverted to generator districts and buildings to raise production targets."
+ edict_oxr_mdlc_edict_wm_mining_subsidies: "$oxr_wm$ £minerals£ Production Boost"
+ edict_oxr_mdlc_edict_wm_mining_subsidies_desc: "Resources will be diverted to mining districts and buildings to raise production targets."
+ edict_oxr_mdlc_edict_wm_farming_subsidies: "$oxr_wm$ £food£ Production Boost"
+ edict_oxr_mdlc_edict_wm_farming_subsidies_desc: "Resources will be diverted to nutrient-production districts and buildings to raise production targets."
+ edict_oxr_mdlc_edict_wm_industrial_subsidies: "$oxr_wm$ £consumer_goods£ Production Boost"
+ edict_oxr_mdlc_edict_wm_industrial_subsidies_desc: "Resources will be diverted to consumer goods districts and buildings to raise production targets."
+ edict_oxr_mdlc_edict_wm_forge_subsidies: "$oxr_wm$ £alloys£ Production Boost"
+ edict_oxr_mdlc_edict_wm_forge_subsidies_desc: "Resources will be diverted to alloy production districts and buildings to raise production targets."
+ edict_oxr_mdlc_edict_wm_research_subsidies: "$oxr_wm$ £physics_research£ £engineering_research£ £society_research£ Production Boost"
+ edict_oxr_mdlc_edict_wm_research_subsidies_desc: "Resources will be diverted to computing districts and science buildings to raise production targets."
+
+#endregion
+
+#region overrides_0x032
+
 
 #endregion
