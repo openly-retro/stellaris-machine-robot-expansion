@@ -151,6 +151,7 @@ rikk_mdlc_decision_world_machine_harness_nanites = {
 		is_planet_class = pc_gray_goo
 		space_owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
 		NOT = { has_planet_flag = rikk_mdlc_world_machine_suitable }
+		host_has_dlc = "Distant Stars Story Pack"
 	}
 	
 	allow = { 
@@ -205,7 +206,10 @@ rikk_mdlc_decision_world_machine_crust_roots = {
 		rikk_mdlc_is_wm_planet_trigger = yes
 		NOT = { has_deposit = rikk_mdlc_d_world_machine_crust_roots }
 	}
-	
+	allow = {
+		num_free_districts = { type = any value < 1 }
+	}
+
 	on_queued = { set_planet_flag = crust_roots_queued }
 	on_unqueued = { remove_planet_flag = crust_roots_queued }
 	
@@ -318,6 +322,7 @@ rikk_mdlc_decision_world_machine_mantle_roots = {
 				has_technology = oxr_mdlc_tech_geologic_heat_shielding_1
 			}
 		}
+		num_free_districts = { type = any value < 1 }
 	}
 	
 	on_queued = { set_planet_flag = mantle_roots_queued }
