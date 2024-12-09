@@ -154,6 +154,127 @@ oxr_mdlc_tech_fractal_basics = {
 		category_computing_draw_chance_mult = 0.3
 	}
 }
+oxr_mdlc_tech_fractal_2_topological_insulators = {
+	inline_script = planet/buildings/auto/oxr_mdlc_fractal
+	cost = @tier2cost1
+	tier = 2
+	weight = @tier2cost1
+	prerequisites = {
+		oxr_mdlc_tech_fractal_basics
+		oxr_mdlc_tech_world_machine_wmc_core
+	}
+	modifier = {
+		oxr_mdlc_world_machines_science_buildings_energy_upkeep_mult = -0.1
+		oxr_mdlc_world_machines_science_buildings_produces_mult = 0.1
+	}
+}
+oxr_mdlc_tech_fractal_3_star_mapping = {
+	inline_script = planet/buildings/auto/oxr_mdlc_fractal
+	cost = @tier2cost3
+	tier = 2
+	weight = @tier2cost3
+	prerequisites = {
+		oxr_mdlc_tech_fractal_2_topological_insulators
+	}
+	modifier = {
+		owned_ship_speed_mult = 0.1
+		ship_ftl_jumpdrive_range_mult = -0.15
+	}
+}
+oxr_mdlc_tech_fractal_4_perimeter_subdivision = {
+	inline_script = planet/buildings/auto/oxr_mdlc_fractal
+	cost = @tier3cost1
+	tier = 3
+	weight = @tier3cost1
+	prerequisites = {
+		oxr_mdlc_tech_fractal_2_topological_insulators
+	}
+	modifier = {
+		intel_encryption_add = 1
+		ship_cloaking_detection_add = 1
+	}
+}
+oxr_mdlc_tech_fractal_5_shapes_for_sensors = {
+	inline_script = planet/buildings/auto/oxr_mdlc_fractal
+	cost = @tier3cost2
+	tier = 3
+	weight = @tier3cost2
+	prerequisites = {
+		oxr_mdlc_tech_fractal_4_perimeter_subdivision
+	}
+	modifier = {
+		ship_sensor_range_add = 1
+		planet_sensor_range_add = 2
+	}
+}
+
+### TECH BOOSTERS
+oxr_mdlc_tech_boost_1_uniform_resource_locators = {
+	area = physics
+	category = { computing }
+	is_reverse_engineerable = no
+	tier = 2
+	weight = @tier2cost1
+	cost = @tier2cost1
+	prerequisites = {
+		oxr_mdlc_tech_fractal_basics
+		oxr_mdlc_tech_world_machine_wmc_core
+	}
+	modifier = {
+		oxr_mdlc_world_machines_science_buildings_produces_mult = 0.1
+		xvcv_mdlc_world_machines_computer_districts_produces_mult = 0.1
+		country_edict_fund_mult = 0.1
+		country_edict_fund_add = 25
+	}
+}
+oxr_mdlc_tech_boost_2_specialized_hardware_instructions = {
+	area = physics
+	category = { computing }
+	is_reverse_engineerable = no
+	tier = 2
+	weight = @tier2cost3
+	cost = @tier2cost3
+	prerequisites = {
+		oxr_mdlc_tech_boost_1_uniform_resource_locators
+	}
+	modifier = {
+		oxr_mdlc_world_machines_science_buildings_cost_mult = 0.2
+		oxr_mdlc_world_machines_science_buildings_alloys_cost_add = 2
+		oxr_mdlc_world_machines_science_buildings_produces_mult = 0.1
+	}
+}
+oxr_mdlc_tech_boost_3_intergalactic_file_system = {
+	area = physics
+	category = { computing }
+	is_reverse_engineerable = no
+	tier = 3
+	weight = @tier3cost1
+	cost = @tier3cost1
+	prerequisites = {
+		oxr_mdlc_tech_boost_2_specialized_hardware_instructions
+	}
+	modifier = {
+		intel_encryption_add = 0.5
+		oxr_mdlc_world_machines_science_buildings_produces_mult = 0.1
+	}
+}
+oxr_mdlc_tech_boost_4_improved_atom_modeling = {
+	area = physics
+	category = { computing }
+	is_reverse_engineerable = no
+	tier = 3
+	weight = @tier3cost3
+	cost = @tier3cost3
+	prerequisites = {
+		oxr_mdlc_tech_boost_3_intergalactic_file_system
+	}
+	modifier = {
+		category_computing_research_speed_mult = 0.05
+		category_field_manipulation_research_speed_mult = 0.05
+		category_particles_research_speed_mult = 0.05
+		oxr_mdlc_world_machines_science_buildings_produces_mult = 0.1
+	}
+}
 
 # oxr_mdlc_pc_machine_auto_district_infrastructure
 oxr_mdlc_tech_world_machine_district_infrastructure = {
