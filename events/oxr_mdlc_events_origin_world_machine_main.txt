@@ -1169,3 +1169,25 @@ planet_event = {
 		}
 	}
 }
+
+## CUSTOM HANDLERS FOR ON_ACTIONS
+# on_planet_transfer WM origin country gets WM back
+planet_event = {
+	id = oxr_mdlc_origin_wm_main.5000
+	hide_window = yes
+	is_triggered_only = yes
+	pre_triggers = {
+		has_owner = yes
+	}
+	trigger = {
+		is_planet_world_machine = yes
+		space_owner = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+		}
+	}
+	immediate = {
+		fire_on_action = {
+			on_action = on_world_machine_planet_gained
+		}
+	}
+}
