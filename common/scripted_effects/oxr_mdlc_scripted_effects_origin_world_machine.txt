@@ -1527,3 +1527,52 @@ oxr_mdlc_planet_add_wmc_core_deposit_if_missing = {
 		add_deposit = oxr_mdlc_d_world_machine_core
 	}
 }
+
+oxr_mdlc_planet_fix_things_after_restoring_ownership = {
+	# We reclaimed a world-machine after war, but it's a little borked
+	repair_all_buildings = yes
+	
+	if = {
+		limit = { has_building = building_hive_capital }
+		remove_building = building_hive_capital
+	}
+	if = {
+		limit = { has_building = building_colony_shelter }
+		remove_building = building_colony_shelter
+	}
+	if = {
+		limit = { has_building = building_ancient_control_center }
+		remove_building = building_ancient_control_center
+	}
+	if = {
+		limit = { has_building = building_ancient_palace }
+		remove_building = building_ancient_palace
+	}
+	if = {
+		limit = { has_building = building_machine_capital_nanotech }
+		remove_building = building_machine_capital_nanotech
+	}
+	if = {
+		limit = { has_building = building_deployment_post }
+		remove_building = building_deployment_post
+	}
+	if = { limit = { has_building = building_machine_capital } remove_building = building_machine_capital }
+	if = { limit = { has_building = building_machine_major_capital } remove_building = building_machine_major_capital }
+	if = { limit = { has_building = building_machine_system_capital } remove_building = building_machine_system_capital }
+
+	if = {
+		limit = {
+			NOR = {
+				has_building = oxr_mdlc_world_machines_building_auto_capital
+				oxr_mdlc_has_upgraded_capital = yes
+			}
+		}
+		add_building = oxr_mdlc_world_machines_building_auto_capital
+	}
+}
+
+oxr_mdlc_planet_decision_repopulate_world_machine = {
+	# Events killed off our pops and now we have no colony!
+	# Player is at the planet view, going to click 'decision'
+	# and ends up in this effect
+}

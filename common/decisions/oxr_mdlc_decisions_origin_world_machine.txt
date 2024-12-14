@@ -306,3 +306,36 @@ oxr_mdlc_decisions_origin_wm_self_destruct = {
 		}
 	}
 }
+
+oxr_mdlc_decision_origin_wm_reclaim_colony = {
+	# owned_planets_only = yes
+	enactment_time = 60
+	resources = {
+		category = oxr_mdlc_category_wm_decisions
+		cost = {
+			energy = 1000
+		}
+	}
+	potential = {
+		is_colony = no
+		exists = space_owner
+		space_owner = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+		}
+		is_planet_world_machine = yes
+	}
+	allow = {
+		is_colony = no
+	}
+	effect = {
+		create_colony = {
+			owner = space_owner
+			species = space_owner.founder_species
+		}
+		oxr_mdlc_planet_fix_things_after_restoring_ownership = yes
+		# create_pop = {
+		# 	species = space_owner.founder_species
+		# 	count = 3
+		# }
+	}
+}
