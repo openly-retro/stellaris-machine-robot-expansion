@@ -1249,7 +1249,13 @@ oxr_mdlc_planet_create_world_machine_colony = {
 	add_deposit = oxr_mdlc_d_world_machine_core
 	remove_building = building_deployment_post
 	add_building = oxr_mdlc_world_machines_building_auto_capital
-	rikk_mdlc_origin_world_machine_random_add_terraforming_blockers = yes #not part of below so they always appear since they have benefical effects
+	if = {
+		limit = {
+			has_planet_flag = rikk_mdlc_world_machine_suitable
+		}
+		rikk_mdlc_origin_world_machine_add_random_blockers = yes
+		remove_planet_flag = rikk_mdlc_world_machine_suitable
+	}
 	if = {
 		limit = {
 			from = {
@@ -1281,16 +1287,6 @@ oxr_mdlc_planet_create_world_machine_colony = {
 		}
 	}
 
-	# Effectively set max storage amount to 0
-	# oxr_mdlc_planet_calculate_max_core_storage = yes
-	# set_variable = {
-	# 	which = oxr_mdlc_world_machine_expansion_levels
-	# 	value = 0
-	# }
-	# set_variable = {
-	# 	which = oxr_mdlc_planet_world_machine_cores_amount
-	# 	value = 0
-	# }
 	set_saved_date = {
 		key = oxr_mdlc_world_machine_founded_date
 		days_from_present = 0
@@ -1302,13 +1298,6 @@ oxr_mdlc_planet_create_world_machine_colony = {
 	}
 	# Balance pops. Always have 3
 	if = {
-		# limit = {
-		# 	from = {
-		# 		NOT = {
-		# 			has_tradition = tr_expansion_colonization_fever_machine
-		# 		}
-		# 	}
-		# }
 		limit = {
 			num_pops = 2
 			from = {
@@ -1575,4 +1564,12 @@ oxr_mdlc_planet_decision_repopulate_world_machine = {
 	# Events killed off our pops and now we have no colony!
 	# Player is at the planet view, going to click 'decision'
 	# and ends up in this effect
+}
+
+oxr_mdlc_planet_add_rikk_terraforming_queued_modifier = {
+	# Add a timed modifier while the decision is in progress to give visual info
+	add_modifier = {
+		modifier = rikk_mdlc_decision_world_machine_convert_$PLANET_CLASS$_on_queued_modifier
+		days = $DAYS$
+	}
 }
