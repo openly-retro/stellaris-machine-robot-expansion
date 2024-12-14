@@ -20,24 +20,30 @@ rikk_mdlc_decision_world_machine_solidify_molten = {
 			alloys = 500
 		}
 	}
-	
+
 	potential = {
 		exists = space_owner
 		is_planet_class = pc_molten
-		space_owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		space_owner = {
+			oxr_mdlc_planet_owner_can_build_wm_districts = yes
+			has_technology = oxr_mdlc_tech_geologic_heat_shielding_2
+		}
 		NOT = { has_planet_flag = rikk_mdlc_world_machine_suitable }
 	}
 	
 	allow = {
-		space_owner = { has_technology = oxr_mdlc_tech_geologic_heat_shielding_2 }
+		is_terraforming = no
+		NOT = { has_modifier = rikk_mdlc_decision_world_machine_convert_pc_molten_on_queued_modifier }
 	}
 
 	effect = {
 		custom_tooltip = rikk_mdlc_decision_world_machine_solidify_molten_effect
-		add_modifier = { modifier = rikk_mdlc_world_machine_molten_mod }
-		hidden_effect = { 
+
+		hidden_effect = {
+			add_modifier = { modifier = rikk_mdlc_world_machine_molten_mod }
 			set_planet_flag = rikk_mdlc_world_machine_suitable
-			rikk_mdlc_origin_world_machine_add_random_blockers = { WORLD_TYPE = molten}
+			# rikk_mdlc_origin_world_machine_add_random_blockers = { WORLD_TYPE = molten}
+			remove_modifier = rikk_mdlc_decision_world_machine_convert_pc_molten_on_queued_modifier
 		}
 		space_owner = {
 			create_message = {
@@ -46,6 +52,12 @@ rikk_mdlc_decision_world_machine_solidify_molten = {
 				days = 36
 				target = THIS
 			}
+		}
+	}
+	on_queued = {
+		oxr_mdlc_planet_add_rikk_terraforming_queued_modifier = {
+			PLANET_CLASS = pc_molten
+			DAYS = @wmupgradelength3
 		}
 	}
 }
@@ -63,18 +75,24 @@ rikk_mdlc_decision_world_machine_defrost_cryosphere = {
 	potential = {
 		exists = space_owner
 		is_planet_class = pc_frozen
-		space_owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		space_owner = {
+			oxr_mdlc_planet_owner_can_build_wm_districts = yes
+			has_technology = oxr_mdlc_tech_geologic_scaling_thermoelectrics
+		}
 		NOT = { has_planet_flag = rikk_mdlc_world_machine_suitable }
 	}
 	
 	allow = {
-		space_owner = { has_technology = oxr_mdlc_tech_geologic_scaling_thermoelectrics }
+		is_terraforming = no
+		NOT = { has_modifier = rikk_mdlc_decision_world_machine_convert_pc_frozen_on_queued_modifier }
 	}
 	
 	effect = {
-		add_modifier = { modifier = rikk_mdlc_world_machine_frozen_mod }
-		hidden_effect = { 
+		custom_tooltip = rikk_mdlc_decision_world_machine_defrost_cryosphere_effect
+		hidden_effect = {
+			add_modifier = { modifier = rikk_mdlc_world_machine_frozen_mod }
 			set_planet_flag = rikk_mdlc_world_machine_suitable
+			remove_modifier = rikk_mdlc_decision_world_machine_convert_pc_frozen_on_queued_modifier
 		}
 		space_owner = {
 			create_message = {
@@ -83,6 +101,12 @@ rikk_mdlc_decision_world_machine_defrost_cryosphere = {
 				days = 36
 				target = THIS
 			}
+		}
+	}
+	on_queued = {
+		oxr_mdlc_planet_add_rikk_terraforming_queued_modifier = {
+			PLANET_CLASS = pc_frozen
+			DAYS = @wmupgradelength3
 		}
 	}
 }
@@ -102,27 +126,26 @@ rikk_mdlc_decision_world_machine_cleanse_toxic = {
 	potential = {
 		exists = space_owner
 		is_planet_class = pc_toxic
-		space_owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		space_owner = {
+			oxr_mdlc_planet_owner_can_build_wm_districts = yes
+			has_technology = tech_climate_restoration
+		}
 		NOT = { has_planet_flag = rikk_mdlc_world_machine_suitable }
 	}
 	
 	allow = {
-		space_owner = { has_technology = tech_climate_restoration }
 		is_terraforming = no
-		space_owner = {
-			has_resource = {
-				type = oxr_mdlc_world_machine_core amount >= 1
-			}
-		}
 		has_anomaly = no
+		NOT = { has_modifier = rikk_mdlc_decision_world_machine_convert_pc_toxic_on_queued_modifier }
 	}
 	
 	effect = {
-		add_modifier = { modifier = rikk_mdlc_world_machine_toxic_mod }
-		start_terraform_process = xvcv_mdlc_pc_machine_auto
+		custom_tooltip = rikk_mdlc_decision_world_machine_cleanse_toxic_effect
 		hidden_effect = {
+			add_modifier = { modifier = rikk_mdlc_world_machine_toxic_mod }
 			set_planet_flag = rikk_mdlc_world_machine_suitable
-			rikk_mdlc_origin_world_machine_add_random_blockers = { WORLD_TYPE = toxic}
+			# rikk_mdlc_origin_world_machine_add_random_blockers = { WORLD_TYPE = toxic}
+			remove_modifier = rikk_mdlc_decision_world_machine_convert_pc_toxic_on_queued_modifier
 		}
 		space_owner = {
 			create_message = {
@@ -131,6 +154,12 @@ rikk_mdlc_decision_world_machine_cleanse_toxic = {
 				days = 36
 				target = THIS
 			}
+		}
+	}
+	on_queued = {
+		oxr_mdlc_planet_add_rikk_terraforming_queued_modifier = {
+			PLANET_CLASS = pc_toxic
+			DAYS = @wmupgradelength2
 		}
 	}
 }
@@ -180,7 +209,13 @@ rikk_mdlc_decision_world_machine_harness_nanites = {
 				target = THIS
 			}
 		}
-		start_terraform_process = xvcv_mdlc_pc_machine_auto
+		# start_terraform_process = xvcv_mdlc_pc_machine_auto
+	}
+	on_queued = {
+		oxr_mdlc_planet_add_rikk_terraforming_queued_modifier = {
+			PLANET_CLASS = pc_gray_goo
+			DAYS = @wmupgradelength1
+		}
 	}
 }
 
@@ -194,7 +229,7 @@ rikk_mdlc_decision_world_machine_crust_roots = {
 			minerals = 2000
 		}
 	}
-	
+
 	potential = {
 		exists = owner
 		owner = {
