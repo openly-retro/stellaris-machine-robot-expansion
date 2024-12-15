@@ -1265,7 +1265,6 @@ oxr_mdlc_planet_create_world_machine_colony = {
 			}
 		}
 		oxr_mdlc_origin_world_machine_random_add_all_blockers = yes
-		oxr_mdlc_origin_world_machine_create_digsite_for_blocker = yes
 		# Don't trigger the event post-terraform if planet was ruined
 		if = {
 			limit = {
@@ -1278,6 +1277,15 @@ oxr_mdlc_planet_create_world_machine_colony = {
 				id = oxr_mdlc_origin_wm_main.501
 			}
 		}
+	}
+	# add arc site, if player lacks tech
+	if = {
+		limit = {
+			from = {
+				NOT = { has_technology = oxr_mdlc_tech_world_machine_planetary_proficiency }
+			}
+		}
+		oxr_mdlc_origin_world_machine_create_digsite_for_blocker = yes
 	}
 	add_modifier = { modifier = "planet_population_control_gestalt" days = -1 }
 	from = {
@@ -1571,5 +1579,15 @@ oxr_mdlc_planet_add_rikk_terraforming_queued_modifier = {
 	add_modifier = {
 		modifier = rikk_mdlc_decision_world_machine_convert_$PLANET_CLASS$_on_queued_modifier
 		days = $DAYS$
+	}
+}
+
+oxr_mdlc_country_clear_wm_arc_sites_on_knowledge_gain = {
+	# Remove arc sites after proficiency has been gained
+	every_archaeological_site = {
+		limit = {
+			oxr_mdlc_arc_site_is_wm_blocker = yes
+		}
+		destroy_archaeological_site = this
 	}
 }
