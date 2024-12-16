@@ -1,32 +1,10 @@
-base_buildtime = $BUILD_TIME$
-category = resource
-resources = {
-	category = oxr_mdlc_world_machines_food_buildings
-	cost = { minerals = $BUILD_COST$ }
-	produces = { food = $FOOD$ }
-	upkeep = { energy = $UPKEEP$ }
-}
-# ai_resource_production = {
-# 	food = $AI_FOOD$
-# 	trigger = { always = yes }
-# }
-destroy_trigger = {
-	exists = owner
-	OR = {
-		owner = {
-			is_ai = yes
-			country_uses_food = no
-		}
-		planet = {
-			NOT = { is_planet_class = pc_habitat }
-			free_building_slots = 0
-			owner = {
-				is_ai = yes
-				has_monthly_income = {
-					resource = food
-					value > 100
-				}
-			}
-		}
-	}
+inline_script = {
+	script = planet/buildings/auto/oxr_mdlc_basic_resource
+	TIER = $TIER$
+	CATEGORY = oxr_mdlc_world_machines_food_buildings
+	PRODUCES = food
+	BASE_JOB_OUTPUT = $BASE_JOB_OUTPUT$
+	RS_BUILD = minerals
+	RS_RARE = society_research
+	RS_UPKEEP = energy
 }

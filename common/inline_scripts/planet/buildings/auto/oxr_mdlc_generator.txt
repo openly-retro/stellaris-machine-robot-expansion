@@ -1,29 +1,31 @@
-base_buildtime = $BUILD_TIME$
+base_buildtime = @[ $TIER$ * 180 + 180 ]
 category = resource
 resources = {
 	category = oxr_mdlc_world_machines_generator_buildings
 	cost = {
-		minerals = $BUILD_COST$
-		volatile_motes = $RARE_COST$
+		$RS_BUILD$ = @[ $TIER$ * 200 + 200 ]
+		$RS_RARE$ = @[ $TIER$ * 2 - 50 ]
 	}
 	produces = {
-		energy = $PRODUCES_ENERGY$
+		$PRODUCES$ = @[ $TIER$ * 2 * $BASE_JOB_OUTPUT$ ]
 	}
+	upkeep = {
+		$RS_RARE$ = @[ $TIER$ * 3]
+	}
+	# BIOFUEL CODE
 	upkeep = {
 		trigger = {
 			NOT = { has_active_building = oxr_mdlc_world_machines_biofuel_refit_1 }
 		}
-		minerals = $UPKEEP$
+		# mineral tax on energy buildings is the only logical option available
+		# unless the upkeep is simply energy
+		$RS_UPKEEP$ = @[ $TIER$ * 2 ]
 	}
-	upkeep = {
-		volatile_motes = $RARE_UPKEEP$
-	}
-	# BIOFUEL
 	upkeep = {
 		trigger = {
 			has_active_building = oxr_mdlc_world_machines_biofuel_refit_1
 		}
-		food = $BIOFUEL_UPKEEP$
+		food = @[ $TIER$ * 4 ]
 	}
 }
 # desc
