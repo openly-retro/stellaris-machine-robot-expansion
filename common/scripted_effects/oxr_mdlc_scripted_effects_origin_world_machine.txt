@@ -12,6 +12,12 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 	prev = {
 		set_country_flag = oxr_mdlc_origin_world_machine_feature_enabled
 	}
+	owner = {
+		set_variable = {
+			which = oxr_mdlc_world_machine_defense_armies_per_district
+			value = @oxr_mdlc_world_machine_defense_armies_per_district
+		}
+	}
 	# set homeworld to auto-capital
 	set_colony_type = xvcv_mdlc_col_machine_auto_capital
 
@@ -242,6 +248,23 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 		limit = { has_building = building_machine_assembly_plant }
 		remove_building = building_machine_assembly_plant
 	}
+	# Food adjustment
+	if = {
+		limit = {
+			prev = {
+				OR = {
+					has_civic = civic_machine_beastmasters
+					has_civic = civic_machine_catalytic_processing
+				}
+			}
+		}
+		add_district = xvcv_mdlc_pc_machine_auto_district_farming
+		prev = {
+			add_resource = {
+				food = 100
+			}
+		}
+	}
 
 	# Add armies! there should be a few districts already
 	# oxr_mdlc_origin_world_machine_add_armies_at_start = yes
@@ -260,12 +283,6 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 	# }
 	planet_event = {
 		id = oxr_mdlc_origin_wm_main.2000
-	}
-	owner = {
-		set_variable = {
-			which = oxr_mdlc_world_machine_defense_armies_per_district
-			value = @oxr_mdlc_world_machine_defense_armies_per_district
-		}
 	}
 
 	# Fix founder species habitability *eyeroll*
@@ -753,6 +770,7 @@ oxr_mdlc_find_neighbor_planet_and_convert_to_ruined_world_machine = {
 				add_anomaly = {
 					category = oxr_mdlc_anomaly_ruined_wm
 				}
+				clear_planet_modifiers = yes
 			}
 		}
 	}
@@ -1231,7 +1249,13 @@ oxr_mdlc_planet_create_world_machine_colony = {
 	add_deposit = oxr_mdlc_d_world_machine_core
 	remove_building = building_deployment_post
 	add_building = oxr_mdlc_world_machines_building_auto_capital
-	rikk_mdlc_origin_world_machine_random_add_terraforming_blockers = yes #not part of below so they always appear since they have benefical effects
+	if = {
+		limit = {
+			has_planet_flag = rikk_mdlc_world_machine_suitable
+		}
+		rikk_mdlc_origin_world_machine_add_random_blockers = yes
+		remove_planet_flag = rikk_mdlc_world_machine_suitable
+	}
 	if = {
 		limit = {
 			from = {
@@ -1241,7 +1265,6 @@ oxr_mdlc_planet_create_world_machine_colony = {
 			}
 		}
 		oxr_mdlc_origin_world_machine_random_add_all_blockers = yes
-		oxr_mdlc_origin_world_machine_create_digsite_for_blocker = yes
 		# Don't trigger the event post-terraform if planet was ruined
 		if = {
 			limit = {
@@ -1255,6 +1278,15 @@ oxr_mdlc_planet_create_world_machine_colony = {
 			}
 		}
 	}
+	# add arc site, if player lacks tech
+	if = {
+		limit = {
+			from = {
+				NOT = { has_technology = oxr_mdlc_tech_world_machine_planetary_proficiency }
+			}
+		}
+		oxr_mdlc_origin_world_machine_create_digsite_for_blocker = yes
+	}
 	add_modifier = { modifier = "planet_population_control_gestalt" days = -1 }
 	from = {
 		oxr_mdlc_country_world_machine_cores_recalc_amount = yes
@@ -1263,16 +1295,6 @@ oxr_mdlc_planet_create_world_machine_colony = {
 		}
 	}
 
-	# Effectively set max storage amount to 0
-	# oxr_mdlc_planet_calculate_max_core_storage = yes
-	# set_variable = {
-	# 	which = oxr_mdlc_world_machine_expansion_levels
-	# 	value = 0
-	# }
-	# set_variable = {
-	# 	which = oxr_mdlc_planet_world_machine_cores_amount
-	# 	value = 0
-	# }
 	set_saved_date = {
 		key = oxr_mdlc_world_machine_founded_date
 		days_from_present = 0
@@ -1284,13 +1306,6 @@ oxr_mdlc_planet_create_world_machine_colony = {
 	}
 	# Balance pops. Always have 3
 	if = {
-		# limit = {
-		# 	from = {
-		# 		NOT = {
-		# 			has_tradition = tr_expansion_colonization_fever_machine
-		# 		}
-		# 	}
-		# }
 		limit = {
 			num_pops = 2
 			from = {
@@ -1384,9 +1399,9 @@ oxr_mdlc_planet_create_deposit_upgrade_flags = {
 	}
 	if = {
 		limit = {
-			has_deposit = rikk_mdlc_d_world_machine_core_tap
+			has_deposit = rikk_mdlc_d_world_machine_inner_core_tap
 		}
-		set_planet_flag = has_rikk_mdlc_d_world_machine_core_tap
+		set_planet_flag = has_rikk_mdlc_d_world_machine_inner_core_tap
 	}
 	if = {
 		limit = {
@@ -1484,10 +1499,10 @@ oxr_mdlc_planet_restore_deposit_upgrades = {
 	}
 	if = {
 		limit = {
-			has_planet_flag = has_rikk_mdlc_d_world_machine_core_tap
+			has_planet_flag = has_rikk_mdlc_d_world_machine_inner_core_tap
 		}
-		add_deposit = rikk_mdlc_d_world_machine_core_tap
-		remove_planet_flag = has_rikk_mdlc_d_world_machine_core_tap
+		add_deposit = rikk_mdlc_d_world_machine_inner_core_tap
+		remove_planet_flag = has_rikk_mdlc_d_world_machine_inner_core_tap
 	}
 	if = {
 		limit = {
@@ -1507,5 +1522,72 @@ oxr_mdlc_planet_add_wmc_core_deposit_if_missing = {
 			is_planet_world_machine = yes
 		}
 		add_deposit = oxr_mdlc_d_world_machine_core
+	}
+}
+
+oxr_mdlc_planet_fix_things_after_restoring_ownership = {
+	# We reclaimed a world-machine after war, but it's a little borked
+	repair_all_buildings = yes
+	
+	if = {
+		limit = { has_building = building_hive_capital }
+		remove_building = building_hive_capital
+	}
+	if = {
+		limit = { has_building = building_colony_shelter }
+		remove_building = building_colony_shelter
+	}
+	if = {
+		limit = { has_building = building_ancient_control_center }
+		remove_building = building_ancient_control_center
+	}
+	if = {
+		limit = { has_building = building_ancient_palace }
+		remove_building = building_ancient_palace
+	}
+	if = {
+		limit = { has_building = building_machine_capital_nanotech }
+		remove_building = building_machine_capital_nanotech
+	}
+	if = {
+		limit = { has_building = building_deployment_post }
+		remove_building = building_deployment_post
+	}
+	if = { limit = { has_building = building_machine_capital } remove_building = building_machine_capital }
+	if = { limit = { has_building = building_machine_major_capital } remove_building = building_machine_major_capital }
+	if = { limit = { has_building = building_machine_system_capital } remove_building = building_machine_system_capital }
+
+	if = {
+		limit = {
+			NOR = {
+				has_building = oxr_mdlc_world_machines_building_auto_capital
+				oxr_mdlc_has_upgraded_capital = yes
+			}
+		}
+		add_building = oxr_mdlc_world_machines_building_auto_capital
+	}
+}
+
+oxr_mdlc_planet_decision_repopulate_world_machine = {
+	# Events killed off our pops and now we have no colony!
+	# Player is at the planet view, going to click 'decision'
+	# and ends up in this effect
+}
+
+oxr_mdlc_planet_add_rikk_terraforming_queued_modifier = {
+	# Add a timed modifier while the decision is in progress to give visual info
+	add_modifier = {
+		modifier = rikk_mdlc_decision_world_machine_convert_$PLANET_CLASS$_on_queued_modifier
+		days = $DAYS$
+	}
+}
+
+oxr_mdlc_country_clear_wm_arc_sites_on_knowledge_gain = {
+	# Remove arc sites after proficiency has been gained
+	every_archaeological_site = {
+		limit = {
+			oxr_mdlc_arc_site_is_wm_blocker = yes
+		}
+		destroy_archaeological_site = this
 	}
 }

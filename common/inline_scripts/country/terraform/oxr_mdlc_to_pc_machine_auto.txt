@@ -1,3 +1,6 @@
+# This is for the AP only;
+# In the "core" mod, XVCV didn't allow terraforming directly to world machines from any planet
+# So I, Retro, will stick by that rule for now
 resources = {
 	category = terraforming
 	cost = { 
@@ -7,20 +10,20 @@ resources = {
 		}
 		oxr_mdlc_world_machine_core = 1
 	}
-	cost = { 
-		trigger = {
-			exists = owner
-			AND = {
-				has_ascension_perk = xvcv_mdlc_ap_world_machines
-				NOT = { has_origin = oxr_mdlc_origin_world_machine_awakened }
-			}
-		}
-		energy = 10000
-	}
+	# cost = { 
+	# 	trigger = {
+	# 		exists = owner
+	# 		AND = {
+	# 			has_ascension_perk = xvcv_mdlc_ap_world_machines
+	# 			NOT = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+	# 		}
+	# 	}
+	# 	energy = 10000
+	# }
 }
 duration = @oxr_mdlc_world_machine_direct_time
 potential = {
-	oxr_mdlc_planet_owner_can_build_wm_districts = yes
+	has_origin = oxr_mdlc_origin_world_machine_awakened
 }
 condition = {
 }
@@ -38,6 +41,6 @@ effect = {
 		fire_on_action = {
 			on_action = on_world_machine_pc_machine_auto_terraforming_complete
 		}
-		remove_planet_flag = rikk_mdlc_world_machine_suitable
+		# remove_planet_flag = rikk_mdlc_world_machine_suitable
 	}
 }

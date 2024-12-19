@@ -2,6 +2,7 @@
 @buildings_t2 = 2
 @buildings_t3 = 3
 @buildings_t4 = 4
+@buildings_t5 = 5
 
 @tier_2_capital_defense_armies = 4
 @tier_3_capital_defense_armies = 8
@@ -920,7 +921,6 @@ oxr_mdlc_world_machines_building_fractal_sanitizer_3 = {
 		"tech_basic_science_lab_3"
 		"oxr_mdlc_tech_world_machines_unlocked"
 	}
-
 }
 # RESEARCH T4
 oxr_mdlc_world_machines_building_fractal_sanitizer_4 = {
@@ -1194,11 +1194,8 @@ oxr_mdlc_world_machines_auto_farm_1 = {
 	# RESOURCES & THE REST
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_auto_farm
-		FOOD = 10
-		BUILD_COST = @b0_minerals
-		UPKEEP = 0.5
-		# AI_FOOD = 10
-		BUILD_TIME = @b0_time
+		TIER = 1
+		BASE_JOB_OUTPUT = @oxr_mdlc_wm_base_farmer_output
 	}
 	prerequisites = {
 		"tech_hydroponics"
@@ -1215,10 +1212,8 @@ oxr_mdlc_world_machines_auto_farm_2 = {
 	# RESOURCES & THE REST
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_auto_farm
-		FOOD = 20
-		BUILD_COST = @b1_minerals
-		UPKEEP = @b1_upkeep
-		BUILD_TIME = @b1_time
+		TIER = 2
+		BASE_JOB_OUTPUT = @oxr_mdlc_wm_base_farmer_output
 	}
 	prerequisites = {
 		"tech_eco_simulation"
@@ -1235,10 +1230,8 @@ oxr_mdlc_world_machines_auto_farm_3 = {
 	# RESOURCES & THE REST
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_auto_farm
-		FOOD = 30
-		BUILD_COST = @b2_minerals
-		UPKEEP = @b2_upkeep
-		BUILD_TIME = @b2_time
+		TIER = 3
+		BASE_JOB_OUTPUT = @oxr_mdlc_wm_base_farmer_output
 	}
 	prerequisites = {
 		"tech_gene_crops"
@@ -1255,10 +1248,8 @@ oxr_mdlc_world_machines_auto_farm_4 = {
 	# RESOURCES & THE REST
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_auto_farm
-		FOOD = 40
-		BUILD_COST = @b3_minerals
-		UPKEEP = @b3_upkeep
-		BUILD_TIME = @b2_time
+		TIER = 4
+		BASE_JOB_OUTPUT = @oxr_mdlc_wm_base_farmer_output
 	}
 	prerequisites = {
 		"tech_nano_vitality_crops"
@@ -1281,10 +1272,8 @@ oxr_mdlc_world_machines_auto_farm_5 = {
 	# RESOURCES & THE REST
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_auto_farm
-		FOOD = 50
-		BUILD_COST = @b3_minerals
-		UPKEEP = @b4_upkeep
-		BUILD_TIME = @b3_time
+		TIER = 5
+		BASE_JOB_OUTPUT = @oxr_mdlc_wm_base_farmer_output
 	}
 	prerequisites = {
 		"tech_food_processing_2"
@@ -1348,7 +1337,7 @@ oxr_mdlc_world_machines_building_auto_farm_logistics_2 = {
 	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 	allow = {
 		exists = owner
-		has_upgraded_capital = yes
+		oxr_mdlc_has_upgraded_capital = yes
 	}
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_auto_farm_boost
@@ -1376,12 +1365,8 @@ oxr_mdlc_world_machines_auto_mine_1 = {
 	# RESOURCES & THE REST
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_mining
-		PRODUCES_MINERALS = 8
-		BUILD_COST = @b0_minerals
-		RARE_COST = 0
-		UPKEEP = 0.5
-		BUILD_TIME = @b0_time
-		RARE_UPKEEP = 0
+		TIER = 1
+		BASE_JOB_OUTPUT = @oxr_mdlc_wm_base_miner_output
 	}
 	inline_script = planet/buildings/auto/oxr_destroy
 	prerequisites = {
@@ -1399,12 +1384,8 @@ oxr_mdlc_world_machines_auto_mine_2 = {
 	# RESOURCES & THE REST
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_mining
-		PRODUCES_MINERALS = 16
-		BUILD_COST = @b1_minerals
-		RARE_COST = 0
-		UPKEEP = @b1_upkeep
-		BUILD_TIME = @b1_time
-		RARE_UPKEEP = 0
+		TIER = 2
+		BASE_JOB_OUTPUT = @oxr_mdlc_wm_base_miner_output
 	}
 	inline_script = planet/buildings/auto/oxr_destroy
 	prerequisites = {
@@ -1421,12 +1402,8 @@ oxr_mdlc_world_machines_auto_mine_3 = {
 	# RESOURCES & THE REST
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_mining
-		PRODUCES_MINERALS = 24
-		BUILD_COST = @b2_minerals
-		RARE_COST = @b2_rare_cost
-		UPKEEP = @b2_upkeep
-		BUILD_TIME = @b2_time
-		RARE_UPKEEP = @b2_rare_upkeep
+		TIER = 3
+		BASE_JOB_OUTPUT = @oxr_mdlc_wm_base_miner_output
 	}
 	inline_script = planet/buildings/auto/oxr_destroy
 	prerequisites = {
@@ -1443,12 +1420,8 @@ oxr_mdlc_world_machines_auto_mine_4 = {
 	# RESOURCES & THE REST
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_mining
-		PRODUCES_MINERALS = 48  # 12 x 4
-		BUILD_COST = @c6_minerals
-		RARE_COST = @c6_rare_cost
-		UPKEEP = @c6_upkeep
-		BUILD_TIME = @c6_time
-		RARE_UPKEEP = @c6_rare_upkeep
+		TIER = 4
+		BASE_JOB_OUTPUT = @oxr_mdlc_wm_base_miner_output
 	}
 	inline_script = planet/buildings/auto/oxr_destroy
 	prerequisites = {
@@ -1477,12 +1450,8 @@ oxr_mdlc_world_machines_auto_mine_5 = {
 	# RESOURCES & THE REST
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_mining
-		PRODUCES_MINERALS = 80
-		BUILD_COST = @c10_minerals
-		RARE_COST = @c10_rare_cost
-		UPKEEP = @c10_upkeep
-		BUILD_TIME = @c10_time
-		RARE_UPKEEP = @c10_rare_upkeep
+		TIER = 5
+		BASE_JOB_OUTPUT = @oxr_mdlc_wm_base_miner_output
 	}
 	inline_script = planet/buildings/auto/oxr_destroy
 	prerequisites = {
@@ -1562,13 +1531,12 @@ oxr_mdlc_world_machines_auto_generator_1 = {
 	# RESOURCES & THE REST
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_generator
-		PRODUCES_ENERGY = 16
-		BUILD_COST = @b0_minerals
-		RARE_COST = 0
-		UPKEEP = @b0_upkeep
-		BUILD_TIME = @b0_time
-		RARE_UPKEEP = 0
-		BIOFUEL_UPKEEP = 4  # B1 = 2, *2
+		TIER = 1
+		PRODUCES = energy
+		BASE_JOB_OUTPUT = @oxr_mdlc_wm_base_technician_output
+		RS_BUILD = minerals
+		RS_RARE = physics_research
+		RS_UPKEEP = minerals
 	}
 	inline_script = planet/buildings/auto/oxr_destroy
 	prerequisites = {
@@ -1586,13 +1554,12 @@ oxr_mdlc_world_machines_auto_generator_2 = {
 	# RESOURCES & THE REST
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_generator
-		PRODUCES_ENERGY = 32
-		BUILD_COST = @b1_minerals
-		RARE_COST = 0
-		UPKEEP = @b1_upkeep
-		BUILD_TIME = @b1_time
-		RARE_UPKEEP = 0
-		BIOFUEL_UPKEEP = 8  # B2 = 2, *2
+		TIER = 2
+		PRODUCES = energy
+		BASE_JOB_OUTPUT = @oxr_mdlc_wm_base_technician_output
+		RS_BUILD = minerals
+		RS_RARE = physics_research
+		RS_UPKEEP = minerals
 	}
 	inline_script = planet/buildings/auto/oxr_destroy
 	prerequisites = {
@@ -1609,13 +1576,12 @@ oxr_mdlc_world_machines_auto_generator_3 = {
 	# RESOURCES & THE REST
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_generator
-		PRODUCES_ENERGY = 48
-		BUILD_COST = @b2_minerals
-		RARE_COST = @b2_rare_cost
-		UPKEEP = @b2_upkeep
-		BUILD_TIME = @b2_time
-		RARE_UPKEEP = @b2_rare_upkeep
-		BIOFUEL_UPKEEP = 12  # B2 = 5, *2
+		TIER = 3
+		PRODUCES = energy
+		BASE_JOB_OUTPUT = @oxr_mdlc_wm_base_technician_output
+		RS_BUILD = minerals
+		RS_RARE = physics_research
+		RS_UPKEEP = minerals
 	}
 	inline_script = planet/buildings/auto/oxr_destroy
 	prerequisites = {
@@ -1632,13 +1598,12 @@ oxr_mdlc_world_machines_auto_generator_4 = {
 	# RESOURCES & THE REST
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_generator
-		PRODUCES_ENERGY = 64
-		BUILD_COST = @b3_minerals
-		RARE_COST = @b3_rare_cost
-		UPKEEP = @b3_upkeep
-		BUILD_TIME = @b3_time
-		RARE_UPKEEP = @b3_rare_upkeep
-		BIOFUEL_UPKEEP = 16  # B3 = 8, *2
+		TIER = 4
+		PRODUCES = energy
+		BASE_JOB_OUTPUT = @oxr_mdlc_wm_base_technician_output
+		RS_BUILD = minerals
+		RS_RARE = physics_research
+		RS_UPKEEP = minerals
 	}
 	inline_script = planet/buildings/auto/oxr_destroy
 	prerequisites = {
@@ -1667,13 +1632,12 @@ oxr_mdlc_world_machines_auto_generator_5 = {
 	# RESOURCES & THE REST
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_generator
-		PRODUCES_ENERGY = 80
-		BUILD_COST = @b3_minerals
-		RARE_COST = @b3_rare_cost
-		UPKEEP = @b3_upkeep
-		BUILD_TIME = @b3_time
-		RARE_UPKEEP = @b3_rare_upkeep
-		BIOFUEL_UPKEEP = 20  # B3 = 8, *2
+		TIER = 5
+		PRODUCES = energy
+		BASE_JOB_OUTPUT = @oxr_mdlc_wm_base_technician_output
+		RS_BUILD = minerals
+		RS_RARE = physics_research
+		RS_UPKEEP = minerals
 	}
 	inline_script = planet/buildings/auto/oxr_destroy
 	prerequisites = {
@@ -2207,14 +2171,19 @@ oxr_mdlc_building_auto_organoid_research_center = {
 	prerequisites = {
 		"oxr_mdlc_tech_organoid_1"
 	}
+	show_tech_unlock_if = {
+		OR = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+			has_ascension_perk = xvcv_mdlc_ap_world_machines
+		}
+	}
 	allow = {
 
 	}
+	# custom_tooltip = oxr_mdlc_building_auto_organoid_research_center_effect
 	planet_modifier = {
-		xvcv_mdlc_world_machines_computer_districts_energy_upkeep_add = -0.5
-		xvcv_mdlc_world_machines_computer_districts_food_upkeep_add = 0.15
-		# oxr_mdlc_world_machines_science_buildings_energy_upkeep_add = -0.5
-		# oxr_mdlc_world_machines_science_buildings_food_upkeep_add = 0.15
+		xvcv_mdlc_world_machines_computer_districts_energy_upkeep_mult = -0.1
+		xvcv_mdlc_world_machines_computer_districts_food_upkeep_add = 3
 	}
 	triggered_planet_modifier = {
 		potential = {
@@ -2222,10 +2191,8 @@ oxr_mdlc_building_auto_organoid_research_center = {
 				has_technology = oxr_mdlc_tech_organoid_2
 			}
 		}
-		xvcv_mdlc_world_machines_computer_districts_energy_upkeep_add = -0.5
-		xvcv_mdlc_world_machines_computer_districts_food_upkeep_add = 0.15
-		# oxr_mdlc_world_machines_science_buildings_energy_upkeep_add = -0.5
-		# oxr_mdlc_world_machines_science_buildings_food_upkeep_add = 0.15
+		xvcv_mdlc_world_machines_computer_districts_energy_upkeep_mult = -0.1
+		xvcv_mdlc_world_machines_computer_districts_food_upkeep_add = 3
 	}
 	triggered_planet_modifier = {
 		potential = {
@@ -2233,9 +2200,7 @@ oxr_mdlc_building_auto_organoid_research_center = {
 				has_technology = oxr_mdlc_tech_organoid_3
 			}
 		}
-		xvcv_mdlc_world_machines_computer_districts_energy_upkeep_add = -1
-		xvcv_mdlc_world_machines_computer_districts_food_upkeep_add = 0.2
-		# oxr_mdlc_world_machines_science_buildings_energy_upkeep_add = -1
-		# oxr_mdlc_world_machines_science_buildings_food_upkeep_add = 0.2
+		xvcv_mdlc_world_machines_computer_districts_energy_upkeep_mult = -0.1
+		xvcv_mdlc_world_machines_computer_districts_food_upkeep_add = 4
 	}
 }
