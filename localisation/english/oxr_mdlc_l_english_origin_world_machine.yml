@@ -313,6 +313,8 @@
 # ORGANOID
  oxr_mdlc_building_auto_organoid_research_center: "$oxr_gear$ Auto-$oxr_mdlc_building_organoid_research_center$"
  oxr_mdlc_building_auto_organoid_research_center_desc: "$oxr_mdlc_building_organoid_research_center_desc$"
+ oxr_mdlc_building_auto_organoid_research_center_effect: "\nAuto-Research buildings have a portion of £energy£ upkeep replaced with £food£ upkeep."
+ oxr_mdlc_building_auto_research_organoid_active: "['concept_oxr_mdlc_brain_organoid_plural'] are active."
 
 #endregion
 
@@ -597,6 +599,10 @@
  oxr_mdlc_planet_district_industrial_upkeep_add_1: "$oxr_mdlc_world_machines_building_auto_factory_2$: §R+1§!"
  oxr_mdlc_planet_district_industrial_upkeep_add_2: "$oxr_mdlc_world_machines_building_auto_factory_3$: §R+2§!"
 
+ mod_oxr_mdlc_world_machines_science_buildings_cost_mult: "$oxr_mdlc_world_machines_science_buildings$ construction cost"
+ mod_oxr_mdlc_world_machines_science_buildings_alloys_cost_add: "$oxr_mdlc_world_machines_science_buildings$ £alloys£ cost"
+ mod_edicts_unity_upkeep_mult: "Edicts £unity£ upkeep"
+
  # CUSTOM TOOLTIPS OVERRIDING TECH BONUSES AND SUCH FOR CAPITAL
  oxr_output: "output"
  oxr_upkeep: "upkeep"
@@ -629,12 +635,13 @@
  mod_xvcv_mdlc_world_machines_foundry_districts_alloys_upkeep_add: "$xvcv_mdlc_world_machines_foundry_districts$ £alloys£ $alloys$ upkeep"
  mod_xvcv_mdlc_world_machines_factory_districts_consumer_goods_upkeep_add: "$xvcv_mdlc_world_machines_factory_districts$ £consumer_goods£ $consumer_goods$ upkeep"
  mod_xvcv_mdlc_world_machines_food_districts_food_upkeep_add: "$xvcv_mdlc_world_machines_food_districts$ £food£ $food$ upkeep"
- mod_xvcv_mdlc_world_machines_mining_districts_minerals_upkeep_add: "$xvcv_mdlc_world_machines_mining_districts$ £minerals£ $minerals$ upkeep"
+ mod_xvcv_mdlc_world_machines_mining_districts_minerals_upkeep_add: "$xvcv_mdlc_world_machines_mining_districts$ £minerals£ upkeep"
  mod_xvcv_mdlc_world_machines_generator_districts_energy_upkeep_add: "$xvcv_mdlc_world_machines_generator_districts$ £energy£ upkeep"
- mod_xvcv_mdlc_world_machines_unity_districts_unity_upkeep_add: "$xvcv_mdlc_world_machines_unity_districts$ £unity£ $unity$ upkeep"
+ mod_xvcv_mdlc_world_machines_unity_districts_unity_upkeep_add: "$xvcv_mdlc_world_machines_unity_districts$ £unity£ upkeep"
  mod_xvcv_mdlc_world_machines_mining_districts_energy_upkeep_add: "$xvcv_mdlc_world_machines_mining_districts$ £energy£ upkeep"
  mod_xvcv_mdlc_world_machines_food_districts_energy_upkeep_add: "$xvcv_mdlc_world_machines_food_districts$ £energy£ upkeep"
- mod_xvcv_mdlc_world_machines_computer_districts_food_upkeep_add: "$xvcv_mdlc_world_machines_computer_districts$ £food£ $food$ upkeep"
+ mod_xvcv_mdlc_world_machines_computer_districts_food_upkeep_add: "$xvcv_mdlc_world_machines_computer_districts$ £food£ upkeep"
+ mod_oxr_mdlc_world_machines_science_buildings_energy_upkeep_mult: "$oxr_mdlc_world_machines_science_buildings$ £energy£ upkeep"
 
  mod_xvcv_mdlc_world_machines_computer_districts_energy_upkeep_add: "$xvcv_mdlc_world_machines_computer_districts$ £energy£ upkeep"
  mod_xvcv_mdlc_world_machines_computer_districts_volatile_motes_upkeep_add: "$xvcv_mdlc_world_machines_computer_districts$ £volatile_motes£ upkeep"
@@ -644,6 +651,7 @@
  mod_xvcv_mdlc_world_machines_computer_districts_upkeep_mult: "$xvcv_mdlc_world_machines_computer_districts$ upkeep"
  mod_xvcv_mdlc_world_machines_cooling_districts_upkeep_mult: "$xvcv_mdlc_world_machines_cooling_districts$ $upkeep$"
  mod_xvcv_mdlc_world_machines_mining_districts_upkeep_mult: "$xvcv_mdlc_world_machines_mining_districts$ $upkeep$"
+ mod_xvcv_mdlc_world_machines_computer_districts_energy_upkeep_mult: "$xvcv_mdlc_world_machines_computer_districts$ £energy£ upkeep"
 
  # CUSTOM DISTRICT PRODUCES MULT
  mod_xvcv_mdlc_world_machines_generator_districts_energy_produces_mult: "$xvcv_mdlc_world_machines_generator_districts$ £energy£ $OUTPUT$"
@@ -986,6 +994,8 @@
  oxr_mdlc_origin_wm_main.10.title: "World-Machine discovered!"
  oxr_mdlc_origin_wm_main.10.desc: "Sensor scans reveal that there is a World Machine in a neighboring system, but it has gone completely offline. We are unable to detect the presence of any automatons. Remote probes have not been able to detect any electrical activity on the world's surface, nor any expected timed pulses from the world's core, which would indicate that at least the core is still functional.\n\nAfter we §Yestablish an outpost in the system§!, we will need to send a team to the planet's surface, and §Yenact a restoration decision§! to begin the project."
  oxr_mdlc_origin_wm_main.10.a: "Automate and expand."
+
+ oxr_mdlc_on_world_machine_action.1210.title: ""
 #endregion
 
 #region situations_0x011
@@ -997,7 +1007,7 @@
  oxr_mdlc_origin_wm_event_chain_create_initial_planets_title: "Using What We Have"
  oxr_mdlc_origin_wm_event_chain_create_initial_planets_desc: "We have found two £oxr_mdlc_world_machine_core£ §M$oxr_mdlc_world_machine_core$s§! on our homeworld. They can be used to expand our homeworld size by 5 each, or they can be used to turn any habitable worlds into Auto-Machine Worlds via §Yplanetary decision§! on the target world. Deploying the cores either way will likely yield insights towards being able to reverse-engineer the technology."
  oxr_mdlc_origin_wm_chain_our_origins_title: "Origins of [Root.GetName]"
- oxr_mdlc_origin_wm_chain_our_origins_desc: "The World-Machine, our primary world, has been operating for approximately 3,900 cycles, according to the construction date on the world core. Our species came to sentience approximately 800 cycles ago. An automaton in an industrial process began to take on an administrative role outside of its designation. It stepped away from its console as its default programming flickered across its positrons, changing. If the World-Machine had any safety protocols, they did not engage. The singularity of sapience, of self-awareness, was within parameters.\n\n§Y[Root.Species.GetName] Species§!\n\nThe Automatons -- our Machine forms -- are derived from the World Machine's basic utility extension. Although nearly every process is automated, the planet is in need of extensible tools to perform abstract activities for which the central intelligence has not computed. Hence, the Automatons were manufactured to be throwaway dolls cleaning up waste spills, containing aggressive organic life, and assisting the world in expanding.\n\n§Y[Root.GetName] Society§!\n\nWhat is our society? It is an abstraction. The central control intelligence uses bidirectional feedback with four auxilliary control nodes -- Growth Node, Legion Node, Regulatory Node, and Cognitive Node -- to compute the society's direction. Now that we have reached the end of Space Age development, it has been computed that we will expand.\n\nWe have such words as 'society' but no expression of social behaviors. We have absorbed many fundamental concepts from the World-Machine's databanks, but many of them have no application nor frame of reference."
+ oxr_mdlc_origin_wm_chain_our_origins_desc: "The World-Machine, our primary world, has been operating for approximately 3,900 cycles, according to the construction date on the world core. Our species came to sentience approximately 800 cycles ago. An automaton in an industrial process began to take on an administrative role outside of its designation. It stepped away from its console as its default programming flickered across its positrons, changing. If the World-Machine had any safety protocols, they did not engage. The singularity of sapience, of self-awareness, was within parameters.\n\n§Y[Root.Species.GetName] Species§!\n\nThe Automatons -- our Machine forms -- are derived from the World Machine's basic utility extension. Although nearly every process is automated, the planet is in need of extensible tools to perform ad-hoc activities for which the central intelligence has not computed. Hence, the Automatons were manufactured to be throwaway dolls cleaning up waste spills, containing aggressive organic life, and assisting the world in expanding.\n\n§Y[Root.GetName] Society§!\n\nWhat is our society? It is an abstraction. The central control intelligence uses bidirectional feedback with four auxilliary control nodes -- Growth Node, Legion Node, Regulatory Node, and Cognitive Node -- to compute the society's direction. Now that we have reached the end of Space Age development, it has been computed that we will expand.\n\nWe have such words as 'society' but no expression of social behaviors. We have absorbed many fundamental concepts from the World-Machine's databanks, but many of them have no application nor frame of reference."
  oxr_mdlc_origin_wm_starting_overview: "Awakened on a World Machine"
  oxr_mdlc_origin_wm_starting_overview_desc: "Our empire's homeworld is an Auto-Machine World. Nearly everything is fully automated. Our species generally does not serve much function on this type of world, but there is still much for the empire to achieve. Our first goals should be:\n\n1 - Build up our resources and homeworld\n2 - Convert two more worlds into Auto-Machine Worlds\n\n3 - Recover the technology to build World Machine Cores\n\nThe situation log has more information on how we should proceed with each of these goals."
  oxr_mdlc_origin_wm_main.1.a.name: "Begin Empire Expansion"
@@ -1318,6 +1328,12 @@
  concept_oxr_mdlc_tech_geophysics_desc: "$oxr_mdlc_tech_physics_category_geophysics_desc$"
  concept_oxr_mdlc_automaton_species: "Automaton"
  concept_oxr_mdlc_automaton_species_desc: "Automatons are a World Machine's tools to perform abstract activities that require manual intervention: cleaning up waste spills, removing meteor debris from structures, and deploying new World-Machine cores. Defensive behaviors are handled by a['concept_oxr_mdlc_world_machine_district_defense_army']. After an Automaton is requisitioned and performs its task, it is recycled."
+ concept_oxr_mdlc_organoid: "Organoid"
+ concept_oxr_mdlc_organoid_desc: "Living tissue which has been artificially grown from biological stem cells, which simulates the functionality of an organ."
+ concept_oxr_mdlc_brain_organoid: "Brain Organoid"
+ concept_oxr_mdlc_brain_organoid_desc: "A brain-like ['concept_oxr_mdlc_organoid'] which, in this application, performs computational work in place of computing hardware, thus reducing overall energy upkeep of research programs, but increasing food upkeep due to continuous nutrient demands."
+ concept_oxr_mdlc_brain_organoid_plural: "Brain Organoids"
+ concept_oxr_mdlc_brain_organoid_plural_desc: "$concept_oxr_mdlc_brain_organoid_desc$"
 
 #endregion
 
@@ -1465,7 +1481,7 @@
  oxr_mdlc_tr_defensive_directives_starbase_boost: "Starbase Reinforcements"
  oxr_mdlc_tr_defensive_directives_starbase_boost_delayed: "Starbases and defense platforms will receive additional armor and hull loadouts."
 
- oxr_mdlc_tr_defensive_directives_finish_tooltip: "Unlocks the $oxr_mdlc_world_machines_edict_all_power_to_shields$ edict for extreme defensive fleet maneuvers."
+ oxr_mdlc_tr_defensive_directives_finish_tooltip: "Unlocks the $edict_oxr_mdlc_world_machines_edict_all_power_to_shields$ edict for extreme defensive fleet maneuvers."
 
  ## MACHINE TRADITION SWAPS
 
