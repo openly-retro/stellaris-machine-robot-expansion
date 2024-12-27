@@ -376,7 +376,7 @@ xvcv_mdlc_count_districts_calculate_output_display_var = {
 	# -0.6 plus 0.6 equals 0, a 100% production modifier
 	#log = "Districts output display var calculated to be: \\[This.xvcv_mdlc_world_machines_districts_output_var]"
 	
-	#If there are more cooling districts than needed, delete one.
+	#If there are more cooling districts than needed, delete one, then recursively check for imbalance again.
 	if = {
 		limit = {
 			check_variable = {
@@ -385,6 +385,7 @@ xvcv_mdlc_count_districts_calculate_output_display_var = {
 			}
 		}
 		remove_district = xvcv_mdlc_common_district_cooling
+		planet_event = { id = rikk_mdlc_wm_upgrade_events.70 days = 2 }
 	}
 }
 
