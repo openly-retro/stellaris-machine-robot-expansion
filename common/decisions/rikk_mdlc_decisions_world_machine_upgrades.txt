@@ -702,6 +702,55 @@ rikk_mdlc_decision_world_machine_inner_core_roots = {
 	}
 }
 
+rikk_mdlc_decision_world_machine_inner_core_tap = {
+	owned_planets_only = yes
+	enactment_time = @wmupgradelength2
+	
+	resources = {
+		category = decisions
+		cost = {
+			alloys = 5000
+		}
+	}
+	
+	potential = {
+		exists = owner
+		rikk_mdlc_is_wm_planet_trigger = yes
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		NOR = {
+			has_deposit = rikk_mdlc_d_world_machine_inner_core_tap
+			has_planet_flag = rikk_mdlc_core_core_installed
+			has_planet_flag = rikk_mdlc_situation_core_core_active
+		}
+		OR = { 
+			has_deposit = rikk_mdlc_d_world_machine_outer_core_roots
+			has_planet_flag = outer_core_roots_queued
+		}
+	}
+	
+	allow = {
+		custom_tooltip = {
+			fail_text = rikk_mdlc_fail_outer_core_roots_queued
+			OR = {
+				has_deposit = rikk_mdlc_d_world_machine_inner_core_roots
+				has_planet_flag = inner_core_roots_queued
+			}
+		}
+		custom_tooltip = {
+			fail_text = rikk_mdlc_fail_inner_core_project_queued
+			NOT = { has_planet_flag = core_core_queued }
+		}
+	}
+	
+	on_queued = { set_planet_flag = inner_core_tap_queued }
+	on_unqueued = { remove_planet_flag = inner_core_tap_queued }
+	
+	effect = {
+		add_deposit = rikk_mdlc_d_world_machine_inner_core_tap
+		hidden_effect = { remove_planet_flag = inner_core_tap_queued }
+	}
+}
+
 #core core
 rikk_mdlc_decision_world_machine_core_core = {
 	owned_planets_only = yes
@@ -756,54 +805,6 @@ rikk_mdlc_decision_world_machine_core_core = {
 				target = root
 			}
 		}
-	}
-}
-
-rikk_mdlc_decision_world_machine_inner_core_tap = {
-	owned_planets_only = yes
-	enactment_time = @wmupgradelength2
-	
-	resources = {
-		category = decisions
-		cost = {
-			alloys = 5000
-		}
-	}
-	
-	potential = {
-		exists = owner
-		rikk_mdlc_is_wm_planet_trigger = yes
-		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
-		NOR = {
-			has_deposit = rikk_mdlc_d_world_machine_inner_core_tap
-			has_planet_flag = rikk_mdlc_core_core_installed
-			has_planet_flag = rikk_mdlc_situation_core_core_active
-		}
-		OR = { 
-			has_deposit = rikk_mdlc_d_world_machine_outer_core_roots
-			has_planet_flag = outer_core_roots_queued
-		}
-	}
-	
-	allow = {
-		custom_tooltip = {
-			fail_text = rikk_mdlc_fail_outer_core_roots_queued
-			OR = {
-				has_deposit = rikk_mdlc_d_world_machine_inner_core_roots
-				has_planet_flag = inner_core_roots_queued
-			}
-		}
-		custom_tooltip = {
-			fail_text = rikk_mdlc_fail_inner_core_project_queued
-			NOT = { has_planet_flag = core_core_queued }
-		}
-	}
-	
-	on_queued = { set_planet_flag = inner_core_tap_queued }
-	on_unqueued = { remove_planet_flag = inner_core_tap_queued }
-	
-	effect = {
-		add_deposit = rikk_mdlc_d_world_machine_inner_core_tap
-		hidden_effect = { remove_planet_flag = inner_core_tap_queued }
+		custom_tooltip = rikk_mdlc_decision_world_machine_core_core_effect
 	}
 }
