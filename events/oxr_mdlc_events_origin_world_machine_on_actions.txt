@@ -180,18 +180,30 @@ country_event = {
 				has_event_chain = "oxr_mdlc_origin_wm_chain_gather_insights"
 				NOT = { has_completed_event_chain = oxr_mdlc_origin_wm_chain_gather_insights }
 			}
-			add_event_chain_counter = {
-				event_chain = "oxr_mdlc_origin_wm_chain_gather_insights"
-				counter = "oxr_mdlc_origin_wm_core_insights"
-				amount = 1
+			# Don't fire message if counter is at max
+			if = {
+				limit = {
+					NOT = {
+						has_completed_event_chain_counter = {
+							event_chain = "oxr_mdlc_origin_wm_chain_gather_insights"
+							counter = "oxr_mdlc_origin_wm_core_insights"
+						}
+					}
+				}
+				add_event_chain_counter = {
+					event_chain = "oxr_mdlc_origin_wm_chain_gather_insights"
+					counter = "oxr_mdlc_origin_wm_core_insights"
+					amount = 1
+				}
+				log = "Incremented World Machine insights by 1"
+				create_message = {
+					type = OXR_MDLC_ORIGIN_WM_CHAIN_GATHER_INSIGHTS_TYPE
+					localization = OXR_MDLC_ORIGIN_WM_CHAIN_GATHER_INSIGHTS_MESSAGE
+					target = this.capital_scope
+					days = 25
+				}
 			}
-			log = "Incremented World Machine insights by 1"
-			create_message = {
-				type = OXR_MDLC_ORIGIN_WM_CHAIN_GATHER_INSIGHTS_TYPE
-				localization = OXR_MDLC_ORIGIN_WM_CHAIN_GATHER_INSIGHTS_MESSAGE
-				target = this.capital_scope
-				days = 25
-			}
+			
 			# Check if this was enough to trigger the finish
 			if = {
 				limit = {
