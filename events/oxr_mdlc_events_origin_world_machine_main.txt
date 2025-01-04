@@ -784,6 +784,14 @@ planet_event = {
 					value = 1
 				}
 				oxr_mdlc_country_world_machine_cores_recalc_amount = yes
+				if = {
+					limit = {
+						NOT = { has_country_flag = oxr_mdlc_world_machine_first_core_produced }
+					}
+					country_event = {
+						id = oxr_mdlc_origin_wm_main.1320
+					}
+				}
 			}
 		}
 		# oxr_mdlc_world_machine_cores_update_max_var = yes
@@ -809,6 +817,25 @@ planet_event = {
 		planet_event = {
 			id = oxr_mdlc_origin_wm_main.1299
 		}
+	}
+}
+
+# Congratulate player on first WMC produced
+country_event = {
+	id = oxr_mdlc_origin_wm_main.1320
+	title = oxr_mdlc_origin_wm_main.1320.title
+	desc = oxr_mdlc_origin_wm_main.1320.desc
+	is_triggered_only = yes
+	picture = GFX_first_world_core_produced
+
+	trigger = {
+		NOT = { has_country_flag = oxr_mdlc_world_machine_first_core_produced }
+	}
+	immediate = {
+		set_country_flag = oxr_mdlc_world_machine_first_core_produced
+	}
+	option = {
+		name = oxr_mdlc_origin_wm_main.1320.a
 	}
 }
 
