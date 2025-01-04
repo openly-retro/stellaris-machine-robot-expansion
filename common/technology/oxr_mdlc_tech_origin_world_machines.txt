@@ -140,13 +140,15 @@ oxr_mdlc_tech_fractal_basics = {
 		oxr_mdlc_tech_world_machine_wmc_core
 	}
 	potential = {
-		OR = {
-			has_ascension_perk = xvcv_mdlc_ap_world_machines
-			AND = {
-				has_origin = oxr_mdlc_origin_world_machine_awakened
-				has_country_flag = oxr_mdlc_world_machine_core_tech_obtained
-			}
-		}
+		# OR = {
+		# 	has_ascension_perk = xvcv_mdlc_ap_world_machines
+		# 	AND = {
+		# 		has_origin = oxr_mdlc_origin_world_machine_awakened
+		# 		has_country_flag = oxr_mdlc_world_machine_core_tech_obtained
+		# 	}
+		# }
+		# Turn off for now. It does not contribute much.
+		always = no
 	}
 	is_reverse_engineerable = no
 	modifier = {
@@ -290,6 +292,20 @@ oxr_mdlc_tech_boost_4_improved_atom_modeling = {
 		category_particles_research_speed_mult = 0.05
 		oxr_mdlc_world_machines_science_buildings_produces_mult = 0.1
 		xvcv_mdlc_world_machines_computer_districts_produces_mult = 0.1
+	}
+}
+oxr_mdlc_tech_boost_5_topological_insulators = {
+	inline_script = planet/buildings/auto/oxr_mdlc_fractal
+	cost = @tier4cost1
+	tier = 2
+	weight = @tier4cost1
+	prerequisites = {
+		oxr_mdlc_tech_boost_4_improved_atom_modeling
+	}
+	modifier = {
+		oxr_mdlc_world_machines_science_buildings_energy_upkeep_mult = -0.15
+		xvcv_mdlc_world_machines_computer_districts_energy_upkeep_mult = -0.1
+		oxr_mdlc_world_machines_science_buildings_produces_mult = 0.1
 	}
 }
 
