@@ -51,6 +51,7 @@ rikk_mdlc_decision_world_machine_solidify_molten = {
 				localization = MESSAGE_MOLTEN_WORLD_SOLIDIFIED
 				days = 36
 				target = THIS
+				variable = {
 					type = name
 					localization = RIKK_MDLC_TERRAFORM_TARGET
 					scope = ROOT
@@ -323,6 +324,7 @@ rikk_mdlc_decision_world_machine_synchronization_arrays = {
 		rikk_mdlc_is_wm_industrial_trigger = yes
 		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
 		NOT = { has_deposit = rikk_mdlc_d_world_machine_synchronization_arrays }
+		has_deposit = rikk_mdlc_d_world_machine_crust_roots
 	}
 	
 	allow = {
@@ -405,8 +407,8 @@ rikk_mdlc_decision_world_machine_mantle_engine = {
 		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
 		NOT = { has_deposit = rikk_mdlc_d_world_machine_mantle_engine }
 		OR = { 
-			has_deposit = rikk_mdlc_d_world_machine_crust_roots
-			has_planet_flag = crust_roots_queued
+			has_deposit = rikk_mdlc_d_world_machine_mantle_roots
+			has_planet_flag = mantle_roots_queued
 		}
 	}
 	
@@ -447,9 +449,9 @@ rikk_mdlc_decision_world_machine_reinforced_planet = {
 		rikk_mdlc_is_wm_planet_trigger = yes
 		owner = { has_country_flag = wm_upgrade_reinforced_planet_allowed }
 		NOT = { has_planet_flag = rikk_mdlc_planet_reinforced }
-		OR = { 
-			has_deposit = rikk_mdlc_d_world_machine_crust_roots
-			has_planet_flag = crust_roots_queued
+		OR = {
+			has_deposit = rikk_mdlc_d_world_machine_mantle_engine
+			has_planet_flag = mantle_engine_queued
 		}
 	}
 	
@@ -487,8 +489,8 @@ rikk_mdlc_decision_world_machine_mantle_holes = {
 		NOT = { has_deposit = rikk_mdlc_d_world_machine_mantle_holes }
 		rikk_mdlc_is_wm_industrial_trigger = yes
 		OR = { 
-			has_deposit = rikk_mdlc_d_world_machine_crust_roots
-			has_planet_flag = crust_roots_queued
+			has_deposit = rikk_mdlc_d_world_machine_mantle_roots
+			has_planet_flag = mantle_roots_queued
 		}
 	}
 	
@@ -526,8 +528,8 @@ rikk_mdlc_decision_world_machine_mantle_buses = {
 		NOT = { has_deposit = rikk_mdlc_d_world_machine_mantle_buses }
 		rikk_mdlc_is_wm_computer_trigger = yes
 		OR = { 
-			has_deposit = rikk_mdlc_d_world_machine_crust_roots
-			has_planet_flag = crust_roots_queued
+			has_deposit = rikk_mdlc_d_world_machine_mantle_roots
+			has_planet_flag = mantle_roots_queued
 		}
 	}
 	
@@ -565,8 +567,8 @@ rikk_mdlc_decision_world_machine_outer_core_roots = {
 		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
 		NOT = { has_deposit = rikk_mdlc_d_world_machine_outer_core_roots }
 		OR = { 
-			has_deposit = rikk_mdlc_d_world_machine_crust_roots
-			has_planet_flag = crust_roots_queued
+			has_deposit = rikk_mdlc_d_world_machine_mantle_roots
+			has_planet_flag = mantle_roots_queued
 		}
 	}
 	
@@ -613,8 +615,8 @@ rikk_mdlc_decision_world_machine_outer_core_tap = {
 		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
 		NOT = { has_deposit = rikk_mdlc_d_world_machine_outer_core_tap }
 		OR = { 
-			has_deposit = rikk_mdlc_d_world_machine_mantle_roots
-			has_planet_flag = mantle_roots_queued
+			has_deposit = rikk_mdlc_d_world_machine_outer_core_roots
+			has_planet_flag = outer_core_roots_queued
 		}
 	}
 	
@@ -650,8 +652,8 @@ rikk_mdlc_decision_world_machine_outer_core_cooling = {
 		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
 		NOT = { has_deposit = rikk_mdlc_d_world_machine_outer_core_cooled }
 		OR = { 
-			has_deposit = rikk_mdlc_d_world_machine_mantle_roots
-			has_planet_flag = mantle_roots_queued
+			has_deposit = rikk_mdlc_d_world_machine_outer_core_roots
+			has_planet_flag = outer_core_roots_queued
 		}
 	}
 	
@@ -691,8 +693,8 @@ rikk_mdlc_decision_world_machine_inner_core_roots = {
 		rikk_mdlc_is_wm_planet_trigger = yes
 		NOT = { has_deposit = rikk_mdlc_d_world_machine_inner_core_roots }
 		OR = { 
-			has_deposit = rikk_mdlc_d_world_machine_mantle_roots
-			has_planet_flag = mantle_roots_queued
+			has_deposit = rikk_mdlc_d_world_machine_outer_core_roots
+			has_planet_flag = outer_core_roots_queued
 		}
 	}
 	
@@ -742,9 +744,9 @@ rikk_mdlc_decision_world_machine_inner_core_tap = {
 			has_planet_flag = rikk_mdlc_core_core_installed
 			has_planet_flag = rikk_mdlc_situation_core_core_active
 		}
-		OR = { 
-			has_deposit = rikk_mdlc_d_world_machine_outer_core_roots
-			has_planet_flag = outer_core_roots_queued
+		OR = {
+			has_deposit = rikk_mdlc_d_world_machine_inner_core_roots
+			has_planet_flag = inner_core_roots_queued
 		}
 	}
 	
@@ -792,8 +794,8 @@ rikk_mdlc_decision_world_machine_core_core = {
 			has_planet_flag = rikk_mdlc_situation_core_core_active
 		}
 		OR = { 
-			has_deposit = rikk_mdlc_d_world_machine_outer_core_roots
-			has_planet_flag = outer_core_roots_queued
+			has_deposit = rikk_mdlc_d_world_machine_inner_core_roots
+			has_planet_flag = inner_core_roots_queued
 		}
 	}
 	
