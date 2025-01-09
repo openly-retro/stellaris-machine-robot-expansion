@@ -437,3 +437,39 @@ oxr_mdlc_decision_ap_wm_automate_capital_remove = {
 		}
 	}
 }
+
+#copied from 05_ancient_relics_decisions
+@minor_artifact_decision_cost = 100
+@minor_artifact_decision_duration = 3600
+rikk_mdlc_decision_world_machine_exhibits = {
+	owned_planets_only = yes
+	sound = event_administrative_work
+	icon = decision_museum
+
+	potential = {
+		exists = space_owner
+		space_owner = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+		}
+		is_planet_world_machine = yes
+		has_ancrel = yes
+	}
+
+	allow = {
+		NOT = {
+			has_modifier = "rikk_mdlc_world_machine_exhibits"
+		}
+	}
+
+	resources = {
+		category = decisions
+		cost = {
+			minor_artifacts = @minor_artifact_decision_cost
+		}
+	}
+
+	effect = {
+		#custom_tooltip = decision_museum_exhibits_effect
+		add_modifier = { modifier = "rikk_mdlc_world_machine_exhibits" days = @minor_artifact_decision_duration }
+	}
+}

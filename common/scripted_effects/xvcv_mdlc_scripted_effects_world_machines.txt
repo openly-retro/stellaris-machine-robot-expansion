@@ -7,12 +7,22 @@ xvcv_mdlc_world_machines_output_value_calc_effect = {
 	# 	variable = xvcv_mdlc_world_machines_districts_output_var
 	# }
 	# END BROKEN #
-
-	# New stuff to deal with export modifier bug in 3.12.*
-	xvcv_mdlc_count_districts_calculate_output_display_var = yes
-	# end new stuff
-	# **pets old stuff kindly to try and keep it from breaking ** #
-	xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect = yes
+	if = {
+		limit = { xvcv_mdlc_world_machines_planet_classes_trigger = yes }
+		# New stuff to deal with export modifier bug in 3.12.*
+		xvcv_mdlc_count_districts_calculate_output_display_var = yes
+		# end new stuff
+		# **pets old stuff kindly to try and keep it from breaking ** #
+		xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect = yes
+		else = {
+			switch = {
+				trigger = has_modifier
+				xvcv_mdlc_world_machines_districts_heat_indicator_good = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_good }
+				xvcv_mdlc_world_machines_districts_heat_indicator_neutral = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral }
+				xvcv_mdlc_world_machines_districts_heat_indicator_bad = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad }
+			}
+		}
+	}
 }
 xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect = {
 	optimize_memory
@@ -376,15 +386,22 @@ xvcv_mdlc_count_districts_calculate_output_display_var = {
 	# -0.6 plus 0.6 equals 0, a 100% production modifier
 	#log = "Districts output display var calculated to be: \\[This.xvcv_mdlc_world_machines_districts_output_var]"
 	
-	#If there are more cooling districts than needed, delete one.
-	if = {
-		limit = {
-			check_variable = {
+	#If there are more cooling districts than needed, delete one, then keep on checking
+	while = {
+		count = xvcv_mdlc_world_machines_num_cooling_districts
+		if = {
+			limit = {
+				check_variable = {
+					which = xvcv_mdlc_world_machines_districts_output_var
+					value >= rikk_mdlc_world_machine_cooling_district_effect
+				}
+			}
+			remove_district = xvcv_mdlc_common_district_cooling
+			subtract_variable = {
 				which = xvcv_mdlc_world_machines_districts_output_var
-				value >= rikk_mdlc_world_machine_cooling_district_effect
+				value = rikk_mdlc_world_machine_cooling_district_effect
 			}
 		}
-		remove_district = xvcv_mdlc_common_district_cooling
 	}
 }
 
