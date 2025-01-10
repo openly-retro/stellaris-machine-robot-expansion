@@ -1,41 +1,22 @@
 xvcv_mdlc_world_machines_output_value_calc_effect = {
 	# optimize_memory
-	#for 'xvcv_mdlc_world_machines_districts_heat_indicator_tooltip' tooltips too
-	# BROKEN as of 3.12.* #
+
 	clear_variable = xvcv_mdlc_world_machines_districts_output_var
 	export_modifier_to_variable = {
 		modifier = xvcv_mdlc_world_machines_districts_produces_mult
 		variable = xvcv_mdlc_world_machines_districts_output_var
 	}
 	log = "FUNTIME FUNTIME xvcv_mdlc_world_machines_districts_output_var is \\[This.xvcv_mdlc_world_machines_districts_output_var]"
-	# END BROKEN #
-	if = {
-		limit = { xvcv_mdlc_world_machines_planet_classes_trigger = yes }
-		# New stuff to deal with export modifier bug in 3.12.*
-		xvcv_mdlc_count_districts_calculate_output_display_var = yes
-		# end new stuff
-		# **pets old stuff kindly to try and keep it from breaking ** #
-		xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect = yes
-	}
-	else = {
-		switch = {
-			trigger = has_modifier
-			xvcv_mdlc_world_machines_districts_heat_indicator_good = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_good }
-			xvcv_mdlc_world_machines_districts_heat_indicator_neutral = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral }
-			xvcv_mdlc_world_machines_districts_heat_indicator_bad = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad }
-		}
-	}
+
+	# Does not need to be protected via limit because this effect is fired via custon on_action from districts
+	xvcv_mdlc_count_districts_calculate_output_display_var = yes
+	xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect = yes
+
 }
 xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect = {
 	optimize_memory
 	#log = "Going into xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect"
 
-	switch = {
-		trigger = has_modifier
-		xvcv_mdlc_world_machines_districts_heat_indicator_good = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_good }
-		xvcv_mdlc_world_machines_districts_heat_indicator_neutral = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral }
-		xvcv_mdlc_world_machines_districts_heat_indicator_bad = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad }
-	}
 	if = {
 		limit = { check_variable = { which = xvcv_mdlc_world_machines_districts_output_var value > 0 } }
 		add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_good days = -1 }
@@ -48,30 +29,21 @@ xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect = {
 		limit = { check_variable = { which = xvcv_mdlc_world_machines_districts_output_var value < 0 } }
 		add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad days = -1 }
 	}
-	# Reset the display to be "100%" (1)
 	set_variable = {
 		which = xvcv_mdlc_world_machines_districts_current_output_for_display_var
 		value = 1
 	}
-	# Add or subtract a decimal value (1 minus 0.1 = 0.9 )
 	change_variable = {
 		which = xvcv_mdlc_world_machines_districts_current_output_for_display_var
 		value = xvcv_mdlc_world_machines_districts_output_var
 	}
-	# convert 0.1 to 10%
 	multiply_variable = {
 		which = xvcv_mdlc_world_machines_districts_current_output_for_display_var
 		value = 100
 	}
-
-	# Check if non-resource districts need offsets (if output is below 0.0) and add them
-	if = {
-		limit = { xvcv_mdlc_world_machines_non_resource_district_trigger = yes }
-		#log = "Going into xvcv_mdlc_world_machines_recalc_non_resource_offsets_all"
-		xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = yes
-	}
-	#log = "Finished xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect"
+	
 }
+
 
 # For any non-resource district, when thermal throttling is on, add or remove offset deposits
 # If throttling is off (world machine output is 0 or above), remove offset deposits

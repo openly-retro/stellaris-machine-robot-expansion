@@ -3067,8 +3067,10 @@ country_event = {
 }
 
 ### 'xvcv_mdlc_ap_world_machines' Ascension Perk Events ###
-#'xvcv_mdlc_world_machines_districts' variable value count
-#on district built
+
+## 'xvcv_mdlc_world_machines_districts' variable value count
+
+# xvcv_on_world_machine_t3_district_built
 planet_event = {
 	id = xvcv_mdlc.70
 	hide_window = yes
@@ -3085,22 +3087,20 @@ planet_event = {
 	}
 }
 
-# Workaround to get updated modifier state after the district has been built
-# Update it a day later >_>
+## xvcv_on_world_machine_t3_resource_district_built
 planet_event = {
-	id = xvcv_mdlc.701
+	id = xvcv_mdlc.700
 	hide_window = yes
 	is_triggered_only = yes
-
-	trigger = { xvcv_mdlc_world_machines_districts_heat_indicators_calc_trigger = yes }
+	trigger = {}
 	immediate = {
-		planet_event = {
-			id = xvcv_mdlc.70 days = 1
-		}
+		log = "A T3 world resource district was built on \\[This.GetName]"
+		xvcv_mdlc_world_machines_output_value_calc_effect = yes
+		xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = yes
 	}
 }
 
-#on district destroyed
+# xvcv_on_world_machine_t3_district_demolished
 planet_event = {
 	id = xvcv_mdlc.71
 	hide_window = yes
@@ -3114,29 +3114,23 @@ planet_event = {
 		xvcv_mdlc_world_machines_output_value_calc_effect = yes
 	}
 }
-# on district destroyed
-# Delay updating planet variables for 1 day after 
+# xvcv_on_world_machine_t3_resource_district_demolished
 planet_event = {
 	id = xvcv_mdlc.710
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { xvcv_mdlc_world_machines_districts_heat_indicators_calc_trigger = yes }
+
+	trigger = { }
 	immediate = {
-		planet_event = { id = xvcv_mdlc.71 days = 1 }
+		log = "A T3 resource district was removed from \\[This.GetName]."
+		xvcv_mdlc_world_machines_output_value_calc_effect = yes
+		xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = yes
 	}
 }
 
+
 #'xvcv_mdlc_d_pc_machine_ser_crime' or 'xvcv_mdlc_d_pc_machine_ser_admin_cap' deposits count
 #on district built or destroyed
-planet_event = {
-	id = xvcv_mdlc.720
-	hide_window = yes
-	is_triggered_only = yes
-
-	trigger = { xvcv_mdlc_world_machines_production_district_is_empire_resource = yes }
-	immediate = { planet_event = { id = xvcv_mdlc.72 days = 1 } }
-}
-
 planet_event = {
 	id = xvcv_mdlc.72
 	hide_window = yes
