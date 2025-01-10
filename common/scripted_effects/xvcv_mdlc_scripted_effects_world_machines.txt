@@ -1,22 +1,16 @@
 xvcv_mdlc_world_machines_output_value_calc_effect = {
 	# optimize_memory
-
+	# This effect is only called from on_built/on_destroy of t3 world districts
 	clear_variable = xvcv_mdlc_world_machines_districts_output_var
-	export_modifier_to_variable = {
-		modifier = xvcv_mdlc_world_machines_districts_produces_mult
-		variable = xvcv_mdlc_world_machines_districts_output_var
-	}
-	log = "FUNTIME FUNTIME xvcv_mdlc_world_machines_districts_output_var is \\[This.xvcv_mdlc_world_machines_districts_output_var]"
-
-	# Does not need to be protected via limit because this effect is fired via custon on_action from districts
 	xvcv_mdlc_count_districts_calculate_output_display_var = yes
-	xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect = yes
+	switch = {
+		trigger = has_modifier
+		xvcv_mdlc_world_machines_districts_heat_indicator_good = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_good }
+		xvcv_mdlc_world_machines_districts_heat_indicator_neutral = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral }
+		xvcv_mdlc_world_machines_districts_heat_indicator_bad = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad }
+	}
 
-}
-xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect = {
-	optimize_memory
 	#log = "Going into xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect"
-
 	if = {
 		limit = { check_variable = { which = xvcv_mdlc_world_machines_districts_output_var value > 0 } }
 		add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_good days = -1 }
@@ -29,19 +23,22 @@ xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect = {
 		limit = { check_variable = { which = xvcv_mdlc_world_machines_districts_output_var value < 0 } }
 		add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad days = -1 }
 	}
+	# Reset the display to be "100%" (1)
 	set_variable = {
 		which = xvcv_mdlc_world_machines_districts_current_output_for_display_var
 		value = 1
 	}
+	# Add or subtract a decimal value (1 minus 0.1 = 0.9 )
 	change_variable = {
 		which = xvcv_mdlc_world_machines_districts_current_output_for_display_var
 		value = xvcv_mdlc_world_machines_districts_output_var
 	}
+	# convert 0.1 to 10%
 	multiply_variable = {
 		which = xvcv_mdlc_world_machines_districts_current_output_for_display_var
 		value = 100
 	}
-	
+	#log = "Finished xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect"
 }
 
 
@@ -170,7 +167,11 @@ xvcv_mdlc_world_machines_adjust_non_resource_district_offset_entry = {
 	clear_variable = xvcv_mdlc_wm_output_var_copy
 }
 
-# Big one ... called from xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect
+# Called if a t3 district is destroyed, or a t3 deposit-using district is built
+# Example; Planet is overheated, lacking cooling districts.
+# A Drive district is removed, thus bringing up the output modifier
+# In this case, it's not appropriate to keep the same amount of deposit offsets,
+# so recalculate how many deposit offsets need to be in place now with the 1 t3 distict gone
 # Switch planet type and then recalculate offsets for all non-resource districts >_@
 xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = {
 	optimize_memory
@@ -294,7 +295,6 @@ xvcv_mdlc_count_districts_calculate_output_display_var = {
 	# 2. For each cooling district, add 0.3, plus the value of rikk_mdlc_world_machine_cooling_district_effectiveness
 	# 5. For each non-cooling district, subtract 0.1
 	# 6. The result is exported to xvcv_mdlc_world_machines_districts_output_var
-	optimize_memory
 	#log = "Beginning calculating the output display var."
 
 	## ESTABLISH COUNTS OF DISTRICTS

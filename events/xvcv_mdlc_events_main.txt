@@ -3076,14 +3076,15 @@ planet_event = {
 	hide_window = yes
 	is_triggered_only = yes
 
-	trigger = {
-		# is_planet_world_machine = yes
-		# xvcv_mdlc_world_machines_districts_heat_indicators_calc_trigger = yes
-	}
-
+	trigger = { oxr_mdlc_planet_is_t3_world_machine = yes}
 	immediate = {
 		log = "A district was built on \\[This.GetName]."
 		xvcv_mdlc_world_machines_output_value_calc_effect = yes
+		if = {
+			limit = { xvcv_mdlc_world_machines_non_resource_district_trigger = yes }
+			#log = "Going into xvcv_mdlc_world_machines_recalc_non_resource_offsets_all"
+			xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = yes
+		}
 	}
 }
 
@@ -3092,11 +3093,17 @@ planet_event = {
 	id = xvcv_mdlc.700
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = {}
+	trigger = { oxr_mdlc_planet_is_t3_world_machine = yes }
 	immediate = {
 		log = "A T3 world resource district was built on \\[This.GetName]"
 		xvcv_mdlc_world_machines_output_value_calc_effect = yes
 		xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = yes
+		# Check if non-resource districts need offsets (if output is below 0.0) and add them
+		if = {
+			limit = { xvcv_mdlc_world_machines_non_resource_district_trigger = yes }
+			#log = "Going into xvcv_mdlc_world_machines_recalc_non_resource_offsets_all"
+			xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = yes
+		}
 	}
 }
 
@@ -3106,12 +3113,15 @@ planet_event = {
 	hide_window = yes
 	is_triggered_only = yes
 
-	trigger = {
-		# xvcv_mdlc_world_machines_districts_heat_indicators_calc_trigger = yes
-	}
+	trigger = { oxr_mdlc_planet_is_t3_world_machine = yes }
 	immediate = {
 		log = "A district was removed from \\[This.GetName]."
 		xvcv_mdlc_world_machines_output_value_calc_effect = yes
+		if = {
+			limit = { xvcv_mdlc_world_machines_non_resource_district_trigger = yes }
+			#log = "Going into xvcv_mdlc_world_machines_recalc_non_resource_offsets_all"
+			xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = yes
+		}
 	}
 }
 # xvcv_on_world_machine_t3_resource_district_demolished
@@ -3120,11 +3130,17 @@ planet_event = {
 	hide_window = yes
 	is_triggered_only = yes
 
-	trigger = { }
+	trigger = { oxr_mdlc_planet_is_t3_world_machine = yes }
 	immediate = {
 		log = "A T3 resource district was removed from \\[This.GetName]."
 		xvcv_mdlc_world_machines_output_value_calc_effect = yes
 		xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = yes
+		# Check if non-resource districts need offsets (if output is below 0.0) and add them
+		if = {
+			limit = { xvcv_mdlc_world_machines_non_resource_district_trigger = yes }
+			#log = "Going into xvcv_mdlc_world_machines_recalc_non_resource_offsets_all"
+			xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = yes
+		}
 	}
 }
 
@@ -3136,9 +3152,7 @@ planet_event = {
 	hide_window = yes
 	is_triggered_only = yes
 
-	trigger = {
-		# xvcv_mdlc_world_machines_production_district_is_empire_resource = yes
-	}
+	trigger = { oxr_mdlc_planet_is_t3_world_machine = yes }
 
 	immediate = {
 		switch = {
