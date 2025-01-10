@@ -1,14 +1,18 @@
 xvcv_mdlc_world_machines_output_value_calc_effect = {
 	# optimize_memory
 	# This effect is only called from on_built/on_destroy of t3 world districts
+
 	clear_variable = xvcv_mdlc_world_machines_districts_output_var
-	xvcv_mdlc_count_districts_calculate_output_display_var = yes
 	switch = {
 		trigger = has_modifier
 		xvcv_mdlc_world_machines_districts_heat_indicator_good = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_good }
 		xvcv_mdlc_world_machines_districts_heat_indicator_neutral = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral }
 		xvcv_mdlc_world_machines_districts_heat_indicator_bad = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad }
 	}
+
+	# create/update 'xvcv_mdlc_world_machines_districts_output_var'
+	# create/update 'xvcv_mdlc_world_machines_districts_current_output_for_display_var'
+	xvcv_mdlc_count_districts_calculate_output_display_var = yes
 
 	#log = "Going into xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect"
 	if = {
@@ -39,6 +43,18 @@ xvcv_mdlc_world_machines_output_value_calc_effect = {
 		value = 100
 	}
 	#log = "Finished xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect"
+}
+
+oxr_mdlc_world_machines_check_should_balance_cooling_districts = {
+	if = {
+		limit = {
+			check_variable = {
+				which = xvcv_mdlc_world_machines_districts_output_var
+				value > 0.4
+			}
+		}
+		oxr_mdlc_planet_destroy_excess_cooling_districts = yes
+	}
 }
 
 
@@ -402,7 +418,6 @@ xvcv_mdlc_count_districts_calculate_output_display_var = {
 	clear_variable = xvcv_mdlc_world_machines_production_bonus
 	clear_variable = xvcv_mdlc_world_machines_num_cooling_districts
 	# clear_variable = rikk_mdlc_world_machine_cooling_district_effect
-	oxr_mdlc_planet_destroy_excess_cooling_districts = yes
 }
 
 xvcv_mdlc_decision_machine_world_automation_effect = {
@@ -489,28 +504,44 @@ xvcv_mdlc_decision_machine_world_automation_effect = {
 oxr_mdlc_planet_destroy_excess_cooling_districts = {
 	# the original formula was not to exceed 130%, and destroy districts above that
 	# max now is 0.45 per district, so let 0.45 be the new maximum
-	set_variable = {
-		which = cooling_district_limit_tmp
-		value = 0.3
-	}
-	change_variable = {
-		which = cooling_district_limit_tmp
-		value = modifier:rikk_mdlc_world_machine_cooling_district_effectiveness
-	}
-	while = {
+	# Add 0.1 to try and keep the heat indicator green
+	if = {
 		limit = {
-			check_variable = {
-				which = xvcv_mdlc_world_machines_districts_output_var
-				value > cooling_district_limit_tmp
-			}
+			has_planet_flag = oxr_lock_oxr_mdlc_planet_destroy_excess_cooling_districts
 		}
-		remove_district = xvcv_mdlc_common_district_cooling
-		# this should fire an on_action to recalculate .. is it reliable?
-		# just do math here, like Rikk did initially
-		# subtract_variable = {
-		# 	which = xvcv_mdlc_world_machines_districts_output_var
-		# 	value = cooling_district_limit_tmp
-		# }
+		log = "Not going to rebalance cooling bc it is in progress ..."
 	}
-	clear_variable = cooling_district_limit_tmp
+	else = {
+		set_planet_flag = oxr_lock_oxr_mdlc_planet_destroy_excess_cooling_districts
+		set_variable = {
+			which = cooling_district_limit_tmp
+			value = 0.3
+		}
+		change_variable = {
+			which = cooling_district_limit_tmp
+			value = modifier:rikk_mdlc_world_machine_cooling_district_effectiveness
+		}
+		set_variable = {
+			which = districts_produces_mult_copy_tmp
+			value = modifier:xvcv_mdlc_world_machines_districts_produces_mult
+		}
+	
+		while = {
+			limit = {
+				check_variable = {
+					which = districts_produces_mult_copy_tmp
+					value >= cooling_district_limit_tmp
+				}
+			}
+			remove_district = xvcv_mdlc_common_district_cooling
+			set_variable = {
+				which = districts_produces_mult_copy_tmp
+				value = modifier:xvcv_mdlc_world_machines_districts_produces_mult
+			}
+			log = "(2) districts_produces_mult_copy_tmp is at \\[This.districts_produces_mult_copy_tmp]"
+		}
+		clear_variable = cooling_district_limit_tmp
+		clear_variable = districts_produces_mult_copy_tmp
+		remove_planet_flag = oxr_lock_oxr_mdlc_planet_destroy_excess_cooling_districts
+	}
 }
