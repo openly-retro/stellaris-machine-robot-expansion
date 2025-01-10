@@ -534,9 +534,21 @@ oxr_mdlc_planet_destroy_excess_cooling_districts = {
 				}
 			}
 			remove_district = xvcv_mdlc_common_district_cooling
+			space_owner = {
+				add_resource = {
+					exotic_gases = 100
+					minerals = @xvcv_mdlc_district_cost_5
+				}
+			}
 			set_variable = {
 				which = districts_produces_mult_copy_tmp
 				value = modifier:xvcv_mdlc_world_machines_districts_produces_mult
+			}
+			create_message = {
+				type = OXR_MDLC_WM_COOLING_DISTRICT_REFUND
+				localization = OXR_MDLC_ORIGIN_WM_COOLING_DISTRICT_REFUND_MESSAGE
+				days = 20
+				target = this
 			}
 			log = "(2) districts_produces_mult_copy_tmp is at \\[This.districts_produces_mult_copy_tmp]"
 		}
