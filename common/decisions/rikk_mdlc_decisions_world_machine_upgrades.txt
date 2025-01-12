@@ -25,7 +25,10 @@ rikk_mdlc_decision_world_machine_solidify_molten = {
 		exists = space_owner
 		is_planet_class = pc_molten
 		space_owner = {
-			oxr_mdlc_planet_owner_can_build_wm_districts = yes
+			OR = {
+				# has_ascension_perk = xvcv_mdlc_ap_world_machines
+				has_origin = oxr_mdlc_origin_world_machine_awakened
+			}
 			has_technology = oxr_mdlc_tech_geologic_heat_shielding_2
 		}
 		NOT = { has_planet_flag = rikk_mdlc_world_machine_suitable }
@@ -81,7 +84,10 @@ rikk_mdlc_decision_world_machine_defrost_cryosphere = {
 		exists = space_owner
 		is_planet_class = pc_frozen
 		space_owner = {
-			oxr_mdlc_planet_owner_can_build_wm_districts = yes
+			OR = {
+				# has_ascension_perk = xvcv_mdlc_ap_world_machines
+				has_origin = oxr_mdlc_origin_world_machine_awakened
+			}
 			has_technology = oxr_mdlc_tech_geologic_scaling_thermoelectrics
 		}
 		NOT = { has_planet_flag = rikk_mdlc_world_machine_suitable }
@@ -137,7 +143,10 @@ rikk_mdlc_decision_world_machine_cleanse_toxic = {
 		exists = space_owner
 		is_planet_class = pc_toxic
 		space_owner = {
-			oxr_mdlc_planet_owner_can_build_wm_districts = yes
+			OR = {
+				# has_ascension_perk = xvcv_mdlc_ap_world_machines
+				has_origin = oxr_mdlc_origin_world_machine_awakened
+			}
 			has_technology = tech_climate_restoration
 		}
 		NOT = { has_planet_flag = rikk_mdlc_world_machine_suitable }
@@ -193,7 +202,12 @@ rikk_mdlc_decision_world_machine_harness_nanites = {
 	potential = {
 		exists = space_owner
 		is_planet_class = pc_gray_goo
-		space_owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		space_owner = {
+			OR = {
+				# has_ascension_perk = xvcv_mdlc_ap_world_machines
+				has_origin = oxr_mdlc_origin_world_machine_awakened
+			}
+		}
 		NOT = { has_planet_flag = rikk_mdlc_world_machine_suitable }
 		host_has_dlc = "Distant Stars Story Pack"
 	}
@@ -261,9 +275,6 @@ rikk_mdlc_decision_world_machine_crust_roots = {
 		rikk_mdlc_is_wm_planet_trigger = yes
 		NOT = { has_deposit = rikk_mdlc_d_world_machine_crust_roots }
 	}
-	#allow = {
-	#	num_free_districts = { type = any value < 1 }
-	#}
 
 	on_queued = { set_planet_flag = crust_roots_queued }
 	on_unqueued = { remove_planet_flag = crust_roots_queued }

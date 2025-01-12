@@ -768,7 +768,7 @@ oxr_mdlc_world_machines_building_maintenance_legion = {
 
 	prerequisites = {
 		"tech_planetary_defenses"
-		"oxr_mdlc_tech_world_machines_unlocked"
+		# "oxr_mdlc_tech_world_machines_unlocked"
 	}
 
 	upgrades = {
@@ -870,7 +870,7 @@ oxr_mdlc_world_machines_building_fractal_sanitizer = {
 
 	prerequisites = {
 		"tech_basic_science_lab_1"
-		"oxr_mdlc_tech_world_machines_unlocked"
+		# "oxr_mdlc_tech_world_machines_unlocked"
 	}
 
 }
@@ -1208,10 +1208,17 @@ oxr_mdlc_world_machines_auto_farm_1 = {
 	}
 	prerequisites = {
 		"tech_hydroponics"
-		"oxr_mdlc_tech_world_machines_unlocked"
+		# "oxr_mdlc_tech_world_machines_unlocked"
 	}
 	upgrades = {
 		oxr_mdlc_world_machines_auto_farm_2
+	}
+	allow = {
+		inline_script = {
+			script = country/resource_income_compare_gt
+			RESOURCE = society_research
+			TIER = 1
+		}
 	}
 }
 oxr_mdlc_world_machines_auto_farm_2 = {
@@ -1231,6 +1238,13 @@ oxr_mdlc_world_machines_auto_farm_2 = {
 	upgrades = {
 		oxr_mdlc_world_machines_auto_farm_3
 	}
+	allow = {
+		inline_script = {
+			script = country/resource_income_compare_gt
+			RESOURCE = society_research
+			TIER = 2
+		}
+	}
 }
 oxr_mdlc_world_machines_auto_farm_3 = {
 	can_build = no
@@ -1248,6 +1262,13 @@ oxr_mdlc_world_machines_auto_farm_3 = {
 	}
 	upgrades = {
 		oxr_mdlc_world_machines_auto_farm_4
+	}
+	allow = {
+		inline_script = {
+			script = country/resource_income_compare_gt
+			RESOURCE = society_research
+			TIER = 3
+		}
 	}
 }
 oxr_mdlc_world_machines_auto_farm_4 = {
@@ -1270,9 +1291,11 @@ oxr_mdlc_world_machines_auto_farm_4 = {
 	}
 	allow = {
 		oxr_mdlc_has_upgraded_capital = yes
-		# owner = {
-			# has_ascension_perk = oxr_mdlc_ap_fractal_production_automation
-		# }
+		inline_script = {
+			script = country/resource_income_compare_gt
+			RESOURCE = society_research
+			TIER = 4
+		}
 	}
 }
 oxr_mdlc_world_machines_auto_farm_5 = {
@@ -1291,9 +1314,11 @@ oxr_mdlc_world_machines_auto_farm_5 = {
 	}
 	allow = {
 		oxr_mdlc_has_upgraded_capital = yes
-		# owner = {
-			# has_ascension_perk = oxr_mdlc_ap_fractal_production_automation
-		# }
+		inline_script = {
+			script = country/resource_income_compare_gt
+			RESOURCE = society_research
+			TIER = 5
+		}
 	}
 }
 # Replace building_food_processing_facility
@@ -1381,11 +1406,19 @@ oxr_mdlc_world_machines_auto_mine_1 = {
 	inline_script = planet/buildings/auto/oxr_destroy
 	prerequisites = {
 		"tech_basic_industry"
-		"oxr_mdlc_tech_world_machines_unlocked"
+		# "oxr_mdlc_tech_world_machines_unlocked"
 	}
 	upgrades = {
 		oxr_mdlc_world_machines_auto_mine_2
 	}
+	allow = {
+		inline_script = {
+			script = country/resource_income_compare_gt
+			RESOURCE = engineering_research
+			TIER = 1
+		}
+	}
+	
 }
 oxr_mdlc_world_machines_auto_mine_2 = {
 	can_build = no
@@ -1403,6 +1436,13 @@ oxr_mdlc_world_machines_auto_mine_2 = {
 	}
 	upgrades = {
 		oxr_mdlc_world_machines_auto_mine_3
+	}
+	allow = {
+		inline_script = {
+			script = country/resource_income_compare_gt
+			RESOURCE = engineering_research
+			TIER = 2
+		}
 	}
 }
 oxr_mdlc_world_machines_auto_mine_3 = {
@@ -1422,6 +1462,13 @@ oxr_mdlc_world_machines_auto_mine_3 = {
 	upgrades = {
 		oxr_mdlc_world_machines_auto_mine_4
 	}
+	allow = {
+		inline_script = {
+			script = country/resource_income_compare_gt
+			RESOURCE = engineering_research
+			TIER = 3
+		}
+	}
 }
 oxr_mdlc_world_machines_auto_mine_4 = {
 	can_build = no
@@ -1440,6 +1487,11 @@ oxr_mdlc_world_machines_auto_mine_4 = {
 	}
 	allow = {
 		oxr_mdlc_has_upgraded_capital = yes
+		inline_script = {
+			script = country/resource_income_compare_gt
+			RESOURCE = engineering_research
+			TIER = 4
+		}
 	}
 	upgrades = {
 		oxr_mdlc_world_machines_auto_mine_5
@@ -1468,9 +1520,11 @@ oxr_mdlc_world_machines_auto_mine_5 = {
 	}
 	allow = {
 		oxr_mdlc_has_upgraded_capital = yes
-		# owner = {
-			# has_ascension_perk = oxr_mdlc_ap_fractal_production_automation
-		# }
+		inline_script = {
+			script = country/resource_income_compare_gt
+			RESOURCE = engineering_research
+			TIER = 5
+		}
 	}
 	planet_modifier = {
 		planet_stability_add = -2
@@ -1549,10 +1603,17 @@ oxr_mdlc_world_machines_auto_generator_1 = {
 	inline_script = planet/buildings/auto/oxr_destroy
 	prerequisites = {
 		"tech_power_plant_1"
-		"oxr_mdlc_tech_world_machines_unlocked"
+		# "oxr_mdlc_tech_world_machines_unlocked"
 	}
 	upgrades = {
 		oxr_mdlc_world_machines_auto_generator_2
+	}
+	allow = {
+		inline_script = {
+			script = country/resource_income_compare_gt
+			RESOURCE = physics_research
+			TIER = 1
+		}
 	}
 }
 oxr_mdlc_world_machines_auto_generator_2 = {
@@ -1576,6 +1637,13 @@ oxr_mdlc_world_machines_auto_generator_2 = {
 	upgrades = {
 		oxr_mdlc_world_machines_auto_generator_3
 	}
+	allow = {
+		inline_script = {
+			script = country/resource_income_compare_gt
+			RESOURCE = physics_research
+			TIER = 2
+		}
+	}
 }
 oxr_mdlc_world_machines_auto_generator_3 = {
 	can_build = no
@@ -1597,6 +1665,13 @@ oxr_mdlc_world_machines_auto_generator_3 = {
 	}
 	upgrades = {
 		oxr_mdlc_world_machines_auto_generator_4
+	}
+	allow = {
+		inline_script = {
+			script = country/resource_income_compare_gt
+			RESOURCE = physics_research
+			TIER = 3
+		}
 	}
 }
 oxr_mdlc_world_machines_auto_generator_4 = {
@@ -1620,6 +1695,11 @@ oxr_mdlc_world_machines_auto_generator_4 = {
 	}
 	allow = {
 		oxr_mdlc_has_upgraded_capital = yes
+		inline_script = {
+			script = country/resource_income_compare_gt
+			RESOURCE = physics_research
+			TIER = 3
+		}
 	}
 	upgrades = {
 		oxr_mdlc_world_machines_auto_generator_5
@@ -1652,9 +1732,11 @@ oxr_mdlc_world_machines_auto_generator_5 = {
 	}
 	allow = {
 		oxr_mdlc_has_upgraded_capital = yes
-		# owner = {
-			# has_ascension_perk = oxr_mdlc_ap_fractal_production_automation
-		# }
+		inline_script = {
+			script = country/resource_income_compare_gt
+			RESOURCE = physics_research
+			TIER = 3
+		}
 	}
 	planet_modifier = {
 		planet_stability_add = -2
