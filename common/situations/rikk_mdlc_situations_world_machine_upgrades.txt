@@ -32,8 +32,7 @@ rikk_mdlc_situation_core_core = {
 			# 	country_alloys_produces_mult = -0.05
 			# }
 		}
-	}
-	stages = {
+
 		rikk_mdlc_situation_core_upgrade_stage_2 = {
 			icon = GFX_situation_stage_2
 			icon_background = GFX_situation_stage_frame_green
@@ -43,16 +42,15 @@ rikk_mdlc_situation_core_core = {
 			on_first_enter = { 
 				situation_event = { id = rikk_mdlc_wm_upgrade_events.20 }
 				target = { planet_event = { id = rikk_mdlc_wm_upgrade_events.70 days = 1 } }
-				if = {
-					limit = {
-						owner = { has_country_flag = rikk_mdlc_core_core_shaddup }
-					}
-					target = { add_modifier = { modifier = weak_magnetic_field } }
-				}
+				# if = {
+					# limit = {
+						# owner = { has_country_flag = rikk_mdlc_core_core_shaddup }
+					# }
+					# target = { add_modifier = { modifier = weak_magnetic_field } }
+				# }
 			}
 		}
-	}
-	stages = {
+
 		rikk_mdlc_situation_core_upgrade_stage_3 = {
 			icon = GFX_situation_stage_3
 			icon_background = GFX_situation_stage_frame_green
@@ -77,7 +75,7 @@ rikk_mdlc_situation_core_core = {
 	on_progress_complete = {
 		custom_tooltip = rikk_mdlc_situation_core_core_complete
 		situation_event = { id = rikk_mdlc_wm_upgrade_events.40 }
-		target  = {
+		target = {
 			remove_modifier = weak_magnetic_field
 			add_deposit = rikk_mdlc_d_world_machine_core_core
 			hidden_effect = {
@@ -88,8 +86,8 @@ rikk_mdlc_situation_core_core = {
 		}
 		destroy_situation = this
 	}
-	on_abort = { 
-		target = { 
+	on_abort = {
+		target = {
 			hidden_effect = { 
 				remove_planet_flag = rikk_mdlc_situation_core_core_active 
 				remove_planet_flag = rikk_mdlc_core_core_monster 
@@ -146,7 +144,17 @@ rikk_mdlc_situation_core_core = {
 		}
 		on_select = {
 			custom_tooltip = rikk_mdlc_approach_normal_effect
-			target = { hidden_effect = { planet_event = { id = rikk_mdlc_wm_upgrade_events.70 days = 1 } } }
+			target = {
+				hidden_effect = {
+					if = {
+						limit = { has_district = xvcv_mdlc_common_district_cooling }
+						planet_event = {
+							id = rikk_mdlc_wm_upgrade_events.70
+							days = 1
+						}
+					}
+				}
+			}
 		}
 	}
 	approach = {
@@ -176,7 +184,17 @@ rikk_mdlc_situation_core_core = {
 		}
 		on_select = {
 			custom_tooltip = rikk_mdlc_approach_extra_effect
-			target = { hidden_effect = { planet_event = { id = rikk_mdlc_wm_upgrade_events.70 days = 1 } } }
+			target = {
+				hidden_effect = {
+					if = {
+						limit = { has_district = xvcv_mdlc_common_district_cooling }
+						planet_event = {
+							id = rikk_mdlc_wm_upgrade_events.70
+							days = 1
+						}
+					}
+				}
+			}
 		}
 	}
 
@@ -195,10 +213,8 @@ rikk_mdlc_situation_core_core = {
 					resource = alloys value >= 1000
 				}
 			}
-			OR = {
-				prev = {
-					has_district = xvcv_mdlc_common_district_cooling
-				}
+			target = {
+				has_district = xvcv_mdlc_common_district_cooling
 			}
 		}
 		resources = {
@@ -210,9 +226,18 @@ rikk_mdlc_situation_core_core = {
 		}
 		on_select = {
 			custom_tooltip = rikk_mdlc_approach_cooling_district_effect
-			target = { hidden_effect = { planet_event = { id = rikk_mdlc_wm_upgrade_events.70 days = 1 } } }
+			target = {
+				hidden_effect = {
+					if = {
+						limit = { has_district = xvcv_mdlc_common_district_cooling }
+						planet_event = {
+							id = rikk_mdlc_wm_upgrade_events.70
+							days = 1
+						}
+					}
+				}
+			}
 		}
-		
 	}
 
 	#approach for stage 2, use pops for mining
@@ -245,7 +270,7 @@ rikk_mdlc_situation_core_core = {
 	# 		}
 	# 	}
 	# }
-	
+
 	#approach for stage 2, version for world machine origin since no pops
 	approach = {
 		name = rikk_mdlc_approach_stage_2_dumping_grounds
@@ -284,12 +309,12 @@ rikk_mdlc_situation_core_core = {
 	
 	#approach for stage 3, 
 	approach = {
-		name = rikk_mdlc_approach_tear_new_one
+		name = rikk_mdlc_approach_stage_3_acceleration
 		icon = GFX_situation_approach_fist
 		icon_background = GFX_situation_approach_bg_yellow
 		ai_weight = { base = 0 }
 		potential = { current_stage = rikk_mdlc_situation_core_upgrade_stage_3 }
-		on_select = { custom_tooltip = rikk_mdlc_approach_tear_new_one_effect }
+		on_select = { custom_tooltip = rikk_mdlc_approach_stage_3_acceleration_effect }
 		target_modifier = {
 			rikk_mdlc_world_machine_districts_base_production = -0.50
 		}
@@ -319,8 +344,8 @@ rikk_mdlc_situation_core_core = {
 		}
 		modifier = {
 			add = 30
-			desc = rikk_mdlc_approach_tear_new_one_desc
-			current_situation_approach = rikk_mdlc_approach_tear_new_one
+			desc = rikk_mdlc_approach_stage_3_acceleration_desc
+			current_situation_approach = rikk_mdlc_approach_stage_3_acceleration
 		}
 	}
 
