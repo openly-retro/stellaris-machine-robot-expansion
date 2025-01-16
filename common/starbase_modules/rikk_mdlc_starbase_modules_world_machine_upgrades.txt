@@ -15,30 +15,116 @@ rikk_mdlc_world_machine_dyson_deflector = {
 	potential = {
 		exists = owner
 		is_normal_starbase = yes
-		owner = { has_technology = "rikk_mdlc_tech_world_machine_dyson" }
+		owner = {
+			has_technology = "rikk_mdlc_tech_world_machine_dyson"
+			has_monthly_income = {
+				resource = engineering_research
+				value > @oxr_mdlc_origin_wm_rikk_dyson_deflector_research_upkeep
+			}
+			has_monthly_income = {
+				resource = physics_research
+				value = @oxr_mdlc_origin_wm_rikk_dyson_deflector_research_upkeep
+			}
+		}
 	}
 
 	possible = {
 		solar_system = {
 			custom_tooltip = {
 				fail_text = "rikk_mdlc_requires_full_dyson_sphere"
-				has_megastructure = dyson_sphere_5
+				OR = {
+					has_megastructure = dyson_sphere_5
+					has_megastructure = dyson_sphere_5_a_star
+					has_megastructure = dyson_sphere_5_b_star
+					has_megastructure = dyson_sphere_5_f_star
+					has_megastructure = dyson_sphere_5_g_star
+					has_megastructure = dyson_sphere_5_k_star
+					has_megastructure = dyson_sphere_5_m_star
+					has_megastructure = dyson_sphere_5_m_giant_star
+				}
 			}
 		}
 	}
 
 	show_in_tech = "rikk_mdlc_tech_world_machine_dyson"
 	
-	country_modifier = { rikk_mdlc_world_machine_dyson_sphere_receiver_max = 1 }
+	country_modifier = { rikk_mdlc_world_machine_dyson_sphere_receiver_max = 4 }
 	
 	resources = {
 		category = starbase_modules
-		cost = {
-			alloys = 1000
+		cost = { alloys = 1000 }
+		upkeep = {
+			energy = 1000
+			mult = owner.value:scripted_modifier_mult|MODIFIER|country_energy_produces_mult|
 		}
 		upkeep = {
-			energy = 500
+			trigger = { always = yes }
+			physics_research = @oxr_mdlc_origin_wm_rikk_dyson_deflector_research_upkeep
+			engineering_research = @oxr_mdlc_origin_wm_rikk_dyson_deflector_research_upkeep
+		}
+	}
+
+	ai_weight = {
+		weight = 100
+	}
+
+	on_destroyed = {
+		owner = { country_event = { id = rikk_mdlc_wm_upgrade_events.120 days = 1 } }
+	}
+}
+
+#For giga
+rikk_mdlc_world_machine_dyson_deflector_O = {
+	icon = "GFX_solar_panel_network"
+	section = "SCIENCE_STARBASE_SECTION"
+	construction_days = 180
+
+	show_in_tech = "rikk_mdlc_tech_world_machine_dyson"
+	show_tech_unlock_if = { has_global_flag = giga_has_host }
+	
+	potential = {
+		exists = owner
+		is_normal_starbase = yes
+		owner = {
+			has_technology = "rikk_mdlc_tech_world_machine_dyson"
+			has_technology = "giga_tech_dyson_o_star"
+			has_monthly_income = {
+				resource = engineering_research
+				value > @oxr_mdlc_origin_wm_rikk_dyson_deflector_research_upkeep
+			}
+			has_monthly_income = {
+				resource = physics_research
+				value = @oxr_mdlc_origin_wm_rikk_dyson_deflector_research_upkeep
+			}
+		}
+	}
+
+	possible = {
+		solar_system = {
+			custom_tooltip = {
+				fail_text = "rikk_mdlc_requires_full_dyson_sphere"
+				has_megastructure = dyson_sphere_5_o_star
+			}
+		}
+	}
+	
+	country_modifier = { rikk_mdlc_world_machine_dyson_sphere_receiver_max = 20 }
+	
+	resources = {
+		category = giga_megastructures
+		cost = {
+			alloys = 5000
+		}
+		upkeep = {
+			energy = @dyson_p2_produces_energy_o_star
 			mult = owner.value:scripted_modifier_mult|MODIFIER|country_energy_produces_mult|
+		}
+		upkeep = {
+			trigger = {
+				always = yes
+			}
+			physics_research = 80
+			engineering_research = 80
 		}
 	}
 	
@@ -46,21 +132,33 @@ rikk_mdlc_world_machine_dyson_deflector = {
 		weight = 100
 	}
 	
-	on_destroyed = { 
+	on_destroyed = {
 		owner = { country_event = { id = rikk_mdlc_wm_upgrade_events.120 days = 1 } }
 	}
 }
 
 rikk_mdlc_world_machine_dyson_receiver = {
 	icon = "GFX_solar_panel_network"
-    section = "SOLAR_PANEL_ORBITAL_RING_SECTION"
+	section = "SOLAR_PANEL_ORBITAL_RING_SECTION"
 	construction_days = 180
 
 	potential = {
 		exists = owner
 		is_orbital_ring = yes
-		owner = { has_technology = "rikk_mdlc_tech_world_machine_dyson" }
+		owner = {
+			has_technology = "rikk_mdlc_tech_world_machine_dyson"
+			has_monthly_income = {
+				resource = engineering_research
+				value > @oxr_mdlc_origin_wm_rikk_dyson_deflector_research_upkeep_giga_o
+			}
+			has_monthly_income = {
+				resource = physics_research
+				value = @oxr_mdlc_origin_wm_rikk_dyson_deflector_research_upkeep_giga_o
+			}
+		}
 	}
+	
+	show_in_tech = "rikk_mdlc_tech_world_machine_dyson"
 	
 	possible = {
 		owner = {
@@ -85,12 +183,21 @@ rikk_mdlc_world_machine_dyson_receiver = {
 			}
 			energy = 2000
 		}
+		upkeep = {
+			trigger = {
+				always = yes
+			}
+			physics_research = @oxr_mdlc_origin_wm_rikk_dyson_deflector_research_upkeep_giga_o
+			engineering_research = @oxr_mdlc_origin_wm_rikk_dyson_deflector_research_upkeep_giga_o
+		}
 	}
-	
-	planet_modifier = { rikk_mdlc_world_machine_districts_base_production = 0.05 }
+
+	planet_modifier = {
+		rikk_mdlc_world_machine_districts_base_production = @oxr_mdlc_planet_base_production_per_orbital_dyson_receiver
+	}
 	country_modifier = { rikk_mdlc_world_machine_dyson_sphere_receiver_max = -1 }
 
 	ai_weight = {
-		weight = 1000
+		weight = 100
 	}
 }
