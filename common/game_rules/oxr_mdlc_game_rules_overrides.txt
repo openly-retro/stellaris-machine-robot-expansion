@@ -198,3 +198,47 @@ can_species_be_assembled = {
 		country = root.owner
 	}
 }
+can_be_leader = {
+	has_citizenship_rights = yes
+	# Rule out Traits for servitude & lack of free will
+	NOR = {
+		has_trait = trait_syncretic_proles
+		can_think = no
+	}
+	OR = {
+		is_robot_pop = no
+		root = {
+			OR = {
+				has_technology = tech_synthetic_leaders
+				is_machine_empire = yes
+				is_mechanical_empire = yes
+				is_individual_machine = yes
+			}
+		}
+		# Machines & Robot Expansion -- includes root in trigger
+		oxr_mdlc_can_be_leader = yes
+	}
+	OR = {
+		is_same_species = root
+		root = {
+			NAND = {
+				has_origin = origin_necrophage
+				has_trait = trait_necrophage
+			}
+		}
+	}
+}
+#Checks whether this species is eligible to become rulers through elections
+#Root = country
+#This = species
+can_generate_leader_from_species = {
+	is_sapient = yes
+	OR = {
+		NAND = {
+			NOT = { root = { has_technology = "tech_synthetic_leaders" } }
+			has_trait = "trait_mechanical"
+		}
+		oxr_mdlc_can_generate_leader_from_species = yes
+		has_citizenship_type = { type = citizenship_full country = root }
+	}
+}
