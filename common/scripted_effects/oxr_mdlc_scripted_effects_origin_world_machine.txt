@@ -1330,7 +1330,14 @@ oxr_mdlc_planet_do_wm_origin_things_after_project = {
 	remove_if_has_building = { WHICH = building_machine_capital }
 	remove_if_has_building = { WHICH = building_machine_major_capital }
 	remove_if_has_building = { WHICH = building_machine_system_capital }
-	add_building = oxr_mdlc_world_machines_building_auto_capital
+	# Avoid accidentally adding a duplicate auto-capital, in case this world
+	# was converted from one WM type to another
+	if = {
+		limit = {
+			NOT = { has_building = oxr_mdlc_world_machines_building_auto_capital }
+		}
+		add_building = oxr_mdlc_world_machines_building_auto_capital
+	}
 
 	set_saved_date = {
 		key = oxr_mdlc_world_machine_founded_date
@@ -1638,5 +1645,23 @@ oxr_mdlc_country_clear_wm_arc_sites_on_knowledge_gain = {
 			oxr_mdlc_arc_site_is_wm_blocker = yes
 		}
 		destroy_archaeological_site = this
+	}
+}
+
+oxr_mdlc_planet_set_initial_cooling_district_count = {
+	if = {
+		limit = {
+			num_districts = { type = num_xvcv_mdlc_common_district_cooling value > 0 }
+		}
+		set_variable = {
+			which = num_xvcv_mdlc_common_district_cooling
+			value = value:count_world_machines_districts_of_type|DISTRICT_NAME|xvcv_mdlc_common_district_cooling|
+		}
+	}
+	else = {
+		set_variable = {
+			which = num_xvcv_mdlc_common_district_cooling
+			value = 0
+		}
 	}
 }
