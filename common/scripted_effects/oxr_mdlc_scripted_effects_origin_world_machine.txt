@@ -1326,13 +1326,12 @@ oxr_mdlc_planet_create_world_machine_colony = {
 }
 
 oxr_mdlc_planet_do_wm_origin_things_after_project = {
-	if = {
-		limit = {
-			has_building = building_deployment_post
-		}
-		remove_building = building_deployment_post
-		add_building = oxr_mdlc_world_machines_building_auto_capital
-	}
+	remove_if_has_building = { WHICH = building_deployment_post }
+	remove_if_has_building = { WHICH = building_machine_capital }
+	remove_if_has_building = { WHICH = building_machine_major_capital }
+	remove_if_has_building = { WHICH = building_machine_system_capital }
+	add_building = oxr_mdlc_world_machines_building_auto_capital
+
 	set_saved_date = {
 		key = oxr_mdlc_world_machine_founded_date
 		days_from_present = 0
