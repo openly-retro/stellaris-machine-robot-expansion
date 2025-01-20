@@ -317,10 +317,8 @@ xvcv_mdlc_decision_machine_ecu_project = {
 			xvcv_mdlc_planet_terraforming_resolution_breached_effect = yes
 			# Re-use this trigger to replace the capital with auto-capital
 			if = {
-				limit = {
-					owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
-				}
-				oxr_mdlc_planet_fix_things_after_restoring_ownership = yes
+				limit = { oxr_owner_has_wm_origin = yes }
+				oxr_mdlc_planet_do_wm_origin_things_after_project = yes
 			}
 			set_variable = {
 				which = num_xvcv_mdlc_common_district_cooling
@@ -406,12 +404,12 @@ xvcv_mdlc_decision_machine_cpu_project = {
 			}
 			add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral days = -1 }
 			xvcv_mdlc_planet_terraforming_resolution_breached_effect = yes
-			# Re-use this trigger to replace the capital with auto-capital
+			# Set var, add modifier
 			if = {
 				limit = {
-					owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+					oxr_owner_has_wm_origin = yes
 				}
-				oxr_mdlc_planet_fix_things_after_restoring_ownership = yes
+				oxr_mdlc_planet_do_wm_origin_things_after_project = yes
 			}
 			set_variable = {
 				which = num_xvcv_mdlc_common_district_cooling
@@ -500,6 +498,15 @@ xvcv_mdlc_decision_machine_ser_project = {
 			}
 			add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral days = -1 }
 			xvcv_mdlc_planet_terraforming_resolution_breached_effect = yes
+			if = {
+				limit = { oxr_owner_has_wm_origin = yes }
+				# Info modifier, mainly
+				oxr_mdlc_planet_do_wm_origin_things_after_project = yes
+			}
+			set_variable = {
+				which = num_xvcv_mdlc_common_district_cooling
+				value = 0
+			}
 		}
 		owner = {
 			if = {
