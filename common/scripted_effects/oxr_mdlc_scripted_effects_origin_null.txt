@@ -1,5 +1,13 @@
+# oxr_mdlc_origin_null_planet_energy_produces_tmp
+# oxr_mdlc_origin_null_planet_minerals_produces_tmp
+# oxr_mdlc_origin_null_planet_food_produces_tmp
+# oxr_mdlc_origin_null_planet_alloys_produces_tmp
+
+
 # Planet consumption effect, called from MEGA scope
-oxr_mdlc_origin_null_mega_set_up_planet_consumption = {
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_habitable_planets = {
+	# This effect looks at what deposits are on the planet, and exports the total district modifiers
+	# so that the mega can access the vars and produce resources based on the planet's deposits
 
 	$PLANET_SCOPE$ = {
 		export_trigger_value_to_variable = {
@@ -32,18 +40,57 @@ oxr_mdlc_origin_null_mega_set_up_planet_consumption = {
 			which = oxr_mdlc_origin_null_num_nonresource_districts
 			value = oxr_mdlc_origin_null_planet_minerals_produces_tmp
 		}
+		# The remainder is how many city and industrial districts could be built
 		subtract_variable = {
 			which = oxr_mdlc_origin_null_num_nonresource_districts
 			value = oxr_mdlc_origin_null_planet_food_produces_tmp
 		}
-		# The remainder is how many city and industrial districts could be built
-		set_variable = {
-			which = oxr_mdlc_origin_null_planet_energy_produces
-			value = 0
+
+		# Mult by 10 so we dont have to do this in the mega/resources block
+		multiply_variable = {
+			which = oxr_mdlc_origin_null_planet_energy_produces_tmp
+			value = @oxr_mdlc_origin_null_base_deposit_mult_value
+		}
+		multiply_variable = {
+			which = oxr_mdlc_origin_null_planet_minerals_produces_tmp
+			value = @oxr_mdlc_origin_null_base_deposit_mult_value
+		}
+		multiply_variable = {
+			which = oxr_mdlc_origin_null_planet_food_produces_tmp
+			value = @oxr_mdlc_origin_null_base_deposit_mult_value
 		}
 	}
-	
 }
+
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_nonhabitable_planets = {
+	# Barren, frozen, toxic, molten
+}
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_stars = {
+	# Scale effects based on star size
+}
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_asteroids = {
+	# Produce minerals, but also SR if there is a deposit
+}
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_artificial_planets = {
+	# Machine, habitat, ringworld, lathe, nanite
+}
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_black_holes = { }
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_pulsars = { }
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_special_planets = {
+	# shrouded, shielded, broken, shattered
+}
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_unknown = {
+	# if we can't detect the planet class ... maybe rely on merger triggers for this
+}
+
+# Major mod compatibility
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_gigastructural_classes = {
+	# Need special tech to consume alderson disk, birch world
+}
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_planetary_diversity_classes = { }
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_forgotten_queens_classes = { }
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_cellaris_classes = { }
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_acot_habitats = { }
 
 
 # EOF
