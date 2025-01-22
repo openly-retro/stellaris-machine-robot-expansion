@@ -1,0 +1,64 @@
+oxr_mdlc_origin_null_stellar_formatter = {
+	entity = "xvcv_mdlc_planet_cracker_entity"
+	portrait = "GFX_megastructure_xvcv_mdlc_planet_cracker"
+	place_entity_on_planet_plane = yes
+	show_galactic_map_icon = no
+	show_in_outliner = no
+	use_planet_resource = yes  # linked to deposit?
+	build_time = 720
+	entity_offset = { x = 0 y = 0 }
+
+	construction_blocks_and_blocked_by = none
+
+	# upgrade_from = { xvcv_mdlc_planet_cracker_incomplete }
+	dismantle_cost = { category = megastructures cost = { energy = 500 } }
+	dismantle_time = 180
+	dismantle_potential = { always = yes }
+	dismantle_possible = { always = yes }
+
+	on_dismantle_start = {
+		fromfrom.planet = {
+			# set_planet_flag = oxr_mdlc_clear_dismantled_planet_cracker
+		}
+	}
+	on_dismantle_cancel = {
+		fromfrom.planet = {
+			# remove_planet_flag = oxr_mdlc_clear_dismantled_planet_cracker
+		}
+	}
+	
+	on_build_complete = {
+		oxr_mdlc_origin_null_mega_set_up_planet_consumption = {
+			PLANET_SCOPE = fromfrom.planet
+			MEGA_SCOPE = this
+		}
+		# fromfrom.planet = {
+			
+		# }
+	}
+	on_dismantle_complete = {
+		# fromfrom.planet = {
+
+		# }
+	}
+	resources = {
+		# category = station_gatherers
+		category = megastructures
+
+		## NORMAL HABITABLE PLANETS ##
+		# Basic resources
+		inline_script = {
+			script = megas/resources/oxr_null_basic
+			RESOUCE = food
+		}
+		inline_script = {
+			script = megas/resources/oxr_null_basic
+			RESOUCE = energy
+		}
+		inline_script = {
+			script = megas/resources/oxr_null_basic
+			RESOUCE = minerals
+		}
+
+	}
+}
