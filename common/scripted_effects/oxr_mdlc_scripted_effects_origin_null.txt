@@ -1,0 +1,49 @@
+# Planet consumption effect, called from MEGA scope
+oxr_mdlc_origin_null_mega_set_up_planet_consumption = {
+
+	$PLANET_SCOPE$ = {
+		export_trigger_value_to_variable = {
+			trigger = planet_size
+			variable = oxr_mdlc_origin_null_starting_planet_size
+		}
+		# Deposits
+		export_modifier_to_variable = {
+			modifier = district_generator_max
+			variable = oxr_mdlc_origin_null_planet_energy_produces_tmp
+		}
+		export_modifier_to_variable = {
+			modifier = district_mining_max
+			variable = oxr_mdlc_origin_null_planet_minerals_produces_tmp
+		}
+		export_modifier_to_variable = {
+			modifier = district_farming_max
+			variable = oxr_mdlc_origin_null_planet_food_produces_tmp
+		}
+		# Math time
+		set_variable = {
+			which = oxr_mdlc_origin_null_num_nonresource_districts
+			value = oxr_mdlc_origin_null_starting_planet_size
+		}
+		subtract_variable = {
+			which = oxr_mdlc_origin_null_num_nonresource_districts
+			value = oxr_mdlc_origin_null_planet_energy_produces_tmp
+		}
+		subtract_variable = {
+			which = oxr_mdlc_origin_null_num_nonresource_districts
+			value = oxr_mdlc_origin_null_planet_minerals_produces_tmp
+		}
+		subtract_variable = {
+			which = oxr_mdlc_origin_null_num_nonresource_districts
+			value = oxr_mdlc_origin_null_planet_food_produces_tmp
+		}
+		# The remainder is how many city and industrial districts could be built
+		set_variable = {
+			which = oxr_mdlc_origin_null_planet_energy_produces
+			value = 0
+		}
+	}
+	
+}
+
+
+# EOF
