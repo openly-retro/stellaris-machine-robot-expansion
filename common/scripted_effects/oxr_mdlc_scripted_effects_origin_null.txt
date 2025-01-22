@@ -3,6 +3,101 @@
 # oxr_mdlc_origin_null_planet_food_produces_tmp
 # oxr_mdlc_origin_null_planet_alloys_produces_tmp
 
+oxr_mdlc_origin_null_formatter_entry_effect = {
+	# The effect to call all effects
+	if = {
+		limit = {
+			fromfrom.planet = {
+				uninhabitable_regular_planet = yes
+			}
+		}
+		oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_uninhabitable_regular_planets = yes
+	}
+	# HABITABLE PLANETS
+	else_if = {
+		limit = {
+			fromfrom.planet = {
+				habitable_planet = yes
+			}
+		}
+		oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_habitable_planets = yes
+	}
+	# BLACK HOLE
+	else_if = {
+		limit = {
+			fromfrom.planet = {
+				is_planet_class = pc_black_hole
+			}
+		}
+		oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_black_holes = yes
+	}
+	# PULSAR
+	else_if = {
+		limit = {
+			fromfrom.planet = {
+				OR = {
+					is_planet_class = pc_pulsar
+					is_planet_class = pc_neutron_star
+				}
+			}
+		}
+		oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_pulsars = yes
+	}
+	# STARS
+	else_if = {
+		limit = {
+			fromfrom.planet = {
+				is_star = yes
+			}
+		}
+		oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_stars = yes
+	}
+	# ASTEROIDS
+	else_if = {
+		limit = {
+			fromfrom.planet = {
+				is_asteroid = yes
+			}
+		}
+		oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_asteroids = yes
+	}
+	# ARTIFICIAL PLANETS
+	else_if = {
+		limit = {
+			fromfrom.planet = {
+				habitable_structure = yes
+			}
+		}
+		oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_artificial_planets = yes
+	}
+	# SPECIAL PLANETS
+	else_if = {
+		limit = {
+			fromfrom.planet = {
+				OR = {
+					is_planet_class = pc_shielded
+					is_planet_class = pc_infested
+					is_planet_class = pc_shrouded
+					is_planet_class = pc_broken
+					is_planet_class = pc_shattered
+				}
+			}
+		}
+		oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_special_planets = yes
+	}
+	##
+	# GIGA / PD / ETC
+	##
+	else = {
+		# Don't know what this planet class is
+		export_trigger_value_to_variable = {
+			trigger = is_planet_class
+			variable = oxr_mdlc_origin_null_unknown_pc
+		}
+		log = "Encountered unsupported planet class in Formatter mega setup effect \\[This.oxr_mdlc_origin_null_unknown_pc]"
+		oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_unknown = yes
+	}
+}
 
 # Planet consumption effect, called from MEGA scope
 oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_habitable_planets = {
@@ -62,7 +157,7 @@ oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_habitable_planets = {
 	}
 }
 
-oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_nonhabitable_planets = {
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_uninhabitable_regular_planets = {
 	# Barren, frozen, toxic, molten
 }
 oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_stars = {
@@ -75,7 +170,10 @@ oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_artificial_planets = {
 	# Machine, habitat, ringworld, lathe, nanite
 }
 oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_black_holes = { }
-oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_pulsars = { }
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_special_stars = {
+	# pulsar, neutron star
+}
+
 oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_special_planets = {
 	# shrouded, shielded, broken, shattered
 }
