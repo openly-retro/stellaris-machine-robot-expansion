@@ -5,45 +5,47 @@ oxr_mdlc_origin_null_stellar_formatter = {
 	show_galactic_map_icon = no
 	show_in_outliner = no
 	use_planet_resource = yes  # linked to deposit?
-	build_time = 720
+	build_time = 1  # change this later :)
 	entity_offset = { x = 0 y = 0 }
 
 	construction_blocks_and_blocked_by = none
 
 	# upgrade_from = { xvcv_mdlc_planet_cracker_incomplete }
-	dismantle_cost = { category = megastructures cost = { energy = 500 } }
-	dismantle_time = 180
+	dismantle_cost = { category = megastructures cost = { energy = 1 } }
+	dismantle_time = 1
 	dismantle_potential = { always = yes }
 	dismantle_possible = { always = yes }
 
-	on_dismantle_start = {
-		fromfrom.planet = {
-			# pause the consumption event
+	possible = {
+		hidden_trigger = {
+			exists = starbase
+		}
+		custom_tooltip = {
+			fail_text = "requires_inside_border"
+			is_inside_border = from
 		}
 	}
-	on_dismantle_cancel = {
-		fromfrom.planet = {
-			# continue consumption event
+	placement_rules = {
+		planet_possible = {
+			has_moon = no
+			NOT = { has_planet_flag = megastructure }
 		}
 	}
 	
 	on_build_complete = {
-		oxr_mdlc_origin_null_mega_set_up_planet_consumption = {
-			PLANET_SCOPE = fromfrom.planet
-			MEGA_SCOPE = this
+		fromfrom.planet = {
+			set_planet_flag = has_megastructure
 		}
-		# fromfrom.planet = {
-			
-		# }
+		oxr_mdlc_origin_null_formatter_entry_effect = yes
+		# Start yearly consumption event
 	}
-	on_dismantle_complete = {
-		# fromfrom.planet = {
-			# stop consumption and remove planet modifier
-		# }
-	}
+	
 	resources = {
 		# category = station_gatherers
-		category = megastructures
+		category = oxr_mdlc_category_origin_null_production_megas
+		cost = {
+			energy = 1
+		}
 
 		## NORMAL HABITABLE PLANETS ##
 		# Basic resources
@@ -59,6 +61,22 @@ oxr_mdlc_origin_null_stellar_formatter = {
 			script = megas/resources/oxr_null_basic
 			RESOUCE = minerals
 		}
+	}
 
+	on_dismantle_start = {
+		fromfrom.planet = {
+			# pause the consumption event
+		}
+	}
+	on_dismantle_cancel = {
+		fromfrom.planet = {
+			# continue consumption event
+		}
+	}
+	on_dismantle_complete = {
+		fromfrom.planet = {
+			# stop consumption and remove planet modifier
+			remove_flag = has_megastructure
+		}
 	}
 }
