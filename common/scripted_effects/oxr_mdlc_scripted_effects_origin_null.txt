@@ -1,0 +1,248 @@
+# oxr_mdlc_origin_null_planet_energy_produces_tmp
+# oxr_mdlc_origin_null_planet_minerals_produces_tmp
+# oxr_mdlc_origin_null_planet_food_produces_tmp
+# oxr_mdlc_origin_null_planet_alloys_produces_tmp
+
+oxr_mdlc_origin_null_formatter_entry_effect = {
+	# The effect to call all effects
+	if = {
+		limit = {
+			fromfrom.planet = {
+				uninhabitable_regular_planet = yes
+			}
+		}
+		oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_uninhabitable_regular_planets = yes
+	}
+	# HABITABLE PLANETS
+	else_if = {
+		limit = {
+			fromfrom.planet = {
+				habitable_planet = yes
+			}
+		}
+		oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_habitable_planets = {
+			PLANET_SCOPE = fromfrom.planet
+		}
+	}
+	# BLACK HOLE
+	else_if = {
+		limit = {
+			fromfrom.planet = {
+				is_planet_class = pc_black_hole
+			}
+		}
+		fromfrom.planet = {
+			oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_black_holes = yes
+		}
+	}
+	# PULSAR
+	else_if = {
+		limit = {
+			fromfrom.planet = {
+				OR = {
+					is_planet_class = pc_pulsar
+					is_planet_class = pc_neutron_star
+				}
+			}
+		}
+		fromfrom.planet = {
+			oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_pulsars = yes
+		}
+	}
+	# STARS
+	else_if = {
+		limit = {
+			fromfrom.planet = {
+				is_star = yes
+			}
+		}
+		oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_stars = yes
+	}
+	# ASTEROIDS
+	else_if = {
+		limit = {
+			fromfrom.planet = {
+				is_asteroid = yes
+			}
+		}
+		oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_asteroids = yes
+	}
+	# ARTIFICIAL PLANETS
+	else_if = {
+		limit = {
+			fromfrom.planet = {
+				habitable_structure = yes
+			}
+		}
+		oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_artificial_planets = yes
+	}
+	# SPECIAL PLANETS
+	else_if = {
+		limit = {
+			fromfrom.planet = {
+				OR = {
+					is_planet_class = pc_shielded
+					is_planet_class = pc_infested
+					is_planet_class = pc_shrouded
+					is_planet_class = pc_broken
+					is_planet_class = pc_shattered
+				}
+			}
+		}
+		oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_special_planets = yes
+	}
+	##
+	# GIGA / PD / ETC
+	##
+	else = {
+		# Don't know what this planet class is
+		export_trigger_value_to_variable = {
+			trigger = is_planet_class
+			variable = oxr_mdlc_origin_null_unknown_pc
+		}
+		log = "Encountered unsupported planet class in Formatter mega setup effect \\[This.oxr_mdlc_origin_null_unknown_pc]"
+		oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_unknown = yes
+	}
+}
+
+# Planet consumption effect, called from MEGA scope
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_habitable_planets = {
+	# This effect looks at what deposits are on the planet, and exports the total district modifiers
+	# so that the mega can access the vars and produce resources based on the planet's deposits
+
+	$PLANET_SCOPE$ = {
+		export_trigger_value_to_variable = {
+			trigger = planet_size
+			variable = oxr_mdlc_origin_null_starting_planet_size
+		}
+		# This will be used later like 
+		# oxr_mdlc_origin_null_planet_formatting_stage_$STAGE$
+		set_variable = {
+			which = oxr_mdlc_origin_null_planet_formatting_stage
+			value = 0
+		}
+		set_variable = {
+			which = oxr_mdlc_origin_null_planet_formatting_stage_0
+			value = oxr_mdlc_origin_null_starting_planet_size
+		}
+
+		# Set what 2/3 the size is, so we don't have to use triggers/script vars to figure it out later
+		set_variable = {
+			which = oxr_mdlc_origin_null_planet_formatting_stage_1
+			value = oxr_mdlc_origin_null_starting_planet_size
+		}
+		multiply_variable = {
+			which = oxr_mdlc_origin_null_planet_formatting_stage_1
+			value = 0.66
+			round = yes
+		}
+		# Set 1/3 size - At 1/3 size, produce "full amount" of alloys
+		# Larger planets will produce more alloys, naturally, and for more years
+		# But you get to alloys faster with smaller planets
+		set_variable = {
+			which = oxr_mdlc_origin_null_planet_formatting_stage_2
+			value = oxr_mdlc_origin_null_starting_planet_size
+		}
+		multiply_variable = {
+			which = oxr_mdlc_origin_null_planet_formatting_stage_2
+			value = 0.33
+			round = yes
+		}
+
+		## DEPOSITS
+		# The number and type of deposits affects how many of each resource the formatting process generates
+		export_modifier_to_variable = {
+			modifier = district_generator_max
+			variable = oxr_mdlc_origin_null_planet_energy_produces_tmp
+		}
+		export_modifier_to_variable = {
+			modifier = district_mining_max
+			variable = oxr_mdlc_origin_null_planet_minerals_produces_tmp
+		}
+		export_modifier_to_variable = {
+			modifier = district_farming_max
+			variable = oxr_mdlc_origin_null_planet_food_produces_tmp
+		}
+	
+		## DEBRIS
+		# Debris is the "useless" matter of the planet that's mostly rock
+		# It is the consequence of consuming the planet. matter just doesn't vanish .. (or does it !??!?)
+		# oxr_mdlc_origin_null_num_nonresource_districts will be the 'debris' factor
+		set_variable = {
+			which = oxr_mdlc_origin_null_num_nonresource_districts
+			value = oxr_mdlc_origin_null_starting_planet_size
+		}
+		subtract_variable = {
+			which = oxr_mdlc_origin_null_num_nonresource_districts
+			value = oxr_mdlc_origin_null_planet_energy_produces_tmp
+		}
+		subtract_variable = {
+			which = oxr_mdlc_origin_null_num_nonresource_districts
+			value = oxr_mdlc_origin_null_planet_minerals_produces_tmp
+		}
+		subtract_variable = {
+			which = oxr_mdlc_origin_null_num_nonresource_districts
+			value = oxr_mdlc_origin_null_planet_food_produces_tmp
+		}
+
+		# Mult by 10 so we dont have to do this in the mega/resources block
+		# The mega 'resources' block will read these vars to produce resources
+		multiply_variable = {
+			which = oxr_mdlc_origin_null_planet_energy_produces_tmp
+			value = @oxr_mdlc_origin_null_base_deposit_mult_value
+		}
+		multiply_variable = {
+			which = oxr_mdlc_origin_null_planet_minerals_produces_tmp
+			value = @oxr_mdlc_origin_null_base_deposit_mult_value
+		}
+		multiply_variable = {
+			which = oxr_mdlc_origin_null_planet_food_produces_tmp
+			value = @oxr_mdlc_origin_null_base_deposit_mult_value
+		}
+		# The mega will reference these planet vars in its 'produces' block
+	}
+}
+
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_uninhabitable_regular_planets = {
+	# Barren, frozen, toxic, molten
+	# switch = {
+	# 	trigger = is_planet_class
+	# 	pc_molten = { }
+	# 	pc_barren = { }
+	# 	pc_barren_cold = { }
+	# 	pc_toxic = { }
+	# 	pc_frozen = { }
+	# }
+}
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_stars = {
+	# Scale effects based on star size
+}
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_asteroids = {
+	# Produce minerals, but also SR if there is a deposit
+}
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_artificial_planets = {
+	# Machine, habitat, ringworld, lathe, nanite
+}
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_black_holes = { }
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_special_stars = {
+	# pulsar, neutron star
+}
+
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_special_planets = {
+	# shrouded, shielded, broken, shattered
+}
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_unknown = {
+	# if we can't detect the planet class ... maybe rely on merger triggers for this
+}
+
+# Major mod compatibility
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_gigastructural_classes = {
+	# Need special tech to consume alderson disk, birch world
+}
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_planetary_diversity_classes = { }
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_forgotten_queens_classes = { }
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_cellaris_classes = { }
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_acot_habitats = { }
+
+
+# EOF
