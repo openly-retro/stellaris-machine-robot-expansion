@@ -34,13 +34,20 @@ rikk_mdlc_world_machine_dyson_deflector = {
 				fail_text = "rikk_mdlc_requires_full_dyson_sphere"
 				OR = {
 					has_megastructure = dyson_sphere_5
-					has_megastructure = dyson_sphere_5_a_star
-					has_megastructure = dyson_sphere_5_b_star
-					has_megastructure = dyson_sphere_5_f_star
-					has_megastructure = dyson_sphere_5_g_star
-					has_megastructure = dyson_sphere_5_k_star
-					has_megastructure = dyson_sphere_5_m_star
-					has_megastructure = dyson_sphere_5_m_giant_star
+
+					inline_script = {
+						script = oxr_merger_of_rules_copy/toggled_code
+						code = "
+							has_megastructure = dyson_sphere_5_a_star
+							has_megastructure = dyson_sphere_5_b_star
+							has_megastructure = dyson_sphere_5_f_star
+							has_megastructure = dyson_sphere_5_g_star
+							has_megastructure = dyson_sphere_5_k_star
+							has_megastructure = dyson_sphere_5_m_star
+							has_megastructure = dyson_sphere_5_m_giant_star
+						"
+						toggle = @has_gigastructures
+					}
 				}
 			}
 		}
@@ -88,7 +95,14 @@ rikk_mdlc_world_machine_dyson_deflector_O = {
 		is_normal_starbase = yes
 		owner = {
 			has_technology = "rikk_mdlc_tech_world_machine_dyson"
-			has_technology = "giga_tech_dyson_o_star"
+			inline_script = {
+				script = oxr_merger_of_rules_copy/toggled_code
+				code = "
+				has_technology = "giga_tech_dyson_o_star"
+				"
+				toggle = @has_gigastructures
+			}
+			
 			has_monthly_income = {
 				resource = engineering_research
 				value > @oxr_mdlc_origin_wm_rikk_dyson_deflector_research_upkeep
