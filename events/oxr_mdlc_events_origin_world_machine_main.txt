@@ -12,16 +12,31 @@ country_event = {
 	}
 }
 
+
 country_event = {
 	id = oxr_mdlc_origin_wm_main.2
 	hide_window = yes
 	is_triggered_only = yes
+
 	trigger = {
 		has_origin = oxr_mdlc_origin_world_machine_awakened
+		exists = capital_scope
+		is_country_type = default
 	}
 	immediate = {
-		capital_scope = {
-			oxr_mdlc_origin_world_machine_awakened_game_start_setup = yes
+		every_country = {
+			if = {
+				limit = {
+					exists = capital_scope
+					is_country_type = default
+					has_oxr_mdlc_origin_world_machine_awakened = yes
+					doesnt_have_country_flag = { FLAG = oxr_mdlc_origin_world_machine_setup_started }
+				}
+				set_country_flag = oxr_mdlc_origin_world_machine_setup_started
+				capital_scope = {
+					oxr_mdlc_origin_world_machine_awakened_game_start_setup = yes
+				}
+			}
 		}
 	}
 }
@@ -52,6 +67,14 @@ country_event = {
 			message = no
 		}
 	}
+}
+
+# Add arc sites to initial world machine homeworlds, wehrever they are
+event = {
+	id = oxr_mdlc_origin_wm_main.4
+	hide_window = yes
+	is_triggered_only = yes
+
 }
 
 ship_event = {
@@ -1292,6 +1315,8 @@ planet_event = {
 		owner = {
 			has_origin = oxr_mdlc_origin_world_machine_awakened
 		}
+		# Stop this from firing on game start
+		is_capital = no
 	}
 	immediate = {
 		fire_on_action = {

@@ -9,8 +9,9 @@
 
 #region game_start_0x001
 oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
-	prev = {
-		set_country_flag = oxr_mdlc_origin_world_machine_feature_enabled
+	log = "Starting World-Machine origin setup for \\[This.owner.GetName]"
+	owner = {
+		set_country_flag = oxr_mdlc_origin_world_machine_setup_started
 	}
 	owner = {
 		set_variable = {
@@ -117,20 +118,33 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 	# By starting the player from here, it will ensure the first digsite is not an insight blocker
 	if = {
 		limit = {
-			has_deposit = oxr_mdlc_d_world_machine_collapsed_charge_controller
+			NOT = { has_deposit = oxr_mdlc_d_world_machine_collapsed_charge_controller }
 		}
-		create_archaeological_site = oxr_mdlc_collapsed_charge_controller_site
+		add_deposit = oxr_mdlc_d_world_machine_collapsed_charge_controller
 	}
-	else = {
-		add_blocker = { type = oxr_mdlc_d_world_machine_collapsed_charge_controller }
-		create_archaeological_site = oxr_mdlc_collapsed_charge_controller_site
-	}
+	create_archaeological_site = oxr_mdlc_collapsed_charge_controller_site
+	log = "Created charge controller arc site on capital homeworld \\[This.GetName]"
+	# if = {
+	# 	limit = {
+	# 		has_deposit = oxr_mdlc_d_world_machine_collapsed_charge_controller
+	# 	}
+	# 	create_archaeological_site = oxr_mdlc_collapsed_charge_controller_site
+	# 	log = "Created charge controller arc site on capital homeworld \\[This.GetName]"
+	# }
+	# else_if = {
+	# 	limit = {
+	# 		NOT = { has_deposit = oxr_mdlc_d_world_machine_collapsed_charge_controller }
+	# 	}
+	# 	add_deposit = { type = oxr_mdlc_d_world_machine_collapsed_charge_controller }
+	# 	create_archaeological_site = oxr_mdlc_collapsed_charge_controller_site
+	# 	log = "Created charge controller arc site on capital homeworld \\[This.GetName] since there wasnt one"
+	# }
 
 	# Install world machine core
 	add_deposit = oxr_mdlc_d_world_machine_core
 
 	# give_technology
-	prev = {
+	owner = {
 		give_technology = {
 			tech = oxr_mdlc_tech_world_machines_unlocked
 			message = no
@@ -141,7 +155,7 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 		# }
 	}
 	# Set up WMC counter vars
-	prev = {
+	owner = {
 		set_variable = {
 			which = oxr_mdlc_origin_wm_cores_total_produced_count
 			value = 0
@@ -169,7 +183,7 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 
 
 	# Start "recover lost tech" situation
-	prev = {
+	owner = {
 		start_situation = {
 			type = oxr_mdlc_origin_wm_situation_recover_core_tech
 			target = root
@@ -251,7 +265,7 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 	# Food adjustment
 	if = {
 		limit = {
-			prev = {
+			owner = {
 				OR = {
 					has_civic = civic_machine_beastmasters
 					has_civic = civic_machine_catalytic_processing
@@ -259,7 +273,7 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 			}
 		}
 		add_district = xvcv_mdlc_pc_machine_auto_district_farming
-		prev = {
+		owner = {
 			add_resource = {
 				food = 100
 			}
@@ -324,7 +338,7 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 	}
 
 	# Make a ruined world machine in a neighboring system
-	prev = {
+	owner = {
 		oxr_mdlc_find_neighbor_planet_and_convert_to_ruined_world_machine = yes
 	}
 
@@ -1651,7 +1665,7 @@ oxr_mdlc_country_clear_wm_arc_sites_on_knowledge_gain = {
 oxr_mdlc_planet_set_initial_cooling_district_count = {
 	if = {
 		limit = {
-			num_districts = { type = num_xvcv_mdlc_common_district_cooling value > 0 }
+			num_districts = { type = xvcv_mdlc_common_district_cooling value > 0 }
 		}
 		set_variable = {
 			which = num_xvcv_mdlc_common_district_cooling
