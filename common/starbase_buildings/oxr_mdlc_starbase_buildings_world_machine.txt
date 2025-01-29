@@ -1,3 +1,4 @@
+# World-Machine compatible starbase buildings, for orbital ring
 oxr_mdlc_starbase_auto_ring_minerals_hub = {
 	icon = "GFX_orbitalring_mineral_hub"
 	construction_days = 360
@@ -11,7 +12,8 @@ oxr_mdlc_starbase_auto_ring_minerals_hub = {
 	}
 
 	planet_modifier = {
-		xvcv_mdlc_world_machines_mining_districts_produces_mult = 0.5
+		xvcv_mdlc_world_machines_mining_districts_minerals_produces_mult = 0.5
+		oxr_mdlc_world_machines_mining_buildings_minerals_produces_mult = 0.5
 		# planet_miners_minerals_produces_add = 2
 	}
 
@@ -29,8 +31,6 @@ oxr_mdlc_starbase_auto_ring_minerals_hub = {
 	}
 
 	show_in_tech = "tech_mineral_purification_2"
-
-
 
 	ai_weight = {
 		weight = 100
@@ -50,7 +50,9 @@ oxr_mdlc_starbase_auto_ring_energy_hub = {
 	}
 
 	planet_modifier = {
-		planet_technician_energy_produces_add = 2
+		# planet_technician_energy_produces_add = 2
+		xvcv_mdlc_world_machines_generator_districts_energy_produces_mult = 0.25
+		oxr_mdlc_world_machines_factory_buildings_energy_produces_mult = 0.25
 	}
 
 	resources = {
@@ -67,8 +69,6 @@ oxr_mdlc_starbase_auto_ring_energy_hub = {
 	}
 
 	show_in_tech = "tech_power_hub_2"
-
-
 
 	ai_weight = {
 		weight = 100
@@ -88,7 +88,9 @@ oxr_mdlc_starbase_auto_ring_food_hub = {
 	}
 
 	planet_modifier = {
-		planet_farmers_food_produces_add = 2
+		# planet_farmers_food_produces_add = 2
+		xvcv_mdlc_world_machines_farming_districts_food_produces_mult = 0.3
+		oxr_mdlc_world_machines_food_buildings_food_produces_mult = 0.3
 	}
 
 	resources = {
@@ -97,148 +99,141 @@ oxr_mdlc_starbase_auto_ring_food_hub = {
 			alloys = 100
 			volatile_motes = 100
 		}
-
 		upkeep = {
 			energy = 2
 			volatile_motes = 1
 		}
 	}
-
 	show_in_tech = "tech_food_processing_2"
-
-
-
 	ai_weight = {
 		weight = 100
 	}
 }
 
-oxr_mdlc_starbase_auto_ring_trade_hub = {
-	icon = "GFX_orbitalring_trade_hub"
-	construction_days = 360
-	starbase_type = orbital_ring
+# oxr_mdlc_starbase_auto_ring_trade_hub = {
+# 	icon = "GFX_orbitalring_trade_hub"
+# 	construction_days = 360
+# 	starbase_type = orbital_ring
 
-	potential = {
-		exists = owner
-		owner = {
-			has_technology = tech_interstellar_economics
-			is_gestalt = no
-		}
-		is_orbital_ring = yes
-		inline_script = megas/orbital_ring/buildings/oxr_auto_starbase_possible.txt
-	}
+# 	potential = {
+# 		exists = owner
+# 		owner = {
+# 			has_technology = tech_interstellar_economics
+# 			is_gestalt = no
+# 		}
+# 		is_orbital_ring = yes
+# 		inline_script = megas/orbital_ring/buildings/oxr_auto_starbase_possible.txt
+# 	}
 
-	planet_modifier = {
-		trade_value_mult = 0.05
-	}
+# 	planet_modifier = {
+# 		trade_value_mult = 0.05
+# 	}
 
-	triggered_planet_modifier = {
-		custom_tooltip = "sm_ring_trade_hub_effect"
-	}
+# 	triggered_planet_modifier = {
+# 		custom_tooltip = "sm_ring_trade_hub_effect"
+# 	}
 
-	resources = {
-		category = starbase_buildings
-		cost = {
-			alloys = 100
-			rare_crystals = 100
-		}
+# 	resources = {
+# 		category = starbase_buildings
+# 		cost = {
+# 			alloys = 100
+# 			rare_crystals = 100
+# 		}
 
-		upkeep = {
-			energy = 2
-			rare_crystals = 1
-		}
-	}
+# 		upkeep = {
+# 			energy = 2
+# 			rare_crystals = 1
+# 		}
+# 	}
 
-	show_in_tech = "tech_interstellar_economics"
-
-
-
-	ai_weight = {
-		weight = 100
-	}
-}
-
-oxr_mdlc_starbase_auto_ring_bureaucracy_hub = {
-	icon = "GFX_orbitalring_bureaucracy_hub"
-	construction_days = 360
-	starbase_type = orbital_ring
-
-	potential = {
-		exists = owner
-		owner = {
-			has_technology = tech_effective_bureaucracy
-			is_gestalt = no
-		}
-		is_orbital_ring = yes
-		inline_script = megas/orbital_ring/buildings/oxr_auto_starbase_possible.txt
-	}
-
-	planet_modifier = {
-		planet_administrators_unity_produces_add = 1
-	}
-
-	resources = {
-		category = starbase_buildings
-		cost = {
-			alloys = 200
-			rare_crystals = 300
-		}
-
-		upkeep = {
-			energy = 2
-			rare_crystals = 1
-		}
-	}
-
-	show_in_tech = "tech_effective_bureaucracy"
+# 	show_in_tech = "tech_interstellar_economics"
 
 
 
-	ai_weight = {
-		weight = 100
-	}
-}
+# 	ai_weight = {
+# 		weight = 100
+# 	}
+# }
 
-oxr_mdlc_starbase_auto_ring_maintenance_hub = {
-	icon = "GFX_orbitalring_maintenance_hub"
-	construction_days = 360
-	starbase_type = orbital_ring
+# oxr_mdlc_starbase_auto_ring_bureaucracy_hub = {
+# 	icon = "GFX_orbitalring_bureaucracy_hub"
+# 	construction_days = 360
+# 	starbase_type = orbital_ring
 
-	potential = {
-		exists = owner
-		owner = {
-			has_technology = tech_resource_processing_algorithms
-			is_machine_empire = yes
-		}
-		is_orbital_ring = yes
-		inline_script = megas/orbital_ring/buildings/oxr_auto_starbase_possible.txt
-	}
+# 	potential = {
+# 		exists = owner
+# 		owner = {
+# 			has_technology = tech_effective_bureaucracy
+# 			is_gestalt = no
+# 		}
+# 		is_orbital_ring = yes
+# 		inline_script = megas/orbital_ring/buildings/oxr_auto_starbase_possible.txt
+# 	}
 
-	planet_modifier = {
-		custom_tooltip = "sm_ring_maintenance_hub_effect"
-	}
+# 	planet_modifier = {
+# 		planet_administrators_unity_produces_add = 1
+# 	}
 
-	resources = {
-		category = starbase_buildings
-		cost = {
-			alloys = 200
-			exotic_gases = 300
-		}
+# 	resources = {
+# 		category = starbase_buildings
+# 		cost = {
+# 			alloys = 200
+# 			rare_crystals = 300
+# 		}
 
-		upkeep = {
-			energy = 2
-			exotic_gases = 1
-		}
-	}
+# 		upkeep = {
+# 			energy = 2
+# 			rare_crystals = 1
+# 		}
+# 	}
 
-	show_in_tech = "tech_resource_processing_algorithms"
+# 	show_in_tech = "tech_effective_bureaucracy"
 
 
 
-	ai_weight = {
-		weight = 100
-	}
-}
+# 	ai_weight = {
+# 		weight = 100
+# 	}
+# }
+
+# oxr_mdlc_starbase_auto_ring_maintenance_hub = {
+# 	icon = "GFX_orbitalring_maintenance_hub"
+# 	construction_days = 360
+# 	starbase_type = orbital_ring
+
+# 	potential = {
+# 		exists = owner
+# 		owner = {
+# 			has_technology = tech_resource_processing_algorithms
+# 			is_machine_empire = yes
+# 		}
+# 		is_orbital_ring = yes
+# 		inline_script = megas/orbital_ring/buildings/oxr_auto_starbase_possible.txt
+# 	}
+
+# 	planet_modifier = {
+# 		custom_tooltip = "sm_ring_maintenance_hub_effect"
+# 	}
+
+# 	resources = {
+# 		category = starbase_buildings
+# 		cost = {
+# 			alloys = 200
+# 			exotic_gases = 300
+# 		}
+
+# 		upkeep = {
+# 			energy = 2
+# 			exotic_gases = 1
+# 		}
+# 	}
+
+# 	show_in_tech = "tech_resource_processing_algorithms"
+
+# 	ai_weight = {
+# 		weight = 100
+# 	}
+# }
 
 oxr_mdlc_starbase_auto_ring_consumer_goods_hub = {
 	icon = "GFX_orbitalring_consumer_hub"
@@ -256,8 +251,10 @@ oxr_mdlc_starbase_auto_ring_consumer_goods_hub = {
 	}
 
 	planet_modifier = {
-		planet_artisans_consumer_goods_produces_add = 1
-		planet_artisans_minerals_upkeep_add = 1
+		# planet_artisans_consumer_goods_produces_add = 1
+		xvcv_mdlc_world_machines_vanilla_industrial_districts_consumer_goods_produces_mult = 0.1
+		xvcv_mdlc_world_machines_vanilla_industrial_districts_minerals_upkeep_mult = 0.15
+		# planet_artisans_minerals_upkeep_add = 1
 	}
 
 	resources = {
@@ -274,8 +271,6 @@ oxr_mdlc_starbase_auto_ring_consumer_goods_hub = {
 	}
 
 	show_in_tech = "tech_luxuries_2"
-
-
 
 	ai_weight = {
 		weight = 100
@@ -302,8 +297,10 @@ oxr_mdlc_starbase_auto_ring_alloys_hub = {
 			}
 		}
 		modifier = {
-			planet_metallurgists_alloys_produces_add = 1
-			planet_metallurgists_minerals_upkeep_add = 2
+			# planet_metallurgists_alloys_produces_add = 1
+			# planet_metallurgists_minerals_upkeep_add = 2
+			xvcv_mdlc_world_machines_forge_districts_alloys_produces_mult = 0.2
+			xvcv_mdlc_world_machines_forge_districts_minerals_upkeep_mult = 0.25
 		}
 	}
 
@@ -315,8 +312,10 @@ oxr_mdlc_starbase_auto_ring_alloys_hub = {
 			}
 		}
 		modifier = {
-			planet_metallurgists_alloys_produces_add = 1.25
-			planet_metallurgists_food_upkeep_add = 3
+			# planet_metallurgists_alloys_produces_add = 1.25
+			# planet_metallurgists_food_upkeep_add = 3
+			xvcv_mdlc_world_machines_forge_districts_alloys_produces_mult = 0.25
+			xvcv_mdlc_world_machines_forge_districts_food_upkeep_mult = 0.3
 		}
 	}
 
@@ -342,84 +341,84 @@ oxr_mdlc_starbase_auto_ring_alloys_hub = {
 	}
 }
 
-oxr_mdlc_starbase_auto_ring_psi_corps = {
-	icon = "GFX_orbitalring_psi_corps"
-	construction_days = 360
-	starbase_type = orbital_ring
+# oxr_mdlc_starbase_auto_ring_psi_corps = {
+# 	icon = "GFX_orbitalring_psi_corps"
+# 	construction_days = 360
+# 	starbase_type = orbital_ring
 
-	potential = {
-		host_has_dlc = "Utopia"
-		exists = owner
-		owner = {
-			has_tradition = tr_psionics_psi_corps
-		}
-		planet = {
-			NOR = {
-				has_modifier = resort_colony
-				has_modifier = slave_colony
-			}
-		}
-		is_orbital_ring = yes
-		inline_script = megas/orbital_ring/buildings/oxr_auto_starbase_possible.txt
-	}
+# 	potential = {
+# 		host_has_dlc = "Utopia"
+# 		exists = owner
+# 		owner = {
+# 			has_tradition = tr_psionics_psi_corps
+# 		}
+# 		planet = {
+# 			NOR = {
+# 				has_modifier = resort_colony
+# 				has_modifier = slave_colony
+# 			}
+# 		}
+# 		is_orbital_ring = yes
+# 		inline_script = megas/orbital_ring/buildings/oxr_auto_starbase_possible.txt
+# 	}
 
-	possible = {
-		planet = {
-			NOR = {
-				has_building_construction = building_psi_corps
-				has_building = building_psi_corps
-			}
-		}
-	}
+# 	possible = {
+# 		planet = {
+# 			NOR = {
+# 				has_building_construction = building_psi_corps
+# 				has_building = building_psi_corps
+# 			}
+# 		}
+# 	}
 
-	abort_trigger = {
-		exists = owner
-		NOT = {
-			owner = { has_tradition = tr_psionics_psi_corps }
-		}
-	}
+# 	abort_trigger = {
+# 		exists = owner
+# 		NOT = {
+# 			owner = { has_tradition = tr_psionics_psi_corps }
+# 		}
+# 	}
 
-	destroy_trigger = {
-		exists = owner
-		NOT = {
-			owner = { has_tradition = tr_psionics_psi_corps }
-		}
-	}
+# 	destroy_trigger = {
+# 		exists = owner
+# 		NOT = {
+# 			owner = { has_tradition = tr_psionics_psi_corps }
+# 		}
+# 	}
 
-	planet_modifier = {
-		job_telepath_add = 2
-		planet_stability_add = 5
-	}
+# 	planet_modifier = {
+# 		job_telepath_add = 2
+# 		planet_stability_add = 5
+# 	}
 
-	resources = {
-		category = starbase_buildings
-		cost = {
-			alloys = 200
-			rare_crystals = 300
-		}
+# 	resources = {
+# 		category = starbase_buildings
+# 		cost = {
+# 			alloys = 200
+# 			rare_crystals = 300
+# 		}
 
-		upkeep = {
-			energy = 5
-			rare_crystals = 2
-		}
-	}
+# 		upkeep = {
+# 			energy = 5
+# 			rare_crystals = 2
+# 		}
+# 	}
 
-	ai_build_at_chokepoint = yes
-	ai_build_outside_chokepoint = yes
+# 	ai_build_at_chokepoint = yes
+# 	ai_build_outside_chokepoint = yes
 
-	ai_weight = {
-		weight = 50
-		modifier = {
-			factor = 4
-			planet = {
-				OR = {
-					has_designation = col_bureau
-					has_designation = col_bureau_spiritualist
-				}
-			}
-		}
-	}
-}
+# 	ai_weight = {
+# 		weight = 50
+# 		modifier = {
+# 			factor = 4
+# 			planet = {
+# 				OR = {
+# 					has_designation = col_bureau
+# 					has_designation = col_bureau_spiritualist
+# 				}
+# 			}
+# 		}
+# 	}
+# }
 
 oxr_mdlc_starbase_auto_ring_orbital_shield_generator = {
 	icon = "GFX_orbitalring_shield_generator"
@@ -483,278 +482,278 @@ oxr_mdlc_starbase_auto_ring_orbital_shield_generator = {
 	}
 }
 
-oxr_mdlc_starbase_auto_ring_galactic_stock_exchange = {
-	icon = "GFX_orbitalring_galactic_stock_exchange"
-	construction_days = 360
-	starbase_type = orbital_ring
+# oxr_mdlc_starbase_auto_ring_galactic_stock_exchange = {
+# 	icon = "GFX_orbitalring_galactic_stock_exchange"
+# 	construction_days = 360
+# 	starbase_type = orbital_ring
 
-	potential = {
-		exists = owner
-		owner = {
-			has_technology = tech_galactic_markets
-		}
-		is_orbital_ring = yes
-		planet = {
-			NOR = {
-				has_modifier = resort_colony
-				has_modifier = slave_colony
-			}
-		}
-		inline_script = megas/orbital_ring/buildings/oxr_auto_starbase_possible.txt
-	}
+# 	potential = {
+# 		exists = owner
+# 		owner = {
+# 			has_technology = tech_galactic_markets
+# 		}
+# 		is_orbital_ring = yes
+# 		planet = {
+# 			NOR = {
+# 				has_modifier = resort_colony
+# 				has_modifier = slave_colony
+# 			}
+# 		}
+# 		inline_script = megas/orbital_ring/buildings/oxr_auto_starbase_possible.txt
+# 	}
 
-	possible = {
-		planet = {
-			NOR = {
-				has_building_construction = building_galactic_stock_exchange
-				has_building = building_galactic_stock_exchange
-			}
-		}
-	}
+# 	possible = {
+# 		planet = {
+# 			NOR = {
+# 				has_building_construction = building_galactic_stock_exchange
+# 				has_building = building_galactic_stock_exchange
+# 			}
+# 		}
+# 	}
 
-	abort_trigger = {
-		exists = planet
-		planet = {
-			exists = owner
-			OR = {
-				owner = { is_regular_empire = no }
-				has_modifier = slave_colony
-				has_modifier = resort_colony
-			}
-		}
-	}
+# 	abort_trigger = {
+# 		exists = planet
+# 		planet = {
+# 			exists = owner
+# 			OR = {
+# 				owner = { is_regular_empire = no }
+# 				has_modifier = slave_colony
+# 				has_modifier = resort_colony
+# 			}
+# 		}
+# 	}
 
-	destroy_trigger = {
-		exists = planet
-		planet = {
-			exists = owner
-			OR = {
-				owner = { is_regular_empire = no }
-				has_modifier = slave_colony
-				has_modifier = resort_colony
-			}
-		}
-	}
+# 	destroy_trigger = {
+# 		exists = planet
+# 		planet = {
+# 			exists = owner
+# 			OR = {
+# 				owner = { is_regular_empire = no }
+# 				has_modifier = slave_colony
+# 				has_modifier = resort_colony
+# 			}
+# 		}
+# 	}
 
-	planet_modifier = {
-		job_merchant_add = 1
-		trade_value_mult = 0.20
-	}
+# 	planet_modifier = {
+# 		job_merchant_add = 1
+# 		trade_value_mult = 0.20
+# 	}
 
-	resources = {
-		category = starbase_buildings
-		cost = {
-			alloys = 200
-			rare_crystals = 300
-		}
+# 	resources = {
+# 		category = starbase_buildings
+# 		cost = {
+# 			alloys = 200
+# 			rare_crystals = 300
+# 		}
 
-		upkeep = {
-			energy = 5
-			rare_crystals = 2
-		}
-	}
+# 		upkeep = {
+# 			energy = 5
+# 			rare_crystals = 2
+# 		}
+# 	}
 
-	show_in_tech = "tech_galactic_markets"
+# 	show_in_tech = "tech_galactic_markets"
 
-	ai_build_at_chokepoint = yes
-	ai_build_outside_chokepoint = yes
+# 	ai_build_at_chokepoint = yes
+# 	ai_build_outside_chokepoint = yes
 
-	ai_weight = {
-		weight = 50
-		modifier = {
-			factor = 4
-			solar_system = {
-				has_system_trade_value >= 50
-			}
-		}
-	}
-}
+# 	ai_weight = {
+# 		weight = 50
+# 		modifier = {
+# 			factor = 4
+# 			solar_system = {
+# 				has_system_trade_value >= 50
+# 			}
+# 		}
+# 	}
+# }
 
-oxr_mdlc_starbase_auto_ring_noble_estates = {
-	icon = "GFX_orbitalring_noble_estates"
-	construction_days = 360
-	starbase_type = orbital_ring
+# oxr_mdlc_starbase_auto_ring_noble_estates = {
+# 	icon = "GFX_orbitalring_noble_estates"
+# 	construction_days = 360
+# 	starbase_type = orbital_ring
 
-	potential = {
-		exists = owner
-		owner = {
-			has_valid_civic = civic_aristocratic_elite
-		}
-		is_orbital_ring = yes
-		planet = {
-			NOR = {
-				has_modifier = slave_colony
-			}
-		}
-		inline_script = megas/orbital_ring/buildings/oxr_auto_starbase_possible.txt
-	}
+# 	potential = {
+# 		exists = owner
+# 		owner = {
+# 			has_valid_civic = civic_aristocratic_elite
+# 		}
+# 		is_orbital_ring = yes
+# 		planet = {
+# 			NOR = {
+# 				has_modifier = slave_colony
+# 			}
+# 		}
+# 		inline_script = megas/orbital_ring/buildings/oxr_auto_starbase_possible.txt
+# 	}
 
-	possible = {
-		planet = {
-			NOR = {
-				has_building_construction = building_noble_estates
-				has_building = building_noble_estates
-			}
-		}
-	}
+# 	possible = {
+# 		planet = {
+# 			NOR = {
+# 				has_building_construction = building_noble_estates
+# 				has_building = building_noble_estates
+# 			}
+# 		}
+# 	}
 
-	abort_trigger = {
-		exists = owner
-		NOT = {
-			owner = { has_civic = civic_aristocratic_elite }
-		}
-	}
+# 	abort_trigger = {
+# 		exists = owner
+# 		NOT = {
+# 			owner = { has_civic = civic_aristocratic_elite }
+# 		}
+# 	}
 
-	destroy_trigger = {
-		exists = owner
-		NOT = {
-			owner = { has_civic = civic_aristocratic_elite }
-		}
-	}
+# 	destroy_trigger = {
+# 		exists = owner
+# 		NOT = {
+# 			owner = { has_civic = civic_aristocratic_elite }
+# 		}
+# 	}
 
-	planet_modifier = {
-		job_noble_add = 2
-		planet_housing_add = 2
-	}
+# 	planet_modifier = {
+# 		job_noble_add = 2
+# 		planet_housing_add = 2
+# 	}
 
-	resources = {
-		category = starbase_buildings
-		cost = {
-			alloys = 200
-			exotic_gases = 300
-		}
+# 	resources = {
+# 		category = starbase_buildings
+# 		cost = {
+# 			alloys = 200
+# 			exotic_gases = 300
+# 		}
 
-		upkeep = {
-			energy = 5
-			exotic_gases = 2
-		}
-	}
+# 		upkeep = {
+# 			energy = 5
+# 			exotic_gases = 2
+# 		}
+# 	}
 
-	ai_build_at_chokepoint = yes
-	ai_build_outside_chokepoint = yes
+# 	ai_build_at_chokepoint = yes
+# 	ai_build_outside_chokepoint = yes
 
-	ai_weight = {
-		weight = 100
-	}
-}
+# 	ai_weight = {
+# 		weight = 100
+# 	}
+# }
 
-oxr_mdlc_starbase_auto_ring_slave_processing_facility = {
-	icon = "GFX_orbitalring_slave_processing_facility"
-	construction_days = 360
-	starbase_type = orbital_ring
+# oxr_mdlc_starbase_auto_ring_slave_processing_facility = {
+# 	icon = "GFX_orbitalring_slave_processing_facility"
+# 	construction_days = 360
+# 	starbase_type = orbital_ring
 
-	potential = {
-		exists = owner
-		owner = {
-			has_technology = tech_neural_implants
-			is_regular_empire = yes
-			has_policy_flag = slavery_allowed
-		}
-		is_orbital_ring = yes
-		planet = {
-			NOR = {
-				has_modifier = resort_colony
-			}
-		}
-		inline_script = megas/orbital_ring/buildings/oxr_auto_starbase_possible.txt
-	}
+# 	potential = {
+# 		exists = owner
+# 		owner = {
+# 			has_technology = tech_neural_implants
+# 			is_regular_empire = yes
+# 			has_policy_flag = slavery_allowed
+# 		}
+# 		is_orbital_ring = yes
+# 		planet = {
+# 			NOR = {
+# 				has_modifier = resort_colony
+# 			}
+# 		}
+# 		inline_script = megas/orbital_ring/buildings/oxr_auto_starbase_possible.txt
+# 	}
 
-	possible = {
-		planet = {
-			NOR = {
-				has_building_construction = building_slave_processing
-				has_building = building_slave_processing
-			}
-		}
-	}
+# 	possible = {
+# 		planet = {
+# 			NOR = {
+# 				has_building_construction = building_slave_processing
+# 				has_building = building_slave_processing
+# 			}
+# 		}
+# 	}
 
-	abort_trigger = {
-		exists = owner
-		OR = {
-			owner = { is_regular_empire = no }
-			NOT = { owner = { has_policy_flag = slavery_allowed } }
-			AND = {
-				exists = planet
-				planet = { has_modifier = resort_colony }
-			}
-		}
-	}
+# 	abort_trigger = {
+# 		exists = owner
+# 		OR = {
+# 			owner = { is_regular_empire = no }
+# 			NOT = { owner = { has_policy_flag = slavery_allowed } }
+# 			AND = {
+# 				exists = planet
+# 				planet = { has_modifier = resort_colony }
+# 			}
+# 		}
+# 	}
 
-	destroy_trigger = {
-		exists = owner
-		OR = {
-			owner = { is_regular_empire = no }
-			NOT = { owner = { has_policy_flag = slavery_allowed } }
-			AND = {
-				exists = planet
-				planet = { has_modifier = resort_colony }
-			}
-		}
-	}
+# 	destroy_trigger = {
+# 		exists = owner
+# 		OR = {
+# 			owner = { is_regular_empire = no }
+# 			NOT = { owner = { has_policy_flag = slavery_allowed } }
+# 			AND = {
+# 				exists = planet
+# 				planet = { has_modifier = resort_colony }
+# 			}
+# 		}
+# 	}
 
-	planet_modifier = {
-		planet_jobs_slave_produces_mult = 0.05
-		pop_cat_slave_political_power = -0.25
-		planet_resettlement_unemployed_mult = -0.50
-	}
+# 	planet_modifier = {
+# 		planet_jobs_slave_produces_mult = 0.05
+# 		pop_cat_slave_political_power = -0.25
+# 		planet_resettlement_unemployed_mult = -0.50
+# 	}
 
-	resources = {
-		category = starbase_buildings
-		cost = {
-			alloys = 200
-			volatile_motes = 300
-		}
+# 	resources = {
+# 		category = starbase_buildings
+# 		cost = {
+# 			alloys = 200
+# 			volatile_motes = 300
+# 		}
 
-		upkeep = {
-			energy = 5
-			volatile_motes = 2
-		}
-	}
+# 		upkeep = {
+# 			energy = 5
+# 			volatile_motes = 2
+# 		}
+# 	}
 
-	show_in_tech = "tech_neural_implants"
+# 	show_in_tech = "tech_neural_implants"
 
-	ai_build_at_chokepoint = yes
-	ai_build_outside_chokepoint = yes
+# 	ai_build_at_chokepoint = yes
+# 	ai_build_outside_chokepoint = yes
 
-	ai_weight = {
-		weight = 100
-	}
-}
+# 	ai_weight = {
+# 		weight = 100
+# 	}
+# }
 
-oxr_mdlc_starbase_auto_ring_feeder = {
-	icon = "GFX_starbase_feeder"
-	construction_days = 360
-	starbase_type = orbital_ring
+# oxr_mdlc_starbase_auto_ring_feeder = {
+# 	icon = "GFX_starbase_feeder"
+# 	construction_days = 360
+# 	starbase_type = orbital_ring
 
-	potential = {
-		exists = owner
-		owner = { has_technology = tech_critter_feeder }
-		is_orbital_ring = yes
-		inline_script = megas/orbital_ring/buildings/oxr_auto_starbase_possible.txt
-	}
+# 	potential = {
+# 		exists = owner
+# 		owner = { has_technology = tech_critter_feeder }
+# 		is_orbital_ring = yes
+# 		inline_script = megas/orbital_ring/buildings/oxr_auto_starbase_possible.txt
+# 	}
 
-	planet_modifier = {
-		planet_farmers_food_produces_add = 1
-	}
+# 	planet_modifier = {
+# 		planet_farmers_food_produces_add = 1
+# 	}
 
-	resources = {
-		category = starbase_buildings
-		cost = {
-			alloys = 50
-			volatile_motes = 50
-		}
+# 	resources = {
+# 		category = starbase_buildings
+# 		cost = {
+# 			alloys = 50
+# 			volatile_motes = 50
+# 		}
 
-		upkeep = {
-			energy = 1
-			volatile_motes = 1
-		}
-	}
+# 		upkeep = {
+# 			energy = 1
+# 			volatile_motes = 1
+# 		}
+# 	}
 
-	custom_tooltip = sm_feeder_tt
+# 	custom_tooltip = sm_feeder_tt
 
-	show_in_tech = "tech_critter_feeder"
+# 	show_in_tech = "tech_critter_feeder"
 
-	ai_weight = {
-		weight = 100
-	}
-}
+# 	ai_weight = {
+# 		weight = 100
+# 	}
+# }
