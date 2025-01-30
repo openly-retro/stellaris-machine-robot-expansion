@@ -5,13 +5,14 @@ resources = {
 		minerals = $COST$
 	}
 	upkeep = {
-		energy = $UPKEEP$  # base 2 + 2 researcher jobs @ 4 each #@b1_upkeep
+		# energy = $UPKEEP$  # base 2 + 2 researcher jobs @ 4 each #@b1_upkeep
+		energy = @[ $TIER$ * 2 * oxr_mdlc_wm_base_calculator_upkeep ]
 		exotic_gases = $RARE$
 	}
 	produces = {
-		engineering_research = $OUTPUT$ # base 4 jobs at 3 each = 12
-		physics_research = $OUTPUT$
-		society_research = $OUTPUT$
+		engineering_research = @[ $TIER$ * 2 * oxr_mdlc_wm_base_calculator_output ] # base 4 jobs at 3 each = 12
+		physics_research = @[ $TIER$ * 2 * oxr_mdlc_wm_base_calculator_output ]
+		society_research = @[ $TIER$ * 2 * oxr_mdlc_wm_base_calculator_output ]
 	}
 	inline_script = {
 		script = planet/buildings/auto/oxr_organoid_upkeep
