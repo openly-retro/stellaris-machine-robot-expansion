@@ -459,6 +459,44 @@ xvcv_mdlc_col_machine_auto_industrial = {
 		}
 	}
 }
+xvcv_mdlc_col_machine_auto_administrative = {
+	icon = GFX_colony_type_bureaucratic
+	potential = {
+		exists = owner
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
+		is_capital = no
+	}
+
+	planet_modifier = {
+		# planet_xvcv_mdlc_pc_machine_auto_district_industrial_build_speed_mult = 0.25
+		oxr_mdlc_world_machines_unity_buildings_produces_mult = 0.1
+		oxr_mdlc_world_machines_unity_buildings_upkeep_mult = -0.1
+	}
+
+	weight_modifier = {
+		modifier = {
+			add = @stickiness
+			has_designation = col_bureau_machine
+		}
+		complex_trigger_modifier = {
+			trigger = num_buildings
+			parameters = {
+				limit = {
+					OR = {
+						type = oxr_mdlc_world_machines_building_auto_unity_1
+						type = oxr_mdlc_world_machines_building_auto_unity_2
+						type = oxr_mdlc_world_machines_building_auto_unity_3
+						type = oxr_mdlc_world_machines_building_auto_unity_4
+					}
+				}
+			}
+			mode = add
+			mult = 3
+		}
+	}
+
+}
 # Capital Planet
 xvcv_mdlc_col_machine_auto_capital = {
 	icon = GFX_colony_type_capital
