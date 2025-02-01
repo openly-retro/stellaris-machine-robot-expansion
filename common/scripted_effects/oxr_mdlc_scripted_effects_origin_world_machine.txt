@@ -862,11 +862,17 @@ oxr_mdlc_situation_core_insights_add_progress = {
 		add_situation_progress = $AMOUNT$
 	}
 	# THIS MESSAGE IS FINE, DON'T TOUCH IT
-	create_message = {
-		type = OXR_MDLC_SITUATION_CORE_INSIGHTS_PROGRESS_TYPE
-		localization = oxr_mdlc_situation_core_insights_$ON_ACTION_TYPE$
-		target = this.capital_scope
-		days = 25
+	# *touches*
+	if = {
+		limit = {
+			doesnt_have_country_flag = oxr_mdlc_mod_config_origin_wm_gather_insights_messages_off
+		}
+		create_message = {
+			type = OXR_MDLC_SITUATION_CORE_INSIGHTS_PROGRESS_TYPE
+			localization = oxr_mdlc_situation_core_insights_$ON_ACTION_TYPE$
+			target = this.capital_scope
+			days = 25
+		}
 	}
 	# change_variable = { which = oxr_mdlc_situation_core_insights_$ON_ACTION_TYPE$_var value = 1 }
 }
