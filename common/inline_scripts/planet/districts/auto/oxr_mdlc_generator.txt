@@ -6,51 +6,40 @@
 
 # Auto-Machine World generator districts are NOT (affected by wm district output/mult)
 
-# category = planet_technician
+# Serving both auto-machine worlds and auto-ringworlds
 category = xvcv_mdlc_world_machines_generator_districts
 cost = {
-	trigger = {
-		is_planet_class = xvcv_mdlc_pc_machine_auto
-	}
+	trigger = { is_planet_class = xvcv_mdlc_pc_machine_auto }
 	minerals = @xvcv_mdlc_district_cost_2
 }
 cost = {
-	trigger = {
-		is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
-	}
-	minerals = @rw_cost
-	rare_crystals = @rw_cost_sr
-}
-produces = {
-	trigger = { is_planet_class = xvcv_mdlc_pc_machine_auto }
-	energy = $ENERGY$ # 16  # 8 base technician output * 2 jobs provided by default district
-}
-upkeep = {
-	trigger = {
-		is_planet_class = xvcv_mdlc_pc_machine_auto
-		NOT = { has_active_building = oxr_mdlc_world_machines_biofuel_refit_1 }
-	}
-	minerals = $UPKEEP$  # 2
-}
-produces = {
 	trigger = { is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto }
-	energy = $ENERGY$  # 80
-	# Apply world machines output modifier (+/- percent)
-	mult = $PRODUCES_MULT$
+	minerals = @oxr_rw_cost
+	rare_crystals = @oxr_rw_cost_sr
 }
+produces = {
+	energy = @[ $JOBS$ * oxr_mdlc_wm_base_technician_output ]
+}
+# JOBS * 1 base energy upkeep per drone + 1 base district upkeep
+upkeep = {
+	trigger = {
+		doesnt_have_active_building = { WHICH = oxr_mdlc_world_machines_biofuel_refit_1 }
+		is_planet_class = xvcv_mdlc_pc_machine_auto
+	}
+	minerals = 2  # 2 for auto-machine world, 5 for ringworld
+}
+
 upkeep = {
 	trigger = {
 		is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
-		NOT = { has_active_building = oxr_mdlc_world_machines_biofuel_refit_1 }
+		doesnt_have_active_building = { WHICH = oxr_mdlc_world_machines_biofuel_refit_1 }
 	}
-	minerals = $UPKEEP$
 	rare_crystals = 1  # static 1 per district
-	mult = $UPKEEP_MULT$
+	minerals = 5  # base vanilla value
 }
 # BIOFUEL
 upkeep = {
-	trigger = {
-		has_active_building = oxr_mdlc_world_machines_biofuel_refit_1
-	}
-	food = $BIOFUEL_UPKEEP$
+	trigger = { has_active_building = oxr_mdlc_world_machines_biofuel_refit_1 }
+	# It's both double the num of jobs, and also 1/4 the output
+	food = @[ $JOBS$ * 2 ]  # instead of 1 energy upkeep per simulated drone, 2 food upkeep
 }
