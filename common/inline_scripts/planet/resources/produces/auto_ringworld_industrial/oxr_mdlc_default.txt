@@ -12,9 +12,8 @@ produces = {
 			planet = { has_designation = col_foundry }
 		}
 	}
-	alloys = @oxr_mdlc_auto_ringworld_foundry_output
-	mult = $PRODUCES_MULT$
-	# mult = value:collected_world_machine_bonuses
+	alloys = @[ $JOBS$ * oxr_mdlc_wm_base_fabricator_output ]
+	mult = value:collected_world_machine_bonuses
 }
 upkeep = {
 	trigger = {
@@ -29,10 +28,8 @@ upkeep = {
 			planet = { has_designation = col_foundry }
 		}
 	}
-	minerals = @oxr_mdlc_auto_ringworld_foundry_upkeep
+	minerals = @[ $JOBS$ * oxr_mdlc_wm_base_fabricator_upkeep ]
 	volatile_motes = 1
-	mult = $UPKEEP_MULT$
-	# mult = value:collected_world_machine_bonuses  # careful this does not resolve to 0
 }
 # DEFAULT DESIGNATION (NO GOODS, IS CATALYTIC)
 produces = {
@@ -48,9 +45,8 @@ produces = {
 			planet = { has_designation = col_foundry }
 		}
 	}
-	alloys = @oxr_mdlc_auto_ringworld_foundry_catalytic_output
-	mult = $PRODUCES_MULT$
-	# mult = value:collected_world_machine_bonuses
+	alloys = @[ $JOBS$ * oxr_mdlc_wm_base_catalytic_output ]
+	mult = value:collected_world_machine_bonuses
 }
 upkeep = {
 	trigger = {
@@ -65,11 +61,8 @@ upkeep = {
 			planet = { has_designation = col_foundry }
 		}
 	}
-	food = @oxr_mdlc_auto_ringworld_foundry_catalytic_upkeep
+	food = $[ $JOBS$ * oxr_mdlc_wm_base_catalytic_upkeep_food ]
 	volatile_motes = $RARE$
-	mult = $UPKEEP_MULT$
-	# mult = value:collected_world_machine_bonuses  # careful this does not resolve to 0
-	# mult = value:scripted_modifier_mult|MODIFIER|planet_artisans_upkeep_mult|
 }
 
 # DEFAULT DESIGNATION (COUNTRY USES GOODS, NON CATALYTIC)
