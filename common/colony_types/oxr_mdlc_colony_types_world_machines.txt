@@ -529,20 +529,15 @@ xvcv_mdlc_col_machine_auto_factory = {
 		is_special_colony_type = no
 		is_capital = no
 		NOT = { is_planet_class = pc_nanotech }
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
 	}
 
-	custom_tooltip = col_factory_custom
 	planet_modifier = {
-		planet_district_industrial_build_speed_mult = 0.25
-		planet_artisans_upkeep_mult = -0.20
+		xvcv_mdlc_world_machines_vanilla_industrial_districts_build_speed_mult = 0.25
+		xvcv_mdlc_world_machines_vanilla_industrial_districts_upkeep_mult = -0.20
 	}
 
-	triggered_planet_modifier = {
-		potential = { uses_district_set = ring_world }
-		pop_growth_speed = 0.1
-		planet_pop_assembly_mult = 0.1
-		planet_pop_assembly_organic_mult = 0.1
-	}
 	triggered_planet_modifier = {
 		potential = {
 			exists = owner
@@ -555,7 +550,7 @@ xvcv_mdlc_col_machine_auto_factory = {
 			}
 		}
 		modifier = {
-			planet_artisans_produces_mult = 0.05
+			xvcv_mdlc_world_machines_vanilla_industrial_districts_produces_mult = 0.05
 		}
 	}
 	triggered_planet_modifier = {
@@ -564,19 +559,19 @@ xvcv_mdlc_col_machine_auto_factory = {
 			owner = { has_tradition = tr_adaptability_finish }
 		}
 		modifier = {
-			planet_artisans_produces_mult = 0.05
+			xvcv_mdlc_world_machines_vanilla_industrial_districts_produces_mult = 0.05
 		}
 	}
 
 	weight_modifier = {
 		modifier = {
 			add = @stickiness
-			has_designation = col_factory
+			has_designation = xvcv_mdlc_col_machine_auto_factory
 		}
 		complex_trigger_modifier = {
 			trigger = num_districts
 			parameters = {
-				type = district_industrial
+				type = xvcv_mdlc_world_machines_vanilla_industrial_districts
 			}
 			mode = add
 			mult = 3
@@ -584,22 +579,22 @@ xvcv_mdlc_col_machine_auto_factory = {
 		modifier = {
 			add = 10
 			OR = {
-				has_building = building_factory_1
-				has_building = building_factory_2
-				has_building = building_factory_3
+				has_building = oxr_mdlc_world_machines_building_auto_factory_boost_1
+				has_building = oxr_mdlc_world_machines_building_auto_factory_boost_2
+				has_building = oxr_mdlc_world_machines_building_auto_factory_boost_3
 			}
 		}
 		modifier = {
 			add = -5
 			OR = {
-				has_building = building_foundry_1
-				has_building = building_foundry_2
-				has_building = building_foundry_3
+				has_building = oxr_mdlc_world_machines_building_auto_forge_1
+				has_building = oxr_mdlc_world_machines_building_auto_forge_2
+				has_building = oxr_mdlc_world_machines_building_auto_forge_3
 			}
 		}
 		modifier = {
 			add = 11
-			has_designation = col_foundry
+			has_designation = xvcv_mdlc_col_machine_auto_foundry
 			exists = owner
 			owner = {
 				has_monthly_income = { resource = consumer_goods value < 0 }
