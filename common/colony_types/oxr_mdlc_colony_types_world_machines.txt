@@ -14,13 +14,6 @@ xvcv_mdlc_col_machine_auto_standard = {
 		planet_amenities_no_happiness_add = 10
 	}
 
-	triggered_planet_modifier = {
-		potential = { uses_district_set = ring_world }
-		pop_growth_speed = 0.1
-		planet_pop_assembly_mult = 0.1
-		planet_pop_assembly_organic_mult = 0.1
-	}
-
 	weight_modifier = {
 		base = 100
 	}
@@ -33,18 +26,16 @@ xvcv_mdlc_col_machine_auto_generator = {
 		exists = owner
 		is_capital = no
 		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
-		uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
+		OR = {
+			uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
+			uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
+		}
 	}
 
 	planet_modifier = {
-		# planet_oxr_mdlc_world_machines_generator_buildings_build_speed_mult = 0.11
-		# planet_oxr_mdlc_world_machines_generator_building_build_speed_mult = 0.22
-		# oxr_mdlc_world_machines_generator_buildings_build_speed_mult = 0.33
-		# planet_technician_produces_mult = 0.25
 		xvcv_mdlc_world_machines_generator_districts_energy_produces_mult = 0.25
 		oxr_mdlc_world_machines_generator_buildings_energy_produces_mult = 0.25
 		planet_xvcv_mdlc_pc_machine_auto_district_generator_build_speed_mult = 0.25
-		# planet_oxr_mdlc_world_machines_auto_generator_1_build_speed_mult = 0.25
 	}
 
 	triggered_planet_modifier = {
@@ -62,7 +53,8 @@ xvcv_mdlc_col_machine_auto_generator = {
 			}
 		}
 		modifier = {
-			planet_jobs_worker_produces_mult = 0.1
+			xvcv_mdlc_world_machines_generator_districts_energy_produces_mult = 0.1
+			oxr_mdlc_world_machines_generator_buildings_energy_produces_mult = 0.1
 		}
 	}
 	triggered_planet_modifier = {
@@ -80,7 +72,8 @@ xvcv_mdlc_col_machine_auto_generator = {
 			}
 		}
 		modifier = {
-			planet_jobs_simple_drone_produces_mult = 0.1
+			xvcv_mdlc_world_machines_generator_districts_energy_produces_mult = 0.1
+			oxr_mdlc_world_machines_generator_buildings_energy_produces_mult = 0.1
 		}
 	}
 	triggered_planet_modifier = {
@@ -88,26 +81,24 @@ xvcv_mdlc_col_machine_auto_generator = {
 			exists = owner
 			owner = { has_tradition = tr_adaptability_finish }
 		}
-		modifier = { planet_technician_produces_mult = 0.1 }
+		modifier = {
+			xvcv_mdlc_world_machines_generator_districts_energy_produces_mult = 0.1
+			oxr_mdlc_world_machines_generator_buildings_energy_produces_mult = 0.1
+		}
 	}
 
 	weight_modifier = {
 		modifier = {
 			add = @stickiness
-			has_designation = col_generator
+			has_designation = xvcv_mdlc_col_machine_auto_generator
 		}
 		complex_trigger_modifier = {
 			trigger = num_districts
 			parameters = {
-				type = district_generator
-			}
-			mode = add
-			mult = 2
-		}
-		complex_trigger_modifier = {
-			trigger = num_districts
-			parameters = {
-				type = district_generator_uncapped
+				OR = {
+					type = xvcv_mdlc_pc_ringworld_machine_auto_generator
+					type = xvcv_mdlc_pc_machine_auto_generator
+				}
 			}
 			mode = add
 			mult = 2
@@ -115,7 +106,10 @@ xvcv_mdlc_col_machine_auto_generator = {
 		complex_trigger_modifier = {
 			trigger = num_free_districts
 			parameters = {
-				type = district_generator
+				OR = {
+					type = xvcv_mdlc_pc_ringworld_machine_auto_generator
+					type = xvcv_mdlc_pc_machine_auto_generator
+				}
 			}
 			mode = add
 		}
@@ -263,7 +257,10 @@ xvcv_mdlc_col_machine_auto_farming = {
 		exists = owner
 		is_capital = no
 		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
-		uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
+		OR = {
+			uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
+			uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
+		}
 	}
 
 	planet_modifier = {
@@ -310,7 +307,10 @@ xvcv_mdlc_col_machine_auto_industrial = {
 	potential = {
 		exists = owner
 		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
-		uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
+		OR = {
+			uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
+			uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
+		}
 		is_capital = no
 	}
 
@@ -419,9 +419,8 @@ xvcv_mdlc_col_machine_auto_administrative = {
 			mult = 3
 		}
 	}
-
 }
-# Forge Planet
+
 xvcv_mdlc_col_machine_auto_foundry = {
 	icon = GFX_colony_type_foundry
 
@@ -429,7 +428,10 @@ xvcv_mdlc_col_machine_auto_foundry = {
 		exists = owner
 		is_capital = no
 		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
-		uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
+		OR = {
+			uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
+			uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
+		}
 	}
 
 	planet_modifier = {
@@ -488,33 +490,8 @@ xvcv_mdlc_col_machine_auto_foundry = {
 	}
 }
 
-# Factory Planet
 xvcv_mdlc_col_machine_auto_factory = {
 	icon = GFX_colony_type_factory
-
-	# used by AI to estimate what will happen when we change the designation
-	ai_resource_conversion = {
-		consumer_goods = 2
-		alloys = 0
-
-		trigger = {
-			owner = {
-				is_gestalt = no
-			}
-		}
-	}
-
-	# Used by AI to estimate the current effects of this designation
-	ai_resource_current_conversion = {
-		consumer_goods = 0.5
-		alloys = -0.5
-
-		trigger = {
-			owner = {
-				is_gestalt = no
-			}
-		}
-	}
 
 	potential = {
 		exists = owner
@@ -530,7 +507,10 @@ xvcv_mdlc_col_machine_auto_factory = {
 		is_capital = no
 		NOT = { is_planet_class = pc_nanotech }
 		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
-		uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
+		OR = {
+			uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
+			uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
+		}
 	}
 
 	planet_modifier = {
@@ -599,6 +579,83 @@ xvcv_mdlc_col_machine_auto_factory = {
 			owner = {
 				has_monthly_income = { resource = consumer_goods value < 0 }
 				has_monthly_income = { resource = alloys value >= 0 }
+			}
+		}
+	}
+}
+
+xvcv_mdlc_col_machine_auto_research = {
+	icon = GFX_colony_type_research
+
+	potential = {
+		exists = owner
+		NOR = {
+			uses_district_set = city_world
+			uses_district_set = ring_world
+			uses_district_set = habitat
+			uses_district_set = cosmogenesis_world
+		}
+		is_special_colony_type = no
+		is_capital = no
+		NOT = { is_planet_class = pc_nanotech }
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		OR = {
+			uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
+			uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
+		}
+	}
+
+	planet_modifier = {
+		planet_oxr_mdlc_world_machines_building_fractal_sanitizer_1_build_speed_mult = 0.25
+		oxr_mdlc_world_machines_science_buildings_upkeep_mult = -0.2
+	}
+	triggered_planet_modifier = {
+		potential = {
+			uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
+		}
+		planet_xvcv_mdlc_pc_ringworld_machine_auto_science_build_speed_mult = 0.25
+		xvcv_mdlc_pc_ringworld_machine_auto_science_upkeep_mult = 0.2
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_tradition = tr_adaptability_finish }
+		}
+		modifier = {
+			planet_researchers_produces_mult = 0.05
+		}
+	}
+
+	weight_modifier = {
+		modifier = {
+			add = @stickiness
+			has_designation = xvcv_mdlc_col_machine_auto_research
+		}
+		complex_trigger_modifier = {
+			trigger = num_districts
+			parameters = {
+				type = xvcv_mdlc_pc_ringworld_machine_auto_science
+			}
+			mode = add
+			mult = 3
+		}
+		modifier = {
+			add = 10
+			OR = {
+				has_building = oxr_mdlc_world_machines_building_fractal_sanitizer
+				has_building = oxr_mdlc_world_machines_building_fractal_sanitizer_2
+				has_building = oxr_mdlc_world_machines_building_fractal_sanitizer_3
+				has_building = oxr_mdlc_world_machines_building_fractal_sanitizer_4
+			}
+		}
+		modifier = {
+			add = -5
+			OR = {
+				has_building = oxr_mdlc_world_machines_building_auto_unity_1
+				has_building = oxr_mdlc_world_machines_building_auto_unity_2
+				has_building = oxr_mdlc_world_machines_building_auto_unity_3
+				has_building = oxr_mdlc_world_machines_building_auto_unity_4
 			}
 		}
 	}
