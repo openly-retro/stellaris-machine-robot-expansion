@@ -1469,6 +1469,7 @@ oxr_mdlc_planet_create_world_machine_colony = {
 }
 
 oxr_mdlc_planet_do_wm_origin_things_after_project = {
+	# Address new WMs but also existing WMs
 	remove_if_has_building = { WHICH = building_deployment_post }
 	remove_if_has_building = { WHICH = building_machine_capital }
 	remove_if_has_building = { WHICH = building_machine_major_capital }
@@ -1477,20 +1478,27 @@ oxr_mdlc_planet_do_wm_origin_things_after_project = {
 	# was converted from one WM type to another
 	if = {
 		limit = {
-			NOT = { has_building = oxr_mdlc_world_machines_building_auto_capital }
+			oxr_mdlc_planet_has_any_auto_capital = no
 		}
 		add_building = oxr_mdlc_world_machines_building_auto_capital
 	}
 
-	set_saved_date = {
-		key = oxr_mdlc_world_machine_founded_date
-		days_from_present = 0
-		expires = -1
+	# Dont add the modifier if switching between ecu/ser/cpu
+	if = {
+		limit = {
+			doesnt_have_modifier = { WHICH = oxr_mdlc_planet_origin_world_machine_info }
+		}
+		set_saved_date = {
+			key = oxr_mdlc_world_machine_founded_date
+			days_from_present = 0
+			expires = -1
+		}
+		add_modifier = {
+			modifier = oxr_mdlc_planet_origin_world_machine_info
+			days = -1
+		}
 	}
-	add_modifier = {
-		modifier = oxr_mdlc_planet_origin_world_machine_info
-		days = -1
-	}
+	
 	# Set these vars
 	if = {
 		limit = {
@@ -1756,6 +1764,8 @@ oxr_mdlc_planet_fix_things_after_restoring_ownership = {
 	if = { limit = { has_building = building_machine_major_capital } remove_building = building_machine_major_capital }
 	if = { limit = { has_building = building_machine_system_capital } remove_building = building_machine_system_capital }
 
+
+
 	if = {
 		limit = {
 			NOR = {
@@ -1767,11 +1777,6 @@ oxr_mdlc_planet_fix_things_after_restoring_ownership = {
 	}
 }
 
-oxr_mdlc_planet_decision_repopulate_world_machine = {
-	# Events killed off our pops and now we have no colony!
-	# Player is at the planet view, going to click 'decision'
-	# and ends up in this effect
-}
 
 oxr_mdlc_planet_add_rikk_terraforming_queued_modifier = {
 	# Add a timed modifier while the decision is in progress to give visual info
