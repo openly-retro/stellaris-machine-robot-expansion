@@ -13,7 +13,7 @@ produces = {
 		}
 	}
 	alloys = @[ $JOBS$ * oxr_mdlc_wm_base_fabricator_output ]
-	mult = value:collected_world_machine_bonuses
+	multiplier = value:collected_world_machine_bonuses
 }
 upkeep = {
 	trigger = {
@@ -46,7 +46,7 @@ produces = {
 		}
 	}
 	alloys = @[ $JOBS$ * oxr_mdlc_wm_base_catalytic_output ]
-	mult = value:collected_world_machine_bonuses
+	multiplier = value:collected_world_machine_bonuses
 }
 upkeep = {
 	trigger = {
@@ -80,26 +80,11 @@ produces = {
 			oxr_mdlc_col_is_factory = no
 		}
 	}
-	alloys = @[ $JOBS$ / 2 * oxr_mdlc_wm_base_fabricator_output ]	   #  4
-	consumer_goods = @[ $JOBS$ / 2 * oxr_mdlc_wm_base_artisan_output ] # 10
-	mult = value:collected_world_machine_bonuses
+	alloys = @[ $JOBS$ * 0.5 * oxr_mdlc_wm_base_fabricator_output ]
+	consumer_goods = @[ $JOBS$ * 0.5 * oxr_mdlc_wm_base_artisan_output ]
+	multiplier = value:collected_world_machine_bonuses
 }
-## ARTISAN UPKEEP
-# upkeep = {
-# 	trigger = {
-# 		exists = owner
-# 		owner = {
-# 			has_ethic = ethic_gestalt_consciousness
-# 			country_uses_consumer_goods = yes
-# 			is_catalytic_empire = no
-# 		}
-# 		NOT = {
-# 			planet = { has_designation = col_factory }
-# 			planet = { has_designation = col_foundry }
-# 		}
-# 	}
-# 	minerals = @[ $JOBS$ * oxr_mdlc_wm_base_artisan_upkeep ]
-# }
+
 ## FABRICATOR UPKEEP
 upkeep = {
 	trigger = {
@@ -114,7 +99,7 @@ upkeep = {
 			oxr_mdlc_col_is_factory = no
 		}
 	}
-	minerals = @[ ( $JOBS$ / 2 * oxr_mdlc_wm_base_fabricator_upkeep ) + ( $JOBS$ / 2 * oxr_mdlc_wm_base_artisan_upkeep ) ] # 10 from artisan, 8 from fabricator
+	minerals = @[ ( $JOBS$ * 0.5 * oxr_mdlc_wm_base_fabricator_upkeep ) + ( $JOBS$ * 0.5 * oxr_mdlc_wm_base_artisan_upkeep ) ]
 	volatile_motes = $RARE$
 }
 
@@ -132,9 +117,9 @@ produces = {
 			oxr_mdlc_col_is_factory = no
 		}
 	}
-	alloys = @[ $JOBS$ / 2 * oxr_mdlc_wm_base_catalytic_output ] 	   #  5
-	consumer_goods = @[ $JOBS$ / 2 * oxr_mdlc_wm_base_artisan_output  # 10
-	mult = value:collected_world_machine_bonuses
+	alloys = @[ $JOBS$ * 0.5 * oxr_mdlc_wm_base_catalytic_output ]
+	consumer_goods = @[ $JOBS$ * 0.5 * oxr_mdlc_wm_base_artisan_output ]
+	multiplier = value:collected_world_machine_bonuses
 }
 upkeep = {
 	trigger = {
@@ -149,7 +134,9 @@ upkeep = {
 			oxr_mdlc_col_is_factory = no
 		}
 	}
-	minerals = @[ $JOBS$ / 2 * oxr_mdlc_wm_base_artisan_upkeep ]
-	food = @[ $JOBS$ / 2 * oxr_mdlc_wm_base_catalytic_upkeep_food ]
+	minerals = @[ $JOBS$ * 0.5 * oxr_mdlc_wm_base_artisan_upkeep ]
+	food = @[ $JOBS$ * 0.5 * oxr_mdlc_wm_base_catalytic_upkeep_food ]
 	volatile_motes = $RARE$
 }
+
+# EOF
