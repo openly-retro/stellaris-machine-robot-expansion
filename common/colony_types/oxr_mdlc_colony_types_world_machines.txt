@@ -388,12 +388,14 @@ xvcv_mdlc_col_machine_auto_administrative = {
 	potential = {
 		exists = owner
 		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
-		uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
+		OR = {
+			uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
+			uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
+		}
 		is_capital = no
 	}
 
 	planet_modifier = {
-		# planet_xvcv_mdlc_pc_machine_auto_district_industrial_build_speed_mult = 0.25
 		oxr_mdlc_world_machines_unity_buildings_produces_mult = 0.1
 		oxr_mdlc_world_machines_unity_buildings_upkeep_mult = -0.1
 	}
@@ -401,7 +403,7 @@ xvcv_mdlc_col_machine_auto_administrative = {
 	weight_modifier = {
 		modifier = {
 			add = @stickiness
-			has_designation = col_bureau_machine
+			has_designation = xvcv_mdlc_col_machine_auto_administrative
 		}
 		complex_trigger_modifier = {
 			trigger = num_buildings
