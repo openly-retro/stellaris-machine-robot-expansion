@@ -223,12 +223,12 @@ xvcv_mdlc_pc_machine_auto_district_generator = {
 		produces = {
 			trigger = { has_active_building = rikk_mdlc_world_machine_SR_building }
 			volatile_motes = 0.20
-			mult = value:collected_world_machine_bonuses
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
 		}
 		upkeep = {
 			trigger = { has_active_building = rikk_mdlc_world_machine_SR_building }
 			minerals = 2
-			mult = value:scripted_modifier_mult|MODIFIER|xvcv_mdlc_world_machines_industrial_districts_upkeep_mult|
+			# mult = value:scripted_modifier_mult|MODIFIER|xvcv_mdlc_world_machines_industrial_districts_upkeep_mult|
 		}
 	}
 	triggered_desc = {
@@ -289,35 +289,37 @@ xvcv_mdlc_pc_machine_auto_district_mining = {
 		}
 		produces = { 
 			minerals = 12 
-			mult = value:collected_world_machine_bonuses
+			# mult = value:collected_world_machine_bonuses
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
 		} #{1 job = 4 + 2 (building_mineral_purification_hub) minerals} X 2 jobs #stellaris v3.0.3
 		upkeep = { 
 			energy = 1 
-			mult =  value:scripted_modifier_mult|MODIFIER|xvcv_mdlc_world_machines_industrial_districts_upkeep_mult|
+			# mult =  value:scripted_modifier_mult|MODIFIER|xvcv_mdlc_world_machines_industrial_districts_upkeep_mult|
 		}
 		produces = {
 			trigger = {
 				has_building = oxr_mdlc_world_machines_building_auto_mining_support
 			}
 			minerals = 1
-			mult = value:collected_world_machine_bonuses
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
 		}
 		produces = {
 			trigger = {
 				has_building = oxr_mdlc_world_machines_building_auto_mining_support
 			}
 			minerals = 2
-			mult = value:collected_world_machine_bonuses
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
 		}
 		produces = {
 		trigger = { has_active_building = rikk_mdlc_world_machine_SR_building }
 			rare_crystals = 0.20
-			mult = value:collected_world_machine_bonuses
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
+			
 		}
 		upkeep = {
 		trigger = { has_active_building = rikk_mdlc_world_machine_SR_building }
 			energy = 1
-			mult = value:scripted_modifier_mult|MODIFIER|xvcv_mdlc_world_machines_industrial_districts_upkeep_mult|
+			# mult = value:scripted_modifier_mult|MODIFIER|xvcv_mdlc_world_machines_industrial_districts_upkeep_mult|
 		}
 	}
 	triggered_desc = {
@@ -375,20 +377,24 @@ xvcv_mdlc_pc_machine_auto_district_farming = {
 		cost = {
 			minerals = @xvcv_mdlc_district_cost_2
 		}
-		produces = { food = 14 } #{1 job = 6 -1 (is_robot_empire = yes) + 2 (building_food_processing_center) minerals} X 2 jobs #stellaris v3.0.3
+		produces = {
+			food = 14
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
+		} #{1 job = 6 -1 (is_robot_empire = yes) + 2 (building_food_processing_center) minerals} X 2 jobs #stellaris v3.0.3
 		upkeep = { 
 			energy = 1 
-			mult =  value:scripted_modifier_mult|MODIFIER|xvcv_mdlc_world_machines_industrial_districts_upkeep_mult|	
+			# mult =  value:scripted_modifier_mult|MODIFIER|xvcv_mdlc_world_machines_industrial_districts_upkeep_mult|	
 		}
 		produces = {
 		trigger = { has_active_building = rikk_mdlc_world_machine_SR_building }
 			exotic_gases = 0.20
-			mult = value:collected_world_machine_bonuses
+			# mult = value:collected_world_machine_bonuses
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
 		}
 		upkeep = {
 		trigger = { has_active_building = rikk_mdlc_world_machine_SR_building }
 			energy = 1
-			mult = value:scripted_modifier_mult|MODIFIER|xvcv_mdlc_world_machines_industrial_districts_upkeep_mult|
+			# mult = value:scripted_modifier_mult|MODIFIER|xvcv_mdlc_world_machines_industrial_districts_upkeep_mult|
 		}
 	}
 	triggered_desc = {
@@ -453,7 +459,7 @@ xvcv_mdlc_pc_machine_auto_district_industrial = {
 				owner = { has_edict = industrial_maintenance }
 			}
 			energy = 2
-			mult = value:scripted_modifier_mult|MODIFIER|xvcv_mdlc_world_machines_industrial_districts_upkeep_mult|
+			# mult = value:scripted_modifier_mult|MODIFIER|xvcv_mdlc_world_machines_industrial_districts_upkeep_mult|
 		}
 		# Unless otherwise specified, all triggers in inline_scripts
 		# are assumed to be for ethic_gestalt_consciousness
@@ -550,67 +556,5 @@ xvcv_mdlc_pc_machine_auto_district_industrial = {
 	}
 	on_destroy = {
 		fire_on_action = { on_action = on_world_machine_district_demolished }
-	}
-}
-
-oxr_mdlc_pc_machine_auto_district_infrastructure = {
-	base_buildtime = @xvcv_mdlc_district_time_3
-	icon = oxr_mdlc_pc_machine_auto_district_infrastructure
-	is_capped_by_modifier = no
-
-	show_on_uncolonized = {
-		# exists = from
-		# from = {
-		# 	oxr_mdlc_planet_owner_can_build_wm_districts = yes
-		# 	has_origin = oxr_mdlc_origin_world_machine_awakened
-		# }
-		# uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
-		always = no
-	}
-	potential = {
-		always = no
-		# exists = owner
-		# owner = {
-		# 	oxr_mdlc_planet_owner_can_build_wm_districts = yes
-		# 	has_origin = oxr_mdlc_origin_world_machine_awakened
-		# 	has_technology = oxr_mdlc_tech_world_machine_district_infrastructure
-		# }
-		# uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
-	}
-	resources = {
-		category = xvcv_mdlc_world_machines_districts
-		cost = {
-			minerals = @xvcv_mdlc_district_cost_2
-		}
-		upkeep = {
-			energy = 3
-		}
-	}
-	planet_modifier = {
-		planet_building_build_speed_mult = 0.05
-		# planet_buildings_upkeep_mult = -0.05
-		oxr_mdlc_category_world_machines_buildings_upkeep_mult = -0.05
-		planet_amenities_add = 4
-		# country_resource_max_add = 1000 # Districts do not support country modifiers
-	}
-
-	on_built = {
-		if = {
-			limit = { 
-				owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
-			}
-			owner = {
-				fire_on_action = { on_action = on_world_machine_district_completed_country }
-			}
-			fire_on_action = { on_action = on_world_machine_district_completed_planet }
-			add_deposit = oxr_mdlc_d_world_machine_infrastructure_district
-		}
-	}
-	on_destroy = {
-		fire_on_action = { on_action = on_world_machine_district_demolished }
-		remove_deposit = oxr_mdlc_d_world_machine_infrastructure_district
-	}
-	prerequisites = {
-		"oxr_mdlc_tech_world_machine_district_infrastructure"
 	}
 }
