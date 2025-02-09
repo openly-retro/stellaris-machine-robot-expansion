@@ -1388,6 +1388,7 @@ oxr_mdlc_planet_create_world_machine_colony = {
 	add_deposit = oxr_mdlc_d_world_machine_core
 	remove_building = building_deployment_post
 	add_building = oxr_mdlc_world_machines_building_auto_capital
+	# oxr_mdlc_planet_fix_things_after_restoring_ownership = yes
 	if = {
 		limit = {
 			has_planet_flag = rikk_mdlc_world_machine_suitable
@@ -1735,36 +1736,28 @@ oxr_mdlc_planet_add_wmc_core_deposit_if_missing = {
 oxr_mdlc_planet_fix_things_after_restoring_ownership = {
 	# We reclaimed a world-machine after war, but it's a little borked
 	repair_all_buildings = yes
-	
-	if = {
-		limit = { has_building = building_hive_capital }
-		remove_building = building_hive_capital
+	remove_building_if_exists = {
+		WHICH = building_hive_capital
 	}
-	if = {
-		limit = { has_building = building_colony_shelter }
-		remove_building = building_colony_shelter
+	remove_building_if_exists = {
+		WHICH = building_colony_shelter
 	}
-	if = {
-		limit = { has_building = building_ancient_control_center }
-		remove_building = building_ancient_control_center
+	remove_building_if_exists = {
+		WHICH = building_ancient_control_center
 	}
-	if = {
-		limit = { has_building = building_ancient_palace }
-		remove_building = building_ancient_palace
+	remove_building_if_exists = {
+		WHICH = building_ancient_palace
 	}
-	if = {
-		limit = { has_building = building_machine_capital_nanotech }
-		remove_building = building_machine_capital_nanotech
+	remove_building_if_exists = {
+		WHICH = building_machine_capital_nanotech
 	}
-	if = {
-		limit = { has_building = building_deployment_post }
-		remove_building = building_deployment_post
+	remove_building_if_exists = {
+		WHICH = building_deployment_post
 	}
+
 	if = { limit = { has_building = building_machine_capital } remove_building = building_machine_capital }
 	if = { limit = { has_building = building_machine_major_capital } remove_building = building_machine_major_capital }
 	if = { limit = { has_building = building_machine_system_capital } remove_building = building_machine_system_capital }
-
-
 
 	if = {
 		limit = {
@@ -1812,4 +1805,30 @@ oxr_mdlc_planet_set_initial_cooling_district_count = {
 			value = 0
 		}
 	}
+}
+
+oxr_mdlc_planet_clear_mods_and_vars_for_destroy_colony = {
+
+	remove_modifier_if_exists = {
+		WHICH = xvcv_mdlc_world_machines_districts_heat_indicator_good
+	}
+	remove_modifier_if_exists = {
+		WHICH = xvcv_mdlc_world_machines_districts_heat_indicator_neutral
+	}
+	remove_modifier_if_exists = {
+		WHICH = xvcv_mdlc_world_machines_districts_heat_indicator_bad
+	}
+	remove_modifier_if_exists = {
+		WHICH = oxr_mdlc_planet_origin_world_machine_info
+	}
+	clear_variable_if_exists = {
+		WHICH = xvcv_mdlc_world_machines_districts_output_var
+	}
+	clear_variable_if_exists = {
+		WHICH = xvcv_mdlc_world_machines_districts_current_output_for_display_var
+	}
+	clear_variable_if_exists = {
+		WHICH = xvcv_mdlc_cooling_district_strength
+	}
+
 }

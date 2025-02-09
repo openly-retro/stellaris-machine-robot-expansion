@@ -389,6 +389,36 @@ planet_event = {
 	}
 }
 
+# Re-Activate World Machine if it was an abandoned colony
+planet_event = {
+	id = oxr_mdlc_origin_wm_main.510
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = space_owner
+		from = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+		}
+		is_colony = no
+	}
+
+	immediate = {
+		oxr_mdlc_planet_create_world_machine_colony = yes
+		create_message = {
+			type = OXR_MDLC_WM_PLANET_REACTIVATED
+			localization = OXR_MDLC_WM_PLANET_REACTIVATED_MESSAGE
+			days = 30
+			target = this
+			variable = {
+				type = name
+				localisation = OXR_MDLC_REACTIVATED_PLANET
+				scope = ROOT
+			}
+		}
+	}
+}
+
 # on_ascension_perk_picked Initialize country vars for World Machine AP users
 # And do anything else like give tech, etc
 # xvcv_mdlc_ap_world_machines start

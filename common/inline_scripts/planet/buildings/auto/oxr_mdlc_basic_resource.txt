@@ -7,7 +7,19 @@ resources = {
 		# $RS_RARE$ = @[ $TIER$ * 2 - 50 ]
 	}
 	produces = {
+		trigger = {
+			exists = owner
+			owner = { NOT = { has_tradition = tr_nanotech_1 } }
+		}
 		$PRODUCES$ = @[ $TIER$ * 2 * $BASE_JOB_OUTPUT$ ]
+	}
+	produces = {
+		trigger = {
+			exists = owner
+			owner = { has_tradition = tr_nanotech_1 }
+		}
+		$PRODUCES$ = @[ $TIER$ * 2 * ( $BASE_JOB_OUTPUT$ - 1 ) ]
+		nanites = @[ $TIER$ * 2 * oxr_mdlc_wm_base_drone_nanite_output ]
 	}
 	upkeep = {
 		# All pops have 1 energy upkeep

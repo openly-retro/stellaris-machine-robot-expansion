@@ -256,7 +256,11 @@ xvcv_mdlc_decision_machine_world_automation = {
 		hidden_effect = {
 			# Re-use this trigger to replace the capital with auto-capital
 			if = {
-				limit = { oxr_owner_has_wm_origin = yes }
+				limit = {
+					owner = {
+						has_origin = oxr_mdlc_origin_world_machine_awakened
+					}
+				}
 				oxr_mdlc_planet_do_wm_origin_things_after_project = yes
 			}
 		}
@@ -600,6 +604,14 @@ xvcv_mdlc_pc_ringworld_automation_project = {
 			}
 			xvcv_mdlc_world_machines_output_value_calc_effect = yes
 			oxr_mdlc_planet_add_wmc_core_deposit_if_missing = yes
+			if = {
+				limit = {
+					owner = {
+						has_origin = oxr_mdlc_origin_world_machine_awakened
+					}
+				}
+				oxr_mdlc_planet_do_wm_origin_things_after_project = yes
+			}
 		}
 		owner = {
 			if = {

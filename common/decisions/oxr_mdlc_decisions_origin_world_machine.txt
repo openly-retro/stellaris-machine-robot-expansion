@@ -321,6 +321,7 @@ oxr_mdlc_decisions_origin_wm_self_destruct = {
 }
 
 oxr_mdlc_decision_ap_wm_automate_capital = {
+
 	enactment_time = 180
 	resources = {
 		category = decisions
@@ -331,8 +332,8 @@ oxr_mdlc_decision_ap_wm_automate_capital = {
 	}
 	potential = {
 		is_colony = yes
-		exists = space_owner
-		space_owner = {
+		exists = owner
+		owner = {
 			has_ascension_perk = xvcv_mdlc_ap_world_machines
 		}
 		is_planet_world_machine = yes
@@ -454,9 +455,63 @@ oxr_mdlc_decision_origin_wm_shutdown_colony = {
 	effect = {
 		custom_tooltip = oxr_mdlc_decision_origin_wm_shutdown_colony_effect
 		hidden_effect = {
+			oxr_mdlc_planet_clear_mods_and_vars_for_destroy_colony = yes
+			create_message = {
+				type = OXR_MDLC_WM_PLANET_DECOMMISSIONED
+				localization = OXR_MDLC_WM_PLANET_DECOMMISSIONED_MESSAGE
+				days = 15
+				target = this
+			}
 			destroy_colony = yes
 		}
 		
+	}
+}
+oxr_mdlc_decision_origin_wm_reactivate_colony = {
+
+	icon = oxr_mdlc_decisions_origin_wm_reboot_ruined_world
+	potential = {
+		exists = space_owner
+		space_owner = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+		}
+		is_colony = no
+		oxr_mdlc_planet_world_machine_is_rebooting = no
+	}
+	allow = {
+		exists = space_owner
+		is_terraforming = no
+		space_owner = {
+			has_resource = {
+				type = energy
+				amount >= 2500
+			}
+		}
+		has_anomaly = no
+	}
+	resources = {
+		category = decisions
+		cost = {
+			energy = 2500
+		}
+	}
+	effect = {
+		custom_tooltip = oxr_mdlc_decision_origin_wm_reactivate_colony_effect
+		hidden_effect = {
+			add_modifier = {
+				modifier = oxr_mdlc_origin_world_machine_world_rebooting_stage_5
+				days = 180
+			}
+			planet_event = {
+				id = oxr_mdlc_origin_wm_main.510
+				days = 180
+				scopes = {
+					from = space_owner
+				}
+			}
+		}
+		
+		# oxr_mdlc_planet_fix_things_after_restoring_ownership = yes
 	}
 }
 

@@ -1,0 +1,165 @@
+# Automated versions of vanilla buildings
+oxr_mdlc_world_machines_building_nanolab_1 = {
+	base_buildtime = @b2_time
+
+	category = research
+
+	potential = {
+		exists = owner
+		owner = {
+			oxr_mdlc_country_is_nanotech_wm_origin = yes
+		}
+	}
+
+	allow = {
+		exists = owner
+		owner = {
+			oxr_mdlc_country_is_nanotech_wm_origin = yes
+		}
+	}
+
+	destroy_trigger = {
+		exists = owner
+		OR = {
+			NOT = {
+				owner = {
+					oxr_mdlc_country_is_nanotech_wm_origin = yes
+				}
+			}
+			has_modifier = slave_colony
+			has_modifier = resort_colony
+		}
+	}
+
+	resources = {
+		category = oxr_mdlc_world_machines_science_buildings
+		cost = {
+			minerals = @b3_minerals
+			nanites = @b2_rare_cost
+		}
+		# Base building upkeep
+		upkeep = {
+			energy = @b3_upkeep
+			nanites = @b2_rare_upkeep
+		}
+		inline_script = {
+			script = planet/buildings/auto/oxr_mdlc_nanolab
+			JOBS = 3
+		}
+	}
+
+	triggered_country_modifier = {
+		modifier = {
+			country_naval_cap_add = 1
+		}
+		mult = planet.modifier:job_researcher_naval_cap_add
+	}
+
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = {
+				is_machine_empire = yes
+			}
+		}
+		text = job_nanotech_research_unit_effect_desc
+	}
+
+	upgrades = {
+		"oxr_mdlc_world_machines_building_nanolab_2"
+	}
+}
+
+oxr_mdlc_world_machines_building_nanolab_2 = {
+	base_buildtime = @b3_time
+	can_build = no
+
+	category = research
+
+	potential = {
+		exists = owner
+		owner = {
+			has_tradition = tr_nanotech_1
+			has_oxr_mdlc_origin_world_machine_awakened = yes
+		}
+	}
+
+	allow = {
+		oxr_mdlc_has_upgraded_capital = yes
+	}
+
+	destroy_trigger = {
+		exists = owner
+		OR = {
+			NOT = { owner = {
+				has_tradition = tr_nanotech_1
+				has_oxr_mdlc_origin_world_machine_awakened = yes
+			} }
+			has_modifier = slave_colony
+			has_modifier = resort_colony
+		}
+	}
+
+	resources = {
+		category = oxr_mdlc_world_machines_science_buildings
+		cost = {
+			minerals = @b4_minerals
+			nanites = @b3_rare_cost
+		}
+		upkeep = {
+			energy = @b4_upkeep
+			nanites = @b3_rare_upkeep
+		}
+		inline_script = {
+			script = planet/buildings/auto/oxr_mdlc_nanolab
+			JOBS = 6
+		}
+	}
+
+}
+
+oxr_mdlc_world_machines_building_nanotech_cauldron = {
+	base_buildtime = @b2_time
+
+	category = manufacturing
+
+	potential = {
+		exists = owner
+		owner = {
+			has_tradition = tr_nanotech_2
+			has_oxr_mdlc_origin_world_machine_awakened = yes
+		}
+		NOT = { has_modifier = resort_colony }
+		NOT = { has_modifier = slave_colony }
+	}
+
+	allow = {
+		always = yes
+	}
+
+	destroy_trigger = {
+		exists = owner
+		OR = {
+			NOT = { owner = {
+				has_tradition = tr_nanotech_2
+				has_oxr_mdlc_origin_world_machine_awakened = yes
+			} }
+			has_modifier = slave_colony
+			has_modifier = resort_colony
+		}
+	}
+
+	resources = {
+		category = oxr_mdlc_world_machines_foundry_buildings
+		cost = {
+			alloys = @b3_minerals
+		}
+		upkeep = {
+			nanites = 3
+			energy = 30
+		}
+		produces = {
+			alloys = 15
+		}
+	}
+}
