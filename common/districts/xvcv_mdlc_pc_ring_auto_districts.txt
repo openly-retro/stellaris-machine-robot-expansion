@@ -319,11 +319,9 @@ xvcv_mdlc_pc_ringworld_machine_auto_farming = {
 	potential = {
 		uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
 		exists = owner
-		NOT = {
-			AND = {
-				owner = { is_ai = yes }
-				owner = { country_uses_food = no }
-			}
+		owner = {
+			# is_ai = no
+			country_uses_food = yes
 		}
 	}
 
@@ -359,23 +357,6 @@ xvcv_mdlc_pc_ringworld_machine_auto_farming = {
 			nanites = @[ 10 * 0.2 ]
 			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
 
-		}
-		produces = {
-			trigger = {
-				exists = owner
-				owner = {
-					is_robot_empire = yes
-				}
-			}
-			food = -10
-		}
-		produces = {
-			trigger = {
-				planet = {
-					has_planet_flag = has_produce_requisitorium
-				}
-			}
-			food = -30
 		}
 	}
 
