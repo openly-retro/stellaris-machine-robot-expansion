@@ -1,0 +1,376 @@
+# World-Machine compatible starbase buildings, for orbital ring
+oxr_mdlc_starbase_auto_ring_minerals_hub = {
+	icon = "GFX_orbitalring_mineral_hub"
+	construction_days = 360
+	starbase_type = orbital_ring
+
+	potential = {
+		exists = owner
+		owner = { has_technology = tech_mineral_purification_2 }
+		is_orbital_ring = yes
+		inline_script = megas/orbital_ring/buildings/oxr_auto_starbase_possible
+	}
+
+	planet_modifier = {
+		xvcv_mdlc_world_machines_mining_districts_minerals_produces_mult = 0.5
+		oxr_mdlc_world_machines_mining_buildings_minerals_produces_mult = 0.5
+		# planet_miners_minerals_produces_add = 2
+	}
+
+	resources = {
+		category = starbase_buildings
+		cost = {
+			alloys = 100
+			volatile_motes = 100
+		}
+
+		upkeep = {
+			energy = 2
+			volatile_motes = 1
+		}
+	}
+
+	show_in_tech = "tech_mineral_purification_2"
+
+	ai_weight = {
+		weight = 100
+	}
+}
+
+oxr_mdlc_starbase_auto_ring_energy_hub = {
+	icon = "GFX_orbitalring_energy_hub"
+	construction_days = 360
+	starbase_type = orbital_ring
+
+	potential = {
+		exists = owner
+		owner = { has_technology = tech_power_hub_2 }
+		is_orbital_ring = yes
+		inline_script = megas/orbital_ring/buildings/oxr_auto_starbase_possible
+	}
+
+	planet_modifier = {
+		# planet_technician_energy_produces_add = 2
+		xvcv_mdlc_world_machines_generator_districts_energy_produces_mult = 0.25
+		oxr_mdlc_world_machines_generator_buildings_energy_produces_mult = 0.25
+	}
+
+	resources = {
+		category = starbase_buildings
+		cost = {
+			alloys = 100
+			exotic_gases = 100
+		}
+
+		upkeep = {
+			energy = 2
+			exotic_gases = 1
+		}
+	}
+
+	show_in_tech = "tech_power_hub_2"
+
+	ai_weight = {
+		weight = 100
+	}
+}
+
+oxr_mdlc_starbase_auto_ring_food_hub = {
+	icon = "GFX_orbitalring_food_hub"
+	construction_days = 360
+	starbase_type = orbital_ring
+
+	potential = {
+		exists = owner
+		owner = { has_technology = tech_food_processing_2 }
+		is_orbital_ring = yes
+		inline_script = megas/orbital_ring/buildings/oxr_auto_starbase_possible
+	}
+
+	planet_modifier = {
+		# planet_farmers_food_produces_add = 2
+		xvcv_mdlc_world_machines_farming_districts_food_produces_mult = 0.3
+		oxr_mdlc_world_machines_food_buildings_food_produces_mult = 0.3
+	}
+
+	resources = {
+		category = starbase_buildings
+		cost = {
+			alloys = 100
+			volatile_motes = 100
+		}
+		upkeep = {
+			energy = 2
+			volatile_motes = 1
+		}
+	}
+	show_in_tech = "tech_food_processing_2"
+	ai_weight = {
+		weight = 100
+	}
+}
+
+oxr_mdlc_starbase_auto_ring_bureaucracy_hub = {
+	icon = "GFX_orbitalring_bureaucracy_hub"
+	construction_days = 360
+	starbase_type = orbital_ring
+
+	potential = {
+		exists = owner
+		owner_has_tech = { TECH = tech_colonial_bureaucracy }
+		is_orbital_ring = yes
+		inline_script = megas/orbital_ring/buildings/oxr_auto_starbase_possible
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			this.planet = { is_xvcv_mdlc_pc_machine_ser = yes }
+		}
+		xvcv_mdlc_world_machines_unity_districts_unity_produces_mult = 0.2
+	}
+
+	planet_modifier = {
+		oxr_mdlc_world_machines_unity_buildings_unity_produces_mult = 0.2
+	}
+
+	resources = {
+		category = starbase_buildings
+		cost = {
+			alloys = 200
+			rare_crystals = 300
+		}
+
+		upkeep = {
+			energy = 2
+			rare_crystals = 1
+		}
+	}
+
+	show_in_tech = "tech_effective_bureaucracy"
+
+	ai_weight = {
+		weight = 100
+	}
+}
+
+# oxr_mdlc_starbase_auto_ring_maintenance_hub = {
+# 	icon = "GFX_orbitalring_maintenance_hub"
+# 	construction_days = 360
+# 	starbase_type = orbital_ring
+
+# 	potential = {
+# 		exists = owner
+# 		owner = {
+# 			has_technology = tech_resource_processing_algorithms
+# 			is_machine_empire = yes
+# 		}
+# 		is_orbital_ring = yes
+# 		inline_script = megas/orbital_ring/buildings/oxr_auto_starbase_possible
+# 	}
+
+# 	planet_modifier = {
+# 		custom_tooltip = "sm_ring_maintenance_hub_effect"
+# 	}
+
+# 	resources = {
+# 		category = starbase_buildings
+# 		cost = {
+# 			alloys = 200
+# 			exotic_gases = 300
+# 		}
+
+# 		upkeep = {
+# 			energy = 2
+# 			exotic_gases = 1
+# 		}
+# 	}
+
+# 	show_in_tech = "tech_resource_processing_algorithms"
+
+# 	ai_weight = {
+# 		weight = 100
+# 	}
+# }
+
+oxr_mdlc_starbase_auto_ring_consumer_goods_hub = {
+	icon = "GFX_orbitalring_consumer_hub"
+	construction_days = 360
+	starbase_type = orbital_ring
+
+	potential = {
+		exists = owner
+		owner = {
+			has_technology = tech_luxuries_2
+			country_uses_consumer_goods = yes
+		}
+		is_orbital_ring = yes
+		inline_script = megas/orbital_ring/buildings/oxr_auto_starbase_possible
+	}
+	possible = {
+		this.planet = { is_xvcv_mdlc_pc_machine_ecu = yes }
+	}
+
+	planet_modifier = {
+		# planet_artisans_consumer_goods_produces_add = 1
+		xvcv_mdlc_world_machines_vanilla_industrial_districts_consumer_goods_produces_mult = 0.1
+		xvcv_mdlc_world_machines_vanilla_industrial_districts_minerals_upkeep_mult = 0.15
+		# planet_artisans_minerals_upkeep_add = 1
+	}
+	triggered_planet_modifier = {
+		potential = {
+			this.planet = { is_xvcv_mdlc_pc_machine_ecu = yes }
+		}
+		xvcv_mdlc_world_machines_factory_districts_produces_mult = 0.1
+		xvcv_mdlc_world_machines_factory_districts_upkeep_mult = 0.1
+	}
+
+	resources = {
+		category = starbase_buildings
+		cost = {
+			alloys = 200
+			rare_crystals = 300
+		}
+
+		upkeep = {
+			energy = 5
+			rare_crystals = 2
+		}
+	}
+
+	show_in_tech = "tech_luxuries_2"
+
+	ai_weight = {
+		weight = 100
+	}
+}
+
+oxr_mdlc_starbase_auto_ring_alloys_hub = {
+	icon = "GFX_orbitalring_alloy_hub"
+	construction_days = 360
+	starbase_type = orbital_ring
+
+	potential = {
+		exists = space_owner
+		owner = { has_technology = tech_alloys_2 }
+		is_orbital_ring = yes
+		inline_script = megas/orbital_ring/buildings/oxr_auto_starbase_possible
+	}
+	possible = {
+		this.planet = {
+			is_xvcv_mdlc_pc_machine_ecu = yes
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				is_catalytic_empire = no
+			}
+		}
+		modifier = {
+			# planet_metallurgists_alloys_produces_add = 1
+			# planet_metallurgists_minerals_upkeep_add = 2
+			xvcv_mdlc_world_machines_foundry_districts_alloys_produces_mult = 0.2
+			xvcv_mdlc_world_machines_foundry_districts_minerals_upkeep_mult = 0.25
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				is_catalytic_empire = yes
+			}
+		}
+		modifier = {
+			# planet_metallurgists_alloys_produces_add = 1.25
+			# planet_metallurgists_food_upkeep_add = 3
+			xvcv_mdlc_world_machines_foundry_districts_alloys_produces_mult = 0.25
+			xvcv_mdlc_world_machines_foundry_districts_food_upkeep_mult = 0.3
+		}
+	}
+
+	resources = {
+		category = starbase_buildings
+		cost = {
+			alloys = 200
+			volatile_motes = 300
+		}
+
+		upkeep = {
+			energy = 5
+			volatile_motes = 2
+		}
+	}
+	show_in_tech = "tech_alloys_2"
+	ai_weight = {
+		weight = 100
+	}
+
+}
+
+
+oxr_mdlc_starbase_auto_ring_orbital_shield_generator = {
+	icon = "GFX_orbitalring_shield_generator"
+	construction_days = 360
+	starbase_type = orbital_ring
+
+	potential = {
+		exists = owner
+		owner = {
+			has_technology = tech_planetary_shield_generator
+		}
+		is_orbital_ring = yes
+		inline_script = megas/orbital_ring/buildings/oxr_auto_starbase_possible
+	}
+
+	possible = {
+		planet = {
+			NOR = {
+				has_building_construction = building_planetary_shield_generator
+				has_building = building_planetary_shield_generator
+				has_building_construction = oxr_mdlc_world_machines_building_planetary_shield_generator
+				has_building = oxr_mdlc_world_machines_building_planetary_shield_generator
+			}
+		}
+	}
+
+	station_modifier = {
+		ship_shield_mult = 0.25
+		ship_shield_hardening_add = 0.25
+	}
+
+	defense_platform_modifier = {
+		ship_shield_mult = 0.25
+		ship_shield_hardening_add = 0.25
+	}
+
+	resources = {
+		category = starbase_buildings
+		cost = {
+			alloys = 200
+			rare_crystals = 300
+		}
+
+		upkeep = {
+			energy = 5
+			rare_crystals = 2
+		}
+	}
+
+	show_in_tech = "tech_planetary_shield_generator"
+
+	ai_build_at_chokepoint = yes
+	ai_build_outside_chokepoint = yes
+
+	ai_weight = {
+		weight = 50
+		modifier = {
+			factor = 4
+			planet = {
+				has_designation = col_fortress
+			}
+		}
+	}
+}

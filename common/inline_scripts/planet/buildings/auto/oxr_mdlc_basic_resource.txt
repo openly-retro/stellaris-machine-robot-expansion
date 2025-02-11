@@ -4,10 +4,17 @@ resources = {
 	category = $CATEGORY$
 	cost = {
 		$RS_BUILD$ = @[ $TIER$ * 200 + 200 ]
-		$RS_RARE$ = @[ $TIER$ * 2 - 50 ]
+		# $RS_RARE$ = @[ $TIER$ * 2 - 50 ]
 	}
 	produces = {
 		$PRODUCES$ = @[ $TIER$ * 2 * $BASE_JOB_OUTPUT$ ]
+	}
+	produces = {
+		trigger = {
+			exists = owner
+			owner = { has_tradition = tr_nanotech_1 }
+		}
+		nanites = @[ $TIER$ * 2 * oxr_mdlc_wm_base_drone_nanite_output ]
 	}
 	upkeep = {
 		# All pops have 1 energy upkeep

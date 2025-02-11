@@ -12,16 +12,31 @@ country_event = {
 	}
 }
 
+
 country_event = {
 	id = oxr_mdlc_origin_wm_main.2
 	hide_window = yes
 	is_triggered_only = yes
+
 	trigger = {
 		has_origin = oxr_mdlc_origin_world_machine_awakened
+		exists = capital_scope
+		is_country_type = default
 	}
 	immediate = {
-		capital_scope = {
-			oxr_mdlc_origin_world_machine_awakened_game_start_setup = yes
+		every_country = {
+			if = {
+				limit = {
+					exists = capital_scope
+					is_country_type = default
+					has_oxr_mdlc_origin_world_machine_awakened = yes
+					doesnt_have_country_flag = { FLAG = oxr_mdlc_origin_world_machine_setup_started }
+				}
+				set_country_flag = oxr_mdlc_origin_world_machine_setup_started
+				capital_scope = {
+					oxr_mdlc_origin_world_machine_awakened_game_start_setup = yes
+				}
+			}
 		}
 	}
 }
@@ -52,6 +67,14 @@ country_event = {
 			message = no
 		}
 	}
+}
+
+# Add arc sites to initial world machine homeworlds, wehrever they are
+event = {
+	id = oxr_mdlc_origin_wm_main.4
+	hide_window = yes
+	is_triggered_only = yes
+
 }
 
 ship_event = {
@@ -366,6 +389,36 @@ planet_event = {
 	}
 }
 
+# Re-Activate World Machine if it was an abandoned colony
+planet_event = {
+	id = oxr_mdlc_origin_wm_main.510
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = space_owner
+		from = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+		}
+		is_colony = no
+	}
+
+	immediate = {
+		oxr_mdlc_planet_create_world_machine_colony = yes
+		create_message = {
+			type = OXR_MDLC_WM_PLANET_REACTIVATED
+			localization = OXR_MDLC_WM_PLANET_REACTIVATED_MESSAGE
+			days = 30
+			target = this
+			variable = {
+				type = name
+				localisation = OXR_MDLC_REACTIVATED_PLANET
+				scope = ROOT
+			}
+		}
+	}
+}
+
 # on_ascension_perk_picked Initialize country vars for World Machine AP users
 # And do anything else like give tech, etc
 # xvcv_mdlc_ap_world_machines start
@@ -540,9 +593,6 @@ country_event = {
 				has_completed_event_chain_counter = {
 					event_chain = "oxr_mdlc_origin_wm_chain_deploy_world_cores"
 					counter = "oxr_mdlc_origin_wm_starting_cores_deployed"
-				}
-				NOT = {
-					has_technology = oxr_mdlc_tech_world_machine_planetary_proficiency
 				}
 			}
 			# Trigger completion
@@ -1292,6 +1342,8 @@ planet_event = {
 		owner = {
 			has_origin = oxr_mdlc_origin_world_machine_awakened
 		}
+		# Stop this from firing on game start
+		is_capital = no
 	}
 	immediate = {
 		fire_on_action = {
