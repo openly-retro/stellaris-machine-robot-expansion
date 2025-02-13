@@ -1,0 +1,133 @@
+giga_frameworld_outpost_set_planet_class = {
+	if = {
+		limit = {
+			not = {
+				has_planet_flag = giga_frameworld_outpost_planet_type
+			}
+		}
+
+		set_planet_flag = @outpost_planet_modified
+
+		save_event_target_as = outpost_planet
+		if = {
+			# if no holder species exists
+			limit = {
+				not = {
+					any_galaxy_species = {
+						has_species_flag = @outpost_planet_type_species
+						ideal_planet_class = event_target:outpost_planet
+					}
+				}
+			}
+
+			# create a holder species
+			create_species = {
+				name = "giga_frameworld_outpost_planet_species"
+				class = random_non_machine
+
+				homeworld = event_target:outpost_planet
+
+				traits = {
+					ideal_planet_class = event_target:outpost_planet
+				}
+				effect = {
+					set_species_flag = @outpost_planet_type_species
+					# save it as our found species
+					save_event_target_as = species
+				}
+			}
+
+		}
+		else = {
+			# if one does exist, then get it
+			random_galaxy_species = {
+				limit = {
+					has_species_flag = @outpost_planet_type_species
+					ideal_planet_class = event_target:outpost_planet
+				}
+
+				# save it for later use
+				save_event_target_as = species
+			}
+		}
+
+		# set flag and associate species for planet type lookup later
+		set_planet_flag = giga_frameworld_outpost_planet_type
+		set_planet_flag = giga_frameworld_outpost_planet_type@event_target:species
+
+		if = {
+			limit = {
+				can_have_habitable_deposits = yes
+			}
+			set_planet_flag = giga_frameworld_outpost_planet_type_edible
+		}
+
+		add_deposit = d_frameworld_outpost_mechanics
+
+		switch = {
+			trigger = is_planet_class
+
+			pc_relic = { set_planet_flag = frameworld_outpost_pc_relic }
+			pc_giga_planetary_computer = { set_planet_flag = frameworld_outpost_pc_giga_planetary_computer }
+			pc_habitable_gas_giant = { set_planet_flag = frameworld_outpost_pc_habitable_gas_giant }
+			pc_flusion_gaia_ecu = { set_planet_flag = frameworld_outpost_pc_flusion_gaia_ecu}
+			pc_ringworld_habitable = { set_planet_flag = frameworld_outpost_pc_ringworld_habitable}
+			pc_ringworld_machine = { set_planet_flag = frameworld_outpost_pc_ringworld_machine}
+			pc_ringworld_hive = { set_planet_flag = frameworld_outpost_pc_ringworld_hive}
+			pc_ringworld_city = { set_planet_flag = frameworld_outpost_pc_ringworld_city}
+			pc_interstellar_ringworld_habitable = { set_planet_flag = frameworld_outpost_pc_interstellar_ringworld_habitable}
+			pc_giga_penrose_habitable = { set_planet_flag = frameworld_outpost_pc_giga_penrose_habitable}
+			# MRE:C planet classes
+			xvcv_mdlc_pc_machine_auto = { set_planet_flag = frameworld_outpost_xvcv_mdlc_pc_machine_auto }
+			xvcv_mdlc_pc_machine_ecu = { set_planet_flag = frameworld_outpost_xvcv_mdlc_pc_machine_ecu }
+			xvcv_mdlc_pc_machine_cpu = { set_planet_flag = frameworld_outpost_xvcv_mdlc_pc_machine_cpu }
+			xvcv_mdlc_pc_machine_ser = { set_planet_flag = frameworld_outpost_xvcv_mdlc_pc_machine_ser }
+			xvcv_mdlc_pc_ringworld_machine_auto = { set_planet_flag = frameworld_outpost_xvcv_mdlc_pc_ringworld_machine_auto }
+		}
+
+		switch = {
+			trigger = uses_district_set
+
+			machine_world = { set_planet_flag = frameworld_outpost_machine_world}
+			hive_world = { set_planet_flag = frameworld_outpost_hive_world}
+			city_world = { set_planet_flag = frameworld_outpost_city_world}
+			shattered_ring_world = { set_planet_flag = frameworld_outpost_shattered_ring_world}
+		}
+
+		# set planet type
+		if = {
+			limit = {
+				is_ringworld = yes
+			}
+			change_pc = {
+				class = pc_giga_frameworld_outpost_ringworld
+				inherit_entity = yes
+			}
+		}
+		else_if = {
+			limit = {
+				is_artificial = yes
+			}
+			change_pc = {
+				class = pc_giga_frameworld_outpost_artificial
+				inherit_entity = yes
+			}
+		}
+		else = {
+			change_pc = {
+				class = pc_giga_frameworld_outpost_planet
+				inherit_entity = yes
+			}
+		}
+
+		add_modifier = {
+			modifier = frameworld_outpost_planet
+			clear_on_owner_change = yes
+		}
+
+		trigger_megastructure_icon = yes
+		cancel_terraformation = yes
+
+		remove_planet_flag = @outpost_planet_modified
+	}
+}
