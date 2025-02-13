@@ -1,3 +1,4 @@
+# Decisions
 oxr_mdlc_decisions_origin_wm_start_world_with_core = {
 	# owned_planets_only = yes
 
@@ -8,7 +9,10 @@ oxr_mdlc_decisions_origin_wm_start_world_with_core = {
 			has_origin = oxr_mdlc_origin_world_machine_awakened
 		}
 		is_planet_world_machine = no
-		oxr_mdlc_planet_can_become_world_machine = yes
+		OR = {
+			oxr_mdlc_planet_can_become_world_machine = yes
+			oxr_mdlc_planet_can_automate_ring = yes
+		}
 		is_colony = no  # use xvcv's original decision for that one
 	}
 	allow = {
@@ -31,7 +35,16 @@ oxr_mdlc_decisions_origin_wm_start_world_with_core = {
 	effect = {
 		custom_tooltip = oxr_mdlc_decisions_origin_wm_start_world_with_core_effect
 		hidden_effect = {
-			start_terraform_process = xvcv_mdlc_pc_machine_auto
+			if = {
+				limit = {
+					is_ringworld = yes
+				}
+				start_terraform_process = xvcv_mdlc_pc_ringworld_machine_auto
+			}
+			else = {
+				start_terraform_process = xvcv_mdlc_pc_machine_auto
+			}
+			
 			space_owner = {
 				oxr_mdlc_country_world_machine_cores_recalc_amount = yes
 			}
@@ -307,40 +320,8 @@ oxr_mdlc_decisions_origin_wm_self_destruct = {
 	}
 }
 
-# oxr_mdlc_decision_origin_wm_reclaim_colony = {
-# 	# owned_planets_only = yes
-# 	enactment_time = 60
-# 	resources = {
-# 		category = oxr_mdlc_category_wm_decisions
-# 		cost = {
-# 			energy = 1000
-# 		}
-# 	}
-# 	potential = {
-# 		is_colony = no
-# 		exists = space_owner
-# 		space_owner = {
-# 			has_origin = oxr_mdlc_origin_world_machine_awakened
-# 		}
-# 		is_planet_world_machine = yes
-# 	}
-# 	allow = {
-# 		is_colony = yes
-# 	}
-# 	effect = {
-# 		create_colony = {
-# 			owner = space_owner
-# 			species = space_owner.founder_species
-# 		}
-# 		oxr_mdlc_planet_fix_things_after_restoring_ownership = yes
-# 		# create_pop = {
-# 		# 	species = space_owner.founder_species
-# 		# 	count = 3
-# 		# }
-# 	}
-# }
-
 oxr_mdlc_decision_ap_wm_automate_capital = {
+
 	enactment_time = 180
 	resources = {
 		category = decisions
@@ -351,8 +332,8 @@ oxr_mdlc_decision_ap_wm_automate_capital = {
 	}
 	potential = {
 		is_colony = yes
-		exists = space_owner
-		space_owner = {
+		exists = owner
+		owner = {
 			has_ascension_perk = xvcv_mdlc_ap_world_machines
 		}
 		is_planet_world_machine = yes
@@ -450,6 +431,91 @@ oxr_mdlc_decision_ap_wm_automate_capital_remove = {
 	}
 }
 
+oxr_mdlc_decision_origin_wm_shutdown_colony = {
+	enactment_time = 90
+	resources = {
+		category = decisions
+		cost = {
+			energy = 200
+		}
+	}
+
+	potential = {
+		exists = owner
+		is_planet_world_machine = yes
+		owner = {
+			has_oxr_mdlc_origin_world_machine_awakened = yes
+		}
+		is_colony = yes
+		is_capital = no
+	}
+
+	allow = { is_colony = yes }
+
+	effect = {
+		custom_tooltip = oxr_mdlc_decision_origin_wm_shutdown_colony_effect
+		hidden_effect = {
+			oxr_mdlc_planet_clear_mods_and_vars_for_destroy_colony = yes
+			create_message = {
+				type = OXR_MDLC_WM_PLANET_DECOMMISSIONED
+				localization = OXR_MDLC_WM_PLANET_DECOMMISSIONED_MESSAGE
+				days = 15
+				target = this
+			}
+			destroy_colony = yes
+		}
+		
+	}
+}
+oxr_mdlc_decision_origin_wm_reactivate_colony = {
+
+	icon = oxr_mdlc_decisions_origin_wm_reboot_ruined_world
+	potential = {
+		exists = space_owner
+		space_owner = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+		}
+		is_colony = no
+		oxr_mdlc_planet_world_machine_is_rebooting = no
+		is_planet_world_machine = yes
+	}
+	allow = {
+		exists = space_owner
+		is_terraforming = no
+		space_owner = {
+			has_resource = {
+				type = energy
+				amount >= 2500
+			}
+		}
+		has_anomaly = no
+	}
+	resources = {
+		category = decisions
+		cost = {
+			energy = 2500
+		}
+	}
+	effect = {
+		custom_tooltip = oxr_mdlc_decision_origin_wm_reactivate_colony_effect
+		hidden_effect = {
+			add_modifier = {
+				modifier = oxr_mdlc_origin_world_machine_world_rebooting_stage_5
+				days = 180
+			}
+			planet_event = {
+				id = oxr_mdlc_origin_wm_main.510
+				days = 180
+				scopes = {
+					from = space_owner
+				}
+			}
+		}
+		
+		# oxr_mdlc_planet_fix_things_after_restoring_ownership = yes
+	}
+}
+
 #copied from 05_ancient_relics_decisions
 @minor_artifact_decision_cost = 100
 @minor_artifact_decision_duration = 3600
@@ -485,3 +551,5 @@ rikk_mdlc_decision_world_machine_exhibits = {
 		add_modifier = { modifier = "rikk_mdlc_world_machine_exhibits" days = @minor_artifact_decision_duration }
 	}
 }
+
+# EOF

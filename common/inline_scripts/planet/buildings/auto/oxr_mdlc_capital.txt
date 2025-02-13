@@ -27,7 +27,8 @@ planet_modifier = {
 
 triggered_planet_modifier = {
 	potential = {
-		space_owner = {
+		exists = owner
+		owner = {
 			has_active_tradition = tr_discovery_faith_in_science
 		}
 	}
@@ -68,15 +69,8 @@ triggered_planet_modifier = {
 			has_building = oxr_mdlc_world_machines_building_auto_capital_major_upgraded
 			has_building = oxr_mdlc_world_machines_building_auto_capital_fully_upgraded
 		}
-		OR = {
-			is_planet_class = xvcv_mdlc_pc_machine_auto
-			xvcv_mdlc_world_machines_planet_classes_trigger = yes
-		}
 	}
 	modifier = {
-		# planet_jobs_productive_upkeep_mult = 0.1
-		# planet_jobs_productive_produces_mult = 0.1
-
 		xvcv_mdlc_world_machines_districts_produces_mult = 0.05
 		xvcv_mdlc_world_machines_districts_upkeep_mult = 0.05
 		oxr_mdlc_category_world_machines_buildings_produces_mult = 0.05
@@ -90,10 +84,6 @@ triggered_planet_modifier = {
 		OR = {
 			has_building = oxr_mdlc_world_machines_building_auto_capital_major_upgraded
 			has_building = oxr_mdlc_world_machines_building_auto_capital_fully_upgraded
-		}
-		OR = {
-			is_planet_class = xvcv_mdlc_pc_machine_auto
-			xvcv_mdlc_world_machines_planet_classes_trigger = yes
 		}
 	}
 	modifier = {
@@ -111,10 +101,6 @@ triggered_planet_modifier = {
 		exists = owner
 		owner = { has_technology = tech_capital_productivity_3 }
 		has_building = oxr_mdlc_world_machines_building_auto_capital_fully_upgraded
-		OR = {
-			is_planet_class = xvcv_mdlc_pc_machine_auto
-			xvcv_mdlc_world_machines_planet_classes_trigger = yes
-		}
 	}
 	modifier = {
 		# planet_jobs_productive_upkeep_mult = 0.1
@@ -161,8 +147,8 @@ triggered_planet_modifier = {
 		exists = owner
 		owner = { has_technology = tech_power_plant_2 }
 	}
-	xvcv_mdlc_world_machines_generator_districts_produces_mult = 0.2
-	oxr_mdlc_world_machines_generator_buildings_produces_mult = 0.2
+	xvcv_mdlc_world_machines_generator_districts_energy_produces_mult = 0.2
+	oxr_mdlc_world_machines_generator_buildings_energy_produces_mult = 0.2
 }
 # tech_power_plant_3
 triggered_planet_modifier = {
@@ -170,8 +156,8 @@ triggered_planet_modifier = {
 		exists = owner
 		owner = { has_technology = tech_power_plant_3 }
 	}
-	xvcv_mdlc_world_machines_generator_districts_produces_mult = 0.2
-	oxr_mdlc_world_machines_generator_buildings_produces_mult = 0.2
+	xvcv_mdlc_world_machines_generator_districts_energy_produces_mult = 0.2
+	oxr_mdlc_world_machines_generator_buildings_energy_produces_mult = 0.2
 }
 # tech_power_plant_4
 triggered_planet_modifier = {
@@ -191,8 +177,8 @@ triggered_planet_modifier = {
 		exists = owner
 		owner = { has_technology = tech_mining_1 }
 	}
-	xvcv_mdlc_world_machines_mining_districts_produces_mult = 0.2
-	oxr_mdlc_world_machines_mining_buildings_produces_mult = 0.2
+	xvcv_mdlc_world_machines_mining_districts_minerals_produces_mult = 0.2
+	oxr_mdlc_world_machines_mining_buildings_minerals_produces_mult = 0.2
 }
 # tech_mining_2
 triggered_planet_modifier = {
@@ -200,8 +186,8 @@ triggered_planet_modifier = {
 		exists = owner
 		owner = { has_technology = tech_mining_2 }
 	}
-	xvcv_mdlc_world_machines_mining_districts_produces_mult = 0.2
-	oxr_mdlc_world_machines_mining_buildings_produces_mult = 0.2
+	xvcv_mdlc_world_machines_mining_districts_minerals_produces_mult = 0.2
+	oxr_mdlc_world_machines_mining_buildings_minerals_produces_mult = 0.2
 }
 # tech_mining_3
 triggered_planet_modifier = {
@@ -209,8 +195,8 @@ triggered_planet_modifier = {
 		exists = owner
 		owner = { has_technology = tech_mining_3 }
 	}
-	xvcv_mdlc_world_machines_mining_districts_produces_mult = 0.2
-	oxr_mdlc_world_machines_mining_buildings_produces_mult = 0.2
+	xvcv_mdlc_world_machines_mining_districts_minerals_produces_mult = 0.2
+	oxr_mdlc_world_machines_mining_buildings_minerals_produces_mult = 0.2
 }
 # tech_advanced_metallurgy_1 - BUILDING
 triggered_planet_modifier = {
@@ -233,39 +219,58 @@ triggered_planet_modifier = {
 	potential = {
 		exists = owner
 		owner = { has_technology = tech_advanced_metallurgy_1 }
-		oxr_mdlc_col_is_foundry = yes
-		is_planet_class = xvcv_mdlc_pc_machine_auto
+		# oxr_mdlc_col_is_foundry = yes
 	}
-	xvcv_mdlc_world_machines_industrial_districts_produces_mult = 0.2
-}
-# tech_advanced_metallurgy_2 - DISTRICT (T2)
-triggered_planet_modifier = {
-	potential = {
-		exists = owner
-		owner = { has_technology = tech_advanced_metallurgy_2 }
-		oxr_mdlc_col_is_foundry = yes
-		is_planet_class = xvcv_mdlc_pc_machine_auto
-	}
-	xvcv_mdlc_world_machines_industrial_districts_produces_mult = 0.2
+	xvcv_mdlc_world_machines_vanilla_industrial_districts_alloys_produces_mult = 0.1
 }
 # tech_advanced_metallurgy_1 - DISTRICT (T3)
 triggered_planet_modifier = {
 	potential = {
 		exists = owner
 		owner = { has_technology = tech_advanced_metallurgy_1 }
-		oxr_mdlc_col_is_foundry = yes
+		# oxr_mdlc_col_is_foundry = yes
+		is_planet_class = xvcv_mdlc_pc_machine_ecu
 	}
-	xvcv_mdlc_world_machines_foundry_districts_produces_mult = 0.2
+	xvcv_mdlc_world_machines_foundry_districts_alloys_produces_mult = 0.1
+}
+
+# tech_advanced_metallurgy_2 - DISTRICT (T2)
+triggered_planet_modifier = {
+	potential = {
+		exists = owner
+		owner = { has_technology = tech_advanced_metallurgy_2 }
+		# oxr_mdlc_col_is_foundry = yes
+	}
+	xvcv_mdlc_world_machines_industrial_districts_alloys_produces_mult = 0.1
 }
 # tech_advanced_metallurgy_2 - DISTRICT (T3)
 triggered_planet_modifier = {
 	potential = {
 		exists = owner
 		owner = { has_technology = tech_advanced_metallurgy_2 }
-		oxr_mdlc_col_is_foundry = yes
+		# oxr_mdlc_col_is_foundry = yes
+		is_planet_class = xvcv_mdlc_pc_machine_ecu
 	}
-	xvcv_mdlc_world_machines_foundry_districts_produces_mult = 0.2
+	xvcv_mdlc_world_machines_foundry_districts_alloys_produces_mult = 0.1
 }
+# # tech_advanced_metallurgy_1 - DISTRICT (T3)
+# triggered_planet_modifier = {
+# 	potential = {
+# 		exists = owner
+# 		owner = { has_technology = tech_advanced_metallurgy_1 }
+# 		oxr_mdlc_col_is_foundry = yes
+# 	}
+# 	xvcv_mdlc_world_machines_foundry_districts_produces_mult = 0.2
+# }
+# # tech_advanced_metallurgy_2 - DISTRICT (T3)
+# triggered_planet_modifier = {
+# 	potential = {
+# 		exists = owner
+# 		owner = { has_technology = tech_advanced_metallurgy_2 }
+# 		oxr_mdlc_col_is_foundry = yes
+# 	}
+# 	xvcv_mdlc_world_machines_foundry_districts_produces_mult = 0.2
+# }
 
 ## FOOD
 # tech_eco_simulation
@@ -274,8 +279,8 @@ triggered_planet_modifier = {
 		exists = owner
 		owner = { has_technology = tech_eco_simulation }
 	}
-	xvcv_mdlc_world_machines_food_districts_produces_mult = 0.2
-	oxr_mdlc_world_machines_food_buildings_produces_mult = 0.2
+	xvcv_mdlc_world_machines_food_districts_food_produces_mult = 0.2
+	oxr_mdlc_world_machines_food_buildings_food_produces_mult = 0.2
 }
 # tech_gene_crops
 triggered_planet_modifier = {
@@ -283,17 +288,17 @@ triggered_planet_modifier = {
 		exists = owner
 		owner = { has_technology = tech_gene_crops }
 	}
-	xvcv_mdlc_world_machines_food_districts_produces_mult = 0.2
-	oxr_mdlc_world_machines_food_buildings_produces_mult = 0.2
+	xvcv_mdlc_world_machines_food_districts_food_produces_mult = 0.2
+	oxr_mdlc_world_machines_food_buildings_food_produces_mult = 0.2
 }
 # tech_nano_vitality_crops
 triggered_planet_modifier = {
 	potential = {
 		exists = owner
-		owner = { has_technology = tech_gene_crops }
+		owner = { has_technology = tech_nano_vitality_crops }
 	}
-	xvcv_mdlc_world_machines_food_districts_produces_mult = 0.2
-	oxr_mdlc_world_machines_food_buildings_produces_mult = 0.2
+	xvcv_mdlc_world_machines_food_districts_food_produces_mult = 0.2
+	oxr_mdlc_world_machines_food_buildings_food_produces_mult = 0.2
 }
 # tech_nutrient_replication
 triggered_planet_modifier = {
@@ -301,8 +306,8 @@ triggered_planet_modifier = {
 		exists = owner
 		owner = { has_technology = tech_nutrient_replication }
 	}
-	xvcv_mdlc_world_machines_food_districts_produces_mult = 0.15
-	oxr_mdlc_world_machines_food_buildings_produces_mult = 0.15
+	xvcv_mdlc_world_machines_food_districts_food_produces_mult = 0.15
+	oxr_mdlc_world_machines_food_buildings_food_produces_mult = 0.15
 }
 # tech_resource_processing_algorithms
 triggered_planet_modifier = {
@@ -353,11 +358,14 @@ triggered_planet_modifier = {
 	potential = {
 		exists = owner
 		owner = { has_edict = industrial_subsidies }
-		is_planet_class = xvcv_mdlc_pc_machine_auto
-		oxr_mdlc_col_is_factory = yes
+		OR = {
+			is_planet_class = xvcv_mdlc_pc_machine_auto
+			is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
+		}
+		# oxr_mdlc_col_is_factory = yes
 	}
-	xvcv_mdlc_world_machines_industrial_districts_produces_mult = 0.1
-	xvcv_mdlc_world_machines_industrial_districts_energy_upkeep_add = 1
+	xvcv_mdlc_world_machines_vanilla_industrial_districts_produces_mult = 0.1
+	xvcv_mdlc_world_machines_vanilla_industrial_districts_energy_upkeep_add = 1
 	oxr_mdlc_world_machines_factory_buildings_produces_mult = 0.1
 	oxr_mdlc_world_machines_factory_buildings_energy_upkeep_add = 1
 }
@@ -380,10 +388,10 @@ triggered_planet_modifier = {
 		exists = owner
 		owner = { has_edict = forge_subsidies }
 		is_planet_class = xvcv_mdlc_pc_machine_auto
-		oxr_mdlc_col_is_foundry = yes
+		# oxr_mdlc_col_is_foundry = yes
 	}
-	xvcv_mdlc_world_machines_industrial_districts_produces_mult = 0.1
-	xvcv_mdlc_world_machines_industrial_districts_energy_upkeep_add = 1
+	xvcv_mdlc_world_machines_vanilla_industrial_districts_produces_mult = 0.1
+	xvcv_mdlc_world_machines_vanilla_industrial_districts_energy_upkeep_add = 1
 	oxr_mdlc_world_machines_foundry_buildings_produces_mult = 0.1
 	oxr_mdlc_world_machines_foundry_buildings_energy_upkeep_add = 1
 }
@@ -429,14 +437,14 @@ triggered_planet_modifier = {
 	oxr_mdlc_world_machines_science_buildings_upkeep_mult = 0.2
 }
 # omnifarious_acquisition
-triggered_planet_modifier = {
-	potential = {
-		exists = owner
-		owner = { has_edict = mining_subsidies }
-	}
-	xvcv_mdlc_world_machines_mining_districts_produces_mult = 0.33
-	oxr_mdlc_world_machines_mining_buildings_produces_mult = 0.33
-}
+# triggered_planet_modifier = {
+# 	potential = {
+# 		exists = owner
+# 		owner = { has_edict = omnifarious_acquisition }
+# 	}
+# 	xvcv_mdlc_world_machines_mining_districts_produces_mult = 0.33
+# 	oxr_mdlc_world_machines_mining_buildings_produces_mult = 0.33
+# }
 
 ## civic_machine_astromining_drones
 triggered_planet_modifier = {

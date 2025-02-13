@@ -455,12 +455,66 @@ country_event = {
 	}
 }
 
-# country_event = {
-# 	id = oxr_mdlc_on_world_machine_action.1210
-# 	title = ""
-# 	desc = ""
-# 	picture = 
-# }
+# Molten worlds available to colonize
+country_event = {
+	id = oxr_mdlc_on_world_machine_action.1210
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		last_increased_tech = oxr_mdlc_tech_geologic_heat_shielding_2
+	}
+	immediate = {
+		create_message = {
+			type = OXR_MDLC_WM_PLANET_TYPE_UNLOCKED
+			localization = OXR_MDLC_WM_PLANET_TYPE_MOLTEN_UNLOCKED_MESSAGE
+			target = root
+			days = 25
+		}
+	}
+}
+# Frozen worlds available to colonize
+country_event = {
+	id = oxr_mdlc_on_world_machine_action.1215
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		last_increased_tech = oxr_mdlc_tech_geologic_scaling_thermoelectrics
+	}
+	immediate = {
+		create_message = {
+			type = OXR_MDLC_WM_PLANET_TYPE_UNLOCKED
+			localization = OXR_MDLC_WM_PLANET_TYPE_FROZEN_UNLOCKED_MESSAGE
+			target = root
+			days = 25
+		}
+	}
+}
+# Message about toxic world available to colonize
+country_event = {
+	id = oxr_mdlc_on_world_machine_action.1220
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		OR = {
+			last_increased_tech = tech_climate_restoration
+			last_increased_tech = oxr_mdlc_tech_geologic_world_expansion_theory
+		}
+	}
+	immediate = {
+		if = {
+			limit = {
+				has_technology = tech_climate_restoration
+				has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
+			}
+			create_message = {
+				type = OXR_MDLC_WM_PLANET_TYPE_UNLOCKED
+				localization = OXR_MDLC_WM_PLANET_TYPE_TOXIC_UNLOCKED_MESSAGE
+				target = root
+				days = 25
+			}
+		}
+	}
+}
 
 planet_event = {
 	id = oxr_mdlc_on_world_machine_action.1900

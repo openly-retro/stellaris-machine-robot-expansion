@@ -9,8 +9,9 @@
 
 #region game_start_0x001
 oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
-	prev = {
-		set_country_flag = oxr_mdlc_origin_world_machine_feature_enabled
+	log = "Starting World-Machine origin setup for \\[This.owner.GetName]"
+	owner = {
+		set_country_flag = oxr_mdlc_origin_world_machine_setup_started
 	}
 	owner = {
 		set_variable = {
@@ -115,22 +116,22 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 	# Always guarantee this charge controller deposit is present.
 	# from here, on_action will add more dig sites.
 	# By starting the player from here, it will ensure the first digsite is not an insight blocker
-	if = {
-		limit = {
-			has_deposit = oxr_mdlc_d_world_machine_collapsed_charge_controller
-		}
-		create_archaeological_site = oxr_mdlc_collapsed_charge_controller_site
-	}
-	else = {
-		add_blocker = { type = oxr_mdlc_d_world_machine_collapsed_charge_controller }
-		create_archaeological_site = oxr_mdlc_collapsed_charge_controller_site
-	}
+	# if = {
+	# 	limit = {
+	# 		NOT = { has_deposit = oxr_mdlc_d_world_machine_collapsed_charge_controller }
+	# 	}
+	# 	add_deposit = oxr_mdlc_d_world_machine_collapsed_charge_controller
+	# }
+	# create_archaeological_site = oxr_mdlc_collapsed_charge_controller_site
+	oxr_mdlc_origin_world_machine_create_starting_digsite_on_homeworld = yes
+	log = "Created initial arc site on capital homeworld \\[This.GetName]"
+
 
 	# Install world machine core
 	add_deposit = oxr_mdlc_d_world_machine_core
 
 	# give_technology
-	prev = {
+	owner = {
 		give_technology = {
 			tech = oxr_mdlc_tech_world_machines_unlocked
 			message = no
@@ -141,7 +142,7 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 		# }
 	}
 	# Set up WMC counter vars
-	prev = {
+	owner = {
 		set_variable = {
 			which = oxr_mdlc_origin_wm_cores_total_produced_count
 			value = 0
@@ -169,7 +170,7 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 
 
 	# Start "recover lost tech" situation
-	prev = {
+	owner = {
 		start_situation = {
 			type = oxr_mdlc_origin_wm_situation_recover_core_tech
 			target = root
@@ -209,6 +210,12 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 		}
 		complete_special_project = {
 			type = OXR_MDLC_ORIGIN_WM_WHAT_WE_KNOW_1
+		}
+		enable_special_project = {
+			name = OXR_MDLC_ORIGIN_WM_INFO_PLANET_DEPLOY_LIST
+		}
+		complete_special_project = {
+			type = OXR_MDLC_ORIGIN_WM_INFO_PLANET_DEPLOY_LIST
 		}
 	}
 
@@ -251,7 +258,7 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 	# Food adjustment
 	if = {
 		limit = {
-			prev = {
+			owner = {
 				OR = {
 					has_civic = civic_machine_beastmasters
 					has_civic = civic_machine_catalytic_processing
@@ -259,7 +266,7 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 			}
 		}
 		add_district = xvcv_mdlc_pc_machine_auto_district_farming
-		prev = {
+		owner = {
 			add_resource = {
 				food = 100
 			}
@@ -324,7 +331,7 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 	}
 
 	# Make a ruined world machine in a neighboring system
-	prev = {
+	owner = {
 		oxr_mdlc_find_neighbor_planet_and_convert_to_ruined_world_machine = yes
 	}
 
@@ -672,6 +679,128 @@ oxr_mdlc_origin_world_machine_create_digsite_for_blocker = {
 		}
 	}
 }
+
+oxr_mdlc_origin_world_machine_create_starting_digsite_on_homeworld = {
+	# Iterate through each special blocker type, and make a dig site
+	# The game doesn't like different empires having the same arc site >_>
+	# So I had to write this to support more than 1 player having World Machine origin
+
+	random_deposit = {
+		limit = {
+			oxr_mdlc_deposit_is_world_machine_blocker = yes
+		}
+		if = {
+			limit = {
+				is_deposit_type = oxr_mdlc_d_world_machine_collapsed_charge_controller
+				NOT = { oxr_mdlc_any_country_capital_has_arc_site = { ARC_SITE = oxr_mdlc_collapsed_charge_controller_site } }
+			}
+			this.planet = { create_archaeological_site = oxr_mdlc_collapsed_charge_controller_site }
+			log = "Created collapsed_charge_controller digsite on \\[This.planet.GetName]"
+		}
+		else_if = {
+			limit = {
+				is_deposit_type = oxr_mdlc_d_world_machine_flooded_borehole
+				NOT = { oxr_mdlc_any_country_capital_has_arc_site = { ARC_SITE = oxr_mdlc_world_machine_flooded_borehole_site } }
+			}
+			this.planet = { create_archaeological_site = oxr_mdlc_world_machine_flooded_borehole_site }
+			log = "Created flooded_borehole digsite on \\[This.planet.GetName]"
+		}
+		else_if = {
+			limit = {
+				is_deposit_type = oxr_mdlc_d_world_machine_fossilized_nutrient_bog
+				NOT = { oxr_mdlc_any_country_capital_has_arc_site = { ARC_SITE = oxr_mdlc_fossilized_nutrient_bog_site } }
+			}
+			this.planet = { create_archaeological_site = oxr_mdlc_fossilized_nutrient_bog_site }
+			log = "Created fossilized_nutrient_bog digsite on \\[This.planet.GetName]"
+		}
+		else_if = {
+			limit = {
+				is_deposit_type = oxr_mdlc_d_world_machine_clogged_furnace_discharge
+				NOT = { oxr_mdlc_any_country_capital_has_arc_site = { ARC_SITE = oxr_mdlc_world_machine_clogged_furnace_discharge_site } }
+			}
+			this.planet = { create_archaeological_site = oxr_mdlc_world_machine_clogged_furnace_discharge_site }
+			log = "Created clogged_furnace_discharge digsite on \\[This.planet.GetName]"
+		}
+		else_if = {
+			limit = {
+				is_deposit_type = oxr_mdlc_d_world_machine_irradiated_drone_storage
+				NOT = { oxr_mdlc_any_country_capital_has_arc_site = { ARC_SITE = oxr_mdlc_world_machine_irradiated_drone_storage_site } }
+			}
+			this.planet = { create_archaeological_site = oxr_mdlc_world_machine_irradiated_drone_storage_site }
+			log = "Created irradiated_drone_storage digsite on \\[This.planet.GetName]"
+		}
+		else_if = {
+			limit = {
+				is_deposit_type = oxr_mdlc_d_world_machine_meteor_shower_impacts
+				NOT = { oxr_mdlc_any_country_capital_has_arc_site = { ARC_SITE = oxr_mdlc_world_machine_meteor_shower_impacts_site } }
+
+			}
+			this.planet = { create_archaeological_site = oxr_mdlc_world_machine_meteor_shower_impacts_site }
+			log = "Created meteor_shower_impacts digsite on \\[This.planet.GetName]"
+		}
+		else_if = {
+			limit = {
+				is_deposit_type = oxr_mdlc_d_world_machine_collapsed_transportation_hubs
+				NOT = { oxr_mdlc_any_country_capital_has_arc_site = { ARC_SITE = oxr_mdlc_world_machine_collapsed_transportation_hubs_site } }
+
+			}
+			this.planet = { create_archaeological_site = oxr_mdlc_world_machine_collapsed_transportation_hubs_site }
+			log = "Created collapsed_transportation_hubs digsite on \\[This.planet.GetName]"
+		}
+		else_if = {
+			limit = {
+				is_deposit_type = oxr_mdlc_d_world_machine_exposed_structural_chasms
+				NOT = { oxr_mdlc_any_country_capital_has_arc_site = { ARC_SITE = oxr_mdlc_world_machine_exposed_structural_chasms_site } }
+
+			}
+			this.planet = { create_archaeological_site = oxr_mdlc_world_machine_exposed_structural_chasms_site }
+			log = "Created exposed_structural_chasms digsite on \\[This.planet.GetName]"
+		}
+		else_if = {
+			limit = {
+				is_deposit_type = oxr_mdlc_d_world_machine_dense_geologic_mass
+				NOT = { oxr_mdlc_any_country_capital_has_arc_site = { ARC_SITE = oxr_mdlc_world_machine_dense_geologic_mass_site } }
+			}
+			this.planet = { create_archaeological_site = oxr_mdlc_world_machine_dense_geologic_mass_site }
+			log = "Created dense_geologic_mass digsite on \\[This.planet.GetName]"
+		}
+		else_if = {
+			limit = {
+				is_deposit_type = oxr_mdlc_d_world_machine_offline_data_routers
+				NOT = { oxr_mdlc_any_country_capital_has_arc_site = { ARC_SITE = oxr_mdlc_world_machine_offline_data_routers_site } }
+			}
+			this.planet = { create_archaeological_site = oxr_mdlc_world_machine_offline_data_routers_site }
+			log = "Created offline_data_routers digsite on \\[This.planet.GetName]"
+		}
+		else_if = {
+			limit = {
+				is_deposit_type = oxr_mdlc_d_world_machine_damaged_data_cold_storages
+				NOT = { oxr_mdlc_any_country_capital_has_arc_site = { ARC_SITE = oxr_mdlc_world_machine_damaged_data_cold_storages_site } }
+			}
+			this.planet = { create_archaeological_site = oxr_mdlc_world_machine_damaged_data_cold_storages_site }
+			log = "Created data_cold_storages digsite on \\[This.planet.GetName]"
+		}
+		else_if = {
+			limit = {
+				is_deposit_type = oxr_mdlc_d_world_machine_frozen_waterway_pistons
+				NOT = { oxr_mdlc_any_country_capital_has_arc_site = { ARC_SITE = oxr_mdlc_world_machine_frozen_waterway_pistons_site } }
+			}
+			this.planet = { create_archaeological_site = oxr_mdlc_world_machine_frozen_waterway_pistons_site }
+			log = "Created frozen_waterway_pistons digsite on \\[This.planet.GetName]"
+		}
+		else_if = {
+			limit = {
+				is_deposit_type = oxr_mdlc_d_world_machine_incomplete_construction_bays
+				NOT = { oxr_mdlc_any_country_capital_has_arc_site = { ARC_SITE = oxr_mdlc_world_machine_incomplete_construction_bays_site } }
+			}
+			this.planet = { create_archaeological_site = oxr_mdlc_world_machine_incomplete_construction_bays_site }
+			log = "Created 'Incomplete Construction Bay' digsite on \\[This.planet.GetName]"
+		}
+		else = {
+			log = "Didnt find a matching site for this deposit: \\[This.GetName]"
+		}
+	}
+}
 #endregion
 
 #region core_maths_0x005
@@ -739,11 +868,17 @@ oxr_mdlc_situation_core_insights_add_progress = {
 		add_situation_progress = $AMOUNT$
 	}
 	# THIS MESSAGE IS FINE, DON'T TOUCH IT
-	create_message = {
-		type = OXR_MDLC_SITUATION_CORE_INSIGHTS_PROGRESS_TYPE
-		localization = oxr_mdlc_situation_core_insights_$ON_ACTION_TYPE$
-		target = this.capital_scope
-		days = 25
+	# *touches*
+	if = {
+		limit = {
+			doesnt_have_country_flag = oxr_mdlc_mod_config_origin_wm_gather_insights_messages_off
+		}
+		create_message = {
+			type = OXR_MDLC_SITUATION_CORE_INSIGHTS_PROGRESS_TYPE
+			localization = oxr_mdlc_situation_core_insights_$ON_ACTION_TYPE$
+			target = this.capital_scope
+			days = 25
+		}
 	}
 	# change_variable = { which = oxr_mdlc_situation_core_insights_$ON_ACTION_TYPE$_var value = 1 }
 }
@@ -1253,6 +1388,7 @@ oxr_mdlc_planet_create_world_machine_colony = {
 	add_deposit = oxr_mdlc_d_world_machine_core
 	remove_building = building_deployment_post
 	add_building = oxr_mdlc_world_machines_building_auto_capital
+	# oxr_mdlc_planet_fix_things_after_restoring_ownership = yes
 	if = {
 		limit = {
 			has_planet_flag = rikk_mdlc_world_machine_suitable
@@ -1323,9 +1459,18 @@ oxr_mdlc_planet_create_world_machine_colony = {
 	}
 	# Set these vars
 	oxr_mdlc_origin_world_machine_calc_max_district_armies = yes
+	# Set up cooling district stuff
+	if = {
+		limit = {
+			is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
+		}
+		oxr_mdlc_planet_set_initial_cooling_district_count = yes
+		add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral days = -1 }
+	}
 }
 
 oxr_mdlc_planet_do_wm_origin_things_after_project = {
+	# Address new WMs but also existing WMs
 	remove_if_has_building = { WHICH = building_deployment_post }
 	remove_if_has_building = { WHICH = building_machine_capital }
 	remove_if_has_building = { WHICH = building_machine_major_capital }
@@ -1334,20 +1479,27 @@ oxr_mdlc_planet_do_wm_origin_things_after_project = {
 	# was converted from one WM type to another
 	if = {
 		limit = {
-			NOT = { has_building = oxr_mdlc_world_machines_building_auto_capital }
+			oxr_mdlc_planet_has_any_auto_capital = no
 		}
 		add_building = oxr_mdlc_world_machines_building_auto_capital
 	}
 
-	set_saved_date = {
-		key = oxr_mdlc_world_machine_founded_date
-		days_from_present = 0
-		expires = -1
+	# Dont add the modifier if switching between ecu/ser/cpu
+	if = {
+		limit = {
+			doesnt_have_modifier = { WHICH = oxr_mdlc_planet_origin_world_machine_info }
+		}
+		set_saved_date = {
+			key = oxr_mdlc_world_machine_founded_date
+			days_from_present = 0
+			expires = -1
+		}
+		add_modifier = {
+			modifier = oxr_mdlc_planet_origin_world_machine_info
+			days = -1
+		}
 	}
-	add_modifier = {
-		modifier = oxr_mdlc_planet_origin_world_machine_info
-		days = -1
-	}
+	
 	# Set these vars
 	if = {
 		limit = {
@@ -1584,31 +1736,25 @@ oxr_mdlc_planet_add_wmc_core_deposit_if_missing = {
 oxr_mdlc_planet_fix_things_after_restoring_ownership = {
 	# We reclaimed a world-machine after war, but it's a little borked
 	repair_all_buildings = yes
-	
-	if = {
-		limit = { has_building = building_hive_capital }
-		remove_building = building_hive_capital
+	remove_building_if_exists = {
+		WHICH = building_hive_capital
 	}
-	if = {
-		limit = { has_building = building_colony_shelter }
-		remove_building = building_colony_shelter
+	remove_building_if_exists = {
+		WHICH = building_colony_shelter
 	}
-	if = {
-		limit = { has_building = building_ancient_control_center }
-		remove_building = building_ancient_control_center
+	remove_building_if_exists = {
+		WHICH = building_ancient_control_center
 	}
-	if = {
-		limit = { has_building = building_ancient_palace }
-		remove_building = building_ancient_palace
+	remove_building_if_exists = {
+		WHICH = building_ancient_palace
 	}
-	if = {
-		limit = { has_building = building_machine_capital_nanotech }
-		remove_building = building_machine_capital_nanotech
+	remove_building_if_exists = {
+		WHICH = building_machine_capital_nanotech
 	}
-	if = {
-		limit = { has_building = building_deployment_post }
-		remove_building = building_deployment_post
+	remove_building_if_exists = {
+		WHICH = building_deployment_post
 	}
+
 	if = { limit = { has_building = building_machine_capital } remove_building = building_machine_capital }
 	if = { limit = { has_building = building_machine_major_capital } remove_building = building_machine_major_capital }
 	if = { limit = { has_building = building_machine_system_capital } remove_building = building_machine_system_capital }
@@ -1624,11 +1770,6 @@ oxr_mdlc_planet_fix_things_after_restoring_ownership = {
 	}
 }
 
-oxr_mdlc_planet_decision_repopulate_world_machine = {
-	# Events killed off our pops and now we have no colony!
-	# Player is at the planet view, going to click 'decision'
-	# and ends up in this effect
-}
 
 oxr_mdlc_planet_add_rikk_terraforming_queued_modifier = {
 	# Add a timed modifier while the decision is in progress to give visual info
@@ -1651,7 +1792,7 @@ oxr_mdlc_country_clear_wm_arc_sites_on_knowledge_gain = {
 oxr_mdlc_planet_set_initial_cooling_district_count = {
 	if = {
 		limit = {
-			num_districts = { type = num_xvcv_mdlc_common_district_cooling value > 0 }
+			num_districts = { type = xvcv_mdlc_common_district_cooling value > 0 }
 		}
 		set_variable = {
 			which = num_xvcv_mdlc_common_district_cooling
@@ -1664,4 +1805,30 @@ oxr_mdlc_planet_set_initial_cooling_district_count = {
 			value = 0
 		}
 	}
+}
+
+oxr_mdlc_planet_clear_mods_and_vars_for_destroy_colony = {
+
+	remove_modifier_if_exists = {
+		WHICH = xvcv_mdlc_world_machines_districts_heat_indicator_good
+	}
+	remove_modifier_if_exists = {
+		WHICH = xvcv_mdlc_world_machines_districts_heat_indicator_neutral
+	}
+	remove_modifier_if_exists = {
+		WHICH = xvcv_mdlc_world_machines_districts_heat_indicator_bad
+	}
+	remove_modifier_if_exists = {
+		WHICH = oxr_mdlc_planet_origin_world_machine_info
+	}
+	clear_variable_if_exists = {
+		WHICH = xvcv_mdlc_world_machines_districts_output_var
+	}
+	clear_variable_if_exists = {
+		WHICH = xvcv_mdlc_world_machines_districts_current_output_for_display_var
+	}
+	clear_variable_if_exists = {
+		WHICH = xvcv_mdlc_cooling_district_strength
+	}
+
 }

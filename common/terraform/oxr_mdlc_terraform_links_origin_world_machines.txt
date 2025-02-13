@@ -76,14 +76,115 @@ terraform_link = {
 	to = "xvcv_mdlc_pc_machine_auto"
 	inline_script = country/terraform/oxr_mdlc_to_pc_machine_auto
 }
-# Variants
-#terraform_link = {
-#	from = "pc_frozen"
-#	to = "xvcv_mdlc_pc_machine_auto"
-#	inline_script = country/terraform/oxr_mdlc_to_pc_machine_auto
-#}
-# terraform_link = {
-# 	from = "pc_toxic"
-# 	to = "xvcv_mdlc_pc_machine_auto"
-# 	inline_script = country/terraform/oxr_mdlc_to_pc_machine_auto
-# }
+terraform_link = {
+	from = "pc_ringworld_habitable"
+	to = "xvcv_mdlc_pc_ringworld_machine_auto"
+	inline_script = country/terraform/oxr_mdlc_to_pc_machine_auto
+}
+
+## SPECIAL ##
+terraform_link = {
+	from = "xvcv_mdlc_pc_machine_ecu"
+	to = "xvcv_mdlc_pc_machine_auto"
+	inline_script = country/terraform/oxr_wm_to_t3_machine
+	potential = { has_oxr_mdlc_origin_world_machine_awakened = yes }
+	effect = {
+		from = {
+			switch = {
+				trigger = has_modifier
+				xvcv_mdlc_world_machines_districts_heat_indicator_good = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_good }
+				xvcv_mdlc_world_machines_districts_heat_indicator_neutral = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral }
+				xvcv_mdlc_world_machines_districts_heat_indicator_bad = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad }
+			}
+		}
+	}
+}
+terraform_link = {
+	from = "xvcv_mdlc_pc_machine_cpu"
+	to = "xvcv_mdlc_pc_machine_auto"
+	inline_script = country/terraform/oxr_wm_to_t3_machine
+	potential = { has_oxr_mdlc_origin_world_machine_awakened = yes }
+	effect = {
+		from = {
+			switch = {
+				trigger = has_modifier
+				xvcv_mdlc_world_machines_districts_heat_indicator_good = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_good }
+				xvcv_mdlc_world_machines_districts_heat_indicator_neutral = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral }
+				xvcv_mdlc_world_machines_districts_heat_indicator_bad = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad }
+			}
+		}
+	}
+}
+terraform_link = {
+	from = "xvcv_mdlc_pc_machine_ser"
+	to = "xvcv_mdlc_pc_machine_auto"
+	inline_script = country/terraform/oxr_wm_to_t3_machine
+	potential = { has_oxr_mdlc_origin_world_machine_awakened = yes }
+	effect = {
+		from = {
+			switch = {
+				trigger = has_modifier
+				xvcv_mdlc_world_machines_districts_heat_indicator_good = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_good }
+				xvcv_mdlc_world_machines_districts_heat_indicator_neutral = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral }
+				xvcv_mdlc_world_machines_districts_heat_indicator_bad = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad }
+			}
+		}
+	}
+}
+#for the 'xvcv_mdlc_pc_machine_ecu' planet class
+terraform_link = {
+	from = "xvcv_mdlc_pc_machine_ecu"
+	to = "xvcv_mdlc_pc_machine_cpu"
+	inline_script = country/terraform/oxr_wm_to_t3_machine
+	potential = {
+		has_oxr_mdlc_origin_world_machine_awakened = yes
+		has_technology = oxr_mdlc_tech_world_machine_cpu
+	}
+}
+terraform_link = {
+	from = "xvcv_mdlc_pc_machine_ecu"
+	to = "xvcv_mdlc_pc_machine_ser"
+	inline_script = country/terraform/oxr_wm_to_t3_machine
+	potential = {
+		has_oxr_mdlc_origin_world_machine_awakened = yes
+		has_technology = oxr_mdlc_tech_world_machine_ser
+	}
+}
+#for the 'xvcv_mdlc_pc_machine_cpu' planet class
+terraform_link = {
+	from = "xvcv_mdlc_pc_machine_cpu"
+	to = "xvcv_mdlc_pc_machine_ecu"
+	inline_script = country/terraform/oxr_wm_to_t3_machine
+	potential = {
+		has_oxr_mdlc_origin_world_machine_awakened = yes
+		has_technology = oxr_mdlc_tech_world_machine_ecu
+	}
+}
+terraform_link = {
+	from = "xvcv_mdlc_pc_machine_cpu"
+	to = "xvcv_mdlc_pc_machine_ser"
+	inline_script = country/terraform/oxr_wm_to_t3_machine
+	potential = {
+		has_oxr_mdlc_origin_world_machine_awakened = yes
+		has_technology = oxr_mdlc_tech_world_machine_ser
+	}
+}
+#for the 'xvcv_mdlc_pc_machine_ser' planet class
+terraform_link = {
+	from = "xvcv_mdlc_pc_machine_ser"
+	to = "xvcv_mdlc_pc_machine_ecu"
+	inline_script = country/terraform/oxr_wm_to_t3_machine
+	potential = {
+		has_oxr_mdlc_origin_world_machine_awakened = yes
+		has_technology = oxr_mdlc_tech_world_machine_ecu
+	}
+}
+terraform_link = {
+	to = "xvcv_mdlc_pc_machine_cpu"
+	from = "xvcv_mdlc_pc_machine_ser"
+	inline_script = country/terraform/oxr_wm_to_t3_machine
+	potential = {
+		has_oxr_mdlc_origin_world_machine_awakened = yes
+		has_technology = oxr_mdlc_tech_world_machine_ser
+	}
+}

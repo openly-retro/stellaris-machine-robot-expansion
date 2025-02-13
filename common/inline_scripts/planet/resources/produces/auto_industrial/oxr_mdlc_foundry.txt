@@ -14,8 +14,8 @@ produces = {
 			is_catalytic_empire = no
 		}
 	}
-	alloys = $PRODUCES$
-	mult = $PRODUCES_MULT$
+	alloys = @[ $JOBS$ * oxr_mdlc_wm_base_fabricator_output ]
+	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
 }
 produces = {
 	trigger = {
@@ -26,8 +26,8 @@ produces = {
 			is_catalytic_empire = yes
 		}
 	}
-	alloys = $CATALYTIC$
-	mult = $PRODUCES_MULT$
+	alloys = @[ $JOBS$ * oxr_mdlc_wm_base_catalytic_output ]
+	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
 }
 upkeep = {
 	trigger = {
@@ -38,10 +38,8 @@ upkeep = {
 			is_catalytic_empire = no
 		}
 	}
-	minerals = $UPKEEP$  # 16
+	minerals = @[ $JOBS$ * oxr_mdlc_wm_base_fabricator_upkeep ]
 	volatile_motes = $RARE$
-	mult = $UPKEEP_MULT$
-	# mult =  value:scripted_modifier_mult|MODIFIER|xvcv_mdlc_world_machines_industrial_districts_upkeep_mult|
 }
 upkeep = {
 	trigger = {
@@ -52,8 +50,6 @@ upkeep = {
 			is_catalytic_empire = yes
 		}
 	}
-	food = $CATALYTIC_UPKEEP$  # 24
+	food = @[ $JOBS$ * oxr_mdlc_wm_base_catalytic_upkeep_food ]
 	volatile_motes = $RARE$
-	mult = $UPKEEP_MULT$
-	# mult =  value:scripted_modifier_mult|MODIFIER|xvcv_mdlc_world_machines_industrial_districts_upkeep_mult|
 }

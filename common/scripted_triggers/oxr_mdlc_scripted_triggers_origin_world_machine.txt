@@ -62,7 +62,7 @@ oxr_mdlc_planet_can_become_world_machine = {
 		is_planet_class = pc_barren_cold
 		is_planet_class = pc_nuked
 		is_planet_class = pc_gaia
-		is_planet_class = pc_hive
+		# is_planet_class = pc_hive
 		is_planet_class = pc_desert
 		is_planet_class = pc_arid
 		is_planet_class = pc_savannah
@@ -73,7 +73,13 @@ oxr_mdlc_planet_can_become_world_machine = {
 		is_planet_class = pc_tropical
 		is_planet_class = pc_ocean
 		has_planet_flag = rikk_mdlc_world_machine_suitable
+		# oxr_mdlc_planet_can_automate_ring = yes
 		# is_colonizable = yes  # support other mods that add colonizable classes
+	}
+}
+oxr_mdlc_planet_can_automate_ring = {
+	OR = {
+		is_planet_class = pc_ringworld_habitable
 	}
 }
 
@@ -267,6 +273,14 @@ oxr_mdlc_planet_is_t3_world_machine = {
 		is_planet_class = xvcv_mdlc_pc_machine_ser
 	}
 }
+oxr_mdlc_planet_class_uses_cooling = {
+	OR = {
+		is_planet_class = xvcv_mdlc_pc_machine_ecu
+		is_planet_class = xvcv_mdlc_pc_machine_cpu
+		is_planet_class = xvcv_mdlc_pc_machine_ser
+		is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
+	}
+}
 
 oxr_mdlc_planet_can_become_t2_world_machine = {
 	if = {
@@ -320,4 +334,59 @@ oxr_mdlc_arc_site_is_wm_blocker = {
 
 oxr_yes = {
 	always = yes
+}
+
+oxr_mdlc_is_planet_world_machine = {
+	OR = {
+		is_planet_class = xvcv_mdlc_pc_machine_ser
+		is_planet_class = xvcv_mdlc_pc_machine_cpu
+		is_planet_class = xvcv_mdlc_pc_machine_ecu
+		is_planet_class = xvcv_mdlc_pc_machine_auto
+		is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
+	}
+}
+oxr_mdlc_planet_uses_cooling_district = {
+	OR = {
+		is_planet_class = xvcv_mdlc_pc_machine_ser
+		is_planet_class = xvcv_mdlc_pc_machine_cpu
+		is_planet_class = xvcv_mdlc_pc_machine_ecu
+		is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
+	}
+}
+
+oxr_mdlc_planet_has_any_auto_capital = {
+	OR = {
+		has_building = oxr_mdlc_world_machines_building_auto_capital
+		has_building = oxr_mdlc_world_machines_building_auto_capital_upgraded
+		has_building = oxr_mdlc_world_machines_building_auto_capital_major_upgraded
+		has_building = oxr_mdlc_world_machines_building_auto_capital_fully_upgraded
+	}
+}
+
+oxr_mdlc_any_country_capital_has_arc_site = {
+	any_country = {
+		exists = capital_scope
+		has_oxr_mdlc_origin_world_machine_awakened = yes
+		capital_scope = {
+			any_archaeological_site = {
+				is_site_type = $ARC_SITE$
+			}
+		}
+	}
+}
+
+oxr_mdlc_country_is_nanotech_wm_origin = {
+	has_tradition = oxr_mdlc_wm_tr_nanotech_adopt
+	has_oxr_mdlc_origin_world_machine_awakened = yes
+}
+
+oxr_mdlc_planet_world_machine_is_rebooting = {
+	is_planet_world_machine = yes
+	OR = {
+		has_modifier = oxr_mdlc_origin_world_machine_world_rebooting_stage_1
+		has_modifier = oxr_mdlc_origin_world_machine_world_rebooting_stage_2
+		has_modifier = oxr_mdlc_origin_world_machine_world_rebooting_stage_3
+		has_modifier = oxr_mdlc_origin_world_machine_world_rebooting_stage_4
+		has_modifier = oxr_mdlc_origin_world_machine_world_rebooting_stage_5
+	}
 }
