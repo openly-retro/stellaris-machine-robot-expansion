@@ -131,3 +131,42 @@ giga_frameworld_outpost_set_planet_class = {
 		remove_planet_flag = @outpost_planet_modified
 	}
 }
+
+giga_frameworld_create_outpost = {
+	$planet$ = {
+		save_event_target_as = outpost_planet
+		giga_frameworld_set_outpost_flags = yes
+	}
+	$owner$ = { save_event_target_as = outpost_owner }
+
+	create_fleet = {
+		effect = {
+			set_owner = event_target:outpost_owner
+			create_ship = {
+				random_existing_design = frameworld_planetary_outpost
+				effect = {
+					set_disable_at_health = 0.05
+					set_name = {
+						key = frameworld_planetary_outpost_name
+						variable_string = "\\[outpost_planet.GetName]"
+					}
+				}
+			}
+			save_event_target_as = target_orbital
+			fleet = {
+				set_location = {
+					target = event_target:outpost_planet
+				}
+				set_fleet_flag = @giga_frameworld_outpost_fleet_flag
+				set_name = {
+					key = frameworld_planetary_outpost_name
+					variable_string = "\\[outpost_planet.GetName]"
+				}
+			}
+		}
+	}
+
+	$planet$ = {
+		giga_frameworld_outpost_set_planet_class = yes
+	}
+}
