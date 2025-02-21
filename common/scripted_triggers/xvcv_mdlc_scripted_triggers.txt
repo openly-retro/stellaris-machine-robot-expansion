@@ -1,4 +1,5 @@
-xvcv_mdlc_synthetic_start_origin_trigger = {
+# Main triggers, originally by XVCV
+xvcv_mdlc_country_has_synthetic_origin = {
 	optimize_memory
 	OR = {
 		has_origin = xvcv_mdlc_origin_synth_ascend
@@ -36,34 +37,10 @@ xvcv_mdlc_world_machines_planet_classes_trigger = {
 		is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
 	}
 }
-xvcv_mdlc_world_machines_districts_heat_indicators_calc_trigger = {
-	optimize_memory
-	OR = {
-		last_district_changed = xvcv_mdlc_common_district_cooling
-
-		last_district_changed = xvcv_mdlc_pc_machine_ecu_district_alloys
-		last_district_changed = xvcv_mdlc_pc_machine_ecu_district_goods
-		last_district_changed = xvcv_mdlc_pc_machine_ecu_district_rare_resources
-		last_district_changed = xvcv_mdlc_pc_machine_ecu_district_naval_cap
-
-		last_district_changed = xvcv_mdlc_pc_machine_cpu_district_physics
-		last_district_changed = xvcv_mdlc_pc_machine_cpu_district_society
-		last_district_changed = xvcv_mdlc_pc_machine_cpu_district_engineering
-		last_district_changed = xvcv_mdlc_pc_machine_cpu_district_decryption
-
-		last_district_changed = xvcv_mdlc_pc_machine_ser_district_unity
-		last_district_changed = xvcv_mdlc_pc_machine_ser_district_admin_cap
-		last_district_changed = xvcv_mdlc_pc_machine_ser_district_crime
-		last_district_changed = xvcv_mdlc_pc_machine_ser_district_encryption
-
-		last_district_changed = xvcv_mdlc_pc_ringworld_machine_auto_generator
-		last_district_changed = xvcv_mdlc_pc_ringworld_machine_auto_commercial
-		last_district_changed = xvcv_mdlc_pc_ringworld_machine_auto_science
-		last_district_changed = xvcv_mdlc_pc_ringworld_machine_auto_industrial
-		last_district_changed = xvcv_mdlc_pc_ringworld_machine_auto_farming
-	}
-}
-xvcv_mdlc_world_machines_non_resource_district_trigger = {
+#
+# xvcv_mdlc_world_machines_districts_heat_indicators_calc_trigger was here
+#
+xvcv_mdlc_planet_wm_has_non_resource_district = {
 	optimize_memory
 	OR = {
 		has_district = xvcv_mdlc_pc_machine_ecu_district_naval_cap
@@ -99,36 +76,17 @@ xvcv_mdlc_leader_tied_traits_remove_trigger = {
 }
 # Set up country-level flags so that memory share can trigger again for other class types
 # Ex: commanders were all leveled -- don't block scientists or officials from getting levels from this effect --0xR
-xvcv_mdlc_check_memory_share_level_up_happened_for_commander = {
+xvcv_mdlc_leader_check_memory_share_level_up_happened_for_commander = {
 	log = "Checking inside scripted trigger if lvl up happened for commander"
 	owner = { has_country_flag = xvcv_mdlc_memory_share_leveled_up_commander }
 }
-xvcv_mdlc_check_memory_share_level_up_happened_for_scientist = {
+xvcv_mdlc_leader_check_memory_share_level_up_happened_for_scientist = {
 	log = "Checking inside scripted trigger if lvl up happened for scientist"
 	owner = { has_country_flag = xvcv_mdlc_memory_share_leveled_up_scientist }
 }
-xvcv_mdlc_check_memory_share_level_up_happened_for_official = {
+xvcv_mdlc_leader_check_memory_share_level_up_happened_for_official = {
 	log = "Checking inside scripted trigger if lvl up happened for official"
 	owner = { has_country_flag = xvcv_mdlc_memory_share_leveled_up_official }
-}
-
-xvcv_mdlc_world_machines_planet_needs_cooling_offset = {
-	AND = {
-		check_variable = {
-			which = xvcv_mdlc_world_machines_districts_output_var
-			value > @xvcv_mdlc_world_machines_cooling_redundancy_threshold
-		}
-		# has_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_good
-	}
-
-	# print_scope_trigger = yes
-}
-
-can_build_on_world_machine = {
-	custom_tooltip_fail = {
-		text = "Not buildable on world-machines"
-		NOT = { is_planet_world_machine = yes }
-	}
 }
 
 is_planet_world_machine = {
@@ -139,23 +97,4 @@ is_planet_world_machine = {
 		is_planet_class = xvcv_mdlc_pc_machine_auto
 		is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
 	}
-}
-
-xvcv_mdlc_world_machines_production_district_is_empire_resource = {
-	optimize_memory
-	OR = {
-		#xvcv_mdlc_pc_machine_ecu
-		last_district_changed = xvcv_mdlc_pc_machine_ecu_district_naval_cap
-		#xvcv_mdlc_pc_machine_cpu
-		last_district_changed = xvcv_mdlc_pc_machine_cpu_district_decryption
-		#xvcv_mdlc_pc_machine_ser
-		last_district_changed = xvcv_mdlc_pc_machine_ser_district_admin_cap
-		last_district_changed = xvcv_mdlc_pc_machine_ser_district_crime
-		last_district_changed = xvcv_mdlc_pc_machine_ser_district_encryption
-	}
-}
-
-xvcv_mdlc_country_can_make_bio_robots = {
-	has_ascension_perk = xvcv_mdlc_ap_bio_robot
-	has_country_flag = xvcv_mdlc_bio_robot_research_complete
 }

@@ -15,7 +15,7 @@ country_event = {
 			has_valid_civic = xvcv_mdlc_civic_central_processing
 			has_valid_civic = xvcv_mdlc_civic_uplink_node
 			has_valid_civic = xvcv_mdlc_civic_friendship_protocol
-			xvcv_mdlc_synthetic_start_origin_trigger = yes
+			xvcv_mdlc_country_has_synthetic_origin = yes
 			this.species = { has_trait = xvcv_mdlc_trait_rock_body }
 			this.species = { has_trait = xvcv_mdlc_trait_synth_skin }
 			# has_oxr_mdlc_origin_world_machine_awakened = yes
@@ -65,7 +65,7 @@ country_event = {
 		}
 		#and that ends here
 		if = {
-			limit = { xvcv_mdlc_synthetic_start_origin_trigger = yes }
+			limit = { xvcv_mdlc_country_has_synthetic_origin = yes }
 			add_resource = {
 				energy = 200
 				food = -200
@@ -420,7 +420,7 @@ planet_event = {
 	trigger = {
 		owner = {
 			OR = {
-				xvcv_mdlc_synthetic_start_origin_trigger = yes
+				xvcv_mdlc_country_has_synthetic_origin = yes
 				has_origin = xvcv_mdlc_origin_start_with_colony
 			}
 		}
@@ -429,7 +429,7 @@ planet_event = {
 	immediate = {
 		owner = {
 			if = {
-				limit = { xvcv_mdlc_synthetic_start_origin_trigger = yes }
+				limit = { xvcv_mdlc_country_has_synthetic_origin = yes }
 				set_country_flag = synthetic_empire
 				set_country_flag = synth_assimilation
 		
@@ -645,7 +645,7 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		xvcv_mdlc_synthetic_start_origin_trigger = yes
+		xvcv_mdlc_country_has_synthetic_origin = yes
 		NOT = { has_country_flag = xvcv_mdlc_synth_origin_start_project_cleared }
 	}
 
@@ -2786,7 +2786,7 @@ country_event = {
 				commander = {
 					if = {
 						# Set up a country flag so the every_owned_leader doesn't get called iteratively after a leader has been leveled up by code here
-						limit = { xvcv_mdlc_check_memory_share_level_up_happened_for_commander = no }
+						limit = { xvcv_mdlc_leader_check_memory_share_level_up_happened_for_commander = no }
 						switch = {
 							trigger = has_skill
 							2 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = commander has_skill < 2 NOT = { has_leader_flag = xvcv_mdlc_leader_trait_shared_memory_target_@from } } xvcv_mdlc_set_memory_share_level_up_happened_for_commander = yes add_skill_without_trait_selection = 1 } } }
@@ -2803,7 +2803,7 @@ country_event = {
 				}
 				scientist = {
 					if = {
-						limit = { xvcv_mdlc_check_memory_share_level_up_happened_for_scientist = no }
+						limit = { xvcv_mdlc_leader_check_memory_share_level_up_happened_for_scientist = no }
 						switch = {
 							trigger = has_skill
 							2 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = scientist has_skill < 2 NOT = { has_leader_flag = xvcv_mdlc_leader_trait_shared_memory_target_@from } } xvcv_mdlc_set_memory_share_level_up_happened_for_scientist = yes add_skill_without_trait_selection = 1 } } }
@@ -2820,7 +2820,7 @@ country_event = {
 				}
 				official = {
 					if = {
-						limit = { xvcv_mdlc_check_memory_share_level_up_happened_for_official = no }
+						limit = { xvcv_mdlc_leader_check_memory_share_level_up_happened_for_official = no }
 						switch = {
 							trigger = has_skill
 							2 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = official has_skill < 2 NOT = { has_leader_flag = xvcv_mdlc_leader_trait_shared_memory_target_@from } } xvcv_mdlc_set_memory_share_level_up_happened_for_official = yes add_skill_without_trait_selection = 1 } } }
@@ -3099,7 +3099,7 @@ planet_event = {
 		log = "A district was built on \\[This.GetName]."
 		xvcv_mdlc_world_machines_output_value_calc_effect = yes
 		if = {
-			limit = { xvcv_mdlc_world_machines_non_resource_district_trigger = yes }
+			limit = { xvcv_mdlc_planet_wm_has_non_resource_district = yes }
 			#log = "Going into xvcv_mdlc_world_machines_recalc_non_resource_offsets_all"
 			xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = yes
 		}
@@ -3140,7 +3140,7 @@ planet_event = {
 		log = "A district was removed from \\[This.GetName]."
 		xvcv_mdlc_world_machines_output_value_calc_effect = yes
 		if = {
-			limit = { xvcv_mdlc_world_machines_non_resource_district_trigger = yes }
+			limit = { xvcv_mdlc_planet_wm_has_non_resource_district = yes }
 			#log = "Going into xvcv_mdlc_world_machines_recalc_non_resource_offsets_all"
 			xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = yes
 		}
@@ -3163,7 +3163,7 @@ planet_event = {
 		xvcv_mdlc_world_machines_output_value_calc_effect = yes
 		# Check if non-resource districts need offsets (if output is below 0.0) and add them
 		if = {
-			limit = { xvcv_mdlc_world_machines_non_resource_district_trigger = yes }
+			limit = { xvcv_mdlc_planet_wm_has_non_resource_district = yes }
 			#log = "Going into xvcv_mdlc_world_machines_recalc_non_resource_offsets_all"
 			xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = yes
 		}
@@ -3964,7 +3964,7 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		xvcv_mdlc_synthetic_start_origin_trigger = yes
+		xvcv_mdlc_country_has_synthetic_origin = yes
 	}
 
 	immediate = {
@@ -3982,7 +3982,7 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		xvcv_mdlc_synthetic_start_origin_trigger = yes
+		xvcv_mdlc_country_has_synthetic_origin = yes
 	}
 
 	immediate = {
