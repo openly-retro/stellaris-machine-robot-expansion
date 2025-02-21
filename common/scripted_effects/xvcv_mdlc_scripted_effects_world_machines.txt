@@ -1,4 +1,4 @@
-xvcv_mdlc_world_machines_output_value_calc_effect = {
+xvcv_mdlc_planet_wm_calc_output_value = {
 	# optimize_memory
 	# This effect is only called from on_built/on_destroy of t3 world districts
 
@@ -12,7 +12,7 @@ xvcv_mdlc_world_machines_output_value_calc_effect = {
 
 	# create/update 'xvcv_mdlc_world_machines_districts_output_var'
 	# create/update 'xvcv_mdlc_world_machines_districts_current_output_for_display_var'
-	xvcv_mdlc_count_districts_calculate_output_display_var = yes
+	xvcv_mdlc_planet_count_districts_calculate_output_display_var = yes
 
 	#log = "Going into xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect"
 	if = {
@@ -45,7 +45,7 @@ xvcv_mdlc_world_machines_output_value_calc_effect = {
 	#log = "Finished xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect"
 }
 
-oxr_mdlc_world_machines_check_should_balance_cooling_districts = {
+oxr_mdlc_planet_wm_check_should_balance_cooling_districts = {
 	if = {
 		limit = {
 			check_variable = {
@@ -63,7 +63,7 @@ oxr_mdlc_world_machines_check_should_balance_cooling_districts = {
 # Takes two vars: $DISTRICT_TYPE$ and $OFFSET_DEPOSIT_TYPE$
 # Deposit type is what district to add as an offset
 # ASSUMPTIONS: There is at least one offset deposit, OR one district
-xvcv_mdlc_world_machines_adjust_non_resource_district_offset_entry = {
+xvcv_mdlc_planet_wm_adjust_non_resource_district_offset_entry = {
 	optimize_memory
 	#log = "Going to adjust non-resource district offsets for  $DISTRICT_TYPE$ "
 	export_trigger_value_to_variable = {
@@ -189,7 +189,7 @@ xvcv_mdlc_world_machines_adjust_non_resource_district_offset_entry = {
 # In this case, it's not appropriate to keep the same amount of deposit offsets,
 # so recalculate how many deposit offsets need to be in place now with the 1 t3 distict gone
 # Switch planet type and then recalculate offsets for all non-resource districts >_@
-xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = {
+xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all = {
 	optimize_memory
 	switch = {
 		trigger = is_planet_class
@@ -202,7 +202,7 @@ xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = {
 					}
 				}
 				#log = "Looking at world forge type, adjusting naval cap if needed ..."
-				xvcv_mdlc_world_machines_adjust_non_resource_district_offset_entry = {
+				xvcv_mdlc_planet_wm_adjust_non_resource_district_offset_entry = {
 					DISTRICT_TYPE = xvcv_mdlc_pc_machine_ecu_district_naval_cap
 					OFFSET_DEPOSIT_TYPE = xvcv_mdlc_d_pc_machine_ecu_naval_cap_offset
 				}
@@ -217,7 +217,7 @@ xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = {
 					}
 				}
 				#log = "Looking at world cpu type, adjusting decryption if needed..."
-				xvcv_mdlc_world_machines_adjust_non_resource_district_offset_entry = {
+				xvcv_mdlc_planet_wm_adjust_non_resource_district_offset_entry = {
 					DISTRICT_TYPE = xvcv_mdlc_pc_machine_cpu_district_decryption
 					OFFSET_DEPOSIT_TYPE = xvcv_mdlc_d_pc_machine_cpu_decryption_offset
 				}
@@ -233,7 +233,7 @@ xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = {
 					}
 				}
 				#log = "Looking at world server type, adjusting admin cap district if needed ..."
-				xvcv_mdlc_world_machines_adjust_non_resource_district_offset_entry = {
+				xvcv_mdlc_planet_wm_adjust_non_resource_district_offset_entry = {
 					DISTRICT_TYPE = xvcv_mdlc_pc_machine_ser_district_admin_cap
 					OFFSET_DEPOSIT_TYPE = xvcv_mdlc_d_pc_machine_ser_admin_cap_offset
 				}
@@ -244,7 +244,7 @@ xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = {
 					owner = { has_authority = auth_machine_intelligence }
 				}
 				#log = "Looking at world server type, adjusting deviancy district if needed ..."
-				xvcv_mdlc_world_machines_adjust_non_resource_district_offset_entry = {
+				xvcv_mdlc_planet_wm_adjust_non_resource_district_offset_entry = {
 					DISTRICT_TYPE = xvcv_mdlc_pc_machine_ser_district_crime
 					OFFSET_DEPOSIT_TYPE = xvcv_mdlc_d_pc_machine_ser_crime_offset
 				}
@@ -255,7 +255,7 @@ xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = {
 					has_district = xvcv_mdlc_pc_machine_ser_district_crime
 					owner = { NOT = { has_authority = auth_machine_intelligence } }
 				}
-				xvcv_mdlc_world_machines_adjust_non_resource_district_offset_entry = {
+				xvcv_mdlc_planet_wm_adjust_non_resource_district_offset_entry = {
 					DISTRICT_TYPE = xvcv_mdlc_pc_machine_ser_district_crime
 					OFFSET_DEPOSIT_TYPE = xvcv_mdlc_d_pc_machine_ser_crime_alt_offset
 				}
@@ -268,7 +268,7 @@ xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = {
 					}
 				}
 				#log = "Looking at world server type, adjusting encryption district if needed ..."
-				xvcv_mdlc_world_machines_adjust_non_resource_district_offset_entry = {
+				xvcv_mdlc_planet_wm_adjust_non_resource_district_offset_entry = {
 					DISTRICT_TYPE = xvcv_mdlc_pc_machine_ser_district_encryption
 					OFFSET_DEPOSIT_TYPE = xvcv_mdlc_d_pc_machine_ser_encryption_offset
 				}
@@ -279,7 +279,7 @@ xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = {
 
 # There's a bug where clearing all deposits doesn't work on the first try
 # Take CUSTOM_DEPOSIT_TYPE arg
-oxr_mdlc_clear_all_custom_deposits_of_type = {
+oxr_mdlc_planet_clear_all_custom_deposits_of_type = {
 	optimize_memory
 	export_trigger_value_to_variable = {
 		trigger = count_deposits
@@ -302,7 +302,7 @@ oxr_mdlc_clear_all_custom_deposits_of_type = {
 	}
 }
 
-xvcv_mdlc_count_districts_calculate_output_display_var = {
+xvcv_mdlc_planet_count_districts_calculate_output_display_var = {
 	# A workaround to properly export the world_machines_district_mult value
 	# because export_modifier_to_variable is broken in on_district_complete in 3.12.* +
 	# HOW THIS WORKS:
@@ -420,7 +420,7 @@ xvcv_mdlc_count_districts_calculate_output_display_var = {
 	# clear_variable = rikk_mdlc_world_machine_cooling_district_effect
 }
 
-xvcv_mdlc_decision_machine_world_automation_effect = {
+xvcv_mdlc_planet_decision_machine_world_automation_effect = {
 	if = {
 		limit = { owner = { has_authority = auth_machine_intelligence } }
 		custom_tooltip = xvcv_mdlc_decision_machine_world_automation_tooltip

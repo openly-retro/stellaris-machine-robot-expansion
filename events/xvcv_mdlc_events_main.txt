@@ -3097,11 +3097,11 @@ planet_event = {
 	}
 	immediate = {
 		log = "A district was built on \\[This.GetName]."
-		xvcv_mdlc_world_machines_output_value_calc_effect = yes
+		xvcv_mdlc_planet_wm_calc_output_value = yes
 		if = {
 			limit = { xvcv_mdlc_planet_wm_has_non_resource_district = yes }
-			#log = "Going into xvcv_mdlc_world_machines_recalc_non_resource_offsets_all"
-			xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = yes
+			#log = "Going into xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all"
+			xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all = yes
 		}
 	}
 }
@@ -3119,8 +3119,8 @@ planet_event = {
 	}
 	immediate = {
 		log = "A T3 world resource district was built on \\[This.GetName]"
-		xvcv_mdlc_world_machines_output_value_calc_effect = yes
-		xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = yes
+		xvcv_mdlc_planet_wm_calc_output_value = yes
+		xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all = yes
 	}
 }
 
@@ -3138,11 +3138,11 @@ planet_event = {
 	}
 	immediate = {
 		log = "A district was removed from \\[This.GetName]."
-		xvcv_mdlc_world_machines_output_value_calc_effect = yes
+		xvcv_mdlc_planet_wm_calc_output_value = yes
 		if = {
 			limit = { xvcv_mdlc_planet_wm_has_non_resource_district = yes }
-			#log = "Going into xvcv_mdlc_world_machines_recalc_non_resource_offsets_all"
-			xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = yes
+			#log = "Going into xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all"
+			xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all = yes
 		}
 	}
 }
@@ -3160,12 +3160,12 @@ planet_event = {
 	}
 	immediate = {
 		log = "A T3 resource district was removed from \\[This.GetName]."
-		xvcv_mdlc_world_machines_output_value_calc_effect = yes
+		xvcv_mdlc_planet_wm_calc_output_value = yes
 		# Check if non-resource districts need offsets (if output is below 0.0) and add them
 		if = {
 			limit = { xvcv_mdlc_planet_wm_has_non_resource_district = yes }
-			#log = "Going into xvcv_mdlc_world_machines_recalc_non_resource_offsets_all"
-			xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = yes
+			#log = "Going into xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all"
+			xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all = yes
 		}
 	}
 }
@@ -3367,7 +3367,7 @@ country_event = {
 	immediate = {
 		every_owned_planet = {
 			limit = { xvcv_mdlc_world_machines_planet_classes_trigger = yes }
-			xvcv_mdlc_world_machines_output_value_calc_effect = yes
+			xvcv_mdlc_planet_wm_calc_output_value = yes
 		}
 	}
 }
@@ -3443,7 +3443,7 @@ country_event = {
 				has_deposit = xvcv_mdlc_d_trait_self_replicating_microbot
 				NOT = { any_owned_species = { has_trait = xvcv_mdlc_trait_self_replicating_microbot } }
 			}
-			oxr_mdlc_clear_all_custom_deposits_of_type = {
+			oxr_mdlc_planet_clear_all_custom_deposits_of_type = {
 				CUSTOM_DEPOSIT_TYPE = xvcv_mdlc_d_trait_self_replicating_microbot
 			}
 			# every_deposit = {
