@@ -8,7 +8,7 @@
 
 
 #region game_start_0x001
-oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
+oxr_mdlc_origin_wm_planet_game_start_setup = {
 	log = "Starting World-Machine origin setup for \\[This.owner.GetName]"
 	owner = {
 		set_country_flag = oxr_mdlc_origin_world_machine_setup_started
@@ -19,116 +19,119 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 			value = @oxr_mdlc_world_machine_defense_armies_per_district
 		}
 	}
-	# set homeworld to auto-capital
-	set_colony_type = xvcv_mdlc_col_machine_auto_capital
+	planet = {
+		# set homeworld to auto-capital
+		set_colony_type = xvcv_mdlc_col_machine_auto_capital
 
-	# optimize_memory
-	# This is starting in the PLANET scope
-	# prev = { set_country_flag = oxr_mdlc_origin_world_machine_awakened }
-	export_trigger_value_to_variable = {
-		trigger = num_districts
-		parameters = { type = any }
-		variable = num_starting_districts
-	}
-
-	# Swap in districts
-	while = {
-		limit = { has_district = district_city }
-		remove_district = district_city
-		# add_district = xvcv_mdlc_pc_machine_auto_district_nexus
-		add_district = xvcv_mdlc_pc_machine_auto_district_mining
-	}
-	while = {
-		limit = { has_district = district_nexus }
-		remove_district = district_nexus
-		add_district = xvcv_mdlc_pc_machine_auto_district_mining
-	}
-	while = {
-		limit = { has_district = district_generator }
-		remove_district = district_generator
-		add_district = xvcv_mdlc_pc_machine_auto_district_generator
-	}
-	while = {
-		limit = { has_district = district_mining }
-		remove_district = district_mining
-		add_district = xvcv_mdlc_pc_machine_auto_district_mining
-	}
-	while = {
-		limit = { has_district = xvcv_mdlc_common_district_mining }
-		remove_district = xvcv_mdlc_common_district_mining
-		add_district = xvcv_mdlc_pc_machine_auto_district_mining
-	}
-
-	# Have a check here that looks whether the empire uses food.
-	# If not, convert these to generator
-	while = {
-		limit = { has_district = district_farming }
-		remove_district = district_farming
-		add_district = xvcv_mdlc_pc_machine_auto_district_farming
-	}
-	while = {
-		limit = { has_district = district_industrial }
-		remove_district = district_industrial
-		add_district = xvcv_mdlc_pc_machine_auto_district_industrial
-	}
-	# Note the difference in starting vs now
-	export_trigger_value_to_variable = {
-		trigger = num_districts
-		parameters = { type = any }
-		variable = num_ending_districts
-	}
-	set_variable = {
-		which = starting_districts_difference
-		value = num_starting_districts
-	}
-	subtract_variable = {
-		which = starting_districts_difference
-		value = num_ending_districts
-	}
-	log = "Starting districts: \\[This.num_starting_districts]. End with \\[This.num_ending_districts]. Difference \\[This.starting_districts_difference]"
-	clear_variable = num_starting_districts
-	clear_variable = num_ending_districts
-	clear_variable = starting_districts_difference
-
-
-	# Trim population
-	while = {
-		limit = {
-			num_pops > 3
+		# optimize_memory
+		# This is starting in the PLANET scope
+		# prev = { set_country_flag = oxr_mdlc_origin_world_machine_awakened }
+		export_trigger_value_to_variable = {
+			trigger = num_districts
+			parameters = { type = any }
+			variable = num_starting_districts
 		}
-		random_owned_pop = {
-			kill_pop = yes
-			root = { add_resource = { alloys = 10 } }  # was 75
+
+		# Swap in districts
+		while = {
+			limit = { has_district = district_city }
+			remove_district = district_city
+			# add_district = xvcv_mdlc_pc_machine_auto_district_nexus
+			add_district = xvcv_mdlc_pc_machine_auto_district_mining
 		}
+		while = {
+			limit = { has_district = district_nexus }
+			remove_district = district_nexus
+			add_district = xvcv_mdlc_pc_machine_auto_district_mining
+		}
+		while = {
+			limit = { has_district = district_generator }
+			remove_district = district_generator
+			add_district = xvcv_mdlc_pc_machine_auto_district_generator
+		}
+		while = {
+			limit = { has_district = district_mining }
+			remove_district = district_mining
+			add_district = xvcv_mdlc_pc_machine_auto_district_mining
+		}
+		while = {
+			limit = { has_district = xvcv_mdlc_common_district_mining }
+			remove_district = xvcv_mdlc_common_district_mining
+			add_district = xvcv_mdlc_pc_machine_auto_district_mining
+		}
+
+		# Have a check here that looks whether the empire uses food.
+		# If not, convert these to generator
+		while = {
+			limit = { has_district = district_farming }
+			remove_district = district_farming
+			add_district = xvcv_mdlc_pc_machine_auto_district_farming
+		}
+		while = {
+			limit = { has_district = district_industrial }
+			remove_district = district_industrial
+			add_district = xvcv_mdlc_pc_machine_auto_district_industrial
+		}
+		# Note the difference in starting vs now
+		export_trigger_value_to_variable = {
+			trigger = num_districts
+			parameters = { type = any }
+			variable = num_ending_districts
+		}
+		set_variable = {
+			which = starting_districts_difference
+			value = num_starting_districts
+		}
+		subtract_variable = {
+			which = starting_districts_difference
+			value = num_ending_districts
+		}
+		log = "Starting districts: \\[This.num_starting_districts]. End with \\[This.num_ending_districts]. Difference \\[This.starting_districts_difference]"
+		clear_variable = num_starting_districts
+		clear_variable = num_ending_districts
+		clear_variable = starting_districts_difference
 	}
-	log = "Reduced starting population to 3"
+	planet = {
+		# Trim population
+		while = {
+			limit = {
+				num_pops > 3
+			}
+			random_owned_pop = {
+				kill_pop = yes
+				root = { add_resource = { alloys = 10 } }  # was 75
+			}
+		}
+		log = "Reduced starting population to 3"
 
-	# Stop pop assembly
-	add_modifier = { modifier = "planet_population_control_gestalt" days = -1 }
+		# Stop pop assembly
+		add_modifier = { modifier = "planet_population_control_gestalt" days = -1 }
 
-	# Add blockers to homeworld
-	# First get rid of game-generated blockers & deposits
-	clear_blockers = yes
-	clear_deposits = yes
-	oxr_mdlc_origin_world_machine_random_add_all_blockers = yes
+		# Add blockers to homeworld
+		# First get rid of game-generated blockers & deposits
+		clear_blockers = yes
+		clear_deposits = yes
+		oxr_mdlc_origin_wm_planet_random_add_all_blockers = yes
 
-	# Set up first digsite
-	# Always guarantee this charge controller deposit is present.
-	# from here, on_action will add more dig sites.
-	# By starting the player from here, it will ensure the first digsite is not an insight blocker
-	# if = {
-	# 	limit = {
-	# 		NOT = { has_deposit = oxr_mdlc_d_world_machine_collapsed_charge_controller }
-	# 	}
-	# 	add_deposit = oxr_mdlc_d_world_machine_collapsed_charge_controller
-	# }
-	# create_archaeological_site = oxr_mdlc_collapsed_charge_controller_site
-	oxr_mdlc_origin_world_machine_create_starting_digsite_on_homeworld = yes
+		# Set up first digsite
+		# Always guarantee this charge controller deposit is present.
+		# from here, on_action will add more dig sites.
+		# By starting the player from here, it will ensure the first digsite is not an insight blocker
+		# if = {
+		# 	limit = {
+		# 		NOT = { has_deposit = oxr_mdlc_d_world_machine_collapsed_charge_controller }
+		# 	}
+		# 	add_deposit = oxr_mdlc_d_world_machine_collapsed_charge_controller
+		# }
+		# create_archaeological_site = oxr_mdlc_collapsed_charge_controller_site
+		oxr_mdlc_origin_world_machine_create_starting_digsite_on_homeworld = yes
+	}
 	log = "Created initial arc site on capital homeworld \\[This.GetName]"
+	planet = {
+		# Install world machine core
+		add_deposit = oxr_mdlc_d_world_machine_core
+	}
 
-
-	# Install world machine core
-	add_deposit = oxr_mdlc_d_world_machine_core
 
 	# give_technology
 	owner = {
@@ -164,11 +167,12 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 		}
 		oxr_mdlc_country_world_machine_cores_recalc_amount = yes
 	}
-	# Now, calculate the planet's storage, since we are doing WMC stuff here
-	oxr_mdlc_planet_calculate_max_core_storage = yes
-	oxr_mdlc_planet_increment_stored_wm_cores = yes
-
-
+	planet = {
+		# Now, calculate the planet's storage, since we are doing WMC stuff here
+		oxr_mdlc_planet_calculate_max_core_storage = yes
+		oxr_mdlc_planet_increment_stored_wm_cores = yes
+	}
+	
 	# Start "recover lost tech" situation
 	owner = {
 		start_situation = {
@@ -220,76 +224,81 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 	}
 
 	## Swap buildings
-	### Unity
-	while = {
-		limit = { has_building = building_uplink_node }
-		remove_building = building_uplink_node
-		add_building = oxr_mdlc_world_machines_building_auto_unity_1
-	}
-	### Research
-	while = {
-		limit = { has_building = building_research_lab_1 }
-		remove_building = building_research_lab_1
-		add_building = oxr_mdlc_world_machines_building_fractal_sanitizer
-	}
-	### Military
-	while = {
-		limit = { has_building = building_military_academy }
-		remove_building = building_military_academy
-		add_building = oxr_mdlc_world_machines_building_maintenance_legion
-	}
-	### Roleplaying
-	# add_building = oxr_mdlc_world_machines_building_storage_cradle
-	# ruin_building = oxr_mdlc_world_machines_building_storage_cradle
-	### Capital
-	if = {
-		limit = {
-			has_building = building_machine_capital
+	planet = {
+		### Unity
+		while = {
+			limit = { has_building = building_uplink_node }
+			remove_building = building_uplink_node
+			add_building = oxr_mdlc_world_machines_building_auto_unity_1
 		}
-		remove_building = building_machine_capital
-		add_building = oxr_mdlc_world_machines_building_auto_capital
-	}
+		### Research
+		while = {
+			limit = { has_building = building_research_lab_1 }
+			remove_building = building_research_lab_1
+			add_building = oxr_mdlc_world_machines_building_fractal_sanitizer
+		}
+		### Military
+		while = {
+			limit = { has_building = building_military_academy }
+			remove_building = building_military_academy
+			add_building = oxr_mdlc_world_machines_building_maintenance_legion
+		}
+		### Roleplaying
+		# add_building = oxr_mdlc_world_machines_building_storage_cradle
+		# ruin_building = oxr_mdlc_world_machines_building_storage_cradle
+		### Capital
+		if = {
+			limit = {
+				has_building = building_machine_capital
+			}
+			remove_building = building_machine_capital
+			add_building = oxr_mdlc_world_machines_building_auto_capital
+		}
 
-	### Free up a slot
-	if = {
-		limit = { has_building = building_machine_assembly_plant }
-		remove_building = building_machine_assembly_plant
+		### Free up a slot
+		if = {
+			limit = { has_building = building_machine_assembly_plant }
+			remove_building = building_machine_assembly_plant
+		}
 	}
-	# Food adjustment
-	if = {
-		limit = {
-			owner = {
-				OR = {
-					has_civic = civic_machine_beastmasters
-					has_civic = civic_machine_catalytic_processing
+	planet = {
+		# Food adjustment
+		if = {
+			limit = {
+				owner = {
+					OR = {
+						has_civic = civic_machine_beastmasters
+						has_civic = civic_machine_catalytic_processing
+					}
 				}
 			}
-		}
-		add_district = xvcv_mdlc_pc_machine_auto_district_farming
-		owner = {
-			add_resource = {
-				food = 100
+			add_district = xvcv_mdlc_pc_machine_auto_district_farming
+			owner = {
+				add_resource = {
+					food = 100
+				}
 			}
 		}
 	}
 
 	# Add armies! there should be a few districts already
-	# oxr_mdlc_origin_world_machine_add_armies_at_start = yes
 	# Use the event instead to make the modifier appear, and alert players to the concept
-	export_trigger_value_to_variable = {
-		trigger = num_districts
-		parameters = { type = any }
-		variable = oxr_mdlc_world_machine_num_districts
-	}
-	oxr_mdlc_origin_world_machine_calc_max_district_armies = yes
-	oxr_mdlc_origin_world_machine_calc_current_district_armies = yes
-	# Trigger restock after vars have been initialized
-	# add_modifier = {
-	# 	modifier = oxr_mdlc_world_machine_district_army_restock_in_progress
-	# 	days = 7
-	# }
-	planet_event = {
-		id = oxr_mdlc_origin_wm_main.2000
+	planet = {
+		export_trigger_value_to_variable = {
+			trigger = num_districts
+			parameters = { type = any }
+			variable = oxr_mdlc_world_machine_num_districts
+		}
+		oxr_mdlc_origin_world_machine_calc_max_district_armies = yes
+		oxr_mdlc_origin_world_machine_calc_current_district_armies = yes
+		# Trigger restock after vars have been initialized
+		# add_modifier = {
+		# 	modifier = oxr_mdlc_world_machine_district_army_restock_in_progress
+		# 	days = 7
+		# }
+		planet_event = {
+			id = oxr_mdlc_origin_wm_main.2000
+		}
 	}
 
 	# Fix founder species habitability *eyeroll*
@@ -315,38 +324,39 @@ oxr_mdlc_origin_world_machine_awakened_game_start_setup = {
 	}
 
 	# Set a few vars and show info modifier
-	# lore says the empire started 800 years ago ;)
-	set_saved_date = {
-		key = oxr_mdlc_world_machine_founded_date
-		days_from_present = -288000
-		expires = -1
-	}
-	add_modifier = {
-		modifier = oxr_mdlc_planet_origin_world_machine_info
-		days = -1
-	}
-	set_variable = {
-		which = oxr_mdlc_total_world_machines
-		value = 1
+	planet = {
+		# lore says the empire started 800 years ago ;)
+		set_saved_date = {
+			key = oxr_mdlc_world_machine_founded_date
+			days_from_present = -288000
+			expires = -1
+		}
+		add_modifier = {
+			modifier = oxr_mdlc_planet_origin_world_machine_info
+			days = -1
+		}
+		set_variable = {
+			which = oxr_mdlc_total_world_machines
+			value = 1
+		}
 	}
 
 	# Make a ruined world machine in a neighboring system
 	owner = {
 		oxr_mdlc_find_neighbor_planet_and_convert_to_ruined_world_machine = yes
 	}
-
 }
 #endregion
 
 #region blockers_0x002
-oxr_mdlc_origin_world_machine_random_add_all_blockers = {
+oxr_mdlc_origin_wm_planet_random_add_all_blockers = {
 	# Randomly add some easy, normal, and rare blockers to a world machine
 	# when it is constructed or spawned/discovered
-	oxr_mdlc_origin_world_machine_add_random_simple_blockers = yes
-	oxr_mdlc_origin_world_machine_add_random_normal_blockers = yes
-	oxr_mdlc_origin_world_machine_add_random_insight_blockers = yes
+	oxr_mdlc_origin_wm_planet_add_random_simple_blockers = yes
+	oxr_mdlc_origin_wm_planet_add_random_normal_blockers = yes
+	oxr_mdlc_origin_wm_planet_add_random_insight_blockers = yes
 }
-oxr_mdlc_origin_world_machine_add_simple_blocker = {
+oxr_mdlc_origin_wm_planet_add_simple_blocker = {
 	random_list = {
 		20 = {
 			add_blocker = { type = oxr_mdlc_d_world_machine_collapsed_charge_controller }
@@ -366,7 +376,7 @@ oxr_mdlc_origin_world_machine_add_simple_blocker = {
 	}
 }
 
-oxr_mdlc_origin_world_machine_add_normal_blocker = {
+oxr_mdlc_origin_wm_planet_add_normal_blocker = {
 	# normal blockers
 	random_list = {
 		25 = {
@@ -384,7 +394,7 @@ oxr_mdlc_origin_world_machine_add_normal_blocker = {
 	}
 }
 
-oxr_mdlc_origin_world_machine_add_insight_blocker = {
+oxr_mdlc_origin_wm_planet_add_insight_blocker = {
 	# hard / insight blockers
 	random_list = {
 		25 = {
@@ -402,7 +412,7 @@ oxr_mdlc_origin_world_machine_add_insight_blocker = {
 	}
 }
 
-oxr_mdlc_origin_world_machine_add_random_simple_blockers = {
+oxr_mdlc_origin_wm_planet_add_random_simple_blockers = {
 	set_variable_to_random_value = {
 		which = oxr_mdlc_world_machine_random_blockers
 		min = 2 max = 4
@@ -418,12 +428,12 @@ oxr_mdlc_origin_world_machine_add_random_simple_blockers = {
 			which = oxr_mdlc_world_machine_random_blockers
 			value = 1
 		}
-		oxr_mdlc_origin_world_machine_add_simple_blocker = yes
+		oxr_mdlc_origin_wm_planet_add_simple_blocker = yes
 	}
 	clear_variable = oxr_mdlc_world_machine_random_blockers
 }
 
-oxr_mdlc_origin_world_machine_add_random_normal_blockers = {
+oxr_mdlc_origin_wm_planet_add_random_normal_blockers = {
 	set_variable_to_random_value = {
 		which = oxr_mdlc_world_machine_random_blockers
 		min = 2 max = 2
@@ -439,12 +449,12 @@ oxr_mdlc_origin_world_machine_add_random_normal_blockers = {
 			which = oxr_mdlc_world_machine_random_blockers
 			value = 1
 		}
-		oxr_mdlc_origin_world_machine_add_normal_blocker = yes
+		oxr_mdlc_origin_wm_planet_add_normal_blocker = yes
 	}
 	clear_variable = oxr_mdlc_world_machine_random_blockers
 }
 
-oxr_mdlc_origin_world_machine_add_random_insight_blockers = {
+oxr_mdlc_origin_wm_planet_add_random_insight_blockers = {
 	set_variable_to_random_value = {
 		which = oxr_mdlc_world_machine_random_blockers
 		min = 1 max = 2
@@ -460,7 +470,7 @@ oxr_mdlc_origin_world_machine_add_random_insight_blockers = {
 			which = oxr_mdlc_world_machine_random_blockers
 			value = 1
 		}
-		oxr_mdlc_origin_world_machine_add_insight_blocker = yes
+		oxr_mdlc_origin_wm_planet_add_insight_blocker = yes
 	}
 	clear_variable = oxr_mdlc_world_machine_random_blockers
 }
@@ -607,7 +617,7 @@ oxr_mdlc_origin_world_machine_create_digsite_for_blocker = {
 
 	random_deposit = {
 		limit = {
-			oxr_mdlc_deposit_is_world_machine_blocker = yes
+			oxr_mdlc_planet_deposit_is_world_machine_blocker = yes
 		}
 		if = {
 			limit = { is_deposit_type = oxr_mdlc_d_world_machine_collapsed_charge_controller }
@@ -687,7 +697,7 @@ oxr_mdlc_origin_world_machine_create_starting_digsite_on_homeworld = {
 
 	random_deposit = {
 		limit = {
-			oxr_mdlc_deposit_is_world_machine_blocker = yes
+			oxr_mdlc_planet_deposit_is_world_machine_blocker = yes
 		}
 		if = {
 			limit = {
@@ -805,7 +815,7 @@ oxr_mdlc_origin_world_machine_create_starting_digsite_on_homeworld = {
 
 #region core_maths_0x005
 ### MATHS ###
-oxr_mdlc_world_machine_cores_add = {
+oxr_mdlc_wm_country_cores_add = {
 	# Call at country scope
 	add_resource = {
 		oxr_mdlc_world_machine_core = $AMOUNT$
@@ -822,7 +832,7 @@ oxr_mdlc_world_machine_cores_add = {
 		}
 	}
 }
-oxr_mdlc_world_machine_cores_subtract = {
+oxr_mdlc_wm_country_cores_subtract = {
 	add_resource = {
 		oxr_mdlc_world_machine_core = $AMOUNT$
 		mult = -1
@@ -835,7 +845,7 @@ oxr_mdlc_world_machine_cores_subtract = {
 		}
 	}
 }
-oxr_mdlc_world_machine_cores_update_max_var = {
+oxr_mdlc_origin_wm_country_update_max_cores_var = {
 	set_variable = {
 		which = oxr_mdlc_origin_wm_cores_max
 		value = modifier:country_resource_max_oxr_mdlc_world_machine_core_add
@@ -903,7 +913,7 @@ oxr_mdlc_find_neighbor_planet_and_convert_to_ruined_world_machine = {
 				clear_deposits = yes
 				# no point to add all the blockers... ruined type is uninhabitable
 				# ... or is it ?
-				# oxr_mdlc_origin_world_machine_random_add_all_blockers = yes
+				# oxr_mdlc_origin_wm_planet_random_add_all_blockers = yes
 				log = "Starting setup: Changed \\[This.GetName] to Ruined World Machine"
 				set_planet_flag = oxr_mdlc_ruined_world_machine
 				add_anomaly = {
@@ -916,7 +926,7 @@ oxr_mdlc_find_neighbor_planet_and_convert_to_ruined_world_machine = {
 }
 
 # country scope
-oxr_mdlc_wmc_manufacture_core_set_tech_level = {
+oxr_mdlc_wm_country_set_wmc_tech_level = {
 	# Put highest known tech levels at top, descending
 	
 	if = {
@@ -1028,27 +1038,6 @@ oxr_mdlc_country_create_world_machine_mass_shipping_country = {
 		}
 	}
 }
-
-# oxr_mdlc_origin_wm_cheat_gain_core_tech = {
-# 	country_event = {
-# 		id = oxr_mdlc_origin_wm_main.1210
-# 	}
-# 	give_technology = {
-# 		tech = oxr_mdlc_tech_world_machine_planetary_proficiency
-# 		message = no
-# 	}
-# 	give_technology = {
-# 		tech = oxr_mdlc_tech_world_machine_planetary_mastery
-# 		message = no
-# 	}
-# 	give_technology = {
-# 		tech = oxr_mdlc_tech_world_machine_district_infrastructure
-# 		message = no
-# 	}
-# 	give_technology = {
-# 		tech = oxr_mdlc_tech_geologic_world_expansion_theory
-# 	}
-# }
 
 
 oxr_mdlc_planet_self_destruct = {
@@ -1404,7 +1393,7 @@ oxr_mdlc_planet_create_world_machine_colony = {
 				}
 			}
 		}
-		oxr_mdlc_origin_world_machine_random_add_all_blockers = yes
+		oxr_mdlc_origin_wm_planet_random_add_all_blockers = yes
 		# Don't trigger the event post-terraform if planet was ruined
 		if = {
 			limit = {
@@ -1780,7 +1769,7 @@ oxr_mdlc_planet_add_rikk_terraforming_queued_modifier = {
 }
 
 oxr_mdlc_country_clear_wm_arc_sites_on_knowledge_gain = {
-	# Remove arc sites after proficiency has been gained
+
 	every_archaeological_site = {
 		limit = {
 			oxr_mdlc_arc_site_is_wm_blocker = yes
@@ -1831,4 +1820,16 @@ oxr_mdlc_planet_clear_mods_and_vars_for_destroy_colony = {
 		WHICH = xvcv_mdlc_cooling_district_strength
 	}
 
+}
+
+oxr_mdlc_planet_clear_blockers_etc_if_not_already_wm = {
+
+	if = {
+		limit = {
+			is_planet_world_machine = no
+		}
+		# Same as vanilla terraform from X to pc_machine
+		reroll_deposits = yes
+		clear_blockers = yes
+	}
 }
