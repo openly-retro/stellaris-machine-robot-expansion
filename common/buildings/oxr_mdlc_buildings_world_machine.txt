@@ -55,7 +55,10 @@ oxr_mdlc_world_machines_building_auto_astral_3 = {
 
 #### ARCHAEOSTUDIES ####
 oxr_mdlc_world_machines_building_archaeostudies_recombinator = {
-	base_buildtime = @b2_time
+	inline_script = {
+		script = planet/buildings/calc_build_time
+		tier = 2
+	}
 
 	category = research
 
@@ -64,35 +67,17 @@ oxr_mdlc_world_machines_building_archaeostudies_recombinator = {
 	}
 
 	potential = {
-		NOR = {
-			has_modifier = resort_colony
-			has_modifier = slave_colony
-			has_modifier = penal_colony
-		}
+		oxr_mdlc_planet_has_vanilla_pop_colony_modifier = no
 		exists = owner
-		owner = {
-			OR = {
-				has_origin = oxr_mdlc_origin_world_machine_awakened
-				has_ascension_perk = xvcv_mdlc_ap_world_machines
-			}
-		}
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
 	}
 	show_tech_unlock_if = {
-		owner = {
-			OR = {
-				has_origin = oxr_mdlc_origin_world_machine_awakened
-				has_ascension_perk = xvcv_mdlc_ap_world_machines
-			}
-		}
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
 	}
 
 	destroy_trigger = {
 		exists = owner
-		OR = {
-			has_modifier = resort_colony
-			has_modifier = slave_colony
-			has_modifier = penal_colony
-		}
+		oxr_mdlc_planet_has_vanilla_pop_colony_modifier = no
 		owner = {
 			NOT = { has_origin = oxr_mdlc_origin_world_machine_awakened }
 		}
@@ -509,15 +494,9 @@ oxr_mdlc_world_machines_building_auto_factory_boost_1 = {
 			is_planet_class = xvcv_mdlc_pc_machine_ecu
 		}
 		owner = {
-			OR = {
-				has_origin = oxr_mdlc_origin_world_machine_awakened
-				# has_ascension_perk = xvcv_mdlc_ap_world_machines
-			}
+			oxr_mdlc_planet_owner_can_build_wm_districts = yes
 		}
-		NOR = {
-			has_modifier = resort_colony
-			has_modifier = slave_colony
-		}
+		oxr_mdlc_planet_has_vanilla_pop_colony_modifier = no
 	}
 	show_tech_unlock_if = {
 		has_origin = oxr_mdlc_origin_world_machine_awakened
@@ -668,10 +647,7 @@ oxr_mdlc_world_machines_building_auto_nanite_transmuter = {
 				}
 			}
 		}
-		NOR = {
-			has_modifier = resort_colony
-			has_modifier = slave_colony
-		}
+		oxr_mdlc_planet_has_vanilla_pop_colony_modifier = no
 	}
 
 	allow = {
@@ -837,10 +813,7 @@ oxr_mdlc_world_machines_building_military_academy = {
 
 	potential = {
 		exists = owner
-		NOR = { 
-			has_modifier = resort_colony 
-			has_modifier = penal_colony 
-		}
+		oxr_mdlc_planet_has_vanilla_pop_colony_modifier = no
 		owner = { has_oxr_mdlc_origin_world_machine_awakened = yes }
 		is_planet_world_machine = yes
 	}
@@ -1740,9 +1713,7 @@ oxr_mdlc_world_machines_building_auto_mining_support_2 = {
 
 	allow = {
 		oxr_mdlc_has_upgraded_capital = yes
-		NOR = {
-			has_modifier = resort_colony
-		}
+		oxr_mdlc_planet_has_vanilla_pop_colony_modifier = no
 	}
 	inline_script = planet/buildings/auto/oxr_destroy
 

@@ -26,8 +26,7 @@ oxr_mdlc_world_machines_building_nanolab_1 = {
 					oxr_mdlc_country_is_nanotech_wm_origin = yes
 				}
 			}
-			has_modifier = slave_colony
-			has_modifier = resort_colony
+			oxr_mdlc_planet_has_vanilla_pop_colony_modifier = yes
 		}
 	}
 
@@ -95,8 +94,7 @@ oxr_mdlc_world_machines_building_nanolab_2 = {
 				has_tradition = tr_nanotech_1
 				has_oxr_mdlc_origin_world_machine_awakened = yes
 			} }
-			has_modifier = slave_colony
-			has_modifier = resort_colony
+			oxr_mdlc_planet_has_vanilla_pop_colony_modifier = yes
 		}
 	}
 
@@ -129,8 +127,7 @@ oxr_mdlc_world_machines_building_nanotech_cauldron = {
 			has_tradition = tr_nanotech_2
 			has_oxr_mdlc_origin_world_machine_awakened = yes
 		}
-		NOT = { has_modifier = resort_colony }
-		NOT = { has_modifier = slave_colony }
+		oxr_mdlc_planet_has_vanilla_pop_colony_modifier = no
 	}
 
 	allow = {
@@ -140,12 +137,13 @@ oxr_mdlc_world_machines_building_nanotech_cauldron = {
 	destroy_trigger = {
 		exists = owner
 		OR = {
-			NOT = { owner = {
-				has_tradition = tr_nanotech_2
-				has_oxr_mdlc_origin_world_machine_awakened = yes
-			} }
-			has_modifier = slave_colony
-			has_modifier = resort_colony
+			NOT = {
+				owner = {
+					has_tradition = tr_nanotech_2
+					has_oxr_mdlc_origin_world_machine_awakened = yes
+				}
+			}
+			oxr_mdlc_planet_has_vanilla_pop_colony_modifier = yes
 		}
 	}
 
