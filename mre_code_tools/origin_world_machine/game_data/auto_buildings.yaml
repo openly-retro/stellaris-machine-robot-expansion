@@ -1,0 +1,47 @@
+﻿buildings:
+- auto astral 1:
+  prefix: oxr_mdlc_world_machines_building
+  base cap amount: 1
+  inline script:
+    script: planet/buildings/auto/oxr_mdlc_astral_siphon
+    params:
+    - energy upkeep:
+      function: calc_energy_upkeep
+    - tier: 1
+  upgrades: _auto_
+- auto astral 2:
+  prefix: oxr_mdlc_world_machines_building
+  tier: 2
+  can build: no
+  inline_script:
+  script: planet/buildings/auto/oxr_mdlc_astral_siphon
+    params:
+    - energy upkeep:
+      function: calc_energy_upkeep
+    - tier: 2
+- auto astral 3:
+  prefix: oxr_mdlc_world_machines_building
+  tier: 3
+  can build: no
+  inline_script:
+  script: planet/buildings/auto/oxr_mdlc_astral_siphon
+    params:
+    - energy upkeep:
+      function: calc_energy_upkeep
+    - tier: 3
+- archaeostudies_recombinator:
+  scripts:
+  - planet/buildings/calc_build_time:
+    params:
+    - tier: 2
+  - contents:
+    - category: research
+    - "empire_limit = { base = 1 }"
+    - potential:
+      nor:
+        - has_modifier: resort_colony
+        - has_modifier: slave_colony
+        - has_modifier: penal_colony
+      
+  
+
