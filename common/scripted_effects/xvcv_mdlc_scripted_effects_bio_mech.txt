@@ -23,26 +23,122 @@ xvcv_mdlc_planet_calc_bio_mech_growth_rate = {
 		} #get the current growth scale value from the data storage
 	}
 	multiply_variable = { which = xvcv_mdlc_pop_growth_scale_var value = owner.trigger:num_pops }
-	change_variable = { which = xvcv_mdlc_bio_robot_growth_requirement_var value = xvcv_mdlc_pop_growth_scale_var }
-	set_variable = { which = xvcv_mdlc_bio_robot_remaining_time_to_finish_growth_var value = xvcv_mdlc_bio_robot_growth_requirement_var }
+	change_variable = {
+		which = xvcv_mdlc_bio_robot_growth_requirement_var
+		value = xvcv_mdlc_pop_growth_scale_var
+	}
+	set_variable = {
+		which = xvcv_mdlc_bio_robot_remaining_time_to_finish_growth_var 
+		value = xvcv_mdlc_bio_robot_growth_requirement_var
+	}
 
 	#phase 2: calculate how much progress is made per month in this planet
-	change_variable = { which = xvcv_mdlc_bio_robot_growth_progress_var value = 3 }
-	set_variable = { which = xvcv_mdlc_bio_robot_growth_rate_per_month_var value = 3 } #set the variable's value to 0 for reusing it, but the default growth progress is 3 so add 3 here
+	# Base growth is 3.0 before any modifiers
+	change_variable = {
+		which = xvcv_mdlc_bio_robot_growth_progress_var
+		value = 3
+	}
+	set_variable = {
+		which = xvcv_mdlc_bio_robot_growth_rate_per_month_var
+		value = 3
+	} #set the variable's value to 0 for reusing it, but the default growth progress is 3 so add 3 here
 
 	#additional progress per clone maker job
-	every_owned_pop = {
+	# every_owned_pop = {
+	# 	limit = {
+	# 		OR = {
+	# 			has_job = xvcv_mdlc_bio_robot_clone_drone
+	# 			has_job = xvcv_mdlc_bio_robot_clone_technician
+	# 		}
+	# 	}
+	# 	prev = {
+	# 		change_variable = { which = xvcv_mdlc_bio_robot_growth_progress_var value = 1 }
+	# 		change_variable = { which = xvcv_mdlc_bio_robot_growth_rate_per_month_var value = 1 }
+	# 	}
+	# }
+
+	# Retro: Utilize xvcv_mdlc_bio_robot_growth_add
+	export_modifier_to_variable = {
+		modifier = xvcv_mdlc_bio_robot_growth_add
+		variable = xvcv_mdlc_bio_robot_growth_add_var
+	}
+	change_variable = {
+		which = xvcv_mdlc_bio_robot_growth_progress_var 
+		value = modifier:xvcv_mdlc_bio_robot_growth_add
+	}
+	change_variable = {
+		which = xvcv_mdlc_bio_robot_growth_rate_per_month_var 
+		value = modifier:xvcv_mdlc_bio_robot_growth_add
+	}
+	# Give a little bonus from mechanical / machine assembly
+	if = {
 		limit = {
-			OR = {
-				has_job = xvcv_mdlc_bio_robot_clone_drone
-				has_job = xvcv_mdlc_bio_robot_clone_technician
+			check_modifier_value = {
+				modifier = planet_pop_assembly_add
+				value > 0
 			}
 		}
-		prev = {
-			change_variable = { which = xvcv_mdlc_bio_robot_growth_progress_var value = 1 }
-			change_variable = { which = xvcv_mdlc_bio_robot_growth_rate_per_month_var value = 1 }
+		set_variable = {
+			which = xvcv_mdlc_bio_robot_growth_progress_var_from_assembly
+			value = modifier:planet_pop_assembly_add
+		}
+		if = {
+			limit = {
+				check_modifier_value = {
+					modifier = planet_pop_assembly_mult
+					value > 0
+				}
+			}
+			export_modifier_to_variable = {
+				modifier = planet_pop_assembly_mult
+				variable = planet_pop_assembly_mult_var
+			}
+			change_variable = {
+				which = planet_pop_assembly_mult_var
+				value = 1
+			}
+			multiply_variable = {
+				which = xvcv_mdlc_bio_robot_growth_progress_var_from_assembly
+				value = planet_pop_assembly_mult_var
+			}
+		}
+		divide_variable = {
+			which = xvcv_mdlc_bio_robot_growth_progress_var_from_assembly
+			value = 4
+		}
+		change_variable = {
+			which = xvcv_mdlc_bio_robot_growth_progress_var 
+			value = xvcv_mdlc_bio_robot_growth_progress_var_from_assembly
+		}
+		change_variable = {
+			which = xvcv_mdlc_bio_robot_growth_rate_per_month_var 
+			value = xvcv_mdlc_bio_robot_growth_progress_var_from_assembly
+		}
+		log = "Added \\[This.xvcv_mdlc_bio_robot_growth_progress_var_from_assembly_tmp] pop assembly to hybrid cloning value."
+		# clear_variable = xvcv_mdlc_bio_robot_growth_progress_var_from_assembly_tmp
+	}
+
+	# Country modifier evaluation
+	# Just add flat 0.25
+	if = {
+		limit = {
+			owner = {
+				check_modifier_value = {
+					modifier = planet_pop_assembly_add
+					value > 0
+				}
+			}
+		}
+		change_variable = {
+			which = xvcv_mdlc_bio_robot_growth_progress_var 
+			value = 0.25
+		}
+		change_variable = {
+			which = xvcv_mdlc_bio_robot_growth_rate_per_month_var 
+			value = 0.25
 		}
 	}
+
 
 	random_owned_pop = {
 		limit = { xvcv_mdlc_bio_robot_auto_growth_possible_pop_trigger = yes }
@@ -59,15 +155,27 @@ xvcv_mdlc_planet_calc_bio_mech_growth_rate = {
 			# limit = { has_trait = xvcv_mdlc_bio_robot_trait_rapid_breeders }
 			limit = { has_trait = trait_rapid_breeders }
 			prev = {
-				change_variable = { which = xvcv_mdlc_bio_robot_growth_progress_var value = @xvcv_mdlc_bio_robot_growth_add_1 }
-				change_variable = { which = xvcv_mdlc_bio_robot_growth_rate_per_month_var value = @xvcv_mdlc_bio_robot_growth_add_1 } #the variable used for 'xvcv_mdlc_bio_robot_growth_progress_percent_desc'
+				change_variable = {
+					which = xvcv_mdlc_bio_robot_growth_progress_var
+					value = @xvcv_mdlc_bio_robot_growth_add_1
+				}
+				change_variable = {
+					which = xvcv_mdlc_bio_robot_growth_rate_per_month_var
+					value = @xvcv_mdlc_bio_robot_growth_add_1
+				} #the variable used for 'xvcv_mdlc_bio_robot_growth_progress_percent_desc'
 			}
 		}
 		if = {
 			limit = { has_trait = trait_robot_mass_produced }
 			prev = {
-				change_variable = { which = xvcv_mdlc_bio_robot_growth_progress_var value = @xvcv_mdlc_bio_robot_growth_add_1 }
-				change_variable = { which = xvcv_mdlc_bio_robot_growth_rate_per_month_var value = @xvcv_mdlc_bio_robot_growth_add_1 }
+				change_variable = {
+					which = xvcv_mdlc_bio_robot_growth_progress_var
+					value = @xvcv_mdlc_bio_robot_growth_add_1
+				}
+				change_variable = {
+					which = xvcv_mdlc_bio_robot_growth_rate_per_month_var 
+					value = @xvcv_mdlc_bio_robot_growth_add_1
+				}
 			}
 		}
 		if = {
