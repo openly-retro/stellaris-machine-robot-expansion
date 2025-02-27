@@ -43,20 +43,6 @@ xvcv_mdlc_planet_calc_bio_mech_growth_rate = {
 		value = 3
 	} #set the variable's value to 0 for reusing it, but the default growth progress is 3 so add 3 here
 
-	#additional progress per clone maker job
-	# every_owned_pop = {
-	# 	limit = {
-	# 		OR = {
-	# 			has_job = xvcv_mdlc_bio_robot_clone_drone
-	# 			has_job = xvcv_mdlc_bio_robot_clone_technician
-	# 		}
-	# 	}
-	# 	prev = {
-	# 		change_variable = { which = xvcv_mdlc_bio_robot_growth_progress_var value = 1 }
-	# 		change_variable = { which = xvcv_mdlc_bio_robot_growth_rate_per_month_var value = 1 }
-	# 	}
-	# }
-
 	# Retro: Utilize xvcv_mdlc_bio_robot_growth_add
 	export_modifier_to_variable = {
 		modifier = xvcv_mdlc_bio_robot_growth_add
@@ -114,29 +100,45 @@ xvcv_mdlc_planet_calc_bio_mech_growth_rate = {
 			which = xvcv_mdlc_bio_robot_growth_rate_per_month_var 
 			value = xvcv_mdlc_bio_robot_growth_progress_var_from_assembly
 		}
-		log = "Added \\[This.xvcv_mdlc_bio_robot_growth_progress_var_from_assembly_tmp] pop assembly to hybrid cloning value."
+		log = "Added \\[This.xvcv_mdlc_bio_robot_growth_progress_var_from_assembly] pop assembly to hybrid cloning value."
 		# clear_variable = xvcv_mdlc_bio_robot_growth_progress_var_from_assembly_tmp
 	}
 
-	# Country modifier evaluation
-	# Just add flat 0.25
+	# xvcv_mdlc_bio_robot_growth_mult
 	if = {
 		limit = {
-			owner = {
-				check_modifier_value = {
-					modifier = planet_pop_assembly_add
-					value > 0
-				}
+			check_modifier_value = {
+				modifier = xvcv_mdlc_bio_robot_growth_mult
+				value > 0
 			}
 		}
+		export_modifier_to_variable = {
+			modifier = xvcv_mdlc_bio_robot_growth_mult
+			variable = xvcv_mdlc_bio_robot_growth_mult_var
+		}
+		set_variable = {
+			which = xvcv_mdlc_bio_robot_growth_mult_var_display
+			value = xvcv_mdlc_bio_robot_growth_mult_var
+		}
+		multiply_variable = {
+			which = xvcv_mdlc_bio_robot_growth_mult_var_display
+			value = 100
+		}
+
+
 		change_variable = {
+			which = xvcv_mdlc_bio_robot_growth_mult_var
+			value = 1
+		}
+		multiply_variable = {
 			which = xvcv_mdlc_bio_robot_growth_progress_var 
-			value = 0.25
+			value = xvcv_mdlc_bio_robot_growth_mult_var
 		}
-		change_variable = {
+		multiply_variable = {
 			which = xvcv_mdlc_bio_robot_growth_rate_per_month_var 
-			value = 0.25
+			value = xvcv_mdlc_bio_robot_growth_mult_var
 		}
+		clear_variable = xvcv_mdlc_bio_robot_growth_mult_var
 	}
 
 
