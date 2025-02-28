@@ -248,3 +248,259 @@ oxr_mdlc_building_organoid_research_center = {
 		planet_researchers_food_upkeep_add = 0.20
 	}
 }
+
+# oxr_mdlc_civic_bio_robot_directive
+oxr_mdlc_building_bio_robot_directive_bio_goods = {
+	base_cap_amount = 1
+	base_buildtime = @b1_time
+	category = manufacturing
+
+}
+oxr_mdlc_building_bio_robot_directive_bio_goods_1 = {
+	base_buildtime = @b1_time
+	base_cap_amount = 1
+	category = manufacturing
+
+	potential = {
+		exists = owner
+		owner = { has_oxr_mdlc_civic_bio_robot_directive = yes }
+		planet = {
+			NOR = {
+				has_modifier = resort_colony
+				has_modifier = slave_colony
+			}
+		}
+	}
+
+	ruined_trigger = {
+		OR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+			AND = {
+				exists = owner
+				owner = { has_oxr_mdlc_civic_bio_robot_directive = no }
+			}
+		}
+	}
+
+	inline_script = {
+		script = jobs/factory_add
+		AMOUNT = @b1_jobs
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			food = @b1_minerals
+		}
+		upkeep = {
+			food = @b1_upkeep
+		}
+	}
+
+	prerequisites = {
+		tech_basic_industry
+	}
+
+	upgrades = {
+		building_factory_2
+	}
+}
+
+oxr_mdlc_building_bio_robot_directive_bio_goods_2 = {
+	base_buildtime = @b2_time
+	can_build = no
+	category = manufacturing
+
+	allow = {
+		planet = { has_upgraded_capital = yes }
+	}
+
+	potential = {
+		exists = owner
+		planet = {
+			NOT = {
+				has_modifier = resort_colony
+				has_modifier = slave_colony
+			}
+		}
+	}
+
+	ruined_trigger = {
+		OR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+			AND = {
+				exists = owner
+				owner = { has_oxr_mdlc_civic_bio_robot_directive = no }
+			}
+		}
+	}
+
+	planet_modifier = {
+		planet_artisans_consumer_goods_produces_add = 1
+		planet_artisans_food_upkeep_add = 2.5
+	}
+
+	inline_script = {
+		script = jobs/factory_add
+		AMOUNT = @b1_jobs
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			food = @b2_minerals
+			rare_crystals = @b3_rare_cost
+		}
+		upkeep = {
+			food = @b2_upkeep
+			rare_crystals = @b3_rare_upkeep
+		}
+	}
+
+	prerequisites = {
+		tech_luxuries_1
+	}
+
+	upgrades = {
+		building_factory_3
+	}
+}
+
+oxr_mdlc_building_bio_robot_directive_bio_goods_3 = {
+	base_buildtime = @b3_time
+	can_build = no
+
+	category = manufacturing
+
+	allow = {
+		planet = { has_major_upgraded_capital = yes }
+	}
+
+	potential = {
+		exists = owner
+		NOT = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+		}
+	}
+
+	ruined_trigger = {
+		OR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+			AND = {
+				exists = owner
+				owner = { has_oxr_mdlc_civic_bio_robot_directive = no }
+			}
+		}
+	}
+
+
+	planet_modifier = {
+		planet_artisans_consumer_goods_produces_add = 2
+		planet_artisans_food_upkeep_add = 5
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			has_ringworld_output_boost = yes
+		}
+		modifier = {
+			planet_artisans_consumer_goods_produces_add = 1
+			planet_artisans_food_upkeep_add = 2.5
+		}
+	}
+
+	inline_script = {
+		script = jobs/factory_add
+		AMOUNT = @b1_jobs
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			trigger = {
+				has_ringworld_output_boost = no
+			}
+			food = @b3_minerals
+			rare_crystals = @b4_rare_cost
+		}
+		cost = {
+			trigger = {
+				has_ringworld_output_boost = yes
+			}
+			food = 1500
+			rare_crystals = 600
+		}
+		upkeep = {
+			trigger = {
+				has_ringworld_output_boost = no
+			}
+			food = @b3_upkeep
+			rare_crystals = @b4_rare_upkeep
+		}
+		upkeep = {
+			trigger = {
+				has_ringworld_output_boost = yes
+			}
+			food = 15
+			rare_crystals = 8
+		}
+	}
+
+	prerequisites = {
+		tech_luxuries_2
+	}
+}
+
+oxr_mdlc_building_bio_robot_directive_integrated_lab = {
+	icon = building_bio_l
+	base_buildtime = @b2_time
+	category = research
+
+	potential = {
+		exists = owner
+		owner = { has_oxr_mdlc_civic_bio_robot_directive = yes }
+		planet = {
+			NOR = {
+				has_modifier = resort_colony
+				has_modifier = slave_colony
+			}
+		}
+	}
+
+	ruined_trigger = {
+		OR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+			AND = {
+				exists = owner
+				owner = { has_oxr_mdlc_civic_bio_robot_directive = no }
+			}
+		}
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			food = @b2_minerals
+		}
+		upkeep = {
+			food = @b2_upkeep
+		}
+	}
+	planet_modifier = {
+		job_oxr_mdlc_bio_robot_integrated_researcher_add = 2
+	}
+
+	prerequisites = {
+		tech_basic_industry
+	}
+
+	upgrades = {
+		building_factory_2
+	}
+
+}

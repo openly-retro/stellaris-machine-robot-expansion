@@ -1,20 +1,28 @@
 ﻿l_english:
  
  ## TABLE OF CONTENTS
+ # Fun/bizarre    0x000
  # TRAITS         0x001
  # TECHNOLOGY     0x002
- # TOOLTIP        0x003
- # ARMIES         0x004
- # Policies       0x005
- # Events         0x006
- # modifiers      0x007
- # Deposits       0x005
+ # Buildings      0x003
+ # TOOLTIP        0x004
+ # ARMIES         0x005
+ # Policies       0x006
+ # Events         0x007
+ # Empires        0x008
+ # modifiers      0x009
+ # Deposits       0x010
+ # Civics         0x011
+ # Jobs           0x012
 
+ # § £
  mod_planet_researchers_food_upkeep_add: "£food£ $food$ Upkeep of £job_researcher£ [GetResearcherPlural]"
  mdlc_mod_author_tag_xvcv: "§B · xvcv§!"
  mdlc_mod_author_tag_retro: "§B · retro§!"
  mdlc_mod_author_tag_rikk: "§B · rikk§!"
+ jobs: "$JOBS$"
 
+#region fun_0x000
  # Fun stuff for the future
  oxr_mdlc_bio_pop_drink: "Bio-Pop Drink"
  oxr_mdlc_bio_pop_drink_desc: "Is it soda? Is it sentient? Whatever it is, you can be sure it's organic. Enjoy a sip of superior flavor anywhere, any time. All of our sustainably sourced ingredients are cold pressed, whether they like it or not.\n\n§PDisclaimer: Bio Pop's claims have not been reviewed by the Galcom Food & Drug Administration.§!\n\n§LIngredients: 100% fresh squeezed Bio Matter (tm), Tiyanki extract, Benzoic acid, elderberries, Natural flavors.§!"
@@ -24,6 +32,8 @@
 
  oxr_mdlc_trashbot_sludge_pop: "Sludge Pop"
  oxr_mdlc_trashbot_sludge_pop_desc: "Arguably refreshing, arguably food, but what's uncontestable is it'll fill you up and never let you down. Buy them at a tomb world near you!\n\n§PDisclaimer: Sludge Pop's claims have not been reviewed by the Galcom Food & Drug Administration.§!\n\n§LIngredients: Refined Enriched Bleached Fortified industrial slurry, GFDA Blue No.1 Lake, GFDA Red No.40 Lake, Natural flavors.§!"
+
+#endregion
 
  oxr_mdlc_world_core: "Auto-World Core"
  oxr_mdlc_world_core_desc: "A single, self-deploying core able to either independently terraform existing plants into Auto-Machine Worlds, or increase the planet size of an existing Auto-Machine World.\n\n§LThis is a real-world implementation of Fractal Theory.§!"
@@ -93,6 +103,16 @@
  oxr_mdlc_trait_prefabricated_modules_desc: "This species uses mainly prefabricated parts, making them much cheaper to assemble, but as a result, they require more frequent maintenance, and do not last as long.$oxr_mdlc_mod_tag$"
  oxr_mdlc_trait_fpga: "Field-Programmable"
  oxr_mdlc_trait_fpga_desc: "This species has several field-programmable gate arrays, making it much faster to switch between jobs or specialties. It can also be programmed to consume fewer resources when not in a job."
+
+ oxr_mdlc_species_bio_robot_symbiotes_trait_fertile: "Selective Bio-Mechanical Materials$xvcv_mdlc_bio_robot_trait_title$"
+ oxr_mdlc_species_bio_robot_symbiotes_trait_fertile_desc: "The synthetic components of the skeleto-muscular system can be more rapidly cloned."
+ oxr_mdlc_species_bio_robot_symbiotes_trait_robust: "$trait_robust$$xvcv_mdlc_bio_robot_trait_title$"
+ oxr_mdlc_species_bio_robot_symbiotes_trait_robust_desc: "$trait_robust_desc$"
+ oxr_mdlc_species_bio_robot_symbiotes_trait_erudite: "$trait_erudite$$xvcv_mdlc_bio_robot_trait_title$"
+ oxr_mdlc_species_bio_robot_symbiotes_trait_erudite_desc: "$trait_erudite_desc$"
+ oxr_mdlc_species_bio_robot_symbiotes_trait_biology_modeling: "Social Sciences Organoids$xvcv_mdlc_bio_robot_trait_title$"
+ oxr_mdlc_species_bio_robot_symbiotes_trait_biology_modeling_desc: "Special organoid cell matrices, fine-tuned for computing problem sets in the domain of social and biological sciences, have been implanted in this species."
+
 #endregion
 
 #region tech_0x002
@@ -104,6 +124,10 @@
  oxr_mdlc_tech_organoid_3: "Organoid Computational Clusters"
  oxr_mdlc_tech_organoid_3_desc: "Our mastery of brain organoids drastically reduces research upkeep, freeing resources for other parts of the empire, or even redirecting them to fund additional research. At this stage, brain organoids are stored in large vats in even larger facilities, trained to do parallel processing, able to do small chunks of work extremely quickly.$oxr_mdlc_mod_tag$"
  oxr_mdlc_tech_organoid_3_tooltip: "§Y$oxr_mdlc_building_organoid_research_center$§! planetary modifier:\n$mod_planet_researchers_energy_upkeep_add$: §G-1§!\n$mod_planet_researchers_food_upkeep_add$: §R+0.10§!"
+ oxr_mdlc_tech_cloning_actuators: "Hybrid Cloning Actuators"
+ oxr_mdlc_tech_cloning_actuators_desc: "Hybrid motivators use alloys that can easily bond with synthetic ligaments and tissues. They are more compact in design and leave room for additional subsystems.$oxr_mdlc_mod_tag$"
+ oxr_mdlc_tech_cloning_assemblers: "Hybrid Cloning Assemblers"
+ oxr_mdlc_tech_cloning_assemblers_desc: "Improvements on the Mechanical Hybrid design make parts easier to assemble and clone. Since the base unit complexity is reduced, more trait subsystems can be added.$oxr_mdlc_mod_tag$"
 
 
 #endregion
@@ -116,43 +140,39 @@
  # Inspired by https://www.sciencedaily.com/releases/2016/04/160418095918.htm
  oxr_mdlc_building_biowaste_harvester: "Bio-Waste Energy Facility"
  oxr_mdlc_building_biowaste_harvester_desc: "Bio-Waste from organic lifeforms is separated into liquids and solids: the liquids are diverted to microbial fuel cells which contain reactive bacteria that generate electricity; the solids are dehydrated, decontaminated, and repacked as nutrient-rich fertilizer.$oxr_mdlc_world_machine_building_category_note$$oxr_mdlc_mod_tag$"
+ oxr_mdlc_building_bio_robot_directive_bio_goods_1: "Bio-Goods Facility 1"
+ oxr_mdlc_building_bio_robot_directive_bio_goods_1_desc: "This facility uses a variety of primary organic source materials such as cellulose, fibers, chemicals, resins, elastic substances, producing secondary resources, such as complex polymers, as needed, in order to fabricate the consumable items necessary to pops for daily living and work, such as: garments, cleaning supplies, research gadgets, and Zro Cola. Additionally it produces supplies on demand used by various jobs, like tools, containers, certain fuels, fabrics, and handheld computation devices.$oxr_mdlc_mod_tag$"
+ oxr_mdlc_building_bio_robot_directive_bio_goods_2: "Bio-Goods Facility 2"
+ oxr_mdlc_building_bio_robot_directive_bio_goods_2_desc: "$oxr_mdlc_building_bio_robot_directive_bio_goods_1_desc$"
+ oxr_mdlc_building_bio_robot_directive_bio_goods_3: "Bio-Goods Facility 2"
+ oxr_mdlc_building_bio_robot_directive_bio_goods_3_desc: "$oxr_mdlc_building_bio_robot_directive_bio_goods_1_desc$"
 
-
-#endregion
-
- oxr_mdlc_trait_all_terrain_hull: "All-terrain Hardening"
- oxr_mdlc_trait_all_terrain_hull_desc: "These machines have been made rugged, able to inhabit a wide range of planets and environments. As a result, they are bulkier and require additional maintenance.$oxr_mdlc_mod_tag$"
- oxr_mdlc_trait_planned_obsolescence: "Planned Obsolescence"
- oxr_mdlc_trait_planned_obsolescence_desc: "This species is purposely designed to be cheap and quick to produce, serving their purpose briefly, though not as efficiently due to low-quality parts. With parts breaking frequently, pops require more maintenance. Likewise, leaders do not operate as effectively, but are much less expensive in the long run to operate.$oxr_mdlc_mod_tag$"
- oxr_mdlc_leader_trait_planned_obsolescence: "$oxr_mdlc_trait_planned_obsolescence$"
- oxr_mdlc_leader_trait_planned_obsolescence_desc: "$oxr_mdlc_trait_planned_obsolescence_desc$$oxr_mdlc_mod_tag$"
- oxr_mdlc_trait_prefabricated_modules: "Prefabricated Assembly Templates"
- oxr_mdlc_trait_prefabricated_modules_desc: "This species uses mainly prefabricated parts, making them much cheaper to assemble, but as a result, they require more frequent maintenance, and do not last as long.$oxr_mdlc_mod_tag$"
- oxr_mdlc_trait_fpga: "Field-Programmable"
- oxr_mdlc_trait_fpga_desc: "This species has several field-programmable gate arrays, making it much faster to switch between jobs or specialties. It can also be programmed to consume fewer resources when not in a job."
+ oxr_mdlc_building_bio_robot_directive_integrated_lab_1: "Integrated Bio-Lab"
+ 
 
 #endregion
 
-
-#region tech_0x002
- oxr_mdlc_tech_cloning_actuators: "Hybrid Cloning Actuators"
- oxr_mdlc_tech_cloning_actuators_desc: "Hybrid motivators use alloys that can easily bond with synthetic ligaments and tissues. They are more compact in design and leave room for additional subsystems.$oxr_mdlc_mod_tag$"
- oxr_mdlc_tech_cloning_assemblers: "Hybrid Cloning Assemblers"
- oxr_mdlc_tech_cloning_assemblers_desc: "Improvements on the Mechanical Hybrid design make parts easier to assemble and clone. Since the base unit complexity is reduced, more trait subsystems can be added.$oxr_mdlc_mod_tag$"
-
-
-#endregion
-
-#region tooltip_0x003
+#region tooltip_0x004
  oxr_mdlc_mechanical_world_habitability_tooltip:"Mechanical World Habitability: §G+100%§!"
 
+ mod_planet_technician_food_upkeep_add: "£food£ $food$ Upkeep of £job_technician£ [GetTechnicianPlural]"
+ mod_planet_artisans_food_upkeep_add: "£food£ $food$ Upkeep of £job_artisan£ [GetArtisanPlural]"
 
+ mod_planet_districts_generator_energy_upkeep_add: "£energy£ $energy$ Upkeep of £district£ $district_generator_plural$"
+ mod_planet_districts_generator_food_upkeep_add: "£food£ $food$ Upkeep of £district£ $district_generator_plural$"
+ mod_planet_districts_farming_food_produces_mult: "£food£ $food$ from £district£ $district_farming_plural$"
+
+ mod_planet_buildings_food_produces_mult: "£food£ $food$ from £building£ $planet_buildings$"
+
+ mod_planet_jobs_productive_food_produces_mult: "£food£ $food$ from £job£ $planet_jobs_productive$"
+ mod_planet_jobs_productive_society_research_produces_mult: "£food£ $food$ from £job£ $planet_jobs_productive$"
+#  mod_job_oxr_mdlc_bio_robot_integrated_researcher_add: "$job_oxr_mdlc_bio_robot_integrated_researcher_plural$"
 
 
 #endregion
 
 
-#region armies_0x004
+#region armies_0x005
  oxr_mdlc_reanimated_cyborg_army: "Reanimated Cyborg Army"
  oxr_mdlc_reanimated_cyborg_army_desc: "This cyborg unit was re-assembled from defeated organic armies using mechromancy and swarm assimilation technology."
 
@@ -161,7 +181,7 @@
 #endregion
 
 
-#region policies_0x005
+#region policies_0x006
 
  policy_oxr_mdlc_army_reanimation_control: "Army Re-animation Controls"
  policy_oxr_mdlc_army_reanimation_control_desc: "Defeated organic armies will sometimes be re-animated, using mechromancy and swarm assimilation technology"
@@ -180,7 +200,7 @@
 #endregion
 
 
-#region events_0x006
+#region events_0x007
 
  oxr_mdlc.100.title: "Raising Battle Standards"
  oxr_mdlc.100.desc: "Now that our empire has obtained the technology from §YMechromancy§! and §Y$xvcv_mdlc_civic_assimilating_swarm$§!, detachments of reanimation drones will accompany each army and resurrect fallen organic armies that we defeat.\n\n§RLegion Node§! has updated core node programming with a new policy, §H$policy_oxr_mdlc_army_reanimation_control$§!, and is requesting a decision on what type of armies shall be raised on the battlefield:\n\n- §YUndead Armies§! are made of entirely organic parts with the bare minimum wetware to make them combat ready.\n\n- §YCyborg Armies§! are half-mechanical, half-organic, and are more powerful than undead armies. Due to their cyborg nature, they require additional energy upkeep.\n\nWe can also defer making a decision, and either type of army will be raised, randomly."
@@ -191,7 +211,7 @@
 
 #endregion
 
-#region empires_0x007
+#region empires_0x008
  oxr_mdlc_empire_design_nem: "NEM"
  oxr_mdlc_empire_design_nem_name: "$oxr_mdlc_empire_design_nem$ Manifold"
  oxr_mdlc_empire_design_nem_adjective: "$oxr_mdlc_empire_design_nem$"
@@ -236,10 +256,13 @@
 #endregion
 
 
-#region modifiers_0x007
+#region modifiers_0x009
  oxr_mdlc_origin_mechanical_temp_pop_demotion: "Fluid Social Hierarchy"
  oxr_mdlc_origin_mechanical_temp_pop_demotion_desc: "Citizens can easily move through strata."
-#region deposits_0x005
+
+#endregion
+
+#region deposits_0x010
 
  oxr_mdlc_prehistoric_sinkhole_1: "Prehistoric Sinkhole Forest"
  oxr_mdlc_prehistoric_sinkhole_1_desc: "A large sinkhole, found hidden in a mountain range, has remained relatively untouched during the evolutionary cycle of plant life and biology on this world. The sinkhole has created an isolated environment with unique microclimates where rare, ancient plant species, and other flora which have since ceased to exist on the planet's surface, have continued to thrive. There may be new genetic variations of life here."
@@ -247,6 +270,23 @@
  oxr_mdlc_prehistoric_sinkhole_1_ruined_desc: "What was once a large, isolated sinkhole full of genetically diverse flora and fauna, protected from the ravagaes of time, has been destroyed, and no longer holds any research value. Its value now merely consists of common minerals and food."
 
 
+
+
+#endregion
+
+#region civics_0x011
+
+ oxr_mdlc_civic_bio_robot_directive: "Bio-Sciences Directive"
+ oxr_mdlc_civic_bio_robot_directive_desc: "The empire focuses on using a wide array of biological materials to produce energy, consumer goods, and other resources, promoting research in biology and related fields. The guiding mindset is pursuing the advancement of a civilization based on developing and mastering organic technologies."
+ oxr_mdlc_civic_bio_robot_directive_tooltip: "\nAll §Y$xvcv_mdlc_bio_robot_name$§! pops receive the following benefits:\n- Pops working as §Y$job_artisan_plural$§! and §Y$job_technician_plural$§! have a significant portion of upkeep replaced with £food£ $food$ upkeep\n- £food£ $food$ from £job£ Jobs: §G+10%§!\n- £society_research£ $society_research$ from Jobs: §G+10%§!"
+
+#endregion
+
+#region jobs_0x012
+ job_oxr_mdlc_bio_robot_integrated_researcher: "Organic Tech Advocate"
+ job_oxr_mdlc_bio_robot_integrated_researcher_plural: "Integrated Researchers"
+ job_oxr_mdlc_bio_robot_integrated_researcher_desc: "Work life consists of exploring and running research protocols for a variety of life sciences. The results of the work contribute directly to the administration's decision-making capacity, and reading the reports is considered a public pastime. Citizens in this role are regularly rewarded for their contributions, and are seen as role models of ethics."
+ job_oxr_mdlc_bio_robot_integrated_researcher_gestalt_desc: "Work routines consist of exploring and running research protocols for a variety of life sciences. The results of the work contribute directly to the administration's decision-making capacity, and reports are directly uploaded to $oxr_mdlc_cognitive_node$. Drones in this role are less prone to deviance."
 
 
 #endregion
