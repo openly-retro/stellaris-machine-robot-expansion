@@ -249,13 +249,7 @@ oxr_mdlc_building_organoid_research_center = {
 	}
 }
 
-# oxr_mdlc_civic_bio_robot_directive
-oxr_mdlc_building_bio_robot_directive_bio_goods = {
-	base_cap_amount = 1
-	base_buildtime = @b1_time
-	category = manufacturing
-
-}
+# Bio-Mech AP things
 oxr_mdlc_building_bio_robot_directive_bio_goods_1 = {
 	base_buildtime = @b1_time
 	base_cap_amount = 1
@@ -263,7 +257,9 @@ oxr_mdlc_building_bio_robot_directive_bio_goods_1 = {
 
 	potential = {
 		exists = owner
-		owner = { has_oxr_mdlc_civic_bio_robot_directive = yes }
+		owner = {
+			has_xvcv_mdlc_ap_bio_robot = yes
+		}
 		planet = {
 			NOR = {
 				has_modifier = resort_colony
@@ -299,11 +295,11 @@ oxr_mdlc_building_bio_robot_directive_bio_goods_1 = {
 	}
 
 	prerequisites = {
-		tech_basic_industry
+		# oxr_mdlc_tech_bio_robot_directive_1
 	}
 
 	upgrades = {
-		building_factory_2
+		oxr_mdlc_building_bio_robot_directive_bio_goods_2
 	}
 }
 
@@ -360,11 +356,11 @@ oxr_mdlc_building_bio_robot_directive_bio_goods_2 = {
 	}
 
 	prerequisites = {
-		tech_luxuries_1
+		oxr_mdlc_tech_bio_robot_directive_1
 	}
 
 	upgrades = {
-		building_factory_3
+		oxr_mdlc_building_bio_robot_directive_bio_goods_3
 	}
 }
 
@@ -451,12 +447,11 @@ oxr_mdlc_building_bio_robot_directive_bio_goods_3 = {
 	}
 
 	prerequisites = {
-		tech_luxuries_2
+		oxr_mdlc_tech_bio_robot_directive_2
 	}
 }
 
-oxr_mdlc_building_bio_robot_directive_integrated_lab = {
-	icon = building_bio_l
+oxr_mdlc_building_bio_robot_directive_integrated_lab_1 = {
 	base_buildtime = @b2_time
 	category = research
 
@@ -494,13 +489,129 @@ oxr_mdlc_building_bio_robot_directive_integrated_lab = {
 	planet_modifier = {
 		job_oxr_mdlc_bio_robot_integrated_researcher_add = 2
 	}
-
 	prerequisites = {
-		tech_basic_industry
+		
 	}
 
 	upgrades = {
-		building_factory_2
+		oxr_mdlc_building_bio_robot_directive_integrated_lab_2
 	}
 
+}
+
+oxr_mdlc_building_bio_robot_directive_integrated_lab_2 = {
+	base_buildtime = @b2_time
+	category = research
+
+	allow = {
+		has_upgraded_capital = yes
+	}
+
+	potential = {
+		exists = owner
+		# owner = { has_oxr_mdlc_civic_bio_robot_directive = yes }
+		owner = { has_oxr_mdlc_civic_bio_robot_directive = yes  }
+		planet = {
+			NOR = {
+				has_modifier = resort_colony
+				has_modifier = slave_colony
+			}
+		}
+	}
+
+	ruined_trigger = {
+		OR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+			AND = {
+				exists = owner
+				owner = { has_oxr_mdlc_civic_bio_robot_directive = no }
+			}
+		}
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			food = @b2_minerals
+			exotic_gases = @b2_rare_cost
+		}
+		upkeep = {
+			food = @b2_upkeep
+			exotic_gases = @b2_rare_upkeep
+		}
+	}
+	planet_modifier = {
+		job_oxr_mdlc_bio_robot_integrated_researcher_add = 2
+	}
+
+	prerequisites = {
+		oxr_mdlc_tech_bio_robot_directive_1
+	}
+	upgrades = {
+		oxr_mdlc_building_bio_robot_directive_integrated_lab_3
+	}
+
+}
+
+oxr_mdlc_building_bio_robot_directive_integrated_lab_3 = {
+	base_buildtime = @b2_time
+	category = research
+
+	allow = {
+		has_major_upgraded_capital = yes
+	}
+
+	potential = {
+		exists = owner
+		owner = { has_oxr_mdlc_civic_bio_robot_directive = yes }
+		planet = {
+			NOR = {
+				has_modifier = resort_colony
+				has_modifier = slave_colony
+			}
+		}
+	}
+
+	ruined_trigger = {
+		OR = {
+			has_modifier = resort_colony
+			has_modifier = slave_colony
+			AND = {
+				exists = owner
+				owner = { has_oxr_mdlc_civic_bio_robot_directive = no }
+			}
+		}
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			food = @b3_minerals
+			exotic_gases = @b3_rare_cost
+		}
+		upkeep = {
+			food = @b3_upkeep
+			exotic_gases = @b3_rare_upkeep
+		}
+		upkeep = {
+			trigger = {
+				owner = {
+					is_galactic_community_member = yes
+				}
+				is_active_resolution = "resolution_galacticstudies_extradimensional_experimentation"
+				planet = {
+					has_modifier = pm_extradimensional_experimentation
+				}
+			}
+			sr_zro = 1
+		}
+	}
+	planet_modifier = {
+		job_oxr_mdlc_bio_robot_integrated_researcher_add = 2
+	}
+
+	prerequisites = {
+		oxr_mdlc_tech_bio_robot_directive_2
+	}
 }
