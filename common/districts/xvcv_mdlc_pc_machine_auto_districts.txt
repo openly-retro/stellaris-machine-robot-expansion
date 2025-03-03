@@ -8,7 +8,7 @@ xvcv_mdlc_pc_machine_auto_district_city = {
 		exists = from
 		from = {
 			oxr_mdlc_planet_owner_can_build_wm_districts = yes
-			NOT = { has_authority = auth_machine_intelligence }
+			has_auth_machine_intelligence = no
 		}
 		uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
 	}
@@ -16,7 +16,7 @@ xvcv_mdlc_pc_machine_auto_district_city = {
 		exists = owner
 		owner = {
 			oxr_mdlc_planet_owner_can_build_wm_districts = yes
-			NOT = { has_authority = auth_machine_intelligence }
+			has_auth_machine_intelligence = no
 		}
 		uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
 	}
@@ -91,11 +91,16 @@ xvcv_mdlc_pc_machine_auto_district_city = {
 			owner = {
 				fire_on_action = { on_action = on_world_machine_district_completed_country }
 			}
-			fire_on_action = { on_action = on_world_machine_district_completed_planet }
+			planet = {
+				fire_on_action = { on_action = on_world_machine_district_completed_planet }
+			}
 		}
 	}
 	on_destroy = {
-		fire_on_action = { on_action = on_world_machine_district_demolished }
+		planet = {
+			fire_on_action = { on_action = on_world_machine_district_demolished }
+		}
+		
 	}
 }
 # machine intelligence version
@@ -107,18 +112,16 @@ xvcv_mdlc_pc_machine_auto_district_nexus = {
 	show_on_uncolonized = {
 		exists = from
 		from = {
-			oxr_mdlc_planet_owner_can_build_wm_districts = yes
+			has_xvcv_mdlc_ap_world_machines = yes
 			has_authority = auth_machine_intelligence
-			NOT = { has_origin = oxr_mdlc_origin_world_machine_awakened }
 		}
 		uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
 	}
 	potential = {
 		exists = owner
 		owner = {
-			oxr_mdlc_planet_owner_can_build_wm_districts = yes
+			has_xvcv_mdlc_ap_world_machines = yes
 			has_authority = auth_machine_intelligence
-			NOT = { has_origin = oxr_mdlc_origin_world_machine_awakened }
 		}
 		uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
 	}
@@ -179,11 +182,17 @@ xvcv_mdlc_pc_machine_auto_district_nexus = {
 			owner = {
 				fire_on_action = { on_action = on_world_machine_district_completed_country }
 			}
-			fire_on_action = { on_action = on_world_machine_district_completed_planet }
+			planet = {
+				fire_on_action = { on_action = on_world_machine_district_completed_planet }
+			}
+
 		}
 	}
 	on_destroy = {
-		fire_on_action = { on_action = on_world_machine_district_demolished }
+		planet = {
+			fire_on_action = { on_action = on_world_machine_district_demolished }
+		}
+		
 	}
 }
 xvcv_mdlc_pc_machine_auto_district_generator = {
@@ -193,17 +202,12 @@ xvcv_mdlc_pc_machine_auto_district_generator = {
 
 	show_on_uncolonized = {
 		exists = from
-		from = {
-			oxr_mdlc_planet_owner_can_build_wm_districts = yes
-		}
+		from = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
 		uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
 	}
 	potential = {
 		exists = owner
-		owner = {
-			oxr_mdlc_planet_owner_can_build_wm_districts = yes
-			has_authority = auth_machine_intelligence
-		}
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
 		uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
 	}
 
@@ -250,11 +254,17 @@ xvcv_mdlc_pc_machine_auto_district_generator = {
 			owner = {
 				fire_on_action = { on_action = on_world_machine_district_completed_country }
 			}
-			fire_on_action = { on_action = on_world_machine_district_completed_planet }
+			planet = {
+				fire_on_action = { on_action = on_world_machine_district_completed_planet }
+			}
+			
 		}
 	}
 	on_destroy = {
-		fire_on_action = { on_action = on_world_machine_district_demolished }
+		planet = {
+			fire_on_action = { on_action = on_world_machine_district_demolished }
+		}
+		
 	}
 }
 xvcv_mdlc_pc_machine_auto_district_mining = {
@@ -347,11 +357,16 @@ xvcv_mdlc_pc_machine_auto_district_mining = {
 			owner = {
 				fire_on_action = { on_action = on_world_machine_district_completed_country }
 			}
-			fire_on_action = { on_action = on_world_machine_district_completed_planet }
+			planet = {
+				fire_on_action = { on_action = on_world_machine_district_completed_planet }
+			}
+			
 		}
 	}
 	on_destroy = {
-		fire_on_action = { on_action = on_world_machine_district_demolished }
+		planet = {
+			fire_on_action = { on_action = on_world_machine_district_demolished }
+		}
 	}
 
 }
@@ -435,7 +450,6 @@ xvcv_mdlc_pc_machine_auto_district_farming = {
 		fire_on_action = { on_action = on_world_machine_district_demolished }
 	}
 }
-
 xvcv_mdlc_pc_machine_auto_district_industrial = {
 	base_buildtime = @xvcv_mdlc_district_time_3
 	icon = xvcv_mdlc_pc_mechanical_district_industrial

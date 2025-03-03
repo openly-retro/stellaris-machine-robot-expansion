@@ -22,7 +22,32 @@ xvcv_mdlc_trait_bio_robot = {
 		}
 		planet_jobs_robotic_produces_mult = 0.10 #hidden modifier #tooltip will not show it
 	}
+	triggered_pop_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_oxr_mdlc_civic_bio_robot_directive = yes }
+		}
+		planet_jobs_food_produces_mult = 0.1
+		planet_jobs_society_research_produces_mult = 0.1
+	}
+	triggered_pop_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_oxr_mdlc_civic_bio_robot_directive = yes }
+		}
+		planet_artisans_minerals_upkeep_add = -6
+		planet_artisans_food_upkeep_add = 14.5  # 6 * ( 12 / 5 )
+	}
+	triggered_pop_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_oxr_mdlc_civic_bio_robot_directive = yes }
+		}
+		planet_technician_energy_upkeep_add = -1
+		planet_technician_food_upkeep_add = 2.5
+	}
 }
+
 xvcv_mdlc_bio_robot_trait_compatibility_module = {
 	cost = -1
 	allowed_archetypes = { XVCV_MDLC_BIO_ROBOT }
@@ -83,7 +108,8 @@ xvcv_mdlc_bio_robot_trait_rapid_breeders = {
 	icon = "gfx/interface/icons/traits/trait_rapid_breeders.dds"
 	inline_script = trait/sorting/oxr_mdlc_bio_robot
 	modifier = {
-		xvcv_mdlc_bio_robot_growth_add = @xvcv_mdlc_bio_robot_growth_add_1
+		# xvcv_mdlc_bio_robot_growth_add = @xvcv_mdlc_bio_robot_growth_add_1
+		xvcv_mdlc_bio_robot_growth_mult = 0.1
 	}
 	opposites = {
 		trait_rapid_breeders
@@ -91,6 +117,7 @@ xvcv_mdlc_bio_robot_trait_rapid_breeders = {
 
 	slave_cost = { energy = 200 }
 }
+
 
 # Adding back original BIO-ROBOT traits, for Gestalt Machine empires only
 xvcv_mdlc_bio_robot_trait_agrarian = {
@@ -150,7 +177,7 @@ xvcv_mdlc_bio_robot_trait_thrifty = {
 
 	species_potential_add = {
 		exists = from
-		from = { NOT = { has_authority = auth_machine_intelligence } }
+		from = { has_auth_machine_intelligence = no }
 		has_trait = trait_machine_unit
 	}
 	inline_script = trait/sorting/oxr_mdlc_bio_robot
@@ -317,7 +344,7 @@ xvcv_mdlc_bio_robot_trait_conformists = {
 
 	species_potential_add = {
 		exists = from
-		from = { NOT = { has_authority = auth_machine_intelligence } }
+		from = { has_auth_machine_intelligence = no }
 		has_trait = trait_machine_unit
 	}
 	inline_script = trait/sorting/oxr_mdlc_bio_robot
@@ -375,7 +402,7 @@ xvcv_mdlc_bio_robot_trait_conservational = {
 	species_potential_add = {
 		exists = from
 		from = {
-			# NOT = { has_authority = auth_machine_intelligence }
+			# has_auth_machine_intelligence = no
 			country_uses_consumer_goods = yes
 		}
 		has_trait = trait_machine_unit
@@ -448,7 +475,7 @@ xvcv_mdlc_bio_robot_trait_conservational = {
 
 # 	species_potential_add = {
 # 		exists = from
-# 		from = { NOT = { has_authority = auth_machine_intelligence } }
+# 		from = { has_auth_machine_intelligence = no }
 # 	}
 
 # 	modifier = {
@@ -462,7 +489,7 @@ xvcv_mdlc_bio_robot_trait_conservational = {
 
 # 	species_potential_add = {
 # 		exists = from
-# 		from = { NOT = { has_authority = auth_machine_intelligence } }
+# 		from = { has_auth_machine_intelligence = no }
 # 	}
 
 # 	modifier = {
@@ -550,7 +577,7 @@ xvcv_mdlc_bio_robot_trait_conservational = {
 
 # 	species_potential_add = {
 # 		exists = from
-# 		from = { NOT = { has_authority = auth_machine_intelligence } }
+# 		from = { has_auth_machine_intelligence = no }
 # 	}
 
 # 	modifier = {

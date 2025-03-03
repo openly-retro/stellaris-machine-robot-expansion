@@ -1,7 +1,3 @@
-oxr_mdlc_origin_world_machine_feature_enabled = {
-	has_global_flag = oxr_mdlc_origin_world_machine_feature_enabled
-}
-
 oxr_mdlc_planet_owner_can_build_wm_districts = {
 	optimize_memory
 	OR = {
@@ -28,7 +24,7 @@ oxr_mdlc_planet_has_any_world_machine_blockers = {
 	}
 }
 
-oxr_mdlc_deposit_is_world_machine_blocker = {
+oxr_mdlc_planet_deposit_is_world_machine_blocker = {
 	OR = {
 		is_deposit_type = oxr_mdlc_d_world_machine_collapsed_charge_controller
 		is_deposit_type = oxr_mdlc_d_world_machine_flooded_borehole
@@ -39,15 +35,6 @@ oxr_mdlc_deposit_is_world_machine_blocker = {
 		is_deposit_type = oxr_mdlc_d_world_machine_collapsed_transportation_hubs
 		is_deposit_type = oxr_mdlc_d_world_machine_exposed_structural_chasms
 		is_deposit_type = oxr_mdlc_d_world_machine_dense_geologic_mass
-		is_deposit_type = oxr_mdlc_d_world_machine_offline_data_routers
-		is_deposit_type = oxr_mdlc_d_world_machine_damaged_data_cold_storages
-		is_deposit_type = oxr_mdlc_d_world_machine_frozen_waterway_pistons
-		is_deposit_type = oxr_mdlc_d_world_machine_incomplete_construction_bays
-	}
-}
-
-oxr_mdlc_world_machine_blocker_yields_insights = {
-	OR = {
 		is_deposit_type = oxr_mdlc_d_world_machine_offline_data_routers
 		is_deposit_type = oxr_mdlc_d_world_machine_damaged_data_cold_storages
 		is_deposit_type = oxr_mdlc_d_world_machine_frozen_waterway_pistons
@@ -106,12 +93,6 @@ oxr_mdlc_country_can_make_t2_world_machine = {
 	else = {
 		always = no
 	}
-}
-
-oxr_mdlc_planet_can_become_t3_world_machine = {
-	is_colonizable = yes
-	is_artificial = no
-	xvcv_mdlc_world_machines_planet_classes_trigger = no
 }
 
 oxr_mdlc_planet_can_refill_district_defense_armies = {
@@ -222,7 +203,7 @@ oxr_mdlc_country_can_make_t3_ecu = {
 	}
 	else_if = {
 		limit = {
-			NOT = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+			has_oxr_mdlc_origin_world_machine_awakened = no
 			has_ascension_perk = xvcv_mdlc_ap_world_machines
 		}
 		always = yes
@@ -240,7 +221,7 @@ oxr_mdlc_country_can_make_t3_cpu = {
 	}
 	else_if = {
 		limit = {
-			NOT = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+			has_oxr_mdlc_origin_world_machine_awakened = no
 			has_ascension_perk = xvcv_mdlc_ap_world_machines
 		}
 		always = yes
@@ -258,7 +239,7 @@ oxr_mdlc_country_can_make_t3_ser = {
 	}
 	else_if = {
 		limit = {
-			NOT = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+			has_oxr_mdlc_origin_world_machine_awakened = no
 			has_ascension_perk = xvcv_mdlc_ap_world_machines
 		}
 		always = yes
@@ -332,11 +313,7 @@ oxr_mdlc_arc_site_is_wm_blocker = {
 	}
 }
 
-oxr_yes = {
-	always = yes
-}
-
-oxr_mdlc_is_planet_world_machine = {
+oxr_mdlc_planet_is_world_machine = {
 	OR = {
 		is_planet_class = xvcv_mdlc_pc_machine_ser
 		is_planet_class = xvcv_mdlc_pc_machine_cpu
@@ -345,6 +322,7 @@ oxr_mdlc_is_planet_world_machine = {
 		is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
 	}
 }
+
 oxr_mdlc_planet_uses_cooling_district = {
 	OR = {
 		is_planet_class = xvcv_mdlc_pc_machine_ser
@@ -388,5 +366,13 @@ oxr_mdlc_planet_world_machine_is_rebooting = {
 		has_modifier = oxr_mdlc_origin_world_machine_world_rebooting_stage_3
 		has_modifier = oxr_mdlc_origin_world_machine_world_rebooting_stage_4
 		has_modifier = oxr_mdlc_origin_world_machine_world_rebooting_stage_5
+	}
+}
+
+oxr_mdlc_planet_has_vanilla_pop_colony_modifier = {
+	OR = {
+		has_modifier = resort_colony
+		has_modifier = slave_colony
+		has_modifier = penal_colony
 	}
 }

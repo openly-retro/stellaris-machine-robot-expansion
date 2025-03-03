@@ -253,7 +253,8 @@ oxr_mdlc_decisions_origin_wm_requisition_automatons = {
 		space_owner = {
 			has_origin = oxr_mdlc_origin_world_machine_awakened
 		}
-		is_planet_world_machine = yes
+		planet = { is_planet_world_machine = yes }
+		
 	}
 	allow = {
 		space_owner = {
@@ -265,21 +266,23 @@ oxr_mdlc_decisions_origin_wm_requisition_automatons = {
 			}
 		}
 		# TODO: Check max supported automatons on planet (?)
-		NOR = {
-			has_modifier = oxr_mdlc_planet_origin_world_machine_requisitioning_pops
+		planet = {
+			NOT = { has_modifier = oxr_mdlc_planet_origin_world_machine_requisitioning_pops }
 		}
 	}
 	effect = {
 		custom_tooltip = oxr_mdlc_decisions_origin_wm_requisition_automatons_tooltip
 		custom_tooltip = oxr_mdlc_decisions_origin_wm_requisition_automatons_tooltip_1
 		hidden_effect = {
-			add_modifier = {
-				modifier = oxr_mdlc_planet_origin_world_machine_requisitioning_pops
-				days = 60
-			}
-			planet_event = {
-				id = oxr_mdlc_origin_wm_main.2100
-				days = 60
+			planet = {
+				add_modifier = {
+					modifier = oxr_mdlc_planet_origin_world_machine_requisitioning_pops
+					days = 60
+				}
+				planet_event = {
+					id = oxr_mdlc_origin_wm_main.2100
+					days = 60
+				}
 			}
 		}
 	}
@@ -300,7 +303,7 @@ oxr_mdlc_decisions_origin_wm_self_destruct = {
 			# for release, dont bother restricting to AP or origin, rely on the tradition's potential/allow
 			has_tradition = oxr_mdlc_tr_defensive_directives_self_destruct
 		}
-		is_planet_world_machine = yes
+		planet = { is_planet_world_machine = yes }
 	}
 	allow = {
 		# cant think of a reason not to allow self-destruct
@@ -315,7 +318,9 @@ oxr_mdlc_decisions_origin_wm_self_destruct = {
 			}
 		}
 		hidden_effect = {
-			oxr_mdlc_planet_self_destruct = yes
+			planet = {
+				oxr_mdlc_planet_self_destruct = yes
+			}
 		}
 	}
 }
@@ -331,47 +336,54 @@ oxr_mdlc_decision_ap_wm_automate_capital = {
 		}
 	}
 	potential = {
-		is_colony = yes
+		planet = { is_colony = yes }
 		exists = owner
 		owner = {
 			has_ascension_perk = xvcv_mdlc_ap_world_machines
 		}
-		is_planet_world_machine = yes
-		OR = {
-			has_building = building_deployment_post
-			has_building = building_machine_capital
-			has_building = building_machine_major_capital
-			has_building = building_machine_system_capital
+		planet = {
+			is_planet_world_machine = yes
+			OR = {
+				has_building = building_deployment_post
+				has_building = building_machine_capital
+				has_building = building_machine_major_capital
+				has_building = building_machine_system_capital
+			}
 		}
 	}
 	allow = {
-		OR = {
-			has_building = building_deployment_post
-			has_building = building_machine_capital
-			has_building = building_machine_major_capital
-			has_building = building_machine_system_capital
+		planet = {
+			OR = {
+				has_building = building_deployment_post
+				has_building = building_machine_capital
+				has_building = building_machine_major_capital
+				has_building = building_machine_system_capital
+			}
 		}
+		
 	}
 	effect = {
-		if = {
-			limit = { has_building = building_deployment_post }
-			remove_building = building_deployment_post
-			add_building = oxr_mdlc_world_machines_building_auto_capital
-		}
-		else_if = {
-			limit = { has_building = building_machine_capital }
-			remove_building = building_machine_capital
-			add_building = oxr_mdlc_world_machines_building_auto_capital_upgraded
-		}
-		else_if = {
-			limit = { has_building = building_machine_major_capital }
-			remove_building = building_machine_major_capital
-			add_building = oxr_mdlc_world_machines_building_auto_capital_major_upgraded
-		}
-		else_if = {
-			limit = { has_building = building_machine_system_capital }
-			remove_building = building_machine_system_capital
-			add_building = oxr_mdlc_world_machines_building_auto_capital_fully_upgraded
+		planet = {
+			if = {
+				limit = { has_building = building_deployment_post }
+				remove_building = building_deployment_post
+				add_building = oxr_mdlc_world_machines_building_auto_capital
+			}
+			else_if = {
+				limit = { has_building = building_machine_capital }
+				remove_building = building_machine_capital
+				add_building = oxr_mdlc_world_machines_building_auto_capital_upgraded
+			}
+			else_if = {
+				limit = { has_building = building_machine_major_capital }
+				remove_building = building_machine_major_capital
+				add_building = oxr_mdlc_world_machines_building_auto_capital_major_upgraded
+			}
+			else_if = {
+				limit = { has_building = building_machine_system_capital }
+				remove_building = building_machine_system_capital
+				add_building = oxr_mdlc_world_machines_building_auto_capital_fully_upgraded
+			}
 		}
 	}
 }
@@ -386,17 +398,20 @@ oxr_mdlc_decision_ap_wm_automate_capital_remove = {
 		}
 	}
 	potential = {
-		is_colony = yes
+		# Ordered specifically for optimal short-circuit
 		exists = space_owner
+		planet = { is_colony = yes }
 		space_owner = {
 			has_ascension_perk = xvcv_mdlc_ap_world_machines
 		}
-		is_planet_world_machine = yes
-		OR = {
-			has_building = oxr_mdlc_world_machines_building_auto_capital
-			has_building = oxr_mdlc_world_machines_building_auto_capital_upgraded
-			has_building = oxr_mdlc_world_machines_building_auto_capital_major_upgraded
-			has_building = oxr_mdlc_world_machines_building_auto_capital_fully_upgraded
+		planet = {
+			is_planet_world_machine = yes
+			OR = {
+				has_building = oxr_mdlc_world_machines_building_auto_capital
+				has_building = oxr_mdlc_world_machines_building_auto_capital_upgraded
+				has_building = oxr_mdlc_world_machines_building_auto_capital_major_upgraded
+				has_building = oxr_mdlc_world_machines_building_auto_capital_fully_upgraded
+			}
 		}
 	}
 	allow = {
@@ -442,27 +457,34 @@ oxr_mdlc_decision_origin_wm_shutdown_colony = {
 
 	potential = {
 		exists = owner
-		is_planet_world_machine = yes
 		owner = {
 			has_oxr_mdlc_origin_world_machine_awakened = yes
 		}
-		is_colony = yes
-		is_capital = no
+		planet = {
+			is_planet_world_machine = yes
+			is_colony = yes
+			is_capital = no
+		}
+		
 	}
 
-	allow = { is_colony = yes }
+	allow = {
+		planet = { is_colony = yes }
+	}
 
 	effect = {
 		custom_tooltip = oxr_mdlc_decision_origin_wm_shutdown_colony_effect
 		hidden_effect = {
-			oxr_mdlc_planet_clear_mods_and_vars_for_destroy_colony = yes
+			planet = {
+				oxr_mdlc_planet_clear_mods_and_vars_for_destroy_colony = yes
+			}
 			create_message = {
 				type = OXR_MDLC_WM_PLANET_DECOMMISSIONED
 				localization = OXR_MDLC_WM_PLANET_DECOMMISSIONED_MESSAGE
 				days = 15
 				target = this
 			}
-			destroy_colony = yes
+			planet = { destroy_colony = yes }
 		}
 		
 	}
@@ -475,20 +497,24 @@ oxr_mdlc_decision_origin_wm_reactivate_colony = {
 		space_owner = {
 			has_origin = oxr_mdlc_origin_world_machine_awakened
 		}
-		is_colony = no
-		oxr_mdlc_planet_world_machine_is_rebooting = no
-		is_planet_world_machine = yes
+		planet = {
+			is_colony = no
+			oxr_mdlc_planet_world_machine_is_rebooting = no
+			is_planet_world_machine = yes
+		}
 	}
 	allow = {
 		exists = space_owner
-		is_terraforming = no
+		planet = {
+			is_terraforming = no
+			has_anomaly = no
+		}
 		space_owner = {
 			has_resource = {
 				type = energy
 				amount >= 2500
 			}
 		}
-		has_anomaly = no
 	}
 	resources = {
 		category = decisions
@@ -499,15 +525,17 @@ oxr_mdlc_decision_origin_wm_reactivate_colony = {
 	effect = {
 		custom_tooltip = oxr_mdlc_decision_origin_wm_reactivate_colony_effect
 		hidden_effect = {
-			add_modifier = {
-				modifier = oxr_mdlc_origin_world_machine_world_rebooting_stage_5
-				days = 180
-			}
-			planet_event = {
-				id = oxr_mdlc_origin_wm_main.510
-				days = 180
-				scopes = {
-					from = space_owner
+			planet = {
+				add_modifier = {
+					modifier = oxr_mdlc_origin_world_machine_world_rebooting_stage_5
+					days = 180
+				}
+				planet_event = {
+					id = oxr_mdlc_origin_wm_main.510
+					days = 180
+					scopes = {
+						from = space_owner
+					}
 				}
 			}
 		}
