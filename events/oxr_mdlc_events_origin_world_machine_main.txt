@@ -135,26 +135,31 @@ country_event = {
 			has_completed_special_project_in_log = OXR_MDLC_ORIGIN_WM_TECH_PROFICIENCY
 		}
 	}
+	
+	immediate = {
+		end_event_chain = oxr_mdlc_origin_wm_chain_clear_blockers
+		begin_event_chain = {
+			event_chain = oxr_mdlc_origin_wm_chain_clear_blockers_2
+		}
+		add_event_chain_counter = {
+			event_chain = "oxr_mdlc_origin_wm_chain_clear_blockers_2"
+			counter = "oxr_mdlc_origin_wm_blockers"
+			amount = 6
+		}
+		set_variable = {
+			which = oxr_mdlc_origin_wm_blockers_var
+			value = 0.06
+		}
+		#log = "oxr_mdlc_origin_wm_blockers_var equals \[This.oxr_mdlc_origin_wm_blockers_var]"
+		enable_special_project = {
+			name = OXR_MDLC_ORIGIN_WM_TECH_MASTERY
+		}
+	}
 
 	option = {
 		name = oxr_mdlc_origin_wm_main.50.a
-		owner = {
-			enable_special_project = {
-				name = OXR_MDLC_ORIGIN_WM_TECH_PROFICIENCY
-			}
-		}
-	}
-	immediate = {
-		owner = {
-			end_event_chain = oxr_mdlc_origin_wm_chain_clear_blockers
-			begin_event_chain = {
-				event_chain = oxr_mdlc_origin_wm_chain_clear_blockers_2
-			}
-			add_event_chain_counter = {
-				event_chain = "oxr_mdlc_origin_wm_chain_clear_blockers_2"
-				counter = "oxr_mdlc_origin_wm_blockers"
-				amount = 6
-			}
+		enable_special_project = {
+			name = OXR_MDLC_ORIGIN_WM_TECH_PROFICIENCY
 		}
 	}
 }
@@ -172,18 +177,25 @@ country_event = {
 			has_technology = oxr_mdlc_tech_world_machine_planetary_mastery
 		}
 	}
-	option = {
-		name = oxr_mdlc_origin_wm_main.51.a
-		owner = {
-			give_technology = {
-				tech = oxr_mdlc_tech_world_machine_planetary_mastery
-			}
-		}
-	}
 	immediate = {
 		owner = {
 			end_event_chain = oxr_mdlc_origin_wm_chain_clear_blockers_2
 		}
+		#multiply_variable  = { which = oxr_mdlc_origin_wm_blockers_var value = 1.50 }
+		#log = "oxr_mdlc_origin_wm_blockers_var equals \[This.oxr_mdlc_origin_wm_blockers_var]"
+	}
+	option = {
+		name = oxr_mdlc_origin_wm_main.51.a
+		trigger = { check_variable = { which = oxr_mdlc_origin_wm_blockers_var value > 0.49 } }
+		give_technology = { tech = oxr_mdlc_tech_world_machine_planetary_mastery }
+		hidden_effect = { clear_variable = oxr_mdlc_origin_wm_blockers_var }
+	}
+	option = {
+		name = oxr_mdlc_origin_wm_main.51.b
+		trigger = { check_variable = { which = oxr_mdlc_origin_wm_blockers_var value < 0.50 } }
+		add_research_option = oxr_mdlc_tech_world_machine_planetary_mastery
+		add_tech_progress = { tech = oxr_mdlc_tech_world_machine_planetary_mastery progress = oxr_mdlc_origin_wm_blockers_var }
+		hidden_effect = { clear_variable = oxr_mdlc_origin_wm_blockers_var }
 	}
 }
 
