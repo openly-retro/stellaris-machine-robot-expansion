@@ -1,0 +1,142 @@
+triggered_planet_modifier = {
+	potential = {
+		exists = owner
+		owner = {
+			has_policy_flag = computation_core_production
+		}
+	}
+	planet_jobs_alloys_produces_mult = 0.005
+	planet_jobs_consumer_goods_produces_mult = 0.005
+}
+
+triggered_planet_modifier = {
+	potential = {
+		exists = owner
+		owner = {
+			has_policy_flag = computation_core_stability
+		}
+	}
+	planet_jobs_unity_produces_mult = 0.005
+}
+
+triggered_planet_modifier = {
+	potential = {
+		exists = owner
+		owner = {
+			has_policy_flag = computation_core_research
+		}
+	}
+	planet_jobs_physics_research_produces_mult = 0.005
+	planet_jobs_society_research_produces_mult = 0.005
+	planet_jobs_engineering_research_produces_mult = 0.005
+}
+
+triggered_planet_modifier = {
+	potential = {
+		exists = planet
+		planet = {
+			NOT = { has_planet_flag = has_franchise_headquarters }
+		}
+	}
+	trade_value_add = 3
+	mult = value:scripted_modifier_mult|MODIFIER|pop_job_trade_mult|
+}
+
+triggered_planet_modifier = {
+	potential = {
+		exists = planet
+		planet = {
+			has_planet_flag = has_franchise_headquarters
+		}
+	}
+	trade_value_add = 2
+	mult = value:scripted_modifier_mult|MODIFIER|pop_job_trade_mult|
+}
+
+overlord_resources = {
+	category = planet_corporate_franchising_meddling
+	produces = {
+		trigger = {
+			planet = {
+				has_planet_flag = has_franchise_headquarters
+			}
+		}
+		unity = 0.25
+	}
+}
+
+triggered_pop_modifier = {
+	potential = {
+		exists = owner
+		owner = { has_modifier = paragon_origin_strengthened_government_ii }
+	}
+	pop_political_power = 0.25
+}
+
+triggered_pop_modifier = {
+	potential = {
+		exists = owner
+		owner = { has_modifier = paragon_origin_strengthened_government_iii }
+	}
+	pop_political_power = 0.50
+}
+
+triggered_planet_modifier = {
+	potential = { always = yes }
+	planet_amenities_add = 3
+	mult = value:scripted_modifier_mult|MODIFIER|pop_job_amenities_mult|
+}
+
+triggered_planet_modifier = {
+	potential = {
+		exists = planet
+		planet = {
+			exists = orbital_defence
+			orbital_defence = {
+				exists = starbase
+				starbase = {
+					has_starbase_building = ring_trade_hub
+				}
+			}
+		}
+	}
+	planet_amenities_add = 1
+	mult = value:scripted_modifier_mult|MODIFIER|pop_job_amenities_mult|
+}
+
+triggered_planet_modifier = {
+	potential = {
+		exists = owner
+		owner = { has_tradition = tr_mercantile_trickle_up_economics }
+	}
+	trade_value_add = 1
+	mult = value:scripted_modifier_mult|MODIFIER|pop_job_trade_mult|
+}
+
+triggered_planet_modifier = {
+	potential = {
+		exists = owner
+		owner = { has_tradition = tr_mercantile_trickle_up_economics }
+	}
+	planet_amenities_add = 1
+	mult = value:scripted_modifier_mult|MODIFIER|pop_job_amenities_mult|
+}
+
+triggered_country_modifier = {
+	potential = {
+		exists = owner
+		owner = { has_modifier = paragon_origin_strengthened_government_iii }
+	}
+	country_edict_fund_add = 1
+}
+
+triggered_planet_modifier = {
+	potential = {
+		exists = owner
+		owner = { has_active_tradition = tr_virtuality_5 }
+	}
+
+	modifier = {
+		planet_virtual_jobs_produces_mult = 0.01
+	}
+}

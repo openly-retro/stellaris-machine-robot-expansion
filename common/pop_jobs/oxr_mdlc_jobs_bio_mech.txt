@@ -1,0 +1,223 @@
+# Bio Mech jobs
+oxr_mdlc_bio_robot_integrated_researcher = {
+	category = specialist
+	condition_string = SPECIALIST_JOB_TRIGGER
+
+	possible_pre_triggers = {
+		has_owner = yes
+		is_being_purged = no
+		is_being_assimilated = no
+		is_robot_pop = yes
+	}
+
+	possible_precalc = can_fill_specialist_job
+	possible = {
+		hidden_trigger = { exists = owner }
+		owner = {
+			is_gestalt = no
+		}
+	}
+
+	pop_modifier = {
+		pop_happiness = 0.1
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			owner = { is_gestalt = no }
+		}
+		pop_government_ethic_attraction = 0.05
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			owner = { is_gestalt = no }
+		}
+		planet_amenities_add = 3
+		mult = value:scripted_modifier_mult|MODIFIER|pop_job_amenities_mult|
+	}
+	triggered_planet_modifier = {
+		potential = {
+			owner = { is_gestalt = yes }
+		}
+		planet_amenities_no_happiness_add = 3
+		mult = value:scripted_modifier_mult|MODIFIER|pop_job_amenities_mult|
+	}
+
+	resources = {
+		category = planet_researchers
+		# researcher
+		produces = {
+			society_research = 8
+			unity = 4  # burecrat makes 4
+		}
+		upkeep = {
+			consumer_goods = 4  # culture worker (3) plus half a researcher (half 2)
+		}
+	}
+
+	inline_script = "jobs/culture_worker_outputs"
+
+	weight = {
+		weight = @specialist_job_weight
+		mult = value:job_weights_modifier|JOB|culture_worker|RESOURCE|unity|
+		# We deliberately don't weight the ethics-based modifiers
+		modifier = {
+			factor = 0.2
+			has_citizenship_rights = no
+			NOT = { has_trait = trait_mechanical }
+		}
+		modifier = {
+			factor = 0.1
+			can_take_servant_job = yes
+		}
+		modifier = {
+			factor = 1.5
+			has_job = culture_worker
+		}
+	}
+
+	inline_script = "jobs/automodding_priority_unity"
+
+	desc = {
+		text = job_oxr_mdlc_bio_robot_integrated_researcher_gestalt_desc
+		trigger = {
+			owner = { is_gestalt = yes }
+		}
+	}
+	desc = {
+		text = job_oxr_mdlc_bio_robot_integrated_researcher_desc
+		trigger = {
+			owner = { is_gestalt = no }
+		}
+	}
+}
+
+oxr_mdlc_bio_robot_lustra_residential = {
+	category = worker
+	condition_string = WORKER_JOB_TRIGGER
+	building_icon = building_residence
+	possible_pre_triggers = {
+		has_owner = yes
+		is_being_purged = no
+		is_being_assimilated = no
+	}
+	possible_precalc = can_fill_worker_job
+
+	resources = {
+		category = planet_clerks
+		produces = {
+			unity = 3
+		}
+		upkeep = {
+			food = 2.5
+		}
+	}
+	inline_script = planet/jobs/vanilla/oxr_clerk_job_filler
+}
+
+oxr_mdlc_bio_robot_lustra_isc = {
+	category = worker
+	condition_string = WORKER_JOB_TRIGGER
+	building_icon = building_food_processing_facility
+	clothes_texture_index = 2
+
+	possible_pre_triggers = {
+		has_owner = yes
+		is_being_purged = no
+		is_being_assimilated = no
+	}
+	possible_precalc = can_fill_worker_job
+
+	resources = {
+		category = planet_farmers
+		produces = {
+			food = 6
+			society_research = 4.5
+			consumer_goods = 2
+		}
+		upkeep = {
+			minerals = 2
+		}
+	}
+	inline_script = planet/jobs/vanilla/oxr_farmer_job_filler
+}
+
+oxr_mdlc_bio_robot_lustra_reactor = {
+	category = worker
+	condition_string = WORKER_JOB_TRIGGER
+	building_icon = building_energy_grid
+	clothes_texture_index = 2
+
+	possible_pre_triggers = {
+		has_owner = yes
+		is_being_purged = no
+		is_being_assimilated = no
+	}
+	possible_precalc = can_fill_worker_job
+
+	resources = {
+		category = planet_technician
+		produces = {
+			energy = 6
+			physics_research = 4.5
+		}
+		produces = {
+			trigger = {
+				exists = owner
+				owner = { is_robot_empire = yes }
+			}
+			energy = 2
+		}
+		produces = {
+			trigger = {
+				planet = { has_planet_flag = has_energy_requisitorium }
+			}
+			energy = @requisitorium_energy_reduction
+		}
+	}
+	inline_script = planet/jobs/vanilla/oxr_technician_job_filler
+}
+
+oxr_mdlc_bio_robot_lustra_health_mech_services = {
+	category = specialist
+	condition_string = SPECIALIST_JOB_TRIGGER
+	building_icon = building_food_processing_facility
+	clothes_texture_index = 2
+
+	possible_pre_triggers = {
+		has_owner = yes
+		is_being_purged = no
+		is_being_assimilated = no
+	}
+	possible_precalc = can_fill_specialist_job
+
+	planet_modifier = {
+		pop_growth_speed = 0.05
+		xvcv_mdlc_bio_robot_growth_mult = 0.05
+		pop_environment_tolerance = 0.025
+		pop_government_ethic_attraction = 0.10
+	}
+
+	inline_script = "jobs/culture_worker_outputs"
+
+	resources = {
+		category = planet_culture_workers
+		produces = {
+			unity = 4
+		}
+		upkeep = {
+			consumer_goods = 3
+		}
+	}
+
+	resources = {
+		category = planet_doctors
+		upkeep = {
+			consumer_goods = 1
+		}
+	}
+
+	inline_script = "jobs/automodding_priority_amenities"
+	inline_script = planet/jobs/vanilla/oxr_healthcare_job_extra
+}
