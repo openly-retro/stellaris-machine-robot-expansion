@@ -419,6 +419,43 @@ planet_event = {
 	}
 }
 
+# Do colony things for ecu/ser/cpu
+planet_event = {
+	id = oxr_mdlc_origin_wm_main.550
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		space_owner = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+		}
+		NOT = { has_deposit = oxr_mdlc_d_world_machine_core }
+		is_colony = no
+	}
+
+	immediate = {
+		oxr_mdlc_planet_create_t3_world_colony = yes
+		switch = {
+			trigger = is_planet_class
+			xvcv_mdlc_pc_machine_ser = {
+				owner = {
+					xvcv_mdlc_planet_send_message_xvcv_mdlc_pc_machine_ser_project_complete = yes
+				}
+			}
+			xvcv_mdlc_pc_machine_cpu = {
+				owner = {
+					xvcv_mdlc_planet_send_message_xvcv_mdlc_pc_machine_cpu_project_complete = yes
+				}
+			}
+			xvcv_mdlc_pc_machine_ecu = {
+				owner = {
+					xvcv_mdlc_planet_send_message_xvcv_mdlc_pc_machine_ecu_project_complete = yes
+				}
+			}
+		}
+	}
+}
+
 # on_ascension_perk_picked Initialize country vars for World Machine AP users
 # And do anything else like give tech, etc
 # xvcv_mdlc_ap_world_machines start

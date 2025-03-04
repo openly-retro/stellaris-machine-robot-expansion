@@ -1840,3 +1840,104 @@ oxr_mdlc_planet_clear_blockers_etc_if_not_already_wm = {
 		clear_blockers = yes
 	}
 }
+
+# Called after terraforming is completed; this is from non-colony to colony
+oxr_mdlc_planet_create_t3_world_colony = {
+	planet = {
+		create_colony = {
+			owner = from
+			species = from.owner_species
+			# Set name .. read a variable on the planet as a list index
+			# then according to that, set the name
+		}
+		reroll_deposits = yes
+		clear_blockers = yes
+		add_deposit = oxr_mdlc_d_world_machine_core
+		remove_building = building_deployment_post
+		add_building = oxr_mdlc_world_machines_building_auto_capital
+		# oxr_mdlc_planet_fix_things_after_restoring_ownership = yes
+		if = {
+			limit = {
+				has_planet_flag = rikk_mdlc_world_machine_suitable
+			}
+			rikk_mdlc_planet_wm_add_random_blockers = yes
+			remove_planet_flag = rikk_mdlc_world_machine_suitable
+		}
+		if = {
+			limit = {
+				from = {
+					NOT = {
+						has_technology = oxr_mdlc_tech_world_machine_planetary_mastery
+					}
+				}
+			}
+			oxr_mdlc_origin_wm_planet_random_add_all_blockers = yes
+			# Don't trigger the event post-terraform if planet was ruined
+			if = {
+				limit = {
+					has_planet_flag = oxr_mdlc_ruined_world_machine
+				}
+				remove_planet_flag = oxr_mdlc_ruined_world_machine
+			}
+			else = {
+				planet_event = {
+					id = oxr_mdlc_origin_wm_main.501
+				}
+			}
+		}
+		# add arc site, if player lacks tech
+		if = {
+			limit = {
+				from = {
+					NOT = { has_technology = oxr_mdlc_tech_world_machine_planetary_proficiency }
+				}
+			}
+			oxr_mdlc_origin_world_machine_create_digsite_for_blocker = yes
+		}
+
+		set_variable = {
+			which = num_xvcv_mdlc_common_district_cooling
+			value = 0
+		}
+		add_modifier = { modifier = "planet_population_control_gestalt" days = -1 }
+		# add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral days = -1 }
+		xvcv_mdlc_planet_owner_terraforming_resolution_breached_effect = yes
+		set_saved_date = {
+			key = oxr_mdlc_world_machine_founded_date
+			days_from_present = 0
+			expires = -1
+		}
+		add_modifier = {
+			modifier = oxr_mdlc_planet_origin_world_machine_info
+			days = -1
+		}
+		# Balance pops. Always have 3
+		if = {
+			limit = {
+				num_pops = 2
+				from = {
+					has_origin = oxr_mdlc_origin_world_machine_awakened
+				}
+			}
+			create_pop = {
+				species = from.founder_species
+			}
+			log = "Created one extra Automation species"
+		}
+		oxr_mdlc_origin_world_machine_calc_max_district_armies = yes
+		oxr_mdlc_planet_set_initial_cooling_district_count = yes
+		xvcv_mdlc_planet_wm_calc_output_value = yes
+	}
+
+	owner = {
+		if = {
+			limit = {
+				NOR = {
+					has_tech_option = xvcv_mdlc_tech_world_machines_districts_produces
+					has_technology = xvcv_mdlc_tech_world_machines_districts_produces
+				}
+			}
+			add_research_option = xvcv_mdlc_tech_world_machines_districts_produces
+		}
+	}
+}

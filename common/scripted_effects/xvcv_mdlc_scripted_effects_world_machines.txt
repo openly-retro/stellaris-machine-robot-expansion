@@ -1,3 +1,4 @@
+# XVCV Scripted effects
 xvcv_mdlc_planet_wm_calc_output_value = {
 	# optimize_memory
 	# This effect is only called from on_built/on_destroy of t3 world districts
@@ -556,5 +557,58 @@ oxr_mdlc_planet_destroy_excess_cooling_districts = {
 		clear_variable = cooling_district_limit_tmp
 		clear_variable = districts_produces_mult_copy_tmp
 		remove_planet_flag = oxr_lock_oxr_mdlc_planet_destroy_excess_cooling_districts
+	}
+}
+
+xvcv_mdlc_planet_send_message_xvcv_mdlc_pc_machine_ser_project_complete = {
+	if = {
+		limit = { has_country_flag = xvcv_mdlc_decision_machine_ser_project_message_on }
+		create_message = {
+			type = XVCV_MDLC_WORLD_MACHINES_COMPLETION_MESSAGE_TYPE
+			localization = XVCV_MDLC_DECISION_MACHINE_SER_PROJECT_DONE_MESSAGE
+			days = 10
+			target = prev
+			variable = {
+				type = name
+				localization = XVCV_MDLC_DECISION_MACHINE_SER_PROJECT_PLANET
+				scope = prev
+			}
+		}
+	}
+}
+
+xvcv_mdlc_planet_send_message_xvcv_mdlc_pc_machine_ecu_project_complete = {
+	if = {
+		limit = { has_country_flag = xvcv_mdlc_decision_machine_ecu_project_message_on }
+		create_message = {
+			type = XVCV_MDLC_WORLD_MACHINES_COMPLETION_MESSAGE_TYPE
+			localization = XVCV_MDLC_DECISION_MACHINE_ECU_PROJECT_DONE_MESSAGE
+			days = 10
+			target = prev
+			variable = {
+				type = name
+				localization = XVCV_MDLC_DECISION_MACHINE_ECU_PROJECT_PLANET
+				scope = prev
+			}
+		}
+	}
+}
+
+xvcv_mdlc_planet_send_message_xvcv_mdlc_pc_machine_cpu_project_complete = {
+	owner = {
+		if = {
+			limit = { has_country_flag = xvcv_mdlc_decision_machine_cpu_project_message_on }
+			create_message = {
+				type = XVCV_MDLC_WORLD_MACHINES_COMPLETION_MESSAGE_TYPE
+				localization = XVCV_MDLC_DECISION_MACHINE_CPU_PROJECT_DONE_MESSAGE
+				days = 10
+				target = prev
+				variable = {
+					type = name
+					localization = XVCV_MDLC_DECISION_MACHINE_CPU_PROJECT_PLANET
+					scope = prev
+				}
+			}
+		}
 	}
 }
