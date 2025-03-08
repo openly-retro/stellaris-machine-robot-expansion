@@ -31,10 +31,8 @@ xvcv_mdlc_pc_ringworld_machine_auto_generator = {
 		district_rw_generator
 	}
 
-	planet_modifier = {
-		xvcv_mdlc_world_machines_districts_produces_mult = -0.1
-		xvcv_mdlc_world_machines_districts_upkeep_mult = 0.1
-	}
+	inline_script = planet/districts/auto_ring/oxr_cooling_system
+
 	## RESOURCES
 	resources = {
 		inline_script = {
@@ -56,14 +54,23 @@ xvcv_mdlc_pc_ringworld_machine_auto_generator = {
 				fire_on_action = { on_action = on_world_machine_district_completed_country }
 			}
 			fire_on_action = { on_action = on_world_machine_district_completed_planet }
-			fire_on_action = { on_action = xvcv_on_world_machine_t3_district_built }
+			if = {
+				limit = {
+					owner = { has_oxr_mdlc_country_feature_ringworld_cooling_districts = yes }
+				}
+				fire_on_action = { on_action = xvcv_on_world_machine_t3_district_built }
+			}
 		}
 	}
 	on_destroy = {
 		fire_on_action = { on_action = on_world_machine_district_demolished }
-		fire_on_action = { on_action = xvcv_on_world_machine_t3_district_demolished }
+		if = {
+			limit = {
+				owner = { has_oxr_mdlc_country_feature_ringworld_cooling_districts = yes }
+			}
+			fire_on_action = { on_action = xvcv_on_world_machine_t3_district_demolished }
+		}
 	}
-
 }
 
 xvcv_mdlc_pc_ringworld_machine_auto_commercial = {
@@ -92,10 +99,7 @@ xvcv_mdlc_pc_ringworld_machine_auto_commercial = {
 		district_rw_generator
 	}
 
-	planet_modifier = {
-		xvcv_mdlc_world_machines_districts_produces_mult = -0.1
-		xvcv_mdlc_world_machines_districts_upkeep_mult = 0.1
-	}
+	inline_script = planet/districts/auto_ring/oxr_cooling_system
 
 	resources = {
 		category = xvcv_mdlc_world_machines_districts
@@ -159,12 +163,23 @@ xvcv_mdlc_pc_ringworld_machine_auto_commercial = {
 				fire_on_action = { on_action = on_world_machine_district_completed_country }
 			}
 			fire_on_action = { on_action = on_world_machine_district_completed_planet }
-			fire_on_action = { on_action = xvcv_on_world_machine_t3_district_built }
+			if = {
+				limit = {
+					owner = { has_oxr_mdlc_country_feature_ringworld_cooling_districts = yes }
+				}
+				fire_on_action = { on_action = xvcv_on_world_machine_t3_district_built }
+			}
+			
 		}
 	}
 	on_destroy = {
 		fire_on_action = { on_action = on_world_machine_district_demolished }
-		fire_on_action = { on_action = xvcv_on_world_machine_t3_district_demolished }
+		if = {
+			limit = {
+				owner = { has_oxr_mdlc_country_feature_ringworld_cooling_districts = yes }
+			}
+			fire_on_action = { on_action = xvcv_on_world_machine_t3_district_demolished }
+		}
 	}
 }
 
@@ -190,10 +205,7 @@ xvcv_mdlc_pc_ringworld_machine_auto_science = {
 			}
 		}
 	}
-	planet_modifier = {
-		xvcv_mdlc_world_machines_districts_produces_mult = -0.1
-		xvcv_mdlc_world_machines_districts_upkeep_mult = 0.1
-	}
+	inline_script = planet/districts/auto_ring/oxr_cooling_system
 
 	resources = {
 		category = xvcv_mdlc_world_machines_science_districts
@@ -205,11 +217,6 @@ xvcv_mdlc_pc_ringworld_machine_auto_science = {
 			energy = @rw_maintenance
 			exotic_gases = @rw_maintenance_sr
 		}
-		# Research lab 3 gives 6 jobs
-		# Base researcher makes 3 of each
-		# With average bonuses gets up to 5-6 research each
-		# each auto-cpu district type gives 30 of each (6 jobs @ 5 output)
-		# RW gives 10 jobs @ 5 output each
 		produces = {
 			physics_research = @[ 12 * oxr_mdlc_wm_base_calculator_output ]
 			engineering_research = @[ 12 * oxr_mdlc_wm_base_calculator_output ]
@@ -237,12 +244,22 @@ xvcv_mdlc_pc_ringworld_machine_auto_science = {
 				fire_on_action = { on_action = on_world_machine_district_completed_country }
 			}
 			fire_on_action = { on_action = on_world_machine_district_completed_planet }
-			fire_on_action = { on_action = xvcv_on_world_machine_t3_district_built }
+			if = {
+				limit = {
+					owner = { has_oxr_mdlc_country_feature_ringworld_cooling_districts = yes }
+				}
+				fire_on_action = { on_action = xvcv_on_world_machine_t3_district_built }
+			}
 		}
 	}
 	on_destroy = {
 		fire_on_action = { on_action = on_world_machine_district_demolished }
-		fire_on_action = { on_action = xvcv_on_world_machine_t3_district_demolished }
+		if = {
+			limit = {
+				owner = { has_oxr_mdlc_country_feature_ringworld_cooling_districts = yes }
+			}
+			fire_on_action = { on_action = xvcv_on_world_machine_t3_district_demolished }
+		}
 	}
 }
 
@@ -255,10 +272,8 @@ xvcv_mdlc_pc_ringworld_machine_auto_industrial = {
 	potential = {
 		uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
 	}
-	planet_modifier = {
-		xvcv_mdlc_world_machines_districts_produces_mult = -0.1
-		xvcv_mdlc_world_machines_districts_upkeep_mult = 0.1
-	}
+
+	inline_script = planet/districts/auto_ring/oxr_cooling_system
 
 	resources = {
 		# category = xvcv_mdlc_world_machines_districts
@@ -309,12 +324,22 @@ xvcv_mdlc_pc_ringworld_machine_auto_industrial = {
 				fire_on_action = { on_action = on_world_machine_district_completed_country }
 			}
 			fire_on_action = { on_action = on_world_machine_district_completed_planet }
-			fire_on_action = { on_action = xvcv_on_world_machine_t3_district_built }
+			if = {
+				limit = {
+					owner = { has_oxr_mdlc_country_feature_ringworld_cooling_districts = yes }
+				}
+				fire_on_action = { on_action = xvcv_on_world_machine_t3_district_built }
+			}
 		}
 	}
 	on_destroy = {
 		fire_on_action = { on_action = on_world_machine_district_demolished }
-		fire_on_action = { on_action = xvcv_on_world_machine_t3_district_demolished }
+		if = {
+			limit = {
+				owner = { has_oxr_mdlc_country_feature_ringworld_cooling_districts = yes }
+			}
+			fire_on_action = { on_action = xvcv_on_world_machine_t3_district_demolished }
+		}
 	}
 }
 
@@ -333,10 +358,7 @@ xvcv_mdlc_pc_ringworld_machine_auto_farming = {
 		}
 	}
 
-	planet_modifier = {
-		xvcv_mdlc_world_machines_districts_produces_mult = -0.1
-		xvcv_mdlc_world_machines_districts_upkeep_mult = 0.1
-	}
+	inline_script = planet/districts/auto_ring/oxr_cooling_system
 
 	resources = {
 		category = xvcv_mdlc_world_machines_food_districts
@@ -397,12 +419,22 @@ xvcv_mdlc_pc_ringworld_machine_auto_farming = {
 				fire_on_action = { on_action = on_world_machine_district_completed_country }
 			}
 			fire_on_action = { on_action = on_world_machine_district_completed_planet }
-			fire_on_action = { on_action = xvcv_on_world_machine_t3_district_built }
+			if = {
+				limit = {
+					owner = { has_oxr_mdlc_country_feature_ringworld_cooling_districts = yes }
+				}
+				fire_on_action = { on_action = xvcv_on_world_machine_t3_district_built }
+			}
 		}
 	}
 	on_destroy = {
 		fire_on_action = { on_action = on_world_machine_district_demolished }
-		fire_on_action = { on_action = xvcv_on_world_machine_t3_district_demolished }
+		if = {
+			limit = {
+				owner = { has_oxr_mdlc_country_feature_ringworld_cooling_districts = yes }
+			}
+			fire_on_action = { on_action = xvcv_on_world_machine_t3_district_demolished }
+		}
 	}
 
 }
