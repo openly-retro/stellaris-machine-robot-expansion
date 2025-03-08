@@ -80,13 +80,13 @@ oxr_mdlc_bio_robot_integrated_researcher = {
 	inline_script = "jobs/automodding_priority_unity"
 
 	desc = {
-		text = job_oxr_mdlc_bio_robot_integrated_researcher_gestalt_desc
+		text = job_oxr_mdlc_bio_robot_lustra_integrated_researcher_gestalt_desc
 		trigger = {
 			owner = { is_gestalt = yes }
 		}
 	}
 	desc = {
-		text = job_oxr_mdlc_bio_robot_integrated_researcher_desc
+		text = job_oxr_mdlc_bio_robot_lustra_integrated_researcher_desc
 		trigger = {
 			owner = { is_gestalt = no }
 		}
@@ -143,7 +143,7 @@ oxr_mdlc_bio_robot_lustra_isc = {
 	inline_script = planet/jobs/vanilla/oxr_farmer_job_filler
 }
 
-oxr_mdlc_bio_robot_lustra_reactor = {
+job_oxr_mdlc_bio_robot_lustra_reactor_tech = {
 	category = worker
 	condition_string = WORKER_JOB_TRIGGER
 	building_icon = building_energy_grid
@@ -220,4 +220,120 @@ oxr_mdlc_bio_robot_lustra_health_mech_services = {
 
 	inline_script = "jobs/automodding_priority_amenities"
 	inline_script = planet/jobs/vanilla/oxr_healthcare_job_extra
+}
+
+# Clone vanilla technician job
+oxr_mdlc_bio_robot_lustra_tax_enforcer = {
+	category = worker
+	condition_string = WORKER_JOB_TRIGGER
+	building_icon = building_energy_grid
+	clothes_texture_index = 2
+
+	possible_pre_triggers = {
+		has_owner = yes
+		is_being_purged = no
+		is_being_assimilated = no
+		is_sapient = yes
+	}
+
+	possible_precalc = can_fill_worker_job
+	possible = {
+		hidden_trigger = { exists = owner }
+		owner = {
+			is_gestalt = no
+		}
+	}
+
+	resources = {
+		category = planet_technician
+		produces = {
+			energy = 6
+		}
+		produces = {
+			trigger = {
+				exists = owner
+				owner = {
+					is_robot_empire = yes
+				}
+			}
+			energy = 2
+		}
+		produces = {
+			trigger = {
+				planet = {
+					has_planet_flag = has_energy_requisitorium
+				}
+			}
+			energy = @requisitorium_energy_reduction
+		}
+	}
+
+	overlord_resources = {
+		category = planet_requisitioned_energy
+		produces = {
+			trigger = {
+				planet = {
+					has_planet_flag = has_energy_requisitorium
+				}
+			}
+			energy = @requisitorium_energy_overlord
+		}
+	}
+
+	weight = {
+		weight = @worker_job_weight
+		mult = value:job_weights_modifier|JOB|technician|RESOURCE|energy|
+		modifier = {
+			factor = 100
+			OR = {
+				is_non_sapient_robot = yes
+				is_shackled_robot = yes
+			}
+			can_take_servant_job = no
+			can_fill_specialist_job_trigger = no
+		}
+		modifier = {
+			factor = 8
+			is_enslaved = yes
+			can_take_servant_job = no
+			OR = {
+				has_trait = trait_syncretic_proles
+				has_trait = trait_robot_superconductive
+				has_trait = trait_ingenious
+			}
+		}
+		modifier = {
+			factor = 2
+			OR = {
+				is_non_sapient_robot = yes
+				is_shackled_robot = yes
+			}
+			can_take_servant_job = no
+		}
+		modifier = {
+			factor = 0.25
+			can_take_servant_job = yes
+		}
+		# low income modifier
+		modifier = {
+			factor = 3
+			exists = planet
+			planet = {
+				has_available_jobs = technician
+			}
+			exists = owner
+			owner = {
+				has_monthly_income = {
+					resource = energy
+					value < 10
+				}
+			}
+		}
+		modifier = {
+			factor = 5
+			has_trait = trait_cyborg_creed_of_labor
+		}
+	}
+
+	inline_script = "jobs/automodding_priority_energy"
 }
