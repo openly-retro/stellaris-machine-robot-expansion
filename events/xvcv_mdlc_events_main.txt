@@ -3027,21 +3027,27 @@ planet_event = {
 		}
 	}
 }
-# xvcv_on_world_machine_t3_resource_district_demolished
+# xvcv_on_world_machine_t3_resource_district_demolished, or cooling district demolished
 planet_event = {
 	id = xvcv_mdlc.710
 	hide_window = yes
 	is_triggered_only = yes
 
 	trigger = {
-		OR = {
-			oxr_mdlc_planet_is_t3_world_machine = yes
-			is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
-		}
+		oxr_mdlc_planet_is_t3_world_machine = yes
 	}
 	immediate = {
 		log = "A T3 resource district was removed from \\[This.GetName]."
-		xvcv_mdlc_planet_wm_calc_output_value = yes
+		if = {
+			limit = {
+				has_planet_flag = oxr_lock_oxr_mdlc_planet_destroy_excess_cooling_districts
+			}
+			log = "Not going to rebalance cooling bc it is in progress ..."
+		}
+		else = {
+			xvcv_mdlc_planet_wm_calc_output_value = yes
+		}
+
 		# Check if non-resource districts need offsets (if output is below 0.0) and add them
 		if = {
 			limit = { xvcv_mdlc_planet_wm_has_non_resource_district = yes }
