@@ -743,9 +743,19 @@ planet_event = {
 	id = oxr_mdlc_on_world_machine_action.1930
 	hide_window = yes
 	is_triggered_only = yes
+
+	trigger = {
+		is_planet_world_machine = yes
+	}
+
 	immediate = {
+		if = {
+			limit = {
+				oxr_mdlc_planet_wm_needs_fixing = yes
+			}
+			oxr_mdlc_planet_fix_things_after_restoring_ownership = yes
+		}
 		log = "Planet gained: \\[This.GetName]"
-		oxr_mdlc_planet_fix_things_after_restoring_ownership = yes
 	}
 }
 
