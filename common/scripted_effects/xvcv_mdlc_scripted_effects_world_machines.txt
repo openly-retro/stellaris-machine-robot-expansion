@@ -702,3 +702,20 @@ xvcv_mdlc_planet_decision_convert_to_world_machine = {
 		xvcv_mdlc_planet_wm_calc_output_value = yes
 	}
 }
+
+oxr_mdlc_save_planet_class_before_convert_to_wm = {
+	# This is run before change_pc
+	# only supports a few planet classes
+	if = {
+		limit = {
+			oxr_mdlc_planet_is_world_machine = no
+		}
+		if = {
+			limit = {
+				is_planet_class = pc_relic
+				doesnt_have_planet_flag = { FLAG = oxr_mdlc_pc_was_relic }
+			}
+			set_planet_flag = oxr_mdlc_pc_was_relic
+		}
+	}
+}
