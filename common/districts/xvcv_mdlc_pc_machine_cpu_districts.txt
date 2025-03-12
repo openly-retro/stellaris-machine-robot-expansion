@@ -35,7 +35,12 @@ xvcv_mdlc_pc_machine_cpu_district_physics = {
 		cost = { exotic_gases = 100 }
 		produces = {
 			trigger = {
-				doesnt_have_active_building = { WHICH = oxr_mdlc_world_machines_building_fractal_fpga }
+				NOT = {
+					planet = {
+						has_active_building = oxr_mdlc_world_machines_building_fractal_fpga
+						oxr_mdlc_planet_cpu_has_valid_designation_for_fpga = yes
+					}
+				}
 			}
 			physics_research = @[ oxr_t3_planet_district_jobs * 9 ]
 			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
@@ -108,7 +113,10 @@ xvcv_mdlc_pc_machine_cpu_district_society = {
 		produces = {
 			trigger = {
 				NOT = {
-					has_active_building = oxr_mdlc_world_machines_building_fractal_fpga
+					planet = {
+						has_active_building = oxr_mdlc_world_machines_building_fractal_fpga
+						oxr_mdlc_planet_cpu_has_valid_designation_for_fpga = yes
+					}
 				}
 			}
 			society_research = @[ oxr_t3_planet_district_jobs * 9 ]
@@ -178,7 +186,12 @@ xvcv_mdlc_pc_machine_cpu_district_engineering = {
 		cost = { exotic_gases = 100 }
 		produces = {
 			trigger = {
-				NOT = { has_active_building = oxr_mdlc_world_machines_building_fractal_fpga }
+				NOT = {
+					planet = {
+						has_active_building = oxr_mdlc_world_machines_building_fractal_fpga
+						oxr_mdlc_planet_cpu_has_valid_designation_for_fpga = yes
+					}
+				}
 			}
 			engineering_research = @[ oxr_t3_planet_district_jobs * 9 ]
 			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
