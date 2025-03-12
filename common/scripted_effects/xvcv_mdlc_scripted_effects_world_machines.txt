@@ -436,7 +436,7 @@ oxr_mdlc_planet_derive_wm_output_value_from_display_var = {
 }
 
 
-
+# Specific effect for converting existing worlds to Auto-Machine Worlds
 xvcv_mdlc_planet_decision_machine_world_automation_effect = {
 	if = {
 		limit = { owner = { has_authority = auth_machine_intelligence } }
@@ -675,5 +675,30 @@ xvcv_mdlc_planet_send_message_xvcv_mdlc_pc_machine_cpu_project_complete = {
 				}
 			}
 		}
+	}
+}
+
+xvcv_mdlc_planet_decision_convert_to_world_machine = {
+	oxr_mdlc_planet_clear_blockers_etc_if_not_already_wm = yes
+	oxr_mdlc_planet_create_deposit_upgrade_flags = yes
+	change_pc = $PLANET_CLASS$
+	oxr_mdlc_planet_restore_deposit_upgrades = yes
+	oxr_mdlc_planet_add_wmc_core_deposit_if_missing = yes
+	if = {
+		limit = { NOT = { has_modifier = planet_population_control_gestalt } }
+		add_modifier = { modifier = planet_population_control_gestalt days = -1 }
+	}
+
+	xvcv_mdlc_planet_owner_terraforming_resolution_breached_effect = yes
+	# Re-use this trigger to replace the capital with auto-capital
+	if = {
+		limit = { oxr_owner_has_wm_origin = yes }
+		# Add info modifier
+		oxr_mdlc_planet_do_wm_origin_things_after_project = yes
+	}
+	if = {
+		limit = { oxr_mdlc_planet_is_t3_world_machine = yes }
+		oxr_mdlc_planet_set_initial_cooling_district_count = yes
+		xvcv_mdlc_planet_wm_calc_output_value = yes
 	}
 }
