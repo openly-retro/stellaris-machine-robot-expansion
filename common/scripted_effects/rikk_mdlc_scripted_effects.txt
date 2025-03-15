@@ -9,11 +9,22 @@ rikk_mdlc_rw_upgrade_effect_sort = {
 	optimize_memory
 	if = {
 		limit = { rikk_mdlc_rw_upgrade_is_gar = yes }
-		giga_set_ringworld_graphical_culture = {
-			TARGET = this
-			SOURCE = space_owner
-			SIZE = gargantuan
-			TYPE = seam
+		if = { 
+			limit = { is_planet_class = rikk_mdlc_pc_ringworld_upgrade }
+			giga_set_ringworld_graphical_culture = {
+				TARGET = this
+				SOURCE = space_owner
+				SIZE = gargantuan
+				TYPE = seam
+			}
+		}
+		else = {
+			giga_set_ringworld_graphical_culture = {
+				TARGET = this
+				SOURCE = space_owner
+				SIZE = gargantuan
+				TYPE = tech
+			}
 		}
 		rikk_mdlc_rw_upgrade_calculator = {
 			LIMIT = gar
@@ -22,11 +33,22 @@ rikk_mdlc_rw_upgrade_effect_sort = {
 	}
 	else_if = {
 		limit = { rikk_mdlc_rw_upgrade_is_beh = yes }
-		giga_set_ringworld_graphical_culture = {
-			TARGET = this
-			SOURCE = space_owner
-			SIZE = behemoth
-			TYPE = seam
+		if = { 
+			limit = { is_planet_class = rikk_mdlc_pc_ringworld_upgrade }
+			giga_set_ringworld_graphical_culture = {
+				TARGET = this
+				SOURCE = space_owner
+				SIZE = behemoth
+				TYPE = seam
+			}
+		}
+		else = {
+			giga_set_ringworld_graphical_culture = {
+				TARGET = this
+				SOURCE = space_owner
+				SIZE = behemoth
+				TYPE = tech
+			}
 		}
 		rikk_mdlc_rw_upgrade_calculator = {
 			LIMIT = beh
@@ -35,11 +57,22 @@ rikk_mdlc_rw_upgrade_effect_sort = {
 	}
 	else_if = {
 		limit = { rikk_mdlc_rw_upgrade_is_tit = yes }
-		giga_set_ringworld_graphical_culture = {
-			TARGET = this
-			SOURCE = space_owner
-			SIZE = titanic
-			TYPE = seam
+		if = { 
+			limit = { is_planet_class = rikk_mdlc_pc_ringworld_upgrade }
+			giga_set_ringworld_graphical_culture = {
+				TARGET = this
+				SOURCE = space_owner
+				SIZE = titanic
+				TYPE = seam
+			}
+		}
+		else = {
+			giga_set_ringworld_graphical_culture = {
+				TARGET = this
+				SOURCE = space_owner
+				SIZE = titanic
+				TYPE = tech
+			}
 		}
 		rikk_mdlc_rw_upgrade_calculator = {
 			LIMIT = tit
@@ -47,9 +80,18 @@ rikk_mdlc_rw_upgrade_effect_sort = {
 		}
 	}
 	else = {
-		set_planet_entity = {
-			entity = "ringworld_seam_entity_01_entity"
-			graphical_culture = space_owner
+		if = { 
+			limit = { is_planet_class = rikk_mdlc_pc_ringworld_upgrade }
+			set_planet_entity = {
+				entity = "ringworld_seam_entity_01_entity"
+				graphical_culture = space_owner
+			}
+		}
+		else = {
+			set_planet_entity = {
+				entity = "ringworld_tech_entity_01_entity"
+				graphical_culture = space_owner
+			}
 		}
 		rikk_mdlc_rw_upgrade_calculator = {
 			LIMIT = van
@@ -94,6 +136,7 @@ rikk_mdlc_rw_upgrade_calculator = {
 		change_variable = { which = rikk_mdlc_rw_upgrade_counter value = $SIZE$ }
 		#log = "final calc = \\[This.rikk_mdlc_rw_upgrade_counter]"
 		change_variable = { which = rikk_mdlc_rw_upgrade_counter_hundred value = rikk_mdlc_rw_upgrade_counter }
+		subtract_variable = { which = rikk_mdlc_rw_upgrade_counter_hundred value = $SIZE$ }
 		divide_variable = { which = rikk_mdlc_rw_upgrade_counter_hundred value = 100 }
 		every_system_planet = {
 			limit = {
