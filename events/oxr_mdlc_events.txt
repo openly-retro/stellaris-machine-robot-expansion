@@ -18,8 +18,8 @@ country_event = {
 				limit = {
 					is_councilor_type = councilor_gestalt_regulatory
 				}
-				save_global_event_target_as = oxr_mdlc_councilor_editor_target
-				log = "Event target: [event_target:oxr_mdlc_councilor_editor_target.GetName]"
+				save_global_event_target_as = oxr_mdlc_councilor_editor_target_@root_0
+				log = "regulatory Event target: [event_target:oxr_mdlc_councilor_editor_target_@root_0.GetName]"
 				leader_event = { id = oxr_mdlc.20 }
 			}
 			set_country_flag = oxr_mdlc_councilor_editor_in_progress
@@ -36,8 +36,8 @@ country_event = {
 				limit = {
 					is_councilor_type = councilor_gestalt_cognitive
 				}
-				save_global_event_target_as = oxr_mdlc_councilor_editor_target
-				log = "Event target: [event_target:oxr_mdlc_councilor_editor_target.GetName]"
+				save_global_event_target_as = oxr_mdlc_councilor_editor_target_@root_0
+				log = "Event target: [event_target:oxr_mdlc_councilor_editor_target_@root_0.GetName]"
 				leader_event = { id = oxr_mdlc.21 }
 			}
 			set_country_flag = oxr_mdlc_councilor_editor_in_progress
@@ -54,8 +54,8 @@ country_event = {
 				limit = {
 					is_councilor_type = councilor_gestalt_growth
 				}
-				save_global_event_target_as = oxr_mdlc_councilor_editor_target
-				log = "Event target: [event_target:oxr_mdlc_councilor_editor_target.GetName]"
+				save_global_event_target_as = oxr_mdlc_councilor_editor_target_@root_0
+				log = "Event target: [event_target:oxr_mdlc_councilor_editor_target_@root_0.GetName]"
 				leader_event = { id = oxr_mdlc.22 }
 			}
 			set_country_flag = oxr_mdlc_councilor_editor_in_progress
@@ -72,8 +72,8 @@ country_event = {
 				limit = {
 					is_councilor_type = councilor_gestalt_legion
 				}
-				save_global_event_target_as = oxr_mdlc_councilor_editor_target
-				log = "Event target: [event_target:oxr_mdlc_councilor_editor_target.GetName]"
+				save_global_event_target_as = oxr_mdlc_councilor_editor_target_@root_0
+				log = "Event target: [event_target:oxr_mdlc_councilor_editor_target_@root_0.GetName]"
 				leader_event = { id = oxr_mdlc.23 }
 			}
 			set_country_flag = oxr_mdlc_councilor_editor_in_progress
@@ -96,17 +96,19 @@ leader_event = {
 	diplomatic = yes
 
 	immediate = {
-		event_target:oxr_mdlc_councilor_editor_target = {
+		# event_target:oxr_mdlc_councilor_editor_target_@root_0 = {
+			log = "We are in the regulatory node editor start event!"
+			log = "node is \\[This.GetName] "
 			oxr_mdlc_councilor_editor_reset_trait_picks_default = yes
 			oxr_mdlc_councilor_editor_reset_trait_points_default = yes
 			oxr_mdlc_councilor_editor_deduct_points_picks_for_existing_traits = yes
 			oxr_mdlc_councilor_editor_set_max_trait_points_for_display = yes
 			oxr_mdlc_councilor_editor_set_max_trait_picks_for_display = yes
-		}
+		# }
 	}
 	picture_event_data = {
 		graphical_culture = root.owner
-		portrait = event_target:oxr_mdlc_councilor_editor_target
+		portrait = this
 	}
 	custom_gui = oxr_mdlc_councilor_editor_regulatory
 	option = { name = xvcv_mdlc_customgui.1.a }
@@ -121,7 +123,7 @@ leader_event = {
 	diplomatic = yes
 
 	immediate = {
-		event_target:oxr_mdlc_councilor_editor_target = {
+		event_target:oxr_mdlc_councilor_editor_target_@root_0 = {
 			oxr_mdlc_councilor_editor_reset_trait_picks_default = yes
 			oxr_mdlc_councilor_editor_reset_trait_points_default = yes
 			oxr_mdlc_councilor_editor_deduct_points_picks_for_existing_traits = yes
@@ -132,7 +134,7 @@ leader_event = {
 
 	picture_event_data = {
 		graphical_culture = root.owner
-		portrait = event_target:oxr_mdlc_councilor_editor_target
+		portrait = event_target:oxr_mdlc_councilor_editor_target_@root_0
 	}
 	custom_gui = oxr_mdlc_councilor_editor_cognitive
 	option = { name = xvcv_mdlc_customgui.1.a }
@@ -146,7 +148,7 @@ leader_event = {
 	is_triggered_only = yes
 	diplomatic = yes
 	immediate = {
-		event_target:oxr_mdlc_councilor_editor_target = {
+		event_target:oxr_mdlc_councilor_editor_target_@root_0 = {
 			oxr_mdlc_councilor_editor_reset_trait_picks_default = yes
 			oxr_mdlc_councilor_editor_reset_trait_points_default = yes
 			oxr_mdlc_councilor_editor_deduct_points_picks_for_existing_traits = yes
@@ -156,7 +158,7 @@ leader_event = {
 	}
 	picture_event_data = {
 		graphical_culture = root.owner
-		portrait = event_target:oxr_mdlc_councilor_editor_target
+		portrait = event_target:oxr_mdlc_councilor_editor_target_@root_0
 	}
 	custom_gui = oxr_mdlc_councilor_editor_growth
 	option = { name = xvcv_mdlc_customgui.1.a }
@@ -170,7 +172,7 @@ leader_event = {
 	is_triggered_only = yes
 	diplomatic = yes
 	immediate = {
-		event_target:oxr_mdlc_councilor_editor_target = {
+		event_target:oxr_mdlc_councilor_editor_target_@root_0 = {
 			oxr_mdlc_councilor_editor_reset_trait_picks_default = yes
 			oxr_mdlc_councilor_editor_reset_trait_points_default = yes
 			oxr_mdlc_councilor_editor_deduct_points_picks_for_existing_traits = yes
@@ -180,7 +182,7 @@ leader_event = {
 	}
 	picture_event_data = {
 		graphical_culture = root.owner
-		portrait = event_target:oxr_mdlc_councilor_editor_target
+		portrait = event_target:oxr_mdlc_councilor_editor_target_@root_0
 	}
 	custom_gui = oxr_mdlc_councilor_editor_legion
 	option = { name = xvcv_mdlc_customgui.1.a }
