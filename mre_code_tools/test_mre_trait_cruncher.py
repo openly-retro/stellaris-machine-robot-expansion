@@ -1,7 +1,7 @@
 from mre_trait_cruncher import (
     filter_trait_info,
     sort_traits_by_leader_class,
-    sort_traits_asc
+    sort_traits_asc,
 )
 from yaml import safe_load
 
@@ -93,7 +93,10 @@ def test_crunch__trait_ruler_architectural_sense_3():
             "planet_building_build_speed_mult": 0.25
         },
         "is_councilor_trait": True,
-        "requires_paragon_dlc": True
+        "requires_paragon_dlc": True,
+        "leader_potential_add": {
+            "has_paragon_dlc": True
+        },
     }
     assert expected == actual
 
@@ -207,7 +210,11 @@ def test_crunch__leader_trait_arbiter():
             "pop_growth_speed_reduction": 0.025
         },
         "requires_paragon_dlc": True,
-        "required_subclass": "subclass_commander_governor"
+        "required_subclass": "subclass_commander_governor",
+        "leader_potential_add": {
+            "has_paragon_dlc": True,
+            "has_subclass_trait": ["subclass_commander_governor"]
+        },
     }
     assert expected == actual
 
@@ -267,7 +274,17 @@ def test_crunch__leader_trait_scout():
             "fleet_mia_time_mult": -0.1
         },
         "requires_paragon_dlc": False,
-        "required_subclass": "subclass_commander_admiral"
+        "required_subclass": "subclass_commander_admiral",
+        "leader_potential_add": {
+            "OR": {
+                "has_paragon_dlc": "no",
+                "has_subclass_trait": [
+                    "subclass_commander_admiral",
+                    "subclass_scientist_explorer",
+                    "subclass_scientist_councilor"
+                ]
+            }
+        },
     }
     actual_commander_trait_data = filter_trait_info(
         test_data, for_class="commander")
@@ -284,7 +301,17 @@ def test_crunch__leader_trait_scout():
             "fleet_mia_time_mult": -0.1
         },
         "requires_paragon_dlc": False,
-        "required_subclass": "subclass_scientist_explorer"
+        "required_subclass": "subclass_scientist_explorer",
+        "leader_potential_add": {
+            "OR": {
+                "has_paragon_dlc": "no",
+                "has_subclass_trait": [
+                    "subclass_commander_admiral",
+                    "subclass_scientist_explorer",
+                    "subclass_scientist_councilor"
+                ]
+            }
+        },
     }
     actual_scientist_trait_data = filter_trait_info(
         test_data, for_class="scientist"
@@ -450,7 +477,10 @@ def test_leader_trait_adventurous_spirit():
             "leaders_upkeep_mult": -0.1
         },
         "requires_paragon_dlc": True,
-        "custom_tooltip_with_modifiers": "leader_trait_adventurous_spirit_effect"
+        "custom_tooltip_with_modifiers": "leader_trait_adventurous_spirit_effect",
+        "leader_potential_add": {
+            "has_paragon_dlc": True
+        },
     }
     actual = filter_trait_info(test_data, for_class="commander")
     assert expected == actual
@@ -512,7 +542,11 @@ def test_collect_custom_tooltip():
         "requires_paragon_dlc": True,
         "required_subclass": "subclass_commander_councilor",
         "custom_tooltip": "leader_trait_bellicose_effect",
-        "is_councilor_trait": True
+        "is_councilor_trait": True,
+        "leader_potential_add": {
+            "has_paragon_dlc": True,
+            "has_subclass_trait": ["subclass_commander_councilor"]
+        },
     }
     actual = filter_trait_info(test_data)
     assert expected == actual
@@ -598,7 +632,10 @@ trait_ruler_champion_of_the_people:
         "is_councilor_trait": True,
         "triggered_councilor_modifier": {
             "pop_cat_ruler_happiness": 0.05
-        }
+        },
+        "leader_potential_add": {
+            "is_gestalt": False
+        },
     }
     actual_slim_trait = filter_trait_info(actual_object, for_class="commander")
     assert expected_slim_trait == actual_slim_trait
@@ -640,6 +677,11 @@ def test_guess_rarity_if_duplicate_inline_script():
             "science_ship_survey_speed": 0.25,
             "ship_speed_mult": 0.25,
             "ship_evasion_add": 15,
+        },
+        "leader_potential_add": {
+            "has_paragon_dlc": True,
+            "has_ancrel": True,
+            "has_subclass_trait": ["subclass_scientist_explorer"]
         },
     }
     actual = filter_trait_info(test_data, for_class="scientist")
@@ -684,9 +726,13 @@ def test_pick_subclass_from_has_trait_definition():
         "requires_paragon_dlc": True,
         "required_subclass": "subclass_commander_admiral",
         "fleet_modifier": {
-                "ship_weapon_damage": 0.1,
-                "create_debris_chance": -0.25
-            },
+            "ship_weapon_damage": 0.1,
+            "create_debris_chance": -0.25
+        },
+        'leader_potential_add': {
+            'has_paragon_dlc': True,
+            'has_trait': 'subclass_commander_admiral',
+        }
     }
     actual = filter_trait_info(test_data, for_class="commander")
     assert expected == actual
@@ -728,6 +774,9 @@ def test_filter_trait_identify_is_ruler_allowance():
         "requires_paragon_dlc": False,
         "modifier": {
             "ship_anomaly_research_speed_mult": 0.1
+        },
+        'leader_potential_add': {
+            'is_ruler': False,
         },
         "allow_for_ruler": False
     }
