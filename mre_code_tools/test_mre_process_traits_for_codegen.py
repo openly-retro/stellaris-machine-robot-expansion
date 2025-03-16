@@ -233,7 +233,7 @@ def test_create_trigger_for_trait__courtroom_training():
     }
 
     expected = """
-oxr_mdlc_leader_can_add_leader_trait_courtroom_training = {
+oxr_mdlc_leader_official_can_add_leader_trait_courtroom_training = {
     leader_class = official
     has_trait = subclass_official_diplomacy_councilor
     has_skill >= 4
