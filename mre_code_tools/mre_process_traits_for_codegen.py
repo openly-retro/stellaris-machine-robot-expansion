@@ -132,6 +132,7 @@ def pick_highest_tier_of_trait(list_of_traits):
             trait_level = int(trait_level)
         else:
             current_trait_name_series = current_trait_name
+            # trait_level = 1
         # logger.info(f"Evaluating {current_trait_name} in series {current_trait_name_series}")
         # Is the next trait in the same series? If so, pop it off the copy
         # If there is no next trait (end of list) we have evaluated the highest in the series
@@ -225,6 +226,75 @@ def filter_traits_by_rarity(traits_list):
             )
     return traits_by_rarity
 
+
+def create_requirements_triggers_for_leader_traits(trait: dict) -> str:
+    """
+    Take the first leader trait in a series, pick out the requirements,
+    and create a trigger for it.
+    Also factor in opposites.
+    """
+    requirements = []
+    trait_name = [*trait][0]
+    root = trait[trait_name]
+    # class
+    requirements.append(
+        f"leader_class = {root["leader_class"]}"
+    )
+    if root.get("required_subclass"):
+        requirements.append(
+            f"has_trait = {root["required_subclass"]}"
+        )
+    if root.get("rarity") == "veteran":
+        requirements.append(
+            f"has_skill >= 4"
+        )
+    elif root.get("rarity") == "paragon":
+        requirements.append(
+            f"has_skill >= 8"
+        )
+    for trigger, value in root.get("leader_potential_add", {}).items():
+        # Greeting abonimatnion
+        if trigger == "has_subclass_trait" and not root.get("required_subclass"):
+            # is it just one?
+            if len(value) == 1:
+                requirements.append(
+                    f"has_trait = {value[0]}"
+                )
+            else:
+                subclasses = [ f"has_trait = {subclass}" for subclass in value ]
+                requirements.append(
+                    f"OR = {{ {" ".join(subclasses)}   }}"
+                )
+        if type(value) is dict:
+            # too much to deal with..
+            # aHAhahAHahhAHAHA let's see what happens with this t(@_o)t
+            # requirement = str(value).replace(
+            #     ":"," = ").replace("'",'').replace("False","no").replace(
+            #         "True",'yes').replace(',','').replace('{')
+            # requirements.append(
+            #     f"owner = {{ {requirement} }}"
+            # )
+            # shudder
+            continue
+
+        # if it's a standard assignment, put in the list
+        if type(value) not in [dict, list]:
+            if type(value) != bool:
+                requirements.append(
+                    f"{trigger} = {value}"
+                )
+            else:
+                requirements.append(
+                    f"{trigger} = {'yes' if value else 'no'}"
+                )
+    # Shroud help us
+    return f"""
+oxr_mdlc_leader_can_add_{trait_name} = {{
+    {"\n    ".join(requirements)}
+}}
+"""
+
+
 def do_qa_on_pipeline_files(traits_list):
     """ Quick QA check to find potential missing data """
     rogue_trait_names = []
@@ -272,6 +342,8 @@ def sort_and_filter_pipeline_files() -> dict:
         # Subclasses are trickled up in the run_mre_trait_pipeline script
         # traits_with_populated_subclasses = trickle_up_subclass_requirements(
         #     buffer, for_class=leader_class)
+
+
         highest_tier_traits = pick_highest_tier_of_trait(buffer)
         traits_sorted_by_feature = filter_traits_by_mod_feature(highest_tier_traits)
         # has leader_making and core_modifying keys
