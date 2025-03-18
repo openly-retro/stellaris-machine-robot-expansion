@@ -36,6 +36,7 @@ BASE_TRAIT_FILES = (
     "00_starting_ruler_traits.txt",
     "100_ambassador_traits.txt",
     "100_delegate_traits.txt",
+    "12_astral_planes_traits.txt",
 )
 
 BUILD_FOLDER = os.path.join(
@@ -342,7 +343,54 @@ TRAITS_REQUIRING_DLC = {
     "leader_trait_expertise_archaeostudies_3": "has_ancrel",
     "leader_trait_archaeo_specialization_3": "has_ancrel",
     "leader_trait_explorer_cloaking_focus_3": "has_first_contact_dlc",
+    # Astral Planes
+    "leader_trait_rift_warped": "has_astral_planes_dlc",
+    "leader_trait_partially_digested": "has_astral_planes_dlc",
+    "leader_trait_obelisk_curse": "has_astral_planes_dlc",
+    "leader_trait_planar_theorist": "has_astral_planes_dlc",
+    "leader_trait_planar_theorist_2": "has_astral_planes_dlc",
+    "leader_trait_academic_astral_rift_expert": "has_astral_planes_dlc",
+    "leader_trait_academic_astral_rift_expert_2": "has_astral_planes_dlc",
+    "leader_trait_academic_astral_rift_expert_3": "has_astral_planes_dlc",
+    "leader_trait_foreign_consciousness": "has_astral_planes_dlc",
+    "leader_trait_black_light_blinded": "has_astral_planes_dlc",
+    "leader_trait_sanitary_drone": "has_astral_planes_dlc",
+    "leader_trait_spacebender": "has_astral_planes_dlc",
+    "leader_trait_energy_weapon_specialist": "has_astral_planes_dlc",
+    "leader_trait_blorg_insight": "has_astral_planes_dlc",
+    # Grand Archive
+    "leader_trait_buccaneer": "has_grand_archive_dlc",
+    "leader_trait_buccaneer_2": "has_grand_archive_dlc",
+    "leader_trait_buccaneer_3": "has_grand_archive_dlc",
+    "leader_trait_trailblazer": "has_grand_archive_dlc",
+    "leader_trait_trailblazer_2": "has_grand_archive_dlc",
+    "leader_trait_trailblazer_3": "has_grand_archive_dlc",
+    "leader_trait_treasure_hoarder": "has_grand_archive_dlc",
+    "leader_trait_treasure_hoarder_2": "has_grand_archive_dlc",
+    "leader_trait_treasure_hoarder_3": "has_grand_archive_dlc",
+    "leader_trait_pirate_queen": "has_grand_archive_dlc",
+    "leader_trait_trophy_hunter": "has_grand_archive_dlc",
+    "leader_trait_gifted_trapper": "has_grand_archive_dlc",
+    "leader_trait_void_hunter": "has_grand_archive_dlc",
+    "leader_trait_void_hunter_2": "has_grand_archive_dlc",
+    "leader_trait_void_tracker": "has_grand_archive_dlc",
+    "leader_trait_void_tracker_2": "has_grand_archive_dlc",
+    "leader_trait_cutholoid_victim": "has_grand_archive_dlc",
 }
+
+TRAITS_REQUIRING_ORIGINS = {
+    "leader_trait_buccaneer": "origin_treasure_hunters",
+    "leader_trait_buccaneer_2": "origin_treasure_hunters",
+    "leader_trait_buccaneer_3": "origin_treasure_hunters",
+    "leader_trait_trailblazer": "origin_treasure_hunters",
+    "leader_trait_trailblazer_2": "origin_treasure_hunters",
+    "leader_trait_trailblazer_3": "origin_treasure_hunters",
+    "leader_trait_treasure_hoarder": "origin_treasure_hunters",
+    "leader_trait_treasure_hoarder_2": "origin_treasure_hunters",
+    "leader_trait_treasure_hoarder_3": "origin_treasure_hunters",
+}
+
+""" Some traits are locked to an origin """
 
 # The descriptions for some traits isn't obvious, like the trait which adds
 # +2 picks, some people thought it meant 2 more traits total

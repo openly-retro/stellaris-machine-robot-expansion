@@ -170,6 +170,32 @@ xvcv_mdlc_leader_making_trait_commander_leader_trait_adventurous_spirit_3_add_bu
 """
     assert expected == adventurous_spirit_effects_code
 
+def test_gen_leadermaking_effects_code__leader_trait_buccaneer():
+
+    leader_trait_buccaneer_effects_code = gen_leader_making_button_effects_code(
+        leader_class="scientist", trait_name="leader_trait_buccaneer",
+    )
+    expected = """
+#scientist #leader_trait_buccaneer 
+xvcv_mdlc_leader_making_trait_scientist_leader_trait_buccaneer_add_button_effect = {
+    potential = { always = yes }
+    allow = {
+        xvcv_mdlc_leader_making_trait_pick_trigger = { CLASS = scientist ID = leader_trait_buccaneer }
+        xvcv_mdlc_leader_making_trait_cost_trigger = yes
+        xvcv_mdlc_leader_making_trait_points_trigger = yes
+        xvcv_mdlc_leader_making_trait_max_number_trigger = yes
+        xvcv_mdlc_leader_making_picked_class_scientist_trigger = yes
+        has_grand_archive_dlc = yes
+        root = { has_origin = origin_treasure_hunters }
+    }
+    effect = {
+        xvcv_mdlc_leader_making_trait_pick_effect = { CLASS = scientist ID = leader_trait_buccaneer }
+        hidden_effect = { xvcv_mdlc_leader_making_trait_count_points_costs_effect = yes }
+    }
+}
+"""
+    assert expected == leader_trait_buccaneer_effects_code
+
 
 def test_gen_xvcv_mdlc_core_modifying_ruler_traits_trigger():
     traits_json_file = NamedTemporaryFile(delete=False)
