@@ -290,7 +290,7 @@ def create_requirements_triggers_for_leader_traits(trait: dict) -> str:
             # )
             # shudder
             abomination = str(value).strip('{').strip('}').replace(':','=').replace("'",' ').replace(',','').replace('True','yes').replace('False','no')
-            requirements.append(f"""owner = {{ { abomination } }} }} """)
+            requirements.append(f"""owner = {{ { abomination } }} """)
 
         # if it's a standard assignment, put in the list
         elif type(value) not in [dict, list]:
