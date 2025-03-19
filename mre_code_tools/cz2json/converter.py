@@ -15,17 +15,19 @@ parse_simple_assignment = re.compile(
 )
 indentation = re.compile(r"^(?P<indent>\s*)")
 block_open = re.compile(r"^(?P<indent>\s{0,})(?P<name>\w*) = {$")
+re_single_word_line = re.compile(r"^\s{0,}(\w*){1}[ ]{0,}$")
 
 # Use re.sub and give it a function that quotes a string,
 # in order to quote all words in the text blob
 nonnumber_words = re.compile(r"([a-zA-Z_\/]+)")
+# unquote "no" and "yes" afterwards
 
 
 def clean_up_line(line: str) -> str:
     """ Handle a variety of line contents """
     # Open a block
-    if line_opens_block := re.match(block_open, line):
-        return 
+    # if line_opens_block := re.match(block_open, line):
+    #     return 
 
     line_opens_block = '= {' in line
     # ignore multiple blocks on same line
@@ -35,19 +37,25 @@ def clean_up_line(line: str) -> str:
     elif line_opens_block and line.strip().endswith('}'):
         return normalize_list(line)
     # beginning of block
-    elif line.strip().endswith('= {'):
-        return convert_block_open(line)
+    # elif line.strip().endswith('= {'):
+    #     return convert_block_open(line)
+    elif re_block_open := re.match(block_open, line):
+        return block_open_to_json(re_block_open)
     elif len(line.strip().split(' ')) == 3:
         return convert_simple_assignment(line)
+    elif line.strip() == '}':
+        return line
+    elif single_word_result := re.match(re_single_word_line, line):
+        return line
     else:
-        raise WhatInTheShroud
+        raise WhatInTheShroud(line)
 
 
-def block_open_to_json(re_results):
-    return f"{re_results.indent}\"{re_results.name}\": {{"
+def block_open_to_json(re_results: re.Match) -> str:
+    return f"{re_results.group('indent')}{re_results.group('name')}: {{"
 
 def convert_block_open(line):
-    return line.replace(' = {',':')
+    return line.replace(' = {',': {')
 
 def normalize_list(line):
     # leader_class = { word word word } into leader_class

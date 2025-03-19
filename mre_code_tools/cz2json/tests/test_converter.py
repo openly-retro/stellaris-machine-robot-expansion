@@ -1,4 +1,5 @@
 from unittest import TestCase
+import re
 
 from ..converter import (
     normalize_list,
@@ -6,6 +7,7 @@ from ..converter import (
     clean_up_line,
     convert_simple_assignment,
     block_open_to_json,
+    block_open
 )
 
 class TestConverter(TestCase):
@@ -23,7 +25,7 @@ class TestConverter(TestCase):
 
     def test_block_open(self):
         line = "	leader_class = {"
-        expectation = "	leader_class:"
+        expectation = "	leader_class: {"
         actual = convert_block_open(line)
         assert expectation == actual
         
@@ -32,8 +34,9 @@ class TestConverter(TestCase):
         
     def test_block_open_json(self):
         line = "    leader_class = {"
-        expectation = "    \"leader_class\": {"
-        actual = block_open_to_json(line)
+        expectation = "    leader_class: {"
+        re_match = re.match(block_open, line)
+        actual = block_open_to_json(re_match)
         assert expectation == actual
         
 
@@ -44,6 +47,33 @@ class TestConverter(TestCase):
         actual2 = clean_up_line(line)
         assert expectation == actual
         assert expectation == actual2
+    
+    def test_touching_numbers(self):
+        line = "fleet_mia_time_mult = -0.1"
+        expectation = "fleet_mia_time_mult: -0.1"
+        actual = convert_simple_assignment(line)
+        actual2 = clean_up_line(line)
+        assert expectation == actual
+        assert expectation == actual2
+    
+    def test_handle_separate_list_items(self):
+        lines = [
+        "opposites = {",
+        "    leader_trait_gale_speed",
+        "    leader_trait_gale_speed_2",
+        "    leader_trait_gale_speed_3",
+        "}",
+        ]
+        expectations = [
+        "opposites: {",
+        "    leader_trait_gale_speed",
+        "    leader_trait_gale_speed_2",
+        "    leader_trait_gale_speed_3",
+        "}",
+        ]
+        for line, expect in zip(lines, expectations):
+            actual = clean_up_line(line)
+            assert actual == expect
 
 test_data = """
 leader_trait_scout = {
