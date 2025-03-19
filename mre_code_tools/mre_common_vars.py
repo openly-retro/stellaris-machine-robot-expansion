@@ -127,6 +127,8 @@ FILE_NUM_PREFIXES = {
     "localisation": "60",
     "maps": "70",  # traits w machine localisation, uppercase map
 }
+""" Map of file number prefixes, corresponding to the contents """
+
 
 """ On a bad yaml merge there will be other random stuff in the modifier dict
 on occasion. so make a list of what should get kicked out of modifiers """
@@ -305,6 +307,12 @@ TOOLTIP_LOOKUP_MAP = {
     "mod_empire_size_districts_mult": "MOD_EMPIRE_SIZE_DISTRICTS_MULT", #official #leader_trait_urbanist
     "mod_ship_emergency_ftl_mult": "MOD_SHIP_EMERGENCY_FTL_MIN_DAYS_ADD",
 }
+
+TRIGGERS_EFFECTS_FOLDER = os.path.join(
+    os.getcwd(),
+    'common', 'scripted_triggers'
+)
+
 
 """ Some tooltips have localisation keys only in the yml for that DLC, and arent in 
 base stellaris. So they show up empty in the leadermaking UI because the game can't find

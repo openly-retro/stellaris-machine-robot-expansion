@@ -48,7 +48,7 @@ rikk_mdlc_decision_world_machine_solidify_molten = {
 		hidden_effect = {
 			add_modifier = { modifier = rikk_mdlc_world_machine_molten_mod }
 			set_planet_flag = rikk_mdlc_world_machine_suitable
-			# rikk_mdlc_origin_world_machine_add_random_blockers = { WORLD_TYPE = molten}
+			# rikk_mdlc_planet_wm_add_random_blockers = { WORLD_TYPE = molten}
 			remove_modifier = rikk_mdlc_decision_world_machine_convert_pc_molten_on_queued_modifier
 		}
 		space_owner = {
@@ -172,7 +172,7 @@ rikk_mdlc_decision_world_machine_cleanse_toxic = {
 		hidden_effect = {
 			add_modifier = { modifier = rikk_mdlc_world_machine_toxic_mod }
 			set_planet_flag = rikk_mdlc_world_machine_suitable
-			# rikk_mdlc_origin_world_machine_add_random_blockers = { WORLD_TYPE = toxic}
+			# rikk_mdlc_planet_wm_add_random_blockers = { WORLD_TYPE = toxic}
 			remove_modifier = rikk_mdlc_decision_world_machine_convert_pc_toxic_on_queued_modifier
 		}
 		space_owner = {
@@ -313,7 +313,10 @@ rikk_mdlc_decision_world_machine_cooling_towers = {
 			oxr_mdlc_planet_owner_can_build_wm_districts = yes
 			has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
 		}
-		NOT = { is_planet_class = xvcv_mdlc_pc_machine_auto }
+		NOR = {
+			is_planet_class = xvcv_mdlc_pc_machine_auto
+			is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
+		}
 		NOT = { has_deposit = rikk_mdlc_d_world_machine_cooling_towers }
 	}
 	
@@ -329,7 +332,9 @@ rikk_mdlc_decision_world_machine_cooling_towers = {
 	
 	effect = {
 		add_deposit = rikk_mdlc_d_world_machine_cooling_towers
-		hidden_effect = { planet_event = { id = rikk_mdlc_wm_upgrade_events.70 days = 1 } }
+		hidden_effect = {
+			planet_event = { id = rikk_mdlc_wm_upgrade_events.70 days = 1 }
+		}
 	}
 }
 

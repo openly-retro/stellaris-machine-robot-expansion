@@ -1,0 +1,167 @@
+# # Lock behind feature flag while in development
+# owner = { has_oxr_mdlc_country_feature_wm_leader_traits = yes }
+
+# UNITY
+# leader_trait_bureaucrat
+leader_trait_oxr_mdlc_origin_wm_decision_analysis_module = {
+	leader_trait_type = common
+	inline_script = {
+		script = trait/icon
+		CLASS = leader
+		ICON = "GFX_leader_trait_adventurous_spirit"
+		RARITY = veteran
+		COUNCIL = no
+		TIER = 1
+	}
+	initial = yes
+	leader_potential_add = {
+		has_skill > 1
+		inline_script = trait/leader/oxr_wm_leader_potential
+		# Lock behind feature flag while in development
+		owner = { has_oxr_mdlc_country_feature_wm_leader_traits = yes }
+	}
+	triggered_planet_modifier = {
+		oxr_mdlc_world_machines_unity_buildings_unity_produces_mult = 0.05
+		xvcv_mdlc_world_machines_unity_districts_unity_produces_mult = 0.05
+		mult = trigger:has_skill
+	}
+	leader_class = { official scientist }
+	selectable_weight = {
+		weight = @shared_trait_weight
+		modifier = {
+			owner = { has_oxr_mdlc_origin_world_machine_awakened = yes }
+			factor = 6
+		}
+	}
+}
+# TODO: T2
+
+# DEFENSE ARMIES
+# leader_trait_army_veteran
+leader_trait_oxr_mdlc_origin_wm_district_defense_module = {
+	inline_script = {
+		script = trait/icon
+		CLASS = leader
+		ICON = "GFX_leader_trait_army_veteran"
+		RARITY = common
+		COUNCIL = no
+		TIER = 1
+	}
+	councilor_modifier = {
+		planet_army_build_speed_mult = 0.15
+		armies_cost_mult = -0.15
+		army_defense_damage_mult = 0.15
+	}
+	leader_potential_add = {
+		is_pool_leader = yes # Starting trait only.
+		inline_script = trait/leader/oxr_wm_leader_potential
+		# Lock behind feature flag while in development
+		owner = { has_oxr_mdlc_country_feature_wm_leader_traits = yes }
+	}
+	on_gained_effect = {
+		add_age = value:percent_of_leader_lifespan|PERCENT|10|
+		set_random_commander_background_effect = yes
+	}
+	leader_class = { official scientist commander }
+	opposites = { "leader_trait_retired_fleet_officer" }
+
+	selectable_weight = {
+		weight = @shared_trait_weight
+		modifier = {
+			owner = { has_oxr_mdlc_origin_world_machine_awakened = yes }
+			factor = 6
+		}
+	}
+}
+# TODO: T2
+# leader_trait_agrarian_upbringing
+leader_trait_oxr_mdlc_origin_wm_nutrient_boost_module = {
+	inline_script = {
+		script = trait/icon
+		CLASS = leader
+		ICON = "GFX_leader_trait_agrarian_upbringing"
+		RARITY = common
+		COUNCIL = no
+		TIER = 1
+	}
+	leader_potential_add = {
+		has_global_flag = game_started
+		exists = owner
+		owner = { country_uses_food = yes }
+		inline_script = trait/leader/oxr_wm_leader_potential
+		is_pool_leader = yes # Starting trait only.
+		# Lock behind feature flag while in development
+		owner = { has_oxr_mdlc_country_feature_wm_leader_traits = yes }
+	}
+
+	triggered_planet_modifier = {
+		potential = { always = yes }
+		inline_script = {
+			script = planet/modifiers/oxr_wm_planet_category_boost
+			RESOURCE = food
+			AMT = 0.05
+		}
+		mult = trigger:has_skill
+	}
+
+	leader_class = { commander official scientist }
+	selectable_weight = {
+		weight = @shared_trait_weight
+		modifier = {
+			owner = { has_oxr_mdlc_origin_world_machine_awakened = yes }
+			factor = 4
+		}
+	}
+}
+
+leader_trait_oxr_mdlc_origin_wm_nutrient_boost_module_2 = {
+	inline_script = {
+		script = trait/icon
+		CLASS = leader
+		ICON = "GFX_leader_trait_agrarian_upbringing"
+		RARITY = common
+		COUNCIL = no
+		TIER = 2
+	}
+	# planet_modifier = {
+	# 	inline_script = {
+	# 		script = planet/modifiers/oxr_wm_planet_category_boost
+	# 		RESOURCE = food
+	# 		AMT = 0.10
+	# 	}
+	# }
+	leader_potential_add = {
+		# Lock behind feature flag while in development
+		owner = { has_oxr_mdlc_country_feature_wm_leader_traits = yes }
+	}
+	triggered_planet_modifier = {
+		potential = { always = yes }
+		inline_script = {
+			script = planet/modifiers/oxr_wm_planet_category_boost
+			RESOURCE = food
+			AMT = 0.05
+		}
+		mult = trigger:has_skill
+	}
+	sector_modifier = {
+		inline_script = {
+			script = planet/modifiers/oxr_wm_planet_category_boost
+			RESOURCE = food
+			AMT = 0.05
+		}
+		mult = trigger:has_skill
+	}
+	leader_class = { commander official scientist }
+	selectable_weight = {
+		weight = @shared_trait_weight
+		modifier = {
+			owner = { has_oxr_mdlc_origin_world_machine_awakened = yes }
+			factor = 4
+		}
+	}
+}
+
+
+
+
+

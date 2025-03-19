@@ -1,0 +1,30 @@
+to = "xvcv_mdlc_pc_machine_ecu"
+from = "$FROM$"
+resources = {
+	category = terraforming
+	cost = { 
+		trigger = {
+			exists = owner
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+		}
+		oxr_mdlc_world_machine_core = 1
+		energy = @oxr_mdlc_non_wm_to_t3_cost
+	}
+}
+
+duration = @oxr_mdlc_world_machine_non_wm_to_t3
+
+ai_weight = { weight = 0 }
+
+# EOF
+potential = {
+	has_oxr_mdlc_origin_world_machine_awakened = yes
+	has_technology = oxr_mdlc_tech_world_machine_ecu
+}
+effect = {
+	from = {
+		fire_on_action = {
+			on_action = on_world_machine_non_wm_to_t3_terraforming_complete
+		}
+	}
+}

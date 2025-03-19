@@ -15,7 +15,7 @@ country_event = {
 			has_valid_civic = xvcv_mdlc_civic_central_processing
 			has_valid_civic = xvcv_mdlc_civic_uplink_node
 			has_valid_civic = xvcv_mdlc_civic_friendship_protocol
-			xvcv_mdlc_synthetic_start_origin_trigger = yes
+			xvcv_mdlc_country_has_synthetic_origin = yes
 			this.species = { has_trait = xvcv_mdlc_trait_rock_body }
 			this.species = { has_trait = xvcv_mdlc_trait_synth_skin }
 			# has_oxr_mdlc_origin_world_machine_awakened = yes
@@ -65,7 +65,7 @@ country_event = {
 		}
 		#and that ends here
 		if = {
-			limit = { xvcv_mdlc_synthetic_start_origin_trigger = yes }
+			limit = { xvcv_mdlc_country_has_synthetic_origin = yes }
 			add_resource = {
 				energy = 200
 				food = -200
@@ -420,7 +420,7 @@ planet_event = {
 	trigger = {
 		owner = {
 			OR = {
-				xvcv_mdlc_synthetic_start_origin_trigger = yes
+				xvcv_mdlc_country_has_synthetic_origin = yes
 				has_origin = xvcv_mdlc_origin_start_with_colony
 			}
 		}
@@ -429,7 +429,7 @@ planet_event = {
 	immediate = {
 		owner = {
 			if = {
-				limit = { xvcv_mdlc_synthetic_start_origin_trigger = yes }
+				limit = { xvcv_mdlc_country_has_synthetic_origin = yes }
 				set_country_flag = synthetic_empire
 				set_country_flag = synth_assimilation
 		
@@ -645,7 +645,7 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		xvcv_mdlc_synthetic_start_origin_trigger = yes
+		xvcv_mdlc_country_has_synthetic_origin = yes
 		NOT = { has_country_flag = xvcv_mdlc_synth_origin_start_project_cleared }
 	}
 
@@ -1325,7 +1325,7 @@ country_event = {
 		every_owned_leader = {
 			limit = {
 				is_event_leader = no
-				NOT = { has_ethic = ethic_gestalt_consciousness }
+				has_ethic_gestalt_consciousness = no
 			}
 			change_background_ethic = ethic_gestalt_consciousness
 			if = {
@@ -1339,14 +1339,14 @@ country_event = {
 		every_envoy = {
 			limit = {
 				is_event_leader = no
-				NOT = { has_ethic = ethic_gestalt_consciousness }
+				has_ethic_gestalt_consciousness = no
 			}
 			change_background_ethic = ethic_gestalt_consciousness
 		}
 		every_pool_leader = {
 			limit = {
 				is_event_leader = no
-				NOT = { has_ethic = ethic_gestalt_consciousness }
+				has_ethic_gestalt_consciousness = no
 			}
 			change_background_ethic = ethic_gestalt_consciousness
 			if = {
@@ -1364,7 +1364,7 @@ country_event = {
 		}
 	
 		if = {
-			limit = { NOT = { has_authority = auth_machine_intelligence } }
+			limit = { has_auth_machine_intelligence = no }
 			set_origin = origin_default
 			change_government = {
 				authority = auth_machine_intelligence
@@ -2228,50 +2228,7 @@ country_event = {
 			limit = { any_owned_planet = { num_artificial_pops_per_year > 0 } }
 			random_owned_planet = {
 				limit = { num_artificial_pops_per_year > 0 }
-				# Copy the planet's current assembly rate to xvcv assembly rate
-				# Copy both pop assembly add, and pop assembly mult to xvcv vars
-				export_modifier_to_variable = { modifier = planet_pop_assembly_add variable = xvcv_mdlc_pop_assembly_add_var }
-				if = {
-					limit = { check_modifier_value = { modifier = planet_pop_assembly_mult value > 0 } }
-					set_variable = { which = xvcv_mdlc_pop_assembly_mult_var value = 1 }
-					change_variable = { which = xvcv_mdlc_pop_assembly_mult_var value = modifier:planet_pop_assembly_mult }
-					multiply_variable = { which = xvcv_mdlc_pop_assembly_add_var value = xvcv_mdlc_pop_assembly_mult_var }
-				}
-				#log = "Assembly per Month: [This.xvcv_mdlc_pop_assembly_add_var]"
-				
-				# Calculate the base assembly requirement for a bio mech pop
-				# look at the amount of "artificial" pops/yr, ex: 0.41
-				# The assembly requirement 
-				export_trigger_value_to_variable = { trigger = num_artificial_pops_per_year variable = xvcv_mdlc_pops_per_year_var }
-				set_variable = { which = xvcv_mdlc_assembly_requirement_var value = xvcv_mdlc_pop_assembly_add_var }
-				multiply_variable = { which = xvcv_mdlc_assembly_requirement_var value = 12 }
-				divide_variable = { which = xvcv_mdlc_assembly_requirement_var value = xvcv_mdlc_pops_per_year_var }
-				#log = "Total Progress Required for New Pop: [This.xvcv_mdlc_assembly_requirement_var]"
-		
-				set_variable = { which = xvcv_mdlc_pop_growth_scale_var value = xvcv_mdlc_assembly_requirement_var }
-				change_variable = { which = xvcv_mdlc_pop_growth_scale_var value = -100 }
-				divide_variable = { which = xvcv_mdlc_pop_growth_scale_var value = prev.trigger:num_pops }
-				multiply_variable = { which = xvcv_mdlc_pop_growth_scale_var value = 100 }
-				floor_variable = xvcv_mdlc_pop_growth_scale_var
-				divide_variable = { which = xvcv_mdlc_pop_growth_scale_var value = 100 }
-				#log = "Current Growth Scale: [This.xvcv_mdlc_pop_growth_scale_var]"
-	
-				if = {
-					limit = { check_variable = { which = xvcv_mdlc_pop_growth_scale_var value < 0 } }
-					set_variable = { which = xvcv_mdlc_pop_growth_scale_var value = 0 } #failsafe
-				}
-	
-				random_country = {
-					limit = { is_country_type = xvcv_mdlc_data_storage }
-					set_variable = {
-						which = xvcv_mdlc_pop_growth_scale_var
-						value = prev.xvcv_mdlc_pop_growth_scale_var
-					}
-				}
-	
-				#xvcv_mdlc_pops_per_year_var = (xvcv_mdlc_pop_assembly_add_var x 12) / total_assembly_required
-				#total_assembly_required = (xvcv_mdlc_pop_assembly_add_var x 12) / xvcv_mdlc_pops_per_year_var
-				#xvcv_mdlc_pop_growth_scale_var = total_assembly_required - 100 / empire_total_pop_number
+				planet = { xvcv_mdlc_planet_extract_assembly_rate_for_data = yes }
 			}
 		}
 	}
@@ -2429,87 +2386,11 @@ country_event = {
 	immediate = {
 		every_owned_planet = {
 			limit = { xvcv_mdlc_bio_robot_auto_growth_possible_planet_trigger = yes }
-	
-			#phase 1: set how much total progress is needed for a new pop
-			set_variable = { which = xvcv_mdlc_bio_robot_growth_requirement_var value = 100 }
-			random_country = {
-				limit = { is_country_type = xvcv_mdlc_data_storage }
-				prev = { set_variable = { which = xvcv_mdlc_pop_growth_scale_var value = prev.xvcv_mdlc_pop_growth_scale_var } } #get the current growth scale value from the data storage
+			planet = {
+				xvcv_mdlc_planet_calc_bio_mech_growth_rate = yes
 			}
-			multiply_variable = { which = xvcv_mdlc_pop_growth_scale_var value = owner.trigger:num_pops }
-			change_variable = { which = xvcv_mdlc_bio_robot_growth_requirement_var value = xvcv_mdlc_pop_growth_scale_var }
-			set_variable = { which = xvcv_mdlc_bio_robot_remaining_time_to_finish_growth_var value = xvcv_mdlc_bio_robot_growth_requirement_var }
-	
-			#phase 2: calculate how much progress is made per month in this planet
-			change_variable = { which = xvcv_mdlc_bio_robot_growth_progress_var value = 3 }
-			set_variable = { which = xvcv_mdlc_bio_robot_growth_rate_per_month_var value = 3 } #set the variable's value to 0 for reusing it, but the default growth progress is 3 so add 3 here
-	
-			#additional progress per clone maker job
-			every_owned_pop = {
-				limit = {
-					OR = {
-						has_job = xvcv_mdlc_bio_robot_clone_drone
-						has_job = xvcv_mdlc_bio_robot_clone_technician
-					}
-				}
-				prev = {
-					change_variable = { which = xvcv_mdlc_bio_robot_growth_progress_var value = 1 }
-					change_variable = { which = xvcv_mdlc_bio_robot_growth_rate_per_month_var value = 1 }
-				}
-			}
-	
-			random_owned_pop = {
-				limit = { xvcv_mdlc_bio_robot_auto_growth_possible_pop_trigger = yes }
-				#choose a species to be born (if there are more than one hybrid)
-				weights = {
-					base = 1
-					# modifier = { add = @xvcv_mdlc_bio_robot_growth_add_1 has_trait = xvcv_mdlc_bio_robot_trait_rapid_breeders }
-					modifier = { add = @xvcv_mdlc_bio_robot_growth_add_1 has_trait = trait_rapid_breeders }
-					modifier = { add = @xvcv_mdlc_bio_robot_growth_add_1 has_trait = trait_robot_mass_produced }
-					# modifier = { add = @xvcv_mdlc_bio_robot_growth_add_1 has_trait = xvcv_mdlc_bio_robot_trait_robot_mass_produced }
-					modifier = { add = @xvcv_mdlc_bio_robot_growth_add_2 has_trait = xvcv_mdlc_bio_robot_trait_org_body_copy_design }
-				}
-				if = {
-					# limit = { has_trait = xvcv_mdlc_bio_robot_trait_rapid_breeders }
-					limit = { has_trait = trait_rapid_breeders }
-					prev = {
-						change_variable = { which = xvcv_mdlc_bio_robot_growth_progress_var value = @xvcv_mdlc_bio_robot_growth_add_1 }
-						change_variable = { which = xvcv_mdlc_bio_robot_growth_rate_per_month_var value = @xvcv_mdlc_bio_robot_growth_add_1 } #the variable used for 'xvcv_mdlc_bio_robot_growth_progress_percent_desc'
-					}
-				}
-				if = {
-					limit = { has_trait = trait_robot_mass_produced }
-					prev = {
-						change_variable = { which = xvcv_mdlc_bio_robot_growth_progress_var value = @xvcv_mdlc_bio_robot_growth_add_1 }
-						change_variable = { which = xvcv_mdlc_bio_robot_growth_rate_per_month_var value = @xvcv_mdlc_bio_robot_growth_add_1 }
-					}
-				}
-				if = {
-					limit = { has_trait = xvcv_mdlc_bio_robot_trait_org_body_copy_design }
-					prev = {
-						change_variable = { which = xvcv_mdlc_bio_robot_growth_progress_var value = @xvcv_mdlc_bio_robot_growth_add_2 }
-						change_variable = { which = xvcv_mdlc_bio_robot_growth_rate_per_month_var value = @xvcv_mdlc_bio_robot_growth_add_2 }
-					}
-				}
-				prev = {
-					#phase 3: create a pop
-					if = {
-						limit = { check_variable = { which = xvcv_mdlc_bio_robot_growth_progress_var value > xvcv_mdlc_bio_robot_growth_requirement_var } }
-						subtract_variable = { which = xvcv_mdlc_bio_robot_growth_progress_var value = xvcv_mdlc_bio_robot_growth_requirement_var }
-						create_pop = { species = prev.species }
-					}
-				}
-			}
-	
-			#create things to show players some info
-			subtract_variable = { which = xvcv_mdlc_bio_robot_remaining_time_to_finish_growth_var value = xvcv_mdlc_bio_robot_growth_progress_var }
-			divide_variable = { which = xvcv_mdlc_bio_robot_remaining_time_to_finish_growth_var value = xvcv_mdlc_bio_robot_growth_rate_per_month_var }
-			ceiling_variable = xvcv_mdlc_bio_robot_remaining_time_to_finish_growth_var #rounds a previously-set variable 'up' to the next integer
-			if = {
-				limit = { NOT = { has_modifier = xvcv_mdlc_bio_robot_growth_progress_percent } }
-				add_modifier = { modifier = xvcv_mdlc_bio_robot_growth_progress_percent days = -1 }
-			}
-		}
+			
+		} # close every_owned_planet
 	}
 }
 #variables for bio robot auto growth reset effect event
@@ -2786,7 +2667,7 @@ country_event = {
 				commander = {
 					if = {
 						# Set up a country flag so the every_owned_leader doesn't get called iteratively after a leader has been leveled up by code here
-						limit = { xvcv_mdlc_check_memory_share_level_up_happened_for_commander = no }
+						limit = { xvcv_mdlc_leader_check_memory_share_level_up_happened_for_commander = no }
 						switch = {
 							trigger = has_skill
 							2 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = commander has_skill < 2 NOT = { has_leader_flag = xvcv_mdlc_leader_trait_shared_memory_target_@from } } xvcv_mdlc_set_memory_share_level_up_happened_for_commander = yes add_skill_without_trait_selection = 1 } } }
@@ -2803,7 +2684,7 @@ country_event = {
 				}
 				scientist = {
 					if = {
-						limit = { xvcv_mdlc_check_memory_share_level_up_happened_for_scientist = no }
+						limit = { xvcv_mdlc_leader_check_memory_share_level_up_happened_for_scientist = no }
 						switch = {
 							trigger = has_skill
 							2 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = scientist has_skill < 2 NOT = { has_leader_flag = xvcv_mdlc_leader_trait_shared_memory_target_@from } } xvcv_mdlc_set_memory_share_level_up_happened_for_scientist = yes add_skill_without_trait_selection = 1 } } }
@@ -2820,7 +2701,7 @@ country_event = {
 				}
 				official = {
 					if = {
-						limit = { xvcv_mdlc_check_memory_share_level_up_happened_for_official = no }
+						limit = { xvcv_mdlc_leader_check_memory_share_level_up_happened_for_official = no }
 						switch = {
 							trigger = has_skill
 							2 = { prev = { every_owned_leader = { limit = { is_councilor = no has_trait = xvcv_mdlc_leader_trait_shared_memory leader_class = official has_skill < 2 NOT = { has_leader_flag = xvcv_mdlc_leader_trait_shared_memory_target_@from } } xvcv_mdlc_set_memory_share_level_up_happened_for_official = yes add_skill_without_trait_selection = 1 } } }
@@ -3097,11 +2978,11 @@ planet_event = {
 	}
 	immediate = {
 		log = "A district was built on \\[This.GetName]."
-		xvcv_mdlc_world_machines_output_value_calc_effect = yes
+		xvcv_mdlc_planet_wm_calc_output_value = yes
 		if = {
-			limit = { xvcv_mdlc_world_machines_non_resource_district_trigger = yes }
-			#log = "Going into xvcv_mdlc_world_machines_recalc_non_resource_offsets_all"
-			xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = yes
+			limit = { xvcv_mdlc_planet_wm_has_non_resource_district = yes }
+			#log = "Going into xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all"
+			xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all = yes
 		}
 	}
 }
@@ -3119,8 +3000,8 @@ planet_event = {
 	}
 	immediate = {
 		log = "A T3 world resource district was built on \\[This.GetName]"
-		xvcv_mdlc_world_machines_output_value_calc_effect = yes
-		xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = yes
+		xvcv_mdlc_planet_wm_calc_output_value = yes
+		xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all = yes
 	}
 }
 
@@ -3138,34 +3019,40 @@ planet_event = {
 	}
 	immediate = {
 		log = "A district was removed from \\[This.GetName]."
-		xvcv_mdlc_world_machines_output_value_calc_effect = yes
+		xvcv_mdlc_planet_wm_calc_output_value = yes
 		if = {
-			limit = { xvcv_mdlc_world_machines_non_resource_district_trigger = yes }
-			#log = "Going into xvcv_mdlc_world_machines_recalc_non_resource_offsets_all"
-			xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = yes
+			limit = { xvcv_mdlc_planet_wm_has_non_resource_district = yes }
+			#log = "Going into xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all"
+			xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all = yes
 		}
 	}
 }
-# xvcv_on_world_machine_t3_resource_district_demolished
+# xvcv_on_world_machine_t3_resource_district_demolished, or cooling district demolished
 planet_event = {
 	id = xvcv_mdlc.710
 	hide_window = yes
 	is_triggered_only = yes
 
 	trigger = {
-		OR = {
-			oxr_mdlc_planet_is_t3_world_machine = yes
-			is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
-		}
+		oxr_mdlc_planet_is_t3_world_machine = yes
 	}
 	immediate = {
 		log = "A T3 resource district was removed from \\[This.GetName]."
-		xvcv_mdlc_world_machines_output_value_calc_effect = yes
+		if = {
+			limit = {
+				has_planet_flag = oxr_lock_oxr_mdlc_planet_destroy_excess_cooling_districts
+			}
+			log = "Not going to rebalance cooling bc it is in progress ..."
+		}
+		else = {
+			xvcv_mdlc_planet_wm_calc_output_value = yes
+		}
+
 		# Check if non-resource districts need offsets (if output is below 0.0) and add them
 		if = {
-			limit = { xvcv_mdlc_world_machines_non_resource_district_trigger = yes }
-			#log = "Going into xvcv_mdlc_world_machines_recalc_non_resource_offsets_all"
-			xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = yes
+			limit = { xvcv_mdlc_planet_wm_has_non_resource_district = yes }
+			#log = "Going into xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all"
+			xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all = yes
 		}
 	}
 }
@@ -3367,7 +3254,7 @@ country_event = {
 	immediate = {
 		every_owned_planet = {
 			limit = { xvcv_mdlc_world_machines_planet_classes_trigger = yes }
-			xvcv_mdlc_world_machines_output_value_calc_effect = yes
+			xvcv_mdlc_planet_wm_calc_output_value = yes
 		}
 	}
 }
@@ -3443,7 +3330,7 @@ country_event = {
 				has_deposit = xvcv_mdlc_d_trait_self_replicating_microbot
 				NOT = { any_owned_species = { has_trait = xvcv_mdlc_trait_self_replicating_microbot } }
 			}
-			oxr_mdlc_clear_all_custom_deposits_of_type = {
+			oxr_mdlc_planet_clear_all_custom_deposits_of_type = {
 				CUSTOM_DEPOSIT_TYPE = xvcv_mdlc_d_trait_self_replicating_microbot
 			}
 			# every_deposit = {
@@ -3745,7 +3632,7 @@ planet_event = {
 		change_pc = xvcv_mdlc_pc_mechanical
 		#1:1 conversion #let the player remove remaining redundant districts
 		if = {
-			limit = { owner = { NOT = { has_authority = auth_machine_intelligence } } }
+			limit = { owner = { has_auth_machine_intelligence = no } }
 			while = {
 				limit = { check_variable = { which = xvcv_mdlc_pc_mechanical_district_city_var value > 0 } }
 				subtract_variable = { which = xvcv_mdlc_pc_mechanical_district_city_var value = 1 }
@@ -3802,7 +3689,7 @@ planet_event = {
 			limit = { has_modifier = lush_planet }
 			remove_modifier = lush_planet
 		}
-		xvcv_mdlc_planet_terraforming_resolution_breached_effect = yes
+		xvcv_mdlc_planet_owner_terraforming_resolution_breached_effect = yes
 	}
 }
 
@@ -3964,7 +3851,7 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		xvcv_mdlc_synthetic_start_origin_trigger = yes
+		xvcv_mdlc_country_has_synthetic_origin = yes
 	}
 
 	immediate = {
@@ -3982,7 +3869,7 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		xvcv_mdlc_synthetic_start_origin_trigger = yes
+		xvcv_mdlc_country_has_synthetic_origin = yes
 	}
 
 	immediate = {

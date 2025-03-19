@@ -1,19 +1,19 @@
 resources = {
 	category = oxr_mdlc_category_world_machines_buildings
 	cost = {
-		minerals = $BUILD_COST$
+		minerals = @[ 200 * $TIER$ + 200 ]
 		volatile_motes = $RARE_COST$
 	}
 	upkeep = {
 		energy = $UPKEEP_ENERGY$
-		volatile_motes = $RARE_UPKEEP$
+		volatile_motes = @[ $TIER$ - 1 ]
 	}
 	produces = {
 		trigger = {
 			exists = owner
 			owner = { has_active_tradition = tr_domination_judgment_corps }
 		}
-		unity = $PRODUCES_UNITY$
+		unity = @[ $TIER$ * 2.5 ]
 	}
 	upkeep = {
 		trigger = {

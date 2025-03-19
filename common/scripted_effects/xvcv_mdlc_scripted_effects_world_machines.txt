@@ -1,6 +1,7 @@
-xvcv_mdlc_world_machines_output_value_calc_effect = {
+# XVCV Scripted effects
+xvcv_mdlc_planet_wm_calc_output_value = {
 	# optimize_memory
-	# This effect is only called from on_built/on_destroy of t3 world districts
+	# This effect is only called from on_built/on_destroy of t3 world districts, and on cooling tower built
 
 	clear_variable = xvcv_mdlc_world_machines_districts_output_var
 	switch = {
@@ -12,7 +13,7 @@ xvcv_mdlc_world_machines_output_value_calc_effect = {
 
 	# create/update 'xvcv_mdlc_world_machines_districts_output_var'
 	# create/update 'xvcv_mdlc_world_machines_districts_current_output_for_display_var'
-	xvcv_mdlc_count_districts_calculate_output_display_var = yes
+	xvcv_mdlc_planet_count_districts_calculate_output_display_var = yes
 
 	#log = "Going into xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect"
 	if = {
@@ -45,15 +46,25 @@ xvcv_mdlc_world_machines_output_value_calc_effect = {
 	#log = "Finished xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect"
 }
 
-oxr_mdlc_world_machines_check_should_balance_cooling_districts = {
+# Check modifier, remove districts, recalculate
+oxr_mdlc_planet_wm_check_should_balance_cooling_districts = {
+	xvcv_mdlc_planet_wm_calc_output_value = yes
 	if = {
 		limit = {
 			check_variable = {
 				which = xvcv_mdlc_world_machines_districts_output_var
 				value > 0.4
 			}
+			# check_modifier_value = {
+			# 	modifier = xvcv_mdlc_world_machines_districts_produces_mult
+			# 	value > 0.4
+			# }
 		}
 		oxr_mdlc_planet_destroy_excess_cooling_districts = yes
+		xvcv_mdlc_planet_wm_calc_output_value = yes
+	}
+	else = {
+		log = "Not going to balance cooling districts, modifier is below 0.4"
 	}
 }
 
@@ -63,7 +74,7 @@ oxr_mdlc_world_machines_check_should_balance_cooling_districts = {
 # Takes two vars: $DISTRICT_TYPE$ and $OFFSET_DEPOSIT_TYPE$
 # Deposit type is what district to add as an offset
 # ASSUMPTIONS: There is at least one offset deposit, OR one district
-xvcv_mdlc_world_machines_adjust_non_resource_district_offset_entry = {
+xvcv_mdlc_planet_wm_adjust_non_resource_district_offset_entry = {
 	optimize_memory
 	#log = "Going to adjust non-resource district offsets for  $DISTRICT_TYPE$ "
 	export_trigger_value_to_variable = {
@@ -189,7 +200,7 @@ xvcv_mdlc_world_machines_adjust_non_resource_district_offset_entry = {
 # In this case, it's not appropriate to keep the same amount of deposit offsets,
 # so recalculate how many deposit offsets need to be in place now with the 1 t3 distict gone
 # Switch planet type and then recalculate offsets for all non-resource districts >_@
-xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = {
+xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all = {
 	optimize_memory
 	switch = {
 		trigger = is_planet_class
@@ -202,7 +213,7 @@ xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = {
 					}
 				}
 				#log = "Looking at world forge type, adjusting naval cap if needed ..."
-				xvcv_mdlc_world_machines_adjust_non_resource_district_offset_entry = {
+				xvcv_mdlc_planet_wm_adjust_non_resource_district_offset_entry = {
 					DISTRICT_TYPE = xvcv_mdlc_pc_machine_ecu_district_naval_cap
 					OFFSET_DEPOSIT_TYPE = xvcv_mdlc_d_pc_machine_ecu_naval_cap_offset
 				}
@@ -217,7 +228,7 @@ xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = {
 					}
 				}
 				#log = "Looking at world cpu type, adjusting decryption if needed..."
-				xvcv_mdlc_world_machines_adjust_non_resource_district_offset_entry = {
+				xvcv_mdlc_planet_wm_adjust_non_resource_district_offset_entry = {
 					DISTRICT_TYPE = xvcv_mdlc_pc_machine_cpu_district_decryption
 					OFFSET_DEPOSIT_TYPE = xvcv_mdlc_d_pc_machine_cpu_decryption_offset
 				}
@@ -233,7 +244,7 @@ xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = {
 					}
 				}
 				#log = "Looking at world server type, adjusting admin cap district if needed ..."
-				xvcv_mdlc_world_machines_adjust_non_resource_district_offset_entry = {
+				xvcv_mdlc_planet_wm_adjust_non_resource_district_offset_entry = {
 					DISTRICT_TYPE = xvcv_mdlc_pc_machine_ser_district_admin_cap
 					OFFSET_DEPOSIT_TYPE = xvcv_mdlc_d_pc_machine_ser_admin_cap_offset
 				}
@@ -244,7 +255,7 @@ xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = {
 					owner = { has_authority = auth_machine_intelligence }
 				}
 				#log = "Looking at world server type, adjusting deviancy district if needed ..."
-				xvcv_mdlc_world_machines_adjust_non_resource_district_offset_entry = {
+				xvcv_mdlc_planet_wm_adjust_non_resource_district_offset_entry = {
 					DISTRICT_TYPE = xvcv_mdlc_pc_machine_ser_district_crime
 					OFFSET_DEPOSIT_TYPE = xvcv_mdlc_d_pc_machine_ser_crime_offset
 				}
@@ -253,9 +264,9 @@ xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = {
 			else_if = {
 				limit = {
 					has_district = xvcv_mdlc_pc_machine_ser_district_crime
-					owner = { NOT = { has_authority = auth_machine_intelligence } }
+					owner = { has_auth_machine_intelligence = no }
 				}
-				xvcv_mdlc_world_machines_adjust_non_resource_district_offset_entry = {
+				xvcv_mdlc_planet_wm_adjust_non_resource_district_offset_entry = {
 					DISTRICT_TYPE = xvcv_mdlc_pc_machine_ser_district_crime
 					OFFSET_DEPOSIT_TYPE = xvcv_mdlc_d_pc_machine_ser_crime_alt_offset
 				}
@@ -268,7 +279,7 @@ xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = {
 					}
 				}
 				#log = "Looking at world server type, adjusting encryption district if needed ..."
-				xvcv_mdlc_world_machines_adjust_non_resource_district_offset_entry = {
+				xvcv_mdlc_planet_wm_adjust_non_resource_district_offset_entry = {
 					DISTRICT_TYPE = xvcv_mdlc_pc_machine_ser_district_encryption
 					OFFSET_DEPOSIT_TYPE = xvcv_mdlc_d_pc_machine_ser_encryption_offset
 				}
@@ -279,7 +290,7 @@ xvcv_mdlc_world_machines_recalc_non_resource_offsets_all = {
 
 # There's a bug where clearing all deposits doesn't work on the first try
 # Take CUSTOM_DEPOSIT_TYPE arg
-oxr_mdlc_clear_all_custom_deposits_of_type = {
+oxr_mdlc_planet_clear_all_custom_deposits_of_type = {
 	optimize_memory
 	export_trigger_value_to_variable = {
 		trigger = count_deposits
@@ -302,7 +313,7 @@ oxr_mdlc_clear_all_custom_deposits_of_type = {
 	}
 }
 
-xvcv_mdlc_count_districts_calculate_output_display_var = {
+xvcv_mdlc_planet_count_districts_calculate_output_display_var = {
 	# A workaround to properly export the world_machines_district_mult value
 	# because export_modifier_to_variable is broken in on_district_complete in 3.12.* +
 	# HOW THIS WORKS:
@@ -352,19 +363,19 @@ xvcv_mdlc_count_districts_calculate_output_display_var = {
 	}
 	# The base value is 0.3 and this never changes
 	set_variable = {
-		which = xvcv_mdlc_cooling_district_strength
+		which = xvcv_mdlc_cooling_district_strength_tmp
 		value = 0.3
 	}
 	# add rikk's bonuses via modifier, if it exists on the planet
 	change_variable = {
-		which = xvcv_mdlc_cooling_district_strength
+		which = xvcv_mdlc_cooling_district_strength_tmp
 		value = modifier:rikk_mdlc_world_machine_cooling_district_effectiveness
 	}
 	# 2 cooling districts count for 0.3 + modifier (ex: 0.1) for total of 0.4
 	# so 2 cooling districts yield a value of 0.8
 	multiply_variable = {
 		which = xvcv_mdlc_world_machines_production_bonus
-		value = xvcv_mdlc_cooling_district_strength
+		value = xvcv_mdlc_cooling_district_strength_tmp
 	}
 
 	#calculate effect of rikk_mdlc_world_machine_cooling_district_effectiveness
@@ -395,7 +406,7 @@ xvcv_mdlc_count_districts_calculate_output_display_var = {
 		value = xvcv_mdlc_world_machines_production_bonus
 	}
 
-	#log = "Districts output display var calculated to be: \\[This.xvcv_mdlc_world_machines_districts_output_var]"
+	log = "Districts output display var calculated to be: \\[This.xvcv_mdlc_world_machines_districts_output_var]"
 
 	#If there are more cooling districts than needed, delete one, then keep on checking
 	# while = {
@@ -420,7 +431,13 @@ xvcv_mdlc_count_districts_calculate_output_display_var = {
 	# clear_variable = rikk_mdlc_world_machine_cooling_district_effect
 }
 
-xvcv_mdlc_decision_machine_world_automation_effect = {
+oxr_mdlc_planet_derive_wm_output_value_from_display_var = {
+
+}
+
+
+# Specific effect for converting existing worlds to Auto-Machine Worlds
+xvcv_mdlc_planet_decision_machine_world_automation_effect = {
 	if = {
 		limit = { owner = { has_authority = auth_machine_intelligence } }
 		custom_tooltip = xvcv_mdlc_decision_machine_world_automation_tooltip
@@ -498,7 +515,7 @@ xvcv_mdlc_decision_machine_world_automation_effect = {
 		clear_variable = xvcv_mdlc_pc_machine_auto_district_generator_var
 		clear_variable = xvcv_mdlc_pc_machine_auto_district_mining_var
 	}
-	xvcv_mdlc_planet_terraforming_resolution_breached_effect = yes
+	xvcv_mdlc_planet_owner_terraforming_resolution_breached_effect = yes
 	oxr_mdlc_planet_add_wmc_core_deposit_if_missing = yes
 }
 
@@ -515,25 +532,70 @@ oxr_mdlc_planet_destroy_excess_cooling_districts = {
 	else = {
 		set_planet_flag = oxr_lock_oxr_mdlc_planet_destroy_excess_cooling_districts
 		set_variable = {
-			which = cooling_district_limit_tmp
+			which = cooling_district_strength_tmp
 			value = 0.3
 		}
 		change_variable = {
-			which = cooling_district_limit_tmp
+			which = cooling_district_strength_tmp
 			value = modifier:rikk_mdlc_world_machine_cooling_district_effectiveness
 		}
+		# log = "Cooling district strength limit is at \\[This.cooling_district_strength_tmp] "
+
+		# log = "Output var is set to \\[This.xvcv_mdlc_world_machines_districts_output_var]"
 		set_variable = {
-			which = districts_produces_mult_copy_tmp
-			value = modifier:xvcv_mdlc_world_machines_districts_produces_mult
+			which = oxr_mdlc_combined_cooling_strength_tmp
+			value = num_xvcv_mdlc_common_district_cooling
 		}
-	
+		multiply_variable = {
+			which = oxr_mdlc_combined_cooling_strength_tmp
+			value = cooling_district_strength_tmp
+		}
+		# log = " \\[This.GetName] has \\[This.num_xvcv_mdlc_common_district_cooling] cooling districts now."
+		export_trigger_value_to_variable = {
+			trigger = num_districts
+			parameters = { type = any }
+			variable = oxr_mdlc_used_cooling_amount_tmp
+		}
+		subtract_variable = {
+			which = oxr_mdlc_used_cooling_amount_tmp
+			value = num_xvcv_mdlc_common_district_cooling
+		}
+		multiply_variable = {
+			which = oxr_mdlc_used_cooling_amount_tmp
+			value = 0.1
+		}
+		# log = "Cooling power currently used: \\[This.oxr_mdlc_used_cooling_amount_tmp] "
+
+		# 5 cooling districts at 0.4 each is 2.0
+		# minus the used cooling amount
+
+		set_variable = {
+			which = oxr_mdlc_cooling_excess_tmp
+			value = oxr_mdlc_combined_cooling_strength_tmp
+		}
+		subtract_variable = {
+			which = oxr_mdlc_cooling_excess_tmp
+			value = oxr_mdlc_used_cooling_amount_tmp
+		}
+		# log = "Amount of excess cooling is \\[This.oxr_mdlc_cooling_excess_tmp] "
+
+		# Now we have some decimal value like 1.0 (if output var was 1.1 and cumulative str was 2.1)
+		set_variable = {
+			which = num_cooling_districts_to_remove_tmp
+			value = oxr_mdlc_cooling_excess_tmp   # a decimal value
+		}
+		# then divide and get the number of cooling districts to be removed
+		divide_variable = {
+			which = num_cooling_districts_to_remove_tmp
+			value = cooling_district_strength_tmp
+		}
+		# Now we have some decimal like 2.2, drop the remainder so we don't overshoot
+		floor_variable = num_cooling_districts_to_remove_tmp
+		# log = "Going to remove \\[This.num_cooling_districts_to_remove_tmp] num of cooling districts"
+
 		while = {
-			limit = {
-				check_variable = {
-					which = districts_produces_mult_copy_tmp
-					value >= cooling_district_limit_tmp
-				}
-			}
+			count = num_cooling_districts_to_remove_tmp
+
 			remove_district = xvcv_mdlc_common_district_cooling
 			space_owner = {
 				add_resource = {
@@ -541,20 +603,119 @@ oxr_mdlc_planet_destroy_excess_cooling_districts = {
 					minerals = @xvcv_mdlc_district_cost_5
 				}
 			}
-			set_variable = {
-				which = districts_produces_mult_copy_tmp
-				value = modifier:xvcv_mdlc_world_machines_districts_produces_mult
-			}
+
 			create_message = {
 				type = OXR_MDLC_WM_COOLING_DISTRICT_REFUND
 				localization = OXR_MDLC_ORIGIN_WM_COOLING_DISTRICT_REFUND_MESSAGE
 				days = 20
 				target = this
 			}
-			log = "(2) districts_produces_mult_copy_tmp is at \\[This.districts_produces_mult_copy_tmp]"
+			# log = "(2) districts_produces_mult_copy_tmp is at \\[This.districts_produces_mult_copy_tmp]"
 		}
-		clear_variable = cooling_district_limit_tmp
+
+		clear_variable = cooling_district_strength_tmp
 		clear_variable = districts_produces_mult_copy_tmp
+		clear_variable = num_cooling_districts_to_remove_tmp
+		clear_variable = oxr_mdlc_combined_cooling_strength_tmp
+		clear_variable = oxr_mdlc_cooling_excess_amount_tmp
+		clear_variable = oxr_mdlc_cooling_excess_tmp
+		clear_variable = oxr_mdlc_used_cooling_amount_tmp
+
 		remove_planet_flag = oxr_lock_oxr_mdlc_planet_destroy_excess_cooling_districts
+	}
+}
+
+xvcv_mdlc_planet_send_message_xvcv_mdlc_pc_machine_ser_project_complete = {
+	if = {
+		limit = { has_country_flag = xvcv_mdlc_decision_machine_ser_project_message_on }
+		create_message = {
+			type = XVCV_MDLC_WORLD_MACHINES_COMPLETION_MESSAGE_TYPE
+			localization = XVCV_MDLC_DECISION_MACHINE_SER_PROJECT_DONE_MESSAGE
+			days = 10
+			target = prev
+			variable = {
+				type = name
+				localization = XVCV_MDLC_DECISION_MACHINE_SER_PROJECT_PLANET
+				scope = prev
+			}
+		}
+	}
+}
+
+xvcv_mdlc_planet_send_message_xvcv_mdlc_pc_machine_ecu_project_complete = {
+	if = {
+		limit = { has_country_flag = xvcv_mdlc_decision_machine_ecu_project_message_on }
+		create_message = {
+			type = XVCV_MDLC_WORLD_MACHINES_COMPLETION_MESSAGE_TYPE
+			localization = XVCV_MDLC_DECISION_MACHINE_ECU_PROJECT_DONE_MESSAGE
+			days = 10
+			target = prev
+			variable = {
+				type = name
+				localization = XVCV_MDLC_DECISION_MACHINE_ECU_PROJECT_PLANET
+				scope = prev
+			}
+		}
+	}
+}
+
+xvcv_mdlc_planet_send_message_xvcv_mdlc_pc_machine_cpu_project_complete = {
+	owner = {
+		if = {
+			limit = { has_country_flag = xvcv_mdlc_decision_machine_cpu_project_message_on }
+			create_message = {
+				type = XVCV_MDLC_WORLD_MACHINES_COMPLETION_MESSAGE_TYPE
+				localization = XVCV_MDLC_DECISION_MACHINE_CPU_PROJECT_DONE_MESSAGE
+				days = 10
+				target = prev
+				variable = {
+					type = name
+					localization = XVCV_MDLC_DECISION_MACHINE_CPU_PROJECT_PLANET
+					scope = prev
+				}
+			}
+		}
+	}
+}
+
+xvcv_mdlc_planet_decision_convert_to_world_machine = {
+	oxr_mdlc_planet_clear_blockers_etc_if_not_already_wm = yes
+	oxr_mdlc_planet_create_deposit_upgrade_flags = yes
+	change_pc = $PLANET_CLASS$
+	oxr_mdlc_planet_restore_deposit_upgrades = yes
+	oxr_mdlc_planet_add_wmc_core_deposit_if_missing = yes
+	if = {
+		limit = { NOT = { has_modifier = planet_population_control_gestalt } }
+		add_modifier = { modifier = planet_population_control_gestalt days = -1 }
+	}
+
+	xvcv_mdlc_planet_owner_terraforming_resolution_breached_effect = yes
+	# Re-use this trigger to replace the capital with auto-capital
+	if = {
+		limit = { oxr_owner_has_wm_origin = yes }
+		# Add info modifier
+		oxr_mdlc_planet_do_wm_origin_things_after_project = yes
+	}
+	if = {
+		limit = { oxr_mdlc_planet_is_t3_world_machine = yes }
+		oxr_mdlc_planet_set_initial_cooling_district_count = yes
+		xvcv_mdlc_planet_wm_calc_output_value = yes
+	}
+}
+
+oxr_mdlc_save_planet_class_before_convert_to_wm = {
+	# This is run before change_pc
+	# only supports a few planet classes
+	if = {
+		limit = {
+			oxr_mdlc_planet_is_world_machine = no
+		}
+		if = {
+			limit = {
+				is_planet_class = pc_relic
+				doesnt_have_planet_flag = { FLAG = oxr_mdlc_pc_was_relic }
+			}
+			set_planet_flag = oxr_mdlc_pc_was_relic
+		}
 	}
 }

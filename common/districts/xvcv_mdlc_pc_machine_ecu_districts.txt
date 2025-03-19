@@ -37,13 +37,15 @@ xvcv_mdlc_pc_machine_ecu_district_alloys = {
 			volatile_motes = 100
 		}
 		produces = {
-			alloys = 60
+			trigger = {
+				exists = owner
+				owner = { is_catalytic_empire = no }
+			}
+			alloys = @[ oxr_t3_planet_district_jobs * oxr_mdlc_wm_base_fabricator_output ]
 			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
 		}
 		upkeep = {
-			trigger = {
-				exists = owner
-			}
+			trigger = { exists = owner }
 			rare_crystals = 1
 		}
 		upkeep = {
@@ -51,14 +53,25 @@ xvcv_mdlc_pc_machine_ecu_district_alloys = {
 				exists = owner
 				owner = { is_catalytic_empire = no }
 			}
-			minerals = 120  # was 60
+			minerals = @[ oxr_t3_planet_district_jobs * oxr_mdlc_wm_base_fabricator_upkeep ]
+		}
+		##
+		# CATALYTIC
+		##
+		produces = {
+			trigger = {
+				exists = owner
+				owner = { is_catalytic_empire = no }
+			}
+			alloys = @[ oxr_t3_planet_district_jobs * oxr_mdlc_wm_base_catalytic_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
 		}
 		upkeep = {
 			trigger = {
 				exists = owner
 				owner = { is_catalytic_empire = yes }
 			}
-			food = 144  # was 90
+			food = @[ oxr_t3_planet_district_jobs * oxr_mdlc_wm_base_catalytic_upkeep_food ]
 		}
 	}
 
@@ -75,6 +88,7 @@ xvcv_mdlc_pc_machine_ecu_district_alloys = {
 		fire_on_action = { on_action = on_world_machine_district_demolished }
 	}
 }
+
 xvcv_mdlc_pc_machine_ecu_district_goods = {
 	base_buildtime = @xvcv_mdlc_district_time_4
 	is_capped_by_modifier = no
@@ -112,11 +126,11 @@ xvcv_mdlc_pc_machine_ecu_district_goods = {
 			rare_crystals = 100
 		}
 		produces = {
-			consumer_goods = 120
+			consumer_goods = @[ oxr_t3_planet_district_jobs * oxr_mdlc_wm_base_artisan_output ]
 			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
 		}
 		upkeep = {
-			minerals = 60
+			minerals = @[ oxr_t3_planet_district_jobs * oxr_mdlc_wm_base_artisan_upkeep ]
 			energy = 10
 			rare_crystals = 1
 		}

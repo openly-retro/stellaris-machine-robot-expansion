@@ -1,0 +1,256 @@
+# Bio-Robot related effects
+xvcv_mdlc_bio_robot_auto_growth_stop_effect = {
+	optimize_memory
+	remove_modifier = xvcv_mdlc_bio_robot_growth_progress_percent
+	#clear variables for using it later
+	clear_variable = xvcv_mdlc_bio_robot_growth_progress_var 
+	clear_variable = xvcv_mdlc_bio_robot_growth_rate_per_month_var
+	clear_variable = xvcv_mdlc_bio_robot_remaining_time_to_finish_growth_var
+	clear_variable = xvcv_mdlc_bio_robot_growth_requirement_var 
+}
+
+xvcv_mdlc_planet_calc_bio_mech_growth_rate = {
+	
+	#phase 1: set how much total progress is needed for a new pop
+	set_variable = { which = xvcv_mdlc_bio_robot_growth_requirement_var value = 100 }
+	random_country = {
+		limit = { is_country_type = xvcv_mdlc_data_storage }
+		prev = {
+			set_variable = {
+				which = xvcv_mdlc_pop_growth_scale_var
+				value = prev.xvcv_mdlc_pop_growth_scale_var
+			}
+		} #get the current growth scale value from the data storage
+	}
+	multiply_variable = { which = xvcv_mdlc_pop_growth_scale_var value = owner.trigger:num_pops }
+	change_variable = {
+		which = xvcv_mdlc_bio_robot_growth_requirement_var
+		value = xvcv_mdlc_pop_growth_scale_var
+	}
+	set_variable = {
+		which = xvcv_mdlc_bio_robot_remaining_time_to_finish_growth_var 
+		value = xvcv_mdlc_bio_robot_growth_requirement_var
+	}
+
+	#phase 2: calculate how much progress is made per month in this planet
+	# Base growth is 3.0 before any modifiers
+	change_variable = {
+		which = xvcv_mdlc_bio_robot_growth_progress_var
+		value = 3
+	}
+	set_variable = {
+		which = xvcv_mdlc_bio_robot_growth_rate_per_month_var
+		value = 3
+	} #set the variable's value to 0 for reusing it, but the default growth progress is 3 so add 3 here
+
+	# Retro: Utilize xvcv_mdlc_bio_robot_growth_add
+	export_modifier_to_variable = {
+		modifier = xvcv_mdlc_bio_robot_growth_add
+		variable = xvcv_mdlc_bio_robot_growth_add_var
+	}
+	change_variable = {
+		which = xvcv_mdlc_bio_robot_growth_progress_var 
+		value = modifier:xvcv_mdlc_bio_robot_growth_add
+	}
+	change_variable = {
+		which = xvcv_mdlc_bio_robot_growth_rate_per_month_var 
+		value = modifier:xvcv_mdlc_bio_robot_growth_add
+	}
+	# Give a little bonus from mechanical / machine assembly
+	if = {
+		limit = {
+			check_modifier_value = {
+				modifier = planet_pop_assembly_add
+				value > 0
+			}
+		}
+		set_variable = {
+			which = xvcv_mdlc_bio_robot_growth_progress_var_from_assembly
+			value = modifier:planet_pop_assembly_add
+		}
+		if = {
+			limit = {
+				check_modifier_value = {
+					modifier = planet_pop_assembly_mult
+					value > 0
+				}
+			}
+			export_modifier_to_variable = {
+				modifier = planet_pop_assembly_mult
+				variable = planet_pop_assembly_mult_var
+			}
+			change_variable = {
+				which = planet_pop_assembly_mult_var
+				value = 1
+			}
+			multiply_variable = {
+				which = xvcv_mdlc_bio_robot_growth_progress_var_from_assembly
+				value = planet_pop_assembly_mult_var
+			}
+		}
+		divide_variable = {
+			which = xvcv_mdlc_bio_robot_growth_progress_var_from_assembly
+			value = 4
+		}
+		change_variable = {
+			which = xvcv_mdlc_bio_robot_growth_progress_var 
+			value = xvcv_mdlc_bio_robot_growth_progress_var_from_assembly
+		}
+		change_variable = {
+			which = xvcv_mdlc_bio_robot_growth_rate_per_month_var 
+			value = xvcv_mdlc_bio_robot_growth_progress_var_from_assembly
+		}
+		log = "Added \\[This.xvcv_mdlc_bio_robot_growth_progress_var_from_assembly] pop assembly to hybrid cloning value."
+		# clear_variable = xvcv_mdlc_bio_robot_growth_progress_var_from_assembly_tmp
+	}
+
+	# xvcv_mdlc_bio_robot_growth_mult
+	if = {
+		limit = {
+			check_modifier_value = {
+				modifier = xvcv_mdlc_bio_robot_growth_mult
+				value > 0
+			}
+		}
+		export_modifier_to_variable = {
+			modifier = xvcv_mdlc_bio_robot_growth_mult
+			variable = xvcv_mdlc_bio_robot_growth_mult_var
+		}
+		set_variable = {
+			which = xvcv_mdlc_bio_robot_growth_mult_var_display
+			value = xvcv_mdlc_bio_robot_growth_mult_var
+		}
+		multiply_variable = {
+			which = xvcv_mdlc_bio_robot_growth_mult_var_display
+			value = 100
+		}
+
+
+		change_variable = {
+			which = xvcv_mdlc_bio_robot_growth_mult_var
+			value = 1
+		}
+		multiply_variable = {
+			which = xvcv_mdlc_bio_robot_growth_progress_var 
+			value = xvcv_mdlc_bio_robot_growth_mult_var
+		}
+		multiply_variable = {
+			which = xvcv_mdlc_bio_robot_growth_rate_per_month_var 
+			value = xvcv_mdlc_bio_robot_growth_mult_var
+		}
+		clear_variable = xvcv_mdlc_bio_robot_growth_mult_var
+	}
+
+
+	random_owned_pop = {
+		limit = { xvcv_mdlc_bio_robot_auto_growth_possible_pop_trigger = yes }
+		#choose a species to be born (if there are more than one hybrid)
+		weights = {
+			base = 1
+			# modifier = { add = @xvcv_mdlc_bio_robot_growth_add_1 has_trait = xvcv_mdlc_bio_robot_trait_rapid_breeders }
+			modifier = { add = @xvcv_mdlc_bio_robot_growth_add_1 has_trait = trait_rapid_breeders }
+			modifier = { add = @xvcv_mdlc_bio_robot_growth_add_1 has_trait = trait_robot_mass_produced }
+			# modifier = { add = @xvcv_mdlc_bio_robot_growth_add_1 has_trait = xvcv_mdlc_bio_robot_trait_robot_mass_produced }
+			modifier = { add = @xvcv_mdlc_bio_robot_growth_add_2 has_trait = xvcv_mdlc_bio_robot_trait_org_body_copy_design }
+		}
+		if = {
+			# limit = { has_trait = xvcv_mdlc_bio_robot_trait_rapid_breeders }
+			limit = { has_trait = trait_rapid_breeders }
+			prev = {
+				change_variable = {
+					which = xvcv_mdlc_bio_robot_growth_progress_var
+					value = @xvcv_mdlc_bio_robot_growth_add_1
+				}
+				change_variable = {
+					which = xvcv_mdlc_bio_robot_growth_rate_per_month_var
+					value = @xvcv_mdlc_bio_robot_growth_add_1
+				} #the variable used for 'xvcv_mdlc_bio_robot_growth_progress_percent_desc'
+			}
+		}
+		if = {
+			limit = { has_trait = trait_robot_mass_produced }
+			prev = {
+				change_variable = {
+					which = xvcv_mdlc_bio_robot_growth_progress_var
+					value = @xvcv_mdlc_bio_robot_growth_add_1
+				}
+				change_variable = {
+					which = xvcv_mdlc_bio_robot_growth_rate_per_month_var 
+					value = @xvcv_mdlc_bio_robot_growth_add_1
+				}
+			}
+		}
+		if = {
+			limit = { has_trait = xvcv_mdlc_bio_robot_trait_org_body_copy_design }
+			prev = {
+				change_variable = { which = xvcv_mdlc_bio_robot_growth_progress_var value = @xvcv_mdlc_bio_robot_growth_add_2 }
+				change_variable = { which = xvcv_mdlc_bio_robot_growth_rate_per_month_var value = @xvcv_mdlc_bio_robot_growth_add_2 }
+			}
+		}
+		prev = {
+			#phase 3: create a pop
+			if = {
+				limit = { check_variable = { which = xvcv_mdlc_bio_robot_growth_progress_var value > xvcv_mdlc_bio_robot_growth_requirement_var } }
+				subtract_variable = { which = xvcv_mdlc_bio_robot_growth_progress_var value = xvcv_mdlc_bio_robot_growth_requirement_var }
+				create_pop = { species = prev.species }
+			}
+		}
+	}
+
+	#create things to show players some info
+	subtract_variable = { which = xvcv_mdlc_bio_robot_remaining_time_to_finish_growth_var value = xvcv_mdlc_bio_robot_growth_progress_var }
+	divide_variable = { which = xvcv_mdlc_bio_robot_remaining_time_to_finish_growth_var value = xvcv_mdlc_bio_robot_growth_rate_per_month_var }
+	ceiling_variable = xvcv_mdlc_bio_robot_remaining_time_to_finish_growth_var #rounds a previously-set variable 'up' to the next integer
+	if = {
+		limit = { NOT = { has_modifier = xvcv_mdlc_bio_robot_growth_progress_percent } }
+		add_modifier = { modifier = xvcv_mdlc_bio_robot_growth_progress_percent days = -1 }
+	}
+}
+
+# called on a random country assembling pops, via xvcv_mdlc.41
+xvcv_mdlc_planet_extract_assembly_rate_for_data = {
+	# Copy the planet's current assembly rate to xvcv assembly rate
+	# Copy both pop assembly add, and pop assembly mult to xvcv vars
+	export_modifier_to_variable = { modifier = planet_pop_assembly_add variable = xvcv_mdlc_pop_assembly_add_var }
+	if = {
+		limit = { check_modifier_value = { modifier = planet_pop_assembly_mult value > 0 } }
+		set_variable = { which = xvcv_mdlc_pop_assembly_mult_var value = 1 }
+		change_variable = { which = xvcv_mdlc_pop_assembly_mult_var value = modifier:planet_pop_assembly_mult }
+		multiply_variable = { which = xvcv_mdlc_pop_assembly_add_var value = xvcv_mdlc_pop_assembly_mult_var }
+	}
+	#log = "Assembly per Month: [This.xvcv_mdlc_pop_assembly_add_var]"
+	
+	# Calculate the base assembly requirement for a bio mech pop
+	# look at the amount of "artificial" pops/yr, ex: 0.41
+	# The assembly requirement 
+	export_trigger_value_to_variable = { trigger = num_artificial_pops_per_year variable = xvcv_mdlc_pops_per_year_var }
+	set_variable = { which = xvcv_mdlc_assembly_requirement_var value = xvcv_mdlc_pop_assembly_add_var }
+	multiply_variable = { which = xvcv_mdlc_assembly_requirement_var value = 12 }
+	divide_variable = { which = xvcv_mdlc_assembly_requirement_var value = xvcv_mdlc_pops_per_year_var }
+	#log = "Total Progress Required for New Pop: [This.xvcv_mdlc_assembly_requirement_var]"
+
+	set_variable = { which = xvcv_mdlc_pop_growth_scale_var value = xvcv_mdlc_assembly_requirement_var }
+	change_variable = { which = xvcv_mdlc_pop_growth_scale_var value = -100 }
+	divide_variable = { which = xvcv_mdlc_pop_growth_scale_var value = prev.trigger:num_pops }
+	multiply_variable = { which = xvcv_mdlc_pop_growth_scale_var value = 100 }
+	floor_variable = xvcv_mdlc_pop_growth_scale_var
+	divide_variable = { which = xvcv_mdlc_pop_growth_scale_var value = 100 }
+	#log = "Current Growth Scale: [This.xvcv_mdlc_pop_growth_scale_var]"
+
+	if = {
+		limit = { check_variable = { which = xvcv_mdlc_pop_growth_scale_var value < 0 } }
+		set_variable = { which = xvcv_mdlc_pop_growth_scale_var value = 0 } #failsafe
+	}
+
+	random_country = {
+		limit = { is_country_type = xvcv_mdlc_data_storage }
+		set_variable = {
+			which = xvcv_mdlc_pop_growth_scale_var
+			value = prev.xvcv_mdlc_pop_growth_scale_var
+		}
+	}
+
+	#xvcv_mdlc_pops_per_year_var = (xvcv_mdlc_pop_assembly_add_var x 12) / total_assembly_required
+	#total_assembly_required = (xvcv_mdlc_pop_assembly_add_var x 12) / xvcv_mdlc_pops_per_year_var
+	#xvcv_mdlc_pop_growth_scale_var = total_assembly_required - 100 / empire_total_pop_number
+}

@@ -137,8 +137,10 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
             nothing = _modifiers.pop('potential', None)
             slim_trait[modifier_info] = _modifiers
     # A key will be None if the next line is a multi-nested assignment on one line, because PDX script is inconsistent
-    if root.get("leader_potential_add", {}) is not None:
+    if root.get("leader_potential_add"):
         slim_trait["requires_paragon_dlc"] = True if root.get("leader_potential_add", {}).get('has_paragon_dlc') == True else False
+        # Start harvesting this in order to build triggers to check the trait can be added
+        slim_trait["leader_potential_add"] = root["leader_potential_add"]
     else:
         slim_trait["requires_paragon_dlc"] = False
     # Many ways to find subclasses:

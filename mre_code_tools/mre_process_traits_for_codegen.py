@@ -35,6 +35,8 @@ from mre_common_vars import (
     EXCLUDE_TRAITS_FROM_CORE_MODIFYING,
     EXCLUDE_TRAITS_FROM_COUNCILOR_EDITOR,
     EXCLUDE_TRAITS_FROM_PARAGON_DLC,
+    FILE_NUM_PREFIXES,
+    TRIGGERS_EFFECTS_FOLDER,
 )
 
 MODIFIER_VALUES_SUBSTITUTIONS = {
@@ -132,6 +134,7 @@ def pick_highest_tier_of_trait(list_of_traits):
             trait_level = int(trait_level)
         else:
             current_trait_name_series = current_trait_name
+            # trait_level = 1
         # logger.info(f"Evaluating {current_trait_name} in series {current_trait_name_series}")
         # Is the next trait in the same series? If so, pop it off the copy
         # If there is no next trait (end of list) we have evaluated the highest in the series
@@ -225,6 +228,99 @@ def filter_traits_by_rarity(traits_list):
             )
     return traits_by_rarity
 
+
+def create_requirements_triggers_for_leader_traits(trait: dict) -> str:
+    """
+    Take the first leader trait in a series, pick out the requirements,
+    and create a trigger for it.
+    Also factor in opposites.
+    """
+    requirements = []
+    trait_name = [*trait][0]
+    root = trait[trait_name]
+    # class
+    if root == {}:
+        return ''
+    requirements.append(
+        f"leader_class = {root["leader_class"]}"
+    )
+    if root.get("required_subclass"):
+        requirements.append(
+            f"has_trait = {root["required_subclass"]}"
+        )
+    if root.get("rarity") == "veteran":
+        requirements.append(
+            f"has_skill >= 4"
+        )
+    elif root.get("rarity") == "paragon":
+        requirements.append(
+            f"has_skill >= 8"
+        )
+    for trigger, value in root.get("leader_potential_add", {}).items():
+        if trigger == "has_skill":
+            # Deal with my special greater_than_1 thing I forgot I made :psycho_smile:
+            skill_level = int(value.split('_')[-1])
+            if "greater_than" in value:
+                operator = ">"
+            elif "less_than" in value:
+                operator = "<"
+            requirements.append(
+                f"has_skill {operator} {skill_level}"
+            )
+        # Greeting abonimatnion
+        elif trigger == "has_subclass_trait" and not root.get("required_subclass"):
+            # is it just one?
+            if len(value) == 1:
+                requirements.append(
+                    f"has_trait = {value[0]}"
+                )
+            else:
+                subclasses = [ f"has_trait = {subclass}" for subclass in value ]
+                requirements.append(
+                    f"OR = {{ {" ".join(subclasses)}   }}"
+                )
+        elif type(value) is dict and trigger == "owner":
+            # too much to deal with..
+            # aHAhahAHahhAHAHA let's see what happens with this t(@_o)t
+            # requirement = str(value).replace(
+            #     ":"," = ").replace("'",'').replace("False","no").replace(
+            #         "True",'yes').replace(',','').replace('{')
+            # requirements.append(
+            #     f"owner = {{ {requirement} }}"
+            # )
+            # shudder
+            abomination = str(value).strip('{').strip('}').replace(':','=').replace("'",' ').replace(',','').replace('True','yes').replace('False','no')
+            requirements.append(f"""owner = {{ { abomination } }} """)
+
+        # if it's a standard assignment, put in the list
+        elif type(value) not in [dict, list]:
+            if type(value) != bool:
+                requirements.append(
+                    f"{trigger} = {value}"
+                )
+            else:
+                requirements.append(
+                    f"{trigger} = {'yes' if value else 'no'}"
+                )
+    # Shroud help us
+    return f"""
+oxr_mdlc_leader_{root["leader_class"]}_can_add_{trait_name} = {{
+    { "\n    ".join(requirements) }
+}}
+"""
+
+def iterate_traits_create_requirements_triggers(traits_list) -> str:
+    triggers_list = []
+    for trait in traits_list:
+        trait_name = [*trait][0]
+        # Do not create triggers for traits that are tier 2, tier 3 etc
+        if not trait_name[-1].isdigit():
+            triggers_list.append(
+                create_requirements_triggers_for_leader_traits(trait)
+            )
+    return "\n\n".join(triggers_list)
+
+
 def do_qa_on_pipeline_files(traits_list):
     """ Quick QA check to find potential missing data """
     rogue_trait_names = []
@@ -256,6 +352,25 @@ def do_qa_on_pipeline_files(traits_list):
         for trait_name in rogue_trait_names:
             sys.stdout.write(f"{trait_name}\n")
 
+
+def write_leader_trait_trigger_files():
+    for leader_class in LEADER_CLASSES:
+        pipeline_source_file = f"00_mre_{leader_class}_traits.json"
+        buffer = ''
+        input_filename = os.path.join('build', pipeline_source_file)
+        with open(input_filename, "r") as input_file:
+            buffer = json_load(input_file)
+            # create text
+            triggers_for_leader_traits = iterate_traits_create_requirements_triggers(buffer)
+            output_file_name = f"{FILE_NUM_PREFIXES["triggers"]}_mre_{leader_class}_leader_trait_triggers.txt"
+            output_file_dest = os.path.join(
+                TRIGGERS_EFFECTS_FOLDER, output_file_name
+            )
+            with open(output_file_dest, 'w') as leader_triggers_output_file:
+                leader_triggers_output_file.write(triggers_for_leader_traits)
+            print(f"+ Wrote {leader_class} trait triggers to {output_file_dest}")
+
+
 def sort_and_filter_pipeline_files() -> dict:
     """ separate traits by feature and then organize by rarity """
     data_to_be_written = {
@@ -272,6 +387,8 @@ def sort_and_filter_pipeline_files() -> dict:
         # Subclasses are trickled up in the run_mre_trait_pipeline script
         # traits_with_populated_subclasses = trickle_up_subclass_requirements(
         #     buffer, for_class=leader_class)
+
+        triggers_for_leader_traits = iterate_traits_create_requirements_triggers(buffer)
         highest_tier_traits = pick_highest_tier_of_trait(buffer)
         traits_sorted_by_feature = filter_traits_by_mod_feature(highest_tier_traits)
         # has leader_making and core_modifying keys
@@ -345,6 +462,7 @@ def write_sorted_filtered_data_to_json_files(input_data: dict):
         with open(output_filepath, "w") as leader_traits_dest:
             json_dump(root, leader_traits_dest, indent=4)
             output_filenames.append(output_filepath)
+    write_leader_trait_trigger_files()
     sys.stdout.write(
         f"Check the output files to see they're in good shape:\n"
     )

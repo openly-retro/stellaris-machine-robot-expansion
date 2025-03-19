@@ -14,18 +14,18 @@ rikk_mdlc_world_machine_dyson_deflector = {
 
 	potential = {
 		exists = owner
-		is_normal_starbase = yes
 		owner = {
-			has_technology = "rikk_mdlc_tech_world_machine_dyson"
+			has_technology = rikk_mdlc_tech_world_machine_dyson
 			has_monthly_income = {
 				resource = engineering_research
 				value > @oxr_mdlc_origin_wm_rikk_dyson_deflector_research_upkeep
 			}
 			has_monthly_income = {
 				resource = physics_research
-				value = @oxr_mdlc_origin_wm_rikk_dyson_deflector_research_upkeep
+				value > @oxr_mdlc_origin_wm_rikk_dyson_deflector_research_upkeep
 			}
 		}
+		is_normal_starbase = yes
 	}
 
 	possible = {
@@ -87,18 +87,18 @@ rikk_mdlc_world_machine_dyson_deflector_O = {
 	construction_days = 180
 
 	show_in_tech = "rikk_mdlc_tech_world_machine_dyson"
-	# show_tech_unlock_if = {  }
+	show_tech_unlock_if = { has_global_flag = giga_has_host }
 
 	potential = {
 		has_global_flag = giga_has_host
 		exists = owner
 		is_normal_starbase = yes
 		owner = {
-			has_technology = "rikk_mdlc_tech_world_machine_dyson"
+			has_technology = rikk_mdlc_tech_world_machine_dyson
 			inline_script = {
 				script = oxr_merger_of_rules_copy/toggled_code
 				code = "
-				has_technology = "giga_tech_dyson_o_star"
+				has_technology = giga_tech_dyson_o_star
 				"
 				toggle = @has_gigastructures
 			}
@@ -161,7 +161,7 @@ rikk_mdlc_world_machine_dyson_receiver = {
 		exists = owner
 		is_orbital_ring = yes
 		owner = {
-			has_technology = "rikk_mdlc_tech_world_machine_dyson"
+			has_technology = rikk_mdlc_tech_world_machine_dyson
 			has_monthly_income = {
 				resource = engineering_research
 				value > @oxr_mdlc_rikk_dyson_deflector_research_upkeep_giga_o

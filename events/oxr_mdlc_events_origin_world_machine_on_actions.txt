@@ -383,22 +383,51 @@ country_event = {
 				counter = "oxr_mdlc_origin_wm_blockers"
 				amount = 1
 			}
+			change_variable = {
+				which = oxr_mdlc_origin_wm_blockers_var
+				value = 0.01
+			}
 			log = "Incremented 'Clear Blocker' event chain by 1"
 			# TODO: contribute towards ongoing situation
 			if = {
 				limit = {
-					has_completed_event_chain_counter = {
-						event_chain = "oxr_mdlc_origin_wm_chain_clear_blockers_2"
-						counter = "oxr_mdlc_origin_wm_blockers"
-					}
-					NOT = {
-						has_technology = oxr_mdlc_tech_world_machine_planetary_mastery
-					}
+					check_variable = { which = oxr_mdlc_origin_wm_blockers_var value > 0.49 }
 				}
 				# Trigger completion
 				country_event = {
 					id = oxr_mdlc_origin_wm_main.51
 				}
+			}
+			if = {
+				limit = { has_technology = oxr_mdlc_tech_world_machine_planetary_mastery }
+				end_event_chain = oxr_mdlc_origin_wm_chain_clear_blockers_2
+			}
+		}
+	}
+}
+country_event = {
+	id = oxr_mdlc_on_world_machine_action.1020
+	is_triggered_only = yes
+	hide_window = yes
+	trigger = {
+		has_event_chain = "oxr_mdlc_origin_wm_chain_clear_blockers_2"
+		NOT = { has_completed_event_chain = oxr_mdlc_origin_wm_chain_clear_blockers_2 }
+	}
+
+	immediate = {
+		if = {
+			add_event_chain_counter = { #make sure event chain counted as complete
+				event_chain = "oxr_mdlc_origin_wm_chain_clear_blockers_2"
+				counter = "oxr_mdlc_origin_wm_blockers"
+				amount = 100
+			}
+			# Trigger completion
+			country_event = {
+				id = oxr_mdlc_origin_wm_main.51
+			}
+			if = { #delete it if tech is already researched
+				limit = { has_technology = oxr_mdlc_tech_world_machine_planetary_mastery }
+				end_event_chain = oxr_mdlc_origin_wm_chain_clear_blockers_2
 			}
 		}
 	}
@@ -714,56 +743,22 @@ planet_event = {
 	id = oxr_mdlc_on_world_machine_action.1930
 	hide_window = yes
 	is_triggered_only = yes
-	immediate = {
-		log = "Planet gained: \\[This.GetName]"
-		oxr_mdlc_planet_fix_things_after_restoring_ownership = yes
-	}
-}
 
-# Update planet vars for tracking max district armies
-planet_event = {
-	id = oxr_mdlc_on_world_machine_action.2001
-	is_triggered_only = yes
-	hide_window = yes
 	trigger = {
-		space_owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
 		is_planet_world_machine = yes
-		# re-use trigger to check if last district changed was WM district
-		xvcv_mdlc_world_machines_districts_heat_indicators_calc_trigger = yes
-	}
-	pre_triggers = {
-		is_occupied_flag = no
 	}
 
 	immediate = {
-		oxr_mdlc_origin_world_machine_calc_max_district_armies = yes
-		oxr_mdlc_origin_world_machine_calc_current_district_armies = yes
 		if = {
 			limit = {
-				check_variable = {
-					which = oxr_mdlc_world_machine_num_existing_district_armies
-					value > oxr_mdlc_world_machine_num_max_district_armies
-				}
+				oxr_mdlc_planet_wm_needs_fixing = yes
 			}
-			while = {
-				limit = {
-					check_variable = {
-						which = oxr_mdlc_world_machine_num_existing_district_armies
-						value > oxr_mdlc_world_machine_num_max_district_armies
-					}
-				}
-				random_planet_army = {
-					limit = {
-						army_type = oxr_mdlc_world_machine_district_defense_army
-					}
-					remove_army = yes
-				}
-				log = "Removed a district defense army after a district was demolished."
-				oxr_mdlc_origin_world_machine_calc_current_district_armies = yes
-			}
+			oxr_mdlc_planet_fix_things_after_restoring_ownership = yes
 		}
+		log = "Planet gained: \\[This.GetName]"
 	}
 }
+
 country_event = {
 	id = oxr_mdlc_on_world_machine_action.2500
 	is_triggered_only = yes

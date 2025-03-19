@@ -1,0 +1,36 @@
+#
+to = "$TO$"
+from = "$FROM$"
+resources = {
+	category = terraforming
+	cost = {
+		oxr_mdlc_world_machine_core = 1
+		energy = @oxr_mdlc_world_machine_extreme_to_t3_cost
+	}
+}
+
+duration = @oxr_mdlc_world_machine_extreme_to_t3
+
+potential = {
+	has_origin = oxr_mdlc_origin_world_machine_awakened
+	has_technology = $TECH$
+	from = { has_planet_flag = rikk_mdlc_world_machine_suitable }
+}
+condition = {}
+ai_weight = {
+	weight = 10
+	modifier = {
+		factor = 0	
+		resource_stockpile_compare = {
+			resource = oxr_mdlc_world_machine_core value < 10
+		}
+	}
+}
+effect = {
+	from = {
+		fire_on_action = {
+			on_action = on_world_machine_non_wm_to_t3_terraforming_complete
+		}
+	}
+}
+#EOF

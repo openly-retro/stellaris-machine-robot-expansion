@@ -1,0 +1,163 @@
+rikk_mdlc_rw_upgrade_effect = {
+	#log = "effect started"
+	change_pc = rikk_mdlc_pc_ringworld_upgrade
+	reset_planet = yes
+	rikk_mdlc_rw_upgrade_effect_sort = yes
+}
+
+rikk_mdlc_rw_upgrade_effect_sort = {
+	optimize_memory
+	if = {
+		limit = { rikk_mdlc_rw_upgrade_is_gar = yes }
+		if = { 
+			limit = { is_planet_class = rikk_mdlc_pc_ringworld_upgrade }
+			giga_set_ringworld_graphical_culture = {
+				TARGET = this
+				SOURCE = space_owner
+				SIZE = gargantuan
+				TYPE = seam
+			}
+		}
+		else = {
+			giga_set_ringworld_graphical_culture = {
+				TARGET = this
+				SOURCE = space_owner
+				SIZE = gargantuan
+				TYPE = tech
+			}
+		}
+		rikk_mdlc_rw_upgrade_calculator = {
+			LIMIT = gar
+			SIZE = 40
+		}
+	}
+	else_if = {
+		limit = { rikk_mdlc_rw_upgrade_is_beh = yes }
+		if = { 
+			limit = { is_planet_class = rikk_mdlc_pc_ringworld_upgrade }
+			giga_set_ringworld_graphical_culture = {
+				TARGET = this
+				SOURCE = space_owner
+				SIZE = behemoth
+				TYPE = seam
+			}
+		}
+		else = {
+			giga_set_ringworld_graphical_culture = {
+				TARGET = this
+				SOURCE = space_owner
+				SIZE = behemoth
+				TYPE = tech
+			}
+		}
+		rikk_mdlc_rw_upgrade_calculator = {
+			LIMIT = beh
+			SIZE = 30
+		}
+	}
+	else_if = {
+		limit = { rikk_mdlc_rw_upgrade_is_tit = yes }
+		if = { 
+			limit = { is_planet_class = rikk_mdlc_pc_ringworld_upgrade }
+			giga_set_ringworld_graphical_culture = {
+				TARGET = this
+				SOURCE = space_owner
+				SIZE = titanic
+				TYPE = seam
+			}
+		}
+		else = {
+			giga_set_ringworld_graphical_culture = {
+				TARGET = this
+				SOURCE = space_owner
+				SIZE = titanic
+				TYPE = tech
+			}
+		}
+		rikk_mdlc_rw_upgrade_calculator = {
+			LIMIT = tit
+			SIZE = 20
+		}
+	}
+	else = {
+		if = { 
+			limit = { is_planet_class = rikk_mdlc_pc_ringworld_upgrade }
+			set_planet_entity = {
+				entity = "ringworld_seam_entity_01_entity"
+				graphical_culture = space_owner
+			}
+		}
+		else = {
+			set_planet_entity = {
+				entity = "ringworld_tech_entity_01_entity"
+				graphical_culture = space_owner
+			}
+		}
+		rikk_mdlc_rw_upgrade_calculator = {
+			LIMIT = van
+			SIZE = 10
+		}
+	}
+}
+
+rikk_mdlc_rw_upgrade_calculator = {
+	#log = "made it inside"
+	solar_system = {
+		set_variable = { which = rikk_mdlc_rw_upgrade_counter value = 0 }
+		set_variable = { which = rikk_mdlc_rw_habitable_counter value = 0 }
+		set_variable = { which = rikk_mdlc_rw_upgrade_counter_hundred value = 0 }
+		every_system_planet = {
+			limit = {
+				rikk_mdlc_rw_upgrade_is_$LIMIT$ = yes
+				is_planet_class = rikk_mdlc_pc_ringworld_upgrade
+			}
+			solar_system = {
+				change_variable = { which = rikk_mdlc_rw_upgrade_counter value = $SIZE$ }
+			}
+		}
+		every_system_planet = {
+			limit = {
+				rikk_mdlc_rw_upgrade_is_$LIMIT$ = yes
+				OR = {
+					is_planet_class = pc_ringworld_habitable
+					is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
+					giga_is_ringworld = yes
+				}
+			}
+			solar_system = {
+				change_variable = { which = rikk_mdlc_rw_habitable_counter value = 1 }
+			}
+		}
+		#log = "upgrades = \\[This.rikk_mdlc_rw_upgrade_counter]"
+		#log = "habitables = \\[This.rikk_mdlc_rw_habitable_counter]"
+		multiply_variable = { which = rikk_mdlc_rw_upgrade_counter value = 0.66 }
+		divide_variable = { which = rikk_mdlc_rw_upgrade_counter value = rikk_mdlc_rw_habitable_counter }
+		round_variable = rikk_mdlc_rw_upgrade_counter
+		change_variable = { which = rikk_mdlc_rw_upgrade_counter value = $SIZE$ }
+		#log = "final calc = \\[This.rikk_mdlc_rw_upgrade_counter]"
+		change_variable = { which = rikk_mdlc_rw_upgrade_counter_hundred value = rikk_mdlc_rw_upgrade_counter }
+		subtract_variable = { which = rikk_mdlc_rw_upgrade_counter_hundred value = $SIZE$ }
+		divide_variable = { which = rikk_mdlc_rw_upgrade_counter_hundred value = 100 }
+		every_system_planet = {
+			limit = {
+				rikk_mdlc_rw_upgrade_is_$LIMIT$ = yes
+				OR = {
+					#is_ringworld = yes #this will also count seams and tech sections I think
+					is_planet_class = pc_ringworld_habitable
+					is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
+					giga_is_ringworld = yes
+				}
+			}
+			remove_modifier = rikk_mdlc_rw_upgrade_modifier
+			add_modifier = { modifier = rikk_mdlc_rw_upgrade_modifier mult = solar_system.rikk_mdlc_rw_upgrade_counter_hundred }
+			set_planet_size = 0
+			while = {
+				count = solar_system.rikk_mdlc_rw_upgrade_counter
+				change_planet_size = 1
+			}
+		}
+		clear_variable = rikk_mdlc_rw_upgrade_counter
+		clear_variable = rikk_mdlc_rw_habitable_counter
+		clear_variable = rikk_mdlc_rw_upgrade_counter_hundred
+	}
+}

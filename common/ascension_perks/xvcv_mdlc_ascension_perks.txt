@@ -20,7 +20,7 @@ xvcv_mdlc_ap_self_assembling_colony_ship = {
 	possible = {
 		custom_tooltip = {
 			fail_text = oxr_mdlc_ap_self_assembling_colony_ship.fail_origin_wm
-			NOT = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+			has_oxr_mdlc_origin_world_machine_awakened = no
 		}
 	}
 
@@ -32,7 +32,7 @@ xvcv_mdlc_ap_robotic_age = {
 	on_enabled = {
 		add_research_option = tech_robot_assembly_complex
 		if = {
-			limit = { NOT = { has_authority = auth_machine_intelligence } }
+			limit = { has_auth_machine_intelligence = no }
 			custom_tooltip = xvcv_mdlc_ap_robotic_age_tooltip_effects
 			custom_tooltip = xvcv_mdlc_ap_robotic_age_tooltip_effects_2
 		}
@@ -42,10 +42,16 @@ xvcv_mdlc_ap_robotic_age = {
 	modifier = {
 		planet_pop_assembly_mult = 0.10
 	}
+	triggered_modifier = {
+		potential = {
+			owner = { has_xvcv_mdlc_ap_bio_robot = yes }
+		}
+		planet_xvcv_mdlc_bio_robot_growth_mult = 0.10
+	}
 
 	potential = {
-		xvcv_mdlc_synthetic_start_origin_trigger = yes
-		NOT = { has_ascension_perk = xvcv_mdlc_ap_robotic_age }
+		xvcv_mdlc_country_has_synthetic_origin = yes
+		has_xvcv_mdlc_ap_robotic_age = no
 	}
 
 	possible = {
@@ -181,7 +187,7 @@ xvcv_mdlc_ap_mind_separation = {
 		}
 		custom_tooltip = {
 			fail_text = oxr_mdlc_ap_mind_separation.fail_origin_wm
-			NOT = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+			has_oxr_mdlc_origin_world_machine_awakened = no
 		}
 	}
 
@@ -200,7 +206,7 @@ xvcv_mdlc_ap_mind_integration = {
 			is_mechanical_empire = yes
 			is_individual_machine = yes
 		}
-		NOT = { has_authority = auth_machine_intelligence }
+		has_auth_machine_intelligence = no
 		NOT = { has_ascension_perk = xvcv_mdlc_ap_mind_integration }
 	}
 
@@ -232,7 +238,7 @@ xvcv_mdlc_ap_bio_robot = {
 	potential = {
 		is_robot_empire = yes
 		NOT = { has_ascension_perk = xvcv_mdlc_ap_bio_robot }
-		# NOT = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+		# has_oxr_mdlc_origin_world_machine_awakened = no
 	}
 
 	possible = {
@@ -264,7 +270,7 @@ xvcv_mdlc_ap_bio_robot = {
 		}
 		custom_tooltip = {
 			fail_text = oxr_mdlc_ap_bio_robot.fail_origin_wm
-			NOT = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+			has_oxr_mdlc_origin_world_machine_awakened = no
 		}
 	}
 	modifier = {
@@ -322,7 +328,7 @@ xvcv_mdlc_ap_world_machines = {
 	potential = {
 		has_authority = auth_machine_intelligence
 		NOT = { has_ascension_perk = xvcv_mdlc_ap_world_machines }
-		NOT = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+		has_oxr_mdlc_origin_world_machine_awakened = no
 	}
 
 	possible = {
@@ -340,7 +346,7 @@ xvcv_mdlc_ap_world_machines = {
 		}
 		custom_tooltip = {
 			fail_text = oxr_mdlc_ap_world_machines.fail_origin_wm
-			NOT = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+			has_oxr_mdlc_origin_world_machine_awakened = no
 		}
 	}
 
@@ -540,7 +546,7 @@ oxr_mdlc_ap_distributed_multikernel = {
 oxr_mdlc_ap_mamp = {
 	potential = {
 		is_machine_empire = yes
-		NOT = { has_ascension_perk = oxr_mdlc_ap_mamp }
+		has_oxr_mdlc_ap_mamp = no
 		is_individual_machine = no
 		has_country_flag = oxr_mdlc_ap_mamp_enabled
 	}

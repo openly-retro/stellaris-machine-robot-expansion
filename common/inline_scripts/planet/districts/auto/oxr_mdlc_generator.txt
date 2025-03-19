@@ -28,6 +28,7 @@ upkeep = {
 		is_planet_class = xvcv_mdlc_pc_machine_auto
 	}
 	minerals = 2  # 2 for auto-machine world, 5 for ringworld
+	energy = 2
 }
 
 upkeep = {
@@ -37,10 +38,21 @@ upkeep = {
 	}
 	rare_crystals = 1  # static 1 per district
 	minerals = 5  # base vanilla value
+	energy = 5
 }
+
+##
 # BIOFUEL
+##
 upkeep = {
 	trigger = { has_active_building = oxr_mdlc_world_machines_biofuel_refit_1 }
 	# It's both double the num of jobs, and also 1/4 the output
-	food = @[ $JOBS$ * 2 ]  # instead of 1 energy upkeep per simulated drone, 2 food upkeep
+	food = @[ $JOBS$ * ( oxr_mdlc_wm_base_technician_output / 4 ) ]  # instead of 1 energy upkeep per simulated drone, 2 food upkeep
+}
+upkeep = {
+	trigger = {
+		has_active_building = oxr_mdlc_world_machines_biofuel_refit_1
+		is_xvcv_mdlc_pc_ringworld_machine_auto = yes
+	}
+	rare_crystals = 1
 }

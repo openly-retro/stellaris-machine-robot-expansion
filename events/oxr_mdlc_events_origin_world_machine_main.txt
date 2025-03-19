@@ -34,7 +34,7 @@ country_event = {
 				}
 				set_country_flag = oxr_mdlc_origin_world_machine_setup_started
 				capital_scope = {
-					oxr_mdlc_origin_world_machine_awakened_game_start_setup = yes
+					oxr_mdlc_origin_wm_planet_game_start_setup = yes
 				}
 			}
 		}
@@ -135,26 +135,31 @@ country_event = {
 			has_completed_special_project_in_log = OXR_MDLC_ORIGIN_WM_TECH_PROFICIENCY
 		}
 	}
+	
+	immediate = {
+		end_event_chain = oxr_mdlc_origin_wm_chain_clear_blockers
+		begin_event_chain = {
+			event_chain = oxr_mdlc_origin_wm_chain_clear_blockers_2
+		}
+		add_event_chain_counter = {
+			event_chain = "oxr_mdlc_origin_wm_chain_clear_blockers_2"
+			counter = "oxr_mdlc_origin_wm_blockers"
+			amount = 6
+		}
+		set_variable = {
+			which = oxr_mdlc_origin_wm_blockers_var
+			value = 0.06
+		}
+		#log = "oxr_mdlc_origin_wm_blockers_var equals \[This.oxr_mdlc_origin_wm_blockers_var]"
+		enable_special_project = {
+			name = OXR_MDLC_ORIGIN_WM_TECH_MASTERY
+		}
+	}
 
 	option = {
 		name = oxr_mdlc_origin_wm_main.50.a
-		owner = {
-			enable_special_project = {
-				name = OXR_MDLC_ORIGIN_WM_TECH_PROFICIENCY
-			}
-		}
-	}
-	immediate = {
-		owner = {
-			end_event_chain = oxr_mdlc_origin_wm_chain_clear_blockers
-			begin_event_chain = {
-				event_chain = oxr_mdlc_origin_wm_chain_clear_blockers_2
-			}
-			add_event_chain_counter = {
-				event_chain = "oxr_mdlc_origin_wm_chain_clear_blockers_2"
-				counter = "oxr_mdlc_origin_wm_blockers"
-				amount = 6
-			}
+		enable_special_project = {
+			name = OXR_MDLC_ORIGIN_WM_TECH_PROFICIENCY
 		}
 	}
 }
@@ -172,18 +177,25 @@ country_event = {
 			has_technology = oxr_mdlc_tech_world_machine_planetary_mastery
 		}
 	}
-	option = {
-		name = oxr_mdlc_origin_wm_main.51.a
-		owner = {
-			give_technology = {
-				tech = oxr_mdlc_tech_world_machine_planetary_mastery
-			}
-		}
-	}
 	immediate = {
 		owner = {
 			end_event_chain = oxr_mdlc_origin_wm_chain_clear_blockers_2
 		}
+		#multiply_variable  = { which = oxr_mdlc_origin_wm_blockers_var value = 1.50 }
+		#log = "oxr_mdlc_origin_wm_blockers_var equals \[This.oxr_mdlc_origin_wm_blockers_var]"
+	}
+	option = {
+		name = oxr_mdlc_origin_wm_main.51.a
+		trigger = { check_variable = { which = oxr_mdlc_origin_wm_blockers_var value > 0.49 } }
+		give_technology = { tech = oxr_mdlc_tech_world_machine_planetary_mastery }
+		hidden_effect = { clear_variable = oxr_mdlc_origin_wm_blockers_var }
+	}
+	option = {
+		name = oxr_mdlc_origin_wm_main.51.b
+		trigger = { check_variable = { which = oxr_mdlc_origin_wm_blockers_var value < 0.50 } }
+		add_research_option = oxr_mdlc_tech_world_machine_planetary_mastery
+		add_tech_progress = { tech = oxr_mdlc_tech_world_machine_planetary_mastery progress = oxr_mdlc_origin_wm_blockers_var }
+		hidden_effect = { clear_variable = oxr_mdlc_origin_wm_blockers_var }
 	}
 }
 
@@ -401,6 +413,7 @@ planet_event = {
 			has_origin = oxr_mdlc_origin_world_machine_awakened
 		}
 		is_colony = no
+		is_planet_world_machine = yes
 	}
 
 	immediate = {
@@ -414,6 +427,43 @@ planet_event = {
 				type = name
 				localisation = OXR_MDLC_REACTIVATED_PLANET
 				scope = ROOT
+			}
+		}
+	}
+}
+
+# Do colony things for ecu/ser/cpu
+planet_event = {
+	id = oxr_mdlc_origin_wm_main.550
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		space_owner = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+		}
+		NOT = { has_deposit = oxr_mdlc_d_world_machine_core }
+		is_colony = no
+	}
+
+	immediate = {
+		oxr_mdlc_planet_create_t3_world_colony = yes
+		switch = {
+			trigger = is_planet_class
+			xvcv_mdlc_pc_machine_ser = {
+				owner = {
+					xvcv_mdlc_planet_send_message_xvcv_mdlc_pc_machine_ser_project_complete = yes
+				}
+			}
+			xvcv_mdlc_pc_machine_cpu = {
+				owner = {
+					xvcv_mdlc_planet_send_message_xvcv_mdlc_pc_machine_cpu_project_complete = yes
+				}
+			}
+			xvcv_mdlc_pc_machine_ecu = {
+				owner = {
+					xvcv_mdlc_planet_send_message_xvcv_mdlc_pc_machine_ecu_project_complete = yes
+				}
 			}
 		}
 	}
@@ -769,7 +819,7 @@ planet_event = {
 		}
 		else_if = {
 			limit = {
-				owner = {
+				planet_owner = {
 					oxr_mdlc_country_has_room_for_more_wmc_using_vars = no
 				}
 			}
@@ -844,7 +894,7 @@ planet_event = {
 	immediate = {
 		# Is there enough room to add this WMC? if not, refund it
 		# In case the player spammed active/inactive to try and get many cores
-		# oxr_mdlc_world_machine_cores_add = { AMOUNT = 1 }
+		# oxr_mdlc_wm_country_cores_add = { AMOUNT = 1 }
 		space_owner = {
 			add_resource = {
 				oxr_mdlc_world_machine_core = 1
@@ -1147,7 +1197,7 @@ planet_event = {
 				}
 			}
 			oxr_mdlc_origin_world_machine_add_district_defense_army_t1 = yes
-			log = "Restocked district defense army."
+			# log = "Restocked district defense army."
 			oxr_mdlc_origin_world_machine_calc_current_district_armies = yes
 			if = {
 				limit = {
@@ -1346,8 +1396,13 @@ planet_event = {
 		is_capital = no
 	}
 	immediate = {
-		fire_on_action = {
-			on_action = on_world_machine_planet_gained
+		if = {
+			planet = {
+				fire_on_action = {
+					on_action = on_world_machine_planet_gained
+				}
+			}
 		}
+		
 	}
 }

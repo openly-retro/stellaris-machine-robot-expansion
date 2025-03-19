@@ -1,0 +1,116 @@
+#auto worlds
+#	xvcv_mdlc_pc_machine_auto
+#	xvcv_mdlc_pc_ringworld_machine_auto
+#	xvcv_mdlc_pc_machine_ecu
+#	xvcv_mdlc_pc_machine_cpu
+#	xvcv_mdlc_pc_machine_ser
+
+@rw_upgrade_time = 3600
+
+rikk_mdlc_decision_rw_upgrade = {
+	enactment_time = @rw_upgrade_time
+	prerequisites = { "tech_ring_world" }
+	
+	resources = {
+		category = decisions
+		cost = {
+		
+			alloys = 5000
+			energy = 10000
+		}
+		cost = {
+			trigger = { is_planet_class = pc_ringworld_tech }
+			alloys = 5000
+			energy = 10000
+		}
+		#below is just the above two but repeats for every layer of ring
+		cost = { trigger = { has_planet_flag = giga_ringworld_tit } alloys = 5000 energy = 10000 }
+		cost = { trigger = { has_planet_flag = giga_ringworld_tit is_planet_class = pc_ringworld_tech } alloys = 5000 energy = 10000 }
+		cost = { trigger = { has_planet_flag = giga_ringworld_beh } alloys = 5000 energy = 10000 }
+		cost = { trigger = { has_planet_flag = giga_ringworld_beh is_planet_class = pc_ringworld_tech } alloys = 5000 energy = 10000 }
+		cost = { trigger = { has_planet_flag = giga_ringworld_gar } alloys = 5000 energy = 10000 }
+		cost = { trigger = { has_planet_flag = giga_ringworld_gar is_planet_class = pc_ringworld_tech } alloys = 5000 energy = 10000 }
+		#maybe stick different costs in here for the different ascension paths (dark matter virtual, living metal modularity, nanite)
+		#cost = {
+		#	trigger = { has_tradition = tr_virtuality_adopt }
+		#	sr_dark_matter = 500
+		#}
+	}
+
+	potential = {
+		exists = space_owner
+		or = {
+			or = { 
+				is_planet_class = pc_ringworld_habitable
+				is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
+			}
+			and = {
+				space_owner = { has_technology = giga_tech_ringworld_upgrade }
+				is_planet_class = pc_ringworld_tech
+			}
+		}
+	}
+	
+	allow = {
+		custom_tooltip = {
+			fail_text = rikk_mdlc_decision_rw_upgrade_fail_colonized
+			if = { limit = { rikk_mdlc_rw_upgrade_is_van = yes } solar_system = { any_system_planet = { rikk_mdlc_rw_upgrade_is_van = yes exists = owner } } }
+			if = { limit = { rikk_mdlc_rw_upgrade_is_tit = yes } solar_system = { any_system_planet = { rikk_mdlc_rw_upgrade_is_tit = yes exists = owner } } }
+			if = { limit = { rikk_mdlc_rw_upgrade_is_beh = yes } solar_system = { any_system_planet = { rikk_mdlc_rw_upgrade_is_beh = yes exists = owner } } }
+			if = { limit = { rikk_mdlc_rw_upgrade_is_gar = yes } solar_system = { any_system_planet = { rikk_mdlc_rw_upgrade_is_gar = yes exists = owner } } }
+		}
+		custom_tooltip = {
+			fail_text = rikk_mdlc_decision_rw_upgrade_fail_uncolonized
+			NOT = { exists = owner }
+		}
+	}
+	
+	on_queued = {
+		hidden_effect = {
+			add_modifier = { modifier = rikk_mdlc_rw_upgrade_in_progress days = @rw_upgrade_time }
+		}
+		set_planet_flag = giga_ringworld_upgraded
+		change_pc = pc_ringworld_tech
+		rikk_mdlc_rw_upgrade_effect_sort = yes
+	}
+	
+	effect = {
+		custom_tooltip = rikk_mdlc_decision_rw_upgrade_effect
+
+		hidden_effect = {
+			rikk_mdlc_rw_upgrade_effect = yes
+			remove_modifier = rikk_mdlc_rw_upgrade_in_progress
+		}
+		space_owner = {
+			create_message = {
+				type = MEGASTRUCTURE_UPGRADED
+				localization = RIKK_MDLC_RW_UPGRADED
+				days = 36
+				target = ROOT
+				variable = {
+					type = name
+					localization = RIKK_MDLC_RW_UPGRADE_TARGET
+					scope = ROOT
+				}
+			}
+		}
+	}
+}
+
+#this exists just to let the player know they can upgrade tech sections with giga's ringworld upgrade tech
+rikk_mdlc_decision_rw_upgrade_dummy = {
+	enactment_time = 3600
+	prerequisites = { "giga_tech_ringworld_upgrade" }
+	resources = {
+		category = decisions
+		cost = {
+		
+			alloys = 10000
+			energy = 20000
+		}
+	}
+	potential = { always = no }
+	effect = {
+		custom_tooltip = rikk_mdlc_decision_rw_upgrade_effect
+	}
+}

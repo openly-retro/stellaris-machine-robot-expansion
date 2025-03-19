@@ -251,17 +251,17 @@ xvcv_mdlc_decision_machine_world_automation = {
 	}
 
 	effect = {
-		xvcv_mdlc_decision_machine_world_automation_effect = yes
-		# Re-use this trigger to replace the capital with auto-capital
+		xvcv_mdlc_planet_decision_machine_world_automation_effect = yes
 		hidden_effect = {
-			# Re-use this trigger to replace the capital with auto-capital
 			if = {
 				limit = {
 					owner = {
-						has_origin = oxr_mdlc_origin_world_machine_awakened
+						has_oxr_mdlc_origin_world_machine_awakened = yes
 					}
 				}
-				oxr_mdlc_planet_do_wm_origin_things_after_project = yes
+				planet = {
+					oxr_mdlc_planet_do_wm_origin_things_after_project = yes
+				}
 			}
 		}
 	}
@@ -288,11 +288,13 @@ xvcv_mdlc_decision_machine_ecu_project = {
 
 	potential = {
 		exists = owner
-		# Planet is not a T3 world-machine already, but Auto-Machine World is OK
-		xvcv_mdlc_world_machines_planet_classes_trigger = no
-		# Not allowed for habitats/ringworlds
-		habitable_structure = no
 		owner = { oxr_mdlc_country_can_make_t3_ecu = yes }
+		planet = {
+			# Planet is not a T3 world-machine already, but Auto-Machine World is OK
+			xvcv_mdlc_world_machines_planet_classes_trigger = no
+			# Not allowed for habitats/ringworlds
+			habitable_structure = no
+		}
 	}
 
 	allow = {
@@ -306,11 +308,11 @@ xvcv_mdlc_decision_machine_ecu_project = {
 	effect = {
 		custom_tooltip = xvcv_mdlc_decision_machine_ecu_project_tooltip
 		hidden_effect = {
-			oxr_mdlc_planet_create_deposit_upgrade_flags = yes
-			clear_deposits = yes
-			change_pc = xvcv_mdlc_pc_machine_ecu
-			oxr_mdlc_planet_restore_deposit_upgrades = yes
-			oxr_mdlc_planet_add_wmc_core_deposit_if_missing = yes
+			planet = {
+				xvcv_mdlc_planet_decision_convert_to_world_machine = {
+					PLANET_CLASS = xvcv_mdlc_pc_machine_ecu
+				}
+			}
 			owner = {
 				if = {
 					limit = { has_country_flag = xvcv_mdlc_decision_machine_ecu_project_message_on }
@@ -327,20 +329,8 @@ xvcv_mdlc_decision_machine_ecu_project = {
 					}
 				}
 			}
-			if = {
-				limit = { NOT = { has_modifier = planet_population_control_gestalt } }
-				add_modifier = { modifier = planet_population_control_gestalt days = -1 }
-			}
-			# add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral days = -1 }
-			xvcv_mdlc_world_machines_output_value_calc_effect = yes
-			xvcv_mdlc_planet_terraforming_resolution_breached_effect = yes
-			# Re-use this trigger to replace the capital with auto-capital
-			if = {
-				limit = { oxr_owner_has_wm_origin = yes }
-				oxr_mdlc_planet_do_wm_origin_things_after_project = yes
-			}
-			oxr_mdlc_planet_set_initial_cooling_district_count = yes
 		}
+		# Not hidden
 		owner = {
 			if = {
 				limit = {
@@ -393,11 +383,9 @@ xvcv_mdlc_decision_machine_cpu_project = {
 	effect = {
 		custom_tooltip = xvcv_mdlc_decision_machine_cpu_project_tooltip
 		hidden_effect = {
-			oxr_mdlc_planet_create_deposit_upgrade_flags = yes
-			clear_deposits = yes
-			change_pc = xvcv_mdlc_pc_machine_cpu
-			oxr_mdlc_planet_restore_deposit_upgrades = yes
-			oxr_mdlc_planet_add_wmc_core_deposit_if_missing = yes
+			xvcv_mdlc_planet_decision_convert_to_world_machine = {
+				PLANET_CLASS = xvcv_mdlc_pc_machine_cpu
+			}
 			owner = {
 				if = {
 					limit = { has_country_flag = xvcv_mdlc_decision_machine_cpu_project_message_on }
@@ -414,21 +402,7 @@ xvcv_mdlc_decision_machine_cpu_project = {
 					}
 				}
 			}
-			if = {
-				limit = { NOT = { has_modifier = planet_population_control_gestalt } }
-				add_modifier = { modifier = planet_population_control_gestalt days = -1 }
-			}
-			# add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral days = -1 }
-			xvcv_mdlc_world_machines_output_value_calc_effect = yes
-			xvcv_mdlc_planet_terraforming_resolution_breached_effect = yes
-			# Set var, add modifier
-			if = {
-				limit = {
-					oxr_owner_has_wm_origin = yes
-				}
-				oxr_mdlc_planet_do_wm_origin_things_after_project = yes
-			}
-			oxr_mdlc_planet_set_initial_cooling_district_count = yes
+
 		}
 		owner = {
 			if = {
@@ -465,27 +439,31 @@ xvcv_mdlc_decision_machine_ser_project = {
 
 	potential = {
 		exists = owner
-		xvcv_mdlc_world_machines_planet_classes_trigger = no
-		habitable_structure = no
+		planet = {
+			xvcv_mdlc_world_machines_planet_classes_trigger = no
+			habitable_structure = no
+		}
 		owner = { oxr_mdlc_country_can_make_t3_ser = yes }
 	}
 
 	allow = {
-		custom_tooltip_fail = {
-			text = xvcv_mdlc_world_machines_decisions_tooltip.fail
-			num_districts = { type = any value < 1 }
+		planet = {
+			custom_tooltip_fail = {
+				text = xvcv_mdlc_world_machines_decisions_tooltip.fail
+				num_districts = { type = any value < 1 }
+			}
+			num_uncleared_blockers < 1
 		}
-		num_uncleared_blockers < 1
 	}
 
 	effect = {
 		custom_tooltip = xvcv_mdlc_decision_machine_ser_project_tooltip
 		hidden_effect = {
-			oxr_mdlc_planet_create_deposit_upgrade_flags = yes
-			clear_deposits = yes
-			change_pc = xvcv_mdlc_pc_machine_ser
-			oxr_mdlc_planet_restore_deposit_upgrades = yes
-			oxr_mdlc_planet_add_wmc_core_deposit_if_missing = yes
+			planet = {
+				xvcv_mdlc_planet_decision_convert_to_world_machine = {
+					PLANET_CLASS = xvcv_mdlc_pc_machine_ser
+				}
+			}
 			owner = {
 				if = {
 					limit = { has_country_flag = xvcv_mdlc_decision_machine_ser_project_message_on }
@@ -502,23 +480,7 @@ xvcv_mdlc_decision_machine_ser_project = {
 					}
 				}
 			}
-			set_variable = {
-				which = num_xvcv_mdlc_common_district_cooling
-				value = 0
-			}
-			if = {
-				limit = { NOT = { has_modifier = planet_population_control_gestalt } }
-				add_modifier = { modifier = planet_population_control_gestalt days = -1 }
-			}
-			# add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral days = -1 }
-			xvcv_mdlc_planet_terraforming_resolution_breached_effect = yes
-			if = {
-				limit = { oxr_owner_has_wm_origin = yes }
-				# Info modifier, mainly
-				oxr_mdlc_planet_do_wm_origin_things_after_project = yes
-			}
-			oxr_mdlc_planet_set_initial_cooling_district_count = yes
-			xvcv_mdlc_world_machines_output_value_calc_effect = yes
+			
 		}
 		owner = {
 			if = {
@@ -555,29 +517,38 @@ xvcv_mdlc_pc_ringworld_automation_project = {
 
 	potential = {
 		exists = owner
-		is_colony = yes
 		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
-		xvcv_mdlc_world_machines_planet_classes_trigger = no
-		# habitable_structure = no
-		OR = {
+		planet = {
+			is_colony = yes
+			# xvcv_mdlc_world_machines_planet_classes_trigger = no
+			# habitable_structure = no
 			is_planet_class = pc_ringworld_habitable
-			is_planet_class = pc_shattered_ring_habitable
+			# OR = {
+			# 	is_planet_class = pc_ringworld_habitable
+			# 	is_planet_class = pc_shattered_ring_habitable
+			# }
 		}
 	}
 
 	allow = {
-		custom_tooltip_fail = {
-			text = xvcv_mdlc_world_machines_decisions_tooltip.fail
-			num_districts = { type = any value < 1 }
+		planet = {
+			custom_tooltip_fail = {
+				text = xvcv_mdlc_world_machines_decisions_tooltip.fail
+				num_districts = { type = any value < 1 }
+			}
+			num_uncleared_blockers < 1
 		}
-		num_uncleared_blockers < 1
 	}
 
 	effect = {
 		custom_tooltip = xvcv_mdlc_pc_ringworld_automation_project_tooltip
 		hidden_effect = {
-			clear_deposits = yes
-			change_pc = xvcv_mdlc_pc_ringworld_machine_auto
+			planet = {
+				xvcv_mdlc_planet_decision_convert_to_world_machine = {
+					PLANET_CLASS = xvcv_mdlc_pc_ringworld_machine_auto
+				}
+			}
+
 			owner = {
 				if = {
 					limit = { has_country_flag = xvcv_mdlc_decision_ringworld_machine_auto_project_message_on }
@@ -593,26 +564,6 @@ xvcv_mdlc_pc_ringworld_automation_project = {
 						}
 					}
 				}
-			}
-			if = {
-				limit = { NOT = { has_modifier = planet_population_control_gestalt } }
-				add_modifier = { modifier = planet_population_control_gestalt days = -1 }
-			}
-			xvcv_mdlc_planet_terraforming_resolution_breached_effect = yes
-			# Initalize the produces_mult as it's not set yet
-			set_variable = {
-				which = xvcv_mdlc_world_machines_districts_output_var
-				value = 0
-			}
-			xvcv_mdlc_world_machines_output_value_calc_effect = yes
-			oxr_mdlc_planet_add_wmc_core_deposit_if_missing = yes
-			if = {
-				limit = {
-					owner = {
-						has_origin = oxr_mdlc_origin_world_machine_awakened
-					}
-				}
-				oxr_mdlc_planet_do_wm_origin_things_after_project = yes
 			}
 		}
 		owner = {
@@ -653,16 +604,17 @@ xvcv_mdlc_decision_mechanical_worlds_terraforming_project = {
 	potential = {
 		exists = owner
 		owner = { has_ascension_perk = xvcv_mdlc_ap_mechanical_worlds }
-		NOR = {
-			is_planet_class = xvcv_mdlc_pc_mechanical
-			is_planet_class = xvcv_mdlc_pc_machine_auto
+		planet = {
+			is_xvcv_mdlc_pc_mechanical = no
+			is_planet_world_machine = no
+			habitable_structure = no
 		}
-		xvcv_mdlc_world_machines_planet_classes_trigger = no
-		habitable_structure = no
 	}
 
 	effect = {
-		change_pc = xvcv_mdlc_pc_mechanical_dummy_for_district_conversion
+		planet = {
+			change_pc = xvcv_mdlc_pc_mechanical_dummy_for_district_conversion
+		}
 		hidden_effect = {
 			owner = {
 				create_message = {
@@ -677,7 +629,9 @@ xvcv_mdlc_decision_mechanical_worlds_terraforming_project = {
 					}
 				}
 			}
-			planet_event = { id = xvcv_mdlc.1001 }
+			planet = {
+				planet_event = { id = xvcv_mdlc.1001 }
+			}
 		}
 	}
 
@@ -704,24 +658,38 @@ xvcv_mdlc_decision_virtual_world_project = {
 	potential = {
 		exists = owner
 		owner = { has_ascension_perk = xvcv_mdlc_ap_virtual_worlds }
-		habitable_structure = no
-		NOT = { is_planet_class = xvcv_mdlc_pc_virtual }
+		planet = {
+			habitable_structure = no
+			NOT = { is_planet_class = xvcv_mdlc_pc_virtual }
+		}
 	}
 
 	allow = {
-		custom_tooltip_fail = {
-			text = xvcv_mdlc_world_machines_decisions_tooltip.fail
-			num_districts = { type = any value < 1 }
+		planet = {
+			custom_tooltip_fail = {
+				text = xvcv_mdlc_world_machines_decisions_tooltip.fail
+				num_districts = { type = any value < 1 }
+			}
+			num_uncleared_blockers < 1
 		}
-		num_uncleared_blockers < 1
+		
 	}
 
 	effect = {
 		custom_tooltip = xvcv_mdlc_decision_virtual_world_project_tooltip
 		hidden_effect = {
-			clear_deposits = yes
-			change_pc = xvcv_mdlc_pc_virtual
-			add_deposit = xvcv_mdlc_d_pc_virtual_district_essential_slot
+			planet = {
+				if = {
+					limit = {
+						is_capital = no
+					}
+					clear_deposits = yes
+				}
+				change_pc = xvcv_mdlc_pc_virtual
+				add_deposit = xvcv_mdlc_d_pc_virtual_district_essential_slot
+				xvcv_mdlc_planet_owner_terraforming_resolution_breached_effect = yes
+			}
+			
 			owner = {
 				if = {
 					limit = { has_country_flag = xvcv_mdlc_decision_virtual_world_project_message_on }
@@ -738,7 +706,7 @@ xvcv_mdlc_decision_virtual_world_project = {
 					}
 				}
 			}
-			xvcv_mdlc_planet_terraforming_resolution_breached_effect = yes
+
 		}
 	}
 

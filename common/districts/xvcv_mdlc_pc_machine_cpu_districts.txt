@@ -36,10 +36,13 @@ xvcv_mdlc_pc_machine_cpu_district_physics = {
 		produces = {
 			trigger = {
 				NOT = {
-					has_active_building = oxr_mdlc_world_machines_building_fractal_fpga
+					planet = {
+						has_active_building = oxr_mdlc_world_machines_building_fractal_fpga
+						oxr_mdlc_planet_cpu_has_valid_designation_for_fpga = yes
+					}
 				}
 			}
-			physics_research = @oxr_mdlc_cpu_district_base # was 70
+			physics_research = @[ oxr_t3_planet_district_jobs * 9 ]
 			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
 		}
 		inline_script = {
@@ -47,7 +50,7 @@ xvcv_mdlc_pc_machine_cpu_district_physics = {
 			CPU_DISTRICT_PRODUCES = physics_research
 		}
 		upkeep = {
-			energy = @oxr_mdlc_cpu_district_upkeep
+			energy = @[ oxr_t3_planet_district_jobs * oxr_mdlc_wm_base_calculator_upkeep ]
 			exotic_gases = 1
 		}
 	}
@@ -72,6 +75,7 @@ xvcv_mdlc_pc_machine_cpu_district_physics = {
 		fire_on_action = { on_action = on_world_machine_district_demolished }
 	}
 }
+
 xvcv_mdlc_pc_machine_cpu_district_society = {
 	base_buildtime = @xvcv_mdlc_district_time_4
 	is_capped_by_modifier = no
@@ -109,15 +113,18 @@ xvcv_mdlc_pc_machine_cpu_district_society = {
 		produces = {
 			trigger = {
 				NOT = {
-					has_active_building = oxr_mdlc_world_machines_building_fractal_fpga
+					planet = {
+						has_active_building = oxr_mdlc_world_machines_building_fractal_fpga
+						oxr_mdlc_planet_cpu_has_valid_designation_for_fpga = yes
+					}
 				}
 			}
-			society_research = @oxr_mdlc_cpu_district_base # was 70
+			society_research = @[ oxr_t3_planet_district_jobs * 9 ]
 			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
 		}
 		inline_script = planet/districts/pc_cpu/oxr_auto_fpga_produces
 		upkeep = {
-			energy = @oxr_mdlc_cpu_district_upkeep
+			energy = @[ oxr_t3_planet_district_jobs * oxr_mdlc_wm_base_calculator_upkeep ]
 			exotic_gases = 1
 		}
 	}
@@ -142,6 +149,7 @@ xvcv_mdlc_pc_machine_cpu_district_society = {
 		fire_on_action = { on_action = on_world_machine_district_demolished }
 	}
 }
+
 xvcv_mdlc_pc_machine_cpu_district_engineering = {
 	base_buildtime = @xvcv_mdlc_district_time_4
 	is_capped_by_modifier = no
@@ -178,14 +186,19 @@ xvcv_mdlc_pc_machine_cpu_district_engineering = {
 		cost = { exotic_gases = 100 }
 		produces = {
 			trigger = {
-				NOT = { has_active_building = oxr_mdlc_world_machines_building_fractal_fpga }
+				NOT = {
+					planet = {
+						has_active_building = oxr_mdlc_world_machines_building_fractal_fpga
+						oxr_mdlc_planet_cpu_has_valid_designation_for_fpga = yes
+					}
+				}
 			}
-			engineering_research = @oxr_mdlc_cpu_district_base # was 70
+			engineering_research = @[ oxr_t3_planet_district_jobs * 9 ]
 			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
 		}
 		inline_script = planet/districts/pc_cpu/oxr_auto_fpga_produces
 		upkeep = {
-			energy = @oxr_mdlc_cpu_district_upkeep
+			energy = @[ oxr_t3_planet_district_jobs * oxr_mdlc_wm_base_calculator_upkeep ]
 			exotic_gases = 1
 		}
 	}
