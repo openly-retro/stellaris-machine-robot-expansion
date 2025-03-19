@@ -7,7 +7,8 @@ from ..converter import (
     clean_up_line,
     convert_simple_assignment,
     block_open_to_json,
-    block_open
+    block_open,
+    search_blob_crunch_lists,
 )
 
 class TestConverter(TestCase):
@@ -74,6 +75,37 @@ class TestConverter(TestCase):
         for line, expect in zip(lines, expectations):
             actual = clean_up_line(line)
             assert actual == expect
+    
+    def test_global_crunch_list(self):
+        # Need to read the whole file/blob at once to make the conversion
+        blob = """
+	leader_potential_add = {
+		is_gestalt = no
+	}
+	leader_class = { commander }
+	opposites = {
+		leader_trait_gale_speed
+		leader_trait_gale_speed_2
+		leader_trait_gale_speed_3
+	}
+	selectable_weight = {
+		weight = @class_negative_trait_weight
+		inline_script = paragon/pilot_weight_mult
+	}
+"""
+        expected = """
+	leader_potential_add = {
+		is_gestalt = no
+	}
+	leader_class = { commander }
+	opposites: ['leader_trait_gale_speed', 'leader_trait_gale_speed_2', 'leader_trait_gale_speed_3']
+	selectable_weight = {
+		weight = @class_negative_trait_weight
+		inline_script = paragon/pilot_weight_mult
+	}
+"""
+        actual = search_blob_crunch_lists(blob)
+        assert expected == actual
 
 test_data = """
 leader_trait_scout = {
