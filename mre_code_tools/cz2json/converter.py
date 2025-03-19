@@ -21,7 +21,12 @@ re_single_word_line = re.compile(r"^\s{0,}(\w*){1}[ ]{0,}$")
 # in order to quote all words in the text blob
 nonnumber_words = re.compile(r"([a-zA-Z_\/]+)")
 # unquote "no" and "yes" afterwards
+detect_crunched_list = re.compile(r"(\w*): ")
 
+re_multiline_list = re.compile(
+    r"(?P<blockname>\w*) = {(?P<words>((?:\n\s{0,})(\w*)){1,})\s{1,}}",
+    re.MULTILINE
+)
 
 def clean_up_line(line: str) -> str:
     """ Handle a variety of line contents """
@@ -47,6 +52,9 @@ def clean_up_line(line: str) -> str:
         return line
     elif single_word_result := re.match(re_single_word_line, line):
         return line
+    # Don't munge a list that we crunched already
+    elif list_detected := re.search(detect_crunched_list, line):
+        return line
     else:
         raise WhatInTheShroud(line)
 
@@ -71,6 +79,26 @@ def to_json(lines):
     """ Iterate some lines and pray to the Shroud to convert to JSON """
     pass
 
+def search_blob_crunch_lists(blob: str) -> str:
+    crunched = ''
+    if results := re.search(
+        re_multiline_list,
+        blob,
+    ):
+        crunched = re.sub(
+            re_multiline_list,
+            compress_list_result_from_search,
+            blob
+        )
+    return crunched
+
+def compress_list_result_from_search(search_results) -> str:
+    # given the "words" group, chew it
+    words_raw = search_results.group("words")
+    words_list = words_raw.strip().split("\n")
+    cleaned_words = [ word.strip() for word in words_list ]
+    cleaned_words_done = ",".join(cleaned_words)
+    return f"{search_results.group('blockname')}: {str(cleaned_words)}"
 
 class CzOneLiner(Exception):
     pass
