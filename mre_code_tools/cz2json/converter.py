@@ -78,11 +78,7 @@ def block_open_to_json(re_results: re.Match) -> str:
 
 def convert_block_open(line) -> str:
     # To be run on a single line only
-    quoted = re.sub(
-        re_simple_word,
-        quote_word,
-        line
-    )
+    quoted = re.sub(re_simple_word, quote_word, line)
     return quoted.replace(
         ' = {',
         ': {'
@@ -96,11 +92,7 @@ def normalize_list(line) -> str:
     return f"{indent}\"{parsed.group('assignee')}\": {items}" + COMMA
 
 def convert_simple_assignment(line) -> str:
-    quoted = re.sub(
-        re_simple_word,
-        quote_word,
-        line
-    )
+    quoted = re.sub(re_simple_word, quote_word, line)
     return quoted.replace(' =',':') + COMMA
 
 def scrub_comments_from_line(line) -> str:

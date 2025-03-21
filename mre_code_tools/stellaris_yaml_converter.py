@@ -2,7 +2,6 @@ from copy import copy
 import re
 import sys
 import argparse
-import argparse
 from yaml import safe_load
 
 TAB_SIZE = 2
