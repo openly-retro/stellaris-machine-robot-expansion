@@ -3,10 +3,11 @@ import re
 
 from ..converter import (
     block_open_to_json,
-    block_open,
+    re_block_open,
     clean_up_line,
     convert_block_open,
     convert_simple_assignment,
+    input_cz_output_json,
     MultipleBlocksSameLine,
     normalize_list,
     scrub_comments_from_line,
@@ -40,7 +41,7 @@ class TestConverter(TestCase):
     def test_block_open_json(self):
         line = "    leader_class = {"
         expectation = "    \"leader_class\": {"
-        re_match = re.match(block_open, line)
+        re_match = re.match(re_block_open, line)
         actual = block_open_to_json(re_match)
         assert expectation == actual
         
@@ -155,6 +156,36 @@ class TestConverter(TestCase):
         joined = iter_clean_up_lines(lines)
         result = convert_iter_lines_to_dict(joined)
         assert type(result) == dict
+    
+    def test_converting_larger_trait_data__leader_trait_scout(self):
+        data = """
+leader_trait_scout = {
+	leader_trait_type = veteran
+	inline_script = {
+		script = trait/icon
+		CLASS = leader
+		ICON = GFX_leader_trait_scout
+		RARITY = free_or_veteran
+		COUNCIL = no
+		TIER = 1
+	}
+}
+"""
+        expected = {
+            "leader_trait_scout": {
+                "leader_trait_type": "veteran",
+                "inline_script": {
+                    "script": "trait/icon",
+                    "CLASS": "leader",
+                    "ICON": "GFX_leader_trait_scout",
+                    "RARITY": "free_or_veteran",
+                    "COUNCIL": "no",
+                    "TIER": 1
+                }
+            }
+        }
+        actual = input_cz_output_json(data)
+        assert expected == actual
 
 
 test_data = """

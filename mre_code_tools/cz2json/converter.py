@@ -9,22 +9,22 @@ Larger challenges:
 """
 
 """ Regex Patterns """
-statement_left_side = re.compile(r"^\s{0,}(?P<assignee>\w*)\s{0,}=")
-parse_list_assignment = re.compile(
+re_statement_left_side = re.compile(r"^\s{0,}(?P<assignee>\w*)\s{0,}=")
+re_parse_list_assignment = re.compile(
     r"(?P<assignee>\w*) = {(?P<items>.*)}"
 )
-parse_simple_assignment = re.compile(
+re_parse_simple_assignment = re.compile(
     r"(\w*) (?P<operand>[=|<|>|<=|>=]) (\w*)"
 )
-indentation = re.compile(r"^(?P<indent>\s*)")
-block_open = re.compile(r"^(?P<indent>\s{0,})(?P<name>\w*) = {$")
+re_indendation = re.compile(r"^(?P<indent>\s*)")
+re_block_open = re.compile(r"^(?P<indent>\s{0,})(?P<name>\w*) = {$")
 re_single_word_line = re.compile(r"^\s{0,}(\w*){1}[ ]{0,}$")
 
 # Use re.sub and give it a function that quotes a string,
 # in order to quote all words in the text blob
-nonnumber_words = re.compile(r"([a-zA-Z_\/]+)")
+re_nonnumber_words = re.compile(r"([a-zA-Z_\/]+)")
 # unquote "no" and "yes" afterwards
-detect_crunched_list = re.compile(r"(\w*): \[")
+re_detect_crunched_list = re.compile(r"(\w*): \[")
 
 re_multiline_list = re.compile(
     r"(?P<blockname>\w*) = {(?P<words>((?:\n\s{0,})(\w*)){1,})\s{1,}}",
@@ -33,6 +33,7 @@ re_multiline_list = re.compile(
 re_simple_word = re.compile(r"\b(([a-zA-Z_\/]{2,}))\b")
 
 COMMA = ','
+EMPTY_LINE = ''
 
 """ Code """
 def clean_up_line(line: str) -> str:
@@ -53,8 +54,8 @@ def clean_up_line(line: str) -> str:
         return normalize_list(line)
     # beginning of block
 
-    elif re_block_open := re.match(block_open, line):
-        return block_open_to_json(re_block_open)
+    elif re_re_block_open := re.match(re_block_open, line):
+        return block_open_to_json(re_re_block_open)
     elif len(line.strip().split(' ')) == 3:
         return convert_simple_assignment(line)
     elif line.strip() == '}':
@@ -64,7 +65,7 @@ def clean_up_line(line: str) -> str:
         # If it's just one line, return that line ...
         return line
     # Don't munge a list that we crunched already
-    elif list_detected := re.search(detect_crunched_list, line):
+    elif list_detected := re.search(re_detect_crunched_list, line):
         return line
     elif line.strip() == '':
         # Pass whitespace, deal with it later
@@ -89,8 +90,8 @@ def convert_block_open(line) -> str:
 
 def normalize_list(line) -> str:
     # leader_class = { word word word } into leader_class
-    parsed = re.search(parse_list_assignment, line)
-    indent = re.match(indentation, line).group("indent")
+    parsed = re.search(re_parse_list_assignment, line)
+    indent = re.match(re_indendation, line).group("indent")
     items = parsed.group("items").strip().split(' ')
     return f"{indent}\"{parsed.group('assignee')}\": {items}" + COMMA
 
@@ -127,7 +128,8 @@ def search_blob_crunch_lists(blob: str) -> str:
             compress_list_result_from_search,
             blob
         )
-    return crunched
+
+    return crunched or blob
 
 def compress_list_result_from_search(search_results) -> str:
     # given the "words" group, chew it
@@ -152,18 +154,27 @@ def convert_iter_lines_to_dict(json_as_str: str) -> dict:
     remove_extra_commas = json_as_str.replace(
         ', }',
         '}'
-    ).replace(',}','}')
+    ).replace(',}','}').strip()
     return loads(f"{{{remove_extra_commas.rstrip(',')}}}")
-    
+
+# TODO: make this more memory efficient
+# use a generator or something
+# sucks we gotta crunch the file for lists then iterate over lines
+def input_cz_output_json(file_contents: str) -> dict:
+    contents = search_blob_crunch_lists(file_contents)
+    processed_lines = []
+    for line in contents.split("\n"):
+        processed_lines.append(clean_up_line(line).strip())
+    del contents
+    cleaned_blob = " ".join(processed_lines)
+    del processed_lines
+    return convert_iter_lines_to_dict(cleaned_blob)
+    del cleaned_blob
+
 
 """ Exception Classes """
-class CzOneLiner(Exception):
-    pass
-
 class MultipleBlocksSameLine(Exception):
     pass
 
 class WhatInTheShroud(Exception):
     pass
-
-'{"modifier": {"ship_speed_mult": 0.05,"ship_hyperlane_range_add": 2,"fleet_mia_time_mult": -0.1,}}'
