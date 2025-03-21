@@ -11,6 +11,8 @@ from ..converter import (
     normalize_list,
     scrub_comments_from_line,
     search_blob_crunch_lists,
+    iter_clean_up_lines,
+    convert_iter_lines_to_dict,
 )
 
 class TestConverter(TestCase):
@@ -141,6 +143,18 @@ class TestConverter(TestCase):
         for line, expect in zip(lines, expectations):
             actual = clean_up_line(line)
             assert actual == expect
+    
+    def test_converting_block_string_to_json(self):
+        lines = [
+            "modifier = {",
+            "    ship_speed_mult = 0.05",
+            "    ship_hyperlane_range_add = 2",
+            "    fleet_mia_time_mult = -0.1",
+            "}",
+        ]
+        joined = iter_clean_up_lines(lines)
+        result = convert_iter_lines_to_dict(joined)
+        assert type(result) == dict
 
 
 test_data = """

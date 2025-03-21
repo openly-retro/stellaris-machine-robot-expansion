@@ -1,4 +1,5 @@
 import re
+from json import loads
 
 """
 Larger challenges:
@@ -133,7 +134,7 @@ def compress_list_result_from_search(search_results) -> str:
     words_raw = search_results.group("words")
     words_list = words_raw.strip().split("\n")
     cleaned_words = [ word.strip() for word in words_list ]
-    cleaned_words_done = ",".join(cleaned_words)
+
     return f"\"{search_results.group('blockname')}\": {str(cleaned_words)},"
 
 def iter_clean_up_lines(lines: list[str]) -> str:
@@ -141,9 +142,19 @@ def iter_clean_up_lines(lines: list[str]) -> str:
     processed_lines = []
     for line in lines:
 
-        processed_lines.append(clean_up_line(line))
+        processed_lines.append(clean_up_line(line).strip())
     
-    # return "\n"
+    return " ".join(processed_lines)
+
+def convert_iter_lines_to_dict(json_as_str: str) -> dict:
+    # Take output of iter_clean_up_lines into dict
+    # Check out this fun (:
+    remove_extra_commas = json_as_str.replace(
+        ', }',
+        '}'
+    ).replace(',}','}')
+    return loads(f"{{{remove_extra_commas.rstrip(',')}}}")
+    
 
 """ Exception Classes """
 class CzOneLiner(Exception):
@@ -155,3 +166,4 @@ class MultipleBlocksSameLine(Exception):
 class WhatInTheShroud(Exception):
     pass
 
+'{"modifier": {"ship_speed_mult": 0.05,"ship_hyperlane_range_add": 2,"fleet_mia_time_mult": -0.1,}}'
