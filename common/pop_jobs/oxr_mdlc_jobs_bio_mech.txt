@@ -1,49 +1,11 @@
 # Bio Mech jobs
 oxr_mdlc_bio_robot_lustra_integrated_researcher = {
-	category = specialist
-	condition_string = SPECIALIST_JOB_TRIGGER
-
-	possible_pre_triggers = {
-		has_owner = yes
-		is_being_purged = no
-		is_being_assimilated = no
-		is_robot_pop = yes
+	inline_script = {
+		script = planet/jobs/bio_mech/oxr_lustra_specialist
 	}
-
-	possible_precalc = can_fill_specialist_job
-	possible = {
-		hidden_trigger = { exists = owner }
-		owner = {
-			is_gestalt = no
-		}
-	}
-
-	pop_modifier = {
-		pop_happiness = 0.1
-	}
-
-	triggered_planet_modifier = {
-		potential = {
-			owner = { is_gestalt = no }
-		}
-		pop_government_ethic_attraction = 0.05
-	}
-
-	triggered_planet_modifier = {
-		potential = {
-			owner = { is_gestalt = no }
-		}
-		planet_amenities_add = 3
-		mult = value:scripted_modifier_mult|MODIFIER|pop_job_amenities_mult|
-	}
-	triggered_planet_modifier = {
-		potential = {
-			owner = { is_gestalt = yes }
-		}
-		planet_amenities_no_happiness_add = 3
-		mult = value:scripted_modifier_mult|MODIFIER|pop_job_amenities_mult|
-	}
-
+	pop_modifier = { pop_happiness = 0.1 }
+	inline_script = { script = planet/jobs/add_ethics_attraction AMOUNT = 0.05 }
+	inline_script = { script = planet/jobs/add_amenities AMOUNT = 3 }
 	resources = {
 		category = planet_researchers
 		# researcher
@@ -55,54 +17,14 @@ oxr_mdlc_bio_robot_lustra_integrated_researcher = {
 			consumer_goods = 4  # culture worker (3) plus half a researcher (half 2)
 		}
 	}
-
 	inline_script = "jobs/culture_worker_outputs"
+	inline_script = "planet/jobs/weights/unity_job_weights"
 
-	weight = {
-		weight = @specialist_job_weight
-		mult = value:job_weights_modifier|JOB|culture_worker|RESOURCE|unity|
-		# We deliberately don't weight the ethics-based modifiers
-		modifier = {
-			factor = 0.2
-			has_citizenship_rights = no
-			NOT = { has_trait = trait_mechanical }
-		}
-		modifier = {
-			factor = 0.1
-			can_take_servant_job = yes
-		}
-		modifier = {
-			factor = 1.5
-			has_job = culture_worker
-		}
-	}
-
-	inline_script = "jobs/automodding_priority_unity"
-
-	desc = {
-		text = job_oxr_mdlc_bio_robot_lustra_integrated_researcher_gestalt_desc
-		trigger = {
-			owner = { is_gestalt = yes }
-		}
-	}
-	desc = {
-		text = job_oxr_mdlc_bio_robot_lustra_integrated_researcher_desc
-		trigger = {
-			owner = { is_gestalt = no }
-		}
-	}
 }
 
 oxr_mdlc_bio_robot_lustra_residential = {
-	category = worker
-	condition_string = WORKER_JOB_TRIGGER
+	inline_script = "planet/jobs/bio_mech/oxr_lustra_worker"
 	building_icon = building_residence
-	possible_pre_triggers = {
-		has_owner = yes
-		is_being_purged = no
-		is_being_assimilated = no
-	}
-	possible_precalc = can_fill_worker_job
 
 	resources = {
 		category = planet_clerks
@@ -117,31 +39,14 @@ oxr_mdlc_bio_robot_lustra_residential = {
 }
 
 job_oxr_mdlc_bio_robot_organic_goods = {
-	category = specialist
-	condition_string = SPECIALIST_JOB_TRIGGER
+	inline_script = planet/jobs/bio_mech/oxr_lustra_specialist
+
 	building_icon = building_factory_1
 	clothes_texture_index = 3
 
-	possible_pre_triggers = {
-		has_owner = yes
-		is_being_purged = no
-		is_being_assimilated = no
-	}
-
-	possible_precalc = can_fill_specialist_job
-	possible = {
-		hidden_trigger = { exists = owner }
-		owner = {
-			is_gestalt = no
-		}
-	}
-
-	triggered_planet_modifier = {
-		potential = {
-			always = yes
-		}
-		trade_value_add = 2
-		mult = value:scripted_modifier_mult|MODIFIER|pop_job_trade_mult|
+	inline_script = {
+		script = planet/jobs/add_trade_value
+		AMOUNT = 2
 	}
 
 
@@ -190,36 +95,16 @@ job_oxr_mdlc_bio_robot_organic_goods = {
 		}
 	}
 
-	weight = {
-		weight = @specialist_job_weight
-		mult = value:job_weights_multiple_resources_modifier|JOB|artificer|RESOURCE1|consumer_goods|WEIGHT1|0.8|RESOURCE2|engineering_research|WEIGHT2|0.2|
-		mult = value:scripted_modifier_job_weight_mult|MODIFIER|pop_job_trade_mult|
-		modifier = {
-			factor = 2
-			is_enslaved = yes
-			can_take_servant_job = no
-		}
-		modifier = {
-			factor = 5
-			has_job = artificer
-		}
-	}
+	inline_script = planet/jobs/weights/goods_job_weights
 
 	inline_script = "jobs/automodding_priority_trade"
 }
 
 oxr_mdlc_bio_robot_lustra_isc = {
-	category = worker
-	condition_string = WORKER_JOB_TRIGGER
+	inline_script = planet/jobs/bio_mech/oxr_lustra_worker
+
 	building_icon = building_food_processing_facility
 	clothes_texture_index = 2
-
-	possible_pre_triggers = {
-		has_owner = yes
-		is_being_purged = no
-		is_being_assimilated = no
-	}
-	possible_precalc = can_fill_worker_job
 
 	resources = {
 		category = planet_farmers
@@ -236,17 +121,10 @@ oxr_mdlc_bio_robot_lustra_isc = {
 }
 
 oxr_mdlc_bio_robot_lustra_reactor_tech = {
-	category = worker
-	condition_string = WORKER_JOB_TRIGGER
+	inline_script = planet/jobs/bio_mech/oxr_lustra_worker
+
 	building_icon = building_energy_grid
 	clothes_texture_index = 2
-
-	possible_pre_triggers = {
-		has_owner = yes
-		is_being_purged = no
-		is_being_assimilated = no
-	}
-	possible_precalc = can_fill_worker_job
 
 	resources = {
 		category = planet_technician
@@ -272,17 +150,10 @@ oxr_mdlc_bio_robot_lustra_reactor_tech = {
 }
 
 oxr_mdlc_bio_robot_lustra_health_mech_services = {
-	category = specialist
-	condition_string = SPECIALIST_JOB_TRIGGER
+	inline_script = planet/jobs/bio_mech/oxr_lustra_specialist
+
 	building_icon = building_food_processing_facility
 	clothes_texture_index = 2
-
-	possible_pre_triggers = {
-		has_owner = yes
-		is_being_purged = no
-		is_being_assimilated = no
-	}
-	possible_precalc = can_fill_specialist_job
 
 	planet_modifier = {
 		pop_growth_speed = 0.05
@@ -316,25 +187,10 @@ oxr_mdlc_bio_robot_lustra_health_mech_services = {
 
 # Clone vanilla technician job
 oxr_mdlc_bio_robot_lustra_tax_enforcer = {
-	category = worker
-	condition_string = WORKER_JOB_TRIGGER
+	inline_script = planet/jobs/bio_mech/oxr_lustra_worker
+
 	building_icon = building_energy_grid
 	clothes_texture_index = 2
-
-	possible_pre_triggers = {
-		has_owner = yes
-		is_being_purged = no
-		is_being_assimilated = no
-		is_sapient = yes
-	}
-
-	possible_precalc = can_fill_worker_job
-	possible = {
-		hidden_trigger = { exists = owner }
-		owner = {
-			is_gestalt = no
-		}
-	}
 
 	resources = {
 		category = planet_technician
@@ -372,60 +228,7 @@ oxr_mdlc_bio_robot_lustra_tax_enforcer = {
 		}
 	}
 
-	weight = {
-		weight = @worker_job_weight
-		mult = value:job_weights_modifier|JOB|technician|RESOURCE|energy|
-		modifier = {
-			factor = 100
-			OR = {
-				is_non_sapient_robot = yes
-				is_shackled_robot = yes
-			}
-			can_take_servant_job = no
-			can_fill_specialist_job_trigger = no
-		}
-		modifier = {
-			factor = 8
-			is_enslaved = yes
-			can_take_servant_job = no
-			OR = {
-				has_trait = trait_syncretic_proles
-				has_trait = trait_robot_superconductive
-				has_trait = trait_ingenious
-			}
-		}
-		modifier = {
-			factor = 2
-			OR = {
-				is_non_sapient_robot = yes
-				is_shackled_robot = yes
-			}
-			can_take_servant_job = no
-		}
-		modifier = {
-			factor = 0.25
-			can_take_servant_job = yes
-		}
-		# low income modifier
-		modifier = {
-			factor = 3
-			exists = planet
-			planet = {
-				has_available_jobs = technician
-			}
-			exists = owner
-			owner = {
-				has_monthly_income = {
-					resource = energy
-					value < 10
-				}
-			}
-		}
-		modifier = {
-			factor = 5
-			has_trait = trait_cyborg_creed_of_labor
-		}
-	}
+	inline_script = planet/jobs/weights/technician_job_weights
 
 	inline_script = "jobs/automodding_priority_energy"
 }
