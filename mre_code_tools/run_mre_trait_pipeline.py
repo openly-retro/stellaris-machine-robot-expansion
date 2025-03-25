@@ -46,6 +46,9 @@ from mre_generate_gui_traits_limits_effects import do_all_work as generate_counc
 from mre_generate_ruler_limits_scripted_effect import do_all_work as generate_ruler_limits_scripted_effect
 from mre_stitch_gui_files import stitch_gui_files
 
+from cz2json.converter import input_cz_output_json
+
+
 from mre_common_vars import (
     BUILD_FOLDER,
     LEADER_CLASSES,
@@ -93,6 +96,7 @@ def batch_process_base_files_into_yaml(stellaris_path: str) -> list:
                 f"Chopped up base file {base_file} successfully. Written to {dest_file.name}"
             )
     return generated_files
+
 
 def crunch_trait_data_from_processed_yaml(generated_files_list: list):
     # Iterate each pseudo-yaml file, trim traits, sort into leader classes, write to JSON

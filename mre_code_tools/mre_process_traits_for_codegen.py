@@ -15,7 +15,7 @@ UI with dozens of traits.
 Thankfully, in pre-processing, traits are sorted alphabetically and
 it'll be easy to get the highest rank of that trait series.
 """
-from copy import copy
+from copy import copy, deepcopy
 import logging
 import os
 import sys
@@ -83,6 +83,10 @@ def trait_qualifies_for_leader_making(trait_dict: dict) -> bool:
 
 def trait_qualifies_for_core_modifying(trait_dict: dict) -> bool:
     is_core_modifying_trait = False
+    if not trait_dict.get('trait_name'):
+        raise ValueError(
+            f"Trait has no trait_name, wtf?? {trait_dict}"
+        )
     # Ruler is a type of councilor, so these modifiers will work
     if any(
         [
@@ -124,7 +128,7 @@ def pick_highest_tier_of_trait(list_of_traits):
     # Drop traits that have a higher tier of trait
     # Thankfully all our data is alphabetically sorted so "this will be simple" (Famous Last Words)
     tier_tracker = {}
-    list_of_traits_copy = copy(list_of_traits)
+    list_of_traits_copy = deepcopy(list_of_traits)
     position_in_list = 0
     for trait in list_of_traits:
         trait_level = 1
@@ -174,6 +178,10 @@ def filter_traits_by_mod_feature(traits_list: list) -> dict:
             sys.stdout.write(f"Skipped {trait_name} because it is on our exclusion list..\n")
             continue
         root = trait[trait_name]
+        if not root:
+            raise ValueError(
+                f"Something went wrong filtering traits by mod feature --> {trait}"
+            )
         if trait_qualifies_for_core_modifying(root):
             if EXCLUDE_TRAITS_FROM_CORE_MODIFYING.get(trait_name):
                 print(f"Skipped adding {trait_name} to the core-modifying traits because the game wont let us add it. :(")

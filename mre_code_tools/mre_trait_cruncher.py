@@ -34,7 +34,15 @@ def iterate_yaml_to_create_filtered_sorted_traits(safe_loaded_blob):
         # breakpoint()
         if trait[k].get("leader_trait_type", "") == "negative":
             continue
+        _trait_name = [*trait][0]
+        if not _trait_name.startswith('leader_trait'):
+            print(f"+ Skipping {_trait_name} as it's not a leader trait...")
+            continue
         for leader_class in ["commander", "scientist", "official"]:
+            if not trait[k].get('leader_class'):
+                raise ValueError(
+                    f"Missing leader_class in trait! {trait}"
+                )
             if leader_class in trait[k]['leader_class']:
                 try:
                     filtered_trait = {}

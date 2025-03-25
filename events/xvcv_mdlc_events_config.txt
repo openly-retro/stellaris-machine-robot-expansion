@@ -422,6 +422,14 @@ country_event = {
 		hidden_effect = { country_event = { id = xvcv_mdlc_config.1 } }
 		default_hide_option = yes
 	}
+	option = {
+		name = xvcv_mdlc_config.3_to_4_page
+		hidden_effect = {
+			country_event = {
+				id = xvcv_mdlc_config.4
+			}
+		}
+	}
 
 	option = {
 		name = xvcv_mdlc_close_evt_window
@@ -430,34 +438,69 @@ country_event = {
 }
 
 # Page 4 : Experimental features toggle
-# country_event = {
-# 	id = xvcv_mdlc_config.4
-# 	title = "oxr_mdlc_config.4.name"
-# 	desc = "oxr_mdlc_config.4.desc"
-# 	picture = GFX_evt_xvcv_mdlc
-# 	is_triggered_only = yes
+country_event = {
+	id = xvcv_mdlc_config.4
+	title = "oxr_mdlc_config.4.name"
+	desc = "oxr_mdlc_config.4.desc"
+	picture = GFX_evt_xvcv_mdlc
+	is_triggered_only = yes
 
 
-# 	# Turn off insights gained messages
-# 	option = {
-# 		name = oxr_mdlc_config_4.feature_bio_mech_worlds.on
-# 		custom_tooltip = oxr_mdlc_config_wm_origin_insights_notifications.on.tooltip
-# 		trigger = { has_country_flag = oxr_mdlc_mod_config_origin_wm_gather_insights_messages_off }
-# 		hidden_effect = {
-# 			remove_country_flag = oxr_mdlc_mod_config_origin_wm_gather_insights_messages_off
-# 			country_event = { id = xvcv_mdlc_config.3 }
-# 		}
-# 	}
-# 	option = {
-# 		name = oxr_mdlc_config_wm_origin_insights_notifications.off
-# 		custom_tooltip = oxr_mdlc_config_wm_origin_insights_notifications.off.tooltip
-# 		trigger = { NOT = { has_country_flag = oxr_mdlc_mod_config_origin_wm_gather_insights_messages_off } }
-# 		hidden_effect = {
-# 			set_country_flag = oxr_mdlc_mod_config_origin_wm_gather_insights_messages_off
-# 			country_event = { id = xvcv_mdlc_config.3 }
-# 		}
-# 	}
-# }
+	# Bio Mechanical Planets
+	option = {
+		name = oxr_mdlc_config_4.feature_bio_mech_worlds.on
+		custom_tooltip = oxr_mdlc_config_4.feature_bio_mech_worlds.on.tooltip
+		trigger = { has_oxr_mdlc_country_feature_bio_mech_worlds = no }
+		hidden_effect = {
+			set_country_flag = oxr_mdlc_feature_bio_mech_worlds_var
+			country_event = { id = xvcv_mdlc_config.4 }
+		}
+	}
+	option = {
+		name = oxr_mdlc_config_4.feature_bio_mech_worlds.off
+		custom_tooltip = oxr_mdlc_config_4.feature_bio_mech_worlds.off.tooltip
+		trigger = { has_oxr_mdlc_country_feature_bio_mech_worlds = yes }
+		hidden_effect = {
+			remove_country_flag = oxr_mdlc_feature_bio_mech_worlds_var
+			country_event = { id = xvcv_mdlc_config.4 }
+		}
+	}
+
+	# Bio Mechanical Planets
+	option = {
+		name = oxr_mdlc_config_4.feature_bio_mech_buildings.on
+		custom_tooltip = oxr_mdlc_config_4.feature_bio_mech_buildings.on.tooltip
+		trigger = { has_oxr_mdlc_country_feature_bio_mech_buildings = no }
+		hidden_effect = {
+			set_country_flag = oxr_mdlc_feature_bio_mech_buildings
+			country_event = { id = xvcv_mdlc_config.4 }
+		}
+	}
+	option = {
+		name = oxr_mdlc_config_4.feature_bio_mech_buildings.off
+		custom_tooltip = oxr_mdlc_config_4.feature_bio_mech_buildings.off.tooltip
+		trigger = { has_oxr_mdlc_country_feature_bio_mech_buildings = yes }
+		hidden_effect = {
+			remove_country_flag = oxr_mdlc_feature_bio_mech_buildings
+			country_event = { id = xvcv_mdlc_config.4 }
+		}
+	}
+	
+	option = {
+		name = xvcv_mdlc_config.4_to_3nd_page
+		hidden_effect = { country_event = { id = xvcv_mdlc_config.2 } }
+	}
+	option = {
+		name = xvcv_mdlc_config.any_to_1st_page
+		hidden_effect = { country_event = { id = xvcv_mdlc_config.1 } }
+		default_hide_option = yes
+	}
+
+	option = {
+		name = xvcv_mdlc_close_evt_window
+		# hidden_effect = { remove_country_flag = xvcv_mdlc_config_value_counts_locked }
+	}
+}
 
 namespace = xvcv_mdlc_config_effect
 
