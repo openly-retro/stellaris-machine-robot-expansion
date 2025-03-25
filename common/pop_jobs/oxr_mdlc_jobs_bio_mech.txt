@@ -1,20 +1,65 @@
 # Bio Mech jobs
+oxr_mdlc_bio_robot_lustra_residential = {
+	inline_script = "planet/jobs/bio_mech/oxr_lustra_worker"
+	building_icon = building_residence
+
+	pop_modifier = {
+		pop_amenities_usage_add = -0.5
+	}
+
+	resources = {
+		category = planet_clerks
+		produces = {
+			unity = 2
+		}
+		upkeep = {
+			food = 2
+			consumer_goods = 1
+		}
+	}
+	inline_script = { script = planet/jobs/add_amenities AMOUNT = 5 }
+	inline_script = planet/jobs/vanilla/oxr_clerk_job_filler
+}
+
+oxr_mdlc_bio_robot_lustra_isc = {
+	inline_script = planet/jobs/bio_mech/oxr_lustra_worker
+
+	building_icon = building_food_processing_facility
+	clothes_texture_index = 2
+
+	pop_modifier = {
+		pop_amenities_usage_add = -0.5
+		pop_category_specialists_food_upkeep_add = -0.5
+	}
+
+	resources = {
+		category = planet_farmers
+		produces = {
+			food = 8
+			consumer_goods = 1.5
+		}
+		upkeep = {
+			energy = 1
+		}
+	}
+	inline_script = planet/jobs/vanilla/oxr_farmer_job_filler
+}
+
 oxr_mdlc_bio_robot_lustra_integrated_researcher = {
 	inline_script = {
 		script = planet/jobs/bio_mech/oxr_lustra_specialist
 	}
 	pop_modifier = { pop_happiness = 0.1 }
-	inline_script = { script = planet/jobs/add_ethics_attraction AMOUNT = 0.05 }
-	inline_script = { script = planet/jobs/add_amenities AMOUNT = 3 }
+	# inline_script = { script = planet/jobs/add_trade_value AMOUNT = 2 }
+	# inline_script = { script = planet/jobs/add_ethics_attraction AMOUNT = 0.05 }
+	inline_script = { script = planet/jobs/add_amenities AMOUNT = 2 }
 	resources = {
 		category = planet_researchers
-		# researcher
 		produces = {
-			society_research = 8
-			unity = 4  # burecrat makes 4
+			society_research = 14
 		}
 		upkeep = {
-			consumer_goods = 4  # culture worker (3) plus half a researcher (half 2)
+			consumer_goods = 3
 		}
 	}
 	inline_script = "jobs/culture_worker_outputs"
@@ -22,20 +67,29 @@ oxr_mdlc_bio_robot_lustra_integrated_researcher = {
 
 }
 
-oxr_mdlc_bio_robot_lustra_residential = {
-	inline_script = "planet/jobs/bio_mech/oxr_lustra_worker"
-	building_icon = building_residence
+oxr_mdlc_bio_robot_lustra_reactor_tech = {
+	inline_script = planet/jobs/bio_mech/oxr_lustra_worker
+
+	building_icon = building_energy_grid
+	clothes_texture_index = 2
 
 	resources = {
-		category = planet_clerks
+		category = planet_technician
 		produces = {
-			unity = 3
+			energy = 10
+			physics_research = 1
+		}
+		produces = {
+			trigger = {
+				planet = { has_planet_flag = has_energy_requisitorium }
+			}
+			energy = @requisitorium_energy_reduction
 		}
 		upkeep = {
-			food = 2.5
+			food = 2
 		}
 	}
-	inline_script = planet/jobs/vanilla/oxr_clerk_job_filler
+	inline_script = planet/jobs/vanilla/oxr_technician_job_filler
 }
 
 job_oxr_mdlc_bio_robot_organic_goods = {
@@ -48,15 +102,16 @@ job_oxr_mdlc_bio_robot_organic_goods = {
 		script = planet/jobs/add_trade_value
 		AMOUNT = 2
 	}
-
+	inline_script = { script = planet/jobs/add_trade_value AMOUNT = 4 }
+	inline_script = { script = planet/jobs/add_amenities AMOUNT = 1 }
 
 	resources = {
 		category = planet_artisans
 		produces = {
-			consumer_goods = 6
+			consumer_goods = 8
 		}
 		upkeep = {
-			food = 7
+			food = 10
 			energy = 1
 		}
 		produces = {
@@ -98,55 +153,6 @@ job_oxr_mdlc_bio_robot_organic_goods = {
 	inline_script = planet/jobs/weights/goods_job_weights
 
 	inline_script = "jobs/automodding_priority_trade"
-}
-
-oxr_mdlc_bio_robot_lustra_isc = {
-	inline_script = planet/jobs/bio_mech/oxr_lustra_worker
-
-	building_icon = building_food_processing_facility
-	clothes_texture_index = 2
-
-	resources = {
-		category = planet_farmers
-		produces = {
-			food = 6
-			society_research = 4.5
-			consumer_goods = 2
-		}
-		upkeep = {
-			minerals = 2
-		}
-	}
-	inline_script = planet/jobs/vanilla/oxr_farmer_job_filler
-}
-
-oxr_mdlc_bio_robot_lustra_reactor_tech = {
-	inline_script = planet/jobs/bio_mech/oxr_lustra_worker
-
-	building_icon = building_energy_grid
-	clothes_texture_index = 2
-
-	resources = {
-		category = planet_technician
-		produces = {
-			energy = 6
-			physics_research = 4.5
-		}
-		produces = {
-			trigger = {
-				exists = owner
-				owner = { is_robot_empire = yes }
-			}
-			energy = 2
-		}
-		produces = {
-			trigger = {
-				planet = { has_planet_flag = has_energy_requisitorium }
-			}
-			energy = @requisitorium_energy_reduction
-		}
-	}
-	inline_script = planet/jobs/vanilla/oxr_technician_job_filler
 }
 
 oxr_mdlc_bio_robot_lustra_health_mech_services = {
@@ -191,44 +197,20 @@ oxr_mdlc_bio_robot_lustra_tax_enforcer = {
 
 	building_icon = building_energy_grid
 	clothes_texture_index = 2
+	pop_modifier = {
+		pop_amenities_usage_add = 1
+		pop_category_specialists_food_upkeep_add = 1
+	}
 
 	resources = {
-		category = planet_technician
+		category = planet_administrators
 		produces = {
-			energy = 6
-		}
-		produces = {
-			trigger = {
-				exists = owner
-				owner = {
-					is_robot_empire = yes
-				}
-			}
 			energy = 2
-		}
-		produces = {
-			trigger = {
-				planet = {
-					has_planet_flag = has_energy_requisitorium
-				}
-			}
-			energy = @requisitorium_energy_reduction
+			unity = 4
 		}
 	}
 
-	overlord_resources = {
-		category = planet_requisitioned_energy
-		produces = {
-			trigger = {
-				planet = {
-					has_planet_flag = has_energy_requisitorium
-				}
-			}
-			energy = @requisitorium_energy_overlord
-		}
-	}
+	# inline_script = planet/jobs/weights/technician_job_weights
 
-	inline_script = planet/jobs/weights/technician_job_weights
-
-	inline_script = "jobs/automodding_priority_energy"
+	# inline_script = "jobs/automodding_priority_energy"
 }
