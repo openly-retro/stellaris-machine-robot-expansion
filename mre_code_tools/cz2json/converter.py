@@ -48,8 +48,12 @@ def clean_up_line(line: str) -> str:
     # Wipe out any comments
     if '#' in line:
         line = scrub_comments_from_line(line)
+    if line.strip().startswith('#'):
+        return ''
     # Spaces over tabs
-    line.replace("\t", " ")
+    # line = line.replace("\t", " ")
+    # normalize spaces
+    line = line.replace('  =',' =')
 
     line_opens_block = '= {' in line
     # ignore multiple blocks on same line
@@ -209,7 +213,9 @@ def iter_clean_up_lines(lines: list[str]) -> str:
     processed_lines = []
     for line in lines:
         try:
-            processed_lines.append(clean_up_line(line).strip())
+            next_line = clean_up_line(line)
+            if next_line.strip():
+                processed_lines.append(clean_up_line(line).strip())
         except Exception as ex:
             sys.exit(
                 f"Fell over parsing this line: {line}"
@@ -231,7 +237,7 @@ def convert_iter_lines_to_dict(json_as_str: str) -> dict:
         '\'"', '"'
     ).replace(
         '"\'', '"'
-    )
+    ).replace('  ',' ')
 
     try:
         results_as_json = loads(
@@ -242,7 +248,8 @@ def convert_iter_lines_to_dict(json_as_str: str) -> dict:
         print("**** DUMP OBJECT ****")
         # print(f"{{ {remove_extra_commas} }}")
         print("**********")
-        err_range = remove_extra_commas[exc.colno-20:exc.colno+20]
+        # breakpoint()
+        err_range = f"-->{remove_extra_commas[exc.colno-50:exc.colno+50]}<--"
         print(
             "Range: \n"
             f"{err_range}"
@@ -270,14 +277,8 @@ def input_cz_output_json(file_contents: str) -> dict:
     contents = search_blob_crunch_lists(file_contents)
     processed_lines = []
     for line in contents.split("\n"):
-        # try:
-        #     processed_lines.append(clean_up_line(line).strip())
-        # except Exception as ex:
-        #     print(str(ex))
-        #     sys.exit(
-        #         f"Fell over parsing this line: {line}"
-        #     )
-        processed_lines.append(clean_up_line(line).strip())
+        if line.strip():
+            processed_lines.append(clean_up_line(line).strip())
     del contents
     cleaned_blob = " ".join(processed_lines)
     del processed_lines
