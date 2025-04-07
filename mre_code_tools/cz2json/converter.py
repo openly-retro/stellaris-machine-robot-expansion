@@ -1,5 +1,7 @@
 import re
 from json import loads
+from json.decoder import JSONDecodeError
+import sys
 
 """
 Larger challenges:
@@ -31,7 +33,7 @@ re_multiline_list = re.compile(
     r"(?P<blockname>\w*) = {(?P<words>((?:\n\s{0,})(\w*)){1,})\s{1,}}",
     re.MULTILINE
 )
-re_simple_word = re.compile(r"\b(([a-zA-Z_\/]{2,}))\b")
+re_simple_word = re.compile(r"\b(([\@a-zA-Z_\/]{2,}))\b")
 
 COMMA = ','
 EMPTY_LINE = ''
@@ -52,12 +54,14 @@ def clean_up_line(line: str) -> str:
         # raise MultipleBlocksSameLine(f"ergg --> {line}")
         return format_multiline_assignment(line)
     # list values
-    elif line_opens_block and line.strip().endswith('}'):
+    elif line_opens_block and line.count('=') == 1 and line.strip().endswith('}'):
         return normalize_list(line)
-    # beginning of block
+    # a line that's just one block
+    elif line.count('{') == 1 and line.strip().endswith('}'):
+        return handle_single_block_assignment(line)
 
-    elif re_re_block_open := re.match(re_block_open, line):
-        return block_open_to_json(re_re_block_open)
+    elif block_open_detected := re.match(re_block_open, line):
+        return block_open_to_json(block_open_detected)
     elif len(line.strip().split(' ')) == 3:
         return convert_simple_assignment(line)
     elif line.strip() == '}':
@@ -85,6 +89,16 @@ def convert_block_open(line) -> str:
         ' = {',
         ': {'
     )
+
+def handle_single_block_assignment(line) -> str:
+    # something like 'potential = { is_councilor = no }'
+    cleaned_equals = re.sub(
+        r"\s{1,}=\s{1,}",
+        ': ',
+        line
+    )
+    quoted = re.sub(re_simple_word, quote_word, cleaned_equals)
+    return quoted  + COMMA
 
 def normalize_list(line) -> str:
     # leader_class = { word word word } into leader_class
@@ -148,8 +162,21 @@ def convert_iter_lines_to_dict(json_as_str: str) -> dict:
     remove_extra_commas = json_as_str.replace(
         ', }',
         '}'
-    ).replace(',}','}').strip()
-    return loads(f"{{{remove_extra_commas.rstrip(',')}}}")
+    ).replace(',}','}').strip().replace('""', '"').replace('\\','').rstrip(
+        ','
+    )
+
+    try:
+        results_as_json = loads(
+            f"{{ {remove_extra_commas} }}"
+        )
+    except JSONDecodeError as exc:
+        print(f"ERROR: {str(exc)}")
+        print("**** DUMP OBJECT ****")
+        print(f"{{ {remove_extra_commas} }}")
+        sys.exit(1)
+
+    return results_as_json
 
 def format_multiline_assignment(naughty_line: str) -> str:
     """ Basically just quote words and add commas after closing braces,

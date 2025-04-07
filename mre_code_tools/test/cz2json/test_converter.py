@@ -14,6 +14,7 @@ from cz2json.converter import (
     search_blob_crunch_lists,
     iter_clean_up_lines,
     convert_iter_lines_to_dict,
+    handle_single_block_assignment,
 )
 
 class TestConverter(TestCase):
@@ -192,5 +193,11 @@ leader_trait_scout = {
         test_data = 'NOT = { has_trait_tier1or2 = { TRAIT = leader_trait_eager } }'
 
         expected = '"NOT": { "has_trait_tier1or2": { "TRAIT": "leader_trait_eager" } },'
+        actual = clean_up_line(test_data)
+        assert expected == actual
+
+    def test_handle_single_block_assignment(self):
+        test_data = "potential = { is_councilor = no }"
+        expected = '"potential": { "is_councilor": "no" },'
         actual = clean_up_line(test_data)
         assert expected == actual
