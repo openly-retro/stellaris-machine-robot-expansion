@@ -22,7 +22,7 @@ class TestConverter(TestCase):
     def test_normalize_list(self):
 
         line = "    leader_class = { commander scientist }"
-        expectation = "    \"leader_class\": ['commander', 'scientist'],"
+        expectation = "    \"leader_class\": [\"commander\", \"scientist\"],"
         actual = normalize_list(line)
         assert expectation == actual
         

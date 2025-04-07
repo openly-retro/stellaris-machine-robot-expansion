@@ -105,7 +105,8 @@ def normalize_list(line) -> str:
     parsed = re.search(re_parse_list_assignment, line)
     indent = re.match(re_indendation, line).group("indent")
     items = parsed.group("items").strip().split(' ')
-    return f"{indent}\"{parsed.group('assignee')}\": {items}" + COMMA
+    items_quoted = str(items).replace('\'','"')
+    return f"{indent}\"{parsed.group('assignee')}\": {items_quoted}" + COMMA
 
 def convert_simple_assignment(line) -> str:
     quoted = re.sub(re_simple_word, quote_word, line)
