@@ -7,7 +7,7 @@ from json import load as json_load
 from os import path as os_path
 import argparse
 
-from mre_code_tools.pipeline.mre_common_vars import (
+from pipeline.mre_common_vars import (
     TRAIT_MODIFIER_KEYS,
     BUILD_FOLDER,
     INPUT_FILES_FOR_CODEGEN,

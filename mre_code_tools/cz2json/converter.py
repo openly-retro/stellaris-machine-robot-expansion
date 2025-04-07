@@ -19,6 +19,7 @@ re_parse_simple_assignment = re.compile(
 re_indendation = re.compile(r"^(?P<indent>\s*)")
 re_block_open = re.compile(r"^(?P<indent>\s{0,})(?P<name>\w*) = {$")
 re_single_word_line = re.compile(r"^\s{0,}(\w*){1}[ ]{0,}$")
+re_code_block_open = re.compile(r"\s=\s{1,}\{")
 
 # Use re.sub and give it a function that quotes a string,
 # in order to quote all words in the text blob
@@ -48,7 +49,8 @@ def clean_up_line(line: str) -> str:
     line_opens_block = '= {' in line
     # ignore multiple blocks on same line
     if line_opens_block and line.count('{') > 1:
-        raise MultipleBlocksSameLine(f"ergg --> {line}")
+        # raise MultipleBlocksSameLine(f"ergg --> {line}")
+        return format_multiline_assignment(line)
     # list values
     elif line_opens_block and line.strip().endswith('}'):
         return normalize_list(line)
@@ -148,6 +150,17 @@ def convert_iter_lines_to_dict(json_as_str: str) -> dict:
         '}'
     ).replace(',}','}').strip()
     return loads(f"{{{remove_extra_commas.rstrip(',')}}}")
+
+def format_multiline_assignment(naughty_line: str) -> str:
+    """ Basically just quote words and add commas after closing braces,
+    since JSON can parse goofy whitespace patterns  """
+    open_braces_cleaned = re.sub(
+        r"\s{1,}=\s{1,}",
+        ": ",
+        naughty_line
+    )
+    quoted = re.sub(r"\b\w{2,}\b", quote_word, open_braces_cleaned)
+    return quoted + COMMA
 
 # TODO: make this more memory efficient
 # use a generator or something

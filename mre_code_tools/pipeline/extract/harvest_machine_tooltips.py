@@ -7,7 +7,7 @@ import argparse
 from json import dump as json_dump
 from time import perf_counter
 
-from mre_code_tools.pipeline.mre_common_vars import BUILD_FOLDER
+from pipeline.mre_common_vars import BUILD_FOLDER
 
 machine_tooltip = re.compile(r"(?P<trait_name>\w*trait\w*)_machine:")
 

@@ -1,7 +1,7 @@
 from unittest import TestCase
 import re
 
-from mre_code_tools.cz2json.converter import (
+from cz2json.converter import (
     block_open_to_json,
     re_block_open,
     clean_up_line,
@@ -84,40 +84,40 @@ class TestConverter(TestCase):
     def test_global_crunch_list(self):
         # Need to read the whole file/blob at once to make the conversion
         blob = """
-	leader_potential_add = {
-		is_gestalt = no
-	}
-	leader_class = { commander }
-	opposites = {
-		leader_trait_gale_speed
-		leader_trait_gale_speed_2
-		leader_trait_gale_speed_3
-	}
-	selectable_weight = {
-		weight = @class_negative_trait_weight
-		inline_script = paragon/pilot_weight_mult
-	}
+    leader_potential_add = {
+        is_gestalt = no
+    }
+    leader_class = { commander }
+    opposites = {
+        leader_trait_gale_speed
+        leader_trait_gale_speed_2
+        leader_trait_gale_speed_3
+    }
+    selectable_weight = {
+        weight = @class_negative_trait_weight
+        inline_script = paragon/pilot_weight_mult
+    }
 """
         expected = """
-	leader_potential_add = {
-		is_gestalt = no
-	}
-	leader_class = { commander }
-	\"opposites\": ['leader_trait_gale_speed', 'leader_trait_gale_speed_2', 'leader_trait_gale_speed_3'],
-	selectable_weight = {
-		weight = @class_negative_trait_weight
-		inline_script = paragon/pilot_weight_mult
-	}
+    leader_potential_add = {
+        is_gestalt = no
+    }
+    leader_class = { commander }
+    \"opposites\": ['leader_trait_gale_speed', 'leader_trait_gale_speed_2', 'leader_trait_gale_speed_3'],
+    selectable_weight = {
+        weight = @class_negative_trait_weight
+        inline_script = paragon/pilot_weight_mult
+    }
 """
         actual = search_blob_crunch_lists(blob)
         assert expected == actual
     
-    def test_multiple_blocks_same_line(self):
-        # not supporting crunching multiple blocks on the same line,
-        # this should be resolved before processing with a substitution
-        blob = "      leader_potential_add = { owner = { is_gestalt = no } }"
-        with self.assertRaises(MultipleBlocksSameLine):
-            result = clean_up_line(blob)
+    # def test_multiple_blocks_same_line(self):
+    #     # not supporting crunching multiple blocks on the same line,
+    #     # this should be resolved before processing with a substitution
+    #     blob = "      leader_potential_add = { owner = { is_gestalt = no } }"
+    #     with self.assertRaises(MultipleBlocksSameLine):
+    #         result = clean_up_line(blob)
 
     def test_scrub_comment_from_line(self):
         data = "      has_paragon_dlc = no  # some comment"
@@ -160,15 +160,15 @@ class TestConverter(TestCase):
     def test_converting_larger_trait_data__leader_trait_scout(self):
         data = """
 leader_trait_scout = {
-	leader_trait_type = veteran
-	inline_script = {
-		script = trait/icon
-		CLASS = leader
-		ICON = GFX_leader_trait_scout
-		RARITY = free_or_veteran
-		COUNCIL = no
-		TIER = 1
-	}
+    leader_trait_type = veteran
+    inline_script = {
+        script = trait/icon
+        CLASS = leader
+        ICON = GFX_leader_trait_scout
+        RARITY = free_or_veteran
+        COUNCIL = no
+        TIER = 1
+    }
 }
 """
         expected = {
@@ -188,39 +188,9 @@ leader_trait_scout = {
         assert expected == actual
 
 
-test_data = """
-leader_trait_scout = {
-	leader_trait_type = veteran
-	inline_script = {
-		script = trait/icon
-		CLASS = leader
-		ICON = GFX_leader_trait_scout
-		RARITY = free_or_veteran
-		COUNCIL = no
-		TIER = 1
-	}
-	leader_potential_add = {
-		OR = {
-			has_paragon_dlc = no
-			has_trait = subclass_commander_admiral
-			has_trait = subclass_scientist_explorer
-		}
-	}
-	modifier = {
-		ship_speed_mult = 0.05
-		ship_hyperlane_range_add = 2
-		fleet_mia_time_mult = -0.1
-	}
+    def test_expanding_multiple_blocks_same_line(self):
+        test_data = 'NOT = { has_trait_tier1or2 = { TRAIT = leader_trait_eager } }'
 
-	leader_class = { commander scientist }
-	selectable_weight = {
-		inline_script = paragon/subclass_free_trait_weight
-		inline_script = paragon/pilot_weight_mult
-		inline_script = {
-			script = paragon/dual_subclass_weight_mult
-			SUBCLASS_1 = commander_admiral
-			SUBCLASS_2 = scientist_explorer
-		}
-	}
-}
-"""
+        expected = '"NOT": { "has_trait_tier1or2": { "TRAIT": "leader_trait_eager" } },'
+        actual = clean_up_line(test_data)
+        assert expected == actual

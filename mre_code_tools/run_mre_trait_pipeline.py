@@ -13,16 +13,16 @@ import time
 
 import argparse
 
-from mre_code_tools.pipeline.extract.main import (
+from pipeline.extract.main import (
     batch_convert_traits_files_into_json,
     read_and_sort_extracted_traits,
 )
-from mre_code_tools.pipeline.transform.main import (
+from pipeline.transform.main import (
     sort_and_filter_pipeline_files,
     write_sorted_filtered_data_to_json_files,
     qa_pipeline_files,
 )
-from mre_code_tools.pipeline.compile.generate_traits_gui_and_effects import (
+from pipeline.compile.generate_traits_gui_and_effects import (
     # run_codegen_process_for_leadermaking_feature,
     generate_mod_ready_code_files,
     pipeline_make_leader_start_button_code,
@@ -31,24 +31,26 @@ from mre_code_tools.pipeline.compile.generate_traits_gui_and_effects import (
     pipeline_make_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines,
     pipeline_make_core_modifying_subclasses_gui_code,
 )
-from mre_code_tools.pipeline.extract.mre_translation_key_normalizer import do_all_work as do_uppercase_modifier_mapping_work
-from mre_code_tools.pipeline.extract.harvest_machine_tooltips import do_all_work as harvest_machine_tooltips
-from mre_code_tools.pipeline.compile.mre_generate_councilor_editor_gui import do_all_work as generate_councilor_editor_gui
-from mre_code_tools.pipeline.compile.mre_generate_councilor_editor_scripted_triggers import do_all_work as generate_councilor_editor_scripted_triggers
-from mre_code_tools.pipeline.compile.mre_generate_councilor_editor_button_effects import do_all_work as generate_councilor_editor_button_effects
-from mre_code_tools.pipeline.compile.mre_generate_gui_traits_limits_effects import do_all_work as generate_councilor_gui_traits_limits_effects
-from mre_code_tools.pipeline.compile.mre_generate_ruler_limits_scripted_effect import do_all_work as generate_ruler_limits_scripted_effect
-from mre_code_tools.pipeline.compile.mre_stitch_gui_files import stitch_gui_files
+from pipeline.extract.mre_translation_key_normalizer import do_all_work as do_uppercase_modifier_mapping_work
+from pipeline.extract.harvest_machine_tooltips import do_all_work as harvest_machine_tooltips
+from pipeline.compile.mre_generate_councilor_editor_gui import do_all_work as generate_councilor_editor_gui
+from pipeline.compile.mre_generate_councilor_editor_scripted_triggers import do_all_work as generate_councilor_editor_scripted_triggers
+from pipeline.compile.mre_generate_councilor_editor_button_effects import do_all_work as generate_councilor_editor_button_effects
+from pipeline.compile.mre_generate_gui_traits_limits_effects import do_all_work as generate_councilor_gui_traits_limits_effects
+from pipeline.compile.mre_generate_ruler_limits_scripted_effect import do_all_work as generate_ruler_limits_scripted_effect
+from pipeline.compile.mre_stitch_gui_files import stitch_gui_files
 
-from mre_code_tools.pipeline.mre_common_vars import (
+from pipeline.mre_common_vars import (
     BUILD_FOLDER,
     UNICORN,
+    EXTRACT_FOLDER,
 )
 
 def clean_up_build_folder():
     if os.path.exists(BUILD_FOLDER):
         rmtree(BUILD_FOLDER)
     os.makedirs(BUILD_FOLDER, exist_ok=True)
+    os.makedirs(EXTRACT_FOLDER, exist_ok=True)
 
 def sort_and_write_filtered_trait_data():
     all_traits_processed_data = sort_and_filter_pipeline_files()

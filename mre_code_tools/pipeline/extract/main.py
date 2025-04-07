@@ -12,7 +12,7 @@ from pipeline.mre_common_vars import (
     LEADER_CLASSES,
 )
 from cz2json.converter import input_cz_output_json
-from mre_code_tools.pipeline.transform.main import (
+from pipeline.transform.main import (
     trickle_up_subclass_requirements
 )
 
@@ -35,8 +35,11 @@ def batch_convert_traits_files_into_json(stellaris_path: str) -> list:
                 f"Couldnt find {base_file_path}. Check that you entered the correct "
                 "base path for Stellaris (the folder with \\common\\ in it)"
             )
-            with open(base_file_path, "r") as base_traits_file:
-                buffer = input_cz_output_json(base_traits_file.read())
+
+        with open(base_file_path, "r") as base_traits_file:
+            breakpoint()
+            buffer = input_cz_output_json(base_traits_file.read())
+                
         extracted_file_name = make_converted_filename_2(base_file)
 
         # Write to file in 'extract' folder
@@ -47,7 +50,7 @@ def batch_convert_traits_files_into_json(stellaris_path: str) -> list:
         with open(target_file_path, "w") as dest_file:
             dest_file.write(buffer)
             print(
-                f"Chopped up base file {base_file} successfully. Written to {target_file_path.name}"
+                f"Chopped up base file {base_file} successfully. Written to {target_file_path}"
             )
     return generated_files
 
@@ -64,7 +67,8 @@ def read_and_sort_extracted_traits(list_of_extracted_files: list) -> list:
     }
 
     for traits_src_json_path in list_of_extracted_files:
-        with open(traits_src_json_path, "r") as traits_src_json_file:
+        with open(traits_src_json_path) as traits_src_json_file:
+            breakpoint()
             buffer = json_load(traits_src_json_file)
             for trait in buffer:
                 if "commander" in trait['leader_class']:

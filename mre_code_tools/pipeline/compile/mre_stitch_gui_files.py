@@ -4,7 +4,7 @@ __license__ = 'GPLv3'
 
 import os
 
-from mre_code_tools.pipeline.mre_common_vars import (
+from pipeline.mre_common_vars import (
     BUILD_FOLDER,
     GUI_FOLDER,
     sanity_check,

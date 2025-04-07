@@ -6,8 +6,8 @@ import time
 import sys
 from json import load as json_load
 
-from mre_code_tools.pipeline.compile.generate_trait_tooltips import create_tooltip_for_leader
-from mre_code_tools.pipeline.mre_common_vars import (
+from pipeline.compile.generate_trait_tooltips import create_tooltip_for_leader
+from pipeline.mre_common_vars import (
     BUILD_FOLDER,
     INPUT_FILES_FOR_CODEGEN,
     LEADER_MAKING,

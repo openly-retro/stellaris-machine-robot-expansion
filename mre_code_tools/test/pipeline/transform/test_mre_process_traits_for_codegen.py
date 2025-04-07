@@ -1,4 +1,4 @@
-from mre_code_tools.pipeline.transform.main import (
+from pipeline.transform.main import (
     pick_highest_tier_of_trait,
     filter_traits_by_mod_feature,
     trickle_up_subclass_requirements,

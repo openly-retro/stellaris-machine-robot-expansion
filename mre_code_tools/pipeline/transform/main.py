@@ -23,7 +23,7 @@ import time
 from json import load as json_load, dump as json_dump
 import argparse
 
-from mre_code_tools.pipeline.mre_common_vars import (
+from pipeline.mre_common_vars import (
     BUILD_FOLDER,
     LEADER_CLASSES,
     MISSING,
@@ -38,7 +38,7 @@ from mre_code_tools.pipeline.mre_common_vars import (
     FILE_NUM_PREFIXES,
     TRIGGERS_EFFECTS_FOLDER,
 )
-from mre_code_tools.pipeline.transform.requirements_triggers import create_requirements_triggers_for_leader_traits
+from pipeline.transform.requirements_triggers import create_requirements_triggers_for_leader_traits
 
 MODIFIER_VALUES_SUBSTITUTIONS = {
     "var_trait_surveyor_amt": 0.5,
