@@ -17,11 +17,11 @@ import argparse
 from json import load as json_load
 from json import dump as json_dump
 
-from stellaris_yaml_converter import (
+from mre_code_tools.pipeline.extract.stellaris_yaml_converter import (
     convert_stellaris_script_to_standard_yaml,
     validate_chopped_up_data
 )
-from mre_trait_cruncher import (
+from mre_code_tools.pipeline.transform.mre_trait_cruncher import (
     read_and_write_traits_data
 )
 from pipeline.extract.main import (
@@ -33,7 +33,7 @@ from mre_code_tools.pipeline.transform.main import (
     write_sorted_filtered_data_to_json_files,
     qa_pipeline_files,
 )
-from generate_traits_gui_and_effects import (
+from mre_code_tools.pipeline.compile.generate_traits_gui_and_effects import (
     # run_codegen_process_for_leadermaking_feature,
     generate_mod_ready_code_files,
     pipeline_make_leader_start_button_code,
@@ -42,14 +42,14 @@ from generate_traits_gui_and_effects import (
     pipeline_make_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines,
     pipeline_make_core_modifying_subclasses_gui_code,
 )
-from mre_translation_key_normalizer import do_all_work as do_uppercase_modifier_mapping_work
-from mre_harvest_machine_tooltips import do_all_work as harvest_machine_tooltips
-from mre_generate_councilor_editor_gui import do_all_work as generate_councilor_editor_gui
-from mre_generate_councilor_editor_scripted_triggers import do_all_work as generate_councilor_editor_scripted_triggers
-from mre_generate_councilor_editor_button_effects import do_all_work as generate_councilor_editor_button_effects
-from mre_generate_gui_traits_limits_effects import do_all_work as generate_councilor_gui_traits_limits_effects
-from mre_generate_ruler_limits_scripted_effect import do_all_work as generate_ruler_limits_scripted_effect
-from mre_stitch_gui_files import stitch_gui_files
+from mre_code_tools.pipeline.extract.mre_translation_key_normalizer import do_all_work as do_uppercase_modifier_mapping_work
+from mre_code_tools.pipeline.extract.harvest_machine_tooltips import do_all_work as harvest_machine_tooltips
+from mre_code_tools.pipeline.compile.mre_generate_councilor_editor_gui import do_all_work as generate_councilor_editor_gui
+from mre_code_tools.pipeline.compile.mre_generate_councilor_editor_scripted_triggers import do_all_work as generate_councilor_editor_scripted_triggers
+from mre_code_tools.pipeline.compile.mre_generate_councilor_editor_button_effects import do_all_work as generate_councilor_editor_button_effects
+from mre_code_tools.pipeline.compile.mre_generate_gui_traits_limits_effects import do_all_work as generate_councilor_gui_traits_limits_effects
+from mre_code_tools.pipeline.compile.mre_generate_ruler_limits_scripted_effect import do_all_work as generate_ruler_limits_scripted_effect
+from mre_code_tools.pipeline.compile.mre_stitch_gui_files import stitch_gui_files
 
 from cz2json.converter import input_cz_output_json
 

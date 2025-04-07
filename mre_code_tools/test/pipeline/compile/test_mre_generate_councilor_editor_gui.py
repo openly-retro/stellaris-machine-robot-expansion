@@ -1,4 +1,4 @@
-from mre_generate_councilor_editor_gui import gen_councilor_editor_traits_gui_code
+from mre_code_tools.pipeline.compile.mre_generate_councilor_editor_gui import gen_councilor_editor_traits_gui_code
 
 def test_gen_councilor_editor_traits_gui_code__leader_trait_army_veteran_2():
     test_data = {

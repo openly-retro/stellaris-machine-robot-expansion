@@ -1,7 +1,7 @@
 # Unit tests
 from tempfile import NamedTemporaryFile
 from json import dump as json_dump
-from generate_traits_gui_and_effects import (
+from mre_code_tools.pipeline.compile.generate_traits_gui_and_effects import (
     gen_leader_making_button_effects_code,
     gen_core_modifying_trait_gui_code,
     gen_core_modifying_button_effects_code,

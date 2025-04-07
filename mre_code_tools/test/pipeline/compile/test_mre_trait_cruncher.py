@@ -1,4 +1,4 @@
-from mre_trait_cruncher import (
+from mre_code_tools.pipeline.transform.mre_trait_cruncher import (
     filter_trait_info,
     sort_traits_by_leader_class,
     sort_traits_asc,

@@ -1,4 +1,4 @@
-from stellaris_yaml_converter import (
+from mre_code_tools.pipeline.extract.stellaris_yaml_converter import (
 	convert_stellaris_script_to_standard_yaml,
 	convert_leader_class_definitions_to_lists,
 	concatenate_multiline_has_trait_definitions,

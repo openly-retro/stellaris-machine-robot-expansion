@@ -6,7 +6,7 @@ import time
 import sys
 from json import load as json_load
 
-from generate_trait_tooltips import create_tooltip_for_leader
+from mre_code_tools.pipeline.compile.generate_trait_tooltips import create_tooltip_for_leader
 from mre_code_tools.pipeline.mre_common_vars import (
     BUILD_FOLDER,
     INPUT_FILES_FOR_CODEGEN,
@@ -37,33 +37,29 @@ from mre_code_tools.pipeline.mre_common_vars import (
                                                                           
 """
 
-def gen_core_modifying_deduct_trait_pts_for_each_trait() -> List[str]:
-    """ scripted effect to deduct points and picks from the ruler
-    for each trait that already exists on the ruler """
+def gen_councilor_deduct_trait_pts_for_each_trait() -> List[str]:
+    """ scripted effect to deduct points and picks from the councilor
+    for each trait that already exists on the councilor """
     unsorted_traits = {
         "common": [],
         "veteran": [],
         "paragon": []
     }
     scripted_trigger_header = """
-# Check what traits are already on the ruler, and deduct from total available trait picks + points
-oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
-    optimize_memory
+### Deduct points/picks for existing traits ###
+oxr_mdlc_councilor_editor_deduct_points_picks_for_existing_traits = {
+	optimize_memory
 """
     scripted_trigger_footer = """
 }
 """
     trait_limit_trigger = """	if = {{
 		limit = {{
-			ruler = {{
-                has_trait = {trait_name}
-			    check_variable = {{ which = xvcv_mdlc_core_modifying_trait_picks value > 0 }}
-            }}
+			has_trait = {trait_name}
+			check_variable = {{ which = oxr_mdlc_councilor_editor_trait_picks value > 0 }}
 		}}
-        ruler = {{
-            oxr_mdlc_core_modifying_deduct_trait_pick = yes
-		    oxr_mdlc_core_modifying_deduct_trait_points_cost_{rarity} = yes
-        }}
+		oxr_mdlc_councilor_editor_deduct_trait_pick = yes
+		oxr_mdlc_councilor_editor_deduct_trait_points_cost_{rarity} = yes
 	}}"""
     trait_limit_lines = []
     for processed_traits_file in INPUT_FILES_FOR_CODEGEN:
@@ -72,29 +68,29 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
         ) as organized_traits_dict_data:
             organized_traits_dict = json_load(organized_traits_dict_data)
             for rarity in RARITIES:
-                for leader_trait in organized_traits_dict["core_modifying_traits"][rarity]:
+                for leader_trait in organized_traits_dict["councilor_editor_traits"][rarity]:
                     trait_name = [*leader_trait][0]
                     unsorted_traits[rarity].append(trait_name)
     # Sort them all
     for rarity in RARITIES:
         for trait_name in sorted(set(unsorted_traits[rarity])):
-            # if "subclass" not in trait_name:
-            trait_limit_lines.append(
-                trait_limit_trigger.format(
-                    trait_name=trait_name, rarity=rarity
+            if "subclass" not in trait_name:
+                trait_limit_lines.append(
+                    trait_limit_trigger.format(
+                        trait_name=trait_name, rarity=rarity
+                    )
                 )
-            )
     return f"""{scripted_trigger_header}
 {"\n".join(trait_limit_lines)}
 {scripted_trigger_footer}"""
 
 def do_all_work():
-    print("Making oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect ...")
-    scripted_trigger = gen_core_modifying_deduct_trait_pts_for_each_trait()
+    print("Making oxr_mdlc_councilor_editor_deduct_points_picks_for_existing_traits ...")
+    scripted_trigger = gen_councilor_deduct_trait_pts_for_each_trait()
     with open(
         os.path.join(
             BUILD_FOLDER,
-            f"{FILE_NUM_PREFIXES["effects"]}_oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect.txt"
+            f"{FILE_NUM_PREFIXES["triggers"]}_oxr_mdlc_councilor_editor_deduct_points_picks_for_existing_traits.txt"
         ), 'wb'
     ) as outfile:
         outfile.write(scripted_trigger.encode('utf-8'))

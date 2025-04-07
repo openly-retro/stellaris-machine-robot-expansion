@@ -1,6 +1,6 @@
 from tempfile import NamedTemporaryFile
 from pytest import fixture as pytest_fixture
-from generate_trait_tooltips import (
+from mre_code_tools.pipeline.compile.generate_trait_tooltips import (
     create_tooltip_for_leader,
     load_modifier_keys_in_uppercase,
     detect_trait_modifier_permutation
