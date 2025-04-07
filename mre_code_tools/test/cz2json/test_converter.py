@@ -201,3 +201,9 @@ leader_trait_scout = {
         expected = '"potential": { "is_councilor": "no" },'
         actual = clean_up_line(test_data)
         assert expected == actual
+
+    def test_dot_scoping(self):
+        test_data = "is_same_value = root.owner"
+        expected = '"is_same_value": "root.owner",'
+        actual = clean_up_line(test_data)
+        assert expected == actual

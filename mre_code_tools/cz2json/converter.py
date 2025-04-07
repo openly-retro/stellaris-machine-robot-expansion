@@ -33,7 +33,8 @@ re_multiline_list = re.compile(
     r"(?P<blockname>\w*) = {(?P<words>((?:\n\s{0,})(\w*)){1,})\s{1,}}",
     re.MULTILINE
 )
-re_simple_word = re.compile(r"\b(([\@a-zA-Z_\/]{2,}))\b")
+# re_simple_word = re.compile(r"\b(([\@a-zA-Z_\/]{2,}))\b")
+re_simple_word = re.compile(r"([\@\/\._a-zA-Z0-9]+)")
 
 COMMA = ','
 EMPTY_LINE = ''
@@ -105,8 +106,9 @@ def normalize_list(line) -> str:
     parsed = re.search(re_parse_list_assignment, line)
     indent = re.match(re_indendation, line).group("indent")
     items = parsed.group("items").strip().split(' ')
-    items_quoted = str(items).replace('\'','"')
-    return f"{indent}\"{parsed.group('assignee')}\": {items_quoted}" + COMMA
+    if not '"' in str(items):
+        items = str(items).replace('\'','"')
+    return f"{indent}\"{parsed.group('assignee')}\": {items}" + COMMA
 
 def convert_simple_assignment(line) -> str:
     quoted = re.sub(re_simple_word, quote_word, line)
@@ -120,7 +122,13 @@ def scrub_comments_from_line(line) -> str:
     return line_parts[0].rstrip()
 
 def quote_word(word_match: str):
-    return f"\"{word_match.group(0)}\""
+    try:
+        float(word_match.group(0))
+    except Exception as ex:
+        # Not a floating point number, is a string
+        return f"\"{word_match.group(0)}\""
+    else:
+        return word_match.group(0)
 
 def to_json(lines):
     """ Iterate some lines and pray to the Shroud to convert to JSON """
@@ -165,6 +173,12 @@ def convert_iter_lines_to_dict(json_as_str: str) -> dict:
         '}'
     ).replace(',}','}').strip().replace('""', '"').replace('\\','').rstrip(
         ','
+    ).replace(
+        ',,',','
+    ).replace(
+        '\'"', '"'
+    ).replace(
+        '"\'', '"'
     )
 
     try:
@@ -175,6 +189,7 @@ def convert_iter_lines_to_dict(json_as_str: str) -> dict:
         print(f"ERROR: {str(exc)}")
         print("**** DUMP OBJECT ****")
         print(f"{{ {remove_extra_commas} }}")
+        print(f"ERROR: {str(exc)}")
         sys.exit(1)
 
     return results_as_json

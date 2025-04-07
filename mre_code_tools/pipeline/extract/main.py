@@ -37,7 +37,7 @@ def batch_convert_traits_files_into_json(stellaris_path: str) -> list:
             )
 
         with open(base_file_path, "r") as base_traits_file:
-            breakpoint()
+            # breakpoint()
             buffer = input_cz_output_json(base_traits_file.read())
                 
         extracted_file_name = make_converted_filename_2(base_file)
@@ -68,7 +68,7 @@ def read_and_sort_extracted_traits(list_of_extracted_files: list) -> list:
 
     for traits_src_json_path in list_of_extracted_files:
         with open(traits_src_json_path) as traits_src_json_file:
-            breakpoint()
+            # breakpoint()
             buffer = json_load(traits_src_json_file)
             for trait in buffer:
                 if "commander" in trait['leader_class']:
