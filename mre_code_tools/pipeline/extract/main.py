@@ -3,7 +3,7 @@
 import os
 import sys
 import glob
-from json import load as json_load, dump as json_dump
+from json import load as json_load, dump as json_dump, dumps
 
 from pipeline.mre_common_vars import (
     BASE_TRAIT_FILES,
@@ -48,7 +48,9 @@ def batch_convert_traits_files_into_json(stellaris_path: str) -> list:
         )
         generated_files.append(target_file_path)
         with open(target_file_path, "w") as dest_file:
-            dest_file.write(buffer)
+            # dest_file.write(json_dump(buffer))
+            # breakpoint()
+            json_dump([buffer], dest_file, indent=4)
             print(
                 f"Chopped up base file {base_file} successfully. Written to {target_file_path}"
             )

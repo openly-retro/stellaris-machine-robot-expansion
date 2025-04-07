@@ -62,6 +62,10 @@ def clean_up_line(line: str) -> str:
     # a line that's just one block
     elif line.count('{') == 1 and line.strip().endswith('}'):
         return handle_single_block_assignment(line)
+    # a line that's a nicely formatted list we already processed
+    # but don't trip over inline math
+    elif '[' in line and '=' not in line:
+        return line
 
     elif block_open_detected := re.match(re_block_open, line):
         return block_open_to_json(block_open_detected)
@@ -204,8 +208,12 @@ def iter_clean_up_lines(lines: list[str]) -> str:
     """ Iterate lines and return JSON as text in a single blob """
     processed_lines = []
     for line in lines:
-
-        processed_lines.append(clean_up_line(line).strip())
+        try:
+            processed_lines.append(clean_up_line(line).strip())
+        except Exception as ex:
+            sys.exit(
+                f"Fell over parsing this line: {line}"
+            )
     
     return " ".join(processed_lines)
 
@@ -262,6 +270,13 @@ def input_cz_output_json(file_contents: str) -> dict:
     contents = search_blob_crunch_lists(file_contents)
     processed_lines = []
     for line in contents.split("\n"):
+        # try:
+        #     processed_lines.append(clean_up_line(line).strip())
+        # except Exception as ex:
+        #     print(str(ex))
+        #     sys.exit(
+        #         f"Fell over parsing this line: {line}"
+        #     )
         processed_lines.append(clean_up_line(line).strip())
     del contents
     cleaned_blob = " ".join(processed_lines)
