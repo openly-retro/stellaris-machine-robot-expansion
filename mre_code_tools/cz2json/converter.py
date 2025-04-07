@@ -106,6 +106,16 @@ def handle_single_block_assignment(line) -> str:
         line
     )
     quoted = re.sub(re_simple_word, quote_word, cleaned_equals)
+
+    # Check for integers as keys
+    # ┻━┻ ︵ヽ(`Д´)ﾉ︵ ┻━┻
+    first_word = line.strip().split(' ')[0]
+    if first_word.isnumeric():
+
+        quoted = quoted.replace(
+            f"{first_word}:",
+            f'"{first_word}":'
+        )
     return quoted  + COMMA
 
 def normalize_list(line) -> str:

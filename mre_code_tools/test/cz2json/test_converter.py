@@ -233,3 +233,9 @@ leader_trait_scout = {
         expected = '"add_age": "value:percent_of_leader_lifespan|PERCENT|-25|",'
         actual = clean_up_line(test_data)
         assert expected == actual
+
+    def test_parse_random_list(self):
+        test_data = "1 = { set_random_official_background_effect = yes }"
+        expected = """"1": { "set_random_official_background_effect": "yes" },"""
+        actual = clean_up_line(test_data)
+        assert expected == actual
