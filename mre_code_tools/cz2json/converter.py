@@ -64,7 +64,10 @@ def clean_up_line(line: str) -> str:
     elif block_open_detected := re.match(re_block_open, line):
         return block_open_to_json(block_open_detected)
     elif len(line.strip().split(' ')) == 3:
-        return convert_simple_assignment(line)
+        if line_has_math_comparison(line):
+            return judo_chop_operators_into_strings(line)
+        else:
+            return convert_simple_assignment(line)
     elif line.strip() == '}':
         # Add comma
         return line + COMMA
@@ -111,8 +114,26 @@ def normalize_list(line) -> str:
     return f"{indent}\"{parsed.group('assignee')}\": {items}" + COMMA
 
 def convert_simple_assignment(line) -> str:
+    # But does it have math operators???
     quoted = re.sub(re_simple_word, quote_word, line)
     return quoted.replace(' =',':') + COMMA
+
+def line_has_math_comparison(line):
+    return '>' in line or '<' in line
+
+def judo_chop_operators_into_strings(line):
+    string_oper = None
+    if '<' in line:
+        string_oper = 'lt'
+    elif '>' in line:
+        string_oper = 'gt'
+    if '=' in line:
+        string_oper += 'e'
+    line_parts = line.strip().split(' ')
+    math_eval = f"{string_oper}_{line_parts[-1]}"
+    reduced_line = f"\"{line_parts[0]}\": \"{math_eval}\","
+    return reduced_line
+    
 
 def scrub_comments_from_line(line) -> str:
     # Have already done the check for '#' outside of this method
@@ -188,7 +209,13 @@ def convert_iter_lines_to_dict(json_as_str: str) -> dict:
     except JSONDecodeError as exc:
         print(f"ERROR: {str(exc)}")
         print("**** DUMP OBJECT ****")
-        print(f"{{ {remove_extra_commas} }}")
+        # print(f"{{ {remove_extra_commas} }}")
+        print("**********")
+        err_range = remove_extra_commas[exc.colno-20:exc.colno+20]
+        print(
+            "Range: \n"
+            f"{err_range}"
+        )
         print(f"ERROR: {str(exc)}")
         sys.exit(1)
 

@@ -207,3 +207,12 @@ leader_trait_scout = {
         expected = '"is_same_value": "root.owner",'
         actual = clean_up_line(test_data)
         assert expected == actual
+
+    def test_math_comparisons(self):
+        test_data = "has_skill > 1"
+        expected = '"has_skill": "gt_1",'
+        actual = clean_up_line(test_data)
+        assert expected == actual
+
+        test_data = "has_skill <= 10"
+        expected = '"has_skill": "lte_10",'
