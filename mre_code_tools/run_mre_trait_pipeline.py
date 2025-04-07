@@ -24,7 +24,11 @@ from stellaris_yaml_converter import (
 from mre_trait_cruncher import (
     read_and_write_traits_data
 )
-from mre_process_traits_for_codegen import (
+from pipeline.extract.main import (
+    batch_convert_traits_files_into_json,
+    read_and_sort_extracted_traits,
+)
+from mre_code_tools.pipeline.transform.main import (
     sort_and_filter_pipeline_files,
     write_sorted_filtered_data_to_json_files,
     qa_pipeline_files,
@@ -50,7 +54,7 @@ from mre_stitch_gui_files import stitch_gui_files
 from cz2json.converter import input_cz_output_json
 
 
-from mre_common_vars import (
+from mre_code_tools.pipeline.mre_common_vars import (
     BUILD_FOLDER,
     LEADER_CLASSES,
     BASE_TRAIT_FILES,
@@ -69,7 +73,7 @@ def clean_up_build_folder():
 
 def sort_merge_traits_files(useful_yaml_traits_files):
     """ From several Stellaris traits files we mangled & filtered, merge & sort all data """
-    from mre_process_traits_for_codegen import (
+    from mre_code_tools.pipeline.transform.main import (
         trickle_up_subclass_requirements
     )
     
@@ -171,6 +175,8 @@ if __name__=="__main__":
     extracted_files = batch_convert_traits_files_into_json(args.stellaris_path)
     # 2. For each LEADER trait in each json file, place a copy into a dict tracking traits by class
     # 3. Save them to commander/scientist/official
+    sorted_files = read_and_sort_extracted_traits(extracted_files)
+    
     
     
 

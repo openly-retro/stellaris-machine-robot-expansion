@@ -7,7 +7,7 @@ from generate_trait_tooltips import (
 )
 from yaml import safe_load
 from json import dump as json_dump
-from mre_common_vars import (
+from mre_code_tools.pipeline.mre_common_vars import (
     BUILD_FOLDER,
 )
 

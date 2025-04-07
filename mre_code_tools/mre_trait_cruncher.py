@@ -7,7 +7,7 @@ from yaml import safe_load, safe_dump, load as load_yaml, dump as dump_yaml
 from yaml import CLoader as Loader, CDumper as Dumper
 from json import dump as json_dump
 
-from mre_common_vars import (
+from mre_code_tools.pipeline.mre_common_vars import (
     TRAIT_MODIFIER_KEYS,
     MISSING,
     PLACEHOLDER

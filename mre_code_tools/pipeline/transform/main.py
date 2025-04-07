@@ -23,7 +23,7 @@ import time
 from json import load as json_load, dump as json_dump
 import argparse
 
-from mre_common_vars import (
+from mre_code_tools.pipeline.mre_common_vars import (
     BUILD_FOLDER,
     LEADER_CLASSES,
     MISSING,

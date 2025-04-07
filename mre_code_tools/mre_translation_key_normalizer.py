@@ -9,7 +9,7 @@ import argparse
 from json import dump as json_dump
 from time import perf_counter
 
-from mre_common_vars import BUILD_FOLDER
+from mre_code_tools.pipeline.mre_common_vars import BUILD_FOLDER
 
 def pick_uppercase_translation_keys(input_file_object, return_keys=False) -> list:
     uppercase_translation_keys = []
