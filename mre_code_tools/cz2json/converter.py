@@ -30,7 +30,7 @@ re_nonnumber_words = re.compile(r"([a-zA-Z_\/]+)")
 re_detect_crunched_list = re.compile(r"(\w*): \[")
 
 re_multiline_list = re.compile(
-    r"(?P<blockname>\w*) = {(?P<words>((?:\n\s{0,})(\w*)){1,})\s{1,}}",
+    r"(?P<blockname>\w*)\s{1,}=\s{1,}{(?P<words>((?:\n\s{0,})(\w*)){1,})\s{1,}}",
     re.MULTILINE
 )
 # re_simple_word = re.compile(r"\b(([\@a-zA-Z_\/]{2,}))\b")
@@ -48,12 +48,14 @@ def clean_up_line(line: str) -> str:
     # Wipe out any comments
     if '#' in line:
         line = scrub_comments_from_line(line)
+    # Spaces over tabs
+    line.replace("\t", " ")
 
     line_opens_block = '= {' in line
     # ignore multiple blocks on same line
     if line_opens_block and line.count('{') > 1:
         # raise MultipleBlocksSameLine(f"ergg --> {line}")
-        return format_multiline_assignment(line)
+        return format_multiple_assignment_single_line(line)
     # list values
     elif line_opens_block and line.count('=') == 1 and line.strip().endswith('}'):
         return normalize_list(line)
@@ -108,8 +110,11 @@ def normalize_list(line) -> str:
     # leader_class = { word word word } into leader_class
     parsed = re.search(re_parse_list_assignment, line)
     indent = re.match(re_indendation, line).group("indent")
+
     items = parsed.group("items").strip().split(' ')
+    breakpoint()
     if not '"' in str(items):
+        # items = str(items)
         items = str(items).replace('\'','"')
     return f"{indent}\"{parsed.group('assignee')}\": {items}" + COMMA
 
@@ -174,8 +179,9 @@ def compress_list_result_from_search(search_results) -> str:
     words_raw = search_results.group("words")
     words_list = words_raw.strip().split("\n")
     cleaned_words = [ word.strip() for word in words_list ]
+    list_with_json_quotes = str(cleaned_words).replace('\'','"')
 
-    return f"\"{search_results.group('blockname')}\": {str(cleaned_words)},"
+    return f"\"{search_results.group('blockname')}\": {list_with_json_quotes},"
 
 def iter_clean_up_lines(lines: list[str]) -> str:
     """ Iterate lines and return JSON as text in a single blob """
@@ -221,7 +227,7 @@ def convert_iter_lines_to_dict(json_as_str: str) -> dict:
 
     return results_as_json
 
-def format_multiline_assignment(naughty_line: str) -> str:
+def format_multiple_assignment_single_line(naughty_line: str) -> str:
     """ Basically just quote words and add commas after closing braces,
     since JSON can parse goofy whitespace patterns  """
     open_braces_cleaned = re.sub(

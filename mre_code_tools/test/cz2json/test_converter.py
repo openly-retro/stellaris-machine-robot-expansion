@@ -216,3 +216,14 @@ leader_trait_scout = {
 
         test_data = "has_skill <= 10"
         expected = '"has_skill": "lte_10",'
+
+    def test_concat_large_list(self):
+        test_data = """opposites = {
+		leader_trait_private_mines
+		leader_trait_private_mines_2
+		leader_trait_homesteader
+	}"""
+        expected = """"opposites": ["leader_trait_private_mines", "leader_trait_private_mines_2", "leader_trait_homesteader"],"""
+        preprocessed = search_blob_crunch_lists(test_data)
+        actual = clean_up_line(preprocessed)
+        assert expected == actual
