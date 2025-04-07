@@ -1,7 +1,7 @@
 from unittest import TestCase
 import re
 
-from ..converter import (
+from mre_code_tools.cz2json.converter import (
     block_open_to_json,
     re_block_open,
     clean_up_line,

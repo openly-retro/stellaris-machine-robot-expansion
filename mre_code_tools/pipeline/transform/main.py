@@ -286,7 +286,7 @@ def write_leader_trait_trigger_files():
     for leader_class in LEADER_CLASSES:
         pipeline_source_file = f"00_mre_{leader_class}_traits.json"
         buffer = ''
-        input_filename = os.path.join('build', pipeline_source_file)
+        input_filename = os.path.join(BUILD_FOLDER, pipeline_source_file)
         with open(input_filename, "r") as input_file:
             buffer = json_load(input_file)
             # create text
@@ -310,7 +310,7 @@ def sort_and_filter_pipeline_files() -> dict:
     for leader_class in LEADER_CLASSES:
         pipeline_source_file = f"00_mre_{leader_class}_traits.json"
         buffer = ''
-        input_filename = os.path.join('build', pipeline_source_file)
+        input_filename = os.path.join(BUILD_FOLDER, pipeline_source_file)
         with open(input_filename, "r") as input_file:
             buffer = json_load(input_file)
         # Subclasses are trickled up in the run_mre_trait_pipeline script
@@ -386,7 +386,7 @@ def write_sorted_filtered_data_to_json_files(input_data: dict):
     for leader_class in input_data:
         root = input_data[leader_class]
         output_filename = f"99_mre_{leader_class}_traits_for_codegen.json"
-        output_filepath = os.path.join('build', output_filename)
+        output_filepath = os.path.join(BUILD_FOLDER, output_filename)
         sys.stdout.write(f"** Writing code-ready traits for {leader_class} to {output_filename}...\n")
         with open(output_filepath, "w") as leader_traits_dest:
             json_dump(root, leader_traits_dest, indent=4)
@@ -405,7 +405,7 @@ def qa_pipeline_files():
             'and make sure that "run_mre_trait_pipeline" was run.'
         )
     for filename in PIPELINE_OUTPUT_FILES:
-        input_file = os.path.join('build', filename)
+        input_file = os.path.join(BUILD_FOLDER, filename)
         with open(input_file, "r") as input_file:
             sys.stdout.write(
                 f"Results for {input_file.name}:\n"
