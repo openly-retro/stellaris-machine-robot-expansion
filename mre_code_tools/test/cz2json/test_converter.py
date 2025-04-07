@@ -239,3 +239,9 @@ leader_trait_scout = {
         expected = """"1": { "set_random_official_background_effect": "yes" },"""
         actual = clean_up_line(test_data)
         assert expected == actual
+
+    def test_my_sanity_at_144_am(self):
+        test_data = "mult = trigger:has_skill"
+        expected = '"mult": "trigger:has_skill",'
+        actual = clean_up_line(test_data)
+        assert expected == actual

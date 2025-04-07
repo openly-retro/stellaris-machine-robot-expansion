@@ -68,7 +68,7 @@ def clean_up_line(line: str) -> str:
     elif len(line.strip().split(' ')) == 3:
         if line_has_math_comparison(line):
             return judo_chop_operators_into_strings(line)
-        elif '|' in line:
+        elif '|' in line or ':' in line:
             return preserve_script_value_refs(line)
         else:
             return convert_simple_assignment(line)
