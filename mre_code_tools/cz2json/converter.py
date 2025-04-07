@@ -68,6 +68,8 @@ def clean_up_line(line: str) -> str:
     elif len(line.strip().split(' ')) == 3:
         if line_has_math_comparison(line):
             return judo_chop_operators_into_strings(line)
+        elif '|' in line:
+            return preserve_script_value_refs(line)
         else:
             return convert_simple_assignment(line)
     elif line.strip() == '}':
@@ -112,7 +114,7 @@ def normalize_list(line) -> str:
     indent = re.match(re_indendation, line).group("indent")
 
     items = parsed.group("items").strip().split(' ')
-    breakpoint()
+
     if not '"' in str(items):
         # items = str(items)
         items = str(items).replace('\'','"')
@@ -138,7 +140,12 @@ def judo_chop_operators_into_strings(line):
     math_eval = f"{string_oper}_{line_parts[-1]}"
     reduced_line = f"\"{line_parts[0]}\": \"{math_eval}\","
     return reduced_line
-    
+
+def preserve_script_value_refs(line):
+    parts = line.strip().split('=')
+    effect = parts[0].strip()
+    value = parts[1].strip()
+    return f"\"{effect}\": \"{value}\","
 
 def scrub_comments_from_line(line) -> str:
     # Have already done the check for '#' outside of this method

@@ -104,7 +104,7 @@ class TestConverter(TestCase):
         is_gestalt = no
     }
     leader_class = { commander }
-    \"opposites\": ['leader_trait_gale_speed', 'leader_trait_gale_speed_2', 'leader_trait_gale_speed_3'],
+    \"opposites\": ["leader_trait_gale_speed", "leader_trait_gale_speed_2", "leader_trait_gale_speed_3"],
     selectable_weight = {
         weight = @class_negative_trait_weight
         inline_script = paragon/pilot_weight_mult
@@ -226,4 +226,10 @@ leader_trait_scout = {
         expected = """"opposites": ["leader_trait_private_mines", "leader_trait_private_mines_2", "leader_trait_homesteader"],"""
         preprocessed = search_blob_crunch_lists(test_data)
         actual = clean_up_line(preprocessed)
+        assert expected == actual
+
+    def test_script_var_param_sorcery(self):
+        test_data = "add_age = value:percent_of_leader_lifespan|PERCENT|-25|"
+        expected = '"add_age": "value:percent_of_leader_lifespan|PERCENT|-25|",'
+        actual = clean_up_line(test_data)
         assert expected == actual
