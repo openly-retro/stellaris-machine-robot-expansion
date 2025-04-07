@@ -121,6 +121,10 @@ EXCLUDE_TRAITS_FROM_COUNCILOR_EDITOR = {
     "leader_trait_gifted_2":1,
 }
 
+EXTRACT_FOLDER = os.path.join(
+    BUILD_FOLDER, 'extract'
+)
+
 FILE_NUM_PREFIXES = {
     "yaml_to_json": "00",
     "json_to_simple_traits_list": "10",

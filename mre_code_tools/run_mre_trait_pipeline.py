@@ -11,6 +11,7 @@ import sys
 from operator import itemgetter
 from random import randint
 import time
+import glob
 
 import argparse
 from json import load as json_load
@@ -56,6 +57,7 @@ from mre_common_vars import (
     PIPELINE_OUTPUT_FILES,
     UNICORN,
     INPUT_FILES_FOR_CODEGEN,
+    EXTRACT_FOLDER,
 )
 
 def clean_up_build_folder():
@@ -63,56 +65,7 @@ def clean_up_build_folder():
         rmtree(BUILD_FOLDER)
     os.makedirs(BUILD_FOLDER, exist_ok=True)
 
-def make_converted_filename(base_filename):
-    without_ext = base_filename.split('.')[0]
-    updated_name = f"{without_ext}_as_yaml.txt"
-    return os.path.join(
-        BUILD_FOLDER, updated_name
-    )
 
-def batch_process_base_files_into_yaml(stellaris_path: str) -> list:
-    generated_files = []
-    buffer = ''
-    for base_file in BASE_TRAIT_FILES:
-        base_file_path = os.path.join(
-            stellaris_path, 'common', 'traits', base_file
-        )
-        if not os.path.exists(base_file_path):
-            sys.exit(
-                f"Couldnt find {base_file_path}. Check that you entered the correct "
-                "base path for Stellaris (the folder with \\common\\ in it)"
-            )
-        with open(base_file_path, "r") as base_traits_file:
-            buffer = convert_stellaris_script_to_standard_yaml(
-                base_traits_file.read()
-            )
-            # breakpoint()
-            validate_chopped_up_data(buffer)
-        target_converted_file_name = make_converted_filename(base_file)
-        generated_files.append(target_converted_file_name)
-        with open(target_converted_file_name, "w") as dest_file:
-            dest_file.write(buffer)
-            print(
-                f"Chopped up base file {base_file} successfully. Written to {dest_file.name}"
-            )
-    return generated_files
-
-
-def crunch_trait_data_from_processed_yaml(generated_files_list: list):
-    # Iterate each pseudo-yaml file, trim traits, sort into leader classes, write to JSON
-    base_files_as_sorted_trimmed_json = []
-    for source_yaml_file in generated_files_list:
-        _buffer = ''
-        sorted_data = ''
-        base_filename = source_yaml_file.split('_as_yaml.txt')[0]
-        target_filename = os.path.join(
-            BUILD_FOLDER, f"{base_filename}_useful_traits.json"
-        )
-        read_and_write_traits_data(
-            source_yaml_file, target_filename, format="json"
-        )
-        base_files_as_sorted_trimmed_json.append(target_filename)
-    return base_files_as_sorted_trimmed_json
 
 def sort_merge_traits_files(useful_yaml_traits_files):
     """ From several Stellaris traits files we mangled & filtered, merge & sort all data """
@@ -201,15 +154,26 @@ if __name__=="__main__":
     print(horiz)
     print("**** Phase 1: Reset build folder and crunch base files into JSON ****")
     clean_up_build_folder()
-    print("** Reading base Stellaris files & gleefully chopping them up **")
-    base_files_processed_to_yaml = batch_process_base_files_into_yaml(args.stellaris_path)
-    print("** Sauteeing & serving chopped-up data **")
-    # Here, we switch from fake YAML to dumping data to JSON, a reliable data standard
-    useful_traits_json_files = crunch_trait_data_from_processed_yaml(base_files_processed_to_yaml)
-    print(horiz)
-    print("** Sorting traits data & writing files **")
-    print(horiz)
-    just_three_traits_files = sort_merge_traits_files(useful_traits_json_files)
+
+    # print("** Reading base Stellaris files & gleefully chopping them up **")
+    # base_files_processed_to_yaml = batch_process_base_files_into_yaml(args.stellaris_path)
+    # print("** Sauteeing & serving chopped-up data **")
+    # # Here, we switch from fake YAML to dumping data to JSON, a reliable data standard
+    # useful_traits_json_files = crunch_trait_data_from_processed_yaml(base_files_processed_to_yaml)
+    # print(horiz)
+    # print("** Sorting traits data & writing files **")
+    # print(horiz)
+    # just_three_traits_files = sort_merge_traits_files(useful_traits_json_files)
+
+    # CALL STUFF FROM 'EXTRACT'
+    # New steps:
+    # 1. Crunch trait files into individual files named the same as the source, into a tmp folder
+    extracted_files = batch_convert_traits_files_into_json(args.stellaris_path)
+    # 2. For each LEADER trait in each json file, place a copy into a dict tracking traits by class
+    # 3. Save them to commander/scientist/official
+    
+    
+
     # print("**** Mm mm, delicious, sane, predictable data! ****")
     print(horiz)
     print("** Doing a QA check on our shiny new datafiles ... **")

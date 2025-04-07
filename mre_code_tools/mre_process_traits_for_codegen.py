@@ -430,7 +430,7 @@ def trickle_up_subclass_requirements(sorted_not_filtered_traits_json, for_class)
         if trait_name in SKIP_TRAIT_FOR_SUBCLASS_LIST:
             if SKIP_TRAIT_FOR_SUBCLASS_LIST[trait_name] == for_class:
                 # This trait is a serious exception and shall be skipped
-                logger.warn(
+                logger.warning(
                     f"** Skipped {trait_name} as it was in the skip list for {for_class} traits."
                 )
                 continue
