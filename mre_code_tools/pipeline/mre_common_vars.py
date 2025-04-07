@@ -42,8 +42,10 @@ BASE_TRAIT_FILES = (
 
 BUILD_FOLDER = os.path.join(
     os.getcwd(),
+    'mre_code_tools',
     'build'
 )
+
 
 BUTTON_EFFECTS_FOLDER = os.path.join(
     os.getcwd(),
