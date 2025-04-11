@@ -216,8 +216,6 @@ def search_blob_crunch_lists(blob: str) -> str:
             compress_list_result_from_search,
             blob
         )
-        breakpoint()
-        1
 
     return crunched or blob
 
