@@ -174,12 +174,14 @@ def filter_traits_by_mod_feature(traits_list: list) -> dict:
     councilor_editor_traits = []
     outliers = []
     for trait in traits_list:
+
         trait_name = [*trait][0]
         if TRAITS_TO_EXCLUDE.get(trait_name):
             sys.stdout.write(f"Skipped {trait_name} because it is on our exclusion list..\n")
             continue
         root = trait[trait_name]
         if not root:
+            breakpoint()
             raise ValueError(
                 f"Something went wrong filtering traits by mod feature --> {trait}"
             )
@@ -224,7 +226,7 @@ def filter_traits_by_rarity(traits_list):
     for trait in traits_list:
         trait_name = [*trait][0]
         root = trait[trait_name]
-        rarity = root.get('rarity', "MISSING_RARITY")
+        rarity = root.get('rarity', "MISSING_RARITY") or root.get('RARITY', "MISSING_RARITY")
         if rarity == "common":
             traits_by_rarity['common'].append(trait)
         elif rarity == "veteran" or rarity == "free_or_veteran":
@@ -232,6 +234,7 @@ def filter_traits_by_rarity(traits_list):
         elif rarity == "paragon":
             traits_by_rarity["paragon"].append(trait)
         else:
+            breakpoint()
             sys.exit(
                 f"This trait has no rarity assigned: {trait}. That's an error."
             )
@@ -258,6 +261,10 @@ def do_qa_on_pipeline_files(traits_list):
         issues = []
         trait_key = [*trait][0]
         root = trait[trait_key]
+        if not root.get('trait_name'):
+            issues.append(
+                "Trait is missing key 'trait_name'"
+            )
         missing_modifiers = not any([bool(root.get(modifier)) for modifier in TRAIT_MODIFIER_KEYS])
         if missing_modifiers and not root.get("custom_tooltip"):
             issues.append(
@@ -313,9 +320,6 @@ def sort_and_filter_pipeline_files() -> dict:
         input_filename = os.path.join(BUILD_FOLDER, pipeline_source_file)
         with open(input_filename, "r") as input_file:
             buffer = json_load(input_file)
-        # Subclasses are trickled up in the run_mre_trait_pipeline script
-        # traits_with_populated_subclasses = trickle_up_subclass_requirements(
-        #     buffer, for_class=leader_class)
 
         triggers_for_leader_traits = iterate_traits_create_requirements_triggers(buffer)
         highest_tier_traits = pick_highest_tier_of_trait(buffer)

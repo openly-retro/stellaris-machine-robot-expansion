@@ -5,6 +5,7 @@ import sys
 import glob
 from json import load as json_load, dump as json_dump, dumps
 
+from pipeline.transform.mre_trait_cruncher import filter_trait_info
 from pipeline.mre_common_vars import (
     BASE_TRAIT_FILES,
     BUILD_FOLDER,
@@ -77,13 +78,33 @@ def read_and_sort_extracted_traits(list_of_extracted_files: list) -> list:
         with open(traits_src_json_path) as traits_src_json_file:
             # breakpoint()
             buffer = json_load(traits_src_json_file)
-            for trait in buffer:
-                if "commander" in trait['leader_class']:
-                    output['commander'].append(trait)
-                if "scientist" in trait['leader_class']:
-                    output['scientist'].append(trait)
-                if "official" in trait['leader_class']:
-                    output['official'].append(trait)
+            for trait_name in buffer:
+                # breakpoint()
+                trait = buffer[trait_name]
+                if trait_name.startswith('@'):
+                    continue
+                trait['trait_name'] = trait_name
+
+                if not trait_name.startswith('leader_trait'):
+                    print(f"+ Skipping {trait_name} as it's not a leader trait...")
+                    continue
+                for leader_class in ["commander", "scientist", "official"]:
+                    if not trait.get('leader_class'):
+                        raise ValueError(
+                            f"Missing leader_class in trait! {trait}"
+                        )
+                    if leader_class in trait['leader_class']:
+                        # try:
+                        filtered_trait = {}
+                        filtered_trait[trait_name] = filter_trait_info(
+                            trait, for_class=leader_class
+                        )
+                        output[leader_class].append(filtered_trait)
+                        # except Exception as ex:
+                        #     sys.exit(
+                        #         f"There was a problem processing this trait: {trait}\nfor class {leader_class}.\nReason: {ex}"
+                        #     )
+
     # Finished reading files, now dump to 3 json files
     # Now, sort all traits per class
     for leader_class in LEADER_CLASSES:

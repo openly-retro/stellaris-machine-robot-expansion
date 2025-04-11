@@ -92,8 +92,9 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
         and to iterate through traits
     """
     slim_trait = {}
-    trait_name = [*given_trait_dict][0]
-    root = given_trait_dict.get(trait_name)
+    trait_name = given_trait_dict['trait_name']
+    root = given_trait_dict
+    # breakpoint()
     if root.get('leader_trait_type', '') == 'negative':
         # Skip negative traits
         return {}
@@ -198,7 +199,8 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
     # Collect prerequisites in order to determine certain DLC requirements
     if root.get('prerequisites'):
         # Simple convert to list, also captures just 1 string
-        slim_trait['prerequisites'] = root['prerequisites'].split(' ')
+        slim_trait['prerequisites'] = root['prerequisites']
+
     return slim_trait
 
 def pick_correct_subclass_from_potential(leader_class, subclass_list):

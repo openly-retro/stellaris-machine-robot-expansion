@@ -31,10 +31,15 @@ def create_requirements_triggers_for_leader_traits(trait: dict) -> str:
         if trigger == "has_skill":
             # Deal with my special greater_than_1 thing I forgot I made :psycho_smile:
             skill_level = int(value.split('_')[-1])
-            if "greater_than" in value:
+
+            if value.startswith("gt_"):
                 operator = ">"
-            elif "less_than" in value:
+            elif value.startswith("lt_"):
                 operator = "<"
+            elif value.startswith("gte_"):
+                operator = ">="
+            elif value.startswith("lte_"):
+                operator = "<="
             requirements.append(
                 f"has_skill {operator} {skill_level}"
             )
