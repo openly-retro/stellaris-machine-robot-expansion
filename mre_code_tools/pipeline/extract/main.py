@@ -38,6 +38,7 @@ def batch_convert_traits_files_into_json(stellaris_path: str) -> list:
 
         with open(base_file_path, "r") as base_traits_file:
             # breakpoint()
+            print(f"Parsing {base_file}...")
             buffer = input_cz_output_json(base_traits_file.read())
                 
         extracted_file_name = make_converted_filename_2(base_file)
@@ -49,8 +50,12 @@ def batch_convert_traits_files_into_json(stellaris_path: str) -> list:
         generated_files.append(target_file_path)
         with open(target_file_path, "w") as dest_file:
             # dest_file.write(json_dump(buffer))
-            # breakpoint()
-            json_dump([buffer], dest_file, indent=4)
+            try:
+                json_dump(buffer, dest_file, indent=4)
+            except Exception as ex:
+                with open(f"{base_file}_parse_err.txt", "w") as dumpfile:
+                    dumpfile.write(str(buffer))
+                    sys.exit(f"There was a problem parsing {base_file}")
             print(
                 f"Chopped up base file {base_file} successfully. Written to {target_file_path}"
             )

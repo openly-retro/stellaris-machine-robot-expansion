@@ -245,3 +245,32 @@ leader_trait_scout = {
         expected = '"mult": "trigger:has_skill",'
         actual = clean_up_line(test_data)
         assert expected == actual
+
+    def test_comment_line_leaving_extra_comma(self):
+        test_data = """fleet_modifier = {
+		create_debris_chance = -1
+		# Effect in paragon_2.1005 event.
+	    }"""
+        expected = {
+            'fleet_modifier': {
+                'create_debris_chance': -1
+            }
+        }
+        actual = input_cz_output_json(test_data)
+        assert expected == actual
+
+    def test_structure_1(self):
+        test_data = """	on_gained_effect = { 
+		owner = {
+			country_event = { id = timeline.50 } # Timeline First Leader with Destiny Trait
+		}
+	}"""
+        expected = {
+            "on_gained_effect": { 
+                "owner": {
+                    "country_event": { "id": "timeline.50" }
+                }
+            }
+        }
+        actual = input_cz_output_json(test_data)
+        assert expected == actual

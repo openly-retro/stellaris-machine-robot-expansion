@@ -2,6 +2,11 @@ import re
 from json import loads
 from json.decoder import JSONDecodeError
 import sys
+import logging
+
+logger = logging.getLogger(__name__)
+
+DEBUG = False
 
 """
 Larger challenges:
@@ -19,7 +24,7 @@ re_parse_simple_assignment = re.compile(
     r"(\w*) (?P<operand>[=|<|>|<=|>=]) (\w*)"
 )
 re_indendation = re.compile(r"^(?P<indent>\s*)")
-re_block_open = re.compile(r"^(?P<indent>\s{0,})(?P<name>\w*) = {$")
+re_block_open = re.compile(r"^(?P<indent>\s{0,})(?P<name>\w*) = {\s{0,}$")
 re_single_word_line = re.compile(r"^\s{0,}(\w*){1}[ ]{0,}$")
 re_code_block_open = re.compile(r"\s=\s{1,}\{")
 
@@ -45,6 +50,7 @@ def clean_up_line(line: str) -> str:
     This is the main method that crunches any given line from a traits file
     """
 
+    print(f" + evaluation of : {line}")
     # Wipe out any comments
     if '#' in line:
         line = scrub_comments_from_line(line)
@@ -55,51 +61,60 @@ def clean_up_line(line: str) -> str:
     # normalize spaces
     line = line.replace('  =',' =')
 
+    result = None
     line_opens_block = '= {' in line
     # ignore multiple blocks on same line
     if line_opens_block and line.count('{') > 1:
         # raise MultipleBlocksSameLine(f"ergg --> {line}")
-        return format_multiple_assignment_single_line(line)
+        result = format_multiple_assignment_single_line(line)
     # list values
     elif line_opens_block and line.count('=') == 1 and line.strip().endswith('}'):
-        return normalize_list(line)
+        result = normalize_list(line)
     # a line that's just one block
     elif line.count('{') == 1 and line.strip().endswith('}'):
-        return handle_single_block_assignment(line)
+        result = handle_single_block_assignment(line)
     # a line that's a nicely formatted list we already processed
     # but don't trip over inline math
-    elif '[' in line and '=' not in line:
-        return line
+    # elif line_opens_block and line.count('=') == 1 and line.strip().endswith('{'):
 
+    elif '[' in line and '=' not in line:
+        result = line
     elif block_open_detected := re.match(re_block_open, line):
-        return block_open_to_json(block_open_detected)
+        result = block_open_to_json(block_open_detected)
     elif len(line.strip().split(' ')) == 3:
         if line_has_math_comparison(line):
-            return judo_chop_operators_into_strings(line)
+            result = judo_chop_operators_into_strings(line)
         elif '|' in line or ':' in line:
-            return preserve_script_value_refs(line)
+            result = preserve_script_value_refs(line)
         else:
-            return convert_simple_assignment(line)
+            result = convert_simple_assignment(line)
     elif line.strip() == '}':
         # Add comma
-        return line + COMMA
+        result = line + COMMA
     elif single_word_result := re.match(re_single_word_line, line):
         # If it's just one line, return that line ...
-        return line
+        result = line
     # Don't munge a list that we crunched already
     elif list_detected := re.search(re_detect_crunched_list, line):
-        return line
+        result = line
     elif line.strip() == '':
         # Pass whitespace, deal with it later
-        return line
-    else:
+        result = line
+    print(f" - crunched to: {result}")
+
+    if result is None:
         raise WhatInTheShroud(line)
+    return result
+
 
 def block_open_to_json(re_results: re.Match) -> str:
-    return f"{re_results.group('indent')}\"{re_results.group('name')}\": {{"
+    print(' = block_open_to_json')
+    block_name = re_results.group('name')
+    return f"{re_results.group('indent')}{(quote_string(block_name))}: {{"
 
 def convert_block_open(line) -> str:
     # To be run on a single line only
+    print(' = convert_block_open')
     quoted = re.sub(re_simple_word, quote_word, line)
     return quoted.replace(
         ' = {',
@@ -108,6 +123,7 @@ def convert_block_open(line) -> str:
 
 def handle_single_block_assignment(line) -> str:
     # something like 'potential = { is_councilor = no }'
+    print(' = handle_single_block_assignment')
     cleaned_equals = re.sub(
         r"\s{1,}=\s{1,}",
         ': ',
@@ -124,10 +140,11 @@ def handle_single_block_assignment(line) -> str:
             f"{first_word}:",
             f'"{first_word}":'
         )
-    return quoted  + COMMA
+    return append_comma(quoted)
 
 def normalize_list(line) -> str:
     # leader_class = { word word word } into leader_class
+    print(' = normalize_list')
     parsed = re.search(re_parse_list_assignment, line)
     indent = re.match(re_indendation, line).group("indent")
 
@@ -136,17 +153,22 @@ def normalize_list(line) -> str:
     if not '"' in str(items):
         # items = str(items)
         items = str(items).replace('\'','"')
-    return f"{indent}\"{parsed.group('assignee')}\": {items}" + COMMA
+    assignee = parsed.group('assignee')
+    formatted_content = f"{indent}{quote_string(assignee)}: {items}"
+    return append_comma(formatted_content)
+
 
 def convert_simple_assignment(line) -> str:
     # But does it have math operators???
+    print(' = convert_simple_assignment')
     quoted = re.sub(re_simple_word, quote_word, line)
-    return quoted.replace(' =',':') + COMMA
+    return append_comma(quoted.replace(' =',':'))
 
 def line_has_math_comparison(line):
     return '>' in line or '<' in line
 
 def judo_chop_operators_into_strings(line):
+    print(' = judo_chop_operators_into_strings')
     string_oper = None
     if '<' in line:
         string_oper = 'lt'
@@ -156,10 +178,11 @@ def judo_chop_operators_into_strings(line):
         string_oper += 'e'
     line_parts = line.strip().split(' ')
     math_eval = f"{string_oper}_{line_parts[-1]}"
-    reduced_line = f"\"{line_parts[0]}\": \"{math_eval}\","
-    return reduced_line
+    reduced_line = f"{quote_string(line_parts[0])}: {quote_string(math_eval)}"
+    return append_comma(reduced_line)
 
 def preserve_script_value_refs(line):
+    print(' = preserve_script_value_refs')
     parts = line.strip().split('=')
     effect = parts[0].strip()
     value = parts[1].strip()
@@ -167,6 +190,7 @@ def preserve_script_value_refs(line):
 
 def scrub_comments_from_line(line) -> str:
     # Have already done the check for '#' outside of this method
+    print(' = scrub_comments_from_line')
     line_parts = line.split('#')
     # doesn't matter if this is whitespace, we can't return None
     # return to the left of the comment, minus whitespace on the right side of that part
@@ -177,7 +201,7 @@ def quote_word(word_match: str):
         float(word_match.group(0))
     except Exception as ex:
         # Not a floating point number, is a string
-        return f"\"{word_match.group(0)}\""
+        return f"{quote_string(word_match.group(0))}"
     else:
         return word_match.group(0)
 
@@ -206,7 +230,9 @@ def compress_list_result_from_search(search_results) -> str:
     cleaned_words = [ word.strip() for word in words_list ]
     list_with_json_quotes = str(cleaned_words).replace('\'','"')
 
-    return f"\"{search_results.group('blockname')}\": {list_with_json_quotes},"
+    blockname = search_results.group('blockname')
+    contents = f"{quote_string(blockname)}: {list_with_json_quotes}"
+    return append_comma(contents)
 
 def iter_clean_up_lines(lines: list[str]) -> str:
     """ Iterate lines and return JSON as text in a single blob """
@@ -226,6 +252,8 @@ def iter_clean_up_lines(lines: list[str]) -> str:
 def convert_iter_lines_to_dict(json_as_str: str) -> dict:
     # Take output of iter_clean_up_lines into dict
     # Check out this fun (:
+    import ast
+
     remove_extra_commas = json_as_str.replace(
         ', }',
         '}'
@@ -238,26 +266,35 @@ def convert_iter_lines_to_dict(json_as_str: str) -> dict:
     ).replace(
         '"\'', '"'
     ).replace('  ',' ')
-
+    cleaned_content = f"{{ {remove_extra_commas} }}"
+    # del remove_extra_commas
+    breakpoint()
     try:
-        results_as_json = loads(
-            f"{{ {remove_extra_commas} }}"
-        )
-    except JSONDecodeError as exc:
-        print(f"ERROR: {str(exc)}")
-        print("**** DUMP OBJECT ****")
-        # print(f"{{ {remove_extra_commas} }}")
-        print("**********")
-        # breakpoint()
-        err_range = f"-->{remove_extra_commas[exc.colno-50:exc.colno+50]}<--"
-        print(
-            "Range: \n"
-            f"{err_range}"
-        )
-        print(f"ERROR: {str(exc)}")
+        cleaned_content_obj = ast.literal_eval(cleaned_content)
+    except Exception as ex:
+        with open("err_dump.txt", "w") as err_dump_file:
+            err_dump_file.write(cleaned_content)
+        print(f"{ex}: dumped to err_dump.txt")
         sys.exit(1)
 
-    return results_as_json
+    # try:
+    #     results_as_json = loads(cleaned_content)
+    # except JSONDecodeError as exc:
+    #     print(f"ERROR: {str(exc)}")
+    #     print("**** DUMP OBJECT ****")
+    #     # print(f"{{ {remove_extra_commas} }}")
+
+    #     print("**********")
+    #     # breakpoint()
+    #     err_range = f"-->{cleaned_content[exc.colno-60:exc.colno+50]}<--"
+    #     print(
+    #         "Range: \n"
+    #         f"{err_range}"
+    #     )
+    #     print(f"ERROR: {str(exc)}")
+    #     sys.exit(1)
+
+    return cleaned_content_obj
 
 def format_multiple_assignment_single_line(naughty_line: str) -> str:
     """ Basically just quote words and add commas after closing braces,
@@ -268,7 +305,14 @@ def format_multiple_assignment_single_line(naughty_line: str) -> str:
         naughty_line
     )
     quoted = re.sub(r"\b\w{2,}\b", quote_word, open_braces_cleaned)
-    return quoted + COMMA
+    return append_comma(quoted)
+
+
+def append_comma(string):
+    return string + COMMA
+
+def quote_string(text):
+    return f"\"{text}\""
 
 # TODO: make this more memory efficient
 # use a generator or something
