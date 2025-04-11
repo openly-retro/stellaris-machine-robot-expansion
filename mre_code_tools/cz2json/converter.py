@@ -35,7 +35,7 @@ re_nonnumber_words = re.compile(r"([a-zA-Z_\/]+)")
 re_detect_crunched_list = re.compile(r"(\w*): \[")
 
 re_multiline_list = re.compile(
-    r"(?P<blockname>\w*)\s{1,}=\s{1,}{(?P<words>((?:\n\s{0,})(\w*)){1,})\s{1,}}",
+    r"(?P<blockname>\w{1,})\s{1,}=\s{1,}{(?P<words>((?:\n\s{0,})(\w{1,})){1,})\s{1,}}",
     re.MULTILINE
 )
 # re_simple_word = re.compile(r"\b(([\@a-zA-Z_\/]{2,}))\b")
@@ -205,10 +205,6 @@ def quote_word(word_match: str):
     else:
         return word_match.group(0)
 
-def to_json(lines):
-    """ Iterate some lines and pray to the Shroud to convert to JSON """
-    pass
-
 def search_blob_crunch_lists(blob: str) -> str:
     crunched = ''
     if results := re.search(
@@ -220,6 +216,8 @@ def search_blob_crunch_lists(blob: str) -> str:
             compress_list_result_from_search,
             blob
         )
+        breakpoint()
+        1
 
     return crunched or blob
 
@@ -268,7 +266,7 @@ def convert_iter_lines_to_dict(json_as_str: str) -> dict:
     ).replace('  ',' ')
     cleaned_content = f"{{ {remove_extra_commas} }}"
     # del remove_extra_commas
-    breakpoint()
+    # breakpoint()
     try:
         cleaned_content_obj = ast.literal_eval(cleaned_content)
     except Exception as ex:

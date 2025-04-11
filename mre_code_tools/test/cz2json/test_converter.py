@@ -274,3 +274,14 @@ leader_trait_scout = {
         }
         actual = input_cz_output_json(test_data)
         assert expected == actual
+
+    def test_structure_2(self):
+        test_data = """	leader_class = { commander }
+	opposites = {
+	}"""
+        expected = {
+            "leader_class": ["commander"],
+            "opposites": {},
+        }
+        actual = input_cz_output_json(test_data)
+        assert expected == actual
