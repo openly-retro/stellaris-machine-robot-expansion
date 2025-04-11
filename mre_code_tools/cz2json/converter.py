@@ -56,10 +56,10 @@ def clean_up_line(line: str) -> str:
         line = scrub_comments_from_line(line)
     if line.strip().startswith('#'):
         return ''
-    # Spaces over tabs
-    # line = line.replace("\t", " ")
-    # normalize spaces
+
+    # normalize spaces T_T
     line = line.replace('  =',' =')
+    line = line.replace('=  ', '= ')
 
     result = None
     line_opens_block = '= {' in line

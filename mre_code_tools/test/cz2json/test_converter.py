@@ -285,3 +285,10 @@ leader_trait_scout = {
         }
         actual = input_cz_output_json(test_data)
         assert expected == actual
+
+    def test_inconsistently_formatted_whitepace(self):
+        """ Dont expect Stellaris files to be consistently formatted """
+        test_data = "script =  traits/technocracy_expertise_effects"
+        expected = '"script": "traits/technocracy_expertise_effects",'
+        actual = clean_up_line(test_data)
+        assert expected == actual
