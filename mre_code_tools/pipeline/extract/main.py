@@ -21,8 +21,9 @@ from pipeline.transform.main import (
 
 def make_converted_filename_2(base_filename):
     without_ext = base_filename.split('.')[0]
-    prefix = FILE_NUM_PREFIXES['cz_to_json'],
-    return f"{prefix}_{without_ext}.json"
+    without_prefix = without_ext.split('_')[1]
+    our_prefix = FILE_NUM_PREFIXES['cz_to_json']
+    return f"{our_prefix}_{without_prefix}.json"
 
 def batch_convert_traits_files_into_json(stellaris_path: str) -> list:
     """ New 2.0 pipeline method """
@@ -119,9 +120,9 @@ def read_and_sort_extracted_traits(list_of_extracted_files: list) -> list:
     # Now, write each classes' traits to a file
     target_filenames = []
     for leader_class in LEADER_CLASSES:
-        prefix = FILE_NUM_PREFIXES['cz_to_json']
+        prefix = FILE_NUM_PREFIXES['json_to_simple_traits_list']
         newfile_name = f"{prefix}_mre_{leader_class}_traits.json"
-        newfilepath = os.path.join(BUILD_FOLDER, newfile_name)
+        newfilepath = os.path.join(BUILD_FOLDER, EXTRACT_FOLDER, newfile_name)
         with open(newfilepath, "w") as traitsfile:
             json_dump(output[leader_class], traitsfile, indent=4)
             print(f"Wrote {leader_class} data to {newfilepath}")

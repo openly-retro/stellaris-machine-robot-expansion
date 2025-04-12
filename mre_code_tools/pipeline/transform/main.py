@@ -25,6 +25,8 @@ import argparse
 
 from pipeline.mre_common_vars import (
     BUILD_FOLDER,
+    COMPILE_FOLDER,
+    EXTRACT_FOLDER,
     LEADER_CLASSES,
     MISSING,
     PIPELINE_OUTPUT_FILES,
@@ -291,9 +293,9 @@ def do_qa_on_pipeline_files(traits_list):
 
 def write_leader_trait_trigger_files():
     for leader_class in LEADER_CLASSES:
-        pipeline_source_file = f"00_mre_{leader_class}_traits.json"
+        pipeline_source_file = f"{FILE_NUM_PREFIXES['filtered_traits']}_mre_{leader_class}_traits_for_codegen.json"
         buffer = ''
-        input_filename = os.path.join(BUILD_FOLDER, pipeline_source_file)
+        input_filename = os.path.join(COMPILE_FOLDER, pipeline_source_file)
         with open(input_filename, "r") as input_file:
             buffer = json_load(input_file)
             # create text
@@ -315,9 +317,9 @@ def sort_and_filter_pipeline_files() -> dict:
         "scientist": {}
     }
     for leader_class in LEADER_CLASSES:
-        pipeline_source_file = f"00_mre_{leader_class}_traits.json"
+        pipeline_source_file = f"{FILE_NUM_PREFIXES['json_to_simple_traits_list']}_mre_{leader_class}_traits.json"
         buffer = ''
-        input_filename = os.path.join(BUILD_FOLDER, pipeline_source_file)
+        input_filename = os.path.join(EXTRACT_FOLDER, pipeline_source_file)
         with open(input_filename, "r") as input_file:
             buffer = json_load(input_file)
 
@@ -389,28 +391,29 @@ def write_sorted_filtered_data_to_json_files(input_data: dict):
     output_filenames = []
     for leader_class in input_data:
         root = input_data[leader_class]
-        output_filename = f"99_mre_{leader_class}_traits_for_codegen.json"
-        output_filepath = os.path.join(BUILD_FOLDER, output_filename)
+        output_filename = f"{FILE_NUM_PREFIXES['filtered_traits']}_mre_{leader_class}_traits_for_codegen.json"
+        output_filepath = os.path.join(COMPILE_FOLDER, output_filename)
         sys.stdout.write(f"** Writing code-ready traits for {leader_class} to {output_filename}...\n")
         with open(output_filepath, "w") as leader_traits_dest:
             json_dump(root, leader_traits_dest, indent=4)
             output_filenames.append(output_filepath)
-    write_leader_trait_trigger_files()
+    # TODO: fix the below at some point
+    # write_leader_trait_trigger_files()
     sys.stdout.write(
         f"Check the output files to see they're in good shape:\n"
     )
     for filename in output_filenames:
         sys.stdout.write(f"+ {filename}\n")
 
-def qa_pipeline_files():
-    if not os.path.exists(BUILD_FOLDER):
-        sys.exit(
-            'Couldnt find the build folder. Run this from within the mre_code_tools folder, '
-            'and make sure that "run_mre_trait_pipeline" was run.'
-        )
-    for filename in PIPELINE_OUTPUT_FILES:
-        input_file = os.path.join(BUILD_FOLDER, filename)
-        with open(input_file, "r") as input_file:
+def qa_pipeline_files(sorted_files):
+    # if not os.path.exists(BUILD_FOLDER):
+    #     sys.exit(
+    #         'Couldnt find the build folder. Run this from within the mre_code_tools folder, '
+    #         'and make sure that "run_mre_trait_pipeline" was run.'
+    #     )
+    for filename in sorted_files:
+        # input_file = os.path.join(BUILD_FOLDER, filename)
+        with open(filename, "r") as input_file:
             sys.stdout.write(
                 f"Results for {input_file.name}:\n"
             )

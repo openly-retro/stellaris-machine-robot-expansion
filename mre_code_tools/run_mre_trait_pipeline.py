@@ -42,6 +42,7 @@ from pipeline.compile.mre_stitch_gui_files import stitch_gui_files
 
 from pipeline.mre_common_vars import (
     BUILD_FOLDER,
+    COMPILE_FOLDER,
     UNICORN,
     EXTRACT_FOLDER,
 )
@@ -51,6 +52,7 @@ def clean_up_build_folder():
         rmtree(BUILD_FOLDER)
     os.makedirs(BUILD_FOLDER, exist_ok=True)
     os.makedirs(EXTRACT_FOLDER, exist_ok=True)
+    os.makedirs(COMPILE_FOLDER, exist_ok=True)
 
 def sort_and_write_filtered_trait_data():
     all_traits_processed_data = sort_and_filter_pipeline_files()
@@ -113,7 +115,7 @@ if __name__=="__main__":
     print(horiz)
     print_stars("** Doing a QA check on our shiny new datafiles ... ",2)
     print(horiz)
-    qa_pipeline_files()
+    qa_pipeline_files(sorted_files)
 
 
     print(horiz)

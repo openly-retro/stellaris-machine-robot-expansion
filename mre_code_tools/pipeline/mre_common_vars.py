@@ -130,6 +130,10 @@ EXTRACT_FOLDER = os.path.join(
     BUILD_FOLDER, 'extract'
 )
 
+COMPILE_FOLDER = os.path.join(
+    BUILD_FOLDER, 'compile'
+)
+
 FILE_NUM_PREFIXES = {
     "cz_to_json": "00",
     "json_to_simple_traits_list": "10",
@@ -179,10 +183,10 @@ GESTALT_COUNCILOR_SUBCLASS_MAP = {
 }
 
 GESTALT_COUNCILOR_SOURCE_TRAITS_FILES = {
-    "regulatory": os.path.join(BUILD_FOLDER, "99_mre_official_traits_for_codegen.json"),
-    "growth": os.path.join(BUILD_FOLDER, "99_mre_official_traits_for_codegen.json"),
-    "legion": os.path.join(BUILD_FOLDER, "99_mre_commander_traits_for_codegen.json"),
-    "cognitive": os.path.join(BUILD_FOLDER,  "99_mre_scientist_traits_for_codegen.json"),
+    "regulatory": os.path.join(COMPILE_FOLDER, f"{FILE_NUM_PREFIXES['filtered_traits']}_mre_official_traits_for_codegen.json"),
+    "growth": os.path.join(COMPILE_FOLDER, f"{FILE_NUM_PREFIXES['filtered_traits']}_mre_official_traits_for_codegen.json"),
+    "legion": os.path.join(COMPILE_FOLDER, f"{FILE_NUM_PREFIXES['filtered_traits']}_mre_commander_traits_for_codegen.json"),
+    "cognitive": os.path.join(COMPILE_FOLDER, f"{FILE_NUM_PREFIXES['filtered_traits']}_mre_scientist_traits_for_codegen.json")
 }
 
 GUI_HEADER_TEXT = """
@@ -203,12 +207,12 @@ GUI_FOLDER = os.path.join(
     'interface'
 )
 
-# Files created by mre_process_traits_for_codegen
-INPUT_FILES_FOR_CODEGEN = (
-    "99_mre_commander_traits_for_codegen.json",
-    "99_mre_official_traits_for_codegen.json",
-    "99_mre_scientist_traits_for_codegen.json"
-)
+
+#     )
+#     "99_mre_commander_traits_for_codegen.json",
+#     "99_mre_official_traits_for_codegen.json",
+#     "99_mre_scientist_traits_for_codegen.json"
+# )
 
 LOCALISATION_HEADER = "l_english:\n"
 
@@ -222,6 +226,15 @@ LOCALISATION_FOLDER = os.path.join(
 LEADER_CLASSES = (
     "commander", "official", "scientist"
 )
+
+# Files created by mre_process_traits_for_codegen
+INPUT_FILES_FOR_CODEGEN = [
+    os.path.join(
+        COMPILE_FOLDER,
+        f"{FILE_NUM_PREFIXES['filtered_traits']}_mre_{leader_class}_traits_for_codegen.json"
+    )
+    for leader_class in LEADER_CLASSES
+]
 
 LEADER_SUBCLASSES = (
     "subclass_commander_general",
