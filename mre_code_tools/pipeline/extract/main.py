@@ -10,6 +10,7 @@ from pipeline.mre_common_vars import (
     BASE_TRAIT_FILES,
     BUILD_FOLDER,
     EXTRACT_FOLDER,
+    FILE_NUM_PREFIXES,
     LEADER_CLASSES,
 )
 from cz2json.converter import input_cz_output_json
@@ -20,7 +21,8 @@ from pipeline.transform.main import (
 
 def make_converted_filename_2(base_filename):
     without_ext = base_filename.split('.')[0]
-    return f"{without_ext}.json"
+    prefix = FILE_NUM_PREFIXES['cz_to_json'],
+    return f"{prefix}_{without_ext}.json"
 
 def batch_convert_traits_files_into_json(stellaris_path: str) -> list:
     """ New 2.0 pipeline method """
@@ -50,7 +52,6 @@ def batch_convert_traits_files_into_json(stellaris_path: str) -> list:
         )
         generated_files.append(target_file_path)
         with open(target_file_path, "w") as dest_file:
-            # dest_file.write(json_dump(buffer))
             try:
                 json_dump(buffer, dest_file, indent=4)
             except Exception as ex:
@@ -118,7 +119,8 @@ def read_and_sort_extracted_traits(list_of_extracted_files: list) -> list:
     # Now, write each classes' traits to a file
     target_filenames = []
     for leader_class in LEADER_CLASSES:
-        newfile_name = f"00_mre_{leader_class}_traits.json"
+        prefix = FILE_NUM_PREFIXES['cz_to_json']
+        newfile_name = f"{prefix}_mre_{leader_class}_traits.json"
         newfilepath = os.path.join(BUILD_FOLDER, newfile_name)
         with open(newfilepath, "w") as traitsfile:
             json_dump(output[leader_class], traitsfile, indent=4)

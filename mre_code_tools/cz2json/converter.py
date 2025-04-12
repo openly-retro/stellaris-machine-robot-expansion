@@ -166,6 +166,13 @@ def convert_simple_assignment(line) -> str:
     # But does it have math operators???
     pdebug(' = convert_simple_assignment')
     quoted = re.sub(re_simple_word, quote_word, line)
+    # handle yes or no
+    if "yes" in quoted or "no" in quoted:
+        quoted = quoted.replace(
+            "\"yes\"", 'True'
+        ).replace(
+            "\"no\"", 'False'
+        )
     return append_comma(quoted.replace(' =',':'))
 
 def line_has_math_comparison(line):

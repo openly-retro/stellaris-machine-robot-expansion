@@ -1,9 +1,9 @@
 from pipeline.transform.mre_trait_cruncher import (
     filter_trait_info,
-    sort_traits_by_leader_class,
+    # sort_traits_by_leader_class,
     sort_traits_asc,
 )
-from yaml import safe_load
+# from yaml import safe_load
 
 def test_filter_trait_info():
     # The YAML is loaded into a Python dict, so we will work with dict objects
@@ -318,56 +318,56 @@ def test_crunch__leader_trait_scout():
     )
     assert expected_scientist_trait_data == actual_scientist_trait_data
 
-def test_sort_traits_by_leader_class():
+# def test_sort_traits_by_leader_class():
 
-    test_data = {
-        "trait_foo1": {
-            "trait_name": "trait_foo1",
-            "leader_class": ["official"]
-        },
-        "trait_foo2": {
-            "trait_name": "trait_foo2",
-            "leader_class": ["commander", "official", "scientist"]
-        },
-        "trait_foo3": {
-            "trait_name": "trait_foo3",
-            "leader_class": ["commander", "scientist"]
-        }
-    }
-    actual = sort_traits_by_leader_class(test_data)
-    expected = {
-        "official": [
-            {
-                "trait_name": "trait_foo1",
-                "leader_class": "official"
-            },
-            {
-                "trait_name": "trait_foo2",
-                "leader_class": "official"
-            }
-        ],
-        "commander": [
-            {
-                "trait_name": "trait_foo2",
-                "leader_class": "commander"
-            },
-            {
-                "trait_name": "trait_foo3",
-                "leader_class": "commander"
-            }
-        ],
-        "scientist": [
-            {
-                "trait_name": "trait_foo2",
-                "leader_class": "scientist"
-            },
-            {
-                "trait_name": "trait_foo3",
-                "leader_class": "scientist"
-            }
-        ]
-    }
-    assert expected == actual
+#     test_data = {
+#         "trait_foo1": {
+#             "trait_name": "trait_foo1",
+#             "leader_class": ["official"]
+#         },
+#         "trait_foo2": {
+#             "trait_name": "trait_foo2",
+#             "leader_class": ["commander", "official", "scientist"]
+#         },
+#         "trait_foo3": {
+#             "trait_name": "trait_foo3",
+#             "leader_class": ["commander", "scientist"]
+#         }
+#     }
+#     actual = sort_traits_by_leader_class(test_data)
+#     expected = {
+#         "official": [
+#             {
+#                 "trait_name": "trait_foo1",
+#                 "leader_class": "official"
+#             },
+#             {
+#                 "trait_name": "trait_foo2",
+#                 "leader_class": "official"
+#             }
+#         ],
+#         "commander": [
+#             {
+#                 "trait_name": "trait_foo2",
+#                 "leader_class": "commander"
+#             },
+#             {
+#                 "trait_name": "trait_foo3",
+#                 "leader_class": "commander"
+#             }
+#         ],
+#         "scientist": [
+#             {
+#                 "trait_name": "trait_foo2",
+#                 "leader_class": "scientist"
+#             },
+#             {
+#                 "trait_name": "trait_foo3",
+#                 "leader_class": "scientist"
+#             }
+#         ]
+#     }
+#     assert expected == actual
 
 def test_sort_traits_asc():
     test_data = [
@@ -551,94 +551,94 @@ def test_collect_custom_tooltip():
     actual = filter_trait_info(test_data)
     assert expected == actual
 
-def test_trait_ruler_champion_of_the_people__from_yaml():
-    test_yaml = """
-trait_ruler_champion_of_the_people:
-  inline_script:
-    script: trait/icon
-    CLASS: leader
-    ICON: "GFX_leader_trait_champion_of_the_people"
-    RARITY: common
-    COUNCIL: yes
-    TIER: 1
-  triggered_councilor_modifier:
-    potential:
-      exists: owner
-      owner:
-#       #NOT: { has_civic: civic_dystopian_society
-    pop_happiness: 0.03
-  triggered_councilor_modifier:
-    potential:
-      exists: owner
-#     owner: has_civic: civic_dystopian_society
-    pop_cat_ruler_happiness: 0.05
-  leader_potential_add:
-    is_gestalt: no
-  leader_class: ['scientist', 'official', 'commander']
-  opposites:
-    leader_trait_tyrannical
-    leader_trait_tyrannical_2
-  selectable_weight:
-    weight: var_shared_trait_weight
-    inline_script: "paragon/council_weight_mult"
-"""
-    expected_object = {
-        "trait_ruler_champion_of_the_people": {
-            "inline_script": {
-                "script": "trait/icon",
-                "CLASS": "leader",
-                "ICON": "GFX_leader_trait_champion_of_the_people",
-                "RARITY": "common",
-                "COUNCIL": True,
-                "TIER": 1
-            },
-            "triggered_councilor_modifier": {
-                "potential": {
-                    "exists": "owner",
-                    "owner": None
-                },
-                "pop_happiness": 0.03
-            },
-            "triggered_councilor_modifier": {
-                "potential": {
-                    "exists": "owner"
-                },
-                "pop_cat_ruler_happiness": 0.05
-            },
-            "leader_potential_add": {
-                "is_gestalt": False
-            },
-            "leader_class": [
-                "scientist",
-                "official",
-                "commander"
-            ],
-            "opposites": "leader_trait_tyrannical leader_trait_tyrannical_2",
-            "selectable_weight": {
-                "weight": "var_shared_trait_weight",
-                "inline_script": "paragon/council_weight_mult"
-            }
-        }
-    }
-    actual_object = safe_load(test_yaml)
-    assert expected_object == actual_object
+# def test_trait_ruler_champion_of_the_people__from_yaml():
+#     test_yaml = """
+# trait_ruler_champion_of_the_people:
+#   inline_script:
+#     script: trait/icon
+#     CLASS: leader
+#     ICON: "GFX_leader_trait_champion_of_the_people"
+#     RARITY: common
+#     COUNCIL: yes
+#     TIER: 1
+#   triggered_councilor_modifier:
+#     potential:
+#       exists: owner
+#       owner:
+# #       #NOT: { has_civic: civic_dystopian_society
+#     pop_happiness: 0.03
+#   triggered_councilor_modifier:
+#     potential:
+#       exists: owner
+# #     owner: has_civic: civic_dystopian_society
+#     pop_cat_ruler_happiness: 0.05
+#   leader_potential_add:
+#     is_gestalt: no
+#   leader_class: ['scientist', 'official', 'commander']
+#   opposites:
+#     leader_trait_tyrannical
+#     leader_trait_tyrannical_2
+#   selectable_weight:
+#     weight: var_shared_trait_weight
+#     inline_script: "paragon/council_weight_mult"
+# """
+#     expected_object = {
+#         "trait_ruler_champion_of_the_people": {
+#             "inline_script": {
+#                 "script": "trait/icon",
+#                 "CLASS": "leader",
+#                 "ICON": "GFX_leader_trait_champion_of_the_people",
+#                 "RARITY": "common",
+#                 "COUNCIL": True,
+#                 "TIER": 1
+#             },
+#             "triggered_councilor_modifier": {
+#                 "potential": {
+#                     "exists": "owner",
+#                     "owner": None
+#                 },
+#                 "pop_happiness": 0.03
+#             },
+#             "triggered_councilor_modifier": {
+#                 "potential": {
+#                     "exists": "owner"
+#                 },
+#                 "pop_cat_ruler_happiness": 0.05
+#             },
+#             "leader_potential_add": {
+#                 "is_gestalt": False
+#             },
+#             "leader_class": [
+#                 "scientist",
+#                 "official",
+#                 "commander"
+#             ],
+#             "opposites": "leader_trait_tyrannical leader_trait_tyrannical_2",
+#             "selectable_weight": {
+#                 "weight": "var_shared_trait_weight",
+#                 "inline_script": "paragon/council_weight_mult"
+#             }
+#         }
+#     }
+#     actual_object = safe_load(test_yaml)
+#     assert expected_object == actual_object
 
-    expected_slim_trait = {
-        "trait_name": "trait_ruler_champion_of_the_people",
-        "gfx": "GFX_leader_trait_champion_of_the_people",
-        "leader_class": "commander",
-        "rarity": "common",
-        "requires_paragon_dlc": False,
-        "is_councilor_trait": True,
-        "triggered_councilor_modifier": {
-            "pop_cat_ruler_happiness": 0.05
-        },
-        "leader_potential_add": {
-            "is_gestalt": False
-        },
-    }
-    actual_slim_trait = filter_trait_info(actual_object, for_class="commander")
-    assert expected_slim_trait == actual_slim_trait
+#     expected_slim_trait = {
+#         "trait_name": "trait_ruler_champion_of_the_people",
+#         "gfx": "GFX_leader_trait_champion_of_the_people",
+#         "leader_class": "commander",
+#         "rarity": "common",
+#         "requires_paragon_dlc": False,
+#         "is_councilor_trait": True,
+#         "triggered_councilor_modifier": {
+#             "pop_cat_ruler_happiness": 0.05
+#         },
+#         "leader_potential_add": {
+#             "is_gestalt": False
+#         },
+#     }
+#     actual_slim_trait = filter_trait_info(actual_object, for_class="commander")
+#     assert expected_slim_trait == actual_slim_trait
 
 def test_guess_rarity_if_duplicate_inline_script():
     """

@@ -96,7 +96,7 @@ if __name__=="__main__":
             "because it will write to some of the mod files directly."
         )
     print(horiz)
-    print_stars("Phase 1: Reset build folder and crunch base files into JSON")
+    print_stars("Phase 1: EXTRACT: Reset build folder and crunch base files into JSON")
     clean_up_build_folder()
 
     # CALL STUFF FROM 'EXTRACT'
@@ -114,13 +114,17 @@ if __name__=="__main__":
     print_stars("** Doing a QA check on our shiny new datafiles ... ",2)
     print(horiz)
     qa_pipeline_files()
+
+
     print(horiz)
-    print_stars("Phase 2: Sorting, filtering, and getting data ready for code gen scripts ...")
+    print_stars("Phase 2: TRANSFORM: Sorting, filtering, and getting data ready for code gen scripts ...")
     sort_and_write_filtered_trait_data()
     print_stars("Side quest: some modifier loc keys are in uppercase! Fixing ... ",2)
     do_uppercase_modifier_mapping_work(args.stellaris_path)
     print(horiz)
-    print_stars("Phase 3: Create effects, triggers, and GUI code")
+
+
+    print_stars("Phase 3: COMPILE: Create effects, triggers, and GUI code")
     harvest_machine_tooltips(args.stellaris_path)
     generate_mod_ready_code_files()                 # copy pasta
     generate_councilor_editor_gui()                 # copy pasta

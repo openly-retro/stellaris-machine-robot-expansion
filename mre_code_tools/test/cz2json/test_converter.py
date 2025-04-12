@@ -180,7 +180,7 @@ leader_trait_scout = {
                     "CLASS": "leader",
                     "ICON": "GFX_leader_trait_scout",
                     "RARITY": "free_or_veteran",
-                    "COUNCIL": "no",
+                    "COUNCIL": False,
                     "TIER": 1
                 }
             }
@@ -290,5 +290,11 @@ leader_trait_scout = {
         """ Dont expect Stellaris files to be consistently formatted """
         test_data = "script =  traits/technocracy_expertise_effects"
         expected = '"script": "traits/technocracy_expertise_effects",'
+        actual = clean_up_line(test_data)
+        assert expected == actual
+
+    def test_converting_yes_no_to_booleans(self):
+        test_data = "has_paragon_dlc = yes"
+        expected = '"has_paragon_dlc": True,'
         actual = clean_up_line(test_data)
         assert expected == actual

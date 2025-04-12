@@ -131,7 +131,7 @@ EXTRACT_FOLDER = os.path.join(
 )
 
 FILE_NUM_PREFIXES = {
-    "yaml_to_json": "00",
+    "cz_to_json": "00",
     "json_to_simple_traits_list": "10",
     "filtered_traits": "20",
     "gui": "30",

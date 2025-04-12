@@ -2,7 +2,7 @@ from copy import copy
 import re
 import sys
 import argparse
-from yaml import safe_load
+# from yaml import safe_load
 
 TAB_SIZE = 2
 
@@ -150,39 +150,39 @@ def make_newlines_for_multiple_assignments(input_string):
 #         input_string_copy = re.sub(complete_line, replacement, input_string_copy)
 #     return input_string_copy
 
-def validate_chopped_up_data(buffer):
-    try:
-        _ = safe_load(buffer)
-    except Exception as ex:
-        print("******************")
-        print(buffer)
-        print("******************")
-        sys.exit(f"There was a problem validating the YAML after chopping up the Stellaris script: {ex}")
+# def validate_chopped_up_data(buffer):
+#     try:
+#         _ = safe_load(buffer)
+#     except Exception as ex:
+#         print("******************")
+#         print(buffer)
+#         print("******************")
+#         sys.exit(f"There was a problem validating the YAML after chopping up the Stellaris script: {ex}")
 
-if __name__=="__main__":
-    parser = argparse.ArgumentParser(
-        prog="0xRetro Stellaris->>YAML",
-        description="Mostly converts Stellaris script to standard YAML"
-    )
-    parser.add_argument('-i', '--infile', help='Stellaris traits file to read')
-    parser.add_argument(
-        '-o', '--outfile', required=False,
-        help="Name of file to write the newly converted standard YAML to"
-    )
-    args = parser.parse_args()
-    buffer = ''
-    if not args.infile:
-        sys.exit('Need to specify an input file with --infile <filename>')
-    sys.stdout.write('0xRetro Stellaris script chopper.. spinning up blades...\n')
-    with open(args.infile, "r") as infile:
-        buffer = convert_stellaris_script_to_standard_yaml(
-            infile.read()
-        )
-        validate_chopped_up_data(buffer)
-        if args.outfile:
-            with open(args.outfile, 'w') as outfile:
-                outfile.write(buffer)
-        else:
-            print(buffer)
-        print("Done. There's a high change this finished correctly.")
-        sys.exit()
+# if __name__=="__main__":
+#     parser = argparse.ArgumentParser(
+#         prog="0xRetro Stellaris->>YAML",
+#         description="Mostly converts Stellaris script to standard YAML"
+#     )
+#     parser.add_argument('-i', '--infile', help='Stellaris traits file to read')
+#     parser.add_argument(
+#         '-o', '--outfile', required=False,
+#         help="Name of file to write the newly converted standard YAML to"
+#     )
+#     args = parser.parse_args()
+#     buffer = ''
+#     if not args.infile:
+#         sys.exit('Need to specify an input file with --infile <filename>')
+#     sys.stdout.write('0xRetro Stellaris script chopper.. spinning up blades...\n')
+#     with open(args.infile, "r") as infile:
+#         buffer = convert_stellaris_script_to_standard_yaml(
+#             infile.read()
+#         )
+#         validate_chopped_up_data(buffer)
+#         if args.outfile:
+#             with open(args.outfile, 'w') as outfile:
+#                 outfile.write(buffer)
+#         else:
+#             print(buffer)
+#         print("Done. There's a high change this finished correctly.")
+#         sys.exit()

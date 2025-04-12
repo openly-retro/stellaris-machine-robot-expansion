@@ -1,6 +1,8 @@
 # Read a traits file which has been hacked up into standard YAML, print out only info we care about
 import argparse
 from copy import copy
+from dataclasses import dataclass
+from enum import Enum
 from pprint import pprint
 import sys
 # from yaml import safe_load, safe_dump, load as load_yaml, dump as dump_yaml
@@ -8,6 +10,7 @@ import sys
 from json import dump as json_dump
 
 from pipeline.mre_common_vars import (
+    LEADER_CLASSES,
     TRAIT_MODIFIER_KEYS,
     MISSING,
     PLACEHOLDER
@@ -17,74 +20,74 @@ def sort_traits_asc(list_of_class_specific_traits: list):
     """ Sort traits alphabetically, starting from A, after they've been sorted by class """
     return sorted(list_of_class_specific_traits, key=lambda t: t['trait_name']) 
 
-def iterate_yaml_to_create_filtered_sorted_traits(safe_loaded_blob):
-    """ Run on a blob of safe_load data. Pick names, filter data, and sort it
-        safe_load gives a dictionary, with trait names in the first-level keys
-    """
-    trait_collection = {
-        "commander": [],
-        "official": [],
-        "scientist": []
-    }
-    # Create smaller trait blobs for each class the trait applies to
-    for k,v in safe_loaded_blob.items():
-        trait = {
-            k: v
-        }
-        # breakpoint()
-        if trait[k].get("leader_trait_type", "") == "negative":
-            continue
-        _trait_name = [*trait][0]
-        if not _trait_name.startswith('leader_trait'):
-            print(f"+ Skipping {_trait_name} as it's not a leader trait...")
-            continue
-        for leader_class in ["commander", "scientist", "official"]:
-            if not trait[k].get('leader_class'):
-                raise ValueError(
-                    f"Missing leader_class in trait! {trait}"
-                )
-            if leader_class in trait[k]['leader_class']:
-                try:
-                    filtered_trait = {}
-                    filtered_trait[k] = filter_trait_info(
-                        trait, for_class=leader_class
-                    )
-                    trait_collection[leader_class].append(filtered_trait)
-                except Exception as ex:
-                    sys.exit(
-                        f"There was a problem processing this trait: {trait}\nfor class {leader_class}.\nReason: {ex}"
-                    )
-    return trait_collection
+# def iterate_yaml_to_create_filtered_sorted_traits(safe_loaded_blob):
+#     """ Run on a blob of safe_load data. Pick names, filter data, and sort it
+#         safe_load gives a dictionary, with trait names in the first-level keys
+#     """
+#     trait_collection = {
+#         "commander": [],
+#         "official": [],
+#         "scientist": []
+#     }
+#     # Create smaller trait blobs for each class the trait applies to
+#     for k,v in safe_loaded_blob.items():
+#         trait = {
+#             k: v
+#         }
+#         # breakpoint()
+#         if trait[k].get("leader_trait_type", "") == "negative":
+#             continue
+#         _trait_name = [*trait][0]
+#         if not _trait_name.startswith('leader_trait'):
+#             print(f"+ Skipping {_trait_name} as it's not a leader trait...")
+#             continue
+#         for leader_class in ["commander", "scientist", "official"]:
+#             if not trait[k].get('leader_class'):
+#                 raise ValueError(
+#                     f"Missing leader_class in trait! {trait}"
+#                 )
+#             if leader_class in trait[k]['leader_class']:
+#                 try:
+#                     filtered_trait = {}
+#                     filtered_trait[k] = filter_trait_info(
+#                         trait, for_class=leader_class
+#                     )
+#                     trait_collection[leader_class].append(filtered_trait)
+#                 except Exception as ex:
+#                     sys.exit(
+#                         f"There was a problem processing this trait: {trait}\nfor class {leader_class}.\nReason: {ex}"
+#                     )
+#     return trait_collection
 
-def sort_traits_by_leader_class(filtered_trait_data: dict):
-    """ Return 3 categories of leader classes:
-        - official (1), scientist (2), commander (3)
-        - All traits get sorted into their respective classes
-        If a trait can be assigned to multiple classes, then it gets copied to each class
+# def sort_traits_by_leader_class(filtered_trait_data: dict):
+#     """ Return 3 categories of leader classes:
+#         - official (1), scientist (2), commander (3)
+#         - All traits get sorted into their respective classes
+#         If a trait can be assigned to multiple classes, then it gets copied to each class
         
-        Data that reaches this point will have been run through the `filter_trait_info` function
-    """
+#         Data that reaches this point will have been run through the `filter_trait_info` function
+#     """
 
-    trait_collection = {
-        "commander": [],
-        "official": [],
-        "scientist": []
-    }
-    official = []
-    scientist = []
-    commander = []
-    # Iterate the trait names (the dict keys)
-    for trait_name in filtered_trait_data:
-        filtered_trait = filtered_trait_data[trait_name]
-        # Go thru each allowed leader class, and copy the trait to the respective collection
-        for leader_class in filtered_trait["leader_class"]:
-            # When appending to a class-specific list, drop the other class names
-            # So we can create gui, effects, etc, which all only use one name
-            class_specific_trait = copy(filtered_trait)
-            class_specific_trait["leader_class"] = leader_class
-            trait_collection[leader_class].append(class_specific_trait)
-            del class_specific_trait
-    return trait_collection
+#     trait_collection = {
+#         "commander": [],
+#         "official": [],
+#         "scientist": []
+#     }
+#     official = []
+#     scientist = []
+#     commander = []
+#     # Iterate the trait names (the dict keys)
+#     for trait_name in filtered_trait_data:
+#         filtered_trait = filtered_trait_data[trait_name]
+#         # Go thru each allowed leader class, and copy the trait to the respective collection
+#         for leader_class in filtered_trait["leader_class"]:
+#             # When appending to a class-specific list, drop the other class names
+#             # So we can create gui, effects, etc, which all only use one name
+#             class_specific_trait = copy(filtered_trait)
+#             class_specific_trait["leader_class"] = leader_class
+#             trait_collection[leader_class].append(class_specific_trait)
+#             del class_specific_trait
+#     return trait_collection
 
 
 def filter_trait_info(given_trait_dict: dict, for_class=None):
@@ -133,12 +136,6 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
     slim_trait['rarity'] = root['inline_script'].get('RARITY', MISSING)
     if slim_trait['rarity'] == MISSING:
         slim_trait['rarity'] = guess_rarity_from_trait_data(root)
-    # Ignore whether inline_script council is yes.
-    # Just evaluate councilor modifier
-    # And we do NOT want to be able to use triggered traits
-    # if council_value := root['inline_script'].get('COUNCIL', False):
-    #     if council_value is True or council_value == "triggered":
-    #         slim_trait["is_councilor_trait"] = True
     
     for modifier_info in TRAIT_MODIFIER_KEYS:
         if root.get(modifier_info):
@@ -147,6 +144,7 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
             slim_trait[modifier_info] = _modifiers
     # A key will be None if the next line is a multi-nested assignment on one line, because PDX script is inconsistent
     if root.get("leader_potential_add"):
+
         slim_trait["requires_paragon_dlc"] = True if root.get("leader_potential_add", {}).get('has_paragon_dlc') == True else False
         # Start harvesting this in order to build triggers to check the trait can be added
         slim_trait["leader_potential_add"] = root["leader_potential_add"]
@@ -202,6 +200,20 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
         slim_trait['prerequisites'] = root['prerequisites']
 
     return slim_trait
+
+def qa_trait(slim_trait: dict) -> bool:
+    """ Sanity checks on our lil trait """
+    if not slim_trait.get('trait_name'):
+        raise KeyError(f"Where the hell is 'trait_name' in {slim_trait}")
+    if slim_trait['leader_class'] not in LEADER_CLASSES:
+        raise KeyError(f"WhatInTheShroud is this leader class? : {slim_trait}")
+    if slim_trait['rarity'] not in ['common','veteran','destiny','paragon']:
+        raise ValueError(f"Trait rarity : {slim_trait['rarity']} : is unknown")
+    if slim_trait.get('requires_paragon_dlc') == False and slim_trait.get('leader_potential_add', {}).get('has_paragon_dlc', '') == "yes":
+        raise ValueError(
+            f"The trait says it doesnt require paragons but the leader add does! : {slim_trait}"
+        )
+
 
 def pick_correct_subclass_from_potential(leader_class, subclass_list):
     """ Select the subclass corresponding to the leader class """
@@ -267,3 +279,26 @@ def guess_rarity_from_trait_data(trait_root_data):
 #         sys.exit('Need to specify an input file with --infile <filename>')
 #     print("0xRetro Stellaris script chopper.. spinning up blades...")
 #     read_and_write_traits_data(args.infile, args.outfile)
+
+
+
+class LeaderType(Enum):
+    COMMANDER = "commander"
+    OFFICIAL = "official"
+    SCIENTIST = "scientist"
+
+class TraitRarity(Enum):
+    COMMON = "common"
+    VETERAN = "veteran"
+    PARAGON = "paragon"
+    DESTINY = "destiny"
+
+
+@dataclass
+class SlimTrait:
+    trait_name: str
+    council_value: str
+    leader_class: LeaderType
+    rarity: TraitRarity
+    gfx: str = ''               # optional
+    
