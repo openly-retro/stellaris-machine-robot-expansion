@@ -224,10 +224,12 @@ def create_tooltip_for_leader(
                         modified_amount = 0.25
                     elif modified_amount == "var_trait_collective_wisdom_ma_amt":
                         modified_amount = 5
-                    if "." in str(modified_amount) and str(modified_amount)[-1].isdigit():
+                    elif type(modified_amount) == str and modified_amount.startswith('@'):
+                        modified_amount = f"[{modified_amount}]"
+                    elif "." in str(modified_amount) and str(modified_amount)[-1].isdigit():
                         modified_amount = convert_decimal_to_percent_str(modified_amount)
                     # Deal with -1 representing -100%
-                    if "chance" in modifier_name and type(modified_amount) is int:
+                    elif "chance" in modifier_name and type(modified_amount) is int:
                         modified_amount = convert_decimal_to_percent_str(modified_amount)
                     number_sign = "+" if "-" not in str(modified_amount) else ""
                     # TABBED_NEW_LINE: "\n$t$" but since we already add newlines, just add tab

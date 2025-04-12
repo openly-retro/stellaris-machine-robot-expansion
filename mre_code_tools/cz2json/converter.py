@@ -8,6 +8,10 @@ logger = logging.getLogger(__name__)
 
 DEBUG = False
 
+def pdebug(message):
+    if DEBUG:
+        print(message)
+
 """
 Larger challenges:
 - separating multiple blocks on the same line
@@ -50,7 +54,7 @@ def clean_up_line(line: str) -> str:
     This is the main method that crunches any given line from a traits file
     """
 
-    print(f" + evaluation of : {line}")
+    pdebug(f" + evaluation of : {line}")
     # Wipe out any comments
     if '#' in line:
         line = scrub_comments_from_line(line)
@@ -100,7 +104,7 @@ def clean_up_line(line: str) -> str:
     elif line.strip() == '':
         # Pass whitespace, deal with it later
         result = line
-    print(f" - crunched to: {result}")
+    pdebug(f" - crunched to: {result}")
 
     if result is None:
         raise WhatInTheShroud(line)
@@ -108,13 +112,13 @@ def clean_up_line(line: str) -> str:
 
 
 def block_open_to_json(re_results: re.Match) -> str:
-    print(' = block_open_to_json')
+    pdebug(' = block_open_to_json')
     block_name = re_results.group('name')
     return f"{re_results.group('indent')}{(quote_string(block_name))}: {{"
 
 def convert_block_open(line) -> str:
     # To be run on a single line only
-    print(' = convert_block_open')
+    pdebug(' = convert_block_open')
     quoted = re.sub(re_simple_word, quote_word, line)
     return quoted.replace(
         ' = {',
@@ -123,7 +127,7 @@ def convert_block_open(line) -> str:
 
 def handle_single_block_assignment(line) -> str:
     # something like 'potential = { is_councilor = no }'
-    print(' = handle_single_block_assignment')
+    pdebug(' = handle_single_block_assignment')
     cleaned_equals = re.sub(
         r"\s{1,}=\s{1,}",
         ': ',
@@ -144,7 +148,7 @@ def handle_single_block_assignment(line) -> str:
 
 def normalize_list(line) -> str:
     # leader_class = { word word word } into leader_class
-    print(' = normalize_list')
+    pdebug(' = normalize_list')
     parsed = re.search(re_parse_list_assignment, line)
     indent = re.match(re_indendation, line).group("indent")
 
@@ -160,7 +164,7 @@ def normalize_list(line) -> str:
 
 def convert_simple_assignment(line) -> str:
     # But does it have math operators???
-    print(' = convert_simple_assignment')
+    pdebug(' = convert_simple_assignment')
     quoted = re.sub(re_simple_word, quote_word, line)
     return append_comma(quoted.replace(' =',':'))
 
@@ -168,7 +172,7 @@ def line_has_math_comparison(line):
     return '>' in line or '<' in line
 
 def judo_chop_operators_into_strings(line):
-    print(' = judo_chop_operators_into_strings')
+    pdebug(' = judo_chop_operators_into_strings')
     string_oper = None
     if '<' in line:
         string_oper = 'lt'
@@ -182,7 +186,7 @@ def judo_chop_operators_into_strings(line):
     return append_comma(reduced_line)
 
 def preserve_script_value_refs(line):
-    print(' = preserve_script_value_refs')
+    pdebug(' = preserve_script_value_refs')
     parts = line.strip().split('=')
     effect = parts[0].strip()
     value = parts[1].strip()
@@ -190,7 +194,7 @@ def preserve_script_value_refs(line):
 
 def scrub_comments_from_line(line) -> str:
     # Have already done the check for '#' outside of this method
-    print(' = scrub_comments_from_line')
+    pdebug(' = scrub_comments_from_line')
     line_parts = line.split('#')
     # doesn't matter if this is whitespace, we can't return None
     # return to the left of the comment, minus whitespace on the right side of that part
@@ -270,24 +274,24 @@ def convert_iter_lines_to_dict(json_as_str: str) -> dict:
     except Exception as ex:
         with open("err_dump.txt", "w") as err_dump_file:
             err_dump_file.write(cleaned_content)
-        print(f"{ex}: dumped to err_dump.txt")
+        pdebug(f"{ex}: dumped to err_dump.txt")
         sys.exit(1)
 
     # try:
     #     results_as_json = loads(cleaned_content)
     # except JSONDecodeError as exc:
-    #     print(f"ERROR: {str(exc)}")
-    #     print("**** DUMP OBJECT ****")
-    #     # print(f"{{ {remove_extra_commas} }}")
+    #     pdebug(f"ERROR: {str(exc)}")
+    #     pdebug("**** DUMP OBJECT ****")
+    #     # pdebug(f"{{ {remove_extra_commas} }}")
 
-    #     print("**********")
+    #     pdebug("**********")
     #     # breakpoint()
     #     err_range = f"-->{cleaned_content[exc.colno-60:exc.colno+50]}<--"
-    #     print(
+    #     pdebug(
     #         "Range: \n"
     #         f"{err_range}"
     #     )
-    #     print(f"ERROR: {str(exc)}")
+    #     pdebug(f"ERROR: {str(exc)}")
     #     sys.exit(1)
 
     return cleaned_content_obj

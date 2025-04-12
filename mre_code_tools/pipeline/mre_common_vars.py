@@ -55,7 +55,8 @@ BUTTON_EFFECTS_FOLDER = os.path.join(
 CODE_HEADER = "0xRetro Machine & Robot Expansion Mod Codegen Tools"
 
 DEFAULT_UPPERCASE_MODIFIERS_MAP_FILES = [
-    os.path.join(BUILD_FOLDER, 'modifiers_1_l_english_upper.json'),
+    # OHAI THERE IS NO MODIFIERS_1 IT'S JUST ... NO 1! BUT THERE'S A 2?
+    os.path.join(BUILD_FOLDER, 'modifiers_l_english_upper.json'),
     os.path.join(BUILD_FOLDER, 'modifiers_2_l_english_upper.json'),
     os.path.join(BUILD_FOLDER, 'modifiers_3_l_english_upper.json'),
     os.path.join(BUILD_FOLDER, 'megacorp_l_english_upper.json'),
@@ -318,6 +319,8 @@ TOOLTIP_LOOKUP_MAP = {
     "mod_damage_vs_rival_mult": "MOD_DAMAGE_VS_RIVAL_MULT",
     "mod_empire_size_districts_mult": "MOD_EMPIRE_SIZE_DISTRICTS_MULT", #official #leader_trait_urbanist
     "mod_ship_emergency_ftl_mult": "MOD_SHIP_EMERGENCY_FTL_MIN_DAYS_ADD",
+    "mod_commercial_pact_mult": "MOD_COUNTRY_COMMERCIAL_PACT_MULT",
+    "mod_damage_vs_rival_mult": "MOD_DAMAGE_VS_RIVAL_MULT",
 }
 
 TRIGGERS_EFFECTS_FOLDER = os.path.join(

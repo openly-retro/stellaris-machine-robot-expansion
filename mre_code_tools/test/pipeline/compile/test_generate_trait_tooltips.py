@@ -5,7 +5,7 @@ from pipeline.compile.generate_trait_tooltips import (
     load_modifier_keys_in_uppercase,
     detect_trait_modifier_permutation
 )
-from yaml import safe_load
+# from yaml import safe_load
 from json import dump as json_dump
 from pipeline.mre_common_vars import (
     BUILD_FOLDER,
@@ -41,18 +41,6 @@ def make_uppercase_mapping_files():
 """
 We do encode on the trait output to stop pytest from expanding \n
 """
-
-def test_leader_trait_private_mines_2():
-    # Common trait
-    stellaris_script = """
-
-"""
-    expected_output = """
-
- leader_trait_private_mines_2:0 "$leader_trait_private_mines$ II"
- leader_trait_private_mines_2_desc:0 "$leader_trait_private_mines_desc$"
-"""
-    pass
 
 def test_generate_leader_trait_naturalist_2(make_uppercase_mapping_files):
     trait_dict = {
@@ -369,30 +357,6 @@ def test_use_custom_tt_replacement_string(make_uppercase_mapping_files):
     )
     assert expected == actual
 
-def test_3_11_eridanus_mult_in_modifiers():
-    """ exclude mult in modifier ... fuck """
-    trait_data = {
-    "leader_trait_bureaucrat_2": {
-        "trait_name": "leader_trait_bureaucrat_2",
-        "leader_class": "scientist",
-        "gfx": "GFX_leader_trait_bureaucrat",
-        "rarity": "common",
-        "triggered_planet_modifier": {
-            "planet_administrators_unity_produces_mult": 0.05,
-            "mult": "trigger:has_skill"
-        },
-        "triggered_sector_modifier": {
-            "planet_administrators_unity_produces_mult": 0.025,
-            "mult": "trigger:has_skill"
-        },
-        "requires_paragon_dlc": False,
-        "custom_tooltip": "leader_trait_bureaucrat_2_tt"
-    }
-}
-    expected = """
-  #leader_making #scientist #leader_trait_bureaucrat_2
-  xvcv_mdlc_leader_making_tooltip_scientist_leader_trait_bureaucrat_2:0 "§H$leader_trait_bureaucrat_machine$ II§!$add_xvcv_mdlc_leader_making_traits_costs_desc$\n$leader_trait_bureaucrat_2_tt$\n--------------\n§L$leader_trait_bureaucrat_machine_desc$§!
-"""
 
 def test_custom_tt_with_modifiers_appended(make_uppercase_mapping_files):
     traits_with_machine_desc = {
@@ -416,6 +380,46 @@ def test_custom_tt_with_modifiers_appended(make_uppercase_mapping_files):
     expected = """
   #leader_making #commander #leader_trait_juryrigger_3
   xvcv_mdlc_leader_making_tooltip_commander_leader_trait_juryrigger_3:0 "§H$leader_trait_juryrigger_machine$ III§!$add_xvcv_mdlc_leader_making_traits_costs_desc_alt$\\n$commanding_navy_effect$\\n$t$$mre_mod_create_debris_chance$: §G-100%§!\\n$t$$mre_mod_ship_hull_mult$: §G+10%§!\\n$leader_trait_juryrigger_2_effect$\\n--------------\\n§L$leader_trait_juryrigger_machine_desc$§!"
+"""
+    actual = create_tooltip_for_leader(
+        test_data, leader_class="commander", feature="leader_making",
+        uppercase_map_files=make_uppercase_mapping_files,
+        machine_localisations_map=traits_with_machine_desc
+    )
+    assert expected == actual
+
+def test_expanding_variables_into_brackets(make_uppercase_mapping_files):
+    """ @somevar should be inside of [] """
+    traits_with_machine_desc = {
+        "leader_trait_surveyor": 1,
+    }
+    test_data = {
+        "leader_trait_surveyor": {
+            "trait_name": "leader_trait_surveyor",
+            "leader_class": "commander",
+            "destiny_trait": True,
+            "gfx": "GFX_leader_trait_surveyor",
+            "rarity": "paragon",
+            "planet_modifier": {
+                "planet_technician_physics_research_produces_add": "@trait_surveyor_amt",
+                "planet_farmers_society_research_produces_add": "@trait_surveyor_amt",
+                "planet_miners_engineering_research_produces_add": "@trait_surveyor_amt"
+            },
+            "sector_modifier": {
+                "planet_technician_physics_research_produces_add": "@trait_surveyor_sector_amt",
+                "planet_farmers_society_research_produces_add": "@trait_surveyor_sector_amt",
+                "planet_miners_engineering_research_produces_add": "@trait_surveyor_sector_amt"
+            },
+            "requires_paragon_dlc": False,
+            "leader_potential_add": {
+                "has_paragon_dlc": "yes",
+                "has_governor_subclass": "yes"
+            }
+        }
+    }
+    expected = """
+  #leader_making #commander #leader_trait_surveyor
+  xvcv_mdlc_leader_making_tooltip_commander_leader_trait_surveyor:0 "§H$leader_trait_surveyor_machine$ §!$add_xvcv_mdlc_leader_making_traits_costs_desc_alt_2$\\n$governing_planet_effect$\\n$t$$mod_planet_farmers_society_research_produces_add$: §G+[@trait_surveyor_amt]§!\\n$t$$mod_planet_miners_engineering_research_produces_add$: §G+[@trait_surveyor_amt]§!\\n$t$$mod_planet_technician_physics_research_produces_add$: §G+[@trait_surveyor_amt]§!\\n$governing_sector_effect$\\n$t$$mod_planet_farmers_society_research_produces_add$: §G+[@trait_surveyor_sector_amt]§!\\n$t$$mod_planet_miners_engineering_research_produces_add$: §G+[@trait_surveyor_sector_amt]§!\\n$t$$mod_planet_technician_physics_research_produces_add$: §G+[@trait_surveyor_sector_amt]§!\\n--------------\\n§L$leader_trait_surveyor_machine_desc$§!"
 """
     actual = create_tooltip_for_leader(
         test_data, leader_class="commander", feature="leader_making",
