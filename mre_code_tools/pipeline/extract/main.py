@@ -84,6 +84,8 @@ def read_and_sort_extracted_traits(list_of_extracted_files: list) -> list:
                 if trait_name.startswith('@'):
                     continue
                 trait['trait_name'] = trait_name
+                if trait.get('leader_trait_type') == 'negative':
+                    continue
 
                 if not trait_name.startswith('leader_trait'):
                     print(f"+ Skipping {trait_name} as it's not a leader trait...")

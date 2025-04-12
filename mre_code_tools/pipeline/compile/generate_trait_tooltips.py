@@ -2,7 +2,7 @@
 import logging
 import re
 import sys
-from yaml import safe_load
+# from yaml import safe_load
 from json import load as json_load
 from os import path as os_path
 import argparse

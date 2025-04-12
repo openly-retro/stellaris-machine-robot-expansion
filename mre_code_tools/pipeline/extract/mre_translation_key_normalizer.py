@@ -37,7 +37,9 @@ def create_translation_key_map_prepend_mre(uppercase_key: str):
 
 def do_all_work(base_stellaris_path):
     loc_files_with_uppercase = [
-        "modifiers_l_english",
+        "modifiers_1_l_english",
+        "modifiers_2_l_english",
+        "modifiers_3_l_english",
         "megacorp_l_english",
         "paragon_2_l_english"
     ]

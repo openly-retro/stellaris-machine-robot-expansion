@@ -3,8 +3,8 @@ import argparse
 from copy import copy
 from pprint import pprint
 import sys
-from yaml import safe_load, safe_dump, load as load_yaml, dump as dump_yaml
-from yaml import CLoader as Loader, CDumper as Dumper
+# from yaml import safe_load, safe_dump, load as load_yaml, dump as dump_yaml
+# from yaml import CLoader as Loader, CDumper as Dumper
 from json import dump as json_dump
 
 from pipeline.mre_common_vars import (
@@ -234,36 +234,36 @@ def guess_rarity_from_trait_data(trait_root_data):
     return approximated_rarity
 
 
-def read_and_write_traits_data(infile, outfile, format):
-    with open(infile, "r") as infile:
-        # buffer = safe_load(infile.read())
-        buffer = load_yaml(infile, Loader=Loader)
-    sorted_data = iterate_yaml_to_create_filtered_sorted_traits(buffer)
-    if format=="yaml":
-        with open(outfile, "w") as useful_traits_yaml:
-            # useful_traits_yaml.write(
-            #     (sorted_data)
-            # )
-            dump_yaml(sorted_data, useful_traits_yaml)
-        print(f"Wrote crunched traits data from {infile.name} to {outfile}")
-    elif format=="json":
-        with open(outfile, "w") as useful_traits_json:
-            json_dump(sorted_data, useful_traits_json, indent=4)
-        print(f"Wrote crunched traits data from {infile.name} to {outfile}")
+# def read_and_write_traits_data(infile, outfile, format):
+#     with open(infile, "r") as infile:
+#         # buffer = safe_load(infile.read())
+#         buffer = load_yaml(infile, Loader=Loader)
+#     sorted_data = iterate_yaml_to_create_filtered_sorted_traits(buffer)
+#     if format=="yaml":
+#         with open(outfile, "w") as useful_traits_yaml:
+#             # useful_traits_yaml.write(
+#             #     (sorted_data)
+#             # )
+#             dump_yaml(sorted_data, useful_traits_yaml)
+#         print(f"Wrote crunched traits data from {infile.name} to {outfile}")
+#     elif format=="json":
+#         with open(outfile, "w") as useful_traits_json:
+#             json_dump(sorted_data, useful_traits_json, indent=4)
+#         print(f"Wrote crunched traits data from {infile.name} to {outfile}")
 
 
-if __name__=="__main__":
-    parser = argparse.ArgumentParser(
-        prog="0xRetro Stellaris->>YAML",
-        description="Read Stellaris traits in abbreviated wannabe YAML"
-    )
-    parser.add_argument('--infile', help='Stellaris standard YAML file to read. This should have been processed already with stellaris_yaml_converter.py.', required=True)
-    parser.add_argument('--outfile', help="Write filtered traits to a YAML file.", required=False)
+# if __name__=="__main__":
+#     parser = argparse.ArgumentParser(
+#         prog="0xRetro Stellaris->>YAML",
+#         description="Read Stellaris traits in abbreviated wannabe YAML"
+#     )
+#     parser.add_argument('--infile', help='Stellaris standard YAML file to read. This should have been processed already with stellaris_yaml_converter.py.', required=True)
+#     parser.add_argument('--outfile', help="Write filtered traits to a YAML file.", required=False)
 
-    args = parser.parse_args()
-    buffer = ''
-    sorted_data = ''
-    if not args.infile:
-        sys.exit('Need to specify an input file with --infile <filename>')
-    print("0xRetro Stellaris script chopper.. spinning up blades...")
-    read_and_write_traits_data(args.infile, args.outfile)
+#     args = parser.parse_args()
+#     buffer = ''
+#     sorted_data = ''
+#     if not args.infile:
+#         sys.exit('Need to specify an input file with --infile <filename>')
+#     print("0xRetro Stellaris script chopper.. spinning up blades...")
+#     read_and_write_traits_data(args.infile, args.outfile)

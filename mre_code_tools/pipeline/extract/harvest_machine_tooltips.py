@@ -26,7 +26,9 @@ def iterate_lines_collect_machine_localisations(file_object) -> dict:
 
 def do_all_work(base_stellaris_path):
     localisation_files_to_examine = [
-        "l_english.yml",
+        "main_1_l_english.yml",
+        "main_2_l_english.yml",
+        "main_3_l_english.yml",
         "leaders_l_english.yml",
         "paragon_4_l_english.yml",
     ]
