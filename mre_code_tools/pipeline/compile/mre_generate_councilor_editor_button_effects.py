@@ -237,7 +237,7 @@ oxr_mdlc_councilor_editor_{councilor_type}_{trait_name}_remove_button_effect = {
 	}}
 }}
 """
-def do_all_work():
+def do_all_work(stellaris_path):
     # Trait effects
     for councilor in GESTALT_COUNCILOR_TYPES:
         source_file = GESTALT_COUNCILOR_SOURCE_TRAITS_FILES[councilor]
@@ -258,10 +258,19 @@ def do_all_work():
         sys.stdout.write("Done.\n")
     # Reset button effect
     reset_traits_effect = gen_reset_trait_button_effect_for_councilors()
+    reset_traits_effect_filename = f"{FILE_NUM_PREFIXES["effects"]}_oxr_mdlc_councilor_editor_reset_traits_button_effect.txt"
     with open(
         os.path.join(
             BUILD_FOLDER,
-            f"{FILE_NUM_PREFIXES["effects"]}_oxr_mdlc_councilor_editor_reset_traits_button_effect.txt"
+            reset_traits_effect_filename
+        ), "wb"
+    ) as outfile:
+        outfile.write(reset_traits_effect.encode('utf-8'))
+    # Write to game files
+    with open(
+        os.path.join(
+            stellaris_path,
+            'common', 'scripted_triggers', reset_traits_effect_filename
         ), "wb"
     ) as outfile:
         outfile.write(reset_traits_effect.encode('utf-8'))

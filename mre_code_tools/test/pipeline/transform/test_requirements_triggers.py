@@ -1,5 +1,7 @@
 
-from pipeline.transform.requirements_triggers import create_requirements_triggers_for_leader_traits
+
+
+from pipeline.transform.leader_trait_triggers import create_requirements_triggers_for_leader_traits
 
 
 def test_create_trigger_for_trait__courtroom_training():

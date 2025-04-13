@@ -9,7 +9,9 @@ from json import load as json_load
 
 from pipeline.compile.generate_trait_tooltips import create_tooltip_for_leader
 from pipeline.mre_common_vars import (
+    BUILD_EFFECTS_FOLDER,
     BUILD_FOLDER,
+    BUILD_TRIGGERS_FOLDER,
     COMPILE_FOLDER,
     EXTRACT_FOLDER,
     INPUT_FILES_FOR_CODEGEN,
@@ -231,44 +233,44 @@ def iterate_traits_make_leadermaking_effects_code(organized_traits_dict, for_cla
             leader_making_effects_copypaste_blob.append(leadermaking_effects_code_for_trait)
     return '\n'.join(leader_making_effects_copypaste_blob)
 
-def write_leadermaking_tooltips_to_file(input_codegen_json_file_name: str):
-    # Open up 99_mre_<leaderclass>traits_for_codegen.json and write tooltips for a class
-    buffer = ''
-    base_filename =  input_codegen_json_file_name.rsplit('.',1)
-    leadermaking_tt_filename = f"{base_filename}_leadermaking_tooltips.txt"
-    output_file_name = os.path.join(
-        BUILD_FOLDER,
-        leadermaking_tt_filename
-    )
-    with open(input_codegen_json_file_name, "w") as source_codegen_data:
-        buffer = json_load(source_codegen_data)
-    detected_leader_class = input_codegen_json_file_name('_')[2]
-    tooltips_blob_for_writing = iterate_traits_make_leadermaking_tooltips_code(
-        buffer, for_class=detected_leader_class)
-    with open(output_file_name, "wb") as leadermaking_effects_output:
-        sys.stdout.write(f"Writing {detected_leader_class} leadermaking tooltips code to {leadermaking_effects_output.name}\n")
-        leadermaking_effects_output.write(
-            tooltips_blob_for_writing.encode('utf-8')
-        )
+# def write_leadermaking_tooltips_to_file(input_codegen_json_file_name: str):
+#     # Open up 99_mre_<leaderclass>traits_for_codegen.json and write tooltips for a class
+#     buffer = ''
+#     base_filename =  input_codegen_json_file_name.rsplit('.',1)
+#     leadermaking_tt_filename = f"{base_filename}_leadermaking_tooltips.txt"
+#     output_file_name = os.path.join(
+#         BUILD_FOLDER,
+#         leadermaking_tt_filename
+#     )
+#     with open(input_codegen_json_file_name, "w") as source_codegen_data:
+#         buffer = json_load(source_codegen_data)
+#     detected_leader_class = input_codegen_json_file_name('_')[2]
+#     tooltips_blob_for_writing = iterate_traits_make_leadermaking_tooltips_code(
+#         buffer, for_class=detected_leader_class)
+#     with open(output_file_name, "wb") as leadermaking_effects_output:
+#         sys.stdout.write(f"Writing {detected_leader_class} leadermaking tooltips code to {leadermaking_effects_output.name}\n")
+#         leadermaking_effects_output.write(
+#             tooltips_blob_for_writing.encode('utf-8')
+#         )
 
-def write_leadermaking_button_effects_to_file(input_codegen_json_file_name):
-    buffer = ''
-    base_filename =  input_codegen_json_file_name.rsplit('.',1)
-    leadermaking_button_effects_outfile = f"{base_filename}_leadermaking_tooltips.txt"
-    output_file_name = os.path.join(
-        BUILD_FOLDER,
-        leadermaking_button_effects_outfile
-    )
-    with open(input_codegen_json_file_name, "w") as source_codegen_data:
-        buffer = json_load(source_codegen_data)
-    detected_leader_class = input_codegen_json_file_name('_')[2]
-    tooltips_blob_for_writing = iterate_traits_make_leadermaking_effects_code(
-        buffer, for_class=detected_leader_class)
-    with open(output_file_name, "wb") as leadermaking_effects_output:
-        sys.stdout.write(f"Writing {detected_leader_class} leadermaking tooltips code to {leadermaking_effects_output.name}\n")
-        leadermaking_effects_output.write(
-            tooltips_blob_for_writing.encode('utf-8')
-        )
+# def write_leadermaking_button_effects_to_file(input_codegen_json_file_name):
+#     buffer = ''
+#     base_filename =  input_codegen_json_file_name.rsplit('.',1)
+#     leadermaking_button_effects_outfile = f"{base_filename}_leadermaking_tooltips.txt"
+#     output_file_name = os.path.join(
+#         BUILD_FOLDER,
+#         leadermaking_button_effects_outfile
+#     )
+#     with open(input_codegen_json_file_name, "w") as source_codegen_data:
+#         buffer = json_load(source_codegen_data)
+#     detected_leader_class = input_codegen_json_file_name('_')[2]
+#     tooltips_blob_for_writing = iterate_traits_make_leadermaking_effects_code(
+#         buffer, for_class=detected_leader_class)
+#     with open(output_file_name, "wb") as leadermaking_effects_output:
+#         sys.stdout.write(f"Writing {detected_leader_class} leadermaking tooltips code to {leadermaking_effects_output.name}\n")
+#         leadermaking_effects_output.write(
+#             tooltips_blob_for_writing.encode('utf-8')
+#         )
 
 def gen_xvcv_mdlc_leader_making_clear_values_effect():
     """ Print out the entire 'xvcv_mdlc_leader_making_clear_values_effect' 
@@ -787,9 +789,11 @@ def iterate_traits_make_feature_tooltips_code(
     return LOCALISATION_HEADER + ''.join(leader_tooltips_copypaste_blob)
 
 ## These methods are wrappers so we can run more things from mre_run_trait_pipeline
-def pipeline_make_leader_start_button_code():
+def pipeline_make_leader_start_button_code(stellaris_path):
     """ Wrapper for making leader start button code from run_mre_trait_pipeline """
     content_blob = []
+    trigger_file_name = "85_leader_making_start_button_effect.txt"
+
     for codegen_ready_file in INPUT_FILES_FOR_CODEGEN:
         leader_class = codegen_ready_file.split('_')[2]
         input_filepath = os.path.join(BUILD_FOLDER, codegen_ready_file)
@@ -799,11 +803,25 @@ def pipeline_make_leader_start_button_code():
             buffer, for_class=leader_class)
         content_blob.append(trigger_blob_for_writing)
     outfile_path = os.path.join(
-        BUILD_FOLDER,
-        "85_leader_making_start_button_effect.txt"
+        BUILD_EFFECTS_FOLDER,
+        trigger_file_name
     )
+    # write to build folder
     with open(outfile_path, "w") as trigger_file_output:
         sys.stdout.write(f"Writing leader_making_start_button_effect code to {trigger_file_output.name}\n")
+        trigger_file_output.write(
+            "\n".join(content_blob)
+        )
+    # Write to scripted triggers folder
+    target_in_scripted_triggers = os.path.join(
+        stellaris_path,
+        'common',
+        'scripted_triggers',
+        trigger_file_name
+    )
+
+    with open(target_in_scripted_triggers, "w") as trigger_file_output:
+        sys.stdout.write(f"Writing leader_making_start_button_effect code to scripted_trigers folder\n")
         trigger_file_output.write(
             "\n".join(content_blob)
         )
@@ -815,7 +833,7 @@ def pipeline_make_xvcv_mdlc_core_modifying_ruler_traits_trigger():
     ]
     trigger_blob_for_writing = gen_xvcv_mdlc_core_modifying_ruler_traits_trigger(input_files_in_build_folder)
     outfile_path = os.path.join(
-        BUILD_FOLDER,
+        BUILD_TRIGGERS_FOLDER,
         "85_core_modifying_modifying_ruler_trait_trigger.txt"
     )
     with open(outfile_path, "w") as trigger_file_output:
@@ -827,7 +845,7 @@ def pipeline_make_xvcv_mdlc_core_modifying_ruler_traits_trigger():
 def pipeline_make_leader_making_clear_values_effect():
     blob_for_writing = gen_xvcv_mdlc_leader_making_clear_values_effect()
     outfile_path = os.path.join(
-        BUILD_FOLDER,
+        BUILD_EFFECTS_FOLDER,
         "85_leader_making_clear_values_effect.txt"
     )
     with open(outfile_path, "w") as trigger_file_output:
@@ -844,7 +862,7 @@ def pipeline_make_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines():
     ]
     blob_for_writing = gen_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines(input_files_in_build_folder)
     outfile_path = os.path.join(
-        BUILD_FOLDER,
+        BUILD_EFFECTS_FOLDER,
         "85_core_modifying_reset_traits_button_effect.txt"
     )
     with open(outfile_path, "w") as trigger_file_output:
@@ -1065,11 +1083,11 @@ if __name__ == "__main__":
         generate_mod_ready_code_files()
         sys.exit()
 
-    if args.leader_start_button:
-        """ Iterate the 99_ files, emit blocks of code for each leader class
-        that then gets copy/pasted by a hum0n into xvcv_mdlc_button_effects_leader_making_main_customgui.txt"""
-        pipeline_make_leader_start_button_code()
-        sys.exit()
+    # if args.leader_start_button:
+    #     """ Iterate the 99_ files, emit blocks of code for each leader class
+    #     that then gets copy/pasted by a hum0n into xvcv_mdlc_button_effects_leader_making_main_customgui.txt"""
+    #     pipeline_make_leader_start_button_code()
+    #     sys.exit()
     if args.core_trigger:
         pipeline_make_xvcv_mdlc_core_modifying_ruler_traits_trigger()
         sys.exit()

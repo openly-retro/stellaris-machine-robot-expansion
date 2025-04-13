@@ -1,3 +1,4 @@
+""" This file is deprecated """
 from pipeline.extract.stellaris_yaml_converter import (
 	convert_stellaris_script_to_standard_yaml,
 	convert_leader_class_definitions_to_lists,

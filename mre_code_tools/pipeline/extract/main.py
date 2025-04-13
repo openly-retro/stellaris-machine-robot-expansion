@@ -14,7 +14,7 @@ from pipeline.mre_common_vars import (
     LEADER_CLASSES,
 )
 from cz2json.converter import input_cz_output_json
-from pipeline.transform.main import (
+from pipeline.transform.sort_and_filter import (
     trickle_up_subclass_requirements
 )
 

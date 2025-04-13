@@ -1,9 +1,8 @@
-from pipeline.transform.main import (
+from pipeline.transform.sort_and_filter import (
     pick_highest_tier_of_trait,
     filter_traits_by_mod_feature,
     trickle_up_subclass_requirements,
     trait_qualifies_for_councilor_editor,
-    create_requirements_triggers_for_leader_traits,
 )
 
 def test_picking_highest_tier__2():

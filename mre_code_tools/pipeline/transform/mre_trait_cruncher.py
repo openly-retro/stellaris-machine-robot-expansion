@@ -20,75 +20,6 @@ def sort_traits_asc(list_of_class_specific_traits: list):
     """ Sort traits alphabetically, starting from A, after they've been sorted by class """
     return sorted(list_of_class_specific_traits, key=lambda t: t['trait_name']) 
 
-# def iterate_yaml_to_create_filtered_sorted_traits(safe_loaded_blob):
-#     """ Run on a blob of safe_load data. Pick names, filter data, and sort it
-#         safe_load gives a dictionary, with trait names in the first-level keys
-#     """
-#     trait_collection = {
-#         "commander": [],
-#         "official": [],
-#         "scientist": []
-#     }
-#     # Create smaller trait blobs for each class the trait applies to
-#     for k,v in safe_loaded_blob.items():
-#         trait = {
-#             k: v
-#         }
-#         # breakpoint()
-#         if trait[k].get("leader_trait_type", "") == "negative":
-#             continue
-#         _trait_name = [*trait][0]
-#         if not _trait_name.startswith('leader_trait'):
-#             print(f"+ Skipping {_trait_name} as it's not a leader trait...")
-#             continue
-#         for leader_class in ["commander", "scientist", "official"]:
-#             if not trait[k].get('leader_class'):
-#                 raise ValueError(
-#                     f"Missing leader_class in trait! {trait}"
-#                 )
-#             if leader_class in trait[k]['leader_class']:
-#                 try:
-#                     filtered_trait = {}
-#                     filtered_trait[k] = filter_trait_info(
-#                         trait, for_class=leader_class
-#                     )
-#                     trait_collection[leader_class].append(filtered_trait)
-#                 except Exception as ex:
-#                     sys.exit(
-#                         f"There was a problem processing this trait: {trait}\nfor class {leader_class}.\nReason: {ex}"
-#                     )
-#     return trait_collection
-
-# def sort_traits_by_leader_class(filtered_trait_data: dict):
-#     """ Return 3 categories of leader classes:
-#         - official (1), scientist (2), commander (3)
-#         - All traits get sorted into their respective classes
-#         If a trait can be assigned to multiple classes, then it gets copied to each class
-        
-#         Data that reaches this point will have been run through the `filter_trait_info` function
-#     """
-
-#     trait_collection = {
-#         "commander": [],
-#         "official": [],
-#         "scientist": []
-#     }
-#     official = []
-#     scientist = []
-#     commander = []
-#     # Iterate the trait names (the dict keys)
-#     for trait_name in filtered_trait_data:
-#         filtered_trait = filtered_trait_data[trait_name]
-#         # Go thru each allowed leader class, and copy the trait to the respective collection
-#         for leader_class in filtered_trait["leader_class"]:
-#             # When appending to a class-specific list, drop the other class names
-#             # So we can create gui, effects, etc, which all only use one name
-#             class_specific_trait = copy(filtered_trait)
-#             class_specific_trait["leader_class"] = leader_class
-#             trait_collection[leader_class].append(class_specific_trait)
-#             del class_specific_trait
-#     return trait_collection
-
 
 def filter_trait_info(given_trait_dict: dict, for_class=None):
     """ Give our best try to fight PDX script for our sanity
@@ -213,6 +144,7 @@ def qa_trait(slim_trait: dict) -> bool:
         raise ValueError(
             f"The trait says it doesnt require paragons but the leader add does! : {slim_trait}"
         )
+    return True
 
 
 def pick_correct_subclass_from_potential(leader_class, subclass_list):

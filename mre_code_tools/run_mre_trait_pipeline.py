@@ -17,7 +17,7 @@ from pipeline.extract.main import (
     batch_convert_traits_files_into_json,
     read_and_sort_extracted_traits,
 )
-from pipeline.transform.main import (
+from pipeline.transform.sort_and_filter import (
     sort_and_filter_pipeline_files,
     write_sorted_filtered_data_to_json_files,
     qa_pipeline_files,
@@ -41,7 +41,9 @@ from pipeline.compile.mre_generate_ruler_limits_scripted_effect import do_all_wo
 from pipeline.compile.mre_stitch_gui_files import stitch_gui_files
 
 from pipeline.mre_common_vars import (
+    BUILD_EFFECTS_FOLDER,
     BUILD_FOLDER,
+    BUILD_TRIGGERS_FOLDER,
     COMPILE_FOLDER,
     UNICORN,
     EXTRACT_FOLDER,
@@ -53,6 +55,9 @@ def clean_up_build_folder():
     os.makedirs(BUILD_FOLDER, exist_ok=True)
     os.makedirs(EXTRACT_FOLDER, exist_ok=True)
     os.makedirs(COMPILE_FOLDER, exist_ok=True)
+    os.makedirs(BUILD_TRIGGERS_FOLDER, exist_ok=True)
+    os.makedirs(BUILD_EFFECTS_FOLDER, exist_ok=True)
+
 
 def sort_and_write_filtered_trait_data():
     all_traits_processed_data = sort_and_filter_pipeline_files()
@@ -130,12 +135,12 @@ if __name__=="__main__":
     harvest_machine_tooltips(args.stellaris_path)
     generate_mod_ready_code_files()                 # copy pasta
     generate_councilor_editor_gui()                 # copy pasta
-    generate_councilor_editor_scripted_triggers()   # copy pasta
-    generate_councilor_editor_button_effects()      # Traits effects in-place, other needs copy
+    generate_councilor_editor_scripted_triggers(args.stellaris_path)   # copy pasta
+    generate_councilor_editor_button_effects(args.stellaris_path)      # Traits effects in-place, other needs copy
     generate_councilor_gui_traits_limits_effects()  # copy pasta
     generate_ruler_limits_scripted_effect()         # # copy pasta
     print_stars("Making lines of EFFECTS code for xvcv_mdlc_leader_making_start_button_effect ... ",2)
-    pipeline_make_leader_start_button_code()
+    pipeline_make_leader_start_button_code(args.stellaris_path)
     print_stars("Making lines of TRIGGER code for xvcv_mdlc_core_modifying_ruler_traits_trigger ... ",2)
     pipeline_make_xvcv_mdlc_core_modifying_ruler_traits_trigger()
     print_stars("Making lines of EFFECTS code for xvcv_mdlc_leader_making_clear_values_effect ... ",2)

@@ -134,6 +134,13 @@ COMPILE_FOLDER = os.path.join(
     BUILD_FOLDER, 'compile'
 )
 
+BUILD_TRIGGERS_FOLDER = os.path.join(
+    BUILD_FOLDER, 'triggers'
+)
+BUILD_EFFECTS_FOLDER = os.path.join(
+    BUILD_FOLDER, 'effects'
+)
+
 FILE_NUM_PREFIXES = {
     "cz_to_json": "00",
     "json_to_simple_traits_list": "10",

@@ -1,3 +1,41 @@
+from json import load as json_load
+import os
+from pipeline.transform.sort_and_filter import iterate_traits_create_requirements_triggers
+from pipeline.mre_common_vars import (
+    COMPILE_FOLDER,
+    FILE_NUM_PREFIXES,
+    LEADER_CLASSES,
+    TRIGGERS_EFFECTS_FOLDER,
+)
+
+
+def iterate_traits_create_requirements_triggers(traits_list) -> str:
+    triggers_list = []
+    for trait in traits_list:
+        trait_name = [*trait][0]
+        # Do not create triggers for traits that are tier 2, tier 3 etc
+        if not trait_name[-1].isdigit():
+            triggers_list.append(
+                create_requirements_triggers_for_leader_traits(trait)
+            )
+    return "\n\n".join(triggers_list)
+
+def write_leader_trait_trigger_files():
+    for leader_class in LEADER_CLASSES:
+        pipeline_source_file = f"{FILE_NUM_PREFIXES['filtered_traits']}_mre_{leader_class}_traits_for_codegen.json"
+        buffer = ''
+        input_filename = os.path.join(COMPILE_FOLDER, pipeline_source_file)
+        with open(input_filename, "r") as input_file:
+            buffer = json_load(input_file)
+            # create text
+            triggers_for_leader_traits = iterate_traits_create_requirements_triggers(buffer)
+            output_file_name = f"{FILE_NUM_PREFIXES["triggers"]}_mre_{leader_class}_leader_trait_triggers.txt"
+            output_file_dest = os.path.join(
+                TRIGGERS_EFFECTS_FOLDER, output_file_name
+            )
+            with open(output_file_dest, 'w') as leader_triggers_output_file:
+                leader_triggers_output_file.write(triggers_for_leader_traits)
+            print(f"+ Wrote {leader_class} trait triggers to {output_file_dest}")
 
 
 def create_requirements_triggers_for_leader_traits(trait: dict) -> str:
