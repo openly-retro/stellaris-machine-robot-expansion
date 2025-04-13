@@ -1,17 +1,12 @@
 # Unit tests
 from tempfile import NamedTemporaryFile
 from json import dump as json_dump
-from pipeline.compile.generate_traits_gui_and_effects import (
-    gen_leader_making_button_effects_code,
-    gen_core_modifying_trait_gui_code,
-    gen_core_modifying_button_effects_code,
-    gen_leader_making_trait_gui_code,
+from mre_code_tools.pipeline.compile.core_modifying_effects import gen_core_modifying_button_effects_code, gen_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines
+from mre_code_tools.pipeline.compile.core_modifying_gui import gen_core_modifying_leader_subclass_gui_code, gen_core_modifying_trait_gui_code
+from mre_code_tools.pipeline.compile.leader_making_button_effects import gen_leader_making_button_effects_code, gen_xvcv_mdlc_leader_making_clear_values_effect, gen_xvcv_mdlc_leader_making_start_button_effect, generate_class_specific_lines_for_leader_making_clear_values_effect as clear_values_effect
+from mre_code_tools.pipeline.compile.leader_making_gui import gen_leader_making_trait_gui_code
+from mre_code_tools.pipeline.compile.core_modifying_triggers import (
     gen_xvcv_mdlc_core_modifying_ruler_traits_trigger,
-    gen_xvcv_mdlc_leader_making_clear_values_effect,
-    gen_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines,
-    gen_core_modifying_leader_subclass_gui_code,
-    gen_xvcv_mdlc_leader_making_start_button_effect,
-    generate_class_specific_lines_for_leader_making_clear_values_effect as clear_values_effect,
 )
 
 def test_gen_core_modifying_button_effects_code__common_trait():
