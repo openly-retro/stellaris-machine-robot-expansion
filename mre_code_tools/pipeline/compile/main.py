@@ -4,7 +4,14 @@ import os
 import time
 import sys
 from json import load as json_load
+from shutil import copyfile
 
+from pipeline.compile.utils import (
+    write_common_scripted_effect,
+    write_common_scripted_trigger,
+    write_build_scripted_trigger,
+    write_build_file,
+)
 from pipeline.compile.core_modifying_effects import gen_core_modifying_button_effects_code, gen_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines
 from pipeline.compile.core_modifying_gui import iterate_subclasses_make_core_modifying_subclasses_gui_code, iterate_traits_make_coremodifying_gui_code
 from pipeline.compile.core_modifying_triggers import gen_xvcv_mdlc_core_modifying_ruler_traits_trigger
@@ -155,47 +162,32 @@ def pipeline_make_xvcv_mdlc_core_modifying_ruler_traits_trigger(stellaris_path):
     trigger_blob_for_writing = gen_xvcv_mdlc_core_modifying_ruler_traits_trigger(input_files_in_build_folder)
     trigger_filename = "85_core_modifying_modifying_ruler_trait_trigger.txt"
     # Write to build folder
-    outfile_path = os.path.join(
-        BUILD_TRIGGERS_FOLDER, trigger_filename
-    )
-    with open(outfile_path, "w") as trigger_file_output:
-        sys.stdout.write(f"Writing core modifying trigger code to {trigger_file_output.name}\n")
-        trigger_file_output.write(
-            trigger_blob_for_writing
-        )
+    write_build_scripted_trigger(trigger_blob_for_writing, trigger_filename, "core modifying ruler")
     # Write to Stellaris files
-    outfile_path = os.path.join(
-        stellaris_path, 'common', 'scripted_triggers',
-        trigger_filename
+    write_common_scripted_trigger(
+        trigger_blob_for_writing, trigger_filename,
+        stellaris_path, "core modifying ruler traits trigger"
     )
-    with open(outfile_path, "w") as trigger_file_output:
-        sys.stdout.write(f"Writing core modifying trigger code to {trigger_file_output.name}\n")
-        trigger_file_output.write(
-            trigger_blob_for_writing
-        )
+    
 
 def pipeline_make_leader_making_clear_values_effect(stellaris_path):
     blob_for_writing = gen_xvcv_mdlc_leader_making_clear_values_effect()
     # write to build folder
     blob_filename = "85_leader_making_clear_values_effect.txt"
-    outfile_path = os.path.join(
-        BUILD_EFFECTS_FOLDER, blob_filename
+    # outfile_path = os.path.join(
+    #     BUILD_EFFECTS_FOLDER, blob_filename
+    # )
+    # with open(outfile_path, "w") as trigger_file_output:
+    #     sys.stdout.write(f"Writing leader making trigger code to {trigger_file_output.name}\n")
+    #     trigger_file_output.write(
+    #         blob_for_writing
+    #     )
+    write_build_file(
+        blob_for_writing, blob_filename, BUILD_EFFECTS_FOLDER, "LEADER MAKING CLEAR VALUES"
     )
-    with open(outfile_path, "w") as trigger_file_output:
-        sys.stdout.write(f"Writing leader making trigger code to {trigger_file_output.name}\n")
-        trigger_file_output.write(
-            blob_for_writing
-        )
-
-    # Write to stellaris files
-    outfile_path = os.path.join(
-        stellaris_path, 'common', "scripted_effects", blob_filename
+    write_common_scripted_effect(
+        blob_for_writing, blob_filename, stellaris_path, "LEADER MAKING CLEAR VALUES"
     )
-    with open(outfile_path, "w") as trigger_file_output:
-        sys.stdout.write(f"Writing leader making trigger code to {trigger_file_output.name}\n")
-        trigger_file_output.write(
-            blob_for_writing
-        )
 
 def pipeline_make_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines(stellaris_path):
     input_files_in_build_folder = [
@@ -205,23 +197,21 @@ def pipeline_make_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines(stel
     blob_filename = "85_core_modifying_reset_traits_button_effect.txt"
     blob_for_writing = gen_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines(input_files_in_build_folder)
     # to build folder
-    outfile_path = os.path.join(
-        BUILD_EFFECTS_FOLDER, blob_filename
+    # outfile_path = os.path.join(
+    #     BUILD_EFFECTS_FOLDER, blob_filename
+    # )
+    # with open(outfile_path, "w") as trigger_file_output:
+    #     sys.stdout.write(f"Writing core modifying trigger code to {trigger_file_output.name}\n")
+    #     trigger_file_output.write(
+    #         blob_for_writing
+    #     )
+    write_build_file(
+        blob_for_writing, blob_filename, BUILD_EFFECTS_FOLDER, "LEADER MAKING CLEAR VALUES"
     )
-    with open(outfile_path, "w") as trigger_file_output:
-        sys.stdout.write(f"Writing core modifying trigger code to {trigger_file_output.name}\n")
-        trigger_file_output.write(
-            blob_for_writing
-        )
     # To game files
-    outfile_path = os.path.join(
-        stellaris_path, 'common', 'scripted_effects', blob_filename
+    write_common_scripted_effect(
+        blob_for_writing, blob_filename, stellaris_path, "CORE MODIFYING RESET TRAITS BUTTON FX"
     )
-    with open(outfile_path, "w") as trigger_file_output:
-        sys.stdout.write(f"Writing core modifying trigger code to {trigger_file_output.name}\n")
-        trigger_file_output.write(
-            blob_for_writing
-        )
 
 def pipeline_make_core_modifying_subclasses_gui_code():
     target_file = "85_core_modifying_subclasses_gui_code.txt"
@@ -234,43 +224,43 @@ def pipeline_make_core_modifying_subclasses_gui_code():
     print(f"Wrote CORE MODIFYING SUBCLASSES GUI code to {build_path_target}")
 
 
-def pipeline_make_core_modifying_list_traits_by_class():
-    """ Collect & list traits for a class which have subclass requirements
-        These are used to check in the core modifying gui
-        to prevent players from removing a subclass while depdendent traits are picked
-    """
-    subtraits_names = {
-        "commander": [],
-        "official": [],
-        "scientist": []
-    }
-    buffer = ''
-    for codegen_ready_file in INPUT_FILES_FOR_CODEGEN:
-        leader_class = codegen_ready_file.split('_')[2]
-        input_filepath = os.path.join(BUILD_FOLDER, codegen_ready_file)
-        with open(input_filepath, "r") as traits_json_file:
-            buffer = json_load(traits_json_file)
-        for rarity_level in RARITIES:
-            # iterate common, veteran, paragon
-                for leader_trait in buffer[f"core_modifying_traits"][rarity_level]:
-                    trait_name = [*leader_trait][0]
-                    root = leader_trait[trait_name]
-                    if root.get('required_subclass'):
-                        subtraits_names[leader_class].append(
-                            f"has_trait = {trait_name}"
-                        )
-    outfile_name = "85_core_modifying_subclass_dependent_traits.txt"
-    outfile_path = os.path.join(
-        BUILD_FOLDER, outfile_name
-    )
-    with open(outfile_path, "w") as outfile_object:
-        for ruler_class in LEADER_CLASSES:
-            a_blob_00 = f"""#{ruler_class} traits requiring subclasses:
-{"\n".join(sorted(subtraits_names[ruler_class]))}
-"""
-            outfile_object.write(a_blob_00)
-    print("I am so tired")
-    print(f"Look in {outfile_name}")
+# def pipeline_make_core_modifying_list_traits_by_class():
+#     """ Collect & list traits for a class which have subclass requirements
+#         These are used to check in the core modifying gui
+#         to prevent players from removing a subclass while depdendent traits are picked
+#     """
+#     subtraits_names = {
+#         "commander": [],
+#         "official": [],
+#         "scientist": []
+#     }
+#     buffer = ''
+#     for codegen_ready_file in INPUT_FILES_FOR_CODEGEN:
+#         leader_class = codegen_ready_file.split('_')[2]
+#         input_filepath = os.path.join(BUILD_FOLDER, codegen_ready_file)
+#         with open(input_filepath, "r") as traits_json_file:
+#             buffer = json_load(traits_json_file)
+#         for rarity_level in RARITIES:
+#             # iterate common, veteran, paragon
+#                 for leader_trait in buffer[f"core_modifying_traits"][rarity_level]:
+#                     trait_name = [*leader_trait][0]
+#                     root = leader_trait[trait_name]
+#                     if root.get('required_subclass'):
+#                         subtraits_names[leader_class].append(
+#                             f"has_trait = {trait_name}"
+#                         )
+#     outfile_name = "85_core_modifying_subclass_dependent_traits.txt"
+#     outfile_path = os.path.join(
+#         BUILD_FOLDER, outfile_name
+#     )
+#     with open(outfile_path, "w") as outfile_object:
+#         for ruler_class in LEADER_CLASSES:
+#             a_blob_00 = f"""#{ruler_class} traits requiring subclasses:
+# {"\n".join(sorted(subtraits_names[ruler_class]))}
+# """
+#             outfile_object.write(a_blob_00)
+#     print("I am so tired")
+#     print(f"Look in {outfile_name}")
 
 
 
@@ -452,9 +442,9 @@ if __name__ == "__main__":
     if args.core_subclasses_gui:
         pipeline_make_core_modifying_subclasses_gui_code()
         sys.exit()
-    if args.core_ruler_subclass_traits:
-        pipeline_make_core_modifying_list_traits_by_class()
-        sys.exit()
+    # if args.core_ruler_subclass_traits:
+    #     pipeline_make_core_modifying_list_traits_by_class()
+    #     sys.exit()
 
     buffer = ''
     infile_no_ext = args.infile.rsplit('.',1)[0]
