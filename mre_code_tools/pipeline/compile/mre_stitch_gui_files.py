@@ -48,12 +48,13 @@ leader_stitch_order = [
     os.path.join(TEMPLATE_FOLDER, 'leader_making', 'leader_making_gui_4.txt')
 ]
 
+
 councilor_file_template = "oxr_mdlc_councilor_editor_{node}_customgui.gui"
 councilor_closing = os.path.join(
     TEMPLATE_FOLDER,'councilor_editor','editor_close.txt'
 )
 
-def stitch_gui_files():
+def stitch_gui_files_and_write_to_game_folder():
     with open(core_gui_location, "w", encoding="utf8") as gui_file:
         for stitch_source in core_stitch_order:
             with open(stitch_source, "r") as stitch_file:
@@ -100,4 +101,4 @@ if __name__ == "__main__":
     print("0xRetro Machine & Robot Expansion Data Tools")
     print("GUI file stitcher v1.0")
     sanity_check()
-    stitch_gui_files()
+    stitch_gui_files_and_write_to_game_folder()

@@ -22,9 +22,9 @@ from pipeline.transform.sort_and_filter import (
     write_sorted_filtered_data_to_json_files,
     qa_pipeline_files,
 )
-from pipeline.compile.generate_traits_gui_and_effects import (
+from pipeline.compile.main import (
     # run_codegen_process_for_leadermaking_feature,
-    generate_mod_ready_code_files,
+    generate_fx_tooltips_interfaces_for_all_guis,
     pipeline_make_leader_start_button_code,
     pipeline_make_xvcv_mdlc_core_modifying_ruler_traits_trigger,
     pipeline_make_leader_making_clear_values_effect,
@@ -33,12 +33,12 @@ from pipeline.compile.generate_traits_gui_and_effects import (
 )
 from pipeline.extract.mre_translation_key_normalizer import do_all_work as do_uppercase_modifier_mapping_work
 from pipeline.extract.harvest_machine_tooltips import do_all_work as harvest_machine_tooltips
-from pipeline.compile.mre_generate_councilor_editor_gui import do_all_work as generate_councilor_editor_gui
-from pipeline.compile.mre_generate_councilor_editor_scripted_triggers import do_all_work as generate_councilor_editor_scripted_triggers
-from pipeline.compile.mre_generate_councilor_editor_button_effects import do_all_work as generate_councilor_editor_button_effects
-from pipeline.compile.mre_generate_gui_traits_limits_effects import do_all_work as generate_councilor_gui_traits_limits_effects
-from pipeline.compile.mre_generate_ruler_limits_scripted_effect import do_all_work as generate_ruler_limits_scripted_effect
-from pipeline.compile.mre_stitch_gui_files import stitch_gui_files
+from pipeline.compile.councilor_editor_gui import do_all_work as generate_councilor_editor_gui
+from pipeline.compile.councilor_editor_scripted_triggers import do_all_work as generate_councilor_editor_scripted_triggers
+from pipeline.compile.councilor_editor_button_effects import do_all_work as generate_councilor_editor_button_effects
+from pipeline.compile.councilor_editor_button_effects_extra import do_all_work as generate_councilor_gui_traits_limits_effects
+from pipeline.compile.core_modifying_button_effects_extra import do_all_work as generate_ruler_limits_scripted_effect
+from pipeline.compile.mre_stitch_gui_files import stitch_gui_files_and_write_to_game_folder
 
 from pipeline.mre_common_vars import (
     BUILD_EFFECTS_FOLDER,
@@ -122,7 +122,6 @@ if __name__=="__main__":
     print(horiz)
     qa_pipeline_files(sorted_files)
 
-
     print(horiz)
     print_stars("Phase 2: TRANSFORM: Sorting, filtering, and getting data ready for code gen scripts ...")
     sort_and_write_filtered_trait_data()
@@ -130,33 +129,32 @@ if __name__=="__main__":
     do_uppercase_modifier_mapping_work(args.stellaris_path)
     print(horiz)
 
-
     print_stars("Phase 3: COMPILE: Create effects, triggers, and GUI code")
     harvest_machine_tooltips(args.stellaris_path)
-    generate_mod_ready_code_files()                 # copy pasta
-    generate_councilor_editor_gui()                 # copy pasta
-    generate_councilor_editor_scripted_triggers(args.stellaris_path)   # copy pasta
+    generate_fx_tooltips_interfaces_for_all_guis()  # This writes fx and triggers files directly to common
+    generate_councilor_editor_gui()                 # generate gui files for stitching later
+    generate_councilor_editor_scripted_triggers(args.stellaris_path)
     generate_councilor_editor_button_effects(args.stellaris_path)      # Traits effects in-place, other needs copy
-    generate_councilor_gui_traits_limits_effects()  # copy pasta
-    generate_ruler_limits_scripted_effect()         # # copy pasta
+    generate_councilor_gui_traits_limits_effects(args.stellaris_path)
+    generate_ruler_limits_scripted_effect(args.stellaris_path)
+
     print_stars("Making lines of EFFECTS code for xvcv_mdlc_leader_making_start_button_effect ... ",2)
     pipeline_make_leader_start_button_code(args.stellaris_path)
     print_stars("Making lines of TRIGGER code for xvcv_mdlc_core_modifying_ruler_traits_trigger ... ",2)
-    pipeline_make_xvcv_mdlc_core_modifying_ruler_traits_trigger()
+    pipeline_make_xvcv_mdlc_core_modifying_ruler_traits_trigger(args.stellaris_path)
     print_stars("Making lines of EFFECTS code for xvcv_mdlc_leader_making_clear_values_effect ... ",2)
-    pipeline_make_leader_making_clear_values_effect()
+    pipeline_make_leader_making_clear_values_effect(args.stellaris_path)
     print_stars("Making lines of EFFECTS code for core_modifying_reset_traits_button_effect ... ",2)
-    pipeline_make_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines()
+    pipeline_make_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines(args.stellaris_path)
     print_stars("Making lines of GUI code for core_modifying subclasses_gui_code ... ",2)
     pipeline_make_core_modifying_subclasses_gui_code()
+
     print_stars("Stitching GUI files together ... ",2)
-    stitch_gui_files()
+    stitch_gui_files_and_write_to_game_folder()
 
     print(horiz)
     print_stars("TO DO by humans",2)
     print(
-        "- Copy generated scripted triggers to their destinations\n"
-        "- Copy generated scripted effects to their destinations\n"
         "- Generate loc files\n"
         "*** GOOD LUCK BIO BRAIN ***\n"
         f"Is tired. {sanity_check()}"

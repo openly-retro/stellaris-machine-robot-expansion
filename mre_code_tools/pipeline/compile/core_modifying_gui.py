@@ -1,7 +1,8 @@
 from typing import List
-from mre_code_tools.pipeline.compile.generate_traits_gui_and_effects import gui_footer, gui_header
+from pipeline.compile.gui_headers import gui_header
+from pipeline.compile.gui_headers import gui_footer
 from datetime import datetime
-from mre_code_tools.pipeline.mre_common_vars import EXCLUDE_SUBCLASSES_FROM_CORE_MODIFYING, LEADER_SUBCLASSES_NAMES, RARITIES
+from pipeline.mre_common_vars import EXCLUDE_SUBCLASSES_FROM_CORE_MODIFYING, LEADER_SUBCLASSES_NAMES, RARITIES
 
 
 def gen_core_modifying_trait_gui_code(

@@ -159,7 +159,8 @@ containerWindowType = {{
 """
 
 def do_all_work():
-    print("Generate Councilor Editor button effects code")
+    """Generate Councilor Editor button effects code and write to build folder for stitching"""
+    print("Generate Councilor Editor button effects code and write to build folder for stitching")
     
     for councilor in GESTALT_COUNCILOR_TYPES:
         source_file = GESTALT_COUNCILOR_SOURCE_TRAITS_FILES[councilor]

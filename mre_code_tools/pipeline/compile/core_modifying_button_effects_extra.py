@@ -8,6 +8,7 @@ from json import load as json_load
 
 from pipeline.compile.generate_trait_tooltips import create_tooltip_for_leader
 from pipeline.mre_common_vars import (
+    BUILD_EFFECTS_FOLDER,
     BUILD_FOLDER,
     INPUT_FILES_FOR_CODEGEN,
     LEADER_MAKING,
@@ -88,16 +89,20 @@ oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = {
 {"\n".join(trait_limit_lines)}
 {scripted_trigger_footer}"""
 
-def do_all_work():
+def do_all_work(stellaris_path):
     print("Making oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect ...")
-    scripted_trigger = gen_core_modifying_deduct_trait_pts_for_each_trait()
+    scripted_effect = gen_core_modifying_deduct_trait_pts_for_each_trait()
+    fx_filename = f"{FILE_NUM_PREFIXES["effects"]}_oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect.txt"
     with open(
-        os.path.join(
-            BUILD_FOLDER,
-            f"{FILE_NUM_PREFIXES["effects"]}_oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect.txt"
-        ), 'wb'
+        os.path.join(BUILD_EFFECTS_FOLDER, fx_filename), 'wb'
     ) as outfile:
-        outfile.write(scripted_trigger.encode('utf-8'))
+        outfile.write(scripted_effect.encode('utf-8'))
+        print(f"Done. Check {outfile.name}")
+    # TO GAME FILES
+    with open(
+        os.path.join(stellaris_path,'common','scripted_effects', fx_filename), 'wb'
+    ) as outfile:
+        outfile.write(scripted_effect.encode('utf-8'))
         print(f"Done. Check {outfile.name}")
 
 if __name__ == "__main__":

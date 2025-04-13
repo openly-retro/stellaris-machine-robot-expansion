@@ -1,5 +1,6 @@
-from mre_code_tools.pipeline.compile.generate_traits_gui_and_effects import gui_footer, gui_header
-from mre_code_tools.pipeline.mre_common_vars import RARITIES
+from pipeline.compile.gui_headers import gui_header
+from pipeline.compile.gui_headers import gui_footer
+from pipeline.mre_common_vars import RARITIES
 
 
 from datetime import datetime

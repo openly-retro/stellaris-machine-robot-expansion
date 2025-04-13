@@ -1,5 +1,5 @@
 from json import load as json_load
-from mre_code_tools.pipeline.mre_common_vars import LEADER_SUBCLASSES, RARITIES, TRAITS_REQUIRING_DLC
+from pipeline.mre_common_vars import LEADER_SUBCLASSES, RARITIES, TRAITS_REQUIRING_DLC
 
 
 def gen_core_modifying_button_effects_code(

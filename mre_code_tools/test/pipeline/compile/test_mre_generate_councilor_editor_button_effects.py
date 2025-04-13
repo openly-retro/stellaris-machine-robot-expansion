@@ -1,4 +1,4 @@
-from pipeline.compile.mre_generate_councilor_editor_button_effects import (
+from pipeline.compile.councilor_editor_button_effects import (
     gen_councilor_editor_traits_button_effects_code,
 )
 
