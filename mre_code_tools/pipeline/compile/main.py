@@ -4,11 +4,8 @@ import os
 import time
 import sys
 from json import load as json_load
-from shutil import copyfile
 
 from pipeline.compile.utils import (
-    write_common_scripted_effect,
-    write_common_scripted_trigger,
     write_build_scripted_trigger,
     write_build_file,
 )
@@ -35,6 +32,8 @@ from pipeline.mre_common_vars import (
     CORE_MODIFYING,
     LEADER_SUBCLASSES,
     LEADER_CLASSES,
+    MOD_SCRIPTED_EFFECTS_FOLDER,
+    MOD_SCRIPTED_TRIGGERS_FOLDER,
     OUTPUT_FILES_DESTINATIONS,
     LOCALISATION_HEADER,
     MACHINE_LOCALISATIONS_MAPFILE,
@@ -117,7 +116,7 @@ def iterate_traits_make_feature_tooltips_code(
     return LOCALISATION_HEADER + ''.join(leader_tooltips_copypaste_blob)
 
 ## These methods are wrappers so we can run more things from mre_run_trait_pipeline
-def pipeline_make_leader_start_button_code(stellaris_path):
+def pipeline_make_leader_start_button_code():
     """ Wrapper for making leader start button code from run_mre_trait_pipeline """
     content_blob = []
     trigger_file_name = "85_leader_making_start_button_effect.txt"
@@ -140,21 +139,9 @@ def pipeline_make_leader_start_button_code(stellaris_path):
         trigger_file_output.write(
             "\n".join(content_blob)
         )
-    # Write to scripted triggers folder
-    target_in_scripted_triggers = os.path.join(
-        stellaris_path,
-        'common',
-        'scripted_triggers',
-        trigger_file_name
-    )
 
-    with open(target_in_scripted_triggers, "w") as trigger_file_output:
-        sys.stdout.write(f"Writing leader_making_start_button_effect code to scripted_trigers folder\n")
-        trigger_file_output.write(
-            "\n".join(content_blob)
-        )
 
-def pipeline_make_xvcv_mdlc_core_modifying_ruler_traits_trigger(stellaris_path):
+def pipeline_make_xvcv_mdlc_core_modifying_ruler_traits_trigger():
     input_files_in_build_folder = [
         os.path.join(BUILD_FOLDER, codegen_ready_file)
         for codegen_ready_file in INPUT_FILES_FOR_CODEGEN
@@ -163,55 +150,30 @@ def pipeline_make_xvcv_mdlc_core_modifying_ruler_traits_trigger(stellaris_path):
     trigger_filename = "85_core_modifying_modifying_ruler_trait_trigger.txt"
     # Write to build folder
     write_build_scripted_trigger(trigger_blob_for_writing, trigger_filename, "core modifying ruler")
-    # Write to Stellaris files
-    write_common_scripted_trigger(
-        trigger_blob_for_writing, trigger_filename,
-        stellaris_path, "core modifying ruler traits trigger"
-    )
-    
 
-def pipeline_make_leader_making_clear_values_effect(stellaris_path):
+
+def pipeline_make_leader_making_clear_values_effect():
     blob_for_writing = gen_xvcv_mdlc_leader_making_clear_values_effect()
     # write to build folder
     blob_filename = "85_leader_making_clear_values_effect.txt"
-    # outfile_path = os.path.join(
-    #     BUILD_EFFECTS_FOLDER, blob_filename
-    # )
-    # with open(outfile_path, "w") as trigger_file_output:
-    #     sys.stdout.write(f"Writing leader making trigger code to {trigger_file_output.name}\n")
-    #     trigger_file_output.write(
-    #         blob_for_writing
-    #     )
+
     write_build_file(
         blob_for_writing, blob_filename, BUILD_EFFECTS_FOLDER, "LEADER MAKING CLEAR VALUES"
     )
-    write_common_scripted_effect(
-        blob_for_writing, blob_filename, stellaris_path, "LEADER MAKING CLEAR VALUES"
-    )
 
-def pipeline_make_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines(stellaris_path):
+
+def pipeline_make_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines():
     input_files_in_build_folder = [
         os.path.join(BUILD_FOLDER, codegen_ready_file)
         for codegen_ready_file in INPUT_FILES_FOR_CODEGEN
     ]
     blob_filename = "85_core_modifying_reset_traits_button_effect.txt"
     blob_for_writing = gen_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines(input_files_in_build_folder)
-    # to build folder
-    # outfile_path = os.path.join(
-    #     BUILD_EFFECTS_FOLDER, blob_filename
-    # )
-    # with open(outfile_path, "w") as trigger_file_output:
-    #     sys.stdout.write(f"Writing core modifying trigger code to {trigger_file_output.name}\n")
-    #     trigger_file_output.write(
-    #         blob_for_writing
-    #     )
+
     write_build_file(
         blob_for_writing, blob_filename, BUILD_EFFECTS_FOLDER, "LEADER MAKING CLEAR VALUES"
     )
-    # To game files
-    write_common_scripted_effect(
-        blob_for_writing, blob_filename, stellaris_path, "CORE MODIFYING RESET TRAITS BUTTON FX"
-    )
+
 
 def pipeline_make_core_modifying_subclasses_gui_code():
     target_file = "85_core_modifying_subclasses_gui_code.txt"

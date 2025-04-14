@@ -13,6 +13,7 @@ import time
 
 import argparse
 
+from pipeline.compile.copy_fx_and_triggers import copy_effects_to_common, copy_triggers_to_common
 from pipeline.extract.main import (
     batch_convert_traits_files_into_json,
     read_and_sort_extracted_traits,
@@ -133,24 +134,29 @@ if __name__=="__main__":
     harvest_machine_tooltips(args.stellaris_path)
     generate_fx_tooltips_interfaces_for_all_guis()  # This writes fx and triggers files directly to common
     generate_councilor_editor_gui()                 # generate gui files for stitching later
-    generate_councilor_editor_scripted_triggers(args.stellaris_path)
-    generate_councilor_editor_button_effects(args.stellaris_path)      # Traits effects in-place, other needs copy
-    generate_councilor_gui_traits_limits_effects(args.stellaris_path)
-    generate_ruler_limits_scripted_effect(args.stellaris_path)
+    generate_councilor_editor_scripted_triggers()
+    generate_councilor_editor_button_effects()      # Traits effects in-place, other needs copy
+    generate_councilor_gui_traits_limits_effects()
+    generate_ruler_limits_scripted_effect()
 
     print_stars("Making lines of EFFECTS code for xvcv_mdlc_leader_making_start_button_effect ... ",2)
-    pipeline_make_leader_start_button_code(args.stellaris_path)
+    pipeline_make_leader_start_button_code()
     print_stars("Making lines of TRIGGER code for xvcv_mdlc_core_modifying_ruler_traits_trigger ... ",2)
-    pipeline_make_xvcv_mdlc_core_modifying_ruler_traits_trigger(args.stellaris_path)
+    pipeline_make_xvcv_mdlc_core_modifying_ruler_traits_trigger()
     print_stars("Making lines of EFFECTS code for xvcv_mdlc_leader_making_clear_values_effect ... ",2)
-    pipeline_make_leader_making_clear_values_effect(args.stellaris_path)
+    pipeline_make_leader_making_clear_values_effect()
     print_stars("Making lines of EFFECTS code for core_modifying_reset_traits_button_effect ... ",2)
-    pipeline_make_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines(args.stellaris_path)
+    pipeline_make_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines()
     print_stars("Making lines of GUI code for core_modifying subclasses_gui_code ... ",2)
     pipeline_make_core_modifying_subclasses_gui_code()
 
+    print_stars("Phase 4: STITCH & COPY: Automatically gluing and moving files. Bio-forms can relax now.")
     print_stars("Stitching GUI files together ... ",2)
     stitch_gui_files_and_write_to_game_folder()
+
+    print_stars("Copying generated effects and triggers to common ... ",2)
+    copy_effects_to_common()
+    copy_triggers_to_common()
 
     print(horiz)
     print_stars("TO DO by humans",2)

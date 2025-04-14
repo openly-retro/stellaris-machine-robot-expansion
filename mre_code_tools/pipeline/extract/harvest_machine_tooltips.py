@@ -25,6 +25,7 @@ def iterate_lines_collect_machine_localisations(file_object) -> dict:
     return traits_with_machine_localisations
 
 def do_all_work(base_stellaris_path):
+    """ Collect loc identifiers for any traits that have machine alternative text """
     stell_4_localisation_files_to_examine = [
         "main_1_l_english.yml",  # 4.0
         "main_2_l_english.yml",

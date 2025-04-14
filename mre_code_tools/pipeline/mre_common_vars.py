@@ -46,12 +46,6 @@ BUILD_FOLDER = os.path.join(
     'build'
 )
 
-
-BUTTON_EFFECTS_FOLDER = os.path.join(
-    os.getcwd(),
-    'common', 'button_effects'
-)
-
 CODE_HEADER = "0xRetro Machine & Robot Expansion Mod Codegen Tools"
 
 DEFAULT_UPPERCASE_MODIFIERS_MAP_FILES = [
@@ -343,9 +337,14 @@ TOOLTIP_LOOKUP_MAP = {
     "mod_damage_vs_rival_mult": "MOD_DAMAGE_VS_RIVAL_MULT",
 }
 
-TRIGGERS_EFFECTS_FOLDER = os.path.join(
+MOD_SCRIPTED_TRIGGERS_FOLDER = os.path.join(
     os.getcwd(),
     'common', 'scripted_triggers'
+)
+
+MOD_SCRIPTED_EFFECTS_FOLDER = os.path.join(
+    os.getcwd(),
+    'common', 'button_effects'
 )
 
 
@@ -441,19 +440,19 @@ OUTPUT_FILES_DESTINATIONS = {
     "core_modifying": {
         "effects": {
             "commander": os.path.join(
-                BUTTON_EFFECTS_FOLDER,
+                MOD_SCRIPTED_EFFECTS_FOLDER,
                 OUTPUT_FILE_BUTTON_FX_NAME.format(
                     feature="core_modifying", leader_class="commander"
                 )
             ),
             "official": os.path.join(
-                BUTTON_EFFECTS_FOLDER,
+                MOD_SCRIPTED_EFFECTS_FOLDER,
                 OUTPUT_FILE_BUTTON_FX_NAME.format(
                     feature="core_modifying", leader_class="official"
                 )
             ),
             "scientist": os.path.join(
-                BUTTON_EFFECTS_FOLDER,
+                MOD_SCRIPTED_EFFECTS_FOLDER,
                 OUTPUT_FILE_BUTTON_FX_NAME.format(
                     feature="core_modifying", leader_class="scientist"
                 )
@@ -483,19 +482,19 @@ OUTPUT_FILES_DESTINATIONS = {
     "leader_making": {
         "effects": {
             "commander": os.path.join(
-                BUTTON_EFFECTS_FOLDER,
+                MOD_SCRIPTED_EFFECTS_FOLDER,
                 OUTPUT_FILE_BUTTON_FX_NAME.format(
                     feature="leader_making", leader_class="commander"
                 )
             ),
             "official": os.path.join(
-                BUTTON_EFFECTS_FOLDER,
+                MOD_SCRIPTED_EFFECTS_FOLDER,
                 OUTPUT_FILE_BUTTON_FX_NAME.format(
                     feature="leader_making", leader_class="official"
                 )
             ),
             "scientist": os.path.join(
-                BUTTON_EFFECTS_FOLDER,
+                MOD_SCRIPTED_EFFECTS_FOLDER,
                 OUTPUT_FILE_BUTTON_FX_NAME.format(
                     feature="leader_making", leader_class="scientist"
                 )
@@ -525,25 +524,25 @@ OUTPUT_FILES_DESTINATIONS = {
     "councilor_editor": {
         "effects": {
             "regulatory": os.path.join(
-                BUTTON_EFFECTS_FOLDER,
+                MOD_SCRIPTED_EFFECTS_FOLDER,
                 COUNCILOR_EDITOR_BUTTON_FX_FILENAME.format(
                     councilor_type="regulatory"
                 )
             ),
             "cognitive": os.path.join(
-                BUTTON_EFFECTS_FOLDER,
+                MOD_SCRIPTED_EFFECTS_FOLDER,
                 COUNCILOR_EDITOR_BUTTON_FX_FILENAME.format(
                     councilor_type="cognitive"
                 )
             ),
             "growth": os.path.join(
-                BUTTON_EFFECTS_FOLDER,
+                MOD_SCRIPTED_EFFECTS_FOLDER,
                 COUNCILOR_EDITOR_BUTTON_FX_FILENAME.format(
                     councilor_type="growth"
                 )
             ),
             "legion": os.path.join(
-                BUTTON_EFFECTS_FOLDER,
+                MOD_SCRIPTED_EFFECTS_FOLDER,
                 COUNCILOR_EDITOR_BUTTON_FX_FILENAME.format(
                     councilor_type="legion"
                 )

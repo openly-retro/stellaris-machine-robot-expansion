@@ -5,7 +5,7 @@ from pipeline.mre_common_vars import (
     COMPILE_FOLDER,
     FILE_NUM_PREFIXES,
     LEADER_CLASSES,
-    TRIGGERS_EFFECTS_FOLDER,
+    MOD_SCRIPTED_TRIGGERS_FOLDER,
 )
 
 
@@ -31,7 +31,7 @@ def write_leader_trait_trigger_files():
             triggers_for_leader_traits = iterate_traits_create_requirements_triggers(buffer)
             output_file_name = f"{FILE_NUM_PREFIXES["triggers"]}_mre_{leader_class}_leader_trait_triggers.txt"
             output_file_dest = os.path.join(
-                TRIGGERS_EFFECTS_FOLDER, output_file_name
+                MOD_SCRIPTED_TRIGGERS_FOLDER, output_file_name
             )
             with open(output_file_dest, 'w') as leader_triggers_output_file:
                 leader_triggers_output_file.write(triggers_for_leader_traits)

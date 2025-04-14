@@ -85,7 +85,7 @@ oxr_mdlc_councilor_editor_deduct_points_picks_for_existing_traits = {
 {"\n".join(trait_limit_lines)}
 {scripted_trigger_footer}"""
 
-def do_all_work(stellaris_path):
+def do_all_work():
     print("Making oxr_mdlc_councilor_editor_deduct_points_picks_for_existing_traits ...")
     scripted_trigger = gen_councilor_deduct_trait_pts_for_each_trait()
     effect_filename = f"{FILE_NUM_PREFIXES["triggers"]}_oxr_mdlc_councilor_editor_deduct_points_picks_for_existing_traits.txt"
@@ -94,12 +94,7 @@ def do_all_work(stellaris_path):
     ) as outfile:
         outfile.write(scripted_trigger.encode('utf-8'))
         print(f"Done. Check {outfile.name}")
-    # TO GAME FILES
-    with open(
-        os.path.join(stellaris_path, 'common', 'scripted_effects', effect_filename), 'wb'
-    ) as outfile:
-        outfile.write(scripted_trigger.encode('utf-8'))
-        print(f"Done. Check {outfile.name}")
+
 
 if __name__ == "__main__":
     print("0xRetro Magic COde creat0r")
