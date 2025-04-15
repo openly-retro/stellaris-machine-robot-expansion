@@ -99,15 +99,19 @@ def read_and_sort_extracted_traits(list_of_extracted_files: list) -> list:
                         )
                     if leader_class in trait['leader_class']:
                         # try:
-                        filtered_trait = {}
-                        filtered_trait[trait_name] = filter_trait_info(
+                        processed_trait = filter_trait_info(
                             trait, for_class=leader_class
                         )
-                        output[leader_class].append(filtered_trait)
-                        # except Exception as ex:
-                        #     sys.exit(
-                        #         f"There was a problem processing this trait: {trait}\nfor class {leader_class}.\nReason: {ex}"
-                        #     )
+                        if processed_trait != {}:
+                            filtered_trait = {}
+                            filtered_trait[trait_name] = filter_trait_info(
+                                trait, for_class=leader_class
+                            )
+                            output[leader_class].append(filtered_trait)
+                        else:
+                            # We skipped that trait for a reason
+                            1
+
 
     # Finished reading files, now dump to 3 json files
     # Now, sort all traits per class

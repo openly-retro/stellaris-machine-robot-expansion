@@ -37,7 +37,8 @@ BASE_TRAIT_FILES = (
     "00_starting_ruler_traits.txt",
     "100_ambassador_traits.txt",
     "100_delegate_traits.txt",
-    # "12_astral_planes_traits.txt",
+    "12_astral_planes_traits.txt",
+    "14_grand_archive_traits.txt",
 )
 
 BUILD_FOLDER = os.path.join(
@@ -305,7 +306,16 @@ TRAITS_TO_EXCLUDE = {
     "leader_trait_towel":1,  # given via event,
     "leader_trait_percussive_maintainer":1,  #given via event ancrel.12005
     "leader_trait_intemporal":1,  #given via event,
-    "leader_trait_robotist":1,  # just annoying to deal with code-wise
+    "leader_trait_robotist":1,  # just annoying to deal with code-wise,
+
+    "leader_trait_rift_warped": 1,  # Astral planes event trait
+    "leader_trait_partially_digested": 1,  # Astral planes event trait
+    "leader_trait_obelisk_curse": 1,  # Astral planes event trait
+    "leader_trait_foreign_consciousness": 1,  # Astral planes event trait
+    "leader_trait_black_light_blinded": 1,  # Astral planes event trait
+    "leader_trait_sanitary_drone": 1,  # Astral planes event trait
+    "leader_trait_spacebender": 1,  # Astral planes event trait
+    "leader_trait_blorg_insight": 1,  # Astral planes event trait
 }
 
 """ Our trick to prepend mre_ to modifier names doesn't always work automatically.
@@ -335,6 +345,9 @@ TOOLTIP_LOOKUP_MAP = {
     "mod_ship_emergency_ftl_mult": "MOD_SHIP_EMERGENCY_FTL_MIN_DAYS_ADD",
     "mod_commercial_pact_mult": "MOD_COUNTRY_COMMERCIAL_PACT_MULT",
     "mod_damage_vs_rival_mult": "MOD_DAMAGE_VS_RIVAL_MULT",
+    "mod_research_sharing_mult": "MOD_COUNTRY_RESEARCH_SHARING_MULT",
+    "mod_damage_vs_rival_mult": "MOD_DAMAGE_VS_RIVAL_MULT",
+    "mod_cohesion_ethics_penalty_mult": "MOD_FEDERATION_COHESION_ETHICS_PENALTY_MULT",
 }
 
 MOD_SCRIPTED_TRIGGERS_FOLDER = os.path.join(
@@ -407,6 +420,12 @@ TRAITS_REQUIRING_DLC = {
     "leader_trait_void_tracker": "has_grand_archive_dlc",
     "leader_trait_void_tracker_2": "has_grand_archive_dlc",
     "leader_trait_cutholoid_victim": "has_grand_archive_dlc",
+    # Cosmic Storms
+    "leader_trait_storm_rider_commander": "has_cosmic_storms_dlc",
+    "leader_trait_storm_rider_scientist": "has_cosmic_storms_dlc",
+    "leader_trait_storm_rider_official": "has_cosmic_storms_dlc",
+    # Machine Age
+    # None...
 }
 
 TRAITS_REQUIRING_ORIGINS = {

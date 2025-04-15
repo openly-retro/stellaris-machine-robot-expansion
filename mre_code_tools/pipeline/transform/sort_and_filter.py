@@ -181,11 +181,9 @@ def filter_traits_by_mod_feature(traits_list: list) -> dict:
             sys.stdout.write(f"Skipped {trait_name} because it is on our exclusion list..\n")
             continue
         root = trait[trait_name]
-        if not root:
-            breakpoint()
-            raise ValueError(
-                f"Something went wrong filtering traits by mod feature --> {trait}"
-            )
+        if root == {}:
+            # We skipped this trait earlier
+            print(f"- Not processing {trait_name} as it was previous marked to be skipped ...")
         if trait_qualifies_for_core_modifying(root):
             if EXCLUDE_TRAITS_FROM_CORE_MODIFYING.get(trait_name):
                 print(f"Skipped adding {trait_name} to the core-modifying traits because the game wont let us add it. :(")
