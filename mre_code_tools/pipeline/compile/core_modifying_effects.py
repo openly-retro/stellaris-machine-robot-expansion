@@ -86,6 +86,37 @@ xvcv_mdlc_core_modifying_traits_{leader_class}_{trait_name}_remove_button_effect
 }}
 """
 
+CORE_MODIFYING_RESET_TRAITS_BUTTON_EFFECT_HEADER = """
+xvcv_mdlc_core_modifying_reset_traits_button_effect = {
+    potential = { always = yes }
+    allow = { xvcv_mdlc_core_modifying_reset_traits_trigger = yes }
+    effect = {
+        custom_tooltip = xvcv_mdlc_core_modifying_reset_traits_button_effect_tooltip
+        if = {
+            limit = { check_variable = { which = xvcv_mdlc_core_modifying_trait_points value = 0 } }
+            custom_tooltip = effect_xvcv_mdlc_core_modifying_trait_points_tooltip
+            else = { custom_tooltip = effect_xvcv_mdlc_core_modifying_trait_points_tooltip_alt }
+        }
+        if = {
+            limit = { check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value = 0 } }
+            custom_tooltip = effect_xvcv_mdlc_core_modifying_trait_picks_tooltip
+            else = { custom_tooltip = effect_xvcv_mdlc_core_modifying_trait_picks_tooltip_alt }
+        }
+        custom_tooltip = xvcv_mdlc_core_modifying_reset_traits_button_effect_tooltip_2
+        hidden_effect = {
+            ruler = {
+"""
+
+# output goes here
+
+CORE_MODIFYING_RESET_TRAITS_BUTTON_EFFECT_FOOTER = """
+            }
+            xvcv_mdlc_core_modifying_clear_trait_variables_effect = yes
+        }
+    }
+}
+"""
+
 
 def gen_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines(input_files_list):
     """ Print the lines that get pasted in the middle so all the new traits and subclasses get reset
@@ -93,8 +124,9 @@ def gen_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines(input_files_li
         Then these lines get pasted in the effect.
     """
     effect_contents_items = []
+    indent = "                "
     ruler_effect_line = (
-        "if = {{ limit = {{ has_trait = {trait_name} }} remove_trait = {trait_name} prev ="
+        "{indent}if = {{ limit = {{ has_trait = {trait_name} }} remove_trait = {trait_name} prev ="
         " {{ xvcv_mdlc_core_modifying_refund_trait_resources_cost_{rarity} = yes }} }}"
     )
     for trait_json_data_path in input_files_list:
@@ -108,7 +140,11 @@ def gen_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines(input_files_li
                     root = trait[trait_name]
                     rarity = root['rarity']
                     effect_contents_items.append(
-                        ruler_effect_line.format(trait_name=trait_name, rarity=rarity)
+                        ruler_effect_line.format(
+                            trait_name=trait_name,
+                            rarity=rarity,
+                            indent=indent
+                        )
                     )
     subclass_effect_line = (
         "if = {{ limit = {{ has_trait = {trait_name} }} remove_trait = {trait_name} prev ="
@@ -119,4 +155,8 @@ def gen_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines(input_files_li
         effect_contents_items.append(
             subclass_effect_line.format(trait_name=subclass, alt_modifier=alt_modifier)
         )
-    return "\n".join(effect_contents_items)
+    return f"""
+{CORE_MODIFYING_RESET_TRAITS_BUTTON_EFFECT_HEADER}
+{"\n".join(effect_contents_items)}
+{CORE_MODIFYING_RESET_TRAITS_BUTTON_EFFECT_FOOTER}
+"""

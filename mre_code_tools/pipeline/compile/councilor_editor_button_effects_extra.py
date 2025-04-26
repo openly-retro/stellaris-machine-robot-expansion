@@ -6,6 +6,7 @@ import time
 import sys
 from json import load as json_load
 
+from pipeline.compile.utils import write_build_file
 from pipeline.compile.generate_trait_tooltips import create_tooltip_for_leader
 from pipeline.mre_common_vars import (
     BUILD_EFFECTS_FOLDER,
@@ -89,6 +90,13 @@ def do_all_work():
     print("Making oxr_mdlc_councilor_editor_deduct_points_picks_for_existing_traits ...")
     scripted_trigger = gen_councilor_deduct_trait_pts_for_each_trait()
     effect_filename = f"{FILE_NUM_PREFIXES["triggers"]}_oxr_mdlc_councilor_editor_deduct_points_picks_for_existing_traits.txt"
+
+    write_build_file(
+        scripted_trigger,
+        effect_filename,
+        BUILD_EFFECTS_FOLDER,
+        "oxr_mdlc_councilor_editor_deduct_points_picks_for_existing_traits"
+    )
     with open(
         os.path.join(BUILD_EFFECTS_FOLDER, effect_filename), 'wb'
     ) as outfile:
