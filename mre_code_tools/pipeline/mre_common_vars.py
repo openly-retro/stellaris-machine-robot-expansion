@@ -281,6 +281,12 @@ LEADER_MAKING = "leader_making"
 CORE_MODIFYING = "core_modifying"
 COUNCILOR_EDITOR = "councilor_editor"
 
+CUSTOM_GUI_FEATURES = (
+    LEADER_MAKING,
+    CORE_MODIFYING,
+    COUNCILOR_EDITOR,
+)
+
 """ These traits are set up in some way as to break the expectation that the tier 3 requirements
 are locked in by tier 1 and 2. These traits are serious exceptions and shouldnt be added to
 the GUI. For example maniacal_3 is fine as a scientist trait but NOT as a commander trait. """

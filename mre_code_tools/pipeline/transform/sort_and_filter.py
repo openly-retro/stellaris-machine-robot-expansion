@@ -23,6 +23,7 @@ import time
 from json import load as json_load, dump as json_dump
 import argparse
 
+from pipeline.transform.leader_trait_triggers import write_leader_trait_trigger_files
 from pipeline.mre_common_vars import (
     BUILD_FOLDER,
     COMPILE_FOLDER,
@@ -366,7 +367,7 @@ def write_sorted_filtered_data_to_json_files(input_data: dict):
             json_dump(root, leader_traits_dest, indent=4)
             output_filenames.append(output_filepath)
     # TODO: fix the below at some point
-    # write_leader_trait_trigger_files()
+    write_leader_trait_trigger_files()
     sys.stdout.write(
         f"Check the output files to see they're in good shape:\n"
     )

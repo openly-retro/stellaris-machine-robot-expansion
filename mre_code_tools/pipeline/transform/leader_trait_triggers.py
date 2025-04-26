@@ -1,33 +1,40 @@
 from json import load as json_load
 import os
-from pipeline.transform.sort_and_filter import iterate_traits_create_requirements_triggers
+from typing import List
 from pipeline.mre_common_vars import (
     COMPILE_FOLDER,
+    EXTRACT_FOLDER,
     FILE_NUM_PREFIXES,
     LEADER_CLASSES,
     MOD_SCRIPTED_TRIGGERS_FOLDER,
+    CUSTOM_GUI_FEATURES,
+    RARITIES,
 )
 
-
-def iterate_traits_create_requirements_triggers(traits_list) -> str:
+def iterate_traits_create_requirements_triggers(traits_by_leader_class: List[dict]) -> str:
+    # Create a trigger for each trait that can be added to a GUI
     triggers_list = []
-    for trait in traits_list:
+
+    for trait in traits_by_leader_class:
         trait_name = [*trait][0]
         # Do not create triggers for traits that are tier 2, tier 3 etc
         if not trait_name[-1].isdigit():
             triggers_list.append(
                 create_requirements_triggers_for_leader_traits(trait)
             )
+
     return "\n\n".join(triggers_list)
 
 def write_leader_trait_trigger_files():
     for leader_class in LEADER_CLASSES:
-        pipeline_source_file = f"{FILE_NUM_PREFIXES['filtered_traits']}_mre_{leader_class}_traits_for_codegen.json"
+        # pipeline_source_file = f"{FILE_NUM_PREFIXES['filtered_traits']}_mre_{leader_class}_traits_for_codegen.json"
+        pipeline_source_file = f"10_mre_{leader_class}_traits.json"
         buffer = ''
-        input_filename = os.path.join(COMPILE_FOLDER, pipeline_source_file)
+        input_filename = os.path.join(EXTRACT_FOLDER, pipeline_source_file)
         with open(input_filename, "r") as input_file:
             buffer = json_load(input_file)
-            # create text
+            # Evaluating files that are a large dict with traits sorted by feature and then rarity
+            # We will surely get duplicates
             triggers_for_leader_traits = iterate_traits_create_requirements_triggers(buffer)
             output_file_name = f"{FILE_NUM_PREFIXES["triggers"]}_mre_{leader_class}_leader_trait_triggers.txt"
             output_file_dest = os.path.join(
@@ -46,6 +53,9 @@ def create_requirements_triggers_for_leader_traits(trait: dict) -> str:
     """
     requirements = []
     trait_name = [*trait][0]
+    if type(trait) == str:
+        breakpoint()
+        1
     root = trait[trait_name]
     # class
     if root == {}:
@@ -103,8 +113,9 @@ def create_requirements_triggers_for_leader_traits(trait: dict) -> str:
             #     f"owner = {{ {requirement} }}"
             # )
             # shudder
-            abomination = str(value).strip('{').strip('}').replace(':','=').replace("'",' ').replace(',','').replace('True','yes').replace('False','no')
-            requirements.append(f"""owner = {{{abomination} }}""")
+            # abomination = str(value).strip('{').strip('}').replace(':','=').replace("'",' ').replace(',','').replace('True','yes').replace('False','no')
+            abomination = str(value).replace(':',' =').replace("'",' ').replace(',','').replace('True','yes').replace('False','no').replace('}',' }')
+            requirements.append(f"""owner = {abomination} """)
 
         # if it's a standard assignment, put in the list
         elif type(value) not in [dict, list]:
