@@ -25,6 +25,7 @@ from pipeline.mre_common_vars import (
     LEADER_SUBCLASSES,
     LOCALISATION_HEADER,
     MACHINE_LOCALISATIONS_MAPFILE,
+    MOD_BUTTON_EFFECTS_FOLDER,
     OUTPUT_FILES_DESTINATIONS,
     TRAITS_REQUIRING_DLC,
     RARITIES,
@@ -263,7 +264,7 @@ def do_all_work():
     reset_traits_effect_filename = f"{FILE_NUM_PREFIXES["effects"]}_oxr_mdlc_councilor_editor_reset_traits_button_effect.txt"
     with open(
         os.path.join(
-            BUILD_EFFECTS_FOLDER,
+            MOD_BUTTON_EFFECTS_FOLDER,
             reset_traits_effect_filename
         ), "wb"
     ) as outfile:

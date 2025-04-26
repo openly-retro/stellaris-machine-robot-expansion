@@ -27,6 +27,7 @@ from pipeline.compile.main import (
     # run_codegen_process_for_leadermaking_feature,
     generate_fx_tooltips_interfaces_for_all_guis,
     pipeline_make_leader_start_button_code,
+    pipeline_stitch_xvcv_mdlc_leader_making_start_button_effect,
     pipeline_make_xvcv_mdlc_core_modifying_ruler_traits_trigger,
     pipeline_make_leader_making_clear_values_effect,
     pipeline_make_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines,
@@ -44,6 +45,7 @@ from pipeline.compile.mre_stitch_gui_files import stitch_gui_files_and_write_to_
 from pipeline.mre_common_vars import (
     BUILD_EFFECTS_FOLDER,
     BUILD_FOLDER,
+    BUILD_TEMPLATE_FOLDER,
     BUILD_TRIGGERS_FOLDER,
     COMPILE_FOLDER,
     UNICORN,
@@ -58,7 +60,7 @@ def clean_up_build_folder():
     os.makedirs(COMPILE_FOLDER, exist_ok=True)
     os.makedirs(BUILD_TRIGGERS_FOLDER, exist_ok=True)
     os.makedirs(BUILD_EFFECTS_FOLDER, exist_ok=True)
-
+    os.makedirs(BUILD_TEMPLATE_FOLDER, exist_ok=True)
 
 def sort_and_write_filtered_trait_data():
     all_traits_processed_data = sort_and_filter_pipeline_files()
@@ -157,6 +159,9 @@ if __name__=="__main__":
     print_stars("Copying generated effects and triggers to common ... ",2)
     copy_effects_to_common()
     copy_triggers_to_common()
+
+    print_stars("Stitching other files ...",2)
+    pipeline_stitch_xvcv_mdlc_leader_making_start_button_effect()
 
     print(horiz)
     print_stars("TO DO by humans",2)

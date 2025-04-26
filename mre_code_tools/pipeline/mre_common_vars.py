@@ -621,6 +621,10 @@ TRAITS_WITH_GARBAGE_MODIFIERS = {
     "leader_trait_expertise_new_worlds_3":1,
 }
 
+BUILD_TEMPLATE_FOLDER = os.path.join(
+    BUILD_FOLDER, 'template_parts'
+)
+
 UNICORN = '''
                 \\
                  \%,     ,'     , ,.

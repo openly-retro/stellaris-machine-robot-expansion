@@ -93,7 +93,7 @@ def stitch_gui_files_and_write_to_game_folder():
                 gui_file.write(traits_code_file.read())
             with open(councilor_closing) as gui_footer_file:
                 gui_file.write(gui_footer_file.read())
-        print(f"Wrote councilor editor file for {councilor} node (we hope)")
+        print(f"+ Installed councilor editor file for {councilor} node (we hope)")
 
 
 if __name__ == "__main__":
