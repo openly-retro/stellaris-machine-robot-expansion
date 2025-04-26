@@ -160,13 +160,13 @@ if __name__=="__main__":
     copy_effects_to_common()
     copy_triggers_to_common()
 
-    print_stars("Stitching other files ...",2)
+    print_stars("Stitching other files (button effects, etc)...",2)
     pipeline_stitch_xvcv_mdlc_leader_making_start_button_effect()
 
     print(horiz)
     print_stars("TO DO by humans",2)
+    print(" NOTHING!! ??xD?? ")
     print(
-        "- Generate loc files\n"
         "*** GOOD LUCK BIO BRAIN ***\n"
         f"Is tired. {sanity_check()}"
     )
