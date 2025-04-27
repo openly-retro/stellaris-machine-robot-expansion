@@ -165,7 +165,7 @@ if __name__=="__main__":
 
     print(horiz)
     print_stars("TO DO by humans",2)
-    print(" NOTHING!! ??xD?? ")
+    print("run 'mre_propagate_loc_files.py' ")
     print(
         "*** GOOD LUCK BIO BRAIN ***\n"
         f"Is tired. {sanity_check()}"
