@@ -8,6 +8,7 @@ from os import path as os_path
 import argparse
 
 from pipeline.mre_common_vars import (
+    DEFAULT_UPPERCASE_MODIFIERS_MEGAMAP,
     TRAIT_MODIFIER_KEYS,
     BUILD_FOLDER,
     INPUT_FILES_FOR_CODEGEN,
@@ -131,7 +132,7 @@ def create_tooltip_for_leader(
     machine_localisations_map=None
 ):
     if uppercase_map_files is None:
-        uppercase_map_files = DEFAULT_UPPERCASE_MODIFIERS_MAP_FILES
+        uppercase_map_files = [DEFAULT_UPPERCASE_MODIFIERS_MEGAMAP]
     
     ALL_REPLACEMENT_MAPS = load_modifier_keys_in_uppercase(uppercase_map_files)
     
@@ -218,6 +219,8 @@ def create_tooltip_for_leader(
                     # Only 3 cases so far..
                     # TODO: Scale up to a method or lookup table if this continues to be a problem
                     # TODO: Go map all the trait variables in advance
+                    # if type(modified_amount) == str and "@" in modified_amount:
+                    #     breakpoint()
                     if modified_amount == "var_trait_surveyor_amt":
                         modified_amount = 0.5
                     elif modified_amount == "var_trait_surveyor_sector_amt":
@@ -225,7 +228,7 @@ def create_tooltip_for_leader(
                     elif modified_amount == "var_trait_collective_wisdom_ma_amt":
                         modified_amount = 5
                     elif type(modified_amount) == str and modified_amount.startswith('@'):
-                        modified_amount = f"[{modified_amount}]"
+                        modified_amount = f"${modified_amount}$"
                     elif "." in str(modified_amount) and str(modified_amount)[-1].isdigit():
                         modified_amount = convert_decimal_to_percent_str(modified_amount)
                     # Deal with -1 representing -100%

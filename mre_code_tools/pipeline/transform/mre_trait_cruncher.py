@@ -124,6 +124,12 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
         slim_trait["is_councilor_trait"] = True
     if root.get('force_councilor_trait'):
         slim_trait["is_councilor_trait"] = True
+    # Galcom stuff
+    if root.get('galcom_modifier'):
+        slim_trait['galcom_modifier'] = root['galcom_modifier']
+    # federation modifiers
+    if root.get('federation_modifier'):
+        slim_trait['federation_modifier'] = root['federation_modifier']
 
     # Collect prerequisites in order to determine certain DLC requirements
     if root.get('prerequisites'):

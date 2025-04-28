@@ -7,7 +7,7 @@ import argparse
 from json import dump as json_dump
 from time import perf_counter
 
-from pipeline.mre_common_vars import BUILD_FOLDER
+from pipeline.mre_common_vars import BUILD_FOLDER, VANILLA_LOC_FILES_WITH_MACHINE_TOOLTIPS
 
 machine_tooltip = re.compile(r"(?P<trait_name>\w*trait\w*)_machine:")
 
@@ -26,21 +26,21 @@ def iterate_lines_collect_machine_localisations(file_object) -> dict:
 
 def do_all_work(base_stellaris_path):
     """ Collect loc identifiers for any traits that have machine alternative text """
-    stell_4_localisation_files_to_examine = [
-        "main_1_l_english.yml",  # 4.0
-        "main_2_l_english.yml",
-        "main_3_l_english.yml",
-        "leaders_l_english.yml",
-        "paragon_4_l_english.yml",
-    ]
-    # 3.14
-    localisation_files_to_examine = [
-        "l_english.yml",
-        "leaders_l_english.yml",
-        "paragon_4_l_english.yml",
-    ]
+    # stell_4_localisation_files_to_examine = [
+    #     "main_1_l_english.yml",  # 4.0
+    #     "main_2_l_english.yml",
+    #     "main_3_l_english.yml",
+    #     "leaders_l_english.yml",
+    #     "paragon_4_l_english.yml",
+    # ]
+    # # 3.14
+    # localisation_files_to_examine = [
+    #     "l_english.yml",
+    #     "leaders_l_english.yml",
+    #     "paragon_4_l_english.yml",
+    # ]
     all_traits_machine_localisations_list = []
-    for loc_yml in localisation_files_to_examine:
+    for loc_yml in VANILLA_LOC_FILES_WITH_MACHINE_TOOLTIPS:
         localisation_file_path = os.path.join(
             base_stellaris_path,
             'localisation', 'english', loc_yml
