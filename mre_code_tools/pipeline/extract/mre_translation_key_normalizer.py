@@ -20,7 +20,7 @@ from pipeline.mre_common_vars import (
 def pick_uppercase_translation_keys(input_file_object, return_keys=False) -> list:
     uppercase_translation_keys = []
     uppercase_map_dict = {}
-    translation_key = re.compile(r"(\w*):\d")
+    translation_key = re.compile(r"^\s{1,}(\w*):")
     for line in input_file_object:
         results = re.findall(translation_key, line)
         for result in results:
