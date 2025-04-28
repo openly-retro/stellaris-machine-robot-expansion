@@ -78,6 +78,9 @@ def create_requirements_triggers_for_leader_traits(trait: dict) -> str:
             f"has_skill >= 8"
         )
     for trigger, value in root.get("leader_potential_add", {}).items():
+        if trigger == "is_pool_leader":
+            print(f"Skipping locking trait to 'starting only': {trait_name}")
+            continue
         if trigger == "has_skill":
             # Deal with my special greater_than_1 thing I forgot I made :psycho_smile:
             skill_level = int(value.split('_')[-1])
