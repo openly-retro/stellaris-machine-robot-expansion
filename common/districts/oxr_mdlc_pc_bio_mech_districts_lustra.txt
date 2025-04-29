@@ -1,23 +1,6 @@
 oxr_mdlc_pc_bio_mech_district_lustra_housing = {
-	base_buildtime = @xvcv_mdlc_district_time_4
-	is_capped_by_modifier = no
 
-	show_on_uncolonized = {
-		exists = from
-		from = {
-			oxr_mdlc_country_is_finished_bio_mech = yes
-			has_oxr_mdlc_country_feature_bio_mech_worlds = yes  # Feature flag
-		}
-		uses_district_set = oxr_mdlc_pc_bio_mech_district_set
-	}
-	potential = {
-		exists = owner
-		owner = {
-			oxr_mdlc_country_is_finished_bio_mech = yes
-			has_oxr_mdlc_country_feature_bio_mech_worlds = yes  # Feature flag
-		}
-		uses_district_set = oxr_mdlc_pc_bio_mech_district_set
-	}
+	inline_script = planet/districts/lustra/bio_mech_show
 
 	conversion_ratio = 1
 	convert_to = {
@@ -31,7 +14,7 @@ oxr_mdlc_pc_bio_mech_district_lustra_housing = {
 
 	resources = {
 		category = planet_districts_cities
-		cost = { minerals = @xvcv_mdlc_district_cost_4 }
+		cost = { food = @xvcv_mdlc_district_cost_4 } # 480
 		upkeep = { energy = 2 }
 	}
 
@@ -79,28 +62,16 @@ oxr_mdlc_pc_bio_mech_district_lustra_housing = {
 		}
 		modifier = { planet_housing_add = 1 }
 	}
+
+	ai_resource_production = {
+		unity = 8
+		trigger = { always = yes }
+	}
 }
 
-oxr_mdlc_pc_bio_mech_district_lustra_isc = {
-	base_buildtime = @xvcv_mdlc_district_time_2
-	is_capped_by_modifier = no
+oxr_mdlc_pc_bio_mech_district_lustra_food = {
 
-	show_on_uncolonized = {
-		exists = from
-		from = {
-			oxr_mdlc_country_is_finished_bio_mech = yes
-			has_oxr_mdlc_country_feature_bio_mech_worlds = yes  # Feature flag
-		}
-		uses_district_set = oxr_mdlc_pc_bio_mech_district_set
-	}
-	potential = {
-		exists = owner
-		owner = {
-			oxr_mdlc_country_is_finished_bio_mech = yes
-			has_oxr_mdlc_country_feature_bio_mech_worlds = yes  # Feature flag
-		}
-		uses_district_set = oxr_mdlc_pc_bio_mech_district_set
-	}
+	inline_script = planet/districts/lustra/bio_mech_show
 
 	conversion_ratio = 1
 	convert_to = {
@@ -111,11 +82,7 @@ oxr_mdlc_pc_bio_mech_district_lustra_isc = {
 		# xvcv_mdlc_pc_mechanical_district_industrial
 	}
 
-	resources = {
-		category = planet_districts
-		cost = { minerals = @xvcv_mdlc_district_cost_2 }
-		upkeep = { energy = 2 }
-	}
+	inline_script = planet/districts/lustra/bio_mech_resources
 
 	planet_modifier = {
 		job_oxr_mdlc_bio_robot_lustra_isc_add = 2
@@ -123,31 +90,14 @@ oxr_mdlc_pc_bio_mech_district_lustra_isc = {
 	}
 
 	ai_resource_production = {
-		alloys = 10
+		food = 20
 		trigger = { always = yes }
 	}
 }
 
 oxr_mdlc_pc_bio_mech_district_lustra_reactor = {
-	base_buildtime = @xvcv_mdlc_district_time_2
-	is_capped_by_modifier = no
 
-	show_on_uncolonized = {
-		exists = from
-		from = {
-			oxr_mdlc_country_is_finished_bio_mech = yes
-			has_oxr_mdlc_country_feature_bio_mech_worlds = yes  # Feature flag
-		}
-		uses_district_set = oxr_mdlc_pc_bio_mech_district_set
-	}
-	potential = {
-		exists = owner
-		owner = {
-			oxr_mdlc_country_is_finished_bio_mech = yes
-			has_oxr_mdlc_country_feature_bio_mech_worlds = yes  # Feature flag
-		}
-		uses_district_set = oxr_mdlc_pc_bio_mech_district_set
-	}
+	inline_script = planet/districts/lustra/bio_mech_show
 
 	conversion_ratio = 1
 	convert_to = {
@@ -156,11 +106,7 @@ oxr_mdlc_pc_bio_mech_district_lustra_reactor = {
 		xvcv_mdlc_pc_machine_auto_district_generator
 	}
 
-	resources = {
-		category = planet_districts
-		cost = { minerals = @xvcv_mdlc_district_cost_2 }
-		upkeep = { energy = 1 }
-	}
+	inline_script = planet/districts/lustra/bio_mech_resources
 
 	planet_modifier = {
 		planet_housing_add = 3
@@ -191,88 +137,47 @@ oxr_mdlc_pc_bio_mech_district_lustra_reactor = {
 }
 
 # Research, not health
-oxr_mdlc_pc_bio_mech_district_lustra_health = {
-	base_buildtime = @xvcv_mdlc_district_time_2
-	is_capped_by_modifier = no
+oxr_mdlc_pc_bio_mech_district_lustra_research = {
 
-	show_on_uncolonized = {
-		exists = from
-		from = {
-			oxr_mdlc_country_is_finished_bio_mech = yes
-			has_oxr_mdlc_country_feature_bio_mech_worlds = yes  # Feature flag
-		}
-		uses_district_set = oxr_mdlc_pc_bio_mech_district_set
-	}
-	potential = {
-		exists = owner
-		owner = {
-			oxr_mdlc_country_is_finished_bio_mech = yes
-			has_oxr_mdlc_country_feature_bio_mech_worlds = yes  # Feature flag
-		}
-		uses_district_set = oxr_mdlc_pc_bio_mech_district_set
-	}
+	inline_script = planet/districts/lustra/bio_mech_show
 
 	conversion_ratio = 1
 	convert_to = {
-		# district_mining
-		# district_mining_uncapped
-		# xvcv_mdlc_pc_machine_auto_district_mining
+		district_mining
+		district_mining_uncapped
+		xvcv_mdlc_pc_machine_auto_district_mining
 		oxr_mdlc_pc_bio_mech_district_carna_emergency
 		district_arcology_administrative
 	}
 
-	resources = {
-		category = planet_districts
-		cost = { minerals = @xvcv_mdlc_district_cost_2 }
-		upkeep = { energy = 1 }
-	}
+	inline_script = planet/districts/lustra/bio_mech_resources
 
 	planet_modifier = {
 		planet_housing_add = 3
 		job_oxr_mdlc_bio_robot_lustra_integrated_researcher_add = 2
 	}
+
+	ai_resource_production = {
+		society_research = 16
+		trigger = { always = yes }
+	}
 }
 
-oxr_mdlc_pc_bio_mech_district_lustra_bazaar = {
-	base_buildtime = @xvcv_mdlc_district_time_2
-	is_capped_by_modifier = no
+oxr_mdlc_pc_bio_mech_district_lustra_goods = {
 
-	show_on_uncolonized = {
-		exists = from
-		from = {
-			oxr_mdlc_country_is_finished_bio_mech = yes
-			has_oxr_mdlc_country_feature_bio_mech_worlds = yes  # Feature flag
-		}
-		uses_district_set = oxr_mdlc_pc_bio_mech_district_set
-	}
-	potential = {
-		exists = owner
-		owner = {
-			oxr_mdlc_country_is_finished_bio_mech = yes
-			has_oxr_mdlc_country_feature_bio_mech_worlds = yes  # Feature flag
-		}
-		uses_district_set = oxr_mdlc_pc_bio_mech_district_set
-	}
+	inline_script = planet/districts/lustra/bio_mech_show
 
 	conversion_ratio = 1
 	convert_to = {
-		# district_farming
-		# district_farming_uncapped
+		district_industrial
 		oxr_mdlc_pc_bio_mech_district_carna_fort
-		# xvcv_mdlc_pc_machine_auto_district_farming
+		xvcv_mdlc_pc_machine_auto_district_industrial
 	}
 
-	resources = {
-		category = planet_districts
-		cost = { minerals = @xvcv_mdlc_district_cost_2 }
-		upkeep = { energy = 1 }
-	}
+	inline_script = planet/districts/lustra/bio_mech_resources
 
 	planet_modifier = {
 		planet_housing_add = 3
-		# job_merchant_add = 1
-		# job_oxr_mdlc_bio_robot_lustra_tax_enforcer_add = 1
-		# job_entertainer_add = 1
 		job_oxr_mdlc_bio_robot_organic_goods_add = 2
 	}
 
@@ -296,7 +201,7 @@ oxr_mdlc_pc_bio_mech_district_lustra_bazaar = {
 	}
 
 	ai_resource_production = {
-		food = 16
+		consumer_goods = 16
 		trigger = { always = yes }
 	}
 }
