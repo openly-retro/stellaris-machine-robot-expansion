@@ -28,6 +28,39 @@ clear_variable_if_exists = {
 	}
 }
 
+set_or_increment_variable = {
+	# Set variable to a value, if it doesn't exist, or increment by that amount
+	if = {
+		limit = {
+			NOT = { is_variable_set = $VAR$ }
+		}
+		set_variable = {
+			which = $VAR$
+			value = $AMOUNT$
+		}
+	}
+	else = {
+		change_variable = {
+			which = $VAR$
+			value = $AMOUNT$
+		}
+	}
+}
+
+dec_var_by_one = {
+	# Decrement variable by 1
+	change_variable = {
+		which = $which$
+		value = -1
+	}
+}
+add_one_to_var = {
+	change_variable = {
+		which = $which$
+		value = 1
+	}
+}
+
 remove_modifier_if_exists = {
 	if = {
 		limit = {

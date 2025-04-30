@@ -275,9 +275,25 @@ xvcv_mdlc_pc_machine_cpu_district_decryption = {
 	on_built = {
 		inline_script = planet/districts/on_action/on_t3_completed
 		fire_on_action = { on_action = xvcv_on_world_machine_t3_resource_district_built }
+		planet = {
+			set_or_increment_variable = {
+				VAR = xvcv_mdlc_pc_machine_cpu_district_decryption_num
+				AMOUNT = 1
+			}
+			set_or_increment_variable = {
+				VAR = xvcv_mdlc_d_pc_machine_cpu_decryption_count
+				AMOUNT = 1
+			}
+			add_deposit = xvcv_mdlc_d_pc_machine_cpu_decryption
+		}
 	}
 	on_destroy = {
 		fire_on_action = { on_action = xvcv_on_world_machine_t3_resource_district_demolished }
 		fire_on_action = { on_action = on_world_machine_district_demolished }
+		planet = {
+			dec_var_by_one = { which = xvcv_mdlc_pc_machine_cpu_district_decryption_num }
+			dec_var_by_one = { which = xvcv_mdlc_d_pc_machine_cpu_decryption_count }
+			remove_deposit = xvcv_mdlc_d_pc_machine_cpu_decryption
+		}
 	}
 }
