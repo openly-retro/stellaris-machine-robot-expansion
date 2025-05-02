@@ -820,7 +820,8 @@ planet_event = {
 		else_if = {
 			limit = {
 				planet_owner = {
-					oxr_mdlc_country_has_room_for_more_wmc_using_vars = no
+					oxr_mdlc_country_has_room_for_more_wmc = no
+					# oxr_mdlc_country_has_room_for_more_wmc_using_vars = no
 				}
 			}
 			log = "No more room for WMCs! Stopping construction of WMC, from inside the 'watcher' event"
@@ -894,24 +895,15 @@ planet_event = {
 	immediate = {
 		# Is there enough room to add this WMC? if not, refund it
 		# In case the player spammed active/inactive to try and get many cores
-		# oxr_mdlc_wm_country_cores_add = { AMOUNT = 1 }
 		space_owner = {
 			add_resource = {
 				oxr_mdlc_world_machine_core = 1
 			}
 		}
-		log = "Added $AMOUNT$ World Machine Cores"
+		log = "Fabricated 1 World Machine Cores"
 		hidden_effect = {
 			space_owner = {
-				change_variable = {
-					which = oxr_mdlc_origin_wm_cores_current_count
-					value = 1
-				}
-				change_variable = {
-					which = oxr_mdlc_origin_wm_cores_total_produced_count
-					value = 1
-				}
-				oxr_mdlc_country_world_machine_cores_recalc_amount = yes
+				oxr_mdlc_wm_country_cores_add = yes
 				if = {
 					limit = {
 						NOT = { has_country_flag = oxr_mdlc_world_machine_first_core_produced }
@@ -922,11 +914,7 @@ planet_event = {
 				}
 			}
 		}
-		# oxr_mdlc_world_machine_cores_update_max_var = yes
-		set_variable = {
-			which = oxr_mdlc_origin_wm_cores_max
-			value = modifier:country_resource_max_oxr_mdlc_world_machine_core_add
-		}
+
 		# remove_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
 		# create message
 		create_message = {
