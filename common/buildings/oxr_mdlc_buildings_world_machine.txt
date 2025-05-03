@@ -145,19 +145,20 @@ oxr_mdlc_world_machines_building_archaeostudies_recombinator = {
 		country_resource_max_minor_artifacts_add = 2000
 	}
 
-	# triggered_country_modifier = {
-	# 	potential = { planet = { is_planet_class = pc_relic } }
-	# 	category_archaeostudies_research_speed_mult = 0.5
-	# }
 
 	prerequisites = {
 		"tech_archaeostudies"
 	}
-
-	# triggered_desc = {
-	# 	text = building_archaeostudies_faculty_relic_effect
-	# }
 	custom_tooltip = oxr_mdlc_world_machines_building_archaeostudies_recombinator_tooltip
+
+	ai_resource_production = {
+		physics_research = 6
+		engineering_research = 6
+		society_research = 15
+		trigger = {
+			always = yes
+		}
+	}
 }
 
 
@@ -179,6 +180,7 @@ oxr_mdlc_world_machines_building_auto_stabilizer_1 = {
 		REDUCE_CRIME = -50
 		REDUCE_CRIME_CAMPAIGN = -10
 		STABILITY_ADD = 5
+		TIER = 1
 	}
 
 	prerequisites = {
@@ -208,6 +210,7 @@ oxr_mdlc_world_machines_building_auto_stabilizer_2 = {
 		REDUCE_CRIME = -125
 		REDUCE_CRIME_CAMPAIGN = -50
 		STABILITY_ADD = 5
+		TIER = 2
 	}
 
 	prerequisites = {
@@ -705,7 +708,11 @@ oxr_mdlc_world_machines_building_auto_nanite_transmuter = {
 		volatile_motes = @b3_rare_upkeep
 		exotic_gases = @b3_rare_upkeep
 		trigger = {
-			always = yes
+			owner = {
+				NOT = {
+					has_deficit = nanites
+				}
+			}
 		}
 	}
 }

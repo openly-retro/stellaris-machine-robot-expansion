@@ -2971,10 +2971,7 @@ planet_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		OR = {
-			oxr_mdlc_planet_is_t3_world_machine = yes
-			is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
-		}
+		oxr_mdlc_planet_is_t3_world_machine = yes
 	}
 	immediate = {
 		log = "A district was built on \\[This.GetName]."
@@ -2993,10 +2990,7 @@ planet_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		OR = {
-			oxr_mdlc_planet_is_t3_world_machine = yes
-			is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
-		}
+		oxr_mdlc_planet_is_t3_world_machine = yes
 	}
 	immediate = {
 		log = "A T3 world resource district was built on \\[This.GetName]"
@@ -3012,10 +3006,7 @@ planet_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		OR = {
-			oxr_mdlc_planet_is_t3_world_machine = yes
-			is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
-		}
+		oxr_mdlc_planet_is_t3_world_machine = yes
 	}
 	immediate = {
 		log = "A district was removed from \\[This.GetName]."
@@ -3060,186 +3051,10 @@ planet_event = {
 
 #'xvcv_mdlc_d_pc_machine_ser_crime' or 'xvcv_mdlc_d_pc_machine_ser_admin_cap' deposits count
 #on district built or destroyed
-planet_event = {
-	id = xvcv_mdlc.72
-	hide_window = yes
-	is_triggered_only = yes
+# DEPRECATED AS OF APR 29 2025 - the work is done in on_built/on_destroy in districts
+# xvcv_mdlc.72
 
-	trigger = { oxr_mdlc_planet_is_t3_world_machine = yes }
 
-	immediate = {
-		switch = {
-			trigger = last_district_changed
-			xvcv_mdlc_pc_machine_ecu_district_naval_cap = {
-				export_trigger_value_to_variable = {
-					trigger = num_districts
-					parameters = { type = xvcv_mdlc_pc_machine_ecu_district_naval_cap }
-					variable = xvcv_mdlc_pc_machine_ecu_district_naval_cap_num
-				}
-				export_trigger_value_to_variable = {
-					trigger = count_deposits
-					parameters = { type = xvcv_mdlc_d_pc_machine_ecu_naval_cap }
-					variable = xvcv_mdlc_d_pc_machine_ecu_naval_cap_count
-				}
-				if = {
-					limit = { check_variable = { which = xvcv_mdlc_pc_machine_ecu_district_naval_cap_num value > xvcv_mdlc_d_pc_machine_ecu_naval_cap_count } }
-					while = {
-						limit = { check_variable = { which = xvcv_mdlc_pc_machine_ecu_district_naval_cap_num value > xvcv_mdlc_d_pc_machine_ecu_naval_cap_count } }
-						add_deposit = xvcv_mdlc_d_pc_machine_ecu_naval_cap
-						change_variable = { which = xvcv_mdlc_d_pc_machine_ecu_naval_cap_count value = 1 }
-					}
-				}
-				else_if = {
-					limit = { check_variable = { which = xvcv_mdlc_pc_machine_ecu_district_naval_cap_num value < xvcv_mdlc_d_pc_machine_ecu_naval_cap_count } }
-					while = {
-						limit = { check_variable = { which = xvcv_mdlc_pc_machine_ecu_district_naval_cap_num value < xvcv_mdlc_d_pc_machine_ecu_naval_cap_count } }
-						remove_deposit = xvcv_mdlc_d_pc_machine_ecu_naval_cap
-						change_variable = { which = xvcv_mdlc_d_pc_machine_ecu_naval_cap_count value = -1 }
-					}
-				}
-				#do nothing when there are the same number of the districts and the deposits
-			}
-			xvcv_mdlc_pc_machine_cpu_district_decryption = {
-				export_trigger_value_to_variable = {
-					trigger = num_districts
-					parameters = { type = xvcv_mdlc_pc_machine_cpu_district_decryption }
-					variable = xvcv_mdlc_pc_machine_cpu_district_decryption_num
-				}
-				export_trigger_value_to_variable = {
-					trigger = count_deposits
-					parameters = { type = xvcv_mdlc_d_pc_machine_cpu_decryption }
-					variable = xvcv_mdlc_d_pc_machine_cpu_decryption_count
-				}
-				if = {
-					limit = { check_variable = { which = xvcv_mdlc_pc_machine_cpu_district_decryption_num value > xvcv_mdlc_d_pc_machine_cpu_decryption_count } }
-					while = {
-						limit = { check_variable = { which = xvcv_mdlc_pc_machine_cpu_district_decryption_num value > xvcv_mdlc_d_pc_machine_cpu_decryption_count } }
-						add_deposit = xvcv_mdlc_d_pc_machine_cpu_decryption
-						change_variable = { which = xvcv_mdlc_d_pc_machine_cpu_decryption_count value = 1 }
-					}
-				}
-				else_if = {
-					limit = { check_variable = { which = xvcv_mdlc_pc_machine_cpu_district_decryption_num value < xvcv_mdlc_d_pc_machine_cpu_decryption_count } }
-					while = {
-						limit = { check_variable = { which = xvcv_mdlc_pc_machine_cpu_district_decryption_num value < xvcv_mdlc_d_pc_machine_cpu_decryption_count } }
-						remove_deposit = xvcv_mdlc_d_pc_machine_cpu_decryption
-						change_variable = { which = xvcv_mdlc_d_pc_machine_cpu_decryption_count value = -1 }
-					}
-				}
-			}
-			xvcv_mdlc_pc_machine_ser_district_admin_cap = {
-				export_trigger_value_to_variable = {
-					trigger = num_districts
-					parameters = { type = xvcv_mdlc_pc_machine_ser_district_admin_cap }
-					variable = xvcv_mdlc_pc_machine_ser_district_admin_cap_num
-				}
-				export_trigger_value_to_variable = {
-					trigger = count_deposits
-					parameters = { type = xvcv_mdlc_d_pc_machine_ser_admin_cap }
-					variable = xvcv_mdlc_d_pc_machine_ser_admin_cap_count
-				}
-				if = {
-					limit = { check_variable = { which = xvcv_mdlc_pc_machine_ser_district_admin_cap_num value > xvcv_mdlc_d_pc_machine_ser_admin_cap_count } }
-					while = {
-						limit = { check_variable = { which = xvcv_mdlc_pc_machine_ser_district_admin_cap_num value > xvcv_mdlc_d_pc_machine_ser_admin_cap_count } }
-						add_deposit = xvcv_mdlc_d_pc_machine_ser_admin_cap
-						change_variable = { which = xvcv_mdlc_d_pc_machine_ser_admin_cap_count value = 1 }
-					}
-				}
-				else_if = {
-					limit = { check_variable = { which = xvcv_mdlc_pc_machine_ser_district_admin_cap_num value < xvcv_mdlc_d_pc_machine_ser_admin_cap_count } }
-					while = {
-						limit = { check_variable = { which = xvcv_mdlc_pc_machine_ser_district_admin_cap_num value < xvcv_mdlc_d_pc_machine_ser_admin_cap_count } }
-						remove_deposit = xvcv_mdlc_d_pc_machine_ser_admin_cap
-						change_variable = { which = xvcv_mdlc_d_pc_machine_ser_admin_cap_count value = -1 }
-					}
-				}
-			}
-			xvcv_mdlc_pc_machine_ser_district_crime = {
-				export_trigger_value_to_variable = {
-					trigger = num_districts
-					parameters = { type = xvcv_mdlc_pc_machine_ser_district_crime }
-					variable = xvcv_mdlc_pc_machine_ser_district_crime_num
-				}
-				if = {
-					limit = { owner = { has_authority = auth_machine_intelligence } }
-					export_trigger_value_to_variable = {
-						trigger = count_deposits
-						parameters = { type = xvcv_mdlc_d_pc_machine_ser_crime }
-						variable = xvcv_mdlc_d_pc_machine_ser_crime_count
-					}
-					if = {
-						limit = { check_variable = { which = xvcv_mdlc_pc_machine_ser_district_crime_num value > xvcv_mdlc_d_pc_machine_ser_crime_count } }
-						while = {
-							limit = { check_variable = { which = xvcv_mdlc_pc_machine_ser_district_crime_num value > xvcv_mdlc_d_pc_machine_ser_crime_count } }
-							add_deposit = xvcv_mdlc_d_pc_machine_ser_crime
-							change_variable = { which = xvcv_mdlc_d_pc_machine_ser_crime_count value = 1 }
-						}
-					}
-					else_if = {
-						limit = { check_variable = { which = xvcv_mdlc_pc_machine_ser_district_crime_num value < xvcv_mdlc_d_pc_machine_ser_crime_count } }
-						while = {
-							limit = { check_variable = { which = xvcv_mdlc_pc_machine_ser_district_crime_num value < xvcv_mdlc_d_pc_machine_ser_crime_count } }
-							remove_deposit = xvcv_mdlc_d_pc_machine_ser_crime
-							change_variable = { which = xvcv_mdlc_d_pc_machine_ser_crime_count value = -1 }
-						}
-					}
-					else = {
-						export_trigger_value_to_variable = {
-							trigger = count_deposits
-							parameters = { type = xvcv_mdlc_d_pc_machine_ser_crime_alt }
-							variable = xvcv_mdlc_d_pc_machine_ser_crime_alt_count
-						}
-						if = {
-							limit = { check_variable = { which = xvcv_mdlc_pc_machine_ser_district_crime_num value > xvcv_mdlc_d_pc_machine_ser_crime_alt_count } }
-							while = {
-								limit = { check_variable = { which = xvcv_mdlc_pc_machine_ser_district_crime_num value > xvcv_mdlc_d_pc_machine_ser_crime_alt_count } }
-								add_deposit = xvcv_mdlc_d_pc_machine_ser_crime_alt
-								change_variable = { which = xvcv_mdlc_d_pc_machine_ser_crime_alt_count value = 1 }
-							}
-						}
-						else_if = {
-							limit = { check_variable = { which = xvcv_mdlc_pc_machine_ser_district_crime_num value < xvcv_mdlc_d_pc_machine_ser_crime_alt_count } }
-							while = {
-								limit = { check_variable = { which = xvcv_mdlc_pc_machine_ser_district_crime_num value < xvcv_mdlc_d_pc_machine_ser_crime_alt_count } }
-								remove_deposit = xvcv_mdlc_d_pc_machine_ser_crime_alt
-								change_variable = { which = xvcv_mdlc_d_pc_machine_ser_crime_alt_count value = -1 }
-							}
-						}
-					}
-				}
-			}
-			xvcv_mdlc_pc_machine_ser_district_encryption = {
-				export_trigger_value_to_variable = {
-					trigger = num_districts
-					parameters = { type = xvcv_mdlc_pc_machine_ser_district_encryption }
-					variable = xvcv_mdlc_pc_machine_ser_district_encryption_num
-				}
-				export_trigger_value_to_variable = {
-					trigger = count_deposits
-					parameters = { type = xvcv_mdlc_d_pc_machine_ser_encryption }
-					variable = xvcv_mdlc_d_pc_machine_ser_encryption_count
-				}
-				if = {
-					limit = { check_variable = { which = xvcv_mdlc_pc_machine_ser_district_encryption_num value > xvcv_mdlc_d_pc_machine_ser_encryption_count } }
-					while = {
-						limit = { check_variable = { which = xvcv_mdlc_pc_machine_ser_district_encryption_num value > xvcv_mdlc_d_pc_machine_ser_encryption_count } }
-						add_deposit = xvcv_mdlc_d_pc_machine_ser_encryption
-						change_variable = { which = xvcv_mdlc_d_pc_machine_ser_encryption_count value = 1 }
-					}
-				}
-				else_if = {
-					limit = { check_variable = { which = xvcv_mdlc_pc_machine_ser_district_encryption_num value < xvcv_mdlc_d_pc_machine_ser_encryption_count } }
-					while = {
-						limit = { check_variable = { which = xvcv_mdlc_pc_machine_ser_district_encryption_num value < xvcv_mdlc_d_pc_machine_ser_encryption_count } }
-						remove_deposit = xvcv_mdlc_d_pc_machine_ser_encryption
-						change_variable = { which = xvcv_mdlc_d_pc_machine_ser_encryption_count value = -1 }
-					}
-				}
-			}
-		}
-	}
-}
 #on_tech_increased
 #'xvcv_mdlc_tech_world_machines_districts_produces' tech effect event
 country_event = {

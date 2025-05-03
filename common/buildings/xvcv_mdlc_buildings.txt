@@ -198,7 +198,7 @@ xvcv_mdlc_building_uplink_node_facility = {
 #for 'xvcv_mdlc_ap_bio_robot' ascension perk
 xvcv_mdlc_building_bio_robot_clone_plants = {
 	base_buildtime = @b2_time
-	base_cap_amount = 1
+	# base_cap_amount = 1
 	can_build = yes
 
 	potential = {
@@ -207,6 +207,51 @@ xvcv_mdlc_building_bio_robot_clone_plants = {
 			is_ai = no
 			has_ascension_perk = xvcv_mdlc_ap_bio_robot
 		}
+	}
+
+	allow = {
+		custom_tooltip_fail = {
+			text = xvcv_mdlc_building_bio_robot_clone_plants_tooltip.fail
+			exists = owner
+			owner = { NOT = { has_special_project = XVCV_MDLC_AP_BIO_ROBOT_PROJECT } }
+		}
+		custom_tooltip_fail = {
+			text = oxr_mdlc_bio_mech_cloning_vat_planet_limit_reached.not_bio_pc
+			OR = {
+				is_oxr_mdlc_pc_bio_mech = yes
+				AND = {
+					is_oxr_mdlc_pc_bio_mech = no
+					NOR = {
+						has_active_building = xvcv_mdlc_building_bio_robot_clone_plants
+						has_active_building = xvcv_mdlc_building_bio_robot_clone_plants_2
+						has_active_building = xvcv_mdlc_building_bio_robot_clone_plants_3
+					}
+				}
+			}
+		}
+		
+
+		# if = {
+		# 	limit = {
+		# 		is_oxr_mdlc_pc_bio_mech = yes
+		# 	}
+		# 	always = yes
+		# }
+		# else_if = {
+		# 	limit = {
+		# 		is_oxr_mdlc_pc_bio_mech = no
+		# 		NOR = {
+		# 			has_active_building = xvcv_mdlc_building_bio_robot_clone_plants
+		# 			has_active_building = xvcv_mdlc_building_bio_robot_clone_plants_2
+		# 			has_active_building = xvcv_mdlc_building_bio_robot_clone_plants_3
+		# 		}
+		# 	}
+		# 	always = yes
+		# }
+		# else = {
+		# 	custom_tooltip = oxr_mdlc_bio_mech_cloning_vat_planet_limit_reached.not_bio_pc
+		# 	always = no
+		# }
 	}
 
 	inline_script = {

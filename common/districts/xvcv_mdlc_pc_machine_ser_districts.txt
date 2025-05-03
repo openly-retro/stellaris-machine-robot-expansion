@@ -103,10 +103,32 @@ xvcv_mdlc_pc_machine_ser_district_admin_cap = {
 	on_built = {
 		fire_on_action = { on_action = xvcv_on_world_machine_t3_resource_district_built }
 		inline_script = planet/districts/on_action/on_t3_completed
+		planet = {
+			set_or_increment_variable = {
+				VAR = xvcv_mdlc_pc_machine_ser_district_admin_cap_num
+				AMOUNT = 1
+			}
+			set_or_increment_variable = {
+				VAR = xvcv_mdlc_d_pc_machine_ser_admin_cap_count
+				AMOUNT = 1
+			}
+			add_deposit = xvcv_mdlc_d_pc_machine_ser_admin_cap
+		}
 	}
 	on_destroy = {
 		fire_on_action = { on_action = xvcv_on_world_machine_t3_resource_district_demolished }
 		fire_on_action = { on_action = on_world_machine_district_demolished }
+		planet = {
+			change_variable = {
+				which = xvcv_mdlc_pc_machine_ser_district_admin_cap_num
+				value = -1
+			}
+			change_variable = {
+				which = xvcv_mdlc_d_pc_machine_ser_admin_cap_count
+				value = -1
+			}
+			remove_deposit = xvcv_mdlc_d_pc_machine_ser_admin_cap
+		}
 	}
 }
 
@@ -168,10 +190,47 @@ xvcv_mdlc_pc_machine_ser_district_crime = {
 	on_built = {
 		fire_on_action = { on_action = xvcv_on_world_machine_t3_resource_district_built }
 		inline_script = planet/districts/on_action/on_t3_completed
+		planet = {
+			set_or_increment_variable = {
+				VAR = xvcv_mdlc_pc_machine_ser_district_crime_num
+				AMOUNT = 1
+			}
+			if = {
+				limit = {
+					owner = { has_authority = auth_machine_intelligence }
+				}
+				set_or_increment_variable = {
+					VAR = xvcv_mdlc_d_pc_machine_ser_crime_count
+					AMOUNT = 1
+				}
+				add_deposit = xvcv_mdlc_d_pc_machine_ser_crime
+			}
+			else = {
+				set_or_increment_variable = {
+					VAR = xvcv_mdlc_d_pc_machine_ser_crime_alt_count
+					AMOUNT = 1
+				}
+				add_deposit = xvcv_mdlc_d_pc_machine_ser_crime_alt
+			}
+		}
 	}
 	on_destroy = {
 		fire_on_action = { on_action = xvcv_on_world_machine_t3_resource_district_demolished }
 		fire_on_action = { on_action = on_world_machine_district_demolished }
+		planet = {
+			dec_var_by_one = { which = xvcv_mdlc_pc_machine_ser_district_crime_num }
+			if = {
+				limit = {
+					owner = { has_authority = auth_machine_intelligence }
+				}
+				dec_var_by_one = { which = xvcv_mdlc_d_pc_machine_ser_crime_count }
+				remove_deposit = xvcv_mdlc_d_pc_machine_ser_crime
+			}
+			else = {
+				dec_var_by_one = { which = xvcv_mdlc_d_pc_machine_ser_crime_alt_count }
+				remove_deposit = xvcv_mdlc_d_pc_machine_ser_crime_alt
+			}
+		}
 	}
 }
 
@@ -222,9 +281,29 @@ xvcv_mdlc_pc_machine_ser_district_encryption = {
 	on_built = {
 		fire_on_action = { on_action = xvcv_on_world_machine_t3_resource_district_built }
 		inline_script = planet/districts/on_action/on_t3_completed
+		planet = {
+			set_or_increment_variable = {
+				VAR = xvcv_mdlc_pc_machine_ser_district_encryption_num
+				AMOUNT = 1
+			}
+			set_or_increment_variable = {
+				VAR = xvcv_mdlc_d_pc_machine_ser_encryption_count
+				AMOUNT = 1
+			}
+			add_deposit = xvcv_mdlc_d_pc_machine_ser_encryption
+		}
 	}
 	on_destroy = {
 		fire_on_action = { on_action = xvcv_on_world_machine_t3_resource_district_demolished }
 		fire_on_action = { on_action = on_world_machine_district_demolished }
+		planet = {
+			dec_var_by_one = {
+				which = xvcv_mdlc_pc_machine_ser_district_encryption_num
+			}
+			dec_var_by_one = {
+				which = xvcv_mdlc_d_pc_machine_ser_encryption_count
+			}
+			remove_deposit = xvcv_mdlc_d_pc_machine_ser_encryption
+		}
 	}
 }

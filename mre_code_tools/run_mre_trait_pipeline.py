@@ -3,171 +3,83 @@
 
 __author__ = "0xRetro (openly-retro)"
 __license__ = "GPLv3"
-__version__ = "1.0"
+__version__ = "2.0"
 
-import os
-from shutil import rmtree
-import sys
-from operator import itemgetter
 from random import randint
+from shutil import rmtree
+import os
+import sys
 import time
 
 import argparse
-from json import load as json_load
-from json import dump as json_dump
 
-from stellaris_yaml_converter import (
-    convert_stellaris_script_to_standard_yaml,
-    validate_chopped_up_data
+from pipeline.compile.copy_fx_and_triggers import copy_effects_to_common, copy_triggers_to_common
+from pipeline.extract.main import (
+    batch_convert_traits_files_into_json,
+    read_and_sort_extracted_traits,
 )
-from mre_trait_cruncher import (
-    read_and_write_traits_data
-)
-from mre_process_traits_for_codegen import (
+from pipeline.transform.sort_and_filter import (
     sort_and_filter_pipeline_files,
     write_sorted_filtered_data_to_json_files,
     qa_pipeline_files,
 )
-from generate_traits_gui_and_effects import (
+from pipeline.compile.main import (
     # run_codegen_process_for_leadermaking_feature,
-    generate_mod_ready_code_files,
+    generate_fx_tooltips_interfaces_for_all_guis,
     pipeline_make_leader_start_button_code,
+    pipeline_stitch_xvcv_mdlc_leader_making_start_button_effect,
     pipeline_make_xvcv_mdlc_core_modifying_ruler_traits_trigger,
     pipeline_make_leader_making_clear_values_effect,
     pipeline_make_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines,
     pipeline_make_core_modifying_subclasses_gui_code,
 )
-from mre_translation_key_normalizer import do_all_work as do_uppercase_modifier_mapping_work
-from mre_harvest_machine_tooltips import do_all_work as harvest_machine_tooltips
-from mre_generate_councilor_editor_gui import do_all_work as generate_councilor_editor_gui
-from mre_generate_councilor_editor_scripted_triggers import do_all_work as generate_councilor_editor_scripted_triggers
-from mre_generate_councilor_editor_button_effects import do_all_work as generate_councilor_editor_button_effects
-from mre_generate_gui_traits_limits_effects import do_all_work as generate_councilor_gui_traits_limits_effects
-from mre_generate_ruler_limits_scripted_effect import do_all_work as generate_ruler_limits_scripted_effect
-from mre_stitch_gui_files import stitch_gui_files
+from pipeline.extract.mre_translation_key_normalizer import do_all_work as do_uppercase_modifier_mapping_work
+from pipeline.extract.harvest_machine_tooltips import do_all_work as harvest_machine_tooltips
+from pipeline.compile.councilor_editor_gui import do_all_work as generate_councilor_editor_gui
+from pipeline.compile.councilor_editor_scripted_triggers import do_all_work as generate_councilor_editor_scripted_triggers
+from pipeline.compile.councilor_editor_button_effects import do_all_work as generate_councilor_editor_button_effects
+from pipeline.compile.councilor_editor_button_effects_extra import do_all_work as generate_councilor_gui_traits_limits_effects
+from pipeline.compile.core_modifying_button_effects_extra import do_all_work as generate_ruler_limits_scripted_effect
+from pipeline.compile.mre_stitch_gui_files import stitch_gui_files_and_write_to_game_folder
 
-from mre_common_vars import (
+from pipeline.mre_common_vars import (
+    BUILD_EFFECTS_FOLDER,
     BUILD_FOLDER,
-    LEADER_CLASSES,
-    BASE_TRAIT_FILES,
-    PIPELINE_OUTPUT_FILES,
+    BUILD_TEMPLATE_FOLDER,
+    BUILD_TRIGGERS_FOLDER,
+    COMPILE_FOLDER,
     UNICORN,
-    INPUT_FILES_FOR_CODEGEN,
+    EXTRACT_FOLDER,
 )
 
 def clean_up_build_folder():
     if os.path.exists(BUILD_FOLDER):
         rmtree(BUILD_FOLDER)
     os.makedirs(BUILD_FOLDER, exist_ok=True)
-
-def make_converted_filename(base_filename):
-    without_ext = base_filename.split('.')[0]
-    updated_name = f"{without_ext}_as_yaml.txt"
-    return os.path.join(
-        BUILD_FOLDER, updated_name
-    )
-
-def batch_process_base_files_into_yaml(stellaris_path: str) -> list:
-    generated_files = []
-    buffer = ''
-    for base_file in BASE_TRAIT_FILES:
-        base_file_path = os.path.join(
-            stellaris_path, 'common', 'traits', base_file
-        )
-        if not os.path.exists(base_file_path):
-            sys.exit(
-                f"Couldnt find {base_file_path}. Check that you entered the correct "
-                "base path for Stellaris (the folder with \\common\\ in it)"
-            )
-        with open(base_file_path, "r") as base_traits_file:
-            buffer = convert_stellaris_script_to_standard_yaml(
-                base_traits_file.read()
-            )
-            # breakpoint()
-            validate_chopped_up_data(buffer)
-        target_converted_file_name = make_converted_filename(base_file)
-        generated_files.append(target_converted_file_name)
-        with open(target_converted_file_name, "w") as dest_file:
-            dest_file.write(buffer)
-            print(
-                f"Chopped up base file {base_file} successfully. Written to {dest_file.name}"
-            )
-    return generated_files
-
-def crunch_trait_data_from_processed_yaml(generated_files_list: list):
-    # Iterate each pseudo-yaml file, trim traits, sort into leader classes, write to JSON
-    base_files_as_sorted_trimmed_json = []
-    for source_yaml_file in generated_files_list:
-        _buffer = ''
-        sorted_data = ''
-        base_filename = source_yaml_file.split('_as_yaml.txt')[0]
-        target_filename = os.path.join(
-            BUILD_FOLDER, f"{base_filename}_useful_traits.json"
-        )
-        read_and_write_traits_data(
-            source_yaml_file, target_filename, format="json"
-        )
-        base_files_as_sorted_trimmed_json.append(target_filename)
-    return base_files_as_sorted_trimmed_json
-
-def sort_merge_traits_files(useful_yaml_traits_files):
-    """ From several Stellaris traits files we mangled & filtered, merge & sort all data """
-    from mre_process_traits_for_codegen import (
-        trickle_up_subclass_requirements
-    )
-    
-    output = {
-        "commander": [],
-        "scientist": [],
-        "official": []
-    }
-    buffer = ''
-    for file in useful_yaml_traits_files:
-        with open(file, "r") as input_file:
-            buffer = json_load(input_file)
-        for leader_class in LEADER_CLASSES:
-            # breakpoint()
-            output[leader_class] = output[leader_class] + buffer[leader_class]
-
-    # Now, sort all traits per class
-    for leader_class in LEADER_CLASSES:
-        sorted_beautiful_data = sorted(output[leader_class], key=lambda x: [*x][0]) 
-        # It just feels better having subclasses populated at the end of all this
-        output[leader_class] = trickle_up_subclass_requirements(
-            sorted_beautiful_data, for_class=leader_class
-        )
-    # Now, write each classes' traits to a file
-    target_filenames = []
-    for leader_class in LEADER_CLASSES:
-        newfile_name = f"00_mre_{leader_class}_traits.json"
-        newfilepath = os.path.join(BUILD_FOLDER, newfile_name)
-        with open(newfilepath, "w") as traitsfile:
-            json_dump(output[leader_class], traitsfile, indent=4)
-            print(f"Wrote {leader_class} data to {newfilepath}")
-            target_filenames.append(newfilepath)
-    return target_filenames
-
-# def generate_leadermaking_feature_code():
-#     """ TODO: Deposit localisation and button effects directly into their game code files """
-#     for input_file in INPUT_FILES_FOR_CODEGEN:
-#         for generated_code_type in ["effects","gui","tooltips"]:
-#             run_codegen_process_for_leadermaking_feature(
-#                 input_file, generated_code_type=generated_code_type
-#             )
+    os.makedirs(EXTRACT_FOLDER, exist_ok=True)
+    os.makedirs(COMPILE_FOLDER, exist_ok=True)
+    os.makedirs(BUILD_TRIGGERS_FOLDER, exist_ok=True)
+    os.makedirs(BUILD_EFFECTS_FOLDER, exist_ok=True)
+    os.makedirs(BUILD_TEMPLATE_FOLDER, exist_ok=True)
 
 def sort_and_write_filtered_trait_data():
     all_traits_processed_data = sort_and_filter_pipeline_files()
     write_sorted_filtered_data_to_json_files(all_traits_processed_data)
 
-horiz = "***************************************************************"
+horiz = f"{'*'*64}"
+
 def sanity_check():
     return f"Sanity levels at {randint(15,115)}% of normal."
+
+def print_stars(text, level: int = 4):
+    print(f"{'*'*level} {text} {'*'*level}")
+
 
 if __name__=="__main__":
     start_time = time.perf_counter()
     parser = argparse.ArgumentParser(
         prog="0xRetro M&RE Trait Data Pipeline",
-        description="Scrape base traits files, convert to yaml-ish format, trim & sort trait data that we want for processing later"
+        description="Read and process base game traits files, generate scripted effects, tooltips, and GUI button effects for custom in-game content"
     )
     parser.add_argument(
         '--stellaris_path',
@@ -181,8 +93,7 @@ if __name__=="__main__":
             "base path for Stellaris (the folder with \\common\\ in it)"
         )
     print(
-        "Starting the M&RE Trait Data pipeline, phase 1: Make trait data fun to play with!"
-        f"Code by 0xRetro. {sanity_check()}"
+        f"Starting the M&RE Trait Data pipeline. Code by 0xRetro. {sanity_check()}"
     )
     if not os.path.exists(
         os.path.join(
@@ -195,55 +106,67 @@ if __name__=="__main__":
             "because it will write to some of the mod files directly."
         )
     print(horiz)
-    print("**** Phase 1: Reset build folder and crunch base files into JSON ****")
+    print_stars("Phase 1: EXTRACT: Reset build folder and crunch base files into JSON")
     clean_up_build_folder()
-    print("** Reading base Stellaris files & gleefully chopping them up **")
-    base_files_processed_to_yaml = batch_process_base_files_into_yaml(args.stellaris_path)
-    print("** Sauteeing & serving chopped-up data **")
-    # Here, we switch from fake YAML to dumping data to JSON, a reliable data standard
-    useful_traits_json_files = crunch_trait_data_from_processed_yaml(base_files_processed_to_yaml)
+
+    # CALL STUFF FROM 'EXTRACT'
+    # New steps:
+    # 1. Crunch trait files into individual files named the same as the source, into a tmp folder
+    print_stars("Reading Clausewitz Traits files and mapping to JSON ..",2)
+    extracted_files = batch_convert_traits_files_into_json(args.stellaris_path)
+    # 2. For each LEADER trait in each json file, place a copy into a dict tracking traits by class
+    # 3. Save them to commander/scientist/official
+    print_stars("Reducing multiple traits files to 3 ..",2)
+    sorted_files = read_and_sort_extracted_traits(extracted_files)
+
+    print_stars("Mm mm, delicious, sane, predictable data! (mostly)",2)
     print(horiz)
-    print("** Sorting traits data & writing files **")
+    print_stars("** Doing a QA check on our shiny new datafiles ... ",2)
     print(horiz)
-    just_three_traits_files = sort_merge_traits_files(useful_traits_json_files)
-    # print("**** Mm mm, delicious, sane, predictable data! ****")
-    print(horiz)
-    print("** Doing a QA check on our shiny new datafiles ... **")
-    print(horiz)
-    qa_pipeline_files()
-    print(horiz)
-    print("**** Phase 2: Sorting, filtering, and getting data ready for code gen scripts ... **")
-    sort_and_write_filtered_trait_data()
-    print("** Side quest: some modifier loc keys are in uppercase! Fixing ... **")
-    do_uppercase_modifier_mapping_work(args.stellaris_path)
-    print(horiz)
-    print("**** Phase 3: Create effects, triggers, and GUI code *****")
-    harvest_machine_tooltips(args.stellaris_path)
-    generate_mod_ready_code_files()                 # copy pasta
-    generate_councilor_editor_gui()                 # copy pasta
-    generate_councilor_editor_scripted_triggers()   # copy pasta
-    generate_councilor_editor_button_effects()      # Traits effects in-place, other needs copy
-    generate_councilor_gui_traits_limits_effects()  # copy pasta
-    generate_ruler_limits_scripted_effect()         # # copy pasta
-    print("** Making lines of EFFECTS code for xvcv_mdlc_leader_making_start_button_effect ... **")
-    pipeline_make_leader_start_button_code()
-    print("** Making lines of TRIGGER code for xvcv_mdlc_core_modifying_ruler_traits_trigger ... **")
-    pipeline_make_xvcv_mdlc_core_modifying_ruler_traits_trigger()
-    print("** Making lines of EFFECTS code for xvcv_mdlc_leader_making_clear_values_effect ... **")
-    pipeline_make_leader_making_clear_values_effect()
-    print("** Making lines of EFFECTS code for core_modifying_reset_traits_button_effect ... **")
-    pipeline_make_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines()
-    print("** Making lines of GUI code for core_modifying subclasses_gui_code ... **")
-    pipeline_make_core_modifying_subclasses_gui_code()
-    print("** Stitching GUI files together ... **")
-    stitch_gui_files()
+    qa_pipeline_files(sorted_files)
 
     print(horiz)
-    print("** TO DO by humans **")
+    print_stars("Phase 2: TRANSFORM: Sorting, filtering, and getting data ready for code gen scripts ...")
+    sort_and_write_filtered_trait_data()
+    print_stars("Side quest: some modifier loc keys are in uppercase! Fixing ... ",2)
+    do_uppercase_modifier_mapping_work(args.stellaris_path)
+    print(horiz)
+
+    print_stars("Phase 3: COMPILE: Create effects, triggers, and GUI code")
+    harvest_machine_tooltips(args.stellaris_path)
+    generate_fx_tooltips_interfaces_for_all_guis()  # This writes fx and triggers files directly to common
+    generate_councilor_editor_gui()                 # generate gui files for stitching later
+    generate_councilor_editor_scripted_triggers()
+    generate_councilor_editor_button_effects()      # Traits effects in-place, other needs copy
+    generate_councilor_gui_traits_limits_effects()
+    generate_ruler_limits_scripted_effect()
+
+    print_stars("Making lines of EFFECTS code for xvcv_mdlc_leader_making_start_button_effect ... ",2)
+    pipeline_make_leader_start_button_code()
+    print_stars("Making lines of TRIGGER code for xvcv_mdlc_core_modifying_ruler_traits_trigger ... ",2)
+    pipeline_make_xvcv_mdlc_core_modifying_ruler_traits_trigger()
+    print_stars("Making lines of EFFECTS code for xvcv_mdlc_leader_making_clear_values_effect ... ",2)
+    pipeline_make_leader_making_clear_values_effect()
+    print_stars("Making lines of EFFECTS code for core_modifying_reset_traits_button_effect ... ",2)
+    pipeline_make_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines()
+    print_stars("Making lines of GUI code for core_modifying subclasses_gui_code ... ",2)
+    pipeline_make_core_modifying_subclasses_gui_code()
+
+    print_stars("Phase 4: STITCH & COPY: Automatically gluing and moving files. Bio-forms can relax now.")
+    print_stars("Stitching GUI files together ... ",2)
+    stitch_gui_files_and_write_to_game_folder()
+
+    print_stars("Copying generated effects and triggers to common ... ",2)
+    copy_effects_to_common()
+    copy_triggers_to_common()
+
+    print_stars("Stitching other files (button effects, etc)...",2)
+    pipeline_stitch_xvcv_mdlc_leader_making_start_button_effect()
+
+    print(horiz)
+    print_stars("TO DO by humans",2)
+    print("run 'mre_propagate_loc_files.py' ")
     print(
-        "- Copy generated scripted triggers to their destinations\n"
-        "- Copy generated scripted effects to their destinations\n"
-        "- Generate loc files\n"
         "*** GOOD LUCK BIO BRAIN ***\n"
         f"Is tired. {sanity_check()}"
     )

@@ -167,11 +167,6 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 		}
 		oxr_mdlc_country_world_machine_cores_recalc_amount = yes
 	}
-	planet = {
-		# Now, calculate the planet's storage, since we are doing WMC stuff here
-		oxr_mdlc_planet_calculate_max_core_storage = yes
-		oxr_mdlc_planet_increment_stored_wm_cores = yes
-	}
 	
 	# Start "recover lost tech" situation
 	owner = {
@@ -818,30 +813,35 @@ oxr_mdlc_origin_world_machine_create_starting_digsite_on_homeworld = {
 oxr_mdlc_wm_country_cores_add = {
 	# Call at country scope
 	add_resource = {
-		oxr_mdlc_world_machine_core = $AMOUNT$
+		oxr_mdlc_world_machine_core = 1
 	}
-	log = "Added $AMOUNT$ World Machine Cores"
+	log = "Added 1 World Machine Cores"
 	hidden_effect = {
 		change_variable = {
-			which = oxr_mdlc_origin_wm_cores_current_count
-			value = $AMOUNT$
-		}
-		change_variable = {
 			which = oxr_mdlc_origin_wm_cores_total_produced_count
-			value = $AMOUNT$
+			value = 1
+		}
+		export_resource_stockpile_to_variable = {
+			resource = oxr_mdlc_world_machine_core
+			variable = oxr_mdlc_origin_wm_cores_current_count
+		}
+		set_variable = {
+			which = oxr_mdlc_origin_wm_cores_max
+			value = modifier:country_resource_max_oxr_mdlc_world_machine_core_add
 		}
 	}
 }
 oxr_mdlc_wm_country_cores_subtract = {
-	add_resource = {
-		oxr_mdlc_world_machine_core = $AMOUNT$
-		mult = -1
-	}
+	add_resource = { oxr_mdlc_world_machine_core = -1 }
 	log = "Deducted $AMOUNT$ World Machine Cores"
 	hidden_effect = {
-		subtract_variable = {
-			which = oxr_mdlc_origin_wm_cores_current_count
-			value = $AMOUNT$
+		export_resource_stockpile_to_variable = {
+			resource = oxr_mdlc_world_machine_core
+			variable = oxr_mdlc_origin_wm_cores_current_count
+		}
+		set_variable = {
+			which = oxr_mdlc_origin_wm_cores_max
+			value = modifier:country_resource_max_oxr_mdlc_world_machine_core_add
 		}
 	}
 }
@@ -861,13 +861,6 @@ oxr_mdlc_country_world_machine_cores_recalc_amount = {
 		value = modifier:country_resource_max_oxr_mdlc_world_machine_core_add
 	}
 }
-# oxr_mdlc_world_machines_planet_recalc_storage_max = {
-# 	set_variable = {
-# 		which = oxr_mdlc_planet_world_machine_cores_amount_max
-# 		value = value:oxr_mdlc_planet_calculate_max_core_storage
-# 	}
-# }
-
 
 #endregion
 
@@ -976,25 +969,6 @@ oxr_mdlc_wm_country_set_wmc_tech_level = {
 			which = oxr_mdlc_wmc_manufacture_core_tech_level
 			value = 0.5
 		}
-	}
-}
-
-oxr_mdlc_planet_increment_stored_wm_cores = {
-	change_variable = {
-		which = oxr_mdlc_planet_world_machine_cores_amount
-		value = 1
-	}
-}
-oxr_mdlc_planet_decrement_stored_wm_cores = {
-	change_variable = {
-		which = oxr_mdlc_planet_world_machine_cores_amount
-		value = -1
-	}
-}
-oxr_mdlc_planet_calculate_max_core_storage = {
-	set_variable = {
-		which = oxr_mdlc_planet_world_machine_cores_amount_max
-		value = value:oxr_mdlc_planet_calculate_max_core_storage
 	}
 }
 
