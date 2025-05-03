@@ -254,3 +254,64 @@ xvcv_mdlc_planet_extract_assembly_rate_for_data = {
 	#total_assembly_required = (xvcv_mdlc_pop_assembly_add_var x 12) / xvcv_mdlc_pops_per_year_var
 	#xvcv_mdlc_pop_growth_scale_var = total_assembly_required - 100 / empire_total_pop_number
 }
+
+
+xvcv_mdlc_country_calculate_bio_mech_growth_required = {
+	# 100 + ( growth scale * num empire pops )
+	if = {
+		limit = {
+			# Block this effect from running multiple times from async events
+			NOT = { has_country_flag = xvcv_mdlc_country_calculate_bio_mech_growth_required_locked }
+		}
+		set_country_flag = xvcv_mdlc_country_calculate_bio_mech_growth_required_locked
+		if = {
+			limit = {
+				NOT = { is_variable_set = oxr_mdlc_bio_mech_growth_required_scaling_var }
+			}
+			set_variable = {
+				which = oxr_mdlc_bio_mech_growth_required_scaling_var
+				value = 0.25
+			}
+		}
+		set_variable = {
+			which = oxr_mdlc_bio_mech_growth_progress_goal
+			value = oxr_mdlc_bio_mech_growth_required_scaling_var
+		}
+		multiply_variable = {
+			which = oxr_mdlc_bio_mech_growth_progress_goal
+			value = trigger:num_pops
+		}
+		change_variable = {
+			which = oxr_mdlc_bio_mech_growth_progress_goal
+			value = 100
+		}
+		remove_country_flag = xvcv_mdlc_country_calculate_bio_mech_growth_required_locked
+	}
+	else = {
+		log = "Not calculating bio mech growth required, locked flag is in place."
+	}
+	
+}
+
+xvcv_mdlc_planet_calculate_bio_mech_base_growth_bonus = {
+	# 0.3 - 4.5 depending on planet capacity
+	if = {
+		limit = {
+			owner = {
+				NOT = {
+					is_variable_set = oxr_mdlc_bio_mech_logistic_growth_ceiling
+				}
+			}
+		}
+		owner = {
+			set_variable = {
+				which = oxr_mdlc_bio_mech_logistic_growth_ceiling
+				value = 1.5
+			}
+		}
+	}
+	set_variable = {
+		which = oxr_mdlc_bio_mech_planet_capacity
+		value = trigger:num_housing
+	}
+}
