@@ -12,6 +12,9 @@
  # decisions      0x009
  # policies       0x010
  # concepts       0x011
+ # tooltips       0x012
+ # modifiers      0x013
+ # events         0x014
 
 
  # § £
@@ -27,6 +30,7 @@
  oxr_mdlc_species_bio_robot_symbiotes_trait_biology_modeling: "사회 과학 장기유사체$xvcv_mdlc_bio_robot_trait_title$"
  oxr_mdlc_species_bio_robot_symbiotes_trait_biology_modeling_desc: "이 종에 사회 및 생물 과학 분야의 문제 세트를 계산하기 위해 미세 조정된 특수 장기유사체 세포 매트릭스가 이식되었습니다."
 
+ oxr_bio: "£oxr_empty£"
 
 #endregion
 
@@ -34,11 +38,11 @@
 #region tech_0x002
 
  ### TECH
- oxr_mdlc_tech_bio_robot_directive_1: "생체적 소재 탐구"
+ oxr_mdlc_tech_bio_robot_directive_1: "유기적 소재 탐구"
  oxr_mdlc_tech_bio_robot_directive_1_desc: "사회 각 계층은 생산 과정과 공급망에서 생물학적 물질의 적용에 관여하고 있습니다. 농부들은 새로운 수확 및 생산 방법을 보고함으로써 연구를 진전시키고, 장인들은 최고의 제조 관행을 탐구하며, 금속학자들은 합금 대체물의 건설에서 새로운 유기 공정을 실험하기 시작합니다."
- oxr_mdlc_tech_bio_robot_directive_2: "생체적 재료 정제"
+ oxr_mdlc_tech_bio_robot_directive_2: "유기적 재료 정제"
  oxr_mdlc_tech_bio_robot_directive_2_desc: "연구자들이 기술을 개선하고; 장인들이 제작과 재고를 더욱 정교하게 다듬고; 농부들은 착용 가능한 섬유와 같은 기본 제품을 제조할 수 있습니다."
- oxr_mdlc_tech_bio_robot_directive_3: "생체적 소재 유산"
+ oxr_mdlc_tech_bio_robot_directive_3: "유기적 소재 유산"
  oxr_mdlc_tech_bio_robot_directive_3_desc: "사회 전체가 모든 생활 측면에서 유기 원료를 통합하는 데 참여하고 있습니다. 모든 구성원은 생명 과학과 생물학적 소재 연구의 무한한 가능성에 대해 더 깊이 이해하고 관심을 가집니다. 상상력은 무한히 펼쳐집니다."
 
 #endregion
@@ -46,14 +50,14 @@
 #region buildings_0x003
 
  ### BUILDINGS
- oxr_mdlc_building_bio_robot_directive_bio_goods_1: "생체적 물자 시설 1"
+ oxr_mdlc_building_bio_robot_directive_bio_goods_1: "$oxr_bio$유기적 물자 시설 1"
  oxr_mdlc_building_bio_robot_directive_bio_goods_1_desc: "이 시설은 셀룰로오스, 섬유, 화학물질, 수지, 탄성 물질과 같은 다양한 주요 유기 원료를 사용하여 복합 고분자와 같은 필요한 2차 자원을 생성하여 일상 생활과 업무에 필요한 의류, 청소 용품, 연구 장비, 즈로 콜라와 같은 소모품을 제작합니다. 또한 요구에 따라 도구, 용기, 특정 연료, 직물, 휴대용 계산 장치와 같은 다양한 작업에 사용되는 용품도 생산합니다.$oxr_mdlc_mod_tag$"
- oxr_mdlc_building_bio_robot_directive_bio_goods_2: "생체적 물자 시설 2"
+ oxr_mdlc_building_bio_robot_directive_bio_goods_2: "유기적 물자 시설 2"
  oxr_mdlc_building_bio_robot_directive_bio_goods_2_desc: "$oxr_mdlc_building_bio_robot_directive_bio_goods_1_desc$"
- oxr_mdlc_building_bio_robot_directive_bio_goods_3: "생체적 물자 시설 2"
+ oxr_mdlc_building_bio_robot_directive_bio_goods_3: "유기적 물자 시설 2"
  oxr_mdlc_building_bio_robot_directive_bio_goods_3_desc: "$oxr_mdlc_building_bio_robot_directive_bio_goods_1_desc$"
 
- oxr_mdlc_building_bio_robot_directive_integrated_lab_1: "통합적 생물학 실험실 1"
+ oxr_mdlc_building_bio_robot_directive_integrated_lab_1: "$oxr_bio$통합적 생물학 실험실 1"
  oxr_mdlc_building_bio_robot_directive_integrated_lab_1_desc: "생명 과학, 유기 재료 공학, 새로운 행성 연구의 과학적 발전을 촉진하면서 전 행성 인구에게 소규모 서비스와 시민 역량을 제공하도록 설계된 시설."
  oxr_mdlc_building_bio_robot_directive_integrated_lab_2: "통합적 생물학 실험실 2"
  oxr_mdlc_building_bio_robot_directive_integrated_lab_2_desc: "$oxr_mdlc_building_bio_robot_directive_integrated_lab_1_desc$"
@@ -87,11 +91,18 @@
 
 #region jobs_0x005
  job_oxr_mdlc_bio_robot_lustra_residential: "주거 행정 관리자"
+ job_oxr_mdlc_bio_robot_lustra_residential_desc: "$oxr_placeholder$"
 
  job_oxr_mdlc_bio_robot_lustra_integrated_researcher: "세포 기술자"
+ job_oxr_mdlc_bio_robot_lustra_integrated_researcher_desc: "[OxrBioRobotLustraISCJobDesc]"
  job_oxr_mdlc_bio_robot_lustra_integrated_researcher_plural: "세포 기술자"
- job_oxr_mdlc_bio_robot_lustra_integrated_researcher_desc: "직장 생활은 다양한 생명 과학 분야의 연구 프로토콜을 탐구하고 실행하는 것으로 구성됩니다. 작업의 결과는 행정부의 의사 결정 능력에 직접 기여하며, 보고서를 읽는 것은 대중적인 취미로 간주됩니다. 이 역할에 있는 시민들은 정기적으로 그들의 공헌에 대해 보상을 받으며, 윤리의 본보기로 여겨집니다."
+ job_oxr_mdlc_bio_robot_lustra_integrated_researcher_non_gestalt_desc: "업무 생활은 다양한 생명 과학을 탐구하고 연구 프로토콜을 실행하는 것으로 구성됩니다. 작업의 결과는 행정부의 의사 결정 능력에 직접적으로 기여하며, 보고서를 읽는 것은 대중의 취미로 간주됩니다. 이 역할을 맡은 시민들은 자신의 기여에 대해 정기적으로 보상을 받으며, 윤리의 롤모델로 여겨집니다."
  job_oxr_mdlc_bio_robot_lustra_integrated_researcher_gestalt_desc: "작업 루틴은 다양한 생명 과학을 위한 연구 프로토콜을 탐색하고 실행하는 것으로 구성됩니다. 작업의 결과는 직접적으로 행정의 의사 결정 능력에 기여하며, 보고서는 직접 $oxr_mdlc_cognitive_node$에 업로드됩니다. 이 역할의 드론들은 일탈할 가능성이 적습니다."
+
+ job_oxr_mdlc_bio_robot_lustra_isc: "통합 시장 전문가"
+ job_oxr_mdlc_bio_robot_lustra_isc_desc: "시장 전문가는 제조 원료를 개발하고 현장에서 소비재를 생산하며 이러한 생산 프로토콜의 결과를 공식적으로 행성 관리국에 보고합니다."
+ job_oxr_mdlc_bio_robot_organic_goods: "재생 가능한 제품 제조자"
+ job_oxr_mdlc_bio_robot_organic_goods_desc: "이 역할은 재생 가능한 유기 재료로부터 소비재 제품과 정교한 도구 및 기기의 부품을 만듭니다."
 
  job_oxr_mdlc_bio_robot_lustra_reactor_tech: "반응로 기술자"
  job_oxr_mdlc_bio_robot_lustra_services_steward: "서비스 간사"
@@ -101,22 +112,23 @@
 #endregion
 
 #region districts_0x006
- oxr_mdlc_bio_mech_districts: "생체적 기계 행성 지구"
- oxr_mdlc_bio_mech_lustra_districts: "루스트라 생체적 기계 지구"
- oxr_mdlc_bio_mech_carna_districts: "카르나 생체적 기계 지구"
+ oxr_mdlc_bio_mech_districts: "유기적 기계 지구"
+ oxr_mdlc_bio_mech_lustra_districts: "루스트라 유기적 기계 지구"
+ oxr_mdlc_bio_mech_carna_districts: "카르나 유기적 기계 지구"
 
  # Common
- oxr_mdlc_pc_bio_mech_district_lustra_housing: "주거 단지"
+ oxr_mdlc_pc_bio_mech_district_lustra_housing: "주거 지구"
+ oxr_mdlc_pc_bio_mech_district_lustra_housing_desc: "PLACEHOLDER - 주택 단지는 행성 주민들의 역동적인 가정을 지원합니다."
  
  # Lustra
- oxr_mdlc_pc_bio_mech_district_lustra_isc: "통합 공급망"
- oxr_mdlc_pc_bio_mech_district_lustra_isc_desc: "$oxr_placeholder$\" #\" - 식량, 연구, 상품 제공"
- oxr_mdlc_pc_bio_mech_district_lustra_reactor: "반응로 구역"
- oxr_mdlc_pc_bio_mech_district_lustra_reactor_desc: "$oxr_placeholder$\" #\" - 에너지 및 물리학 연구"
- oxr_mdlc_pc_bio_mech_district_lustra_health: "건강 & 기계 서비스"
- oxr_mdlc_pc_bio_mech_district_lustra_health_desc: "$oxr_placeholder$\"#\"-의료 종사자 및 문화 종사자"
- oxr_mdlc_pc_bio_mech_district_lustra_bazaar: "바자르 / 시장"
- oxr_mdlc_pc_bio_mech_district_lustra_bazaar_desc: "$oxr_placeholder$\" #\" - 무역, 에너지, 레저"
+ oxr_mdlc_pc_bio_mech_district_lustra_food: "영양학 지구"
+ oxr_mdlc_pc_bio_mech_district_lustra_food_desc: "영양소와 바이오매스는 여기서 소비와 고급 상품 생산에 사용되기 위해 생산됩니다."
+ oxr_mdlc_pc_bio_mech_district_lustra_reactor: "유기 반응로 구역"
+ oxr_mdlc_pc_bio_mech_district_lustra_reactor_desc: "미량의 바이오연료로도 상당한 양의 에너지를 생산할 수 있습니다."
+ oxr_mdlc_pc_bio_mech_district_lustra_research: "생명 과학 지구"
+ oxr_mdlc_pc_bio_mech_district_lustra_research_desc: "이 연구 센터는 사회 연구 분야 내의 학문에만 초점을 맞추고 있습니다."
+ oxr_mdlc_pc_bio_mech_district_lustra_goods: "유기 소비재 구역"
+ oxr_mdlc_pc_bio_mech_district_lustra_goods_desc: "여기서 행성 시장을 위해 제조된 모든 제품은 재생 가능한 유기 소재만으로 제작됩니다."
 
  # Carna
  oxr_mdlc_pc_bio_mech_district_carna_munitions: "통합 탄약 체인"
@@ -128,14 +140,14 @@
 #endregion
 
 #region planets_0x007
- oxr_mdlc_pc_bio_mech: "생체적 기계 행성"
+ oxr_mdlc_pc_bio_mech: "유기적 기계 행성"
  oxr_mdlc_pc_bio_mech_desc: "식민지 기반 시설은 유기 물질 및 구조와 기계적 힘의 융합입니다. 건축 및 구역 구성 요소는 조립 과정에서 모두 건설되고 복제됩니다.$oxr_mdlc_mod_tag$"
- oxr_mdlc_pc_bio_mech_plural: "생체적 기계 행성"
+ oxr_mdlc_pc_bio_mech_plural: "유기적 기계 행성"
 
 #endregion
 
 #region colony_designations_0x008
- oxr_mdlc_col_pc_bio_mech_standard: "생체적 기계 행성"
+ oxr_mdlc_col_pc_bio_mech_standard: "유기적 기계 행성"
  oxr_mdlc_col_pc_bio_mech_standard_desc: "$oxr_placeholder$"
  
 
@@ -176,7 +188,7 @@
  # because it is bio-mechanical
 
  concept_oxr_mdlc_bio_mech_planet_form: "행성 형태"
- concept_oxr_mdlc_bio_mech_planet_form_desc: "$oxr_mdlc_pc_bio_mech_plural$의 식민지는 생체적 기계 특성 때문에 여러 형태로 변경될 수 있으며, 각각 다른 지구, 고유 건물 및 기타 특성을 가지고 있습니다."
+ concept_oxr_mdlc_bio_mech_planet_form_desc: "$oxr_mdlc_pc_bio_mech_plural$의 식민지는 유기적 기계 특성 때문에 여러 형태로 변경될 수 있으며, 각각 다른 지구, 고유 건물 및 기타 특성을 가지고 있습니다."
  concept_oxr_mdlc_bio_mech_planet_form_peacetime: "평시 $concept_oxr_mdlc_bio_mech_planet_form$"
  concept_oxr_mdlc_bio_mech_planet_form_peacetime_desc: "연구 및 자원 생산에 중점을 둔 행성 개발체로, 방어 또는 군사 구조물이 결여되어 있습니다."
  concept_oxr_mdlc_bio_mech_planet_form_wartime: "전시 $concept_oxr_mdlc_bio_mech_planet_form$"
@@ -187,6 +199,7 @@
  oxr_carna: "§P카르나§!"
  concept_oxr_mdlc_bio_mech_planet_form_lustra: "§C루스트라§!"
  concept_oxr_mdlc_bio_mech_planet_form_lustra_desc: "시민들이 잘 살고 자신의 일에 자부심을 느끼는 ['concept_oxr_mdlc_bio_mech_planet_form_peacetime']."
+
  concept_oxr_mdlc_bio_mech_planet_form_carna: "§P카르나§!"
  concept_oxr_mdlc_bio_mech_planet_form_carna_desc: "비상 사태 동안 시민을 보호하기 위한 ['concept_oxr_mdlc_bio_mech_planet_form_wartime']."
 
@@ -230,5 +243,86 @@
 #  concept_oxr_mdlc_bio_mech_planet_apoptosis_desc: "Planetform apoptosis occurs when there is a disruption to planetary homeostasis from too many Mechanical forms attached to the Bio-Mechanical world, and the biological parts are no longer receiving sufficient resources, so they begin to degrade."
 #  concept_oxr_mdlc_bio_mech_planet_corrosion: "Planetform Corrosion"
 #  concept_oxr_mdlc_bio_mech_planet_corrosion_desc: "Planetform corrosion occurs when there are too many biological forms attached to the Bio-Mechanical world, and the Mechanical parts are no longer receiving sufficient support, so they begin to degrade."
+
+#endregion
+
+#region tooltips_0x012
+ oxr_mdlc_config_4.feature_bio_mech_worlds.on: "유기적 기계 §Y행성§! 기능: §R비활성화§!"
+ oxr_mdlc_config_4.feature_bio_mech_worlds.on.tooltip: "§G활성화§! 유기적 기계 행성 기능. 유기적 기계 승천 및 기계 행성 승천은 생체적 기계 행성을 잠금 해제합니다."
+ oxr_mdlc_config_4.feature_bio_mech_worlds.off: "유기적 기계 §Y행성§! 기능: §G활성화§!"
+ oxr_mdlc_config_4.feature_bio_mech_worlds.off.tooltip: "§R비활성화§! 유기적 기계 행성 기능. 유기적 기계 승천 및 기계 행성 승천은 생체적 기계 행성을 잠금 해제합니다."
+
+ oxr_mdlc_config_4.feature_bio_mech_buildings.on: "유기적 기계 §Y건물§! 기능: §R비활성화§!"
+ oxr_mdlc_config_4.feature_bio_mech_buildings.on.tooltip: "§G활성화§! 유기적 기계 건물 기능. 이것들은 유기적 기계 제국을 위한 독특한 건물로, 기계 행성 승천이 필요하지 않습니다."
+ oxr_mdlc_config_4.feature_bio_mech_buildings.off: "유기적 기계 §Y건물§! 기능: §G활성화§!"
+ oxr_mdlc_config_4.feature_bio_mech_buildings.off.tooltip: "§R비활성화§! 유기적 기계 건물 기능. 이것들은 유기적 기계 제국을 위한 독특한 건물로, 기계 행성 승천이 필요하지 않습니다."
+ oxr_mdlc_bio_mech_cloning_vat_planet_limit_reached.not_bio_pc: "£trigger_no£ 유기적 기계 복제 저장소 한도가 이 행성 종류에 도달했습니다."
+
+
+
+#endregion
+
+#region modifiers_0x013
+
+ oxr_mdlc_planet_bio_mech_config_lustra: "['concept_oxr_mdlc_bio_mech_planet_form_lustra']"
+ oxr_mdlc_planet_bio_mech_config_lustra_desc: "['concept_oxr_mdlc_bio_mech_planet_form_lustra_desc']"
+
+ oxr_mdlc_planet_bio_mech_config_carna: "['concept_oxr_mdlc_bio_mech_planet_form_carna']"
+ oxr_mdlc_planet_bio_mech_config_carna_desc: "['concept_oxr_mdlc_bio_mech_planet_form_carna_desc']"
+
+ oxr_mdlc_planet_bio_mech_config_fourna: "['concept_oxr_mdlc_bio_mech_planet_form_fourna']"
+ oxr_mdlc_planet_bio_mech_config_fourna_desc: "['concept_oxr_mdlc_bio_mech_planet_form_fourna_desc']"
+
+ oxr_mdlc_planet_bio_mech_config_radia: "['concept_oxr_mdlc_bio_mech_planet_form_radia']"
+ oxr_mdlc_planet_bio_mech_config_radia_desc: "['concept_oxr_mdlc_bio_mech_planet_form_radia_desc']"
+
+ oxr_mdlc_planet_bio_mech_config_eudaima: "['concept_oxr_mdlc_bio_mech_planet_form_eudaima']"
+ oxr_mdlc_planet_bio_mech_config_eudaima_desc: "['concept_oxr_mdlc_bio_mech_planet_form_eudaima_desc']"
+
+ oxr_mdlc_planet_bio_mech_config_mesmera: "['concept_oxr_mdlc_bio_mech_planet_form_mesmera']"
+ oxr_mdlc_planet_bio_mech_config_mesmera_desc: "['concept_oxr_mdlc_bio_mech_planet_form_mesmera_desc']"
+
+ mod_job_oxr_mdlc_bio_robot_lustra_residential_add: "$job_oxr_mdlc_bio_robot_lustra_residential$ 직업"
+ mod_job_oxr_mdlc_bio_robot_lustra_isc_add: "$job_oxr_mdlc_bio_robot_lustra_isc$ 직업"
+ mod_job_oxr_mdlc_bio_robot_lustra_reactor_tech_add: "$job_oxr_mdlc_bio_robot_lustra_reactor_tech$ 직업"
+ mod_job_oxr_mdlc_bio_robot_organic_goods_add: "$job_oxr_mdlc_bio_robot_organic_goods$ 직업"
+ mod_job_oxr_mdlc_bio_robot_lustra_tax_enforcer_add: "$job_oxr_mdlc_bio_robot_lustra_tax_enforcer$ 직업"
+ mod_job_oxr_mdlc_bio_robot_lustra_integrated_researcher_add: "$job_oxr_mdlc_bio_robot_lustra_integrated_researcher$ 직업"
+
+#endregion
+
+
+#region events_0x014
+#  oxr_mdlc_bio_mech.1.title: "Bio-Mechanical Worlds"
+#  oxr_mdlc_bio_mech.1.desc.individual: "Now that the technology for Mechanical Worlds has been deposited in our databanks, it becomes readily apparent that the same bio-mechanical technology, which we have used to amend and augment our population, can be used, in theory, to develop a new type of colony, a new type of planetary settlement; one in which buildings and infrastructure are both assembled and grown.\n\n[Root.Ruler.GetName] has received detailed plans from our empire's leading engineers and scientists, describing the latest alloy-like similies produced by novel organic materials. We have several researchers in the Life Sciences discipline ready with proposals for a DNA sequencing algorithm describing a non-sentient colony-sized lifeform that can serve as the foundation for a new planetary settlement."
+#  oxr_mdlc_bio_mech.1.desc.gestalt: "Now that the technology for Mechanical Worlds has been deposited in our databanks, it becomes readily apparent that the same bio-mechanical technology, which we have used to amend and augment our population, can be used, in theory, to develop a new type of colony, a new type of planetary settlement.\n\n[Root.Ruler.GetName] has received detailed plans from $oxr_mdlc_cognitive_node$, describing the latest alloy-like similies produced by novel organic materials. We have several researcher drones in the Life Sciences discipline ready with proposals for a DNA sequencing algorithm describing a non-sentient colony-sized bio-mechanical lifeform that can serve as the foundation for a new planetary settlement."
+#  # OXR_MDLC_BIO_MECH_WORLD_PLANETFORMS_1 is enabled
+#  # OXR_MDLC_BIO_MECH_WORLD_PLANETFORMS_1 complete: show this event
+#  oxr_mdlc_bio_mech.10.title: "Cloned Buildings Research Outcome"
+#  oxr_mdlc_bio_mech.10.desc: "The research has concluded with a prototype cloning sequence for a generic bio-mechanical planetary building. It can serve as a base template for more complex buildings. Once one is constructed on a planet, we can begin a trial run and gather data on stability, nutrient requirements, and other characteristics."
+#  # Player builds the building. Building is completed. Does not swap.
+#  # MESSAGE: New special project! Then: OXR_MDLC_BIO_MECH_WORLD_PLANETFORMS_2 is enabled
+#  # On completion of OXR_MDLC_BIO_MECH_WORLD_PLANETFORMS_2: show bio_mech.100
+#  oxr_mdlc_bio_mech.100.title: "Preliminary Cloned Buildings observations"
+#  oxr_mdlc_bio_mech.100.desc: "The first bio-mechanical building has completed cloning. The source materials, chemicals, and nutrients, were placed in a growth chamber. After cellular division reached critical mass, the chamber was connected to a large framework, through which the formative goo flowed and began to attach to the building frame. Stimulating hormones were introduced, and the structure began to rapidly grow.\n\nThe outcome is a structure that can be cloned and can be coerced into a few basic service configurations: Energy production, Nutrient production, Housing, Rare Crystal vats.\n\nOur graps of cloned building technology is not yet sufficient to support alloy manufacturing, nor the mechanical design demands of a consumer goods factory, but these will be part of upcoming phases of research and development."
+#  # After completion, trigger bio_mech.102 to occur 3 months later. Turns into a defensive building
+#  oxr_mdlc_bio_mech.102.title: "It ... morphed?"
+#  oxr_mdlc_bio_mech.102.desc: "The bio-mechanical prototype building has apparently changed its own structure! It has reconfigured itself, without any stimulus from our researchers, who were simply observing. We must study this and understand how this happened, otherwise, cloned buildings will not be feasible."
+ # OXR_MDLC_BIO_MECH_WORLD_PLANETFORMS_3 is enabled
+ # building switches again
+ # OXR_MDLC_BIO_MECH_WORLD_PLANETFORMS_3 is finished
+
+
+#endregion
+
+
+#region projects_0x015
+#  OXR_MDLC_BIO_MECH_WORLD_PLANETFORMS_1: "Initial Research: Cloned Buildings"  # structuromorphs
+#  OXR_MDLC_BIO_MECH_WORLD_PLANETFORMS_1_DESC: "This research proposal outlines a bio-mechanical design for planetary buildings. Based entirely from organic construction materials, requiring various nutrients for upkeep, they can be cloned, while still retaining useful mechanical interfaces that can be integrated into raw resource harvesting processes and resource production processes."
+#  OXR_MDLC_BIO_MECH_WORLD_PLANETFORMS_2: "Cloned Buildings Initial Trials"
+#  OXR_MDLC_BIO_MECH_WORLD_PLANETFORMS_2_DESC: "We will study our very first bio-mechanical building and assess its potential. It will be closely monitored for stability and durability."
+#  OXR_MDLC_BIO_MECH_WORLD_PLANETFORMS_3: "Study Unstable Cloned Building"
+#  OXR_MDLC_BIO_MECH_WORLD_PLANETFORMS_3_DESC: "There must be an explanation for why the bio-mechanical building changed its configuration, without any apparent input from us. Researchers will perform a full analysis of the synthetic cloning protocol, materials involved, weather patterns, and any other possible environmental factors."
+
 
 #endregion
