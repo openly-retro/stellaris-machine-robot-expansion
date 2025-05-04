@@ -3,13 +3,13 @@
 # oxr_mdlc_origin_null_planet_food_produces_tmp
 # oxr_mdlc_origin_null_planet_alloys_produces_tmp
 
-oxr_mdlc_origin_null_formatter_entry_effect = {
+oxr_mdlc_planet_origin_null_formatter_entry_effect = {
 	# The effect to call all effects
-	# Scope is SYSTEM scope
-	# Mega is fromfrom
+	# Scope is PLANET scope (fromfrom.planet)
+	log = "Hello, this is the oxr_mdlc_origin_null_formatter_entry_effect."
 	if = {
 		limit = {
-			fromfrom.planet = {
+			planet = {
 				uninhabitable_regular_planet = yes
 			}
 		}
@@ -18,43 +18,41 @@ oxr_mdlc_origin_null_formatter_entry_effect = {
 	# HABITABLE PLANETS
 	else_if = {
 		limit = {
-			fromfrom.planet = {
+			planet = {
 				habitable_planet = yes
 			}
 		}
-		oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_habitable_planets = {
-			PLANET_SCOPE = fromfrom.planet
-		}
+		oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_habitable_planets = yes
 	}
 	# BLACK HOLE
 	else_if = {
 		limit = {
-			fromfrom.planet = {
+			planet = {
 				is_planet_class = pc_black_hole
 			}
 		}
-		fromfrom.planet = {
+		planet = {
 			oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_black_holes = yes
 		}
 	}
 	# PULSAR
 	else_if = {
 		limit = {
-			fromfrom.planet = {
+			planet = {
 				OR = {
 					is_planet_class = pc_pulsar
 					is_planet_class = pc_neutron_star
 				}
 			}
 		}
-		fromfrom.planet = {
+		planet = {
 			oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_pulsars = yes
 		}
 	}
 	# STARS
 	else_if = {
 		limit = {
-			fromfrom.planet = {
+			planet = {
 				is_star = yes
 			}
 		}
@@ -63,7 +61,7 @@ oxr_mdlc_origin_null_formatter_entry_effect = {
 	# ASTEROIDS
 	else_if = {
 		limit = {
-			fromfrom.planet = {
+			planet = {
 				is_asteroid = yes
 			}
 		}
@@ -72,7 +70,7 @@ oxr_mdlc_origin_null_formatter_entry_effect = {
 	# ARTIFICIAL PLANETS
 	else_if = {
 		limit = {
-			fromfrom.planet = {
+			planet = {
 				habitable_structure = yes
 			}
 		}
@@ -81,7 +79,7 @@ oxr_mdlc_origin_null_formatter_entry_effect = {
 	# SPECIAL PLANETS
 	else_if = {
 		limit = {
-			fromfrom.planet = {
+			planet = {
 				OR = {
 					is_planet_class = pc_shielded
 					is_planet_class = pc_infested
@@ -107,12 +105,12 @@ oxr_mdlc_origin_null_formatter_entry_effect = {
 	}
 }
 
-# Planet consumption effect, called from MEGA scope
+# Planet consumption effect, called from PLANET scope
 oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_habitable_planets = {
 	# This effect looks at what deposits are on the planet, and exports the total district modifiers
 	# so that the mega can access the vars and produce resources based on the planet's deposits
 
-	$PLANET_SCOPE$ = {
+	planet = {
 		export_trigger_value_to_variable = {
 			trigger = planet_size
 			variable = oxr_mdlc_origin_null_starting_planet_size
@@ -137,9 +135,7 @@ oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_habitable_planets = {
 			which = oxr_mdlc_origin_null_planet_formatting_stage_1
 			value = 0.66
 		}
-		round_variable = {
-			which = oxr_mdlc_origin_null_planet_formatting_stage_1
-		}
+		round_variable = oxr_mdlc_origin_null_planet_formatting_stage_1
 		# Set 1/3 size - At 1/3 size, produce "full amount" of alloys
 		# Larger planets will produce more alloys, naturally, and for more years
 		# But you get to alloys faster with smaller planets
@@ -151,9 +147,7 @@ oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_habitable_planets = {
 			which = oxr_mdlc_origin_null_planet_formatting_stage_2
 			value = 0.33
 		}
-		round_variable = {
-			which = oxr_mdlc_origin_null_planet_formatting_stage_2
-		}
+		round_variable = oxr_mdlc_origin_null_planet_formatting_stage_2
 
 		## DEPOSITS
 		# The number and type of deposits affects how many of each resource the formatting process generates
@@ -205,7 +199,7 @@ oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_habitable_planets = {
 		}
 
 		# Mult by 10 so we dont have to do this in the mega/resources block
-		# The mega 'resources' block will read these vars to produce resources
+		# The representative deposit 'resources' block will read these vars to produce resources
 		multiply_variable = {
 			which = oxr_mdlc_origin_null_planet_energy_produces_tmp
 			value = @oxr_mdlc_origin_null_base_deposit_mult_value
@@ -218,7 +212,7 @@ oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_habitable_planets = {
 			which = oxr_mdlc_origin_null_planet_food_produces_tmp
 			value = @oxr_mdlc_origin_null_base_deposit_mult_value
 		}
-		# The mega will reference these planet vars in its 'produces' block
+		# The deposit will reference these planet vars in its 'produces' block
 
 		# How much debris shall decomposing it generate?
 		set_variable = {
@@ -227,11 +221,15 @@ oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_habitable_planets = {
 		}
 		# A size 30 world, each year its ( planet size - 1 ) * 1000 in debris would be 465000 -- too much
 		# size 30 world each year producing (planet size - 1 ) * 100 in debris would produce 46500
+		# Also, this var will be updated yearly
 		# TODO: make this multiplication based on the type of mega doing the deconstructing ?
 		multiply_variable = {
 			which = oxr_mdlc_origin_null_planet_debris_produces_tmp
 			value = 100
 		}
+
+		## add deposit
+		add_deposit = oxr_mdlc_d_origin_null_decompose_resources
 	}
 }
 
@@ -245,36 +243,48 @@ oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_uninhabitable_regular_pl
 	# 	pc_toxic = { }
 	# 	pc_frozen = { }
 	# }
+	log = "noop"
 }
 oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_stars = {
 	# Scale effects based on star size
+	log = "noop"
 }
 oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_asteroids = {
 	# Produce minerals, but also SR if there is a deposit
+	log = "noop"
 }
 oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_artificial_planets = {
 	# Machine, habitat, ringworld, lathe, nanite
 }
-oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_black_holes = { }
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_black_holes = {
+	log = "noop"
+}
 oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_special_stars = {
 	# pulsar, neutron star
+	log = "noop"
 }
 
 oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_special_planets = {
 	# shrouded, shielded, broken, shattered
+	log = "noop"
 }
 oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_unknown = {
 	# if we can't detect the planet class ... maybe rely on merger triggers for this
+	log = "noop"
 }
 
 # Major mod compatibility
 oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_gigastructural_classes = {
 	# Need special tech to consume alderson disk, birch world
+	log = "noop"
 }
-oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_planetary_diversity_classes = { }
-oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_forgotten_queens_classes = { }
-oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_cellaris_classes = { }
-oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_acot_habitats = { }
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_planetary_diversity_classes = { log = "noop" }
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_forgotten_queens_classes = { log = "noop" }
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_cellaris_classes = { log = "noop" }
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_acot_habitats = { log = "noop" }
+
+
+###########################################################3
 
 
 # EOF
