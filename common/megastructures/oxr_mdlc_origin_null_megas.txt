@@ -4,13 +4,12 @@ oxr_mdlc_origin_null_stellar_formatter = {
 	place_entity_on_planet_plane = yes
 	show_galactic_map_icon = no
 	show_in_outliner = no
-	use_planet_resource = yes  # linked to deposit?
+	use_planet_resource = yes
 	build_time = 1  # change this later :)
 	entity_offset = { x = 0 y = 0 }
 
 	construction_blocks_and_blocked_by = none
 
-	# upgrade_from = { xvcv_mdlc_planet_cracker_incomplete }
 	dismantle_cost = { category = megastructures cost = { energy = 1 } }
 	dismantle_time = 1
 	dismantle_potential = { always = yes }
@@ -28,38 +27,27 @@ oxr_mdlc_origin_null_stellar_formatter = {
 	placement_rules = {
 		planet_possible = {
 			has_moon = no
-			NOT = { has_planet_flag = megastructure }
+			NOR = {
+				has_planet_flag = megastructure
+				has_planet_flag = oxr_mdlc_origin_null_stellar_formatter_placed
+			}
 		}
 	}
 	
 	on_build_complete = {
 		fromfrom.planet = {
 			set_planet_flag = has_megastructure
+			oxr_mdlc_planet_origin_null_formatter_entry_effect = yes
 		}
-		oxr_mdlc_origin_null_formatter_entry_effect = yes
 		# Start yearly consumption event
+		# event ....
 	}
-	
+
 	resources = {
-		# category = station_gatherers
-		category = oxr_mdlc_category_origin_null_production_megas
+		category = station_gatherers
+		# category = oxr_mdlc_category_origin_null_production_megas
 		cost = {
 			energy = 1
-		}
-
-		## NORMAL HABITABLE PLANETS ##
-		# Basic resources
-		inline_script = {
-			script = megas/resources/oxr_null_basic
-			RESOUCE = food
-		}
-		inline_script = {
-			script = megas/resources/oxr_null_basic
-			RESOUCE = energy
-		}
-		inline_script = {
-			script = megas/resources/oxr_null_basic
-			RESOUCE = minerals
 		}
 	}
 
@@ -77,6 +65,7 @@ oxr_mdlc_origin_null_stellar_formatter = {
 		fromfrom.planet = {
 			# stop consumption and remove planet modifier
 			remove_flag = has_megastructure
+			remove_flag = oxr_mdlc_origin_null_stellar_formatter_placed
 		}
 	}
 }
