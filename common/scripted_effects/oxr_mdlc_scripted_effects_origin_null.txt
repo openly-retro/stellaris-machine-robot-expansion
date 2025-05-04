@@ -5,6 +5,8 @@
 
 oxr_mdlc_origin_null_formatter_entry_effect = {
 	# The effect to call all effects
+	# Scope is SYSTEM scope
+	# Mega is fromfrom
 	if = {
 		limit = {
 			fromfrom.planet = {
@@ -134,7 +136,9 @@ oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_habitable_planets = {
 		multiply_variable = {
 			which = oxr_mdlc_origin_null_planet_formatting_stage_1
 			value = 0.66
-			round = yes
+		}
+		round_variable = {
+			which = oxr_mdlc_origin_null_planet_formatting_stage_1
 		}
 		# Set 1/3 size - At 1/3 size, produce "full amount" of alloys
 		# Larger planets will produce more alloys, naturally, and for more years
@@ -146,7 +150,9 @@ oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_habitable_planets = {
 		multiply_variable = {
 			which = oxr_mdlc_origin_null_planet_formatting_stage_2
 			value = 0.33
-			round = yes
+		}
+		round_variable = {
+			which = oxr_mdlc_origin_null_planet_formatting_stage_2
 		}
 
 		## DEPOSITS
@@ -184,6 +190,19 @@ oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_habitable_planets = {
 			which = oxr_mdlc_origin_null_num_nonresource_districts
 			value = oxr_mdlc_origin_null_planet_food_produces_tmp
 		}
+		# Final check, must be 0 or positive
+		if = {
+			limit = {
+				check_variable = {
+					which = oxr_mdlc_origin_null_num_nonresource_districts
+					value < 0
+				}
+			}
+			set_variable = {
+				which = oxr_mdlc_origin_null_num_nonresource_districts
+				value = 0
+			}
+		}
 
 		# Mult by 10 so we dont have to do this in the mega/resources block
 		# The mega 'resources' block will read these vars to produce resources
@@ -200,6 +219,19 @@ oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_habitable_planets = {
 			value = @oxr_mdlc_origin_null_base_deposit_mult_value
 		}
 		# The mega will reference these planet vars in its 'produces' block
+
+		# How much debris shall decomposing it generate?
+		set_variable = {
+			which = oxr_mdlc_origin_null_planet_debris_produces_tmp
+			value = oxr_mdlc_origin_null_starting_planet_size
+		}
+		# A size 30 world, each year its ( planet size - 1 ) * 1000 in debris would be 465000 -- too much
+		# size 30 world each year producing (planet size - 1 ) * 100 in debris would produce 46500
+		# TODO: make this multiplication based on the type of mega doing the deconstructing ?
+		multiply_variable = {
+			which = oxr_mdlc_origin_null_planet_debris_produces_tmp
+			value = 100
+		}
 	}
 }
 
