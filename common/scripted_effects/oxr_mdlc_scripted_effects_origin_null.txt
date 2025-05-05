@@ -6,6 +6,7 @@
 oxr_mdlc_planet_origin_null_formatter_entry_effect = {
 	# The effect to call all effects
 	# Scope is PLANET scope (fromfrom.planet)
+	# FIRST LEVEL IN STACK
 	log = "Hello, this is the oxr_mdlc_origin_null_formatter_entry_effect."
 	if = {
 		limit = {
@@ -109,7 +110,7 @@ oxr_mdlc_planet_origin_null_formatter_entry_effect = {
 oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_habitable_planets = {
 	# This effect looks at what deposits are on the planet, and exports the total district modifiers
 	# so that the mega can access the vars and produce resources based on the planet's deposits
-
+	# SECOND LEVEL IN EFFECT STACK
 	planet = {
 		export_trigger_value_to_variable = {
 			trigger = planet_size
@@ -228,8 +229,51 @@ oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_habitable_planets = {
 			value = 100
 		}
 
-		## add deposit
-		add_deposit = oxr_mdlc_d_origin_null_decompose_resources
+		## so elegant: 3 resource outputs will be produced by 1 deposit.
+		# but the system UI won't show deposit amounts with a variable mult
+		# so.. slog on through the clunky way
+		# RIP
+		# add_deposit = oxr_mdlc_d_origin_null_decompose_resources
+
+		# FOOD
+		if = {
+			limit = {
+				check_variable = {
+					which = oxr_mdlc_origin_null_planet_food_produces_tmp
+					value > 0
+				}
+			}
+			# THIRD LEVEL IN STACK
+			oxr_mdlc_origin_null_mega_iterate_values_create_deposits_for_consumption = {
+				RESOURCE = food
+			}
+		}
+		# ENERGY
+		if = {
+			limit = {
+				check_variable = {
+					which = oxr_mdlc_origin_null_planet_energy_produces_tmp
+					value > 0
+				}
+			}
+			# THIRD LEVEL IN STACK
+			oxr_mdlc_origin_null_mega_iterate_values_create_deposits_for_consumption = {
+				RESOURCE = energy
+			}
+		}
+		# MINERALS
+		if = {
+			limit = {
+				check_variable = {
+					which = oxr_mdlc_origin_null_planet_minerals_produces_tmp
+					value > 0
+				}
+			}
+			# THIRD LEVEL IN STACK
+			oxr_mdlc_origin_null_mega_iterate_values_create_deposits_for_consumption = {
+				RESOURCE = minerals
+			}
+		}
 	}
 }
 
@@ -284,7 +328,14 @@ oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_cellaris_classes = { log
 oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_acot_habitats = { log = "noop" }
 
 
-###########################################################3
+###########################################################
+
+oxr_mdlc_origin_null_mega_iterate_values_create_deposits_for_consumption = {
+	while = {
+		count = oxr_mdlc_origin_null_planet_$RESOURCE$_produces_tmp
+		add_deposit = oxr_mdlc_d_origin_null_decompose_resources_$RESOURCE$
+	}
+}
 
 
 # EOF
