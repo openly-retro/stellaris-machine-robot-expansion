@@ -1,8 +1,9 @@
 oxr_mdlc_d_origin_null_decompose_resources = {
 	# This deposit represents the output of the disassembling megastructure in orbit
+	# Just look how nicely the resources are coerced into the output of the deposit
+	# Too bad it won't show up in the system UI because of the variable mult
 	resources = {
-		# category = oxr_mdlc_category_origin_null_disassembler
-		category = orbital_mining_deposits
+		category = oxr_mdlc_category_origin_null_disassembler_orbital_deposits
 
 		## NORMAL HABITABLE PLANETS ##
 		# Basic resources
@@ -35,16 +36,24 @@ oxr_mdlc_d_origin_null_decompose_resources = {
 	is_for_colonizable = no
 }
 
-# d_minerals_10 = {
-# 	resources = {
-# 		category = orbital_mining_deposits
-# 		produces = {
-# 			minerals = 10
-# 		}
-# 	}
-# 	station = shipclass_mining_station
-# 	is_for_colonizable = no
-
-# 	potential = { always = no }
-# 	drop_weight = { weight = 0 }
-# }
+# We have to make these individually because the elegant way
+# does not get rendered in the UI (one deposit w/ all resources on it)
+# Each one creates 10
+oxr_mdlc_d_origin_null_decompose_resources_food = {
+	inline_script = {
+		script = planet/deposits/oxr_null_resource
+		RESOURCE = food
+	}
+}
+oxr_mdlc_d_origin_null_decompose_resources_minerals = {
+	inline_script = {
+		script = planet/deposits/oxr_null_resource
+		RESOURCE = minerals
+	}
+}
+oxr_mdlc_d_origin_null_decompose_resources_energy = {
+	inline_script = {
+		script = planet/deposits/oxr_null_resource
+		RESOURCE = energy
+	}
+}
