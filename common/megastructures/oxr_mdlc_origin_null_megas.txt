@@ -44,10 +44,37 @@ oxr_mdlc_origin_null_stellar_formatter = {
 	}
 
 	resources = {
-		category = station_gatherers
-		# category = oxr_mdlc_category_origin_null_production_megas
-		cost = {
+		# category = station_gatherers <-- use for deposits
+		category = oxr_mdlc_category_origin_null_disassembler_mega
+		# cost = {
+		# 	energy = 1
+		# }
+		produces = {
+			trigger = {
+				planet = {
+					is_variable_set = oxr_mdlc_origin_null_planet_food_produces_tmp
+				}
+			}
+			food = 1
+			mult = planet.oxr_mdlc_origin_null_planet_food_produces_tmp
+		}
+		produces = {
+			trigger = {
+				planet = {
+					is_variable_set = oxr_mdlc_origin_null_planet_minerals_produces_tmp
+				}
+			}
+			minerals = 1
+			mult = planet.oxr_mdlc_origin_null_planet_minerals_produces_tmp
+		}
+		produces = {
+			trigger = {
+				planet = {
+					is_variable_set = oxr_mdlc_origin_null_planet_energy_produces_tmp
+				}
+			}
 			energy = 1
+			mult = planet.oxr_mdlc_origin_null_planet_energy_produces_tmp
 		}
 	}
 
