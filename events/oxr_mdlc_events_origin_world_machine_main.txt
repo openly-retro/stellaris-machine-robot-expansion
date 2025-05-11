@@ -40,6 +40,7 @@ country_event = {
 		}
 	}
 }
+
 # Give cpu/ser/ecu tech to AP users
 country_event = {
 	id = oxr_mdlc_origin_wm_main.3
@@ -67,14 +68,6 @@ country_event = {
 			message = no
 		}
 	}
-}
-
-# Add arc sites to initial world machine homeworlds, wehrever they are
-event = {
-	id = oxr_mdlc_origin_wm_main.4
-	hide_window = yes
-	is_triggered_only = yes
-
 }
 
 ship_event = {
@@ -105,6 +98,7 @@ ship_event = {
 		}
 	}
 }
+
 country_event = {
 	id = oxr_mdlc_origin_wm_main.11
 	picture = GFX_evt_scholarium_anomaly
@@ -357,6 +351,7 @@ country_event = {
 		}
 	}
 }
+
 # PLANET count -1 world machines :(
 planet_event = {
 	id = oxr_mdlc_origin_wm_main.505
@@ -425,7 +420,7 @@ planet_event = {
 			target = this
 			variable = {
 				type = name
-				localisation = OXR_MDLC_REACTIVATED_PLANET
+				localization = OXR_MDLC_REACTIVATED_PLANET
 				scope = ROOT
 			}
 		}
@@ -534,8 +529,13 @@ country_event = {
 	option = {
 		name = oxr_mdlc_origin_wm_main.1005.a
 	}
-	immediate = {}
+	immediate = {
+		hidden_effect = {
+			log = ""
+		}
+	}
 }
+
 country_event = {
 	# enter stage 3, boot loader
 	id = oxr_mdlc_origin_wm_main.1010
@@ -547,7 +547,11 @@ country_event = {
 	option = {
 		name = oxr_mdlc_origin_wm_main.1010.a
 	}
-	immediate = {}
+	immediate = {
+		hidden_effect = {
+			log = ""
+		}
+	}
 }
 country_event = {
 	# enter stage 4, booting
@@ -560,7 +564,11 @@ country_event = {
 	option = {
 		name = oxr_mdlc_origin_wm_main.1015.a
 	}
-	immediate = {}
+	immediate = {
+		hidden_effect = {
+			log = ""
+		}
+	}
 }
 country_event = {
 	# enter stage 5, continue installation
@@ -573,7 +581,11 @@ country_event = {
 	option = {
 		name = oxr_mdlc_origin_wm_main.1020.a
 	}
-	immediate = {}
+	immediate = {
+		hidden_effect = {
+			log = ""
+		}
+	}
 }
 # ALL DONE WITH RESTORATION
 country_event = {
@@ -614,6 +626,7 @@ country_event = {
 		}
 	}
 }
+
 # Add progress to initial 'Expand empire' situation
 country_event = {
 	id = oxr_mdlc_origin_wm_main.1100
@@ -1164,7 +1177,7 @@ planet_event = {
 	is_triggered_only = yes
 	hide_window = yes
 	trigger = {
-		space_owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+		space_owner = { has_oxr_mdlc_origin_world_machine_awakened = yes }
 		is_planet_world_machine = yes
 		has_planet_flag = oxr_mdlc_world_machines_refilling_armies_active
 	}
@@ -1219,7 +1232,7 @@ planet_event = {
 	is_triggered_only = yes
 	hide_window = yes
 	trigger = {
-		space_owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+		space_owner = { has_oxr_mdlc_origin_world_machine_awakened = yes }
 		is_planet_world_machine = yes
 	}
 
@@ -1257,7 +1270,6 @@ pop_event = {
 	hide_window = yes
 
 	trigger = {
-		# owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
 		has_modifier = oxr_mdlc_pop_origin_world_machine_automaton_timer
 	}
 	immediate = {
@@ -1277,7 +1289,7 @@ planet_event = {
 	option = {
 		name = oxr_mdlc_origin_wm_main.3000.a
 		custom_tooltip = oxr_mdlc_origin_wm_main.3000.a.desc
-		trigger = { NOT = { is_planet_class = xvcv_mdlc_pc_machine_auto } }
+		trigger = { is_xvcv_mdlc_pc_machine_auto = no }
 		allow = {
 			is_planet_world_machine = yes
 			owner = { has_resource = { type = energy amount > 2500 } }
@@ -1384,13 +1396,12 @@ planet_event = {
 		is_capital = no
 	}
 	immediate = {
-		if = {
-			planet = {
-				fire_on_action = {
-					on_action = on_world_machine_planet_gained
-				}
+		planet = {
+			fire_on_action = {
+				on_action = on_world_machine_planet_gained
 			}
 		}
-		
 	}
 }
+
+# EOF

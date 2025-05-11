@@ -1349,6 +1349,15 @@ oxr_mdlc_planet_self_destruct = {
 
 # oxr_mdlc_origin_wm_main.500 after terraform finished
 oxr_mdlc_planet_create_world_machine_colony = {
+	if = {
+		limit = {
+			owner = {
+				has_oxr_mdlc_origin_world_machine_awakened = yes
+			}
+		}
+		change_pc = xvcv_mdlc_pc_machine_auto_origin_wm
+		log = "World Machine set to origin version of planet class on \\[This.GetName]"
+	}
 	create_colony = {
 		owner = from
 		species = from.owner_species
