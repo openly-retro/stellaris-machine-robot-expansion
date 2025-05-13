@@ -142,7 +142,7 @@ oxr_mdlc_mamp_deduct_empire_costs_cat_3 = {
 oxr_mdlc_mamp_construct_cat_1_pop = {
 	# Construct a pop from an existing MAMP species
 	optimize_memory
-	random_owned_pop = {
+	random_owned_pop_group = {
 		limit = {
 			species = {
 				# is_archetype = MACHINE
@@ -150,9 +150,9 @@ oxr_mdlc_mamp_construct_cat_1_pop = {
 				NOT = { is_archetype = OXR_MDLC_MAMP }
 			}
 		}
-		kill_pop = yes
+		oxr_kill_pop_from_group = yes
 	}
-	create_pop = {
+	create_pop_group = {
 		species = event_target:oxr_mdlc_mamp_cat_1_pop_species
 	}
 	last_created_pop = {
@@ -167,7 +167,7 @@ oxr_mdlc_mamp_construct_cat_1_pop = {
 oxr_mdlc_mamp_planet_kill_pop_for_frame = {
 	# Must be called from planet scope; must do check before hand
 	optimize_memory
-	random_owned_pop = {
+	random_owned_pop_group = {
 		limit = {
 			species = {
 				# is_archetype = MACHINE
@@ -176,7 +176,7 @@ oxr_mdlc_mamp_planet_kill_pop_for_frame = {
 			}
 			# NOT = { has_job_category = ruler }
 		}
-		kill_pop = yes
+		oxr_kill_pop_from_group = yes
 	}
 	log = "Killed 1 pop on \\[This.GetName] to construct a MAMP Frame"
 }
@@ -282,7 +282,7 @@ oxr_mdlc_mamp_pop_change_habitability_preference = {
 }
 
 oxr_mdlc_mamp_planet_update_all_frames_habitability = {
-	every_owned_pop = {
+	every_owned_pop_group = {
 		limit = {
 			species = { is_archetype = OXR_MDLC_MAMP }
 		}

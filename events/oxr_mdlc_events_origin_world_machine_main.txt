@@ -1246,16 +1246,16 @@ planet_event = {
 		}
 		while = {
 			count = @oxr_mdlc_world_machine_decision_temp_automaton_amount_1
-			create_pop = {
+			create_pop_group = {
 				species = owner.species
 			}
-			last_created_pop = {
+			last_created_pop_group = {
 				add_modifier = {
 					modifier = oxr_mdlc_pop_origin_world_machine_automaton_timer
 					days = 180
 				}
 				# Self-decommission .. bye bye
-				pop_event = {
+				pop_group_event = {
 					id = oxr_mdlc_origin_wm_main.2110
 					days = 180
 				}
@@ -1264,7 +1264,7 @@ planet_event = {
 	}
 }
 
-pop_event = {
+pop_group_event = {
 	id = oxr_mdlc_origin_wm_main.2110
 	is_triggered_only = yes
 	hide_window = yes
@@ -1273,7 +1273,7 @@ pop_event = {
 		has_modifier = oxr_mdlc_pop_origin_world_machine_automaton_timer
 	}
 	immediate = {
-		kill_pop = yes
+		oxr_kill_pop_from_group = yes
 	}
 }
 

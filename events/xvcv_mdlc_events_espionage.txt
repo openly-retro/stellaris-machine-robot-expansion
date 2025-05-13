@@ -855,13 +855,23 @@ country_event = {
 						}
 					}
 					# create pops
-					while = { create_pop = { species = prev.species } count = 10 }
+					create_pop_group = {
+						species = prev.species
+						size = 1000
+					}
 					while = {
-						limit = { count_owned_pop = { limit = { is_exact_same_species = event_target:current_uprising.species } count < 5 } }
-						random_owned_pop = {
+						limit = {
+							count_owned_pop_group = {
+								limit = {
+									is_exact_same_species = event_target:current_uprising.species
+								}
+								count < 5
+							}
+						}
+						random_owned_pop_group = {
 							limit = { NOT = { is_exact_same_species = event_target:current_uprising.species } }
-							kill_pop = yes
-							prev = { create_pop = { species = event_target:current_uprising.species } }
+							oxr_kill_pop_from_group = yes
+							prev = { create_pop_group = { species = event_target:current_uprising.species } }
 						}
 					}
 					# create armies
@@ -918,17 +928,17 @@ country_event = {
 							}
 							set_variable = { which = housing_var value = 15 }
 						}
-						while = { create_pop = { species = event_target:current_uprising } count = housing_var }
+						while = { create_pop_group = { species = event_target:current_uprising } count = housing_var }
 						clear_variable = housing_var
 						while = {
-							limit = { count_owned_pop = { limit = { is_exact_same_species = event_target:current_uprising.species } count < 5 } }
-							random_owned_pop = {
+							limit = { count_owned_pop_group = { limit = { is_exact_same_species = event_target:current_uprising.species } count < 5 } }
+							random_owned_pop_group = {
 								limit = { NOT = { is_exact_same_species = event_target:current_uprising.species } }
-								kill_pop = yes
-								prev = { create_pop = { species = event_target:current_uprising.species } }
+								oxr_kill_pop_from_group = yes
+								prev = { create_pop_group = { species = event_target:current_uprising.species } }
 							}
 						}
-				
+
 						# create armies on planets
 						while = { create_army = { owner = event_target:current_uprising type = machine_assault_1 } count = 6 }
 						if = {

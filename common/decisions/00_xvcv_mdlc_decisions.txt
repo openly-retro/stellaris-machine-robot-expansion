@@ -206,10 +206,13 @@ xvcv_mdlc_decision_remove_unemployed = {
 		hidden_effect = {
 			while = {
 				limit = { num_assigned_jobs = { job = unemployed value > 0 } }
-				random_owned_pop = {
+				random_owned_pop_group = {
 					limit = { is_unemployed = yes }
 					owner = { add_resource = { alloys = 100 } } #1 replicator = 1 pop assembly = 1 alloys upkeep per month #need 100 months for 1 pop #total 100 alloys per 1 pop
-					kill_pop = yes
+					kill_pop_group = {
+						pop_group = this
+						amount = 100
+					}
 				}
 			}
 		}
@@ -735,13 +738,15 @@ xvcv_mdlc_decision_pop_commoditization = {
 
 	allow = {
 		has_district = xvcv_mdlc_pc_virtual_district_essential
-		num_pops > 1
+		pop_amount > 100
 	}
 
 	effect = {
 		custom_tooltip = xvcv_mdlc_decision_pop_commoditization_tooltip
 		hidden_effect = {
-			random_owned_pop = { kill_pop = yes }
+			random_owned_pop_group = {
+				oxr_kill_pop_from_group = yes
+			}
 			add_deposit = xvcv_mdlc_d_pc_virtual_commoditized_pop
 		}
 	}
@@ -756,67 +761,67 @@ xvcv_mdlc_decision_goods_for_research_bonus = {
 	resources = {
 		category = decisions
 		cost = {
-			trigger = { count_owned_pop = { limit = { has_job = calculator } count <= 10 } }
+			trigger = { count_owned_pop_group = { limit = { has_job = calculator } count <= 10 } }
 			consumer_goods = 200
 		}
 		cost = {
 			trigger = {
-				count_owned_pop = { limit = { has_job = calculator } count > 10 }
-				count_owned_pop = { limit = { has_job = calculator } count <= 20 }
+				count_owned_pop_group = { limit = { has_job = calculator } count > 10 }
+				count_owned_pop_group = { limit = { has_job = calculator } count <= 20 }
 			}
 			consumer_goods = 400
 		}
 		cost = {
 			trigger = {
-				count_owned_pop = { limit = { has_job = calculator } count > 20 }
-				count_owned_pop = { limit = { has_job = calculator } count <= 30 }
+				count_owned_pop_group = { limit = { has_job = calculator } count > 20 }
+				count_owned_pop_group = { limit = { has_job = calculator } count <= 30 }
 			}
 			consumer_goods = 600
 		}
 		cost = {
 			trigger = {
-				count_owned_pop = { limit = { has_job = calculator } count > 30 }
-				count_owned_pop = { limit = { has_job = calculator } count <= 40 }
+				count_owned_pop_group = { limit = { has_job = calculator } count > 30 }
+				count_owned_pop_group = { limit = { has_job = calculator } count <= 40 }
 			}
 			consumer_goods = 800
 		}
 		cost = {
 			trigger = {
-				count_owned_pop = { limit = { has_job = calculator } count > 40 }
-				count_owned_pop = { limit = { has_job = calculator } count <= 50 }
+				count_owned_pop_group = { limit = { has_job = calculator } count > 40 }
+				count_owned_pop_group = { limit = { has_job = calculator } count <= 50 }
 			}
 			consumer_goods = 1000
 		}
 		cost = {
 			trigger = {
-				count_owned_pop = { limit = { has_job = calculator } count > 50 }
-				count_owned_pop = { limit = { has_job = calculator } count <= 60 }
+				count_owned_pop_group = { limit = { has_job = calculator } count > 50 }
+				count_owned_pop_group = { limit = { has_job = calculator } count <= 60 }
 			}
 			consumer_goods = 1200
 		}
 		cost = {
 			trigger = {
-				count_owned_pop = { limit = { has_job = calculator } count > 60 }
-				count_owned_pop = { limit = { has_job = calculator } count <= 70 }
+				count_owned_pop_group = { limit = { has_job = calculator } count > 60 }
+				count_owned_pop_group = { limit = { has_job = calculator } count <= 70 }
 			}
 			consumer_goods = 1400
 		}
 		cost = {
 			trigger = {
-				count_owned_pop = { limit = { has_job = calculator } count > 70 }
-				count_owned_pop = { limit = { has_job = calculator } count <= 80 }
+				count_owned_pop_group = { limit = { has_job = calculator } count > 70 }
+				count_owned_pop_group = { limit = { has_job = calculator } count <= 80 }
 			}
 			consumer_goods = 1600
 		}
 		cost = {
 			trigger = {
-				count_owned_pop = { limit = { has_job = calculator } count > 80 }
-				count_owned_pop = { limit = { has_job = calculator } count <= 90 }
+				count_owned_pop_group = { limit = { has_job = calculator } count > 80 }
+				count_owned_pop_group = { limit = { has_job = calculator } count <= 90 }
 			}
 			consumer_goods = 1800
 		}
 		cost = {
-			trigger = { count_owned_pop = { limit = { has_job = calculator } count > 90 } }
+			trigger = { count_owned_pop_group = { limit = { has_job = calculator } count > 90 } }
 			consumer_goods = 2000
 		}
 	}
@@ -837,11 +842,11 @@ xvcv_mdlc_decision_goods_for_research_bonus = {
 		weight = 0
 		modifier = {
 			weight = 10
-			count_owned_pop = {
+			count_owned_pop_group = {
 				limit = { has_job = calculator }
 				count > 0
 			}
-			count_owned_pop = {
+			count_owned_pop_group = {
 				limit = { has_job = calculator }
 				count < 20
 			}
@@ -858,7 +863,7 @@ xvcv_mdlc_decision_goods_for_research_bonus = {
 		}
 		modifier = {
 			weight = 20
-			count_owned_pop = {
+			count_owned_pop_group = {
 				limit = { has_job = calculator }
 				count >= 20
 			}

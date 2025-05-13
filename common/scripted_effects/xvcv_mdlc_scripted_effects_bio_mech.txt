@@ -22,7 +22,7 @@ xvcv_mdlc_planet_calc_bio_mech_growth_rate = {
 			}
 		} #get the current growth scale value from the data storage
 	}
-	multiply_variable = { which = xvcv_mdlc_pop_growth_scale_var value = owner.trigger:num_pops }
+	multiply_variable = { which = xvcv_mdlc_pop_growth_scale_var value = owner.trigger:pop_amount }
 	change_variable = {
 		which = xvcv_mdlc_bio_robot_growth_requirement_var
 		value = xvcv_mdlc_pop_growth_scale_var
@@ -142,7 +142,7 @@ xvcv_mdlc_planet_calc_bio_mech_growth_rate = {
 	}
 
 
-	random_owned_pop = {
+	random_owned_pop_group = {
 		limit = { xvcv_mdlc_bio_robot_auto_growth_possible_pop_trigger = yes }
 		#choose a species to be born (if there are more than one hybrid)
 		weights = {
@@ -192,7 +192,7 @@ xvcv_mdlc_planet_calc_bio_mech_growth_rate = {
 			if = {
 				limit = { check_variable = { which = xvcv_mdlc_bio_robot_growth_progress_var value > xvcv_mdlc_bio_robot_growth_requirement_var } }
 				subtract_variable = { which = xvcv_mdlc_bio_robot_growth_progress_var value = xvcv_mdlc_bio_robot_growth_requirement_var }
-				create_pop = { species = prev.species }
+				create_pop_group = { species = prev.species }
 			}
 		}
 	}
@@ -231,7 +231,7 @@ xvcv_mdlc_planet_extract_assembly_rate_for_data = {
 
 	set_variable = { which = xvcv_mdlc_pop_growth_scale_var value = xvcv_mdlc_assembly_requirement_var }
 	change_variable = { which = xvcv_mdlc_pop_growth_scale_var value = -100 }
-	divide_variable = { which = xvcv_mdlc_pop_growth_scale_var value = prev.trigger:num_pops }
+	divide_variable = { which = xvcv_mdlc_pop_growth_scale_var value = prev.trigger:pop_amount }
 	multiply_variable = { which = xvcv_mdlc_pop_growth_scale_var value = 100 }
 	floor_variable = xvcv_mdlc_pop_growth_scale_var
 	divide_variable = { which = xvcv_mdlc_pop_growth_scale_var value = 100 }
@@ -279,7 +279,7 @@ xvcv_mdlc_country_calculate_bio_mech_growth_required = {
 		}
 		multiply_variable = {
 			which = oxr_mdlc_bio_mech_growth_progress_goal
-			value = trigger:num_pops
+			value = trigger:pop_amount
 		}
 		change_variable = {
 			which = oxr_mdlc_bio_mech_growth_progress_goal

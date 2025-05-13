@@ -95,10 +95,10 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 		# Trim population
 		while = {
 			limit = {
-				num_pops > 3
+				pop_amount > 300
 			}
-			random_owned_pop = {
-				kill_pop = yes
+			random_owned_pop_group = {
+				oxr_kill_pop_from_group = yes
 				root = { add_resource = { alloys = 10 } }  # was 75
 			}
 		}
@@ -1327,8 +1327,8 @@ oxr_mdlc_planet_self_destruct = {
 		value = oxr_mdlc_self_destruct_diminishing_return
 	}
 	## bye bye :'(
-	every_owned_pop = {
-		kill_pop = yes
+	every_owned_pop_group = {
+		oxr_kill_pop_from_group = yes
 	}
 	destroy_colony = yes
 	if = {
@@ -1426,12 +1426,12 @@ oxr_mdlc_planet_create_world_machine_colony = {
 	# Balance pops. Always have 3
 	if = {
 		limit = {
-			num_pops = 2
+			pop_amount = 200
 			from = {
 				has_origin = oxr_mdlc_origin_world_machine_awakened
 			}
 		}
-		create_pop = {
+		create_pop_group = {
 			species = from.founder_species
 		}
 		log = "Created one extra Automation species"
@@ -1890,12 +1890,12 @@ oxr_mdlc_planet_create_t3_world_colony = {
 		# Balance pops. Always have 3
 		if = {
 			limit = {
-				num_pops = 2
+				pop_amount = 200
 				from = {
 					has_origin = oxr_mdlc_origin_world_machine_awakened
 				}
 			}
-			create_pop = {
+			create_pop_group = {
 				species = from.founder_species
 			}
 			log = "Created one extra Automation species"

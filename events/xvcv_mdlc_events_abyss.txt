@@ -1721,19 +1721,19 @@ country_event = {
 		random_owned_planet = {
 			limit = {
 				has_building = xvcv_mdlc_building_abyss_gateway
-				count_owned_pop = { count > 1 }
+				count_owned_pop_group = { count > 1 }
 			}
 			save_event_target_as = xvcv_mdlc_abyss_neg_patron_whisperers_planet
 		}
 		if = {
 			limit = { NOT = { exists = event_target:xvcv_mdlc_abyss_neg_patron_whisperers_planet } }
 			random_owned_planet = {
-				limit = { count_owned_pop = { count > 1 } }
+				limit = { count_owned_pop_group = { count > 1 } }
 				save_event_target_as = xvcv_mdlc_abyss_neg_patron_whisperers_planet
 			}
 		}
 		event_target:xvcv_mdlc_abyss_neg_patron_whisperers_planet = {
-			random_owned_pop = { kill_pop = yes }
+			random_owned_pop_group = { oxr_kill_pop_from_group = yes }
 			add_modifier = { modifier = xvcv_mdlc_abyss_neg_patron_whisperers days = 3600 }
 		}
 	}
@@ -1791,7 +1791,7 @@ country_event = {
 		}
 		while = {
 			random_owned_planet = {
-				random_owned_pop = {
+				random_owned_pop_group = {
 					limit = { NOT = { is_species_class = EXD } }
 					change_species = last_created_species
 				}
@@ -1891,19 +1891,21 @@ country_event = {
 		random_owned_planet = {
 			limit = {
 				has_building = xvcv_mdlc_building_abyss_gateway
-				count_owned_pop = { count > 5 }
+				count_owned_pop_group = { count > 5 }
 			}
 			save_event_target_as = xvcv_mdlc_abyss_neg_patron_eater_planet
 		}
 		if = {
 			limit = { NOT = { exists = event_target:xvcv_mdlc_abyss_neg_patron_eater_planet } }
 			random_owned_planet = {
-				limit = { count_owned_pop = { count > 5 } }
+				limit = { count_owned_pop_group = { count > 5 } }
 				save_event_target_as = xvcv_mdlc_abyss_neg_patron_eater_planet
 			}
 		}
 		event_target:xvcv_mdlc_abyss_neg_patron_eater_planet = {
-			while = { random_owned_pop = { kill_pop = yes } count = 5 }
+			random_owned_pop_group = {
+				oxr_kill_pop_from_group = { count = 500 }
+			}
 			add_modifier = { modifier = xvcv_mdlc_abyss_neg_patron_eater days = 3600 }
 		}
 	}
@@ -1927,19 +1929,21 @@ country_event = {
 		random_owned_planet = {
 			limit = {
 				has_building = xvcv_mdlc_building_abyss_gateway
-				count_owned_pop = { count > 10 }
+				count_owned_pop_group = { count > 10 }
 			}
 			save_event_target_as = xvcv_mdlc_abyss_neg_patron_eater_alt_planet
 		}
 		if = {
 			limit = { NOT = { exists = event_target:xvcv_mdlc_abyss_neg_patron_eater_alt_planet } }
 			random_owned_planet = {
-				limit = { count_owned_pop = { count > 10 } }
+				limit = { count_owned_pop_group = { count > 10 } }
 				save_event_target_as = xvcv_mdlc_abyss_neg_patron_eater_alt_planet
 			}
 		}
 		event_target:xvcv_mdlc_abyss_neg_patron_eater_alt_planet = {
-			while = { random_owned_pop = { kill_pop = yes } count = 10 }
+			random_owned_pop_group = {
+				oxr_kill_pop_from_group = { count = 1000 }
+			}
 			add_modifier = { modifier = xvcv_mdlc_abyss_neg_patron_eater_alt days = 3600 }
 		}
 	}
@@ -1975,7 +1979,9 @@ country_event = {
 			}
 		}
 		event_target:xvcv_mdlc_abyss_destroyed_by_patron_planet = {
-			every_owned_pop = { kill_pop = yes }
+			every_owned_pop_group = {
+				oxr_kill_all_pops_in_group = yes
+			}
 			destroy_colony = yes
 			clear_planet_modifiers = yes
 			clear_deposits = yes
