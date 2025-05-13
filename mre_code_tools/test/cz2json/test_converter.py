@@ -209,13 +209,13 @@ leader_trait_scout = {
         assert expected == actual
 
     def test_math_comparisons(self):
-        test_data = "has_skill > 1"
-        expected = '"has_skill": "gt_1",'
+        test_data = "has_base_skill > 1"
+        expected = '"has_base_skill": "gt_1",'
         actual = clean_up_line(test_data)
         assert expected == actual
 
-        test_data = "has_skill <= 10"
-        expected = '"has_skill": "lte_10",'
+        test_data = "has_base_skill <= 10"
+        expected = '"has_base_skill": "lte_10",'
 
     def test_concat_large_list(self):
         test_data = """opposites = {
@@ -241,8 +241,8 @@ leader_trait_scout = {
         assert expected == actual
 
     def test_my_sanity_at_144_am(self):
-        test_data = "mult = trigger:has_skill"
-        expected = '"mult": "trigger:has_skill",'
+        test_data = "mult = trigger:has_base_skill"
+        expected = '"mult": "trigger:has_base_skill",'
         actual = clean_up_line(test_data)
         assert expected == actual
 

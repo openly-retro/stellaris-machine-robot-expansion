@@ -71,17 +71,17 @@ def create_requirements_triggers_for_leader_traits(trait: dict) -> str:
         )
     if root.get("rarity") == "veteran":
         requirements.append(
-            f"has_skill >= 4"
+            f"has_base_skill >= 4"
         )
     elif root.get("rarity") == "paragon":
         requirements.append(
-            f"has_skill >= 8"
+            f"has_base_skill >= 8"
         )
     for trigger, value in root.get("leader_potential_add", {}).items():
         if trigger == "is_pool_leader":
             print(f"Skipping locking trait to 'starting only': {trait_name}")
             continue
-        if trigger == "has_skill":
+        if trigger == "has_base_skill" or trigger == "has_total_skill":
             # Deal with my special greater_than_1 thing I forgot I made :psycho_smile:
             skill_level = int(value.split('_')[-1])
 
@@ -94,7 +94,7 @@ def create_requirements_triggers_for_leader_traits(trait: dict) -> str:
             elif value.startswith("lte_"):
                 operator = "<="
             requirements.append(
-                f"has_skill {operator} {skill_level}"
+                f"{trigger} {operator} {skill_level}"
             )
         # Greeting abonimatnion
         elif trigger == "has_subclass_trait" and not root.get("required_subclass"):
