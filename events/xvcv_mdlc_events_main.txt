@@ -2,6 +2,7 @@ namespace = xvcv_mdlc
 
 ### Game Start Events ###
 #on_game_start: starting condition adjustment
+
 country_event = {
 	id = xvcv_mdlc.1
 	hide_window = yes
@@ -369,7 +370,10 @@ country_event = {
 				prev = { set_country_flag = xvcv_mdlc_origin_mechanical_heritage_empire } #also see: xvcv_mdlc_pc_mechanical_district_set
 				# oxr_mdlc_planet_swap_vanilla_to_mechanical_world_districts = yes
 				remove_district = xvcv_mdlc_pc_mechanical_district_generator
-				create_pop = { species = prev.species }
+				# create_pop = { species = prev.species }
+				create_pop_group = {
+					species = prev.species
+				}
 			}
 			if = {
 				limit = {
@@ -411,6 +415,7 @@ country_event = {
 		}
 	}
 }
+
 #on_game_start: dominant species modification
 planet_event = {
 	id = xvcv_mdlc.2
@@ -471,20 +476,25 @@ planet_event = {
 			}
 		}
 		if = {
-			limit = { owner = { has_origin = xvcv_mdlc_origin_start_with_colony } }
-			generate_start_deposits_and_blockers = yes
-			every_deposit = {
-				limit = { is_blocker = yes }
-				remove_deposit = yes #don't clear, just remove them completely #so they won't execute the on_cleared effect
+			limit = {
+				owner = {
+					has_origin = xvcv_mdlc_origin_start_with_colony
+				}
 			}
-			add_deposit = xvcv_mdlc_d_origin_start_with_colony_arkship
-			add_deposit = xvcv_mdlc_d_origin_start_with_colony_pop_factory_incomplete
-			add_deposit = xvcv_mdlc_d_origin_start_with_colony_lab_incomplete
-			add_deposit = xvcv_mdlc_d_origin_start_with_colony_inactive_drones
-	
-			add_building = building_deployment_post
-			add_district = district_nexus
-	
+			planet = {
+				generate_start_deposits_and_blockers = yes
+				every_deposit = {
+					limit = { is_blocker = yes }
+					remove_deposit = yes #don't clear, just remove them completely #so they won't execute the on_cleared effect
+				}
+				add_deposit = xvcv_mdlc_d_origin_start_with_colony_arkship
+				add_deposit = xvcv_mdlc_d_origin_start_with_colony_pop_factory_incomplete
+				add_deposit = xvcv_mdlc_d_origin_start_with_colony_lab_incomplete
+				add_deposit = xvcv_mdlc_d_origin_start_with_colony_inactive_drones
+		
+				add_building = building_deployment_post
+				add_district = district_nexus
+			}
 			if = {
 				limit = {
 					owner = {
@@ -500,24 +510,54 @@ planet_event = {
 						add_deposit = d_food_10
 					}
 				}
+				# Add servitor building
 				if = {
-					limit = { owner = { has_valid_civic = civic_machine_servitor } }
-					remove_building = building_deployment_post
-					add_building = building_machine_capital
-					add_building = building_organic_sanctuary
+					limit = {
+						owner = {
+							has_valid_civic = civic_machine_servitor
+						}
+					}
+					planet = {
+						remove_building = building_deployment_post
+						add_building = building_machine_capital
+						add_building = building_organic_sanctuary
+					}
 				}
-				while = { create_pop = { species = last_created_species } count = 5 }
+
+				# while = {
+				# 	create_pop = { species = last_created_species }
+				# 	count = 5
+				# }
+				# 4.0: Pops are 100 "each", so create 5 x 100 = 500
+				create_pop_group = {
+					species = last_created_species
+					size = 500
+				}
 				owner = { add_resource = { food = 100 } }
 			}
 			while = {
 				limit = { free_jobs > 0 }
-				create_pop = { species = owner.species }
+				# create_pop = { species = owner.species }
+				create_pop_group = {
+					species = owner.species
+				}
 			}
 			while = {
 				limit = { num_unemployed > 0 }
-				random_owned_pop = {
-					limit = { is_unemployed = yes }
-					kill_pop = yes
+				# random_owned_pop = {
+				# 	limit = { is_unemployed = yes }
+				# 	kill_pop = yes
+				# }
+				# 4.0: Remove 1 (100) pop until no more unemployed
+				random_owned_pop_group = {
+					limit = {
+						is_unemployed = yes
+					}
+					kill_pop_group = {
+						pop_group = this
+						amount = 100
+					}
+					log = "xvcv_mdlc.2 - removed an unemployed pop"
 				}
 			}
 			
@@ -539,14 +579,33 @@ planet_event = {
 					add_building = building_deployment_post
 					add_district = district_nexus
 					while = {
-						limit = { free_jobs > 0 }
-						create_pop = { species = owner.species }
+						limit = {
+							free_jobs > 0
+						}
+						create_pop_group = {
+							species = owner.species
+							size = 100
+						}
 					}
 					while = {
-						limit = { num_unemployed > 0 }
-						random_owned_pop = {
-							limit = { is_unemployed = yes }
-							kill_pop = yes
+						limit = {
+							num_unemployed > 0
+						}
+						# random_owned_pop = {
+						# 	limit = {
+						# 		is_unemployed = yes
+						# 	}
+						# 	kill_pop = yes
+						# }
+						random_owned_pop_group = {
+							limit = {
+								is_unemployed = yes
+							}
+							kill_pop_group = {
+								pop_group = this
+								amount = 100
+							}
+							log = "xvcv_mdlc.2 - removed an unemployed pop"
 						}
 					}
 				}
@@ -570,6 +629,7 @@ planet_event = {
 		}
 	}
 }
+
 #on_game_start / on_single_player_save_game_load: creating invisible countries
 event = {
 	id = xvcv_mdlc.3
@@ -687,7 +747,14 @@ country_event = {
 			mult = xvcv_mdlc_gov_reform_cost_var
 		}
 		clear_variable = xvcv_mdlc_gov_reform_cost_var
-		every_owned_pop = { prev = { add_resource = { consumer_goods = 12 } } } #add 12 goods per pop
+
+		#add 12 goods per pop
+		prev = {
+			add_resource = {
+				consumer_goods = 12
+				mult = value:oxr_mdlc_num_pops_on_planet_oldstyle
+			}
+		}
 
 		#this effect code should be placed above 'change_government' effect
 		every_owned_leader = {
@@ -728,7 +795,7 @@ country_event = {
 		set_country_flag = synthetic_empire
 		set_country_flag = synth_assimilation
 
-		every_owned_pop = {
+		every_owned_pop_group = {
 			limit = { has_trait = xvcv_mdlc_trait_bio_robot }
 			modify_species = {
 				add_trait = trait_mechanical
@@ -737,7 +804,11 @@ country_event = {
 		}
 		this.species = {
 			if = {
-				limit = { NOT = { has_trait = xvcv_mdlc_trait_bio_robot } }
+				limit = {
+					NOT = {
+						has_trait = xvcv_mdlc_trait_bio_robot
+					}
+				}
 				create_species = {
 					adjective = this
 					name = this
@@ -759,11 +830,11 @@ country_event = {
 			}
 		}
 		xvcv_mdlc_dominant_species_changing_effect = yes
-		every_owned_pop = {
+		every_owned_pop_group = {
 			limit = { has_trait = trait_machine_unit }
 			change_species = last_created_species
 		}
-		random_owned_pop = {
+		random_owned_pop_group = {
 			limit = { is_same_species = prev.species }
 			xvcv_mdlc_robot_species_rights_adjustments_effect = yes
 		}
@@ -1103,7 +1174,8 @@ country_event = {
 		}
 	}
 }
-#ethics changing event for finished 'XVCV_MDLC_AP_MIND_SEPARATION_PROJECT' special project
+
+# ethics changing event for finished 'XVCV_MDLC_AP_MIND_SEPARATION_PROJECT' special project
 country_event = {
 	id = xvcv_mdlc.32
 	title = "xvcv_mdlc.32.name"
@@ -1279,7 +1351,7 @@ country_event = {
 			give_technology = { tech = tech_nanite_assemblers message = no }
 		}
 	
-		every_owned_pop = {
+		every_owned_pop_group = {
 			limit = { has_trait = xvcv_mdlc_trait_bio_robot }
 			change_species_characteristics = {
 				add_trait = trait_machine_unit
@@ -1314,7 +1386,7 @@ country_event = {
 			}
 		}
 		xvcv_mdlc_dominant_species_changing_effect = yes
-		every_owned_pop = {
+		every_owned_pop_group = {
 			limit = { has_trait = trait_mechanical }
 			change_species = last_created_species
 		}
@@ -1954,7 +2026,7 @@ country_event = {
 				}
 			}
 			every_owned_planet = { create_pop = { species = last_created_species } }
-			every_owned_pop = {
+			every_owned_pop_group = {
 				limit = { has_trait = xvcv_mdlc_trait_engineered_organics }
 				xvcv_mdlc_modify_species_clear_pc_preference_traits_effect = yes
 			}
@@ -2023,7 +2095,7 @@ country_event = {
 				}
 				add_building = building_organic_sanctuary
 			}
-			every_owned_pop = {
+			every_owned_pop_group = {
 				limit = { has_trait = xvcv_mdlc_trait_engineered_organics_alt }
 				xvcv_mdlc_modify_species_clear_pc_preference_traits_effect = yes
 			}
@@ -2239,6 +2311,8 @@ country_event = {
 		force_remove_civic = civic_machine_zero_waste_protocols
 	}
 }
+
+## MARK ##
 
 ### 'xvcv_mdlc_ap_bio_robot' Ascension Perk Events ###
 #'XVCV_MDLC_AP_BIO_ROBOT_PROJECT' special project effect event
