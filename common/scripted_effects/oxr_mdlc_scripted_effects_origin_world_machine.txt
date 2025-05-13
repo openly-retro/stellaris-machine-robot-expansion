@@ -37,27 +37,27 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 			limit = { has_district = district_city }
 			remove_district = district_city
 			# add_district = xvcv_mdlc_pc_machine_auto_district_nexus
-			add_district = xvcv_mdlc_pc_machine_auto_district_mining
+			add_district = xvcv_mdlc_pc_machine_auto_district_mining_origin_wm
 		}
 		while = {
 			limit = { has_district = district_nexus }
 			remove_district = district_nexus
-			add_district = xvcv_mdlc_pc_machine_auto_district_mining
+			add_district = xvcv_mdlc_pc_machine_auto_district_mining_origin_wm
 		}
 		while = {
 			limit = { has_district = district_generator }
 			remove_district = district_generator
-			add_district = xvcv_mdlc_pc_machine_auto_district_generator
+			add_district = xvcv_mdlc_pc_machine_auto_district_generator_origin_wm
 		}
 		while = {
 			limit = { has_district = district_mining }
 			remove_district = district_mining
-			add_district = xvcv_mdlc_pc_machine_auto_district_mining
+			add_district = xvcv_mdlc_pc_machine_auto_district_mining_origin_wm
 		}
 		while = {
 			limit = { has_district = xvcv_mdlc_common_district_mining }
 			remove_district = xvcv_mdlc_common_district_mining
-			add_district = xvcv_mdlc_pc_machine_auto_district_mining
+			add_district = xvcv_mdlc_pc_machine_auto_district_mining_origin_wm
 		}
 
 		# Have a check here that looks whether the empire uses food.
@@ -65,12 +65,12 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 		while = {
 			limit = { has_district = district_farming }
 			remove_district = district_farming
-			add_district = xvcv_mdlc_pc_machine_auto_district_farming
+			add_district = xvcv_mdlc_pc_machine_auto_district_farming_origin_wm
 		}
 		while = {
 			limit = { has_district = district_industrial }
 			remove_district = district_industrial
-			add_district = xvcv_mdlc_pc_machine_auto_district_industrial
+			add_district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
 		}
 		# Note the difference in starting vs now
 		export_trigger_value_to_variable = {
@@ -224,30 +224,44 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 		while = {
 			limit = { has_building = building_uplink_node }
 			remove_building = building_uplink_node
-			add_building = oxr_mdlc_world_machines_building_auto_unity_1
+			add_building = {
+				district = xvcv_mdlc_pc_machine_auto_district_industrial
+				zone = slot_city_government
+				building = oxr_mdlc_world_machines_building_auto_unity_1
+			}
 		}
 		### Research
 		while = {
 			limit = { has_building = building_research_lab_1 }
 			remove_building = building_research_lab_1
-			add_building = oxr_mdlc_world_machines_building_fractal_sanitizer
+			add_building = {
+				district = xvcv_mdlc_pc_machine_auto_district_industrial
+				zone = slot_city_government
+				building = oxr_mdlc_world_machines_building_fractal_sanitizer
+			}
 		}
 		### Military
 		while = {
 			limit = { has_building = building_military_academy }
 			remove_building = building_military_academy
-			add_building = oxr_mdlc_world_machines_building_maintenance_legion
+			add_building = {
+				district = xvcv_mdlc_pc_machine_auto_district_industrial
+				zone = slot_city_government
+				building = oxr_mdlc_world_machines_building_maintenance_legion
+			}
 		}
-		### Roleplaying
-		# add_building = oxr_mdlc_world_machines_building_storage_cradle
-		# ruin_building = oxr_mdlc_world_machines_building_storage_cradle
+
 		### Capital
 		if = {
 			limit = {
 				has_building = building_machine_capital
 			}
 			remove_building = building_machine_capital
-			add_building = oxr_mdlc_world_machines_building_auto_capital
+			add_building = {
+				district = xvcv_mdlc_pc_machine_auto_district_industrial
+				zone = slot_city_government
+				building = oxr_mdlc_world_machines_building_auto_capital
+			}
 		}
 
 		### Free up a slot
@@ -1939,4 +1953,12 @@ oxr_mdlc_unlock = {
 		set_country_flag = oxr_mdlc_origin_world_machine_t3_ser_unity_target_met
 	}
 	country_event = { id = oxr_mdlc_origin_wm_main.1500 }
+}
+
+oxr_mdlc_origin_wm_add_building_to_auto_wm_main = {
+	add_building = {
+		district = xvcv_mdlc_pc_machine_auto_district_industrial
+		zone = slot_city_government
+		building = $which$
+	}
 }
