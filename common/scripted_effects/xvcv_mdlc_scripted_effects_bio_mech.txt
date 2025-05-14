@@ -223,7 +223,15 @@ xvcv_mdlc_planet_extract_assembly_rate_for_data = {
 	# Calculate the base assembly requirement for a bio mech pop
 	# look at the amount of "artificial" pops/yr, ex: 0.41
 	# The assembly requirement 
-	export_trigger_value_to_variable = { trigger = num_artificial_pops_per_year variable = xvcv_mdlc_pops_per_year_var }
+	export_trigger_value_to_variable = {
+		trigger = artificial_pops_last_month_growth
+		variable = xvcv_mdlc_pops_per_year_var
+	}
+	multiply_variable = {
+		which = xvcv_mdlc_pops_per_year_var
+		value = 12
+	}
+
 	set_variable = { which = xvcv_mdlc_assembly_requirement_var value = xvcv_mdlc_pop_assembly_add_var }
 	multiply_variable = { which = xvcv_mdlc_assembly_requirement_var value = 12 }
 	divide_variable = { which = xvcv_mdlc_assembly_requirement_var value = xvcv_mdlc_pops_per_year_var }
