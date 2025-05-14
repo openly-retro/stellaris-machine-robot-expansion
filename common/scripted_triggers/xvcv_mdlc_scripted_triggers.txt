@@ -14,7 +14,7 @@ xvcv_mdlc_bio_robot_auto_growth_possible_pop_trigger = {
 }
 xvcv_mdlc_bio_robot_auto_growth_possible_planet_trigger = {
 	optimize_memory
-	any_owned_pop = { xvcv_mdlc_bio_robot_auto_growth_possible_pop_trigger = yes }
+	any_owned_pop_group = { xvcv_mdlc_bio_robot_auto_growth_possible_pop_trigger = yes }
 	NOR = {
 		has_modifier = planet_population_control
 		has_modifier = planet_population_control_gestalt
@@ -23,7 +23,7 @@ xvcv_mdlc_bio_robot_auto_growth_possible_planet_trigger = {
 xvcv_mdlc_bio_robot_auto_growth_not_possible_planet_trigger = {
 	optimize_memory
 	OR = { #not any of the pop on the planet fulfills the required conditions (when there is no pop on the planet that meets the growth requirements)
-		NOT = { any_owned_pop = { xvcv_mdlc_bio_robot_auto_growth_possible_pop_trigger = yes } } #do not change this to 'no' and do not remove that 'NOT' operator either
+		NOT = { any_owned_pop_group = { xvcv_mdlc_bio_robot_auto_growth_possible_pop_trigger = yes } } #do not change this to 'no' and do not remove that 'NOT' operator either
 		has_modifier = planet_population_control
 		has_modifier = planet_population_control_gestalt
 	}
