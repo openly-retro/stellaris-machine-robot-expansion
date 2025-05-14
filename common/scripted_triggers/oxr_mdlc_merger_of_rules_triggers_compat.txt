@@ -98,14 +98,15 @@ oxr_mdlc_country_is_finished_bio_mech = {
 	has_country_flag = xvcv_mdlc_bio_robot_research_complete
 }
 
-# vanilla 'is_robotic' is not transparent, so redefine it here
-# oxr_mdlc_is_species_non_organic = {
-# 	OR = {
-# 		is_archetype = ROBOT
-# 		is_archetype = MACHINE
-# 		is_archetype = XVCV_MDLC_BIO_ROBOT
-# 	}
-# }
+oxr_pop_group_job_is_base_researcher = {
+	# Calculator is retired, now it's broken into 3
+	# Just report whether the job is one of those 3
+	OR = {
+		has_job_type = calculator_physicist
+		has_job_type = calculator_biologist
+		has_job_type = calculator_engineer
+	}
+}
 
 oxr_mdlc_can_add_genetic_traits = {
 	hidden_trigger = { exists = from }
