@@ -58,11 +58,15 @@ xvcv_mdlc_wg_exterminator_total_war = {
 		hidden_effect = {
 			from = {
 				every_owned_starbase = { set_owner = root }
-				every_owned_pop = { kill_pop = yes }
+				every_owned_pop_group = {
+					oxr_kill_all_pops_in_group = yes
+				}
 				every_owned_planet = { destroy_colony = yes }
 				every_subject = {
 					every_owned_starbase = { set_owner = root }
-					every_owned_pop = { kill_pop = yes }
+					every_owned_pop_group = {
+						oxr_kill_all_pops_in_group = yes
+					}
 					every_owned_planet = { destroy_colony = yes }
 				}
 			}
@@ -86,7 +90,7 @@ xvcv_mdlc_wg_exterminator_total_war = {
 					limit = { is_controlled_by = root }
 					solar_system.starbase = { set_owner = root }
 					destroy_colony = yes
-					every_owned_pop = { kill_pop = yes }
+					every_owned_pop_group = { oxr_kill_all_pops_in_group = yes }
 				}
 				add_opinion_modifier = { who = root modifier = opinion_genocidal_our_species }
 				add_threat = { who = root amount = 1 }
@@ -125,11 +129,11 @@ xvcv_mdlc_wg_assimilator_total_war = {
 		custom_tooltip = war_goal_xvcv_mdlc_wg_assimilator_total_war_tooltip_on_accept
 		hidden_effect = {
 			from = {
-				every_owned_pop = { change_species = root.owner.species }
+				every_owned_pop_group = { change_species = root.owner.species }
 				every_owned_starbase = { set_owner = root }
 				every_owned_planet = { set_owner = root }
 				every_subject = {
-					every_owned_pop = { change_species = root.owner.species }
+					every_owned_pop_group = { change_species = root.owner.species }
 					every_owned_starbase = { set_owner = root }
 					every_owned_planet = { set_owner = root }
 				}
@@ -152,7 +156,7 @@ xvcv_mdlc_wg_assimilator_total_war = {
 			from = {
 				every_owned_planet = {
 					limit = { is_controlled_by = root }
-					every_owned_pop = { change_species = root.owner.species }
+					every_owned_pop_group = { change_species = root.owner.species }
 					solar_system.starbase = { set_owner = root }
 					set_owner = root
 				}

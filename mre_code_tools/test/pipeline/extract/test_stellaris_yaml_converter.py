@@ -341,7 +341,7 @@ def test_replace_greater_than_less_than():
 selectable_weight = {
 	weight = @shared_trait_weight
 	inline_script = paragon/governor_weight_mult
-	has_skill > 1
+	has_base_skill > 1
 	value < 1
 	inline_script = {
 		script = "paragon/existing_trait_weight_mult"
@@ -354,7 +354,7 @@ selectable_weight = {
 selectable_weight:
   weight: var_shared_trait_weight
   inline_script: paragon/governor_weight_mult
-  has_skill: greater_than_1
+  has_base_skill: greater_than_1
   value: less_than_1
   inline_script:
     script: "paragon/existing_trait_weight_mult"
@@ -589,7 +589,7 @@ trait_imperial_heir = {
 			}
 		}
 		job_priest_add = 1
-		mult = trigger:has_skill
+		mult = trigger:has_base_skill
 	}
 	on_gained_effect = {
 		change_background_job = noble
@@ -623,7 +623,7 @@ trait_imperial_heir:
       owner:
         has_valid_civic: civic_imperial_cult
     job_priest_add: 1
-    mult: trigger:has_skill
+    mult: trigger:has_base_skill
   on_gained_effect:
     change_background_job: noble
   leader_class: ['commander', 'scientist', 'official']

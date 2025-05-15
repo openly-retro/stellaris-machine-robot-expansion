@@ -1,0 +1,172 @@
+# Zone slots mainly copied from vanilla & tweaked here
+oxr_mdlc_origin_wm_slot_city_government = {
+	start = zone_default
+
+	include = {
+		zone_default
+	}
+
+	exclude = {
+	}
+
+    potential = { # planet scope
+        always = yes
+    }
+
+	unlock = { # planet scope
+		always = yes
+	}
+}
+
+oxr_mdlc_origin_wm_slot_city_01 = {
+	inline_script = zones/allowed_zones_urban
+
+	unlock = { # planet scope
+		always = yes
+	}
+}
+
+oxr_mdlc_origin_wm_slot_city_02 = {
+	inline_script = zones/allowed_zones_urban
+
+	unlock = { # planet scope
+		custom_tooltip = {
+			fail_text = zone_city_02_prereq
+			OR = {
+				is_capital = yes
+				AND = {
+					is_capital = no
+					exists = owner
+					owner = {
+						has_tech_or_functional_civic = {
+							TECH = tech_colonial_centralization
+						}
+					}
+					has_upgraded_capital = yes
+				}
+			}
+		}
+	}
+}
+
+oxr_mdlc_origin_wm_slot_minerals = {
+	inline_script = zones/allowed_zones_minerals
+	unlock = { # planet scope
+		custom_tooltip = {
+			fail_text = zone_unavailable_tech_mineral_purification_1
+			exists = owner
+			owner = {
+				has_tech_or_functional_civic = {
+					TECH = tech_mineral_purification_1
+				}
+			}
+		}
+	}
+}
+
+oxr_mdlc_origin_wm_slot_energy = {
+	inline_script = zones/allowed_zones_energy
+	unlock = { # planet scope
+		custom_tooltip = {
+			fail_text = zone_unavailable_tech_power_hub_1
+			exists = owner
+			owner = {
+				has_tech_or_functional_civic = {
+					TECH = tech_power_hub_1
+				}
+			}
+		}
+	}
+}
+
+oxr_mdlc_origin_wm_slot_food = {
+	inline_script = zones/allowed_zones_food
+	unlock = { # planet scope
+	custom_tooltip = {
+		fail_text = zone_unavailable_tech_food_processing_1
+		OR = {
+			AND = {
+				exists = owner
+				owner = { is_anglers_empire = yes }
+				is_wet = yes
+			}
+			AND = {
+				exists = owner
+				owner = {
+					has_valid_civic = civic_agrarian_idyll
+				}
+			}
+			AND = {
+				exists = owner
+				owner = {
+					has_tech_or_functional_civic = {
+						TECH = tech_food_processing_1
+					}
+				}
+			}
+		}
+	}
+	}
+}
+##shattered ring
+oxr_mdlc_origin_wm_slot_city_04 = {
+	inline_script = zones/allowed_zones_urban
+
+	unlock = { # planet scope
+		custom_tooltip = {
+			fail_text = zone_city_03_prereq
+			OR = {
+				AND = {
+					is_capital = yes
+					exists = owner
+					owner = {
+						has_technology = tech_planetary_unification
+					}
+					has_upgraded_capital = yes
+				}
+				AND = {
+					is_capital = no
+					exists = owner
+					owner = {
+						has_tech_or_functional_civic = {
+							TECH = tech_colonial_bureaucracy
+						}
+					}
+					has_upgraded_capital = yes
+				}
+			}
+		}
+	}
+}
+##shattered ring
+oxr_mdlc_origin_wm_slot_city_05 = {
+	inline_script = zones/allowed_zones_urban
+
+	unlock = { # planet scope
+		custom_tooltip = {
+			fail_text = zone_city_03_prereq
+			OR = {
+				AND = {
+					is_capital = yes
+					exists = owner
+					owner = {
+						has_technology = tech_planetary_unification
+					}
+					has_upgraded_capital = yes
+				}
+				AND = {
+					is_capital = no
+					exists = owner
+					owner = {
+						has_tech_or_functional_civic = {
+							TECH = tech_colonial_bureaucracy
+						}
+					}
+					has_upgraded_capital = yes
+				}
+			}
+		}
+	}
+}
+
+# EOF
