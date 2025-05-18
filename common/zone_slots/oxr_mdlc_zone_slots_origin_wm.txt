@@ -1,12 +1,13 @@
 # Zone slots mainly copied from vanilla & tweaked here
 oxr_mdlc_origin_wm_slot_city_government = {
-	start = zone_default
+	start = oxr_mdlc_origin_wm_zone_default
 
 	include = {
-		zone_default
+		oxr_mdlc_origin_wm_zone_default
 	}
 
 	exclude = {
+		# zone_default
 	}
 
     potential = { # planet scope
@@ -19,7 +20,42 @@ oxr_mdlc_origin_wm_slot_city_government = {
 }
 
 oxr_mdlc_origin_wm_slot_city_01 = {
-	inline_script = zones/allowed_zones_urban
+	include = {
+		oxr_mdlc_origin_wm_zone_urban
+		zone_machine_replication
+		zone_hive_spawning
+		zone_urban
+		zone_industrial
+		zone_foundry
+		zone_factory
+		zone_unity
+		zone_unity_spiritualist
+		zone_research
+		zone_research_physics
+		zone_research_engineering
+		zone_research_society
+		zone_research_unity
+		zone_trade
+		zone_fortress
+		zone_urban_food
+		zone_urban_minerals
+		zone_urban_energy
+		# zone_foundry_wilderness
+		# zone_unity_wilderness
+		# zone_research_wilderness
+		# zone_research_unity_wilderness
+		# zone_fortress_wilderness
+		# zone_trade_wilderness
+	}
+
+	exclude = {
+		zone_default
+		zone_minerals
+		zone_food
+		zone_energy
+		oxr_mdlc_origin_wm_zone_default
+	}
+
 
 	unlock = { # planet scope
 		always = yes
@@ -27,7 +63,42 @@ oxr_mdlc_origin_wm_slot_city_01 = {
 }
 
 oxr_mdlc_origin_wm_slot_city_02 = {
-	inline_script = zones/allowed_zones_urban
+	include = {
+		oxr_mdlc_origin_wm_zone_urban
+		zone_machine_replication
+		zone_hive_spawning
+		zone_urban
+		zone_industrial
+		zone_foundry
+		zone_factory
+		zone_unity
+		zone_unity_spiritualist
+		zone_research
+		zone_research_physics
+		zone_research_engineering
+		zone_research_society
+		zone_research_unity
+		zone_trade
+		zone_fortress
+		zone_urban_food
+		zone_urban_minerals
+		zone_urban_energy
+		# zone_foundry_wilderness
+		# zone_unity_wilderness
+		# zone_research_wilderness
+		# zone_research_unity_wilderness
+		# zone_fortress_wilderness
+		# zone_trade_wilderness
+	}
+
+	exclude = {
+		zone_default
+		zone_minerals
+		zone_food
+		zone_energy
+		oxr_mdlc_origin_wm_zone_default
+	}
+
 
 	unlock = { # planet scope
 		custom_tooltip = {
@@ -42,131 +113,182 @@ oxr_mdlc_origin_wm_slot_city_02 = {
 							TECH = tech_colonial_centralization
 						}
 					}
-					has_upgraded_capital = yes
+					OR = {
+						has_upgraded_capital = yes
+						oxr_mdlc_has_upgraded_capital = yes
+					}
+					
 				}
 			}
 		}
 	}
 }
 
-oxr_mdlc_origin_wm_slot_minerals = {
-	inline_script = zones/allowed_zones_minerals
-	unlock = { # planet scope
-		custom_tooltip = {
-			fail_text = zone_unavailable_tech_mineral_purification_1
-			exists = owner
-			owner = {
-				has_tech_or_functional_civic = {
-					TECH = tech_mineral_purification_1
-				}
-			}
-		}
-	}
-}
+# oxr_mdlc_origin_wm_slot_minerals = {
+# 	include = {
+# 		zone_minerals
+# 		zone_minerals_engineering
+# 		zone_betharian
+# 		zone_subterranean_urban
+# 		zone_minerals_wilderness
+# 	}
 
-oxr_mdlc_origin_wm_slot_energy = {
-	inline_script = zones/allowed_zones_energy
-	unlock = { # planet scope
-		custom_tooltip = {
-			fail_text = zone_unavailable_tech_power_hub_1
-			exists = owner
-			owner = {
-				has_tech_or_functional_civic = {
-					TECH = tech_power_hub_1
-				}
-			}
-		}
-	}
-}
+# 	exclude = { }
 
-oxr_mdlc_origin_wm_slot_food = {
-	inline_script = zones/allowed_zones_food
-	unlock = { # planet scope
-	custom_tooltip = {
-		fail_text = zone_unavailable_tech_food_processing_1
-		OR = {
-			AND = {
-				exists = owner
-				owner = { is_anglers_empire = yes }
-				is_wet = yes
-			}
-			AND = {
-				exists = owner
-				owner = {
-					has_valid_civic = civic_agrarian_idyll
-				}
-			}
-			AND = {
-				exists = owner
-				owner = {
-					has_tech_or_functional_civic = {
-						TECH = tech_food_processing_1
-					}
-				}
-			}
-		}
-	}
-	}
-}
-##shattered ring
-oxr_mdlc_origin_wm_slot_city_04 = {
-	inline_script = zones/allowed_zones_urban
+# 	unlock = { # planet scope
+# 		custom_tooltip = {
+# 			fail_text = zone_unavailable_tech_mineral_purification_1
+# 			exists = owner
+# 			owner = {
+# 				has_tech_or_functional_civic = {
+# 					TECH = tech_mineral_purification_1
+# 				}
+# 			}
+# 		}
+# 	}
+# }
 
-	unlock = { # planet scope
-		custom_tooltip = {
-			fail_text = zone_city_03_prereq
-			OR = {
-				AND = {
-					is_capital = yes
-					exists = owner
-					owner = {
-						has_technology = tech_planetary_unification
-					}
-					has_upgraded_capital = yes
-				}
-				AND = {
-					is_capital = no
-					exists = owner
-					owner = {
-						has_tech_or_functional_civic = {
-							TECH = tech_colonial_bureaucracy
-						}
-					}
-					has_upgraded_capital = yes
-				}
-			}
-		}
-	}
-}
-##shattered ring
-oxr_mdlc_origin_wm_slot_city_05 = {
-	inline_script = zones/allowed_zones_urban
+# oxr_mdlc_origin_wm_slot_energy = {
+# 	include = {
+# 		zone_energy
+# 		zone_energy_physics
+# 		zone_energy_wilderness
+# 	}
 
-	unlock = { # planet scope
-		custom_tooltip = {
-			fail_text = zone_city_03_prereq
-			OR = {
-				AND = {
-					is_capital = yes
-					exists = owner
-					owner = {
-						has_technology = tech_planetary_unification
-					}
-					has_upgraded_capital = yes
-				}
-				AND = {
-					is_capital = no
-					exists = owner
-					owner = {
-						has_tech_or_functional_civic = {
-							TECH = tech_colonial_bureaucracy
-						}
-					}
-					has_upgraded_capital = yes
-				}
-			}
-		}
-	}
-}
+# 	exclude = {
+# 		zone_default
+# 		zone_urban
+# 		zone_foundry
+# 		zone_factory
+# 		zone_unity
+# 		zone_research
+# 		zone_trade
+# 		zone_fortress
+# 		zone_minerals
+# 		zone_food
+# 	}
+
+# 	unlock = { # planet scope
+# 		custom_tooltip = {
+# 			fail_text = zone_unavailable_tech_power_hub_1
+# 			exists = owner
+# 			owner = {
+# 				has_tech_or_functional_civic = {
+# 					TECH = tech_power_hub_1
+# 				}
+# 			}
+# 		}
+# 	}
+# }
+
+# oxr_mdlc_origin_wm_slot_food = {
+# 	include = {
+# 		zone_food
+# 		zone_food_biology
+# 		zone_anglers
+# 		zone_agrarian_urban
+# 		zone_food_wilderness
+# 	}
+
+# 	exclude = {
+# 		zone_default
+# 		zone_urban
+# 		zone_foundry
+# 		zone_factory
+# 		zone_unity
+# 		zone_research
+# 		zone_trade
+# 		zone_fortress
+# 		zone_energy
+# 		zone_minerals
+# 	}
+
+# 	unlock = { # planet scope
+# 	custom_tooltip = {
+# 		fail_text = zone_unavailable_tech_food_processing_1
+# 		OR = {
+# 			AND = {
+# 				exists = owner
+# 				owner = { is_anglers_empire = yes }
+# 				is_wet = yes
+# 			}
+# 			AND = {
+# 				exists = owner
+# 				owner = {
+# 					has_valid_civic = civic_agrarian_idyll
+# 				}
+# 			}
+# 			AND = {
+# 				exists = owner
+# 				owner = {
+# 					has_tech_or_functional_civic = {
+# 						TECH = tech_food_processing_1
+# 					}
+# 				}
+# 			}
+# 		}
+# 	}
+# 	}
+# }
+# ##shattered ring
+# oxr_mdlc_origin_wm_slot_city_04 = {
+# 	inline_script = zones/allowed_zones_urban
+
+# 	unlock = { # planet scope
+# 		custom_tooltip = {
+# 			fail_text = zone_city_03_prereq
+# 			OR = {
+# 				AND = {
+# 					is_capital = yes
+# 					exists = owner
+# 					owner = {
+# 						has_technology = tech_planetary_unification
+# 					}
+# 					has_upgraded_capital = yes
+# 				}
+# 				AND = {
+# 					is_capital = no
+# 					exists = owner
+# 					owner = {
+# 						has_tech_or_functional_civic = {
+# 							TECH = tech_colonial_bureaucracy
+# 						}
+# 					}
+# 					has_upgraded_capital = yes
+# 				}
+# 			}
+# 		}
+# 	}
+# }
+# ##shattered ring
+# oxr_mdlc_origin_wm_slot_city_05 = {
+# 	inline_script = zones/allowed_zones_urban
+
+# 	unlock = { # planet scope
+# 		custom_tooltip = {
+# 			fail_text = zone_city_03_prereq
+# 			OR = {
+# 				AND = {
+# 					is_capital = yes
+# 					exists = owner
+# 					owner = {
+# 						has_technology = tech_planetary_unification
+# 					}
+# 					has_upgraded_capital = yes
+# 				}
+# 				AND = {
+# 					is_capital = no
+# 					exists = owner
+# 					owner = {
+# 						has_tech_or_functional_civic = {
+# 							TECH = tech_colonial_bureaucracy
+# 						}
+# 					}
+# 					has_upgraded_capital = yes
+# 				}
+# 			}
+# 		}
+# 	}
+# }
 
 # EOF

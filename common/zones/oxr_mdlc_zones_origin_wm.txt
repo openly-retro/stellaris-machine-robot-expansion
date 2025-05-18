@@ -22,15 +22,16 @@ oxr_mdlc_origin_wm_zone_default = {
 
 	include = {
 		all
+		# oxr_mdlc_wm
 	}
 
 	excluded_building_sets = {
-		generator
-		mining
-		farming
+		# generator
+		# mining
+		# farming
 		knights
-		betharian
-		fallen_empire_generator
+		# betharian
+		# fallen_empire_generator
 	}
 }
 
@@ -66,14 +67,15 @@ oxr_mdlc_origin_wm_zone_urban = {
 
 	include = {
 		all
+		# oxr_mdlc_wm
 	}
 
 	excluded_building_sets = {
-		generator
-		mining
-		farming
+		# generator
+		# mining
+		# farming
 		knights
-		betharian
+		# betharian
 	}
 
 	planet_modifier = {
@@ -88,598 +90,598 @@ oxr_mdlc_origin_wm_zone_urban = {
 	}
 }
 
-oxr_mdlc_origin_wm_zone_industrial = {
-	icon = GFX_colony_type_industrial
-	base_buildtime = @zone_buildtime
-	potential = { # planet scope
-		exists = owner
-		owner = {
-			country_uses_consumer_goods = yes
-		}
-	}
-
-	unlock = { # planet scope
-		exists = owner
-		owner = {
-			country_uses_consumer_goods = yes
-		}
-	}
-
-	resources = {
-		category = planet_zones
-		cost = {
-			minerals = @zone_cost
-		}
-	}
-
-	included_building_sets = {
-		industrial
-		automation
-		origin
-		oxr_mdlc_production
-	}
-
-	inline_script = {
-		script = jobs/zone_foundry_add
-		AMOUNT = @scaling_district_2_jobs
-	}
-
-	inline_script = {
-		script = jobs/zone_factory_add
-		AMOUNT = @scaling_district_2_jobs
-	}
-
-	planet_modifier = {
-		zone_building_slots_add = 3
-	}
-
-	inline_script = {
-		script = zones/shared_city_non_urban_zone_modifiers
-	}
-
-	triggered_desc = {
-		trigger = {
-			always = yes
-		}
-		text = zone_industrial_triggered_desc
-	}
-}
-
-oxr_mdlc_origin_wm_zone_foundry = {
-	icon = GFX_colony_type_foundry
-	base_buildtime = @zone_buildtime
-	potential = { # planet scope
-		hidden_trigger = { exists = owner }
-		owner = {
-			is_wilderness_empire = no
-		}
-	}
-
-	unlock = { # planet scope
-		hidden_trigger = { exists = owner }
-		owner = {
-			is_wilderness_empire = no
-		}
-	}
-
-
-	resources = {
-		category = planet_zones
-		cost = {
-			minerals = @zone_cost
-		}
-	}
-
-	included_building_sets = {
-		foundry
-		automation
-		origin
-		oxr_mdlc_production
-	}
-
-	inline_script = {
-		script = jobs/zone_foundry_add
-		AMOUNT = @scaling_district_1_job
-	}
-
-	planet_modifier = {
-		zone_building_slots_add = 3
-	}
-
-	inline_script = {
-		script = zones/shared_city_non_urban_zone_modifiers
-	}
-}
-
-oxr_mdlc_origin_wm_zone_factory = {
-	icon = GFX_colony_type_factory
-	base_buildtime = @zone_buildtime
-	potential = { # planet scope
-		exists = owner
-		owner = {
-			country_uses_consumer_goods = yes
-		}
-	}
-
-	unlock = { # planet scope
-		exists = owner
-		owner = {
-			country_uses_consumer_goods = yes
-		}
-	}
-
-	resources = {
-		category = planet_zones
-		cost = {
-			minerals = @zone_cost
-		}
-	}
-
-	included_building_sets = {
-		factory
-		automation
-		origin
-		oxr_mdlc_production
-	}
-
-	inline_script = {
-		script = jobs/zone_factory_add
-		AMOUNT = @scaling_district_1_job
-	}
-
-	planet_modifier = {
-		zone_building_slots_add = 3
-	}
-
-	inline_script = {
-		script = zones/shared_city_non_urban_zone_modifiers
-	}
-
-	triggered_desc = {
-		trigger = {
-			always = yes
-		}
-		text = zone_factory_triggered_desc
-	}
-}
-oxr_mdlc_origin_wm_zone_research = {
-	icon = GFX_colony_type_research
-	base_buildtime = @zone_buildtime
-	potential = { # planet scope
-		hidden_trigger = { exists = owner }
-		owner = {
-			is_wilderness_empire = no
-		}
-	}
-
-	unlock = { # planet scope
-		hidden_trigger = { exists = owner }
-		owner = {
-			is_wilderness_empire = no
-		}
-	}
-
-	resources = {
-		category = planet_zones
-		cost = {
-			minerals = @zone_cost
-		}
-	}
-
-	included_building_sets = {
-		research
-		automation
-		origin
-	}
-
-	inline_script = {
-		script = jobs/zone_researchers_add
-		AMOUNT = @scaling_district_3_jobs
-	}
-
-	planet_modifier = {
-		zone_building_slots_add = 3
-	}
-
-	inline_script = {
-		script = zones/shared_city_non_urban_zone_modifiers
-	}
-
-	triggered_desc = {
-		trigger = {
-			always = yes
-		}
-		text = zone_research_triggered_desc
-	}
-}
-oxr_mdlc_origin_wm_zone_unity = {
-	icon = GFX_colony_type_bureaucratic
-	base_buildtime = @zone_buildtime
-	potential = { # planet scope
-		hidden_trigger = { exists = owner }
-		owner = {
-			is_wilderness_empire = no
-			is_spiritualist = no
-		}
-	}
-
-	unlock = { # planet scope
-		exists = owner
-		owner = {
-			is_wilderness_empire = no
-		}
-	}
-
-	resources = {
-		category = planet_zones
-		cost = {
-			minerals = @zone_cost
-		}
-	}
-
-	included_building_sets = {
-		unity
-		automation
-		origin
-	}
-
-	inline_script = {
-		script = jobs/zone_unity_jobs_add
-		AMOUNT = @scaling_district_1_job
-	}
-
-	planet_modifier = {
-		zone_building_slots_add = 3
-	}
-
-	inline_script = {
-		script = zones/shared_city_non_urban_zone_modifiers
-	}
-
-	triggered_desc = {
-		trigger = {
-			always = yes
-		}
-		text = zone_unity_triggered_desc
-	}
-
-	convert_to = {
-		zone_unity_spiritualist
-	}
-}
-oxr_mdlc_origin_wm_zone_fortress = {
-	icon = GFX_colony_type_fortress
-	base_buildtime = @zone_buildtime
-	potential = { # planet scope
-		exists = owner
-		owner = {
-			is_wilderness_empire = no
-		}
-	}
-
-	unlock = { # planet scope
-		exists = owner
-		owner = {
-			is_wilderness_empire = no
-		}
-	}
-
-	resources = {
-		category = planet_zones
-		cost = {
-			minerals = @zone_cost
-		}
-	}
-
-	included_building_sets = {
-		fortress
-		automation
-		origin
-	}
-
-	inline_script = {
-		script = jobs/zone_soldiers_add
-		AMOUNT = @scaling_district_1_job
-	}
-
-	planet_modifier = {
-		zone_building_slots_add = 3
-	}
-
-	inline_script = {
-		script = zones/shared_city_non_urban_zone_modifiers
-	}
-
-	triggered_desc = {
-		trigger = {
-			always = yes
-		}
-		text = zone_fortress_triggered_desc
-	}
-
-}
-oxr_mdlc_origin_wm_zone_trade = {
-	icon = GFX_resource_trade_large
-	base_buildtime = @zone_buildtime
-	potential = { # planet scope
-		exists = owner
-		owner = {
-			is_wilderness_empire = no
-		}
-	}
-
-	unlock = { # planet scope
-		always = yes
-	}
-
-	resources = {
-		category = planet_zones
-		cost = {
-			minerals = @zone_cost
-		}
-	}
-
-	included_building_sets = {
-		urban
-		trade
-		automation
-		origin
-	}
-
-	inline_script = {
-		script = jobs/zone_trader_add
-		AMOUNT = @scaling_district_1_job
-	}
-
-	planet_modifier = {
-		zone_building_slots_add = 3
-	}
-
-	inline_script = {
-		script = zones/shared_city_non_urban_zone_modifiers
-	}
-
-	triggered_desc = {
-		trigger = {
-			always = yes
-		}
-		text = zone_trade_triggered_desc
-	}
-}
-oxr_mdlc_origin_wm_zone_minerals = {
-	icon = GFX_resource_minerals_large
-	base_buildtime = @zone_buildtime
-
-	potential = { # planet scope
-		exists = owner
-		owner = {
-			is_wilderness_empire = no
-		}
-	}
-
-	unlock = { # planet scope
-		exists = owner
-		owner = {
-			is_wilderness_empire = no
-		}
-	}
-
-	resources = {
-		category = planet_zones
-		cost = {
-			minerals = @zone_cost
-		}
-	}
-
-	inline_script = {
-		script = jobs/zone_miner_add
-		AMOUNT = @scaling_district_1_job
-	}
-
-	included_building_sets = {
-		mining
-		fallen_empire_mining
-		automation
-	}
-
-	planet_modifier = {
-		zone_building_slots_add = 3
-	}
-
-	triggered_desc = {
-		trigger = {
-			always = yes
-		}
-		text = zone_minerals_triggered_desc
-	}
-
-	show_in_tech = tech_mineral_purification_1
-}
-oxr_mdlc_origin_wm_zone_energy = {
-	icon = GFX_resource_energy_large
-	base_buildtime = @zone_buildtime
-	resources = {
-		category = planet_zones
-		cost = {
-			minerals = @zone_cost
-		}
-	}
-
-	potential = { # planet scope
-		exists = owner
-		owner = {
-			is_wilderness_empire = no
-		}
-	}
-
-	unlock = { # planet scope
-		exists = owner
-		owner = {
-			is_wilderness_empire = no
-		}
-	}
-
-	included_building_sets = {
-		generator
-		fallen_empire_generator
-		automation
-	}
-
-	inline_script = {
-		script = jobs/zone_technicians_add
-		AMOUNT = @scaling_district_1_job
-	}
-
-	planet_modifier = {
-		zone_building_slots_add = 3
-	}
-
-	triggered_desc = {
-		trigger = {
-			always = yes
-		}
-		text = zone_energy_triggered_desc
-	}
-
-	convert_to = {
-		zone_rw_energy
-	}
-
-	show_in_tech = tech_power_hub_1
-}
-
-oxr_mdlc_origin_wm_zone_food = {
-	icon = GFX_resource_food_large
-	base_buildtime = @zone_buildtime
-	potential = { # planet scope
-		if = {
-			limit = {
-				exists = owner
-				owner = { is_anglers_empire = yes }
-			}
-			is_wet = no
-		}
-		else = {
-			exists = owner
-			owner = { is_wilderness_empire = no }
-		}
-	}
-
-	unlock = { # planet scope
-		if = {
-			limit = {
-				exists = owner
-				owner = { is_anglers_empire = yes }
-			}
-			is_wet = no
-		}
-		else = {
-			exists = owner
-			owner = { is_wilderness_empire = no }
-		}
-	}
-	resources = {
-		category = planet_zones
-		cost = {
-			minerals = @zone_cost
-		}
-	}
-
-	inline_script = {
-		script = jobs/zone_farmers_add
-		AMOUNT = @scaling_district_1_job
-	}
-
-	included_building_sets = {
-		farming
-		hydroponics
-		automation
-		fallen_empire_farming
-	}
-
-	planet_modifier = {
-		zone_building_slots_add = 3
-	}
-
-	triggered_desc = {
-		trigger = {
-			always = yes
-		}
-		text = zone_food_triggered_desc
-	}
-
-	convert_to = {
-		zone_rw_food
-	}
-
-	show_in_tech = tech_food_processing_1
-}
-oxr_mdlc_origin_wm_zone_rw_food = {
-	icon = GFX_resource_food_large
-	base_buildtime = @zone_buildtime
-	potential = { # planet scope
-		always = yes
-	}
-
-	unlock = { # planet scope
-		always = yes
-	}
-
-	resources = {
-		category = planet_zones
-		cost = {
-			minerals = @zone_cost
-		}
-	}
-
-	included_building_sets = {
-		farming
-		hydroponics
-		automation
-		fallen_empire_farming
-	}
-
-	inline_script = {
-		script = jobs/zone_farmers_add
-		AMOUNT = @scaling_district_1_job
-	}
-
-	planet_modifier = {
-		zone_building_slots_add = 3
-	}
-}
-
-oxr_mdlc_origin_wm_zone_rw_energy = {
-	icon = GFX_resource_energy_large
-	base_buildtime = @zone_buildtime
-	potential = { # planet scope
-		always = yes
-	}
-
-	unlock = { # planet scope
-		always = yes
-	}
-	resources = {
-		category = planet_zones
-		cost = {
-			minerals = @zone_cost
-		}
-	}
-
-	included_building_sets = {
-		generator
-		fallen_empire_generator
-		automation
-	}
-
-	inline_script = {
-		script = jobs/zone_technicians_add
-		AMOUNT = @scaling_district_1_job
-	}
-
-	planet_modifier = {
-		zone_building_slots_add = 3
-	}
-}
+# oxr_mdlc_origin_wm_zone_industrial = {
+# 	icon = GFX_colony_type_industrial
+# 	base_buildtime = @zone_buildtime
+# 	potential = { # planet scope
+# 		exists = owner
+# 		owner = {
+# 			country_uses_consumer_goods = yes
+# 		}
+# 	}
+
+# 	unlock = { # planet scope
+# 		exists = owner
+# 		owner = {
+# 			country_uses_consumer_goods = yes
+# 		}
+# 	}
+
+# 	resources = {
+# 		category = planet_zones
+# 		cost = {
+# 			minerals = @zone_cost
+# 		}
+# 	}
+
+# 	included_building_sets = {
+# 		industrial
+# 		automation
+# 		origin
+# 		oxr_mdlc_production
+# 	}
+
+# 	inline_script = {
+# 		script = jobs/zone_foundry_add
+# 		AMOUNT = @scaling_district_2_jobs
+# 	}
+
+# 	inline_script = {
+# 		script = jobs/zone_factory_add
+# 		AMOUNT = @scaling_district_2_jobs
+# 	}
+
+# 	planet_modifier = {
+# 		zone_building_slots_add = 3
+# 	}
+
+# 	inline_script = {
+# 		script = zones/shared_city_non_urban_zone_modifiers
+# 	}
+
+# 	triggered_desc = {
+# 		trigger = {
+# 			always = yes
+# 		}
+# 		text = zone_industrial_triggered_desc
+# 	}
+# }
+
+# oxr_mdlc_origin_wm_zone_foundry = {
+# 	icon = GFX_colony_type_foundry
+# 	base_buildtime = @zone_buildtime
+# 	potential = { # planet scope
+# 		hidden_trigger = { exists = owner }
+# 		owner = {
+# 			is_wilderness_empire = no
+# 		}
+# 	}
+
+# 	unlock = { # planet scope
+# 		hidden_trigger = { exists = owner }
+# 		owner = {
+# 			is_wilderness_empire = no
+# 		}
+# 	}
+
+
+# 	resources = {
+# 		category = planet_zones
+# 		cost = {
+# 			minerals = @zone_cost
+# 		}
+# 	}
+
+# 	included_building_sets = {
+# 		foundry
+# 		automation
+# 		origin
+# 		oxr_mdlc_production
+# 	}
+
+# 	inline_script = {
+# 		script = jobs/zone_foundry_add
+# 		AMOUNT = @scaling_district_1_job
+# 	}
+
+# 	planet_modifier = {
+# 		zone_building_slots_add = 3
+# 	}
+
+# 	inline_script = {
+# 		script = zones/shared_city_non_urban_zone_modifiers
+# 	}
+# }
+
+# oxr_mdlc_origin_wm_zone_factory = {
+# 	icon = GFX_colony_type_factory
+# 	base_buildtime = @zone_buildtime
+# 	potential = { # planet scope
+# 		exists = owner
+# 		owner = {
+# 			country_uses_consumer_goods = yes
+# 		}
+# 	}
+
+# 	unlock = { # planet scope
+# 		exists = owner
+# 		owner = {
+# 			country_uses_consumer_goods = yes
+# 		}
+# 	}
+
+# 	resources = {
+# 		category = planet_zones
+# 		cost = {
+# 			minerals = @zone_cost
+# 		}
+# 	}
+
+# 	included_building_sets = {
+# 		factory
+# 		automation
+# 		origin
+# 		oxr_mdlc_production
+# 	}
+
+# 	inline_script = {
+# 		script = jobs/zone_factory_add
+# 		AMOUNT = @scaling_district_1_job
+# 	}
+
+# 	planet_modifier = {
+# 		zone_building_slots_add = 3
+# 	}
+
+# 	inline_script = {
+# 		script = zones/shared_city_non_urban_zone_modifiers
+# 	}
+
+# 	triggered_desc = {
+# 		trigger = {
+# 			always = yes
+# 		}
+# 		text = zone_factory_triggered_desc
+# 	}
+# }
+# oxr_mdlc_origin_wm_zone_research = {
+# 	icon = GFX_colony_type_research
+# 	base_buildtime = @zone_buildtime
+# 	potential = { # planet scope
+# 		hidden_trigger = { exists = owner }
+# 		owner = {
+# 			is_wilderness_empire = no
+# 		}
+# 	}
+
+# 	unlock = { # planet scope
+# 		hidden_trigger = { exists = owner }
+# 		owner = {
+# 			is_wilderness_empire = no
+# 		}
+# 	}
+
+# 	resources = {
+# 		category = planet_zones
+# 		cost = {
+# 			minerals = @zone_cost
+# 		}
+# 	}
+
+# 	included_building_sets = {
+# 		research
+# 		automation
+# 		origin
+# 	}
+
+# 	inline_script = {
+# 		script = jobs/zone_researchers_add
+# 		AMOUNT = @scaling_district_3_jobs
+# 	}
+
+# 	planet_modifier = {
+# 		zone_building_slots_add = 3
+# 	}
+
+# 	inline_script = {
+# 		script = zones/shared_city_non_urban_zone_modifiers
+# 	}
+
+# 	triggered_desc = {
+# 		trigger = {
+# 			always = yes
+# 		}
+# 		text = zone_research_triggered_desc
+# 	}
+# }
+# oxr_mdlc_origin_wm_zone_unity = {
+# 	icon = GFX_colony_type_bureaucratic
+# 	base_buildtime = @zone_buildtime
+# 	potential = { # planet scope
+# 		hidden_trigger = { exists = owner }
+# 		owner = {
+# 			is_wilderness_empire = no
+# 			is_spiritualist = no
+# 		}
+# 	}
+
+# 	unlock = { # planet scope
+# 		exists = owner
+# 		owner = {
+# 			is_wilderness_empire = no
+# 		}
+# 	}
+
+# 	resources = {
+# 		category = planet_zones
+# 		cost = {
+# 			minerals = @zone_cost
+# 		}
+# 	}
+
+# 	included_building_sets = {
+# 		unity
+# 		automation
+# 		origin
+# 	}
+
+# 	inline_script = {
+# 		script = jobs/zone_unity_jobs_add
+# 		AMOUNT = @scaling_district_1_job
+# 	}
+
+# 	planet_modifier = {
+# 		zone_building_slots_add = 3
+# 	}
+
+# 	inline_script = {
+# 		script = zones/shared_city_non_urban_zone_modifiers
+# 	}
+
+# 	triggered_desc = {
+# 		trigger = {
+# 			always = yes
+# 		}
+# 		text = zone_unity_triggered_desc
+# 	}
+
+# 	convert_to = {
+# 		zone_unity_spiritualist
+# 	}
+# }
+# oxr_mdlc_origin_wm_zone_fortress = {
+# 	icon = GFX_colony_type_fortress
+# 	base_buildtime = @zone_buildtime
+# 	potential = { # planet scope
+# 		exists = owner
+# 		owner = {
+# 			is_wilderness_empire = no
+# 		}
+# 	}
+
+# 	unlock = { # planet scope
+# 		exists = owner
+# 		owner = {
+# 			is_wilderness_empire = no
+# 		}
+# 	}
+
+# 	resources = {
+# 		category = planet_zones
+# 		cost = {
+# 			minerals = @zone_cost
+# 		}
+# 	}
+
+# 	included_building_sets = {
+# 		fortress
+# 		automation
+# 		origin
+# 	}
+
+# 	inline_script = {
+# 		script = jobs/zone_soldiers_add
+# 		AMOUNT = @scaling_district_1_job
+# 	}
+
+# 	planet_modifier = {
+# 		zone_building_slots_add = 3
+# 	}
+
+# 	inline_script = {
+# 		script = zones/shared_city_non_urban_zone_modifiers
+# 	}
+
+# 	triggered_desc = {
+# 		trigger = {
+# 			always = yes
+# 		}
+# 		text = zone_fortress_triggered_desc
+# 	}
+
+# }
+# oxr_mdlc_origin_wm_zone_trade = {
+# 	icon = GFX_resource_trade_large
+# 	base_buildtime = @zone_buildtime
+# 	potential = { # planet scope
+# 		exists = owner
+# 		owner = {
+# 			is_wilderness_empire = no
+# 		}
+# 	}
+
+# 	unlock = { # planet scope
+# 		always = yes
+# 	}
+
+# 	resources = {
+# 		category = planet_zones
+# 		cost = {
+# 			minerals = @zone_cost
+# 		}
+# 	}
+
+# 	included_building_sets = {
+# 		urban
+# 		trade
+# 		automation
+# 		origin
+# 	}
+
+# 	inline_script = {
+# 		script = jobs/zone_trader_add
+# 		AMOUNT = @scaling_district_1_job
+# 	}
+
+# 	planet_modifier = {
+# 		zone_building_slots_add = 3
+# 	}
+
+# 	inline_script = {
+# 		script = zones/shared_city_non_urban_zone_modifiers
+# 	}
+
+# 	triggered_desc = {
+# 		trigger = {
+# 			always = yes
+# 		}
+# 		text = zone_trade_triggered_desc
+# 	}
+# }
+# oxr_mdlc_origin_wm_zone_minerals = {
+# 	icon = GFX_resource_minerals_large
+# 	base_buildtime = @zone_buildtime
+
+# 	potential = { # planet scope
+# 		exists = owner
+# 		owner = {
+# 			is_wilderness_empire = no
+# 		}
+# 	}
+
+# 	unlock = { # planet scope
+# 		exists = owner
+# 		owner = {
+# 			is_wilderness_empire = no
+# 		}
+# 	}
+
+# 	resources = {
+# 		category = planet_zones
+# 		cost = {
+# 			minerals = @zone_cost
+# 		}
+# 	}
+
+# 	inline_script = {
+# 		script = jobs/zone_miner_add
+# 		AMOUNT = @scaling_district_1_job
+# 	}
+
+# 	included_building_sets = {
+# 		mining
+# 		fallen_empire_mining
+# 		automation
+# 	}
+
+# 	planet_modifier = {
+# 		zone_building_slots_add = 3
+# 	}
+
+# 	triggered_desc = {
+# 		trigger = {
+# 			always = yes
+# 		}
+# 		text = zone_minerals_triggered_desc
+# 	}
+
+# 	show_in_tech = tech_mineral_purification_1
+# }
+# oxr_mdlc_origin_wm_zone_energy = {
+# 	icon = GFX_resource_energy_large
+# 	base_buildtime = @zone_buildtime
+# 	resources = {
+# 		category = planet_zones
+# 		cost = {
+# 			minerals = @zone_cost
+# 		}
+# 	}
+
+# 	potential = { # planet scope
+# 		exists = owner
+# 		owner = {
+# 			is_wilderness_empire = no
+# 		}
+# 	}
+
+# 	unlock = { # planet scope
+# 		exists = owner
+# 		owner = {
+# 			is_wilderness_empire = no
+# 		}
+# 	}
+
+# 	included_building_sets = {
+# 		generator
+# 		fallen_empire_generator
+# 		automation
+# 	}
+
+# 	inline_script = {
+# 		script = jobs/zone_technicians_add
+# 		AMOUNT = @scaling_district_1_job
+# 	}
+
+# 	planet_modifier = {
+# 		zone_building_slots_add = 3
+# 	}
+
+# 	triggered_desc = {
+# 		trigger = {
+# 			always = yes
+# 		}
+# 		text = zone_energy_triggered_desc
+# 	}
+
+# 	convert_to = {
+# 		zone_rw_energy
+# 	}
+
+# 	show_in_tech = tech_power_hub_1
+# }
+
+# oxr_mdlc_origin_wm_zone_food = {
+# 	icon = GFX_resource_food_large
+# 	base_buildtime = @zone_buildtime
+# 	potential = { # planet scope
+# 		if = {
+# 			limit = {
+# 				exists = owner
+# 				owner = { is_anglers_empire = yes }
+# 			}
+# 			is_wet = no
+# 		}
+# 		else = {
+# 			exists = owner
+# 			owner = { is_wilderness_empire = no }
+# 		}
+# 	}
+
+# 	unlock = { # planet scope
+# 		if = {
+# 			limit = {
+# 				exists = owner
+# 				owner = { is_anglers_empire = yes }
+# 			}
+# 			is_wet = no
+# 		}
+# 		else = {
+# 			exists = owner
+# 			owner = { is_wilderness_empire = no }
+# 		}
+# 	}
+# 	resources = {
+# 		category = planet_zones
+# 		cost = {
+# 			minerals = @zone_cost
+# 		}
+# 	}
+
+# 	inline_script = {
+# 		script = jobs/zone_farmers_add
+# 		AMOUNT = @scaling_district_1_job
+# 	}
+
+# 	included_building_sets = {
+# 		farming
+# 		hydroponics
+# 		automation
+# 		fallen_empire_farming
+# 	}
+
+# 	planet_modifier = {
+# 		zone_building_slots_add = 3
+# 	}
+
+# 	triggered_desc = {
+# 		trigger = {
+# 			always = yes
+# 		}
+# 		text = zone_food_triggered_desc
+# 	}
+
+# 	convert_to = {
+# 		zone_rw_food
+# 	}
+
+# 	show_in_tech = tech_food_processing_1
+# }
+# oxr_mdlc_origin_wm_zone_rw_food = {
+# 	icon = GFX_resource_food_large
+# 	base_buildtime = @zone_buildtime
+# 	potential = { # planet scope
+# 		always = yes
+# 	}
+
+# 	unlock = { # planet scope
+# 		always = yes
+# 	}
+
+# 	resources = {
+# 		category = planet_zones
+# 		cost = {
+# 			minerals = @zone_cost
+# 		}
+# 	}
+
+# 	included_building_sets = {
+# 		farming
+# 		hydroponics
+# 		automation
+# 		fallen_empire_farming
+# 	}
+
+# 	inline_script = {
+# 		script = jobs/zone_farmers_add
+# 		AMOUNT = @scaling_district_1_job
+# 	}
+
+# 	planet_modifier = {
+# 		zone_building_slots_add = 3
+# 	}
+# }
+
+# oxr_mdlc_origin_wm_zone_rw_energy = {
+# 	icon = GFX_resource_energy_large
+# 	base_buildtime = @zone_buildtime
+# 	potential = { # planet scope
+# 		always = yes
+# 	}
+
+# 	unlock = { # planet scope
+# 		always = yes
+# 	}
+# 	resources = {
+# 		category = planet_zones
+# 		cost = {
+# 			minerals = @zone_cost
+# 		}
+# 	}
+
+# 	included_building_sets = {
+# 		generator
+# 		fallen_empire_generator
+# 		automation
+# 	}
+
+# 	inline_script = {
+# 		script = jobs/zone_technicians_add
+# 		AMOUNT = @scaling_district_1_job
+# 	}
+
+# 	planet_modifier = {
+# 		zone_building_slots_add = 3
+# 	}
+# }
 
 # EOF

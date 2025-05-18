@@ -226,7 +226,7 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 			remove_building = building_uplink_node
 			add_building = {
 				district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
-				zone = zone_default
+				zone = oxr_mdlc_origin_wm_zone_default
 				building = oxr_mdlc_world_machines_building_auto_unity_1
 			}
 		}
@@ -236,7 +236,7 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 			remove_building = building_research_lab_1
 			add_building = {
 				district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
-				zone = zone_default
+				zone = oxr_mdlc_origin_wm_zone_default
 				building = oxr_mdlc_world_machines_building_fractal_sanitizer
 			}
 		}
@@ -246,7 +246,7 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 			remove_building = building_military_academy
 			add_building = {
 				district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
-				zone = zone_default
+				zone = oxr_mdlc_origin_wm_zone_default
 				building = oxr_mdlc_world_machines_building_maintenance_legion
 			}
 		}
@@ -259,7 +259,7 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 			remove_building = building_machine_capital
 			add_building = {
 				district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
-				zone = zone_default
+				zone = oxr_mdlc_origin_wm_zone_default
 				building = oxr_mdlc_world_machines_building_auto_capital
 			}
 		}
@@ -1380,7 +1380,26 @@ oxr_mdlc_planet_create_world_machine_colony = {
 	}
 	add_deposit = oxr_mdlc_d_world_machine_core
 	remove_building = building_deployment_post
-	add_building = oxr_mdlc_world_machines_building_auto_capital
+	if = {
+		limit = {
+			owner = {
+				has_oxr_mdlc_origin_world_machine_awakened = yes
+			}
+		}
+		add_building = {
+			district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
+			zone = oxr_mdlc_origin_wm_zone_default
+			building = oxr_mdlc_world_machines_building_auto_capital
+		}
+	}
+	else = {
+		add_building = {
+			district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
+			zone = zone_default
+			building = oxr_mdlc_world_machines_building_auto_capital
+		}
+	}
+	# add_building = oxr_mdlc_world_machines_building_auto_capital
 	if = {
 		limit = {
 			has_planet_flag = rikk_mdlc_world_machine_suitable
@@ -1466,7 +1485,25 @@ oxr_mdlc_planet_do_wm_origin_things_after_project = {
 		limit = {
 			oxr_mdlc_planet_has_any_auto_capital = no
 		}
-		add_building = oxr_mdlc_world_machines_building_auto_capital
+		if = {
+			limit = {
+				owner = {
+					has_oxr_mdlc_origin_world_machine_awakened = yes
+				}
+			}
+			add_building = {
+				district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
+				zone = oxr_mdlc_origin_wm_zone_default
+				building = oxr_mdlc_world_machines_building_auto_capital
+			}
+		}
+		else = {
+			add_building = {
+				district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
+				zone = zone_default
+				building = oxr_mdlc_world_machines_building_auto_capital
+			}
+		}
 	}
 
 	# Dont add the modifier if switching between ecu/ser/cpu
@@ -1751,7 +1788,25 @@ oxr_mdlc_planet_fix_things_after_restoring_ownership = {
 				oxr_mdlc_has_upgraded_capital = yes
 			}
 		}
-		add_building = oxr_mdlc_world_machines_building_auto_capital
+		if = {
+			limit = {
+				owner = {
+					has_oxr_mdlc_origin_world_machine_awakened = yes
+				}
+			}
+			add_building = {
+				district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
+				zone = oxr_mdlc_origin_wm_zone_default
+				building = oxr_mdlc_world_machines_building_auto_capital
+			}
+		}
+		else = {
+			add_building = {
+				district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
+				zone = zone_default
+				building = oxr_mdlc_world_machines_building_auto_capital
+			}
+		}
 	}
 }
 
@@ -1843,6 +1898,7 @@ oxr_mdlc_planet_create_t3_world_colony = {
 		clear_blockers = yes
 		add_deposit = oxr_mdlc_d_world_machine_core
 		remove_building = building_deployment_post
+		# TODO: Specify district unique to the world type
 		add_building = oxr_mdlc_world_machines_building_auto_capital
 		if = {
 			limit = {
@@ -1956,7 +2012,7 @@ oxr_mdlc_unlock = {
 oxr_mdlc_origin_wm_add_building_to_auto_wm_main = {
 	add_building = {
 		district = xvcv_mdlc_pc_machine_auto_district_industrial
-		zone = slot_city_government
+		zone = oxr_mdlc_origin_wm_zone_default
 		building = $which$
 	}
 }
