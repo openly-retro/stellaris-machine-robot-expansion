@@ -2,7 +2,9 @@
 oxr_mdlc_origin_wm_zone_default = {
 	icon = GFX_diplomatic_weight_large
 	base_buildtime = @zone_buildtime
-	potential = { # planet scope
+	potential = {
+		hidden_trigger = { exists = owner }
+		is_planet_world_machine = yes
 	}
 
 	unlock = { # planet scope
@@ -22,7 +24,10 @@ oxr_mdlc_origin_wm_zone_default = {
 
 	include = {
 		all
-		# oxr_mdlc_wm
+	}
+
+	included_building_sets = {
+		oxr_mdlc_wm
 	}
 
 	excluded_building_sets = {
@@ -33,24 +38,26 @@ oxr_mdlc_origin_wm_zone_default = {
 		# betharian
 		# fallen_empire_generator
 	}
+
+	on_built = {
+		planet = {
+			set_variable = {
+				which = fooo
+				value = 1
+			}
+		}
+	}
 }
 
-oxr_mdlc_origin_wm_zone_urban = {
+oxr_mdlc_origin_wm_zone_any = {
 	icon = GFX_colony_type_urban
 	base_buildtime = @zone_buildtime
 	potential = { # planet scope
 		hidden_trigger = { exists = owner }
-		owner = {
-			is_wilderness_empire = no
-		}
+		is_planet_world_machine = yes
 	}
 
-	unlock = { # planet scope
-		hidden_trigger = { exists = owner }
-		owner = {
-			is_wilderness_empire = no
-		}
-	}
+	unlock = { # planet scope }
 
 	resources = {
 		category = planet_zones
@@ -67,7 +74,10 @@ oxr_mdlc_origin_wm_zone_urban = {
 
 	include = {
 		all
-		# oxr_mdlc_wm
+	}
+
+	included_building_sets = {
+		oxr_mdlc_wm
 	}
 
 	excluded_building_sets = {
@@ -87,6 +97,15 @@ oxr_mdlc_origin_wm_zone_urban = {
 			always = yes
 		}
 		text = zone_urban_triggered_desc
+	}
+
+	on_built = {
+		planet = {
+			set_variable = {
+				which = fooo
+				value = 1
+			}
+		}
 	}
 }
 
