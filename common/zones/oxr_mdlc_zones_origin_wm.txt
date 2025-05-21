@@ -7,11 +7,7 @@ oxr_mdlc_origin_wm_zone_default = {
 		is_planet_world_machine = yes
 	}
 
-	unlock = { # planet scope
-		NOT = {
-			has_designation = col_resort
-		}
-	}
+	unlock = { is_planet_world_machine = yes }
 
 	resources = {
 		category = planet_zones
@@ -26,17 +22,8 @@ oxr_mdlc_origin_wm_zone_default = {
 		all
 	}
 
-	included_building_sets = {
-		oxr_mdlc_wm
-	}
-
 	excluded_building_sets = {
-		# generator
-		# mining
-		# farming
-		knights
-		# betharian
-		# fallen_empire_generator
+
 	}
 
 	on_built = {
@@ -57,7 +44,9 @@ oxr_mdlc_origin_wm_zone_any = {
 		is_planet_world_machine = yes
 	}
 
-	unlock = { # planet scope }
+	unlock = {
+		is_planet_world_machine = yes
+	}
 
 	resources = {
 		category = planet_zones
@@ -66,19 +55,17 @@ oxr_mdlc_origin_wm_zone_any = {
 		}
 	}
 
-	triggered_district_planet_modifier = {
-		planet_housing_add = @zone_urban_housing_positive
+	# triggered_district_planet_modifier = {
+	# 	planet_housing_add = @zone_urban_housing_positive
+	# }
+
+	country_modifier = {
+		country_resource_max_add = 2500
 	}
 
 	max_buildings = 3
 
-	include = {
-		all
-	}
-
-	included_building_sets = {
-		oxr_mdlc_wm
-	}
+	include = { all }
 
 	excluded_building_sets = {
 		# generator
@@ -92,20 +79,50 @@ oxr_mdlc_origin_wm_zone_any = {
 		zone_building_slots_add = 3
 	}
 
-	triggered_desc = {
-		trigger = {
-			always = yes
+}
+
+oxr_mdlc_origin_wm_zone_any_wm = {
+	icon = GFX_colony_type_urban
+	base_buildtime = @zone_buildtime
+	potential = { # planet scope
+		hidden_trigger = { exists = owner }
+		is_planet_world_machine = yes
+	}
+
+	unlock = {
+		is_planet_world_machine = yes
+	}
+
+	resources = {
+		category = planet_zones
+		cost = {
+			minerals = @zone_cost
 		}
-		text = zone_urban_triggered_desc
+	}
+
+	# triggered_district_planet_modifier = {
+	# 	# planet_housing_add = @zone_urban_housing_positive
+	# 	_resource_storage
+	# }
+
+	country_modifier = {
+		country_resource_max_add = 2500
+	}
+
+	max_buildings = 3
+
+	included_building_sets = {
+		oxr_mdlc_wm
+	}
+
+	excluded_building_sets = { }
+
+	planet_modifier = {
+		zone_building_slots_add = 3
 	}
 
 	on_built = {
-		planet = {
-			set_variable = {
-				which = fooo
-				value = 1
-			}
-		}
+
 	}
 }
 

@@ -127,130 +127,104 @@ oxr_mdlc_origin_wm_slot_city_02 = {
 oxr_mdlc_origin_wm_slot_any = {
 
 	include = {
-		all
+		oxr_mdlc_origin_wm_zone_any
+		oxr_mdlc_origin_wm_zone_any_wm
 	}
 
 	exclude = {
 		oxr_mdlc_origin_wm_zone_default
 		zone_default
-		zone_foundry_wilderness
-		zone_unity_wilderness
-		zone_research_wilderness
-		zone_research_unity_wilderness
-		zone_fortress_wilderness
-		zone_trade_wilderness
+		# zone_foundry_wilderness
+		# zone_unity_wilderness
+		# zone_research_wilderness
+		# zone_research_unity_wilderness
+		# zone_fortress_wilderness
+		# zone_trade_wilderness
 	}
 
-
-	unlock = { # planet scope }
+	unlock = { is_planet_world_machine = yes }
 }
 
-# oxr_mdlc_origin_wm_slot_minerals = {
-# 	include = {
-# 		zone_minerals
-# 		zone_minerals_engineering
-# 		zone_betharian
-# 		zone_subterranean_urban
-# 		zone_minerals_wilderness
-# 	}
+oxr_mdlc_origin_wm_slot_minerals = {
+	include = {
+		oxr_mdlc_origin_wm_zone_any
+		oxr_mdlc_origin_wm_zone_any_wm
+		zone_minerals
+		zone_minerals_engineering
+		zone_betharian
+		zone_subterranean_urban
+	}
 
-# 	exclude = { }
+	exclude = {
+		zone_default
+		oxr_mdlc_origin_wm_zone_default
+	}
 
-# 	unlock = { # planet scope
-# 		custom_tooltip = {
-# 			fail_text = zone_unavailable_tech_mineral_purification_1
-# 			exists = owner
-# 			owner = {
-# 				has_tech_or_functional_civic = {
-# 					TECH = tech_mineral_purification_1
-# 				}
-# 			}
-# 		}
-# 	}
-# }
+	unlock = { is_planet_world_machine = yes }
+}
 
-# oxr_mdlc_origin_wm_slot_energy = {
-# 	include = {
-# 		zone_energy
-# 		zone_energy_physics
-# 		zone_energy_wilderness
-# 	}
+oxr_mdlc_origin_wm_slot_energy = {
+	include = {
+		oxr_mdlc_origin_wm_zone_any
+		oxr_mdlc_origin_wm_zone_any_wm
+		zone_energy
+		zone_energy_physics
+	}
 
-# 	exclude = {
-# 		zone_default
-# 		zone_urban
-# 		zone_foundry
-# 		zone_factory
-# 		zone_unity
-# 		zone_research
-# 		zone_trade
-# 		zone_fortress
-# 		zone_minerals
-# 		zone_food
-# 	}
+	exclude = {
+		zone_default
+		oxr_mdlc_origin_wm_zone_default
+	}
 
-# 	unlock = { # planet scope
-# 		custom_tooltip = {
-# 			fail_text = zone_unavailable_tech_power_hub_1
-# 			exists = owner
-# 			owner = {
-# 				has_tech_or_functional_civic = {
-# 					TECH = tech_power_hub_1
-# 				}
-# 			}
-# 		}
-# 	}
-# }
+	unlock = { is_planet_world_machine = yes }
+}
 
-# oxr_mdlc_origin_wm_slot_food = {
-# 	include = {
-# 		zone_food
-# 		zone_food_biology
-# 		zone_anglers
-# 		zone_agrarian_urban
-# 		zone_food_wilderness
-# 	}
+oxr_mdlc_origin_wm_slot_food = {
 
-# 	exclude = {
-# 		zone_default
-# 		zone_urban
-# 		zone_foundry
-# 		zone_factory
-# 		zone_unity
-# 		zone_research
-# 		zone_trade
-# 		zone_fortress
-# 		zone_energy
-# 		zone_minerals
-# 	}
+	include = {
+		oxr_mdlc_origin_wm_zone_any
+		oxr_mdlc_origin_wm_zone_any_wm
+		zone_food
+		zone_food_biology
+		zone_anglers
+		zone_agrarian_urban
+		zone_food_wilderness
+	}
 
-# 	unlock = { # planet scope
-# 	custom_tooltip = {
-# 		fail_text = zone_unavailable_tech_food_processing_1
-# 		OR = {
-# 			AND = {
-# 				exists = owner
-# 				owner = { is_anglers_empire = yes }
-# 				is_wet = yes
-# 			}
-# 			AND = {
-# 				exists = owner
-# 				owner = {
-# 					has_valid_civic = civic_agrarian_idyll
-# 				}
-# 			}
-# 			AND = {
-# 				exists = owner
-# 				owner = {
-# 					has_tech_or_functional_civic = {
-# 						TECH = tech_food_processing_1
-# 					}
-# 				}
-# 			}
-# 		}
-# 	}
-# 	}
-# }
+	exclude = {
+		zone_default
+		oxr_mdlc_origin_wm_zone_default
+	}
+
+	unlock = { is_planet_world_machine = yes }
+
+	custom_tooltip = {
+		fail_text = zone_unavailable_tech_food_processing_1
+		OR = {
+			AND = {
+				exists = owner
+				owner = { is_anglers_empire = yes }
+				is_wet = yes
+			}
+			AND = {
+				exists = owner
+				owner = {
+					has_valid_civic = civic_agrarian_idyll
+				}
+			}
+			AND = {
+				exists = owner
+				owner = {
+					has_tech_or_functional_civic = {
+						TECH = tech_food_processing_1
+					}
+				}
+			}
+		}
+	}
+}
+
+
 # ##shattered ring
 # oxr_mdlc_origin_wm_slot_city_04 = {
 # 	inline_script = zones/allowed_zones_urban
