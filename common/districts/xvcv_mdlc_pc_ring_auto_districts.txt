@@ -6,206 +6,56 @@
 
 # No housing districts needed on an auto-ringworld!
 
-xvcv_mdlc_pc_ringworld_machine_auto_generator = {
-	base_buildtime = @rw_district_buildtime
-	is_capped_by_modifier = no
 
-	show_on_uncolonized = {
-		uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
-		exists = from
-		from = {
-			OR = {
-				is_gestalt = yes
-				is_fallen_empire = yes
-			}
-		}
-	}
-
-	potential = {
-		exists = owner
-		owner = { is_gestalt = yes }
-		uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
-	}
-
-	convert_to = {
-		district_rw_generator
-	}
-
-	## RESOURCES
-	resources = {
-		inline_script = {
-			script = planet/districts/auto/oxr_mdlc_generator
-			JOBS = 20
-		}
-	}
-
-	ai_resource_production = {
-		energy = 50
-		trigger = { always = yes }
-	}
-	on_built = {
-		if = {
-			limit = { 
-				owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
-			}
-			owner = {
-				fire_on_action = { on_action = on_world_machine_district_completed_country }
-			}
-			fire_on_action = { on_action = on_world_machine_district_completed_planet }
-		}
-	}
-	on_destroy = {
-		fire_on_action = { on_action = on_world_machine_district_demolished }
-	}
-}
-
-xvcv_mdlc_pc_ringworld_machine_auto_commercial = {
-	base_buildtime = @rw_district_buildtime
-	is_capped_by_modifier = no
-
-	show_on_uncolonized = {
-		uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
-		exists = from
-		from = {
-			is_gestalt = no
-			is_fallen_empire = no
-		}
-	}
-
-	potential = {
-		exists = owner
-		owner = {
-			is_gestalt = no
-			is_fallen_empire = no
-		}
-		uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
-	}
-
-	convert_to = {
-		district_rw_generator
-	}
-
-	resources = {
-		category = xvcv_mdlc_world_machines_districts
-		cost = {
-			minerals = @oxr_rw_cost
-			rare_crystals = @oxr_rw_cost_sr
-		}
-		upkeep = {
-			energy = @rw_maintenance
-			rare_crystals = @rw_maintenance_sr
-		}
-	}
-
-	triggered_planet_modifier = {
-		potential = { exists = owner }
-		# clerk base 3
-		# trader job base 8
-		#
-		# auto-values:
-		# 6 traders * 8 = 48
-		# 18 clerks * 3 = 54
-		trade_value_add = 102
-		# let's see if use of mult is broken/unbalanced
-		mult = value:scripted_modifier_mult|MODIFIER|planet_jobs_trade_produces_mult|
-	}
-	# triggered_planet_modifier = {
-	# 	planet_housing_add = 10
-	# 	job_trader_add = 2
-	# 	job_clerk_add = 6
-	# }
-
-	triggered_planet_modifier = {
-		potential = {
-			exists = owner
-			owner = {
-				has_active_tradition = tr_mercantile_commercial_enterprise
-			}
-		}
-		modifier = {
-			trade_value_add = 15
-			# mult = value:scripted_modifier_mult|MODIFIER|planet_jobs_trade_produces_mult|
-		}
-	}
-
-	triggered_planet_modifier = {
-		potential = {
-			exists = owner
-			owner = { has_active_tradition = tr_virtuality_4 }
-		}
-		modifier = {
-			trade_value_add = 15
-			# mult = value:scripted_modifier_mult|MODIFIER|planet_jobs_trade_produces_mult|
-		}
-	}
-	on_built = {
-		if = {
-			limit = { 
-				owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
-			}
-			owner = {
-				fire_on_action = { on_action = on_world_machine_district_completed_country }
-			}
-			fire_on_action = { on_action = on_world_machine_district_completed_planet }
-			
-		}
-	}
-	on_destroy = {
-		fire_on_action = { on_action = on_world_machine_district_demolished }
-	}
-}
-
-xvcv_mdlc_pc_ringworld_machine_auto_science = {
+xvcv_mdlc_pc_ringworld_machine_auto_district_primary = {
 	base_buildtime = @rw_district_buildtime
 	is_capped_by_modifier = no
 
 	show_on_uncolonized = { uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set }
 
-	potential = { uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set }
-
-	prerequisites = {
-		tech_basic_science_lab_1
+	zone_slots = {
+		slot_city_government
+		slot_city_01
+		slot_city_02
 	}
 
-	allow = {
-		hidden_trigger = {
-			OR = {
-				NOT = { exists = owner }
-				owner = {
-					has_technology = tech_basic_science_lab_1
-				}
+	on_built = {
+		if = {
+			limit = { 
+				owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
 			}
+			owner = {
+				fire_on_action = { on_action = on_world_machine_district_completed_country }
+			}
+			fire_on_action = { on_action = on_world_machine_district_completed_planet }
 		}
+	}
+	on_destroy = {
+		fire_on_action = { on_action = on_world_machine_district_demolished }
 	}
 
-	resources = {
-		category = xvcv_mdlc_world_machines_science_districts
-		cost = {
-			minerals = @oxr_rw_cost
-			exotic_gases = @oxr_rw_cost_sr
-		}
-		upkeep = {
-			energy = @rw_maintenance
-			exotic_gases = @rw_maintenance_sr
-		}
-		produces = {
-			physics_research = @[ 12 * oxr_mdlc_wm_base_calculator_output ]
-			engineering_research = @[ 12 * oxr_mdlc_wm_base_calculator_output ]
-			society_research = @[ 12 * oxr_mdlc_wm_base_calculator_output ]
-		}
-		produces = {
-			# 5 jobs added from Virtuality ascension
-			trigger = {
-				exists = owner
-				owner = {
-					has_active_tradition = tr_virtuality_4
-				}
-			}
-			physics_research = @[ 5 * oxr_mdlc_wm_base_calculator_output ]
-			engineering_research = @[ 5 * oxr_mdlc_wm_base_calculator_output ]
-			society_research = @[ 5 * oxr_mdlc_wm_base_calculator_output ]
-		}
+}
+
+# Research OR development ("growth and development")
+
+xvcv_mdlc_pc_ringworld_machine_auto_rnd = {
+	base_buildtime = @rw_district_buildtime
+	is_capped_by_modifier = no
+
+	show_on_uncolonized = {
+		uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
+		exists = from
 	}
+
+	potential = {
+		exists = owner
+		uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
+	}
+	conversion_ratio = 1
+	convert_to = {
+		district_rw_urban_1
+	}
+
 	on_built = {
 		if = {
 			limit = { 
@@ -222,6 +72,8 @@ xvcv_mdlc_pc_ringworld_machine_auto_science = {
 	}
 }
 
+
+# Industrial OR goods 
 xvcv_mdlc_pc_ringworld_machine_auto_industrial = {
 	base_buildtime = @rw_district_buildtime
 	is_capped_by_modifier = no
@@ -230,6 +82,10 @@ xvcv_mdlc_pc_ringworld_machine_auto_industrial = {
 
 	potential = {
 		uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
+	}
+	conversion_ratio = 1
+	convert_to = {
+		district_rw_urban_2
 	}
 
 	resources = {
@@ -288,71 +144,37 @@ xvcv_mdlc_pc_ringworld_machine_auto_industrial = {
 	}
 }
 
-xvcv_mdlc_pc_ringworld_machine_auto_farming = {
-	base_buildtime = @rw_district_buildtime
+
+# Farm OR generator ("Raw Resources")
+xvcv_mdlc_pc_ringworld_machine_auto_raw_resource = {
+		base_buildtime = @rw_district_buildtime
 	is_capped_by_modifier = no
 
-	show_on_uncolonized = { uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set }
+	show_on_uncolonized = {
+		uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
+		exists = from
+	}
 
 	potential = {
-		uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
 		exists = owner
-		owner = {
-			# is_ai = no
-			country_uses_food = yes
-		}
+		uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
 	}
-
+	conversion_ratio = 1
+	convert_to = {
+		district_rw_urban_1
+	}
 	resources = {
-		category = xvcv_mdlc_world_machines_food_districts
+		category = xvcv_mdlc_world_machines_unity_districts
 		cost = {
 			minerals = @oxr_rw_cost
-			volatile_motes = @oxr_rw_cost_sr
+			exotic_gases = @oxr_rw_cost_sr
 		}
 		upkeep = {
-			energy = @rw_maintenance
-			volatile_motes = @rw_maintenance_sr
-		}
-		produces = {
-			food = @[ 12 * oxr_mdlc_wm_base_farmer_output ]
-			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
-		}
-		produces = {
-			trigger = {
-				exists = owner
-				owner = { has_tradition = tr_nanotech_1 }
-			}
-			nanites = @[ 12 * 0.2 ]
-			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
+			energy = @[ 12 * oxr_mdlc_wm_base_coordinator_upkeep ]
+			exotic_gases = @rw_maintenance_sr
 		}
 	}
 
-	triggered_planet_modifier = {
-		potential = {
-			exists = owner
-			owner = {
-				has_valid_civic = civic_agrarian_idyll
-				has_oxr_mdlc_origin_world_machine_awakened = no
-			}
-		}
-		modifier = {
-			planet_housing_add = 5
-		}
-	}
-
-	triggered_planet_modifier = {
-		potential = {
-			exists = owner
-			owner = {
-				has_technology = tech_housing_agrarian_idyll
-				has_valid_civic = civic_agrarian_idyll
-				has_oxr_mdlc_origin_world_machine_awakened = no
-			}
-		}
-		modifier = {
-			planet_housing_add = 5
-		}
-	}
 	on_built = {
 		if = {
 			limit = { 
@@ -367,5 +189,180 @@ xvcv_mdlc_pc_ringworld_machine_auto_farming = {
 	on_destroy = {
 		fire_on_action = { on_action = on_world_machine_district_demolished }
 	}
+}
 
+# xvcv_mdlc_pc_ringworld_machine_auto_farming = {
+# 	base_buildtime = @rw_district_buildtime
+# 	is_capped_by_modifier = no
+
+# 	show_on_uncolonized = { uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set }
+
+# 	potential = {
+# 		uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
+# 		exists = owner
+# 		owner = {
+# 			# is_ai = no
+# 			country_uses_food = yes
+# 		}
+# 	}
+
+# 	resources = {
+# 		category = xvcv_mdlc_world_machines_food_districts
+# 		cost = {
+# 			minerals = @oxr_rw_cost
+# 			volatile_motes = @oxr_rw_cost_sr
+# 		}
+# 		upkeep = {
+# 			energy = @rw_maintenance
+# 			volatile_motes = @rw_maintenance_sr
+# 		}
+# 		produces = {
+# 			food = @[ 12 * oxr_mdlc_wm_base_farmer_output ]
+# 			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
+# 		}
+# 		produces = {
+# 			trigger = {
+# 				exists = owner
+# 				owner = { has_tradition = tr_nanotech_1 }
+# 			}
+# 			nanites = @[ 12 * 0.2 ]
+# 			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
+# 		}
+# 	}
+
+# 	triggered_planet_modifier = {
+# 		potential = {
+# 			exists = owner
+# 			owner = {
+# 				has_valid_civic = civic_agrarian_idyll
+# 				has_oxr_mdlc_origin_world_machine_awakened = no
+# 			}
+# 		}
+# 		modifier = {
+# 			planet_housing_add = 5
+# 		}
+# 	}
+
+# 	triggered_planet_modifier = {
+# 		potential = {
+# 			exists = owner
+# 			owner = {
+# 				has_technology = tech_housing_agrarian_idyll
+# 				has_valid_civic = civic_agrarian_idyll
+# 				has_oxr_mdlc_origin_world_machine_awakened = no
+# 			}
+# 		}
+# 		modifier = {
+# 			planet_housing_add = 5
+# 		}
+# 	}
+# 	on_built = {
+# 		if = {
+# 			limit = { 
+# 				owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+# 			}
+# 			owner = {
+# 				fire_on_action = { on_action = on_world_machine_district_completed_country }
+# 			}
+# 			fire_on_action = { on_action = on_world_machine_district_completed_planet }
+# 		}
+# 	}
+# 	on_destroy = {
+# 		fire_on_action = { on_action = on_world_machine_district_demolished }
+# 	}
+
+# }
+
+# xvcv_mdlc_pc_ringworld_machine_auto_generator = {
+# 	base_buildtime = @rw_district_buildtime
+# 	is_capped_by_modifier = no
+
+# 	show_on_uncolonized = {
+# 		uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
+# 		exists = from
+# 		from = {
+# 			OR = {
+# 				is_gestalt = yes
+# 				is_fallen_empire = yes
+# 			}
+# 		}
+# 	}
+
+# 	potential = {
+# 		exists = owner
+# 		owner = { is_gestalt = yes }
+# 		uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
+# 	}
+
+# 	convert_to = {
+# 		district_rw_generator
+# 	}
+
+# 	## RESOURCES
+# 	resources = {
+# 		inline_script = {
+# 			script = planet/districts/auto/oxr_mdlc_generator
+# 			JOBS = 20
+# 		}
+# 	}
+
+# 	ai_resource_production = {
+# 		energy = 50
+# 		trigger = { always = yes }
+# 	}
+# 	on_built = {
+# 		if = {
+# 			limit = { 
+# 				owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+# 			}
+# 			owner = {
+# 				fire_on_action = { on_action = on_world_machine_district_completed_country }
+# 			}
+# 			fire_on_action = { on_action = on_world_machine_district_completed_planet }
+# 		}
+# 	}
+# 	on_destroy = {
+# 		fire_on_action = { on_action = on_world_machine_district_demolished }
+# 	}
+# }
+
+xvcv_mdlc_pc_ringworld_machine_auto_raw_resource = {
+	base_buildtime = @rw_district_buildtime
+	is_capped_by_modifier = no
+
+	show_on_uncolonized = {
+		uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
+		exists = from
+		from = {
+			OR = {
+				is_gestalt = yes
+				is_fallen_empire = yes
+			}
+		}
+	}
+
+	potential = {
+		exists = owner
+		owner = { is_gestalt = yes }
+		uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
+	}
+
+	convert_to = {
+		district_rw_generator
+	}
+
+	on_built = {
+		if = {
+			limit = { 
+				owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+			}
+			owner = {
+				fire_on_action = { on_action = on_world_machine_district_completed_country }
+			}
+			fire_on_action = { on_action = on_world_machine_district_completed_planet }
+		}
+	}
+	on_destroy = {
+		fire_on_action = { on_action = on_world_machine_district_demolished }
+	}
 }

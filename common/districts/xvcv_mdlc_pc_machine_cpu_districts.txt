@@ -1,3 +1,97 @@
+# Auto-Processor world districts
+xvcv_mdlc_pc_machine_cpu_district_cooling = {
+	base_buildtime = @xvcv_mdlc_district_time_3
+	is_capped_by_modifier = no
+	default_starting_district = yes
+
+	show_on_uncolonized = {
+		exists = from
+		from = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		uses_district_set = xvcv_mdlc_pc_machine_cpu_district_set
+	}
+	potential = {
+		exists = owner
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		uses_district_set = xvcv_mdlc_pc_machine_cpu_district_set
+	}
+
+	allow = {
+		has_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad
+	}
+
+	conversion_ratio = 1
+	convert_to = {
+		district_generator
+		district_generator_uncapped
+	}
+
+	resources = {
+		category = xvcv_mdlc_world_machines_cooling_districts
+		cost = { 
+			minerals = @xvcv_mdlc_district_cost_5
+		}
+		cost = {
+			trigger = { has_deposit = rikk_mdlc_d_world_machine_cooling_towers }
+			exotic_gases = 100
+		}
+		upkeep = { energy = 10 }
+	}
+
+	planet_modifier = {
+		xvcv_mdlc_world_machines_districts_produces_mult = 0.3
+		xvcv_mdlc_world_machines_districts_upkeep_mult = -0.3
+	}
+	
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_districts_produces_mult = 1
+		xvcv_mdlc_world_machines_districts_upkeep_mult = -1
+		mult = modifier:rikk_mdlc_world_machine_cooling_district_effectiveness
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = planet.orbital_defence
+			planet.orbital_defence = {
+				exists = starbase
+				starbase = { has_starbase_building = xvcv_mdlc_starbase_building_orbital_drone_storage }
+			}
+		}
+		planet_housing_add = 5
+		planet_amenities_no_happiness_add = 5
+	}
+	on_destroy = {
+		# fire_on_action = { on_action = xvcv_on_world_machine_t3_resource_district_demolished }
+		planet_event = { id = xvcv_mdlc.710 }
+		change_variable = {
+			which = num_xvcv_mdlc_common_district_cooling
+			value = -1
+		}
+		
+		log = "Cooling district removed on \\[This.GetName]"
+	}
+	on_built = {
+		# fire_on_action = { on_action = xvcv_on_world_machine_t3_resource_district_built }
+		planet_event = { id = xvcv_mdlc.700 }
+		if = {
+			limit = {
+				is_variable_set = num_xvcv_mdlc_common_district_cooling
+			}
+			change_variable = {
+				which = num_xvcv_mdlc_common_district_cooling
+				value = 1
+			}
+		}
+		else = {
+			set_variable = {
+				which = num_xvcv_mdlc_common_district_cooling
+				value = 1
+			}
+		}
+		log = "Cooling district built on \\[This.GetName]"
+		oxr_mdlc_planet_wm_check_should_balance_cooling_districts = yes
+	}
+}
+
 xvcv_mdlc_pc_machine_cpu_district_physics = {
 	base_buildtime = @xvcv_mdlc_district_time_4
 	is_capped_by_modifier = no
@@ -15,7 +109,6 @@ xvcv_mdlc_pc_machine_cpu_district_physics = {
 
 	conversion_ratio = 1
 	convert_to = {
-		xvcv_mdlc_common_district_mining
 		district_mining_uncapped
 		xvcv_mdlc_pc_machine_ecu_district_alloys
 		xvcv_mdlc_pc_machine_ser_district_unity
@@ -93,10 +186,9 @@ xvcv_mdlc_pc_machine_cpu_district_society = {
 
 	conversion_ratio = 1
 	convert_to = {
-		xvcv_mdlc_common_district_mining
 		district_mining_uncapped
 		xvcv_mdlc_pc_machine_ecu_district_goods
-		xvcv_mdlc_pc_machine_ser_district_admin_cap
+		xvcv_mdlc_pc_machine_ser_district_logistics
 	}
 
 	planet_modifier = {
@@ -167,7 +259,6 @@ xvcv_mdlc_pc_machine_cpu_district_engineering = {
 
 	conversion_ratio = 1
 	convert_to = {
-		xvcv_mdlc_common_district_mining
 		district_mining_uncapped
 		xvcv_mdlc_pc_machine_ecu_district_rare_resources
 		xvcv_mdlc_pc_machine_ser_district_crime
@@ -222,78 +313,78 @@ xvcv_mdlc_pc_machine_cpu_district_engineering = {
 		fire_on_action = { on_action = on_world_machine_district_demolished }
 	}
 }
-xvcv_mdlc_pc_machine_cpu_district_decryption = {
-	base_buildtime = @xvcv_mdlc_district_time_4
-	is_capped_by_modifier = no
 
-	show_on_uncolonized = {
-		exists = from
-		from = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
-		uses_district_set = xvcv_mdlc_pc_machine_cpu_district_set
-	}
-	potential = {
-		exists = owner
-		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
-		uses_district_set = xvcv_mdlc_pc_machine_cpu_district_set
-	}
+# xvcv_mdlc_pc_machine_cpu_district_decryption = {
+# 	base_buildtime = @xvcv_mdlc_district_time_4
+# 	is_capped_by_modifier = no
 
-	conversion_ratio = 1
-	convert_to = {
-		xvcv_mdlc_common_district_mining
-		district_mining_uncapped
-		xvcv_mdlc_pc_machine_ecu_district_naval_cap
-		xvcv_mdlc_pc_machine_ser_district_encryption
-	}
+# 	show_on_uncolonized = {
+# 		exists = from
+# 		from = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+# 		uses_district_set = xvcv_mdlc_pc_machine_cpu_district_set
+# 	}
+# 	potential = {
+# 		exists = owner
+# 		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+# 		uses_district_set = xvcv_mdlc_pc_machine_cpu_district_set
+# 	}
 
-	planet_modifier = {
-		xvcv_mdlc_world_machines_districts_produces_mult = -0.1
-		xvcv_mdlc_world_machines_districts_upkeep_mult = 0.1
-	}
+# 	conversion_ratio = 1
+# 	convert_to = {
+# 		district_mining_uncapped
+# 		xvcv_mdlc_pc_machine_ecu_district_naval_cap
+# 		xvcv_mdlc_pc_machine_ser_district_encryption
+# 	}
 
-	#see 'xvcv_mdlc_d_pc_machine_cpu_decryption' deposit for the actual effect
-	triggered_desc = {
-		text = xvcv_mdlc_pc_machine_cpu_district_decryption_effect_desc
-	}
+# 	planet_modifier = {
+# 		xvcv_mdlc_world_machines_districts_produces_mult = -0.1
+# 		xvcv_mdlc_world_machines_districts_upkeep_mult = 0.1
+# 	}
 
-	resources = {
-		category = xvcv_mdlc_world_machines_cybersecurity_districts
-		cost = {
-			minerals = @xvcv_mdlc_district_cost_5
-		}
-		cost = { rare_crystals = 100 }
-		upkeep = {
-			energy = 15
-			rare_crystals = 1
-		}
-	}
-	triggered_desc = {
-		trigger = {
-			has_active_building = oxr_mdlc_building_auto_organoid_research_center
-		}
-		text = oxr_mdlc_building_auto_research_organoid_active
-	}
-	on_built = {
-		inline_script = planet/districts/on_action/on_t3_completed
-		fire_on_action = { on_action = xvcv_on_world_machine_t3_resource_district_built }
-		planet = {
-			set_or_increment_variable = {
-				VAR = xvcv_mdlc_pc_machine_cpu_district_decryption_num
-				AMOUNT = 1
-			}
-			set_or_increment_variable = {
-				VAR = xvcv_mdlc_d_pc_machine_cpu_decryption_count
-				AMOUNT = 1
-			}
-			add_deposit = xvcv_mdlc_d_pc_machine_cpu_decryption
-		}
-	}
-	on_destroy = {
-		fire_on_action = { on_action = xvcv_on_world_machine_t3_resource_district_demolished }
-		fire_on_action = { on_action = on_world_machine_district_demolished }
-		planet = {
-			dec_var_by_one = { which = xvcv_mdlc_pc_machine_cpu_district_decryption_num }
-			dec_var_by_one = { which = xvcv_mdlc_d_pc_machine_cpu_decryption_count }
-			remove_deposit = xvcv_mdlc_d_pc_machine_cpu_decryption
-		}
-	}
-}
+# 	#see 'xvcv_mdlc_d_pc_machine_cpu_decryption' deposit for the actual effect
+# 	triggered_desc = {
+# 		text = xvcv_mdlc_pc_machine_cpu_district_decryption_effect_desc
+# 	}
+
+# 	resources = {
+# 		category = xvcv_mdlc_world_machines_cybersecurity_districts
+# 		cost = {
+# 			minerals = @xvcv_mdlc_district_cost_5
+# 		}
+# 		cost = { rare_crystals = 100 }
+# 		upkeep = {
+# 			energy = 15
+# 			rare_crystals = 1
+# 		}
+# 	}
+# 	triggered_desc = {
+# 		trigger = {
+# 			has_active_building = oxr_mdlc_building_auto_organoid_research_center
+# 		}
+# 		text = oxr_mdlc_building_auto_research_organoid_active
+# 	}
+# 	on_built = {
+# 		inline_script = planet/districts/on_action/on_t3_completed
+# 		fire_on_action = { on_action = xvcv_on_world_machine_t3_resource_district_built }
+# 		planet = {
+# 			set_or_increment_variable = {
+# 				VAR = xvcv_mdlc_pc_machine_cpu_district_decryption_num
+# 				AMOUNT = 1
+# 			}
+# 			set_or_increment_variable = {
+# 				VAR = xvcv_mdlc_d_pc_machine_cpu_decryption_count
+# 				AMOUNT = 1
+# 			}
+# 			add_deposit = xvcv_mdlc_d_pc_machine_cpu_decryption
+# 		}
+# 	}
+# 	on_destroy = {
+# 		fire_on_action = { on_action = xvcv_on_world_machine_t3_resource_district_demolished }
+# 		fire_on_action = { on_action = on_world_machine_district_demolished }
+# 		planet = {
+# 			dec_var_by_one = { which = xvcv_mdlc_pc_machine_cpu_district_decryption_num }
+# 			dec_var_by_one = { which = xvcv_mdlc_d_pc_machine_cpu_decryption_count }
+# 			remove_deposit = xvcv_mdlc_d_pc_machine_cpu_decryption
+# 		}
+# 	}
+# }
