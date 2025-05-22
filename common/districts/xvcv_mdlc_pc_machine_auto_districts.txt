@@ -3,6 +3,14 @@ xvcv_mdlc_pc_machine_auto_district_city = {
 	base_buildtime = @xvcv_mdlc_district_time_3
 	icon = xvcv_mdlc_pc_mechanical_district_city
 	is_capped_by_modifier = no
+	exempt_from_ai_planet_specialization = yes
+	default_starting_district = yes
+
+	zone_slots = {
+		slot_city_government
+		slot_city_01
+		slot_city_02
+	}
 
 	show_on_uncolonized = {
 		exists = from
@@ -21,11 +29,23 @@ xvcv_mdlc_pc_machine_auto_district_city = {
 		uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
 	}
 
-	conversion_ratio = 0.5
+	conversion_ratio = 1
 	convert_to = {
-		xvcv_mdlc_common_district_mining
-		district_city
+		xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
+		xvcv_mdlc_pc_machine_auto_district_nexus
+		district_crashed_slaver_ship
+		district_arcology_housing
+		district_rw_city
+		district_nexus
+		district_hive
+		district_prison
+		district_craglands
+		district_mindlink
+		district_crashed_slaver_ship
+		district_resort
+		district_slave
 	}
+
 
 	resources = {
 		category = planet_districts_cities
@@ -36,53 +56,13 @@ xvcv_mdlc_pc_machine_auto_district_city = {
 	}
 
 	planet_modifier = {
-		planet_housing_add = 10
-		planet_amenities_add = 2
-		planet_max_buildings_add = 1
+		planet_housing_add = 1000
+		planet_amenities_add = 1200
 	}
 
-	triggered_planet_modifier = {
-		potential = {
-			exists = owner
-			owner = { has_valid_civic = civic_agrarian_idyll }
-		}
-		modifier = { planet_housing_add = -1 }
-	}
+	# Copy triggered modifiers from "district_city"
+	inline_script = planet/districts/vanilla/oxr_city_filler
 
-	triggered_planet_modifier = {
-		potential = {
-			exists = owner
-			owner = { has_active_tradition = tr_prosperity_public_works }
-		}
-		modifier = { planet_housing_add = 1 }
-	}
-
-	triggered_planet_modifier = {
-		potential = {
-			exists = owner
-			owner = { has_technology = tech_housing_1 }
-		}
-		modifier = { planet_housing_add = 1 }
-	}
-
-	triggered_planet_modifier = {
-		potential = {
-			exists = owner
-			owner = {
-				has_technology = tech_housing_2
-				NOT = { has_valid_civic = civic_agrarian_idyll }
-			}
-		}
-		modifier = { planet_housing_add = 1 }
-	}
-
-	triggered_planet_modifier = {
-		potential = {
-			exists = owner
-			owner = { has_active_tradition = tr_prosperity_interstellar_franchising }
-		}
-		modifier = { planet_amenities_add = 2 }
-	}
 	on_built = {
 		if = {
 			limit = { 
@@ -108,6 +88,14 @@ xvcv_mdlc_pc_machine_auto_district_nexus = {
 	base_buildtime = @xvcv_mdlc_district_time_3
 	icon = xvcv_mdlc_pc_mechanical_district_nexus
 	is_capped_by_modifier = no
+	exempt_from_ai_planet_specialization = yes
+	default_starting_district = yes
+
+	zone_slots = {
+		slot_city_government
+		slot_city_01
+		slot_city_02
+	}
 
 	show_on_uncolonized = {
 		exists = from
@@ -126,10 +114,16 @@ xvcv_mdlc_pc_machine_auto_district_nexus = {
 		uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
 	}
 
-	conversion_ratio = 0.5
+	conversion_ratio = 1
 	convert_to = {
-		xvcv_mdlc_common_district_mining
-		district_nexus
+		xvcv_mdlc_pc_machine_auto_district_city
+		xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
+		district_arcology_housing
+		district_rw_nexus
+		district_city
+		district_hive
+		district_craglands
+		district_mindlink
 	}
 
 	resources = {
@@ -141,39 +135,12 @@ xvcv_mdlc_pc_machine_auto_district_nexus = {
 	}
 
 	planet_modifier = {
-		planet_housing_add = 10
-		planet_amenities_no_happiness_add = 12
-		planet_max_buildings_add = 1
+		planet_housing_add = 1100
+		planet_amenities_no_happiness_add = 1200
 	}
 
-	triggered_planet_modifier = {
-		potential = {
-			exists = owner
-			owner = { has_technology = tech_housing_1 }
-		}
-		modifier = {
-			planet_housing_add = 1
-		}
-	}
+	inline_script = planet/districts/vanilla/oxr_nexus_filler
 
-	triggered_planet_modifier = {
-		potential = {
-			exists = owner
-			owner = { has_technology = tech_housing_2 }
-		}
-		modifier = {
-			planet_housing_add = 1
-			planet_amenities_no_happiness_add = 4
-		}
-	}
-
-	triggered_planet_modifier = {
-		potential = {
-			exists = owner
-			owner = { has_active_tradition = tr_prosperity_optimized_nexus }
-		}
-		modifier = { planet_housing_add = 1 }
-	}
 	on_built = {
 		if = {
 			limit = { 
@@ -189,16 +156,25 @@ xvcv_mdlc_pc_machine_auto_district_nexus = {
 		}
 	}
 	on_destroy = {
-		planet = {
-			fire_on_action = { on_action = on_world_machine_district_demolished }
+		if = {
+			limit = { 
+				owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+			}
+			planet = {
+				fire_on_action = { on_action = on_world_machine_district_demolished }
+			}
 		}
-		
 	}
 }
+
 xvcv_mdlc_pc_machine_auto_district_generator = {
 	base_buildtime = @xvcv_mdlc_district_time_2
 	icon = xvcv_mdlc_pc_mechanical_district_generator
 	is_capped_by_modifier = no
+
+	zone_slots = {
+		oxr_mdlc_origin_wm_slot_energy
+	}
 
 	show_on_uncolonized = {
 		exists = from
@@ -213,9 +189,12 @@ xvcv_mdlc_pc_machine_auto_district_generator = {
 
 	conversion_ratio = 1
 	convert_to = {
-		xvcv_mdlc_common_district_mining
-		district_generator
+		xvcv_mdlc_pc_machine_auto_district_generator_origin_wm
 		district_generator_uncapped
+		district_photosynthesis_fields
+		district_photosynthesis_fields_uncapped
+		district_nexus_1
+		district_hive_1
 	}
 
 	# produces
@@ -267,10 +246,15 @@ xvcv_mdlc_pc_machine_auto_district_generator = {
 		
 	}
 }
+
 xvcv_mdlc_pc_machine_auto_district_mining = {
 	base_buildtime = @xvcv_mdlc_district_time_2
 	icon = xvcv_mdlc_pc_mechanical_district_mining
 	is_capped_by_modifier = no
+
+	zone_slots = {
+		oxr_mdlc_origin_wm_slot_minerals
+	}
 
 	show_on_uncolonized = {
 		exists = from
@@ -285,9 +269,12 @@ xvcv_mdlc_pc_machine_auto_district_mining = {
 
 	conversion_ratio = 1
 	convert_to = {
-		xvcv_mdlc_common_district_mining
-		district_mining
+		xvcv_mdlc_pc_machine_auto_district_mining_origin_wm
 		district_mining_uncapped
+		district_hollow_mountains
+		district_hollow_mountains_uncapped
+		district_nexus_2
+		district_hive_2
 	}
 
 	resources = {
@@ -364,16 +351,25 @@ xvcv_mdlc_pc_machine_auto_district_mining = {
 		}
 	}
 	on_destroy = {
-		planet = {
-			fire_on_action = { on_action = on_world_machine_district_demolished }
+		if = {
+			limit = { 
+				owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+			}
+			planet = {
+				fire_on_action = { on_action = on_world_machine_district_demolished }
+			}
 		}
 	}
-
 }
+
 xvcv_mdlc_pc_machine_auto_district_farming = {
 	base_buildtime = @xvcv_mdlc_district_time_2
 	icon = xvcv_mdlc_pc_mechanical_district_farming
 	is_capped_by_modifier = no
+
+	zone_slots = {
+		oxr_mdlc_origin_wm_slot_food
+	}
 
 	show_on_uncolonized = {
 		exists = from
@@ -388,9 +384,12 @@ xvcv_mdlc_pc_machine_auto_district_farming = {
 
 	conversion_ratio = 1
 	convert_to = {
-		xvcv_mdlc_common_district_mining
-		district_farming
+		xvcv_mdlc_pc_machine_auto_district_farming_origin_wm
 		district_farming_uncapped
+		district_orchard_forests
+		district_orchard_forests_uncapped
+		district_nexus_3
+		district_hive_3
 	}
 
 	resources = {
