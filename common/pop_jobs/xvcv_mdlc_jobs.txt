@@ -369,7 +369,7 @@ xvcv_mdlc_organic_foundry = {
 		mult = value:job_weights_modifier|JOB|xvcv_mdlc_organic_foundry|RESOURCE|alloys|
 		modifier = {
 			factor = 5
-			has_job_type = xvcv_mdlc_organic_foundry
+			any_planet_pop_has_job_type = xvcv_mdlc_organic_foundry
 		}
 	}
 }
@@ -409,7 +409,7 @@ xvcv_mdlc_organic_artisan = {
 		mult = value:job_weights_modifier|JOB|xvcv_mdlc_organic_artisan|RESOURCE|consumer_goods|
 		modifier = {
 			factor = 5
-			has_job_type = xvcv_mdlc_organic_artisan
+			any_planet_pop_has_job_type = { JOB = xvcv_mdlc_organic_artisan }
 		}
 		# low income modifier
 		modifier = {
@@ -468,7 +468,7 @@ xvcv_mdlc_organic_researcher = {
 		mult = value:job_weights_research_modifier|JOB|xvcv_mdlc_organic_researcher|
 		modifier = {
 			factor = 1.5
-			has_job_type = xvcv_mdlc_organic_researcher
+			any_planet_pop_has_job_type = { JOB = xvcv_mdlc_organic_researcher }
 		}
 	}
 }
@@ -509,7 +509,7 @@ xvcv_mdlc_organic_bureaucrat = {
 		mult = value:job_weights_modifier|JOB|xvcv_mdlc_organic_bureaucrat|RESOURCE|unity|
 		modifier = {
 			factor = 1.5
-			has_job_type = xvcv_mdlc_organic_bureaucrat
+			any_planet_pop_has_job_type = { JOB = xvcv_mdlc_organic_bureaucrat }
 		}
 	}
 }
@@ -560,11 +560,13 @@ xvcv_mdlc_organic_healthcare = {
 		mult = value:scripted_modifier_job_weight_mult|MODIFIER|pop_job_amenities_mult|
 		modifier = {
 			factor = 1.5
-			has_job_type = xvcv_mdlc_organic_healthcare
+			any_planet_pop_has_job_type = { JOB = xvcv_mdlc_organic_healthcare }
 		}
 		modifier = {
 			factor = 10
-			NOT = { has_job_type = xvcv_mdlc_organic_healthcare }
+			NOT = {
+				any_planet_pop_has_job_type = { JOB = xvcv_mdlc_organic_healthcare }
+			}
 			planet = {
 				free_amenities < 0
 				has_available_jobs = xvcv_mdlc_organic_healthcare
@@ -611,7 +613,7 @@ xvcv_mdlc_organic_chemist = {
 		mult = value:job_weights_modifier|JOB|xvcv_mdlc_organic_chemist|RESOURCE|volatile_motes|
 		modifier = {
 			factor = 7
-			has_job_type = xvcv_mdlc_organic_chemist
+			any_planet_pop_has_job_type = { JOB = xvcv_mdlc_organic_chemist }
 		}
 	}
 }
@@ -654,7 +656,7 @@ xvcv_mdlc_organic_gas_refiner = {
 		mult = value:job_weights_modifier|JOB|xvcv_mdlc_organic_gas_refiner|RESOURCE|exotic_gases|
 		modifier = {
 			factor = 7
-			has_job_type = xvcv_mdlc_organic_gas_refiner
+			any_planet_pop_has_job_type = { JOB = xvcv_mdlc_organic_gas_refiner }
 		}
 	}
 }
@@ -696,7 +698,7 @@ xvcv_mdlc_organic_translucer = {
 		mult = value:job_weights_modifier|JOB|xvcv_mdlc_organic_translucer|RESOURCE|rare_crystals|
 		modifier = {
 			factor = 7
-			has_job_type = xvcv_mdlc_organic_translucer
+			any_planet_pop_has_job_type = { JOB = xvcv_mdlc_organic_translucer }
 		}
 	}
 }
@@ -783,17 +785,21 @@ xvcv_mdlc_organic_enforcer = {
 		weight = @specialist_job_weight
 		modifier = {
 			factor = 10
-			has_job_type = xvcv_mdlc_organic_enforcer
+			any_planet_pop_has_job_type = { JOB = xvcv_mdlc_organic_enforcer }
 		}
 		modifier = {
 			factor = 10
 			planet = { planet_crime > 15 }
-			NOT = { has_job_type = xvcv_mdlc_organic_enforcer }
+			NOT = {
+				any_planet_pop_has_job_type = { JOB = xvcv_mdlc_organic_enforcer }
+			}
 		}
 		modifier = {
 			factor = 0.01
 			planet = { planet_crime <= 15 }
-			NOT = { has_job_type = xvcv_mdlc_organic_enforcer }
+			NOT = {
+				any_planet_pop_has_job_type = { JOB = xvcv_mdlc_organic_enforcer }
+			}
 		}
 		modifier = {
 			factor = 2
@@ -869,7 +875,7 @@ xvcv_mdlc_organic_administrator = {
 		weight = @specialist_job_weight
 		modifier = {
 			factor = 1.5
-			has_job_type = xvcv_mdlc_organic_administrator
+			any_planet_pop_has_job_type = { JOB = xvcv_mdlc_organic_administrator }
 		}
 	}
 }
@@ -935,7 +941,7 @@ oxr_mdlc_organic_gardener = {
 		mult = value:job_weights_modifier|JOB|farmer|RESOURCE|food|
 		modifier = {
 			factor = 1.5
-			has_job_type = oxr_mdlc_organic_gardener
+			any_planet_pop_has_job_type = { JOB = oxr_mdlc_organic_gardener }
 		}
 	}
 }
@@ -1006,7 +1012,7 @@ xvcv_mdlc_virtual_researcher = {
 		}
 		modifier = {
 			factor = 1.5
-			has_job_type = xvcv_mdlc_virtual_researcher
+			any_planet_pop_has_job_type = { JOB = xvcv_mdlc_virtual_researcher }
 		}
 		modifier = {
 			factor = 0.8
@@ -1056,7 +1062,7 @@ xvcv_mdlc_virtual_merchant = {
 		mult = value:scripted_modifier_job_weight_mult|MODIFIER|planet_jobs_trade_produces_mult|
 		modifier = {
 			factor = 5
-			has_job_type = xvcv_mdlc_virtual_merchant
+			any_planet_pop_has_job_type = { JOB = xvcv_mdlc_virtual_merchant }
 		}
 		# crisis purge
 		modifier = {
@@ -1131,7 +1137,7 @@ xvcv_mdlc_virtual_bureaucrat = {
 		}
 		modifier = {
 			factor = 1.5
-			has_job_type = xvcv_mdlc_virtual_bureaucrat
+			any_planet_pop_has_job_type = { JOB = xvcv_mdlc_virtual_bureaucrat }
 		}
 	}
 }
@@ -1187,7 +1193,7 @@ xvcv_mdlc_virtual_entertainer = {
 		}
 		modifier = {
 			factor = 1.5
-			has_job_type = xvcv_mdlc_virtual_entertainer
+			any_planet_pop_has_job_type = { JOB = xvcv_mdlc_virtual_entertainer }
 		}
 		modifier = {
 			factor = 0.1
@@ -1195,7 +1201,9 @@ xvcv_mdlc_virtual_entertainer = {
 		}
 		modifier = {
 			factor = 0.1
-			NOT = { has_job_type = xvcv_mdlc_virtual_entertainer }
+			NOT = {
+				any_planet_pop_has_job_type = { JOB = xvcv_mdlc_virtual_entertainer }
+			}
 			exists = planet
 			planet = {
 				free_amenities > 5
@@ -1203,7 +1211,9 @@ xvcv_mdlc_virtual_entertainer = {
 		}
 		modifier = {
 			factor = 2
-			NOT = { has_job_type = xvcv_mdlc_virtual_entertainer }
+			NOT = {
+				any_planet_pop_has_job_type = { JOB = xvcv_mdlc_virtual_entertainer }
+			}
 			exists = planet
 			planet = {
 				free_amenities < 2
