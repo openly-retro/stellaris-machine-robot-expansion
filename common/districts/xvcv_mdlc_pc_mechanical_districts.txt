@@ -2,6 +2,13 @@
 xvcv_mdlc_pc_mechanical_district_city = {
 	base_buildtime = @xvcv_mdlc_district_time_4
 	is_capped_by_modifier = no
+	default_starting_district = yes
+
+	zone_slots = {
+		slot_city_government
+		slot_city_01
+		slot_city_02
+	}
 
 	show_on_uncolonized = {
 		exists = from
@@ -99,6 +106,13 @@ xvcv_mdlc_pc_mechanical_district_city = {
 xvcv_mdlc_pc_mechanical_district_nexus = {
 	base_buildtime = @xvcv_mdlc_district_time_4
 	is_capped_by_modifier = no
+	default_starting_district = yes
+
+	zone_slots = {
+		slot_city_government
+		slot_city_01
+		slot_city_02
+	}
 
 	show_on_uncolonized = {
 		exists = from
@@ -177,341 +191,6 @@ xvcv_mdlc_pc_mechanical_district_nexus = {
 		modifier = { planet_housing_add = 1 }
 	}
 }
-# xvcv_mdlc_pc_mechanical_district_industrial = {
-# 	base_buildtime = @xvcv_mdlc_district_time_2
-# 	is_capped_by_modifier = no
-
-# 	show_on_uncolonized = {
-# 		exists = from
-# 		from = {
-# 			OR = {
-# 				has_ascension_perk = xvcv_mdlc_ap_mechanical_worlds
-# 				has_country_flag = xvcv_mdlc_origin_mechanical_heritage_empire
-# 			}
-# 		}
-# 		uses_district_set = xvcv_mdlc_pc_mechanical_district_set
-# 	}
-# 	potential = {
-# 		exists = owner
-# 		owner = {
-# 			OR = {
-# 				has_ascension_perk = xvcv_mdlc_ap_mechanical_worlds
-# 				has_country_flag = xvcv_mdlc_origin_mechanical_heritage_empire
-# 			}
-# 		}
-# 		uses_district_set = xvcv_mdlc_pc_mechanical_district_set
-# 	}
-
-# 	conversion_ratio = 0.5
-# 	convert_to = {
-# 		district_arcology_arms_industry
-# 		district_industrial
-# 		xvcv_mdlc_pc_machine_auto_district_industrial
-# 	}
-
-# 	resources = {
-# 		category = planet_districts
-# 		cost = { minerals = @xvcv_mdlc_district_cost_2 }
-# 		upkeep = { energy = 2 }
-# 		upkeep = {
-# 			trigger = {
-# 				exists = owner
-# 				owner = { has_edict = industrial_maintenance }
-# 			}
-# 			energy = 2
-# 		}
-# 	}
-
-# 	planet_modifier = {
-# 		planet_housing_add = 3
-# 	}
-
-# 	#PDX mates, is this long line of planet modifiers the best way?
-# 	triggered_planet_modifier = {
-# 		potential = {
-# 			exists = owner
-# 			owner = { is_regular_empire = yes }
-# 		}
-# 		modifier = { planet_jobs_specialist_produces_mult = 0.01 }
-# 	}
-# 	triggered_planet_modifier = {
-# 		potential = {
-# 			exists = owner
-# 			owner = {
-# 				is_regular_empire = yes
-# 				is_crafter_empire = no
-# 			}
-# 		}
-# 		modifier = {
-# 			job_artisan_add = 1
-# 		}
-# 	}
-# 	triggered_planet_modifier = {
-# 		potential = {
-# 			exists = owner
-# 			owner = {
-# 				is_regular_empire = yes
-# 				is_crafter_empire = yes
-# 			}
-# 		}
-# 		modifier = {
-# 			job_artificer_add = 1
-# 		}
-# 	}
-# 	triggered_planet_modifier = {
-# 		potential = {
-# 			exists = owner
-# 			owner = {
-# 				is_regular_empire = yes
-# 				is_catalytic_empire = no
-# 			}
-# 		}
-# 		modifier = { job_foundry_add = 2 }
-# 	}
-# 	triggered_planet_modifier = {
-# 		potential = {
-# 			exists = owner
-# 			owner = {
-# 				is_regular_empire = yes
-# 				is_catalytic_empire = yes
-# 			}
-# 		}
-# 		modifier = { job_catalytic_technician_add = 2 }
-# 	}
-
-# 	triggered_planet_modifier = {
-# 		potential = {
-# 			exists = owner
-# 			owner = { is_gestalt = yes }
-# 		}
-# 		modifier = { planet_jobs_complex_drone_produces_mult = 0.01 }
-# 	}
-# 	triggered_planet_modifier = {
-# 		potential = {
-# 			exists = owner
-# 			owner = {
-# 				is_machine_empire = yes
-# 				is_catalytic_empire = no
-# 			}
-# 		}
-# 		modifier = { job_fabricator_add = 3 }
-# 	}
-# 	triggered_planet_modifier = {
-# 		potential = {
-# 			exists = owner
-# 			owner = {
-# 				is_hive_empire = yes
-# 				is_catalytic_empire = no
-# 			}
-# 		}
-# 		modifier = { job_alloy_drone_add = 3 }
-# 	}
-# 	triggered_planet_modifier = {
-# 		potential = {
-# 			exists = owner
-# 			owner = {
-# 				is_gestalt = yes
-# 				is_catalytic_empire = yes
-# 			}
-# 		}
-# 		modifier = { job_catalytic_drone_add = 3 }
-# 	}
-
-# 	# Designation Job Changes
-# 	#col_foundry
-# 	triggered_planet_modifier = {
-# 		potential = {
-# 			has_designation = col_foundry
-# 			exists = owner
-# 			owner = {
-# 				is_regular_empire = yes
-# 				is_crafter_empire = no
-# 			}
-# 		}
-# 		modifier = {
-# 			job_artisan_add = -1
-# 		}
-# 	}
-# 	triggered_planet_modifier = {
-# 		potential = {
-# 			has_designation = col_foundry
-# 			exists = owner
-# 			owner = {
-# 				is_regular_empire = yes
-# 				is_crafter_empire = yes
-# 			}
-# 		}
-# 		modifier = {
-# 			job_artificer_add = -1
-# 		}
-# 	}
-# 	triggered_planet_modifier = {
-# 		potential = {
-# 			has_designation = col_foundry
-# 			exists = owner
-# 			owner = {
-# 				is_regular_empire = yes
-# 				is_catalytic_empire = no
-# 			}
-# 		}
-# 		modifier = {
-# 			job_foundry_add = 1
-# 		}
-# 	}
-# 	triggered_planet_modifier = {
-# 		potential = {
-# 			has_designation = col_foundry
-# 			exists = owner
-# 			owner = {
-# 				is_regular_empire = yes
-# 				is_catalytic_empire = yes
-# 			}
-# 		}
-# 		modifier = {
-# 			job_catalytic_technician_add = 1
-# 		}
-# 	}
-
-# 	#col_factory
-# 	triggered_planet_modifier = {
-# 		potential = {
-# 			has_designation = col_factory
-# 			exists = owner
-# 			owner = {
-# 				is_regular_empire = yes
-# 				is_catalytic_empire = no
-# 			}
-# 		}
-# 		modifier = {
-# 			job_foundry_add = -2
-# 		}
-# 	}
-# 	triggered_planet_modifier = {
-# 		potential = {
-# 			has_designation = col_factory
-# 			exists = owner
-# 			owner = {
-# 				is_regular_empire = yes
-# 				is_catalytic_empire = yes
-# 			}
-# 		}
-# 		modifier = {
-# 			job_catalytic_technician_add = -2
-# 		}
-# 	}
-# 	triggered_planet_modifier = {
-# 		potential = {
-# 			has_designation = col_factory
-# 			exists = owner
-# 			owner = {
-# 				is_regular_empire = yes
-# 				is_crafter_empire = no
-# 			}
-# 		}
-# 		modifier = {
-# 			job_artisan_add = 2
-# 		}
-# 	}
-# 	triggered_planet_modifier = {
-# 		potential = {
-# 			has_designation = col_factory
-# 			exists = owner
-# 			owner = {
-# 				is_regular_empire = yes
-# 				is_crafter_empire = yes
-# 			}
-# 		}
-# 		modifier = {
-# 			job_artificer_add = 2
-# 		}
-# 	}
-
-# 	triggered_desc = {
-# 		trigger = {
-# 			exists = owner
-# 			owner = { is_regular_empire = yes }
-# 		}
-# 		text = job_artisan_effect_desc
-# 	}
-# 	triggered_desc = {
-# 		trigger = {
-# 			exists = owner
-# 			owner = {
-# 				is_regular_empire = yes
-# 				is_catalytic_empire = no
-# 			}
-# 		}
-# 		text = job_foundry_effect_desc
-# 	}
-# 	triggered_desc = {
-# 		trigger = {
-# 			exists = owner
-# 			owner = {
-# 				is_regular_empire = yes
-# 				is_catalytic_empire = yes
-# 			}
-# 		}
-# 		text = job_catalytic_technician_effect_desc
-# 	}
-# 	triggered_desc = {
-# 		trigger = {
-# 			exists = owner
-# 			owner = {
-# 				is_machine_empire = yes
-# 				is_catalytic_empire = no
-# 			}
-# 		}
-# 		text = job_fabricator_effect_desc
-# 	}
-# 	triggered_desc = {
-# 		trigger = {
-# 			exists = owner
-# 			owner = {
-# 				is_hive_empire = yes
-# 				is_catalytic_empire = no
-# 			}
-# 		}
-# 		text = job_alloy_drone_effect_desc
-# 	}
-# 	triggered_desc = {
-# 		trigger = {
-# 			exists = owner
-# 			owner = {
-# 				is_gestalt = yes
-# 				is_catalytic_empire = yes
-# 			}
-# 		}
-# 		text = job_catalytic_drone_effect_desc
-# 	}
-
-# 	triggered_planet_modifier = {
-# 		potential = {
-# 			exists = owner
-# 			owner = {
-# 				is_machine_empire = yes
-# 				has_edict = industrial_maintenance
-# 			}
-# 		}
-# 		modifier = {
-# 			job_maintenance_drone_add = 1
-# 		}
-# 	}
-# 	triggered_desc = {
-# 		trigger = {
-# 			exists = owner
-# 			owner = {
-# 				is_machine_empire = yes
-# 				has_edict = industrial_maintenance
-# 			}
-# 		}
-# 		text = job_maintenance_drone_effect_desc
-# 	}
-
-# 	ai_resource_production = {
-# 		alloys = 10
-# 		trigger = { always = yes }
-# 	}
-# }
 xvcv_mdlc_pc_mechanical_district_generator = {
 	base_buildtime = @xvcv_mdlc_district_time_2
 	is_capped_by_modifier = no
@@ -542,6 +221,10 @@ xvcv_mdlc_pc_mechanical_district_generator = {
 		district_generator
 		district_generator_uncapped
 		xvcv_mdlc_pc_machine_auto_district_generator
+	}
+	zone_slots = {
+		zone_energy
+		zone_energy_physics
 	}
 
 	resources = {
@@ -651,6 +334,10 @@ xvcv_mdlc_pc_mechanical_district_mining = {
 		district_mining_uncapped
 		xvcv_mdlc_pc_machine_auto_district_mining
 	}
+	zone_slots = {
+		zone_minerals
+		zone_minerals_engineering
+	}
 
 	resources = {
 		category = planet_districts
@@ -759,6 +446,10 @@ xvcv_mdlc_pc_mechanical_district_farming = {
 		district_farming
 		district_farming_uncapped
 		xvcv_mdlc_pc_machine_auto_district_farming
+	}
+	zone_slots = {
+		zone_food
+		zone_food_biology
 	}
 
 	resources = {
