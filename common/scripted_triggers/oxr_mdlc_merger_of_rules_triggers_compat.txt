@@ -98,14 +98,15 @@ oxr_mdlc_country_is_finished_bio_mech = {
 	has_country_flag = xvcv_mdlc_bio_robot_research_complete
 }
 
-# vanilla 'is_robotic' is not transparent, so redefine it here
-# oxr_mdlc_is_species_non_organic = {
-# 	OR = {
-# 		is_archetype = ROBOT
-# 		is_archetype = MACHINE
-# 		is_archetype = XVCV_MDLC_BIO_ROBOT
-# 	}
-# }
+oxr_pop_group_job_is_base_researcher = {
+	# Calculator is retired, now it's broken into 3
+	# Just report whether the job is one of those 3
+	OR = {
+		any_planet_pop_has_job_type = { JOB = calculator_physicist }
+		any_planet_pop_has_job_type = { JOB = calculator_biologist }
+		any_planet_pop_has_job_type = { JOB = calculator_engineer }
+	}
+}
 
 oxr_mdlc_can_add_genetic_traits = {
 	hidden_trigger = { exists = from }
@@ -392,13 +393,22 @@ has_rikk_mdlc_trait_robot_overclocked_excessive_endurance = { has_trait = rikk_m
 # PLANET CLASSES
 is_xvcv_mdlc_pc_mechanical_dummy_for_district_conversion = { is_planet_class = xvcv_mdlc_pc_mechanical_dummy_for_district_conversion }
 is_xvcv_mdlc_pc_mechanical = { is_planet_class = xvcv_mdlc_pc_mechanical }
-is_xvcv_mdlc_pc_machine_auto = { is_planet_class = xvcv_mdlc_pc_machine_auto }
+is_xvcv_mdlc_pc_machine_auto = {
+	OR = {
+		is_planet_class = xvcv_mdlc_pc_machine_auto_origin_wm
+		is_planet_class = xvcv_mdlc_pc_machine_auto
+	}
+}
+# ix_xvcv_mdlc_pc_machine_auto_origin_wm = { is_planet_class = xvcv_mdlc_pc_machine_auto_origin_wm }
 is_xvcv_mdlc_pc_machine_ecu = { is_planet_class = xvcv_mdlc_pc_machine_ecu }
 is_xvcv_mdlc_pc_machine_cpu = { is_planet_class = xvcv_mdlc_pc_machine_cpu }
 is_xvcv_mdlc_pc_machine_ser = { is_planet_class = xvcv_mdlc_pc_machine_ser }
 is_xvcv_mdlc_pc_virtual = { is_planet_class = xvcv_mdlc_pc_virtual }
 is_xvcv_mdlc_pc_ringworld_machine_auto = { is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto }
 is_oxr_mdlc_pc_bio_mech = { is_planet_class = oxr_mdlc_pc_bio_mech }
+
+
+
 # DISTRICTS
 ## Placeholder
 has_xvcv_mdlc_common_district_mining = { has_district = xvcv_mdlc_common_district_mining }
@@ -423,7 +433,7 @@ has_xvcv_mdlc_pc_machine_ecu_district_rare_resources = { has_district = xvcv_mdl
 has_xvcv_mdlc_pc_machine_ecu_district_naval_cap = { has_district = xvcv_mdlc_pc_machine_ecu_district_naval_cap }
 ## Server world districts
 has_xvcv_mdlc_pc_machine_ser_district_unity = { has_district = xvcv_mdlc_pc_machine_ser_district_unity }
-has_xvcv_mdlc_pc_machine_ser_district_admin_cap = { has_district = xvcv_mdlc_pc_machine_ser_district_admin_cap }
+has_xvcv_mdlc_pc_machine_ser_district_logistics = { has_district = xvcv_mdlc_pc_machine_ser_district_logistics }
 has_xvcv_mdlc_pc_machine_ser_district_crime = { has_district = xvcv_mdlc_pc_machine_ser_district_crime }
 has_xvcv_mdlc_pc_machine_ser_district_encryption = { has_district = xvcv_mdlc_pc_machine_ser_district_encryption }
 ## Mechanical world districts

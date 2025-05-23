@@ -1,6 +1,6 @@
 xvcv_mdlc_dominant_species_changing_effect = {
 	optimize_memory #see the '99_advanced_documentation.txt', 'Memory Management' section
-	every_owned_pop = {
+	every_owned_pop_group = {
 		limit = { is_same_species = prev.species }
 		change_species = last_created_species
 	}
@@ -178,32 +178,32 @@ xvcv_mdlc_leader_tied_traits_remove_effect = {
 xvcv_mdlc_servitor_morale_calc_main_effect = {
 	optimize_memory
 	if = {
-		limit = { pop_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage < 0.1 } }
+		limit = { pop_amount_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage < 0.1 } }
 		add_modifier = { modifier = xvcv_mdlc_servitor_morale_abysmal days = -1 }
 	}
 	else_if = {
 		limit = {
-			pop_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage < 0.2 }
-			pop_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage >= 0.1 }
+			pop_amount_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage < 0.2 }
+			pop_amount_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage >= 0.1 }
 		}
 		add_modifier = { modifier = xvcv_mdlc_servitor_morale_low days = -1 }
 	}
 	else_if = {
 		limit = {
-			pop_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage < 0.3 }
-			pop_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage >= 0.2 }
+			pop_amount_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage < 0.3 }
+			pop_amount_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage >= 0.2 }
 		}
 		add_modifier = { modifier = xvcv_mdlc_servitor_morale_average days = -1 }
 	}
 	else_if = {
 		limit = {
-			pop_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage < 0.4 }
-			pop_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage >= 0.3 }
+			pop_amount_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage < 0.4 }
+			pop_amount_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage >= 0.3 }
 		}
 		add_modifier = { modifier = xvcv_mdlc_servitor_morale_high days = -1 }
 	}
 	else_if = {
-		limit = { pop_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage >= 0.4 } }
+		limit = { pop_amount_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage >= 0.4 } }
 		add_modifier = { modifier = xvcv_mdlc_servitor_morale_max days = -1 }
 	}
 }
@@ -248,7 +248,7 @@ xvcv_mdlc_civic_goods_distributor_pop_bonus_effect = {
 		}
 	}
 	export_trigger_value_to_variable = {
-		trigger = count_owned_pop
+		trigger = count_owned_pop_group
 		parameters = {
 			limit = {
 				OR = {
@@ -313,7 +313,7 @@ xvcv_mdlc_ap_genetics_mastery_species_new_template_create_effect = {
 		homeworld = this.home_planet
 	}
 	prev = {
-		random_owned_pop = {
+		random_owned_pop_group = {
 			limit = { is_same_species = prevprev }
 			change_species = last_created_species
 			xvcv_mdlc_machine_species_rights_adjustments_effect = yes
@@ -363,7 +363,7 @@ xvcv_mdlc_iterate_leaders_level_up_classes_under_skill = {
 			is_councilor = no
 			has_trait = xvcv_mdlc_leader_trait_shared_memory
 			leader_class = $CLASS$
-			has_skill < $SKILL_LEVEL$
+			has_base_skill < $SKILL_LEVEL$
 			NOT = { has_leader_flag = xvcv_mdlc_leader_trait_shared_memory_target_@this }
 		}
 		# log = "Leveling \\[prev.xvcv_total_class_specific_leaders_under_level_2] scientists level below 2"
@@ -417,7 +417,7 @@ oxr_mdlc_set_custom_species_habitability = {
 					has_trait = trait_pc_arctic_preference
 					has_trait = trait_pc_tundra_preference
 					has_trait = trait_pc_alpine_preference
-					has_trait = trait_frozen_planet_preference
+					has_trait = trait_cold_planet_preference
 				}
 			}
 		}
@@ -507,8 +507,8 @@ oxr_mdlc_set_custom_species_habitability = {
 oxr_mdlc_set_mechanical_heritage_species_habitability = {
 	optimize_memory
 	if = {
-		limit = { prev = { has_trait = trait_frozen_planet_preference } }
-		change_species_characteristics = { remove_trait = trait_frozen_planet_preference }
+		limit = { prev = { has_trait = trait_cold_planet_preference } }
+		change_species_characteristics = { remove_trait = trait_cold_planet_preference }
 	}
 	else_if = {
 		limit = { prev = { has_trait = trait_dry_planet_preference } }

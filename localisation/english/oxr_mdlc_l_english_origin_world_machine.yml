@@ -37,6 +37,9 @@
  # OVERRIDES    0x032
  # colony types 0x033
  # misc         0x034
+ # zone slots   0x035
+ # zones        0x036
+
 
 # symbols: £energy£ §R
 
@@ -49,7 +52,7 @@
  oxr_mdlc_wm_core_tip: "£oxr_mdlc_world_machine_core£ §M$oxr_mdlc_world_machine_core$§!"
  oxr_mdlc_popless: "§B(Popless)§!"
  oxr_mdlc_geological: "£oxr_geological£"
-#  oxr_gear: "£oxr_gear£"
+ oxr_gear2: "£oxr_gear£"
 #  oxr_gear: "£oxr_empty£"
  oxr_gear: ""
  oxr_mdlc_imperial_nexus: "Imperial Nexus"
@@ -1233,7 +1236,7 @@
  OXR_MDLC_ORIGIN_WM_INFO_RUINED_WM_FOUND_DESC: "We have received the data on a ruined World Machine outside of our home system. It is notable that no automatons, self-aware or otherwise, were discovered on the planet. It suggests a pattern that Auto-World Machines have functioned for unknown periods of time without automatons.\n\nThere is as yet an unconfirmed correlation between the absense of any automations, and the ruined state of the world. We have no data on how long World Machines can operate without automatons providing maintenance. We have only our own planetary data to go on, which reports automatons present from its beginning.\n\nThe state of the planet is that it is offline, and initial scans reveal district-blocking anomalies such as the one on our homeworld. From this we can unequivacobly conclude that the process of creating Auto-World Machines contains errors, and will continue to produce anomalies until we are able to gain enough insights on the process to avoid such defects in the future."
 
  OXR_MDLC_ORIGIN_WM_INFO_T3_SERVER: "$xvcv_mdlc_pc_machine_ser$ World"
- OXR_MDLC_ORIGIN_WM_INFO_T3_SERVER_DESC: "The §H$xvcv_mdlc_pc_machine_ser$§! is the administrative implementation of the specialized §Y$xvcv_mdlc_pc_machine_auto$§!. The standard resource districts have been replaced with the following:\n\n- §Y$xvcv_mdlc_pc_machine_ser_district_unity$§!: $xvcv_mdlc_pc_machine_ser_district_unity_desc$\n\n- §Y$xvcv_mdlc_pc_machine_ser_district_admin_cap$§!: $xvcv_mdlc_pc_machine_ser_district_admin_cap_desc$\n\n- §Y$xvcv_mdlc_pc_machine_ser_district_crime$§!: $xvcv_mdlc_pc_machine_ser_district_crime_desc$\n\n- §Y$xvcv_mdlc_pc_machine_ser_district_encryption$§!: $xvcv_mdlc_pc_machine_ser_district_encryption_desc$"
+ OXR_MDLC_ORIGIN_WM_INFO_T3_SERVER_DESC: "The §H$xvcv_mdlc_pc_machine_ser$§! is the administrative implementation of the specialized §Y$xvcv_mdlc_pc_machine_auto$§!. The standard resource districts have been replaced with the following:\n\n- §Y$xvcv_mdlc_pc_machine_ser_district_unity$§!: $xvcv_mdlc_pc_machine_ser_district_unity_desc$\n\n- §Y$xvcv_mdlc_pc_machine_ser_district_logistics$§!: $xvcv_mdlc_pc_machine_ser_district_logistics_desc$\n\n- §Y$xvcv_mdlc_pc_machine_ser_district_crime$§!: $xvcv_mdlc_pc_machine_ser_district_crime_desc$\n\n- §Y$xvcv_mdlc_pc_machine_ser_district_encryption$§!: $xvcv_mdlc_pc_machine_ser_district_encryption_desc$"
  OXR_MDLC_ORIGIN_WM_INFO_T3_CPU: "$xvcv_mdlc_pc_machine_cpu$ World"
  OXR_MDLC_ORIGIN_WM_INFO_T3_CPU_DESC: "The §H$xvcv_mdlc_pc_machine_cpu$§! is the research and computing specialization of the §Y$xvcv_mdlc_pc_machine_auto$§!. The resource districts and underlying infrastructure have been overhauled to support the following:\n\n- §Y$xvcv_mdlc_pc_machine_cpu_district_physics$§!: $xvcv_mdlc_pc_machine_cpu_district_physics_desc$\n\n- §Y$xvcv_mdlc_pc_machine_cpu_district_society$§!: $xvcv_mdlc_pc_machine_cpu_district_society_desc$\n\n- §Y$xvcv_mdlc_pc_machine_cpu_district_engineering$§!: $xvcv_mdlc_pc_machine_cpu_district_engineering_desc$\n\n- §Y$xvcv_mdlc_pc_machine_cpu_district_decryption$§!: $xvcv_mdlc_pc_machine_cpu_district_decryption_desc$"
  OXR_MDLC_ORIGIN_WM_INFO_T3_ECU: "$OXR_MDLC_ORIGIN_WM_T3_ECU_WORLD$"
@@ -1457,6 +1460,24 @@
  oxr_desc_for_xvcv_mdlc_pc_machine_ecu_district_rare_resources: "The Sythesizer combines the §Y$oxr_mdlc_world_machines_building_welding_colony$§!, §Y$oxr_mdlc_world_machines_building_particle_collider$§!, and §Y$oxr_mdlc_world_machines_building_crystal_cultivation_tank$§!, producing together far more than what each would produce alone."
  oxr_desc_for_xvcv_mdlc_pc_machine_ecu_district_naval_cap: "This district manufactures ship parts, sensors, components, weapons, and the various ammunition needed (shells, missiles, cells), and sends them all to shipyards for manufacture. Additionally, it houses combat computers running real-time logistical support programs for fleets; it manages resupply orders, supply chains for reloading weapons and refueling engines, schedules repairs, and launches additional satellites as needed when arrays reach peak bandwidth in various systems."
 
+ ## The duplicated Auto-Machine World for the origin
+ ## where the primary district is the industrial district
+ xvcv_mdlc_pc_machine_auto_district_generator_origin_wm: "$xvcv_mdlc_pc_machine_auto_district_generator$"
+ xvcv_mdlc_pc_machine_auto_district_generator_origin_wm_desc: "$xvcv_mdlc_pc_machine_auto_district_generator_desc$"
+ xvcv_mdlc_pc_machine_auto_district_generator_origin_wm_plural: "$xvcv_mdlc_pc_machine_auto_district_generator_plural$"
+
+ xvcv_mdlc_pc_machine_auto_district_mining_origin_wm: "$xvcv_mdlc_pc_machine_auto_district_mining$"
+ xvcv_mdlc_pc_machine_auto_district_mining_origin_wm_desc: "$xvcv_mdlc_pc_machine_auto_district_mining_desc$"
+ xvcv_mdlc_pc_machine_auto_district_mining_origin_wm_plural: "$xvcv_mdlc_pc_machine_auto_district_mining_plural$"
+
+ xvcv_mdlc_pc_machine_auto_district_farming_origin_wm: "$xvcv_mdlc_pc_machine_auto_district_farming$"
+ xvcv_mdlc_pc_machine_auto_district_farming_origin_wm_desc: "$xvcv_mdlc_pc_machine_auto_district_farming_desc$"
+ xvcv_mdlc_pc_machine_auto_district_farming_origin_wm_plural: "$xvcv_mdlc_pc_machine_auto_district_farming_plural$"
+
+ xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm: "$xvcv_mdlc_pc_machine_auto_district_industrial$"
+ xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm_desc: "$xvcv_mdlc_pc_machine_auto_district_industrial_desc$"
+ xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm_plural: "$xvcv_mdlc_pc_machine_auto_district_industrial_plural$"
+
 #endregion
 
 
@@ -1581,6 +1602,7 @@
  xvcv_mdlc_world_machines_housing_districts: "$oxr_wm$ $auto$-Housing $districts$"
  xvcv_mdlc_world_machines_strategic_resource_districts: "$oxr_wm$ $auto$-Strategic-Resource $districts$"
  xvcv_mdlc_world_machines_cooling_districts: "$oxr_wm$ Cooling $districts$"
+ xvcv_mdlc_world_machines_services_districts: "$oxr_wm$ Logistical $districts$"
 
  oxr_mdlc_category_world_machines_buildings: "$oxr_wm$ $auto$-$buildings$"
  oxr_mdlc_world_machines_government_buildings: "$oxr_wm$ $auto$-Capital $buildings$"
@@ -1711,6 +1733,62 @@
 
 #region misc_0x034
  oxr_mdlc_leader_memory_backup_catchphrase: "Age is merely a state of mind."
+ xvcv_mdlc_pc_machine_auto_origin_wm: "$xvcv_mdlc_pc_machine_auto$"
+ xvcv_mdlc_pc_machine_auto_origin_wm_desc: "$xvcv_mdlc_pc_machine_auto_desc$"
+
+#endregion
+
+#region zone_slots_0x035
+ oxr_mdlc_origin_wm_slot_city_government: "Process Monitor"
+ oxr_mdlc_origin_wm_slot_city_01: "Primary Threadpool Worker"
+ oxr_mdlc_origin_wm_slot_city_02: "Secondary Threadpool Worker"
+ oxr_mdlc_origin_wm_slot_city_03: "Tertiary Threadpool Worker"
+ oxr_mdlc_origin_wm_slot_city_04: "Quaternary Threadpool Worker"
+ oxr_mdlc_origin_wm_slot_city_05: "Quinary Threadpool Worker"
+ oxr_mdlc_origin_wm_slot_minerals: "Auto-Mine Linked Library"
+ oxr_mdlc_origin_wm_slot_energy: "Auto-Generator Linked Library"
+ oxr_mdlc_origin_wm_slot_food: "Auto-Farm Linked Library"
+
+ oxr_mdlc_origin_wm_slot_city_government_desc: "$slot_city_government_desc$"
+ oxr_mdlc_origin_wm_slot_city_01_desc: "$slot_city_01_desc$"
+ oxr_mdlc_origin_wm_slot_city_02_desc: "$slot_city_02_desc$"
+ oxr_mdlc_origin_wm_slot_city_04_desc: "$slot_city_04_desc$"
+ oxr_mdlc_origin_wm_slot_city_05_desc: "$slot_city_05_desc$"
+ oxr_mdlc_origin_wm_slot_minerals_desc: "$slot_minerals_desc$"
+ oxr_mdlc_origin_wm_slot_energy_desc: "$slot_energy_desc$"
+ oxr_mdlc_origin_wm_slot_food_desc: "$slot_food_desc$"
+
+ oxr_mdlc_origin_wm_slot_any: "Auto-Utility Zone"
+ oxr_mdlc_origin_wm_slot_any_desc: "Any structures for which our empire has blueprints may be built here."
+
+#endregion
 
 
-#
+#region zones_0x036
+ oxr_mdlc_origin_wm_zone_default: "$oxr_gear2$ $oxr_mdlc_origin_wm_slot_city_government$"
+ oxr_mdlc_origin_wm_zone_default_desc: "$zone_default_desc$"
+ oxr_mdlc_origin_wm_zone_any: "$oxr_gear2$ Universal Adapter"
+ oxr_mdlc_origin_wm_zone_any_desc: "Any modules for which our empire has blueprints or technologies may be built here."
+ oxr_mdlc_origin_wm_zone_any_wm: "$oxr_gear2$ WM-1 Adapter"
+ oxr_mdlc_origin_wm_zone_any_wm_desc: "Any World-Machine specific modules pertaining to this planet class type."
+ oxr_mdlc_origin_wm_zone_industrial: "$oxr_gear2 $Auto-$zone_industrial$"
+ oxr_mdlc_origin_wm_zone_industrial_desc: "$zone_industrial_desc$"
+ oxr_mdlc_origin_wm_zone_foundry: "$oxr_gear2$ Auto-$zone_foundry$"
+ oxr_mdlc_origin_wm_zone_foundry_desc: "$zone_foundry_desc$"
+ oxr_mdlc_origin_wm_zone_factory: "$oxr_gear2$ Auto-$zone_factory$"
+ oxr_mdlc_origin_wm_zone_factory_desc: "$zone_factory_desc$"
+ oxr_mdlc_origin_wm_zone_research: "$oxr_gear2$ Auto-$zone_research$"
+ oxr_mdlc_origin_wm_zone_research_desc: "$zone_research_desc$"
+ oxr_mdlc_origin_wm_zone_unity: "$oxr_gear2$ Auto-$zone_unity$"
+ oxr_mdlc_origin_wm_zone_unity_desc: "$zone_unity_desc$"
+ oxr_mdlc_origin_wm_zone_fortress: "$oxr_gear2$ Auto-$zone_fortress$"
+ oxr_mdlc_origin_wm_zone_fortress_desc: "$zone_fortress_desc$"
+ oxr_mdlc_origin_wm_zone_trade: "$oxr_gear2$ Auto-$zone_trade$"
+ oxr_mdlc_origin_wm_zone_trade_desc: "$zone_trade_desc$"
+ oxr_mdlc_origin_wm_zone_minerals: "$oxr_gear2$ Auto-$zone_minerals$"
+ oxr_mdlc_origin_wm_zone_minerals_desc: "$zone_minerals_desc$"
+ oxr_mdlc_origin_wm_zone_energy: "$oxr_gear2$ Auto-$zone_energy$"
+ oxr_mdlc_origin_wm_zone_energy_desc: "$zone_energy_desc$"
+
+
+#endregion

@@ -35,7 +35,7 @@ def test_create_trigger_for_trait__courtroom_training():
 oxr_mdlc_leader_official_can_add_leader_trait_courtroom_training = {
     leader_class = official
     has_trait = subclass_official_diplomacy_councilor
-    has_skill >= 4
+    has_base_skill >= 4
     has_paragon_dlc = yes
     is_xenophobe = no
     exists = owner
@@ -86,7 +86,7 @@ def test_trigger_for_trait__robotist():
     expected = """
 oxr_mdlc_leader_commander_can_add_leader_trait_robotist = {
     leader_class = commander
-    has_skill >= 8
+    has_base_skill >= 8
     has_paragon_dlc = yes
     exists = owner
     owner = {  OR = { has_technology =  tech_robotic_workers   has_cybernetic_ascension = yes  is_individual_machine = yes } }
