@@ -1,8 +1,13 @@
 # Jobs, originally by XVCV
 xvcv_mdlc_uplink_node_coordinator = {
 	category = complex_drone
-	condition_string = DRONE_JOB_TRIGGER
-	building_icon = xvcv_mdlc_building_uplink_node_facility
+
+	swappable_data = {
+		default = {
+			condition_string = DRONE_JOB_TRIGGER
+			building_icon = xvcv_mdlc_building_uplink_node_facility
+		}
+	}
 
 	possible_pre_triggers = {
 		has_owner = yes
@@ -40,9 +45,14 @@ xvcv_mdlc_fake_algorithm = {
 	category = corrupt_drone
 	is_capped_by_modifier = yes
 	can_set_priority = no
-	clothes_texture_index = 2
 	contributes_to_diplo_weight = no
-	building_icon = building_machine_capital
+	# building_icon = building_machine_capital
+
+	swappable_data = {
+		default = {
+			building_icon = building_machine_capital
+		}
+	}
 
 	possible_pre_triggers = {
 		has_owner = yes
@@ -73,9 +83,13 @@ xvcv_mdlc_rogue_network = {
 	category = corrupt_drone
 	is_capped_by_modifier = yes
 	can_set_priority = no
-	clothes_texture_index = 2
 	contributes_to_diplo_weight = no
-	building_icon = building_autochthon_monument
+
+	swappable_data = {
+		default = {
+			building_icon = building_autochthon_monument
+		}
+	}
 
 	possible_pre_triggers = {
 		has_owner = yes
@@ -110,7 +124,13 @@ xvcv_mdlc_rogue_network = {
 xvcv_mdlc_bio_robot_clone_drone = {
 	category = complex_drone
 	condition_string = DRONE_JOB_TRIGGER
-	building_icon = building_clone_vats
+
+	swappable_data = {
+		default = {
+			condition_string = DRONE_JOB_TRIGGER
+			building_icon = building_clone_vats
+		}
+	}
 
 	possible_pre_triggers = {
 		has_owner = yes
@@ -145,9 +165,14 @@ xvcv_mdlc_bio_robot_clone_drone = {
 }
 xvcv_mdlc_bio_robot_clone_technician = {
 	category = specialist
-	condition_string = SPECIALIST_JOB_TRIGGER
-	building_icon = building_clone_vats
 	icon = xvcv_mdlc_bio_robot_clone_drone
+
+	swappable_data = {
+		default = {
+			condition_string = SPECIALIST_JOB_TRIGGER
+			building_icon = building_clone_vats
+		}
+	}
 
 	possible_pre_triggers = {
 		has_owner = yes
@@ -184,7 +209,7 @@ xvcv_mdlc_bio_robot_clone_technician = {
 		}
 		modifier = {
 			factor = 1.5
-			has_job_type = xvcv_mdlc_bio_robot_clone_technician
+			has_building = xvcv_mdlc_building_bio_robot_clone_plants
 		}
 		modifier = {
 			factor = 0.5
@@ -200,10 +225,14 @@ xvcv_mdlc_bio_robot_clone_technician = {
 }
 xvcv_mdlc_installation_dismantler = {
 	category = worker
-	condition_string = WORKER_JOB_TRIGGER
-	building_icon = building_ruined
-	clothes_texture_index = 2
 	icon = miner
+
+	swappable_data = {
+		default = {
+			condition_string = WORKER_JOB_TRIGGER
+			building_icon = building_ruined
+		}
+	}
 
 	possible_pre_triggers = {
 		has_owner = yes
@@ -276,65 +305,17 @@ xvcv_mdlc_installation_dismantler = {
 		}
 	}
 }
-xvcv_mdlc_installation_dismantle_drone = {
-	category = simple_drone
-	condition_string = DRONE_JOB_TRIGGER
-	building_icon = building_ruined
-	icon = miner
 
-	possible_pre_triggers = {
-		has_owner = yes
-		is_being_purged = no
-		is_being_assimilated = no
-		is_sapient = yes
-	}
-
-	possible_precalc = can_fill_drone_job
-
-	resources = {
-		category = planet_miners
-		produces = { minerals = 6 }
-		upkeep = {
-			trigger = {
-				exists = owner
-				owner = { has_edict = mining_subsidies }
-			}
-			energy = 0.5
-		}
-	}
-
-	weight = {
-		weight = @simple_drone_job_weight
-		mult = value:job_weights_modifier|JOB|xvcv_mdlc_installation_dismantle_drone|RESOURCE|minerals|
-		modifier = {
-			factor = 1.1
-			exists = owner
-			years_passed < 1
-			owner = { has_valid_civic = civic_machine_assimilator }
-			has_trait = trait_cybernetic
-		}
-		modifier = {
-			factor = 1.2
-			has_job_type = xvcv_mdlc_installation_dismantle_drone
-		}
-		modifier = {
-			factor = 0.9
-			NOT = { has_job_type = xvcv_mdlc_installation_dismantle_drone }
-			owner = {
-				has_monthly_income = {
-					resource = minerals
-					value > 85
-				}
-			}
-		}
-	}
-}
 #for 'xvcv_mdlc_ap_organic_work' ascension perk
 xvcv_mdlc_organic_foundry = {
 	category = bio_trophy
-	condition_string = SPECIALIST_JOB_TRIGGER
-	building_icon = voluntary_work/xvcv_mdlc_building_organic_foundry
-	clothes_texture_index = 3
+
+	swappable_data = {
+		default = {
+			condition_string = SPECIALIST_JOB_TRIGGER
+			building_icon = voluntary_work/xvcv_mdlc_building_organic_foundry
+		}
+	}
 
 	possible_pre_triggers = {
 		has_owner = yes
@@ -394,9 +375,13 @@ xvcv_mdlc_organic_foundry = {
 }
 xvcv_mdlc_organic_artisan = {
 	category = bio_trophy
-	condition_string = SPECIALIST_JOB_TRIGGER
-	building_icon = voluntary_work/xvcv_mdlc_building_organic_factory
-	clothes_texture_index = 3
+
+	swappable_data = {
+		default = {
+			condition_string = SPECIALIST_JOB_TRIGGER
+			building_icon = voluntary_work/xvcv_mdlc_building_organic_factory
+		}
+	}
 
 	possible_pre_triggers = {
 		has_owner = yes
@@ -444,9 +429,13 @@ xvcv_mdlc_organic_artisan = {
 }
 xvcv_mdlc_organic_researcher = {
 	category = bio_trophy
-	condition_string = SPECIALIST_JOB_TRIGGER
-	building_icon = voluntary_work/xvcv_mdlc_building_organic_research
-	clothes_texture_index = 3
+
+	swappable_data = {
+		default = {
+			condition_string = SPECIALIST_JOB_TRIGGER
+			building_icon = voluntary_work/xvcv_mdlc_building_organic_research
+		}
+	}
 
 	possible_pre_triggers = {
 		has_owner = yes
@@ -485,9 +474,13 @@ xvcv_mdlc_organic_researcher = {
 }
 xvcv_mdlc_organic_bureaucrat = {
 	category = bio_trophy
-	condition_string = SPECIALIST_JOB_TRIGGER
-	building_icon = voluntary_work/xvcv_mdlc_building_organic_bureaucratic
-	clothes_texture_index = 3
+
+	swappable_data = {
+		default = {
+			condition_string = SPECIALIST_JOB_TRIGGER
+			building_icon = voluntary_work/xvcv_mdlc_building_organic_bureaucratic
+		}
+	}
 
 	possible_pre_triggers = {
 		has_owner = yes
@@ -522,9 +515,13 @@ xvcv_mdlc_organic_bureaucrat = {
 }
 xvcv_mdlc_organic_healthcare = {
 	category = bio_trophy
-	condition_string = SPECIALIST_JOB_TRIGGER
-	building_icon = voluntary_work/xvcv_mdlc_building_organic_clinic
-	clothes_texture_index = 3
+
+	swappable_data = {
+		default = {
+			condition_string = SPECIALIST_JOB_TRIGGER
+			building_icon = voluntary_work/xvcv_mdlc_building_organic_clinic
+		}
+	}
 
 	possible_pre_triggers = {
 		has_owner = yes
@@ -577,9 +574,13 @@ xvcv_mdlc_organic_healthcare = {
 }
 xvcv_mdlc_organic_chemist = {
 	category = bio_trophy
-	condition_string = SPECIALIST_JOB_TRIGGER
-	building_icon = voluntary_work/xvcv_mdlc_building_organic_chemical_plant
-	clothes_texture_index = 3
+
+	swappable_data = {
+		default = {
+			condition_string = SPECIALIST_JOB_TRIGGER
+			building_icon = voluntary_work/xvcv_mdlc_building_organic_chemical_plant
+		}
+	}
 
 	possible_pre_triggers = {
 		has_owner = yes
@@ -616,9 +617,13 @@ xvcv_mdlc_organic_chemist = {
 }
 xvcv_mdlc_organic_gas_refiner = {
 	category = bio_trophy
-	condition_string = SPECIALIST_JOB_TRIGGER
-	building_icon = voluntary_work/xvcv_mdlc_building_organic_refinery
-	clothes_texture_index = 3
+
+	swappable_data = {
+		default = {
+			condition_string = SPECIALIST_JOB_TRIGGER
+			building_icon = voluntary_work/xvcv_mdlc_building_organic_refinery
+		}
+	}
 
 	possible_pre_triggers = {
 		has_owner = yes
@@ -655,9 +660,12 @@ xvcv_mdlc_organic_gas_refiner = {
 }
 xvcv_mdlc_organic_translucer = {
 	category = bio_trophy
-	condition_string = SPECIALIST_JOB_TRIGGER
-	building_icon = voluntary_work/xvcv_mdlc_building_organic_crystal_plant
-	clothes_texture_index = 3
+
+	swappable_data = {
+		default = {
+			condition_string = SPECIALIST_JOB_TRIGGER
+			building_icon = voluntary_work/xvcv_mdlc_building_organic_crystal_plant
+	}
 
 	possible_pre_triggers = {
 		has_owner = yes
@@ -694,9 +702,13 @@ xvcv_mdlc_organic_translucer = {
 }
 xvcv_mdlc_organic_roboticist = {
 	category = bio_trophy
-	condition_string = SPECIALIST_JOB_TRIGGER
-	building_icon = voluntary_work/xvcv_mdlc_building_organic_machine_assembly_plant
-	clothes_texture_index = 3
+
+	swappable_data = {
+		default = {
+			condition_string = SPECIALIST_JOB_TRIGGER
+			building_icon = voluntary_work/xvcv_mdlc_building_organic_machine_assembly_plant
+		}
+	}
 
 	possible_pre_triggers = {
 		has_owner = yes
@@ -733,9 +745,14 @@ xvcv_mdlc_organic_roboticist = {
 }
 xvcv_mdlc_organic_enforcer = {
 	category = bio_trophy
-	condition_string = BATTLE_THRALL_JOB_TRIGGER
-	building_icon = voluntary_work/xvcv_mdlc_building_precinct_house
-	clothes_texture_index = 5
+	building_icon = voluntary_work/
+
+	swappable_data = {
+		default = {
+			condition_string = BATTLE_THRALL_JOB_TRIGGER
+			building_icon = voluntary_work/xvcv_mdlc_building_precinct_house
+		}
+	}
 
 	possible_pre_triggers = {
 		has_owner = yes
@@ -814,9 +831,13 @@ xvcv_mdlc_organic_enforcer = {
 }
 xvcv_mdlc_organic_administrator = {
 	category = bio_trophy
-	condition_string = SPECIALIST_JOB_TRIGGER
-	building_icon = voluntary_work/xvcv_mdlc_building_organic_production_center
-	clothes_texture_index = 5
+
+	swappable_data = {
+		default = {
+			condition_string = SPECIALIST_JOB_TRIGGER
+			building_icon = voluntary_work/xvcv_mdlc_building_organic_production_center
+		}
+	}
 
 	possible_pre_triggers = {
 		has_owner = yes
@@ -854,9 +875,13 @@ xvcv_mdlc_organic_administrator = {
 }
 oxr_mdlc_organic_gardener = {
 	category = bio_trophy
-	condition_string = SPECIALIST_JOB_TRIGGER
-	building_icon = voluntary_work/oxr_mdlc_building_organic_gardens_1
-	clothes_texture_index = 2
+
+	swappable_data = {
+		default = {
+			condition_string = SPECIALIST_JOB_TRIGGER
+			building_icon = voluntary_work/oxr_mdlc_building_organic_gardens_1
+		}
+	}
 
 	possible_pre_triggers = {
 		has_owner = yes
@@ -917,8 +942,13 @@ oxr_mdlc_organic_gardener = {
 xvcv_mdlc_virtual_researcher = {
 	category = specialist
 	condition_string = SPECIALIST_JOB_TRIGGER
-	building_icon = building_research_lab_1
-	clothes_texture_index = 3
+
+	swappable_data = {
+		default = {
+			condition_string = SPECIALIST_JOB_TRIGGER
+			building_icon = building_research_lab_1
+		}
+	}
 
 	possible_pre_triggers = {
 		has_owner = yes
@@ -987,9 +1017,13 @@ xvcv_mdlc_virtual_researcher = {
 }
 xvcv_mdlc_virtual_merchant = {
 	category = specialist
-	condition_string = SPECIALIST_JOB_TRIGGER
-	building_icon = building_galactic_stock_exchange
-	clothes_texture_index = 1
+
+	swappable_data = {
+		default = {
+			condition_string = SPECIALIST_JOB_TRIGGER
+			building_icon = building_galactic_stock_exchange
+		}
+	}
 
 	possible_pre_triggers = {
 		has_owner = yes
@@ -1047,9 +1081,13 @@ xvcv_mdlc_virtual_merchant = {
 }
 xvcv_mdlc_virtual_bureaucrat = {
 	category = specialist
-	condition_string = SPECIALIST_JOB_TRIGGER
-	building_icon = building_capital
-	clothes_texture_index = 3
+
+	swappable_data = {
+		default = {
+			condition_string = SPECIALIST_JOB_TRIGGER
+			building_icon = building_capital
+		}
+	}
 
 	possible_pre_triggers = {
 		has_owner = yes
@@ -1099,9 +1137,13 @@ xvcv_mdlc_virtual_bureaucrat = {
 }
 xvcv_mdlc_virtual_entertainer = {
 	category = specialist
-	condition_string = SPECIALIST_JOB_TRIGGER
-	building_icon = building_holo_theatres
-	clothes_texture_index = 3
+
+	swappable_data = {
+		default = {
+			condition_string = SPECIALIST_JOB_TRIGGER
+			building_icon = building_holo_theatres
+		}
+	}
 
 	possible_pre_triggers = {
 		has_owner = yes
@@ -1172,9 +1214,14 @@ xvcv_mdlc_virtual_entertainer = {
 }
 xvcv_mdlc_virtual_calculator = {
 	category = complex_drone
-	condition_string = DRONE_JOB_TRIGGER
-	building_icon = building_research_lab_1
 	icon = xvcv_mdlc_virtual_researcher
+
+	swappable_data = {
+		default = {
+			condition_string = DRONE_JOB_TRIGGER
+			building_icon = building_research_lab_1
+		}
+	}
 
 	possible_pre_triggers = {
 		has_owner = yes
@@ -1212,8 +1259,13 @@ xvcv_mdlc_virtual_calculator = {
 }
 xvcv_mdlc_virtual_coordinator = {
 	category = complex_drone
-	condition_string = DRONE_JOB_TRIGGER
-	building_icon = building_machine_capital
+
+	swappable_data = {
+		default = {
+			condition_string = DRONE_JOB_TRIGGER
+			building_icon = building_machine_capital
+		}
+	}
 
 	possible_pre_triggers = {
 		has_owner = yes
@@ -1267,3 +1319,5 @@ xvcv_mdlc_virtual_coordinator = {
 		}
 	}
 }
+
+# EOF
