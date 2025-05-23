@@ -1,4 +1,5 @@
 # Zones for the auto-ringworld
+## R&D Slot
 oxr_mdlc_zone_pc_ringworld_machine_auto_research = {
 	icon = GFX_diplomatic_weight_large
 	base_buildtime = @zone_buildtime
@@ -6,33 +7,45 @@ oxr_mdlc_zone_pc_ringworld_machine_auto_research = {
 		hidden_trigger = { exists = owner }
 		is_xvcv_mdlc_pc_ringworld_machine_auto = yes
 	}
-
 	unlock = { is_xvcv_mdlc_pc_ringworld_machine_auto = yes }
-
 	resources = {
-		category = xvcv_mdlc_world_machines_science_districts
+		category = oxr_mdlc_mdlc_world_machines_zones
 		cost = {
 			minerals = @oxr_rw_cost
 			exotic_gases = @oxr_rw_cost_sr
 		}
+	}
 
-		produces = {
-			physics_research = @[ 12 * oxr_mdlc_wm_base_calculator_output ]
-			engineering_research = @[ 12 * oxr_mdlc_wm_base_calculator_output ]
-			society_research = @[ 12 * oxr_mdlc_wm_base_calculator_output ]
+	# Modifier value is multiplied by the District Level
+	district_planet_modifier = {
+		xvcv_mdlc_world_machines_rnd_districts_energy_upkeep_add = @rw_maintenance
+		xvcv_mdlc_world_machines_rnd_districts_exotic_gases_upkeep_add = @rw_maintenance_sr
+	}
+	triggered_district_planet_modifier = {
+		potential = { exists = owner }
+		modifier = {
+			xvcv_mdlc_world_machines_rnd_districts_physics_research_produces_add = @[ 12 * oxr_mdlc_wm_base_calculator_output ]
+			xvcv_mdlc_world_machines_rnd_districts_engineering_research_produces_add = @[ 12 * oxr_mdlc_wm_base_calculator_output ]
+			xvcv_mdlc_world_machines_rnd_districts_society_research_produces_add = @[ 12 * oxr_mdlc_wm_base_calculator_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
 		}
-		produces = {
-			# 5 jobs added from Virtuality ascension
-			trigger = {
-				exists = owner
-				owner = {
-					has_active_tradition = tr_virtuality_4
-				}
-			}
-			physics_research = @[ 5 * oxr_mdlc_wm_base_calculator_output ]
-			engineering_research = @[ 5 * oxr_mdlc_wm_base_calculator_output ]
-			society_research = @[ 5 * oxr_mdlc_wm_base_calculator_output ]
-		}
+	}
+	# 5 extra from virtuality tradition
+	# triggered_district_planet_modifier = {
+	# 	potential = {
+	# 		exists = owner
+	# 			owner = { has_active_tradition = tr_virtuality_4 }
+	# 	}
+	# 	modifier = {
+	# 		xvcv_mdlc_world_machines_rnd_districts_physics_research_produces_add = @[ 5 * oxr_mdlc_wm_base_calculator_output ]
+	# 		xvcv_mdlc_world_machines_rnd_districts_engineering_research_produces_add = @[ 5 * oxr_mdlc_wm_base_calculator_output ]
+	# 		xvcv_mdlc_world_machines_rnd_districts_society_research_produces_add = @[ 5 * oxr_mdlc_wm_base_calculator_output ]
+	# 	}
+	# }
+	# Boost the cost of the district
+	planet_modifier = {
+		xvcv_mdlc_world_machines_rnd_districts_minerals_cost_add = @oxr_rw_cost
+		xvcv_mdlc_world_machines_rnd_districts_exotic_gases_cost_add = @oxr_rw_cost_sr
 	}
 
 	max_buildings = 3
@@ -62,14 +75,21 @@ oxr_mdlc_zone_pc_ringworld_machine_auto_unity = {
 			minerals = @oxr_rw_cost
 			exotic_gases = @oxr_rw_cost_sr
 		}
-		# upkeep = {
-		# 	energy = @[ 12 * oxr_mdlc_wm_base_coordinator_upkeep ]
-		# 	exotic_gases = @rw_maintenance_sr
-		# }
+
 		produces = {
 			unity = @[ 12 * oxr_mdlc_wm_base_coordinator_output ]
 			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
 		}
+	}
+	# Modifier value is multiplied by the District Level
+	district_planet_modifier = {
+		xvcv_mdlc_world_machines_rnd_districts_unity_produces_add = 
+	}
+	planet_modifier = {
+		xvcv_mdlc_world_machines_rnd_districts_energy_upkeep_add = @[ 12 * oxr_mdlc_wm_base_coordinator_upkeep ]
+		xvcv_mdlc_world_machines_rnd_districts_exotic_gases_upkeep_add = @rw_maintenance_sr
+		xvcv_mdlc_world_machines_rnd_districts_minerals_cost_add = @oxr_rw_cost
+		xvcv_mdlc_world_machines_rnd_districts_exotic_gases_cost_add = @oxr_rw_cost_sr
 	}
 
 	max_buildings = 3
@@ -99,14 +119,16 @@ oxr_mdlc_zone_pc_ringworld_machine_auto_trade = {
 			minerals = @oxr_rw_cost
 			exotic_gases = @oxr_rw_cost_sr
 		}
-		# upkeep = {
-		# 	energy = @rw_maintenance
-		# 	exotic_gases = @rw_maintenance_sr
-		# }
 		produces = {
 			trade = @[ 12 * oxr_mdlc_wm_base_logistics_drone_output ]
 			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
 		}
+	}
+	planet_modifier = {
+		xvcv_mdlc_world_machines_rnd_districts_energy_upkeep_add = @[ 12 * oxr_mdlc_wm_base_logistics_drone_output ]
+		xvcv_mdlc_world_machines_rnd_districts_exotic_gases_upkeep_add = @rw_maintenance_sr
+		xvcv_mdlc_world_machines_rnd_districts_minerals_cost_add = @oxr_rw_cost
+		xvcv_mdlc_world_machines_rnd_districts_exotic_gases_cost_add = @oxr_rw_cost_sr
 	}
 
 	max_buildings = 3
@@ -114,6 +136,128 @@ oxr_mdlc_zone_pc_ringworld_machine_auto_trade = {
 	included_building_sets = {
 		trade
 		oxr_mdlc_trade
+	}
+
+	excluded_building_sets = { }
+}
+
+## Production Slot
+# Alloys
+oxr_mdlc_zone_pc_ringworld_machine_auto_alloys = {
+	icon = GFX_diplomatic_weight_large
+	base_buildtime = @zone_buildtime
+	potential = {
+		hidden_trigger = { exists = owner }
+		is_xvcv_mdlc_pc_ringworld_machine_auto = yes
+	}
+
+	unlock = { is_xvcv_mdlc_pc_ringworld_machine_auto = yes }
+
+	triggered_planet_modifier = {
+		potential = {
+			oxr_mdlc_planet_cpu_has_valid_designation_for_fpga = yes
+		}
+	}
+	planet_modifier = {
+		xvcv_mdlc_world_machines_rnd_districts_energy_upkeep_add = @[ 12 * oxr_mdlc_wm_base_logistics_drone_output ]
+		xvcv_mdlc_world_machines_rnd_districts_volatile_motes_upkeep_add = @rw_maintenance_sr
+		xvcv_mdlc_world_machines_rnd_districts_minerals_cost_add = @oxr_rw_cost
+		xvcv_mdlc_world_machines_rnd_districts_volatile_motes_cost_add = @oxr_rw_cost_sr
+	}
+	
+	resources = {
+		category = oxr_mdlc_mdlc_world_machines_zones
+		cost = {
+			minerals = @oxr_rw_cost
+			volatile_motes = @oxr_rw_cost_sr
+		}
+		upkeep = {
+			energy = @rw_maintenance
+			volatile_motes = @rw_maintenance_sr
+		}
+		upkeep = {
+			trigger = {
+				exists = owner
+				owner = { has_edict = industrial_maintenance }
+			}
+			energy = 4
+		}
+		produces = {
+			trigger = {
+				exists = owner
+				owner = { is_catalytic_empire = yes }
+			}
+			alloys = @[ 12 * oxr_mdlc_wm_base_catalytic_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
+		}
+		produces = {
+			trigger = {
+				exists = owner
+				owner = { is_catalytic_empire = no }
+			}
+			alloys = @[ 12 * oxr_mdlc_wm_base_fabricator_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
+		}
+		upkeep = {
+			trigger = {
+				exists = owner
+				owner = { is_catalytic_empire = no }
+			}
+			minerals = @[ 12 * oxr_mdlc_wm_base_fabricator_upkeep ]
+			volatile_motes = 1
+		}
+		upkeep = {
+			trigger = {
+				exists = owner
+				owner = { is_catalytic_empire = yes }
+			}
+			food = @[ 12 * oxr_mdlc_wm_base_catalytic_upkeep_food ]
+			volatile_motes = 1
+		}
+	}
+
+	max_buildings = 3
+
+	included_building_sets = {
+		foundry
+		oxr_mdlc_production
+	}
+
+	excluded_building_sets = { }
+}
+
+# Goods
+oxr_mdlc_zone_pc_ringworld_machine_auto_consumer_goods = {
+	icon = GFX_diplomatic_weight_large
+	base_buildtime = @zone_buildtime
+	potential = {
+		hidden_trigger = { exists = owner }
+		is_xvcv_mdlc_pc_ringworld_machine_auto = yes
+	}
+
+	unlock = { is_xvcv_mdlc_pc_ringworld_machine_auto = yes }
+
+	resources = {
+		category = xvcv_mdlc_world_machines_industrial_districts
+		cost = {
+			minerals = @oxr_rw_cost
+			volatile_motes = @oxr_rw_cost_sr
+		}
+		upkeep = {
+			energy = @rw_maintenance
+			volatile_motes = @rw_maintenance_sr
+		}
+		produces = {
+			consumer_goods = @[ 12 * oxr_mdlc_wm_base_artisan_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
+		}
+	}
+
+	max_buildings = 3
+
+	included_building_sets = {
+		factry
+		oxr_mdlc_production
 	}
 
 	excluded_building_sets = { }
