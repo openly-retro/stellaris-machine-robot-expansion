@@ -1,8 +1,14 @@
 # Auto-Server districts
 xvcv_mdlc_pc_machine_ser_district_cooling_primary = {
+	inline_script = {
+		script = planet/districts/auto/oxr_wm_cooling_base
+		DISTRICT_SET = xvcv_mdlc_pc_machine_ser_district_set
+	}
+}
+
+xvcv_mdlc_pc_machine_ser_district_unity = {
 	base_buildtime = @xvcv_mdlc_district_time_4
 	is_capped_by_modifier = no
-	default_starting_district = yes
 
 	show_on_uncolonized = {
 		exists = from
@@ -16,32 +22,7 @@ xvcv_mdlc_pc_machine_ser_district_cooling_primary = {
 	}
 
 	zone_slots = {
-		oxr_mdlc_origin_wm_slot_city_government
-		oxr_mdlc_origin_wm_slot_any
-		oxr_mdlc_origin_wm_slot_any
-	}
-	convert_to = {
-		inline_script = planet/districts/convert_to/oxr_wm_district_primary
-	}
-
-	inline_script = planet/districts/resources/oxr_mdlc_cooling_resources
-}
-
-
-xvcv_mdlc_pc_machine_ser_district_unity = {
-	base_buildtime = @xvcv_mdlc_district_time_4
-	is_capped_by_modifier = no
-	default_starting_planet/districts/convert_to/
-
-	show_on_uncolonized = {
-		exists = from
-		from = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
-		uses_district_set = xvcv_mdlc_pc_machine_ser_district_set
-	}
-	potential = {
-		exists = owner
-		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
-		uses_district_set = xvcv_mdlc_pc_machine_ser_district_set
+		oxr_mdlc_slot_pc_machine_ser_unity
 	}
 
 	conversion_ratio = 1
@@ -75,14 +56,14 @@ xvcv_mdlc_pc_machine_ser_district_unity = {
 		trigger = { always = yes }
 	}
 	on_built = {
-		inline_script = planet/districts/on_action/on_t3_completed
-		fire_on_action = { on_action = xvcv_on_world_machine_t3_district_built }
+		inline_script = planet/districts/on_action/on_wm_district_built
+		inline_script = planet/districts/on_action/on_wm_t3_district_change
 	}
 	on_destroy = {
-		fire_on_action = { on_action = xvcv_on_world_machine_t3_district_demolished }
-		fire_on_action = { on_action = on_world_machine_district_demolished }
+		inline_script = planet/districts/on_action/on_wm_district_destroy
+		inline_script = planet/districts/on_action/on_wm_t3_district_change
 	}
-	
+
 }
 
 xvcv_mdlc_pc_machine_ser_district_logistics = {
@@ -102,9 +83,7 @@ xvcv_mdlc_pc_machine_ser_district_logistics = {
 
 	conversion_ratio = 1
 	convert_to = {
-		district_mining_uncapped
-		xvcv_mdlc_pc_machine_ecu_district_goods
-		xvcv_mdlc_pc_machine_cpu_district_society
+		inline_script = planet/districts/convert_to/oxr_wm_district_3
 	}
 
 	planet_modifier = {
@@ -112,10 +91,9 @@ xvcv_mdlc_pc_machine_ser_district_logistics = {
 		xvcv_mdlc_world_machines_districts_upkeep_mult = 0.1
 	}
 
-	#see 'xvcv_mdlc_d_pc_machine_ser_admin_cap' deposit for the actual effect #PDX plz support 'country_modifier' here #stellaris v3.1.1
-	# triggered_desc = {
-	# 	text = xvcv_mdlc_pc_machine_ser_district_logistics_effect_desc
-	# }
+	zone_slots = {
+		oxr_mdlc_origin_wm_slot_any
+	}
 
 	resources = {
 		category = xvcv_mdlc_world_machines_services_districts
@@ -131,35 +109,25 @@ xvcv_mdlc_pc_machine_ser_district_logistics = {
 			trade = @[ oxr_t3_planet_district_jobs * oxr_mdlc_wm_base_logistics_drone_output ]
 		}
 	}
+
 	on_built = {
-		# Not going to fire this action anymore because deposits aren't used for this
-		# fire_on_action = { on_action = xvcv_on_world_machine_t3_resource_district_built }
-		inline_script = planet/districts/on_action/on_t3_completed
+		inline_script = planet/districts/on_action/on_wm_district_built
+		inline_script = planet/districts/on_action/on_wm_t3_district_change
 		planet = {
 			set_or_increment_variable = {
 				VAR = xvcv_mdlc_pc_machine_ser_district_logistics_num
 				AMOUNT = 1
 			}
-			# set_or_increment_variable = {
-			# 	VAR = xvcv_mdlc_d_pc_machine_ser_admin_cap_count
-			# 	AMOUNT = 1
-			# }
-			# add_deposit = xvcv_mdlc_d_pc_machine_ser_admin_cap
 		}
 	}
 	on_destroy = {
-		# fire_on_action = { on_action = xvcv_on_world_machine_t3_resource_district_demolished }
-		fire_on_action = { on_action = on_world_machine_district_demolished }
+		inline_script = planet/districts/on_action/on_wm_district_destroy
+		inline_script = planet/districts/on_action/on_wm_t3_district_change
 		planet = {
 			change_variable = {
 				which = xvcv_mdlc_pc_machine_ser_district_logistics_num
 				value = -1
 			}
-			# change_variable = {
-			# 	which = xvcv_mdlc_d_pc_machine_ser_admin_cap_count
-			# 	value = -1
-			# }
-			# remove_deposit = xvcv_mdlc_d_pc_machine_ser_admin_cap
 		}
 	}
 }
@@ -181,9 +149,7 @@ xvcv_mdlc_pc_machine_ser_district_crime = {
 
 	conversion_ratio = 1
 	convert_to = {
-		district_mining_uncapped
-		xvcv_mdlc_pc_machine_ecu_district_rare_resources
-		xvcv_mdlc_pc_machine_cpu_district_engineering
+		inline_script = planet/districts/convert_to/oxr_wm_district_4
 	}
 
 	planet_modifier = {
@@ -218,9 +184,10 @@ xvcv_mdlc_pc_machine_ser_district_crime = {
 			volatile_motes = 1
 		}
 	}
+
 	on_built = {
-		fire_on_action = { on_action = xvcv_on_world_machine_t3_resource_district_built }
-		inline_script = planet/districts/on_action/on_t3_completed
+		inline_script = planet/districts/on_action/on_wm_district_built
+		inline_script = planet/districts/on_action/on_wm_t3_district_change
 		planet = {
 			set_or_increment_variable = {
 				VAR = xvcv_mdlc_pc_machine_ser_district_crime_num
@@ -245,9 +212,10 @@ xvcv_mdlc_pc_machine_ser_district_crime = {
 			}
 		}
 	}
+
 	on_destroy = {
-		fire_on_action = { on_action = xvcv_on_world_machine_t3_resource_district_demolished }
-		fire_on_action = { on_action = on_world_machine_district_demolished }
+		inline_script = planet/districts/on_action/on_wm_district_destroy
+		inline_script = planet/districts/on_action/on_wm_t3_district_change
 		planet = {
 			dec_var_by_one = { which = xvcv_mdlc_pc_machine_ser_district_crime_num }
 			if = {

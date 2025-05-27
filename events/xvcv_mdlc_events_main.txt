@@ -3065,7 +3065,7 @@ country_event = {
 
 ## 'xvcv_mdlc_world_machines_districts' variable value count
 
-# xvcv_on_world_machine_t3_district_built
+# xvcv_on_world_machine_t3_district_built - RECALC COOLING AND DEPOSITS
 planet_event = {
 	id = xvcv_mdlc.70
 	hide_window = yes
@@ -3076,6 +3076,8 @@ planet_event = {
 	}
 	immediate = {
 		log = "A district was built on \\[This.GetName]."
+		# Any time a T3-world district is built, cooling must be recalculated,
+		# as well as deposits must be re-checked to create offsets in case cooling is unbalanced
 		xvcv_mdlc_planet_wm_calc_output_value = yes
 		if = {
 			limit = { xvcv_mdlc_planet_wm_has_non_resource_district = yes }
@@ -3085,20 +3087,23 @@ planet_event = {
 	}
 }
 
-## xvcv_on_world_machine_t3_resource_district_built
-planet_event = {
-	id = xvcv_mdlc.700
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = {
-		oxr_mdlc_planet_is_t3_world_machine = yes
-	}
-	immediate = {
-		log = "A T3 world resource district was built on \\[This.GetName]"
-		xvcv_mdlc_planet_wm_calc_output_value = yes
-		xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all = yes
-	}
-}
+## xvcv_on_world_machine_t3_resource_district_built -- RECALC NON-RESOURCE DEPOSITS
+# planet_event = {
+# 	id = xvcv_mdlc.700
+# 	hide_window = yes
+# 	is_triggered_only = yes
+# 	trigger = {
+# 		oxr_mdlc_planet_is_t3_world_machine = yes
+# 	}
+# 	immediate = {
+# 		log = "A T3 world resource district was built on \\[This.GetName]"
+# 		if = {
+# 			limit = { xvcv_mdlc_planet_wm_has_non_resource_district = yes }
+# 			#log = "Going into xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all"
+# 			xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all = yes
+# 		}
+# 	}
+# }
 
 # xvcv_on_world_machine_t3_district_demolished
 planet_event = {

@@ -31,21 +31,8 @@ xvcv_mdlc_pc_machine_auto_district_city = {
 
 	conversion_ratio = 1
 	convert_to = {
-		xvcv_mdlc_pc_machine_auto_district_origin_primary
-		xvcv_mdlc_pc_machine_auto_district_nexus
-		district_crashed_slaver_ship
-		district_arcology_housing
-		district_rw_city
-		district_nexus
-		district_hive
-		district_prison
-		district_craglands
-		district_mindlink
-		district_crashed_slaver_ship
-		district_resort
-		district_slave
+		inline_script = planet/districts/convert_to/oxr_wm_district_primary
 	}
-
 
 	resources = {
 		category = planet_districts_cities
@@ -64,23 +51,10 @@ xvcv_mdlc_pc_machine_auto_district_city = {
 	inline_script = planet/districts/vanilla/oxr_city_filler
 
 	on_built = {
-		if = {
-			limit = { 
-				owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
-			}
-			owner = {
-				fire_on_action = { on_action = on_world_machine_district_completed_country }
-			}
-			planet = {
-				fire_on_action = { on_action = on_world_machine_district_completed_planet }
-			}
-		}
+		inline_script = planet/districts/on_action/on_wm_district_built
 	}
 	on_destroy = {
-		planet = {
-			fire_on_action = { on_action = on_world_machine_district_demolished }
-		}
-		
+		inline_script = planet/districts/on_action/on_wm_district_destroy
 	}
 }
 # machine intelligence version
@@ -116,14 +90,7 @@ xvcv_mdlc_pc_machine_auto_district_nexus = {
 
 	conversion_ratio = 1
 	convert_to = {
-		xvcv_mdlc_pc_machine_auto_district_city
-		xvcv_mdlc_pc_machine_auto_district_origin_primary
-		district_arcology_housing
-		district_rw_nexus
-		district_city
-		district_hive
-		district_craglands
-		district_mindlink
+		inline_script = planet/districts/convert_to/oxr_wm_district_primary
 	}
 
 	resources = {
@@ -142,28 +109,10 @@ xvcv_mdlc_pc_machine_auto_district_nexus = {
 	inline_script = planet/districts/vanilla/oxr_nexus_filler
 
 	on_built = {
-		if = {
-			limit = { 
-				owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
-			}
-			owner = {
-				fire_on_action = { on_action = on_world_machine_district_completed_country }
-			}
-			planet = {
-				fire_on_action = { on_action = on_world_machine_district_completed_planet }
-			}
-
-		}
+		inline_script = planet/districts/on_action/on_wm_district_built
 	}
 	on_destroy = {
-		if = {
-			limit = { 
-				owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
-			}
-			planet = {
-				fire_on_action = { on_action = on_world_machine_district_demolished }
-			}
-		}
+		inline_script = planet/districts/on_action/on_wm_district_destroy
 	}
 }
 
@@ -189,12 +138,7 @@ xvcv_mdlc_pc_machine_auto_district_generator = {
 
 	conversion_ratio = 1
 	convert_to = {
-		xvcv_mdlc_pc_machine_auto_district_generator_origin_wm
-		district_generator_uncapped
-		district_photosynthesis_fields
-		district_photosynthesis_fields_uncapped
-		district_nexus_1
-		district_hive_1
+		inline_script = planet/districts/convert_to/oxr_wm_district_2
 	}
 
 	# produces
@@ -226,24 +170,10 @@ xvcv_mdlc_pc_machine_auto_district_generator = {
 		trigger = { always = yes }
 	}
 	on_built = {
-		if = {
-			limit = { 
-				owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
-			}
-			owner = {
-				fire_on_action = { on_action = on_world_machine_district_completed_country }
-			}
-			planet = {
-				fire_on_action = { on_action = on_world_machine_district_completed_planet }
-			}
-			
-		}
+		inline_script = planet/districts/on_action/on_wm_district_built
 	}
 	on_destroy = {
-		planet = {
-			fire_on_action = { on_action = on_world_machine_district_demolished }
-		}
-		
+		inline_script = planet/districts/on_action/on_wm_district_destroy
 	}
 }
 
@@ -269,12 +199,7 @@ xvcv_mdlc_pc_machine_auto_district_mining = {
 
 	conversion_ratio = 1
 	convert_to = {
-		xvcv_mdlc_pc_machine_auto_district_mining_origin_wm
-		district_mining_uncapped
-		district_hollow_mountains
-		district_hollow_mountains_uncapped
-		district_nexus_2
-		district_hive_2
+		inline_script = planet/districts/convert_to/oxr_wm_district_3
 	}
 
 	resources = {
@@ -337,28 +262,10 @@ xvcv_mdlc_pc_machine_auto_district_mining = {
 		trigger = { always = yes }
 	}
 	on_built = {
-		if = {
-			limit = { 
-				owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
-			}
-			owner = {
-				fire_on_action = { on_action = on_world_machine_district_completed_country }
-			}
-			planet = {
-				fire_on_action = { on_action = on_world_machine_district_completed_planet }
-			}
-			
-		}
+		inline_script = planet/districts/on_action/on_wm_district_built
 	}
 	on_destroy = {
-		if = {
-			limit = { 
-				owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
-			}
-			planet = {
-				fire_on_action = { on_action = on_world_machine_district_demolished }
-			}
-		}
+		inline_script = planet/districts/on_action/on_wm_district_destroy
 	}
 }
 
@@ -384,12 +291,7 @@ xvcv_mdlc_pc_machine_auto_district_farming = {
 
 	conversion_ratio = 1
 	convert_to = {
-		xvcv_mdlc_pc_machine_auto_district_farming_origin_wm
-		district_farming_uncapped
-		district_orchard_forests
-		district_orchard_forests_uncapped
-		district_nexus_3
-		district_hive_3
+		inline_script = planet/districts/convert_to/oxr_wm_district_4
 	}
 
 	resources = {
@@ -435,17 +337,9 @@ xvcv_mdlc_pc_machine_auto_district_farming = {
 		trigger = { always = yes }
 	}
 	on_built = {
-		if = {
-			limit = { 
-				owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
-			}
-			owner = {
-				fire_on_action = { on_action = on_world_machine_district_completed_country }
-			}
-			fire_on_action = { on_action = on_world_machine_district_completed_planet }
-		}
+		inline_script = planet/districts/on_action/on_wm_district_built
 	}
 	on_destroy = {
-		fire_on_action = { on_action = on_world_machine_district_demolished }
+		inline_script = planet/districts/on_action/on_wm_district_destroy
 	}
 }

@@ -32,8 +32,7 @@ xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm = {
 	}
 
 	resources = {
-		# category = planet_metallurgists
-		category = xvcv_mdlc_world_machines_vanilla_industrial_districts
+		category = xvcv_mdlc_world_machines_industrial_districts
 		cost = {
 			minerals = @xvcv_mdlc_district_cost_3
 		}
@@ -49,71 +48,6 @@ xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm = {
 				}
 			}
 			energy = 2
-		}
-		# Unless otherwise specified, all triggers in inline_scripts
-		# are assumed to be for ethic_gestalt_consciousness
-		# Since the AP is locked behind that.
-		## Moved to inline_scripts for code organization
-		# inline_script = planet/resources/produces/auto_industrial/oxr_mdlc_non_gestalt
-		# inline_script = planet/resources/produces/auto_industrial/oxr_mdlc_servitor
-
-		# Industrial districts give fabricator jobs
-		# using goods = 1 fabricator, 1 artisan
-		# not using goods = 2 fabricator
-		# using goods, catalytic = 1 fabricator, 1 catalytic
-		# not using goods, catalytic = 2 catalytic drones
-
-		# not using goods, factory = 2 fabricators
-		# using goods, factory = 2 fabricators
-		# not using goods, forge = 2 artisan
-		# not using goods, catalytic, forge = 2 catalytic
-
-		# No colony designation: covers catalytic and "uses goods"
-		# MULTS are 0 because they are for ringworld only
-		inline_script = {
-			script = planet/resources/produces/auto_industrial/oxr_mdlc_default
-			JOBS = 2
-			RARE = 0
-		}
-		# Factory designation
-		inline_script = {
-			script = planet/resources/produces/auto_industrial/oxr_mdlc_factory
-			JOBS = 2
-			RARE = 0
-		}
-		# Foundry designation
-		inline_script = {
-			script = planet/resources/produces/auto_industrial/oxr_mdlc_foundry
-			JOBS = 2
-			RARE = 0
-		}
-		# Servitor (COMMENTED OUT)
-		# - bio pops cant live on machine worlds, what difference does it make?
-		# inline_script = planet/resources/produces/auto_industrial/oxr_mdlc_servitor
-		
-		# Non-gestalt are not permitted to take the AP
-		# And the planet will change its districts, so no reason
-		# to maintain any special rules for individual machines (right now)
-	}
-
-	# Designation Job Changes
-
-	triggered_planet_modifier = {
-		potential = {
-			exists = owner
-			owner = {
-				is_machine_empire = yes
-				has_edict = industrial_maintenance
-			}
-		}
-		modifier = {
-			planet_amenities_no_happiness_add = 4
-		}
-	}
-	triggered_planet_modifier = {
-		potential = {
-			exists = owner
-			has_active_building = oxr_mdlc_world_machines_building_auto_forge_2
 		}
 	}
 
@@ -132,19 +66,12 @@ xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm = {
 			}
 		}
 	}
+
 	on_built = {
-		if = {
-			limit = { 
-				owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
-			}
-			owner = {
-				fire_on_action = { on_action = on_world_machine_district_completed_country }
-			}
-			fire_on_action = { on_action = on_world_machine_district_completed_planet }
-		}
+		inline_script = planet/districts/on_action/on_wm_district_built
 	}
 	on_destroy = {
-		fire_on_action = { on_action = on_world_machine_district_demolished }
+		inline_script = planet/districts/on_action/on_wm_district_destroy
 	}
 }
 
@@ -205,24 +132,10 @@ xvcv_mdlc_pc_machine_auto_district_generator_origin_wm = {
 		trigger = { always = yes }
 	}
 	on_built = {
-		if = {
-			limit = { 
-				owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
-			}
-			owner = {
-				fire_on_action = { on_action = on_world_machine_district_completed_country }
-			}
-			planet = {
-				fire_on_action = { on_action = on_world_machine_district_completed_planet }
-			}
-			
-		}
+		inline_script = planet/districts/on_action/on_wm_district_built
 	}
 	on_destroy = {
-		planet = {
-			fire_on_action = { on_action = on_world_machine_district_demolished }
-		}
-		
+		inline_script = planet/districts/on_action/on_wm_district_destroy
 	}
 }
 
@@ -313,23 +226,10 @@ xvcv_mdlc_pc_machine_auto_district_mining_origin_wm = {
 		trigger = { always = yes }
 	}
 	on_built = {
-		if = {
-			limit = { 
-				owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
-			}
-			owner = {
-				fire_on_action = { on_action = on_world_machine_district_completed_country }
-			}
-			planet = {
-				fire_on_action = { on_action = on_world_machine_district_completed_planet }
-			}
-			
-		}
+		inline_script = planet/districts/on_action/on_wm_district_built
 	}
 	on_destroy = {
-		planet = {
-			fire_on_action = { on_action = on_world_machine_district_demolished }
-		}
+		inline_script = planet/districts/on_action/on_wm_district_destroy
 	}
 
 }
@@ -404,17 +304,9 @@ xvcv_mdlc_pc_machine_auto_district_farming_origin_wm = {
 		trigger = { always = yes }
 	}
 	on_built = {
-		if = {
-			limit = { 
-				owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
-			}
-			owner = {
-				fire_on_action = { on_action = on_world_machine_district_completed_country }
-			}
-			fire_on_action = { on_action = on_world_machine_district_completed_planet }
-		}
+		inline_script = planet/districts/on_action/on_wm_district_built
 	}
 	on_destroy = {
-		fire_on_action = { on_action = on_world_machine_district_demolished }
+		inline_script = planet/districts/on_action/on_wm_district_destroy
 	}
 }
