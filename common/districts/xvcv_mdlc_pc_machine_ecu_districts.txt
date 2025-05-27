@@ -1,7 +1,107 @@
+# Auto-Forge district set
+xvcv_mdlc_pc_machine_ecu_district_cooling_primary = {
+	base_buildtime = @xvcv_mdlc_district_time_3
+	is_capped_by_modifier = no
+	default_starting_district = yes
+
+	zone_slots = {
+		oxr_mdlc_origin_wm_slot_city_government
+		oxr_mdlc_origin_wm_slot_any
+		oxr_mdlc_origin_wm_slot_any
+	}
+
+	show_on_uncolonized = {
+		exists = from
+		from = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		uses_district_set = xvcv_mdlc_pc_machine_cpu_district_set
+	}
+	potential = {
+		exists = owner
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		uses_district_set = xvcv_mdlc_pc_machine_cpu_district_set
+	}
+
+	allow = {
+		has_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad
+	}
+
+	conversion_ratio = 1
+
+	convert_to = {
+		inline_script = planet/buildings/convert_to/oxr_mdlc_district_primary
+	}
+
+	resources = {
+		category = xvcv_mdlc_world_machines_cooling_districts
+		cost = { 
+			minerals = @xvcv_mdlc_district_cost_5
+		}
+		cost = {
+			trigger = { has_deposit = rikk_mdlc_d_world_machine_cooling_towers }
+			exotic_gases = 100
+		}
+		upkeep = { energy = 10 }
+	}
+
+	planet_modifier = {
+		xvcv_mdlc_world_machines_districts_produces_mult = 0.3
+		xvcv_mdlc_world_machines_districts_upkeep_mult = -0.3
+	}
+	
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_districts_produces_mult = 1
+		xvcv_mdlc_world_machines_districts_upkeep_mult = -1
+		mult = modifier:rikk_mdlc_world_machine_cooling_district_effectiveness
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = planet.orbital_defence
+			planet.orbital_defence = {
+				exists = starbase
+				starbase = { has_starbase_building = xvcv_mdlc_starbase_building_orbital_drone_storage }
+			}
+		}
+		planet_housing_add = 5
+		planet_amenities_no_happiness_add = 5
+	}
+
+	on_destroy = {
+		# fire_on_action = { on_action = xvcv_on_world_machine_t3_resource_district_demolished }
+		planet_event = { id = xvcv_mdlc.710 }
+		change_variable = {
+			which = num_xvcv_mdlc_common_district_cooling
+			value = -1
+		}
+		
+		log = "Cooling district removed on \\[This.GetName]"
+	}
+	on_built = {
+		# fire_on_action = { on_action = xvcv_on_world_machine_t3_resource_district_built }
+		planet_event = { id = xvcv_mdlc.700 }
+		if = {
+			limit = {
+				is_variable_set = num_xvcv_mdlc_common_district_cooling
+			}
+			change_variable = {
+				which = num_xvcv_mdlc_common_district_cooling
+				value = 1
+			}
+		}
+		else = {
+			set_variable = {
+				which = num_xvcv_mdlc_common_district_cooling
+				value = 1
+			}
+		}
+		log = "Cooling district built on \\[This.GetName]"
+		oxr_mdlc_planet_wm_check_should_balance_cooling_districts = yes
+	}
+}
+
 xvcv_mdlc_pc_machine_ecu_district_alloys = {
 	base_buildtime = @xvcv_mdlc_district_time_4
 	is_capped_by_modifier = no
-	# can_demolish = no
 
 	show_on_uncolonized = {
 		exists = from
@@ -13,7 +113,10 @@ xvcv_mdlc_pc_machine_ecu_district_alloys = {
 		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
 		uses_district_set = xvcv_mdlc_pc_machine_ecu_district_set
 	}
-	# allow = {}
+
+	zone_slots = {
+		oxr_mdlc_slot_pc_machine_ecu_alloys
+	}
 
 	conversion_ratio = 1
 	convert_to = {
@@ -147,6 +250,7 @@ xvcv_mdlc_pc_machine_ecu_district_goods = {
 		fire_on_action = { on_action = on_world_machine_district_demolished }
 	}
 }
+
 xvcv_mdlc_pc_machine_ecu_district_rare_resources = {
 	base_buildtime = @xvcv_mdlc_district_time_4
 	is_capped_by_modifier = no
