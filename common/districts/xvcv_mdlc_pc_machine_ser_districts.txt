@@ -1,19 +1,37 @@
 # Auto-Server districts
 xvcv_mdlc_pc_machine_ser_district_cooling_primary = {
+	base_buildtime = @xvcv_mdlc_district_time_4
+	is_capped_by_modifier = no
+	default_starting_district = yes
+
+	show_on_uncolonized = {
+		exists = from
+		from = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		uses_district_set = xvcv_mdlc_pc_machine_ser_district_set
+	}
+	potential = {
+		exists = owner
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		uses_district_set = xvcv_mdlc_pc_machine_ser_district_set
+	}
+
 	zone_slots = {
 		oxr_mdlc_origin_wm_slot_city_government
 		oxr_mdlc_origin_wm_slot_any
 		oxr_mdlc_origin_wm_slot_any
 	}
+	convert_to = {
+		inline_script = planet/districts/convert_to/oxr_wm_district_primary
+	}
+
+	inline_script = planet/districts/resources/oxr_mdlc_cooling_resources
 }
 
 
 xvcv_mdlc_pc_machine_ser_district_unity = {
 	base_buildtime = @xvcv_mdlc_district_time_4
 	is_capped_by_modifier = no
-	default_starting_district = yes
-
-	
+	default_starting_planet/districts/convert_to/
 
 	show_on_uncolonized = {
 		exists = from
@@ -28,22 +46,7 @@ xvcv_mdlc_pc_machine_ser_district_unity = {
 
 	conversion_ratio = 1
 	convert_to = {
-		# primary district conversions from this mod
-		# Auto-Machine World
-		xvcv_mdlc_pc_machine_auto_district_origin_primary
-		xvcv_mdlc_pc_machine_auto_district_city
-		xvcv_mdlc_pc_machine_auto_district_nexus
-		# ECU
-		xvcv_mdlc_pc_machine_ecu_district_alloys
-		# CPU
-		xvcv_mdlc_pc_machine_cpu_district_cooling
-		# conversions from vanilla
-		district_arcology_housing
-		district_rw_nexus
-		district_city
-		district_hive
-		district_craglands
-		district_mindlink
+		inline_script = planet/districts/convert_to/oxr_wm_district_2
 	}
 
 	planet_modifier = {
