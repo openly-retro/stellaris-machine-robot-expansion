@@ -52,31 +52,34 @@ triggered_planet_modifier = {
 	planet_housing_add = 5
 	planet_amenities_no_happiness_add = 5
 }
+
 on_destroy = {
-	# fire_on_action = { on_action = xvcv_on_world_machine_t3_resource_district_demolished }
-	planet_event = { id = xvcv_mdlc.710 }
+	inline_script = planet/districts/on_action/on_wm_district_destroy
+	inline_script = planet/districts/on_action/on_wm_t3_district_change
+
 	change_variable = {
-		which = num_xvcv_mdlc_common_district_cooling
+		which = num_xvcv_mdlc_cooling_districts
 		value = -1
 	}
 	
 	log = "Cooling district removed on \\[This.GetName]"
 }
 on_built = {
-	# fire_on_action = { on_action = xvcv_on_world_machine_t3_resource_district_built }
-	planet_event = { id = xvcv_mdlc.700 }
+	inline_script = planet/districts/on_action/on_wm_district_built
+	inline_script = planet/districts/on_action/on_wm_t3_district_change
+
 	if = {
 		limit = {
-			is_variable_set = num_xvcv_mdlc_common_district_cooling
+			is_variable_set = num_xvcv_mdlc_cooling_districts
 		}
 		change_variable = {
-			which = num_xvcv_mdlc_common_district_cooling
+			which = num_xvcv_mdlc_cooling_districts
 			value = 1
 		}
 	}
 	else = {
 		set_variable = {
-			which = num_xvcv_mdlc_common_district_cooling
+			which = num_xvcv_mdlc_cooling_districts
 			value = 1
 		}
 	}

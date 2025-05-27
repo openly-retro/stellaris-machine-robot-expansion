@@ -13,7 +13,25 @@ xvcv_mdlc_planet_wm_calc_output_value = {
 
 	# create/update 'xvcv_mdlc_world_machines_districts_output_var'
 	# create/update 'xvcv_mdlc_world_machines_districts_current_output_for_display_var'
-	xvcv_mdlc_planet_count_districts_calculate_output_display_var = yes
+	switch = {
+		trigger = planet_class
+		xvcv_mdlc_pc_machine_ecu = {
+			xvcv_mdlc_planet_count_districts_calculate_output_display_var = {
+				COOLING_DISTRICT = xvcv_mdlc_pc_machine_ecu_district_cooling_primary
+			}
+		}
+		xvcv_mdlc_pc_machine_ser = {
+			xvcv_mdlc_planet_count_districts_calculate_output_display_var = {
+				COOLING_DISTRICT = xvcv_mdlc_pc_machine_ser_district_cooling_primary
+			}
+		}
+		xvcv_mdlc_pc_machine_cpu = {
+			xvcv_mdlc_planet_count_districts_calculate_output_display_var = {
+				COOLING_DISTRICT = xvcv_mdlc_pc_machine_cpu_district_cooling_primary
+			}
+		}
+	}
+	# xvcv_mdlc_planet_count_districts_calculate_output_display_var = yes
 
 	#log = "Going into xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect"
 	if = {
@@ -55,10 +73,6 @@ oxr_mdlc_planet_wm_check_should_balance_cooling_districts = {
 				which = xvcv_mdlc_world_machines_districts_output_var
 				value > 0.4
 			}
-			# check_modifier_value = {
-			# 	modifier = xvcv_mdlc_world_machines_districts_produces_mult
-			# 	value > 0.4
-			# }
 		}
 		oxr_mdlc_planet_destroy_excess_cooling_districts = yes
 		xvcv_mdlc_planet_wm_calc_output_value = yes
@@ -410,7 +424,7 @@ oxr_mdlc_planet_destroy_excess_cooling_districts = {
 	else = {
 		set_planet_flag = oxr_lock_oxr_mdlc_planet_destroy_excess_cooling_districts
 		set_variable = {
-			which = cooling_district_strength_tmp
+			which = cooling_district_strength_tmpnum_xvcv_mdlc_cooling_districts
 			value = 0.3
 		}
 		change_variable = {
@@ -418,17 +432,16 @@ oxr_mdlc_planet_destroy_excess_cooling_districts = {
 			value = modifier:rikk_mdlc_world_machine_cooling_district_effectiveness
 		}
 		# log = "Cooling district strength limit is at \\[This.cooling_district_strength_tmp] "
-
 		# log = "Output var is set to \\[This.xvcv_mdlc_world_machines_districts_output_var]"
 		set_variable = {
 			which = oxr_mdlc_combined_cooling_strength_tmp
-			value = num_xvcv_mdlc_common_district_cooling
+			value = num_xvcv_mdlc_cooling_districts
 		}
 		multiply_variable = {
 			which = oxr_mdlc_combined_cooling_strength_tmp
 			value = cooling_district_strength_tmp
 		}
-		# log = " \\[This.GetName] has \\[This.num_xvcv_mdlc_common_district_cooling] cooling districts now."
+		# log = " \\[This.GetName] has \\[This.num_xvcv_mdlc_cooling_districts] cooling districts now."
 		export_trigger_value_to_variable = {
 			trigger = num_districts
 			parameters = { type = any }
@@ -436,7 +449,7 @@ oxr_mdlc_planet_destroy_excess_cooling_districts = {
 		}
 		subtract_variable = {
 			which = oxr_mdlc_used_cooling_amount_tmp
-			value = num_xvcv_mdlc_common_district_cooling
+			value = num_xvcv_mdlc_cooling_districts
 		}
 		multiply_variable = {
 			which = oxr_mdlc_used_cooling_amount_tmp
