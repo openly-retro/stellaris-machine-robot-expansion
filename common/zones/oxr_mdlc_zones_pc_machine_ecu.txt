@@ -92,38 +92,3 @@ oxr_mdlc_zone_consumer_goods = {
 		trigger = { always = yes }
 	}
 }
-
-oxr_mdlc_zone_rare_resources = {
-	icon = GFX_colony_type_factory
-	inline_script = planet/zones/oxr_wm_base
-
-	included_building_sets = {
-		factory
-		automation
-		origin
-		oxr_mdlc_wm_all
-	}
-
-	# Remove default SR cost
-	district_planet_modifier = {
-		xvcv_mdlc_world_machines_industrial_districts_volatile_motes_cost_add = -100
-	}
-
-	# Copied from 3.14 district code
-	resources = {
-		category = xvcv_mdlc_world_machines_strategic_resource_districts
-		cost = {
-			minerals = @xvcv_mdlc_district_cost_5
-		}
-		produces = {
-			volatile_motes = 8
-			exotic_gases = 8
-			rare_crystals = 8
-			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
-		}
-		upkeep = {
-			minerals = 80
-			energy = 10
-		}
-	}
-}
