@@ -17,6 +17,7 @@ xvcv_mdlc_pc_machine_auto_district_city = {
 		from = {
 			oxr_mdlc_planet_owner_can_build_wm_districts = yes
 			has_auth_machine_intelligence = no
+			has_oxr_mdlc_origin_world_machine_awakened = no
 		}
 		uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
 	}
@@ -25,6 +26,7 @@ xvcv_mdlc_pc_machine_auto_district_city = {
 		owner = {
 			oxr_mdlc_planet_owner_can_build_wm_districts = yes
 			has_auth_machine_intelligence = no
+			has_oxr_mdlc_origin_world_machine_awakened = no
 		}
 		uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
 	}
@@ -76,6 +78,7 @@ xvcv_mdlc_pc_machine_auto_district_nexus = {
 		from = {
 			has_xvcv_mdlc_ap_world_machines = yes
 			has_authority = auth_machine_intelligence
+			has_oxr_mdlc_origin_world_machine_awakened = no
 		}
 		uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
 	}
@@ -84,6 +87,7 @@ xvcv_mdlc_pc_machine_auto_district_nexus = {
 		owner = {
 			has_xvcv_mdlc_ap_world_machines = yes
 			has_authority = auth_machine_intelligence
+			has_oxr_mdlc_origin_world_machine_awakened = no
 		}
 		uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
 	}
@@ -107,6 +111,80 @@ xvcv_mdlc_pc_machine_auto_district_nexus = {
 	}
 
 	inline_script = planet/districts/vanilla/oxr_nexus_filler
+
+	on_built = {
+		inline_script = planet/districts/on_action/on_wm_district_built
+	}
+	on_destroy = {
+		inline_script = planet/districts/on_action/on_wm_district_destroy
+	}
+}
+
+xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm = {
+	base_buildtime = @xvcv_mdlc_district_time_3
+	icon = xvcv_mdlc_pc_mechanical_district_industrial
+	is_capped_by_modifier = no
+	default_starting_district = yes
+
+	zone_slots = {
+		oxr_mdlc_origin_wm_slot_city_government
+		oxr_mdlc_origin_wm_slot_production
+		oxr_mdlc_origin_wm_slot_any
+	}
+
+	show_on_uncolonized = {
+		exists = from
+		from = { has_oxr_mdlc_origin_world_machine_awakened = yes }
+		uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
+	}
+	potential = {
+		exists = owner
+		owner = { has_oxr_mdlc_origin_world_machine_awakened = yes }
+		uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
+	}
+
+	conversion_ratio = 0.5
+	convert_to = {
+		xvcv_mdlc_pc_mechanical_district_industrial
+		xvcv_mdlc_pc_machine_auto_district_industrial
+		district_industrial
+	}
+
+	resources = {
+		category = xvcv_mdlc_world_machines_industrial_districts
+		cost = {
+			minerals = @xvcv_mdlc_district_cost_3
+		}
+		upkeep = { energy = @xvcv_mdlc_pc_machine_auto_district_industrial_upkeep }
+		upkeep = {
+			trigger = {
+				exists = owner
+				owner = {
+					OR = {
+						has_edict = oxr_mdlc_edict_wm_forge_subsidies
+						has_edict = oxr_mdlc_edict_wm_industrial_subsidies
+					}
+				}
+			}
+			energy = 2
+		}
+	}
+
+	ai_resource_production = {
+		alloys = 10
+		trigger = { always = yes }
+	}
+	ai_resource_production = {
+		consumer_goods = 10
+		trigger = {
+			owner = {
+				OR = {
+					country_uses_consumer_goods = yes
+					has_valid_civic = xvcv_mdlc_civic_goods_distributor
+				}
+			}
+		}
+	}
 
 	on_built = {
 		inline_script = planet/districts/on_action/on_wm_district_built

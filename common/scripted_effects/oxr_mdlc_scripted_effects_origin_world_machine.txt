@@ -22,10 +22,10 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 	planet = {
 		# set homeworld to auto-capital
 		set_colony_type = xvcv_mdlc_col_machine_auto_capital
+		change_pc = xvcv_mdlc_pc_machine_auto
 
 		# optimize_memory
 		# This is starting in the PLANET scope
-		# prev = { set_country_flag = oxr_mdlc_origin_world_machine_awakened }
 		export_trigger_value_to_variable = {
 			trigger = num_districts
 			parameters = { type = any }
@@ -37,27 +37,27 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 			limit = { has_district = district_city }
 			remove_district = district_city
 			# add_district = xvcv_mdlc_pc_machine_auto_district_nexus
-			add_district = xvcv_mdlc_pc_machine_auto_district_mining_origin_wm
+			add_district = xvcv_mdlc_pc_machine_auto_district_mining
 		}
 		while = {
 			limit = { has_district = district_nexus }
 			remove_district = district_nexus
-			add_district = xvcv_mdlc_pc_machine_auto_district_mining_origin_wm
+			add_district = xvcv_mdlc_pc_machine_auto_district_mining
 		}
 		while = {
 			limit = { has_district = district_generator }
 			remove_district = district_generator
-			add_district = xvcv_mdlc_pc_machine_auto_district_generator_origin_wm
+			add_district = xvcv_mdlc_pc_machine_auto_district_generator
 		}
 		while = {
 			limit = { has_district = district_mining }
 			remove_district = district_mining
-			add_district = xvcv_mdlc_pc_machine_auto_district_mining_origin_wm
+			add_district = xvcv_mdlc_pc_machine_auto_district_mining
 		}
 		while = {
 			limit = { has_district = xvcv_mdlc_common_district_mining }
 			remove_district = xvcv_mdlc_common_district_mining
-			add_district = xvcv_mdlc_pc_machine_auto_district_mining_origin_wm
+			add_district = xvcv_mdlc_pc_machine_auto_district_mining
 		}
 
 		# Have a check here that looks whether the empire uses food.
@@ -65,12 +65,12 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 		while = {
 			limit = { has_district = district_farming }
 			remove_district = district_farming
-			add_district = xvcv_mdlc_pc_machine_auto_district_farming_origin_wm
+			add_district = xvcv_mdlc_pc_machine_auto_district_farming
 		}
 		while = {
 			limit = { has_district = district_industrial }
 			remove_district = district_industrial
-			add_district = xvcv_mdlc_pc_machine_auto_district_origin_primary
+			add_district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
 		}
 		# Note the difference in starting vs now
 		export_trigger_value_to_variable = {
@@ -91,6 +91,15 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 		clear_variable = num_ending_districts
 		clear_variable = starting_districts_difference
 	}
+	# Set the primary production zone
+	planet = {
+		add_zone = {
+			district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
+			zone = oxr_mdlc_zone_pc_machine_auto_alloys
+			zone_slot = oxr_mdlc_origin_wm_slot_production
+		}
+	}
+
 	planet = {
 		# Trim population
 		while = {
@@ -225,8 +234,8 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 			limit = { has_building = building_uplink_node }
 			remove_building = building_uplink_node
 			add_building = {
-				district = xvcv_mdlc_pc_machine_auto_district_origin_primary
-				zone = oxr_mdlc_origin_wm_zone_default
+				district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
+				zone = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
 				building = oxr_mdlc_world_machines_building_auto_unity_1
 			}
 		}
@@ -235,8 +244,8 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 			limit = { has_building = building_research_lab_1 }
 			remove_building = building_research_lab_1
 			add_building = {
-				district = xvcv_mdlc_pc_machine_auto_district_origin_primary
-				zone = oxr_mdlc_origin_wm_zone_default
+				district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
+				zone = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
 				building = oxr_mdlc_world_machines_building_fractal_sanitizer
 			}
 		}
@@ -245,8 +254,8 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 			limit = { has_building = building_military_academy }
 			remove_building = building_military_academy
 			add_building = {
-				district = xvcv_mdlc_pc_machine_auto_district_origin_primary
-				zone = oxr_mdlc_origin_wm_zone_default
+				district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
+				zone = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
 				building = oxr_mdlc_world_machines_building_maintenance_legion
 			}
 		}
@@ -258,8 +267,8 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 			}
 			remove_building = building_machine_capital
 			add_building = {
-				district = xvcv_mdlc_pc_machine_auto_district_origin_primary
-				zone = oxr_mdlc_origin_wm_zone_default
+				district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
+				zone = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
 				building = oxr_mdlc_world_machines_building_auto_capital
 			}
 		}
@@ -281,7 +290,7 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 					}
 				}
 			}
-			add_district = xvcv_mdlc_pc_machine_auto_district_farming_origin_wm
+			add_district = xvcv_mdlc_pc_machine_auto_district_farming
 			owner = {
 				add_resource = {
 					food = 100
@@ -1369,7 +1378,7 @@ oxr_mdlc_planet_create_world_machine_colony = {
 				has_oxr_mdlc_origin_world_machine_awakened = yes
 			}
 		}
-		change_pc = xvcv_mdlc_pc_machine_auto_origin_wm
+		change_pc = xvcv_mdlc_pc_machine_auto
 		log = "World Machine set to origin version of planet class on \\[This.GetName]"
 	}
 	create_colony = {
@@ -1387,14 +1396,14 @@ oxr_mdlc_planet_create_world_machine_colony = {
 			}
 		}
 		add_building = {
-			district = xvcv_mdlc_pc_machine_auto_district_origin_primary
-			zone = oxr_mdlc_origin_wm_zone_default
+			district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
+			zone = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
 			building = oxr_mdlc_world_machines_building_auto_capital
 		}
 	}
 	else = {
 		add_building = {
-			district = xvcv_mdlc_pc_machine_auto_district_origin_primary
+			district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
 			zone = zone_default
 			building = oxr_mdlc_world_machines_building_auto_capital
 		}
@@ -1492,14 +1501,14 @@ oxr_mdlc_planet_do_wm_origin_things_after_project = {
 				}
 			}
 			add_building = {
-				district = xvcv_mdlc_pc_machine_auto_district_origin_primary
-				zone = oxr_mdlc_origin_wm_zone_default
+				district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
+				zone = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
 				building = oxr_mdlc_world_machines_building_auto_capital
 			}
 		}
 		else = {
 			add_building = {
-				district = xvcv_mdlc_pc_machine_auto_district_origin_primary
+				district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
 				zone = zone_default
 				building = oxr_mdlc_world_machines_building_auto_capital
 			}
@@ -1795,14 +1804,14 @@ oxr_mdlc_planet_fix_things_after_restoring_ownership = {
 				}
 			}
 			add_building = {
-				district = xvcv_mdlc_pc_machine_auto_district_origin_primary
-				zone = oxr_mdlc_origin_wm_zone_default
+				district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
+				zone = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
 				building = oxr_mdlc_world_machines_building_auto_capital
 			}
 		}
 		else = {
 			add_building = {
-				district = xvcv_mdlc_pc_machine_auto_district_origin_primary
+				district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
 				zone = zone_default
 				building = oxr_mdlc_world_machines_building_auto_capital
 			}
@@ -2012,21 +2021,8 @@ oxr_mdlc_unlock = {
 oxr_mdlc_origin_wm_add_building_to_auto_wm_main = {
 	add_building = {
 		district = xvcv_mdlc_pc_machine_auto_district_industrial
-		zone = oxr_mdlc_origin_wm_zone_default
+		zone = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
 		building = $which$
 	}
 }
 
-oxr_planet_change_pc_world_machine_auto = {
-	if = {
-		limit = {
-			space_owner = {
-				has_origin = oxr_mdlc_origin_world_machine_awakened
-			}
-		}
-		change_pc = xvcv_mdlc_pc_machine_auto_origin_wm
-	}
-	else = {
-		change_pc = xvcv_mdlc_pc_machine_auto
-	}
-}

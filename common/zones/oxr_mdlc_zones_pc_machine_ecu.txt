@@ -1,4 +1,4 @@
-oxr_mdlc_zone_alloys = {
+oxr_mdlc_zone_pc_machine_ecu_alloys = {
 	icon = GFX_colony_type_foundry
 	inline_script = planet/zones/oxr_wm_base
 
@@ -11,50 +11,18 @@ oxr_mdlc_zone_alloys = {
 
 	# Copied from 3.14 district code
 	resources = {
-		category = xvcv_mdlc_world_machines_industrial_districts
+		category = oxr_mdlc_world_machines_zones
 		cost = { minerals = @xvcv_mdlc_district_cost_5 }
+	}
 
-		produces = {
-			trigger = {
-				exists = owner
-				owner = { is_catalytic_empire = no }
-			}
-			alloys = @[ oxr_t3_planet_district_jobs * oxr_mdlc_wm_base_fabricator_output ]
-			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
-		}
-		upkeep = {
-			trigger = { exists = owner }
-			rare_crystals = 1
-		}
-		upkeep = {
-			trigger = {
-				exists = owner
-				owner = { is_catalytic_empire = no }
-			}
-			minerals = @[ oxr_t3_planet_district_jobs * oxr_mdlc_wm_base_fabricator_upkeep ]
-		}
-		##
-		# CATALYTIC
-		##
-		produces = {
-			trigger = {
-				exists = owner
-				owner = { is_catalytic_empire = yes }
-			}
-			alloys = @[ oxr_t3_planet_district_jobs * oxr_mdlc_wm_base_catalytic_output ]
-			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
-		}
-		upkeep = {
-			trigger = {
-				exists = owner
-				owner = { is_catalytic_empire = yes }
-			}
-			food = @[ oxr_t3_planet_district_jobs * oxr_mdlc_wm_base_catalytic_upkeep_food ]
-		}
+	inline_script = {
+		script = planet/zones/auto/oxr_wm_alloys
+		DISTRICT_CATEGORY = xvcv_mdlc_world_machines_production_districts
+		JOBS = @oxr_t3_planet_district_jobs
 	}
 }
 
-oxr_mdlc_zone_consumer_goods = {
+oxr_mdlc_zone_pc_machine_ecu_consumer_goods = {
 	icon = GFX_colony_type_factory
 	inline_script = planet/zones/oxr_wm_base
 
@@ -65,26 +33,10 @@ oxr_mdlc_zone_consumer_goods = {
 		oxr_mdlc_wm_all
 	}
 
-	# Remove default SR cost and swap in with rare crystals
-	district_planet_modifier = {
-		xvcv_mdlc_world_machines_industrial_districts_volatile_motes_cost_add = -100
-		xvcv_mdlc_world_machines_industrial_districts_rare_crystals_cost_add = 100
-	}
-
-	# Copied from 3.14 district code
-	resources = {
-		category = xvcv_mdlc_world_machines_industrial_districts
-		cost = { minerals = @xvcv_mdlc_district_cost_5 }
-
-		produces = {
-			consumer_goods = @[ oxr_t3_planet_district_jobs * oxr_mdlc_wm_base_artisan_output ]
-			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
-		}
-		upkeep = {
-			minerals = @[ oxr_t3_planet_district_jobs * oxr_mdlc_wm_base_artisan_upkeep ]
-			energy = 10
-			rare_crystals = 1
-		}
+	inline_script = {
+		script = planet/zones/auto/oxr_wm_consumer_goods
+		DISTRICT_CATEGORY = xvcv_mdlc_world_machines_production_districts
+		JOBS = @oxr_t3_planet_district_jobs
 	}
 
 	ai_resource_production = {
