@@ -21,29 +21,17 @@ oxr_mdlc_zone_pc_ringworld_machine_auto_research = {
 		xvcv_mdlc_world_machines_rnd_districts_energy_upkeep_add = @rw_maintenance
 		xvcv_mdlc_world_machines_rnd_districts_exotic_gases_upkeep_add = @rw_maintenance_sr
 	}
-	triggered_district_planet_modifier = {
-		potential = { exists = owner }
-		xvcv_mdlc_world_machines_rnd_districts_physics_research_produces_add = @[ 12 * oxr_mdlc_wm_base_calculator_output ]
-		xvcv_mdlc_world_machines_rnd_districts_engineering_research_produces_add = @[ 12 * oxr_mdlc_wm_base_calculator_output ]
-		xvcv_mdlc_world_machines_rnd_districts_society_research_produces_add = @[ 12 * oxr_mdlc_wm_base_calculator_output ]
-		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
-	}
-	# 5 extra from virtuality tradition
-	triggered_district_planet_modifier = {
-		potential = {
-			exists = owner
-			owner = { has_active_tradition = tr_virtuality_4 }
-		}
-		modifier = {
-			xvcv_mdlc_world_machines_rnd_districts_physics_research_produces_add = @[ 5 * oxr_mdlc_wm_base_calculator_output ]
-			xvcv_mdlc_world_machines_rnd_districts_engineering_research_produces_add = @[ 5 * oxr_mdlc_wm_base_calculator_output ]
-			xvcv_mdlc_world_machines_rnd_districts_society_research_produces_add = @[ 5 * oxr_mdlc_wm_base_calculator_output ]
-		}
-	}
+	
 	# Boost the cost of the district
 	planet_modifier = {
 		xvcv_mdlc_world_machines_rnd_districts_minerals_cost_add = @oxr_rw_cost
 		xvcv_mdlc_world_machines_rnd_districts_exotic_gases_cost_add = @oxr_rw_cost_sr
+	}
+
+	inline_script = {
+		script = planet/zones/auto/oxr_wm_research
+		DISTRICT_CATEGORY = xvcv_mdlc_world_machines_rnd_districts
+		JOBS = 12
 	}
 
 	max_buildings = 3
@@ -148,59 +136,19 @@ oxr_mdlc_zone_pc_ringworld_machine_auto_alloys = {
 	unlock = { is_xvcv_mdlc_pc_ringworld_machine_auto = yes }
 
 	district_planet_modifier = {
-		xvcv_mdlc_world_machines_rnd_districts_energy_upkeep_add = @[ 20 * oxr_mdlc_wm_base_logistics_drone_output ]
 		xvcv_mdlc_world_machines_rnd_districts_volatile_motes_upkeep_add = @rw_maintenance_sr
-		xvcv_mdlc_world_machines_rnd_districts_minerals_cost_add = @oxr_rw_cost
 		xvcv_mdlc_world_machines_rnd_districts_volatile_motes_cost_add = @oxr_rw_cost_sr
 	}
-	triggered_district_planet_modifier = {
 
+	inline_script = {
+		script = planet/zones/auto/oxr_wm_alloys
+		DISTRICT_CATEGORY = xvcv_mdlc_world_machines_rnd_districts
+		JOBS = 12
 	}
 
-	
 	resources = {
 		category = oxr_mdlc_world_machines_zones
-		cost = {
-			minerals = @oxr_rw_cost
-			volatile_motes = @oxr_rw_cost_sr
-		}
-		upkeep = {
-			energy = @rw_maintenance
-			volatile_motes = @rw_maintenance_sr
-		}
-
-		produces = {
-			trigger = {
-				exists = owner
-				owner = { is_catalytic_empire = yes }
-			}
-			alloys = @[ 12 * oxr_mdlc_wm_base_catalytic_output ]
-			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
-		}
-		produces = {
-			trigger = {
-				exists = owner
-				owner = { is_catalytic_empire = no }
-			}
-			alloys = @[ 12 * oxr_mdlc_wm_base_fabricator_output ]
-			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
-		}
-		upkeep = {
-			trigger = {
-				exists = owner
-				owner = { is_catalytic_empire = no }
-			}
-			minerals = @[ 12 * oxr_mdlc_wm_base_fabricator_upkeep ]
-			volatile_motes = 1
-		}
-		upkeep = {
-			trigger = {
-				exists = owner
-				owner = { is_catalytic_empire = yes }
-			}
-			food = @[ 12 * oxr_mdlc_wm_base_catalytic_upkeep_food ]
-			volatile_motes = 1
-		}
+		cost = { minerals = @oxr_rw_cost }
 	}
 
 	max_buildings = 3
@@ -224,20 +172,15 @@ oxr_mdlc_zone_pc_ringworld_machine_auto_consumer_goods = {
 
 	unlock = { is_xvcv_mdlc_pc_ringworld_machine_auto = yes }
 
+	inline_script = {
+		script = planet/zones/auto/oxr_wm_consumer_goods
+		DISTRICT_CATEGORY = xvcv_mdlc_world_machines_rnd_districts
+		JOBS = 12
+	}
+
 	resources = {
-		category = xvcv_mdlc_world_machines_industrial_districts
-		cost = {
-			minerals = @oxr_rw_cost
-			volatile_motes = @oxr_rw_cost_sr
-		}
-		upkeep = {
-			energy = @rw_maintenance
-			volatile_motes = @rw_maintenance_sr
-		}
-		produces = {
-			consumer_goods = @[ 20 * oxr_mdlc_wm_base_artisan_output ]
-			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
-		}
+		category = oxr_mdlc_world_machines_zones
+		cost = { minerals = @oxr_rw_cost }
 	}
 
 	max_buildings = 3
@@ -268,13 +211,15 @@ oxr_mdlc_zone_pc_ringworld_machine_auto_food = {
 		}
 	}
 
-	triggered_district_planet_modifier = {
-		# What was once in the district's 'produces' block
-		xvcv_mdlc_world_machines_raw_resources_districts_food_produces_add =  @[ 20 * oxr_mdlc_wm_base_farmer_output ]
-		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
-		# district's old 'upkeep' block
-		xvcv_mdlc_world_machines_raw_resources_districts_energy_upkeep_add = 20  # one per 'drone'
+	# Ringworld-specific upkeep
+	district_planet_modifier = {
 		xvcv_mdlc_world_machines_raw_resources_districts_rare_crystals_upkeep_add = @rw_maintenance_sr
+	}
+
+	inline_script = {
+		script = planet/zones/auto/oxr_wm_food
+		DISTRICT_CATEGORY = xvcv_mdlc_world_machines_raw_resources
+		JOBS = 12
 	}
 
 	max_buildings = 3
@@ -304,13 +249,16 @@ oxr_mdlc_zone_pc_ringworld_machine_auto_energy = {
 		}
 	}
 
+	district_planet_modifier = {
+		xvcv_mdlc_world_machines_raw_resources_districts_energy_upkeep_add = 12  # one per 'drone'
+		xvcv_mdlc_world_machines_raw_resources_districts_rare_crystals_upkeep_add = @rw_maintenance_sr
+	}
+
 	triggered_district_planet_modifier = {
 		# What was once in the district's 'produces' block
-		xvcv_mdlc_world_machines_raw_resources_districts_food_produces_add =  @[ 20 * oxr_mdlc_wm_base_farmer_output ]
+		xvcv_mdlc_world_machines_raw_resources_districts_food_produces_add =  @[ 12 * oxr_mdlc_wm_base_technician_output ]
 		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
 		# district's old 'upkeep' block
-		xvcv_mdlc_world_machines_raw_resources_districts_energy_upkeep_add = 20  # one per 'drone'
-		xvcv_mdlc_world_machines_raw_resources_districts_rare_crystals_upkeep_add = @rw_maintenance_sr
 	}
 
 	max_buildings = 3
