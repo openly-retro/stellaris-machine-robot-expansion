@@ -1,6 +1,16 @@
+# As of Phoenix 4.0, this job becomes non-functional,
+# as it's not possible to reduce pop housing upkeep nor usage
+# from the job scope any more :'(
+# So its purpose is a sort of unemployment holding slot,
+# to prevent pops from being "unemployed"
+
 oxr_mdlc_world_machine_hibernation_slot = {
 	category = complex_drone
-	condition_string = DRONE_JOB_TRIGGER
+	swappable_data = {
+		default = {
+			condition_string = DRONE_JOB_TRIGGER
+		}
+	}
 
 	possible_pre_triggers = {
 		has_owner = yes
@@ -11,30 +21,37 @@ oxr_mdlc_world_machine_hibernation_slot = {
 
 	possible_precalc = can_fill_drone_job
 
-	pop_modifier = {
-		pop_housing_usage_add = -1
-		pop_amenities_usage_add = -1
-	}
-	triggered_pop_modifier = {
-		potential = {
-			has_xvcv_mdlc_trait_rock_body = yes
+	possible = {
+		OR = {
+			has_trait = trait_machine_unit
+			has_trait = oxr_mdlc_trait_world_machine_automaton
 		}
-		pop_category_drones_minerals_upkeep_add = -1
 	}
-	triggered_pop_modifier = {
-		potential = {
-			has_xvcv_mdlc_trait_synth_skin = yes
-		}
-		pop_category_drones_food_upkeep_add = -1
-	}
-	# Only reduce energy upkeep if it doesn't have the other 2 traits
-	triggered_pop_modifier = {
-		potential = {
-			has_xvcv_mdlc_trait_rock_body = no
-			has_xvcv_mdlc_trait_synth_skin = no
-		}
-		pop_category_drones_energy_upkeep_add = -1
-	}
+
+	# pop_group_modifier = {
+	# 	pop_housing_usage_add = -1
+	# 	pop_amenities_usage_add = -1
+	# }
+	# triggered_pop_group_modifier = {
+	# 	potential = {
+	# 		has_xvcv_mdlc_trait_rock_body = yes
+	# 	}
+	# 	pop_category_drones_minerals_upkeep_add = -1
+	# }
+	# triggered_pop_group_modifier = {
+	# 	potential = {
+	# 		has_xvcv_mdlc_trait_synth_skin = yes
+	# 	}
+	# 	pop_category_drones_food_upkeep_add = -1
+	# }
+	# # Only reduce energy upkeep if it doesn't have the other 2 traits
+	# triggered_pop_group_modifier = {
+	# 	potential = {
+	# 		has_xvcv_mdlc_trait_rock_body = no
+	# 		has_xvcv_mdlc_trait_synth_skin = no
+	# 	}
+	# 	pop_category_drones_energy_upkeep_add = -1
+	# }
 
 	weight = {
 		weight = 1

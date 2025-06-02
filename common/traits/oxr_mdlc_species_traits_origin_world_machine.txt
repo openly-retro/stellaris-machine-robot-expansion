@@ -7,28 +7,29 @@ oxr_mdlc_trait_world_machine_automaton = {
 	initial = no
 	randomized = no
 
-	# allowed_planet_classes = {
-	# 	xvcv_mdlc_pc_machine_auto
-	# 	xvcv_mdlc_pc_machine_cpu
-	# 	xvcv_mdlc_pc_machine_ecu
-	# 	xvcv_mdlc_pc_machine_ser
-	# }
-
 	species_potential_add = {
 		exists = from
 		from = { has_origin = oxr_mdlc_origin_world_machine_awakened }
 	}
 
-	# infertile = yes
 	opposites = {
 		"trait_robot_mass_produced"
 		"trait_robot_custom_made"
 	}
 	modifier = {
 		planet_pop_assembly_mult = -5
+		pop_amenities_usage_add = -1
+		pop_housing_usage_add = -1
+		# let's hope this works in 4.0
+		pop_category_drones_energy_upkeep_mult = -1
+		pop_category_drones_minerals_upkeep_mult = -1
+		pop_category_drones_food_upkeep_mult = -1
+		pop_category_complex_drones_energy_upkeep_mult = -1
+		pop_category_complex_drones_minerals_upkeep_mult = -1
+		pop_category_complex_drones_food_upkeep_mult = -1
 	}
 	# Penalties if not on world-machine or machine world
-	triggered_pop_modifier = {
+	triggered_pop_group_modifier = {
 		potential = {
 			# exists = owner
 			# is_same_species_class = owner
@@ -50,6 +51,13 @@ oxr_mdlc_trait_world_machine_automaton = {
 		habitability_ceil_add = -2
 		# empire_size_add = 1
 		planet_jobs_produces_mult = -0.75
+
+		pop_category_drones_energy_upkeep_mult = 2
+		pop_category_drones_minerals_upkeep_mult = 2
+		pop_category_drones_food_upkeep_mult = 2
+		pop_category_complex_drones_energy_upkeep_mult = 2
+		pop_category_complex_drones_minerals_upkeep_mult = 2
+		pop_category_complex_drones_food_upkeep_mult = 2
 	}
 
 	# species_potential_add = {
