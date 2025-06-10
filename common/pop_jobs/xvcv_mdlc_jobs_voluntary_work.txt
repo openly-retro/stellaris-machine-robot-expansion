@@ -1,0 +1,975 @@
+# Voluntary work jobs, originally by XVCV
+
+#for 'xvcv_mdlc_ap_organic_work' ascension perk
+xvcv_mdlc_organic_foundry = {
+	category = bio_trophy
+
+	swappable_data = {
+		default = {
+			condition_string = SPECIALIST_JOB_TRIGGER
+			building_icon = voluntary_work/xvcv_mdlc_building_organic_foundry
+		}
+	}
+
+	possible_pre_triggers = {
+		has_owner = yes
+		is_being_purged = no
+		is_being_assimilated = no
+	}
+
+	possible = {
+		has_citizenship_type = { type = citizenship_organic_trophy }
+	}
+
+	resources = {
+		category = planet_bio_trophies
+		produces = {
+			trigger = {
+				exists = owner
+				owner = { is_catalytic_empire = no }
+			}
+			alloys = 3
+		}
+		upkeep = {
+			trigger = {
+				exists = owner
+				owner = { is_catalytic_empire = no }
+			}
+			minerals = 6
+		}
+		produces = {
+			trigger = {
+				exists = owner
+				owner = { is_catalytic_empire = yes }
+			}
+			alloys = 3.75
+		}
+		upkeep = {
+			trigger = {
+				exists = owner
+				owner = { is_catalytic_empire = yes }
+			}
+			food = 9
+		}
+	}
+
+	weight = {
+		weight = @complex_drone_job_weight
+		mult = value:job_weights_modifier|JOB|xvcv_mdlc_organic_foundry|RESOURCE|alloys|
+		modifier = {
+			factor = 5
+			any_planet_pop_has_job_type = xvcv_mdlc_organic_foundry
+		}
+	}
+}
+xvcv_mdlc_organic_artisan = {
+	category = bio_trophy
+
+	swappable_data = {
+		default = {
+			condition_string = SPECIALIST_JOB_TRIGGER
+			building_icon = voluntary_work/xvcv_mdlc_building_organic_factory
+		}
+	}
+
+	possible_pre_triggers = {
+		has_owner = yes
+		is_being_purged = no
+		is_being_assimilated = no
+	}
+
+	possible = {
+		has_citizenship_type = { type = citizenship_organic_trophy }
+	}
+
+	resources = {
+		# category = planet_artisans
+		category = planet_bio_trophies
+		produces = { consumer_goods = 6 }
+		upkeep = { minerals = 6 }
+	}
+
+	weight = {
+		weight = @complex_drone_job_weight
+		mult = value:job_weights_modifier|JOB|xvcv_mdlc_organic_artisan|RESOURCE|consumer_goods|
+		modifier = {
+			factor = 5
+			any_planet_pop_has_job_type = { JOB = xvcv_mdlc_organic_artisan }
+		}
+		# low income modifier
+		modifier = {
+			factor = 1.2
+			exists = planet
+			planet = { has_available_jobs = "xvcv_mdlc_organic_artisan" }
+			exists = owner
+			owner = {
+				is_ai = yes
+				has_monthly_income = {
+					resource = consumer_goods
+					value < 5
+				}
+			}
+		}
+	}
+}
+xvcv_mdlc_organic_researcher = {
+	category = bio_trophy
+
+	swappable_data = {
+		default = {
+			condition_string = SPECIALIST_JOB_TRIGGER
+			building_icon = voluntary_work/xvcv_mdlc_building_organic_research
+		}
+	}
+
+	possible_pre_triggers = {
+		has_owner = yes
+		is_being_purged = no
+		is_being_assimilated = no
+		is_sapient = yes
+	}
+
+	possible = {
+		has_citizenship_type = { type = citizenship_organic_trophy }
+	}
+
+	resources = {
+		# category = planet_researchers
+		category = planet_bio_trophies
+		produces = {
+			physics_research = 4
+			engineering_research = 4
+			society_research = 4
+		}
+		upkeep = { consumer_goods = 2 }
+	}
+
+	weight = {
+		weight = @complex_drone_job_weight
+		mult = value:job_weights_research_modifier|JOB|xvcv_mdlc_organic_researcher|
+		modifier = {
+			factor = 1.5
+			any_planet_pop_has_job_type = { JOB = xvcv_mdlc_organic_researcher }
+		}
+	}
+}
+xvcv_mdlc_organic_bureaucrat = {
+	category = bio_trophy
+
+	swappable_data = {
+		default = {
+			condition_string = SPECIALIST_JOB_TRIGGER
+			building_icon = voluntary_work/xvcv_mdlc_building_organic_bureaucratic
+		}
+	}
+
+	possible_pre_triggers = {
+		has_owner = yes
+		is_being_purged = no
+		is_being_assimilated = no
+		is_sapient = yes
+	}
+
+	possible = {
+		has_citizenship_type = { type = citizenship_organic_trophy }
+	}
+
+	resources = {
+		# category = planet_administrators
+		category = planet_bio_trophies
+		produces = { unity = 4 }
+		upkeep = { consumer_goods = 2 }
+	}
+
+	weight = {
+		weight = @synapse_drone_job_weight
+		mult = value:job_weights_modifier|JOB|xvcv_mdlc_organic_bureaucrat|RESOURCE|unity|
+		modifier = {
+			factor = 1.5
+			any_planet_pop_has_job_type = { JOB = xvcv_mdlc_organic_bureaucrat }
+		}
+	}
+}
+xvcv_mdlc_organic_healthcare = {
+	category = bio_trophy
+
+	swappable_data = {
+		default = {
+			condition_string = SPECIALIST_JOB_TRIGGER
+			building_icon = voluntary_work/xvcv_mdlc_building_organic_clinic
+		}
+	}
+
+	possible_pre_triggers = {
+		has_owner = yes
+		is_being_purged = no
+		is_being_assimilated = no
+		is_sapient = yes
+	}
+
+	possible = {
+		has_citizenship_type = { type = citizenship_organic_trophy }
+	}
+
+	planet_modifier = {
+		logistic_growth_mult = 0.05
+		planet_pop_assembly_organic_mult = 0.05
+		pop_environment_tolerance = 0.025
+	}
+
+	triggered_planet_modifier = {
+		planet_amenities_no_happiness_add = 5
+		mult = value:scripted_modifier_mult|MODIFIER|pop_job_amenities_mult|
+	}
+
+	resources = {
+		# category = planet_doctors
+		category = planet_bio_trophies
+		upkeep = { consumer_goods = 1 }
+	}
+
+	weight = {
+		weight = @high_prio_specialist_job_weight
+		mult = value:scripted_modifier_job_weight_mult|MODIFIER|pop_job_amenities_mult|
+		modifier = {
+			factor = 1.5
+			any_planet_pop_has_job_type = { JOB = xvcv_mdlc_organic_healthcare }
+		}
+		modifier = {
+			factor = 10
+			NOT = {
+				any_planet_pop_has_job_type = { JOB = xvcv_mdlc_organic_healthcare }
+			}
+			planet = {
+				free_amenities < 0
+				has_available_jobs = xvcv_mdlc_organic_healthcare
+			}
+		}
+	}
+}
+xvcv_mdlc_organic_chemist = {
+	category = bio_trophy
+
+	swappable_data = {
+		default = {
+			condition_string = SPECIALIST_JOB_TRIGGER
+			building_icon = voluntary_work/xvcv_mdlc_building_organic_chemical_plant
+		}
+	}
+
+	possible_pre_triggers = {
+		has_owner = yes
+		is_being_purged = no
+		is_being_assimilated = no
+		is_sapient = yes
+	}
+
+	possible = {
+		has_citizenship_type = { type = citizenship_organic_trophy }
+	}
+
+	resources = {
+		# category = planet_chemists
+		category = planet_bio_trophies
+		inline_script = {
+			script = planet/jobs/voluntary_work/oxr_sr_producer
+			STRATEGIC_RESOURCE = volatile_motes
+		}
+	}
+
+	weight = {
+		weight = @complex_drone_job_weight
+		mult = value:job_weights_modifier|JOB|xvcv_mdlc_organic_chemist|RESOURCE|volatile_motes|
+		modifier = {
+			factor = 7
+			any_planet_pop_has_job_type = { JOB = xvcv_mdlc_organic_chemist }
+		}
+	}
+}
+xvcv_mdlc_organic_gas_refiner = {
+	category = bio_trophy
+
+	swappable_data = {
+		default = {
+			condition_string = SPECIALIST_JOB_TRIGGER
+			building_icon = voluntary_work/xvcv_mdlc_building_organic_refinery
+		}
+	}
+
+	possible_pre_triggers = {
+		has_owner = yes
+		is_being_purged = no
+		is_being_assimilated = no
+		is_sapient = yes
+	}
+
+	possible = {
+		has_citizenship_type = { type = citizenship_organic_trophy }
+	}
+
+	resources = {
+		category = planet_bio_trophies
+		inline_script = {
+			script = planet/jobs/voluntary_work/oxr_sr_producer
+			STRATEGIC_RESOURCE = exotic_gases
+		}
+	}
+
+	weight = {
+		weight = @complex_drone_job_weight
+		mult = value:job_weights_modifier|JOB|xvcv_mdlc_organic_gas_refiner|RESOURCE|exotic_gases|
+		modifier = {
+			factor = 7
+			any_planet_pop_has_job_type = { JOB = xvcv_mdlc_organic_gas_refiner }
+		}
+	}
+}
+
+xvcv_mdlc_organic_translucer = {
+	category = bio_trophy
+
+	swappable_data = {
+		default = {
+			condition_string = SPECIALIST_JOB_TRIGGER
+			building_icon = voluntary_work/xvcv_mdlc_building_organic_crystal_plant
+	}
+
+	possible_pre_triggers = {
+		has_owner = yes
+		is_being_purged = no
+		is_being_assimilated = no
+		is_sapient = yes
+	}
+
+	possible = {
+		has_citizenship_type = { type = citizenship_organic_trophy }
+	}
+
+	resources = {
+		category = planet_bio_trophies
+		inline_script = {
+			script = planet/jobs/voluntary_work/oxr_sr_producer
+			STRATEGIC_RESOURCE = rare_crystals
+		}
+	}
+
+	weight = {
+		weight = @complex_drone_job_weight
+		mult = value:job_weights_modifier|JOB|xvcv_mdlc_organic_translucer|RESOURCE|rare_crystals|
+		modifier = {
+			factor = 7
+			any_planet_pop_has_job_type = { JOB = xvcv_mdlc_organic_translucer }
+		}
+	}
+}
+
+xvcv_mdlc_organic_roboticist = {
+	category = bio_trophy
+
+	swappable_data = {
+		default = {
+			condition_string = SPECIALIST_JOB_TRIGGER
+			building_icon = voluntary_work/xvcv_mdlc_building_organic_machine_assembly_plant
+		}
+	}
+
+	possible_pre_triggers = {
+		has_owner = yes
+		is_being_purged = no
+		is_being_assimilated = no
+		is_sapient = yes
+	}
+
+	possible = {
+		has_citizenship_type = { type = citizenship_organic_trophy }
+	}
+
+	planet_modifier = {
+		planet_pop_assembly_add = 1
+	}
+
+	resources = {
+		category = planet_bio_trophies
+		upkeep = { alloys = 2 }
+	}
+
+	weight = {
+		weight = 500
+		modifier = {
+			factor = 10
+			owner = { is_synthetic_empire = yes }
+		}
+	}
+}
+xvcv_mdlc_organic_enforcer = {
+	category = bio_trophy
+
+	swappable_data = {
+		default = {
+			condition_string = BATTLE_THRALL_JOB_TRIGGER
+			building_icon = voluntary_work/xvcv_mdlc_building_precinct_house
+		}
+	}
+
+	possible_pre_triggers = {
+		has_owner = yes
+		is_being_purged = no
+		is_being_assimilated = no
+		is_sapient = yes
+	}
+
+	possible = {
+		has_citizenship_type = { type = citizenship_organic_trophy }
+	}
+
+	resources = {
+		category = planet_bio_trophies
+		produces = { unity = 1 }
+	}
+
+	planet_modifier = {
+		planet_crime_add = -25
+	}
+
+	weight = {
+		weight = @specialist_job_weight
+		modifier = {
+			factor = 10
+			any_planet_pop_has_job_type = { JOB = xvcv_mdlc_organic_enforcer }
+		}
+		modifier = {
+			factor = 10
+			planet = { planet_crime > 15 }
+			NOT = {
+				any_planet_pop_has_job_type = { JOB = xvcv_mdlc_organic_enforcer }
+			}
+		}
+		modifier = {
+			factor = 0.01
+			planet = { planet_crime <= 15 }
+			NOT = {
+				any_planet_pop_has_job_type = { JOB = xvcv_mdlc_organic_enforcer }
+			}
+		}
+		modifier = {
+			factor = 2
+			has_trait = trait_resilient
+		}
+		modifier = {
+			factor = 2
+			has_trait = trait_very_strong
+		}
+		modifier = {
+			factor = 1.5
+			has_trait = trait_strong
+		}
+		modifier = {
+			factor = 0.50
+			has_trait = trait_weak
+		}
+		modifier = {
+			factor = 1.1
+			has_trait = trait_cybernetic
+		}
+		modifier = {
+			factor = 2
+			has_trait = trait_presapient_earthbound
+		}
+		modifier = {
+			factor = 1.1
+			has_trait = trait_limited_regeneration
+		}
+		modifier = {
+			factor = 2
+			has_trait = trait_lithoid
+		}
+	}
+}
+
+xvcv_mdlc_organic_administrator = {
+	category = bio_trophy
+
+	swappable_data = {
+		default = {
+			condition_string = SPECIALIST_JOB_TRIGGER
+			building_icon = voluntary_work/xvcv_mdlc_building_organic_production_center
+		}
+	}
+
+	possible_pre_triggers = {
+		has_owner = yes
+		is_being_purged = no
+		is_being_assimilated = no
+		is_sapient = yes
+	}
+
+	possible = {
+		has_citizenship_type = { type = citizenship_organic_trophy }
+	}
+
+	resources = {
+		category = planet_bio_trophies
+		upkeep = { consumer_goods = 2 }
+	}
+
+	planet_modifier = {
+		pop_cat_bio_trophy_happiness = 0.05
+		planet_jobs_produces_mult = 0.10
+	}
+
+	weight = {
+		weight = @specialist_job_weight
+		modifier = {
+			factor = 1.5
+			any_planet_pop_has_job_type = { JOB = xvcv_mdlc_organic_administrator }
+		}
+	}
+}
+
+oxr_mdlc_organic_gardener = {
+	category = bio_trophy
+
+	swappable_data = {
+		default = {
+			condition_string = SPECIALIST_JOB_TRIGGER
+			building_icon = voluntary_work/oxr_mdlc_building_organic_gardens_1
+		}
+	}
+
+	possible_pre_triggers = {
+		has_owner = yes
+		is_being_purged = no
+		is_being_assimilated = no
+		is_sapient = yes
+	}
+
+	possible = {
+		has_citizenship_type = { type = citizenship_organic_trophy }
+	}
+
+	resources = {
+		category = planet_bio_trophies
+		produces = {
+			food = 4.5
+		}
+	}
+
+	overlord_resources = {
+		category = planet_requisitioned_food
+		produces = {
+			trigger = {
+				planet = {
+					has_planet_flag = has_produce_requisitorium
+				}
+			}
+			food = @requisitorium_food_overlord
+		}
+	}
+
+	planet_modifier = {
+		# planet_amenities_no_happiness_add = 1
+		pop_cat_bio_trophy_happiness = 0.025
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+		}
+		planet_amenities_no_happiness_add = 1
+		mult = value:scripted_modifier_mult|MODIFIER|pop_job_amenities_mult|
+	}
+
+	weight = {
+		weight = @worker_job_weight
+		mult = value:job_weights_modifier|JOB|farmer|RESOURCE|food|
+		modifier = {
+			factor = 1.5
+			any_planet_pop_has_job_type = { JOB = oxr_mdlc_organic_gardener }
+		}
+	}
+}
+
+xvcv_mdlc_virtual_researcher = {
+	category = specialist
+
+	swappable_data = {
+		default = {
+			condition_string = SPECIALIST_JOB_TRIGGER
+			building_icon = building_research_lab_1
+		}
+	}
+
+	possible_pre_triggers = {
+		has_owner = yes
+		is_being_purged = no
+		is_being_assimilated = no
+		is_sapient = yes
+	}
+
+	possible_precalc = can_fill_specialist_job
+	possible = {
+		complex_specialist_job_check_trigger = yes
+	}
+
+	resources = {
+		category = planet_researchers
+		produces = {
+			physics_research = 4
+			engineering_research = 4
+			society_research = 4
+		}
+		produces = {
+			trigger = {
+				exists = owner
+				owner = { has_valid_civic = civic_technocracy }
+			}
+			unity = 1
+		}
+		upkeep = {
+			consumer_goods = 2
+		}
+		upkeep = {
+			trigger = {
+				exists = owner
+				owner = { has_valid_civic = civic_technocracy }
+			}
+			consumer_goods = 1
+		}
+	}
+
+	weight = {
+		weight = @complex_drone_job_weight
+		mult = value:job_weights_research_modifier|JOB|xvcv_mdlc_virtual_researcher|
+		modifier = {
+			factor = 0.2
+			has_citizenship_rights = no
+			NOT = { has_trait = trait_mechanical }
+		}
+		modifier = {
+			factor = 2
+			has_living_standard = { type = living_standard_academic_privilege }
+		}
+		modifier = {
+			factor = 0.1
+			can_take_servant_job = yes
+		}
+		modifier = {
+			factor = 1.5
+			any_planet_pop_has_job_type = { JOB = xvcv_mdlc_virtual_researcher }
+		}
+		modifier = {
+			factor = 0.8
+			is_enslaved = yes
+			has_slavery_type = { type = slavery_indentured }
+		}
+	}
+}
+xvcv_mdlc_virtual_merchant = {
+	category = specialist
+
+	swappable_data = {
+		default = {
+			condition_string = SPECIALIST_JOB_TRIGGER
+			building_icon = building_galactic_stock_exchange
+		}
+	}
+
+	possible_pre_triggers = {
+		has_owner = yes
+		is_enslaved = no
+		is_being_purged = no
+		is_being_assimilated = no
+		is_sapient = yes
+	}
+
+	possible_precalc = can_fill_ruler_job
+
+	triggered_planet_modifier = {
+		trade_value_add = 12
+		mult = value:scripted_modifier_mult|MODIFIER|planet_jobs_trade_produces_mult|
+	}
+
+	resources = {
+		category = planet_merchants
+		produces = {
+			trigger = {
+				exists = owner
+				owner = { has_civic = civic_merchant_guilds	}
+			}
+			unity = 2
+		}
+	}
+
+	weight = {
+		weight = @ruler_job_weight
+		mult = value:scripted_modifier_job_weight_mult|MODIFIER|planet_jobs_trade_produces_mult|
+		modifier = {
+			factor = 5
+			any_planet_pop_has_job_type = { JOB = xvcv_mdlc_virtual_merchant }
+		}
+		# crisis purge
+		modifier = {
+			factor = 0.01
+			exists = planet
+			exists = planet.controller
+			planet.controller = {
+				OR = {
+					is_country_type = swarm
+					is_country_type = ai_empire
+				}
+			}
+			OR = { # contingency won't purge itself
+				NOT = { exists = event_target:custodian_bot }
+				AND = {
+					exists = event_target:custodian_bot
+					NOT = { species = { is_same_value = event_target:custodian_bot } }
+				}
+			}
+		}
+	}
+}
+xvcv_mdlc_virtual_bureaucrat = {
+	category = specialist
+
+	swappable_data = {
+		default = {
+			condition_string = SPECIALIST_JOB_TRIGGER
+			building_icon = building_capital
+		}
+	}
+
+	possible_pre_triggers = {
+		has_owner = yes
+		is_being_purged = no
+		is_being_assimilated = no
+		is_sapient = yes
+	}
+
+	possible_precalc = can_fill_specialist_job
+	possible = {
+		complex_specialist_job_check_trigger = yes
+	}
+
+	resources = {
+		category = planet_administrators
+		produces = { unity = 4 }
+		upkeep = { consumer_goods = 2 }
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_valid_civic = civic_byzantine_bureaucracy }
+		}
+		modifier = {
+			planet_stability_add = 1
+		}
+	}
+
+	weight = {
+		weight = @specialist_job_weight
+		mult = value:job_weights_modifier|JOB|xvcv_mdlc_virtual_bureaucrat|RESOURCE|unity|
+		modifier = {
+			factor = 0.2
+			has_citizenship_rights = no
+			NOT = { has_trait = trait_mechanical }
+		}
+		modifier = {
+			factor = 0.1
+			can_take_servant_job = yes
+		}
+		modifier = {
+			factor = 1.5
+			any_planet_pop_has_job_type = { JOB = xvcv_mdlc_virtual_bureaucrat }
+		}
+	}
+}
+xvcv_mdlc_virtual_entertainer = {
+	category = specialist
+
+	swappable_data = {
+		default = {
+			condition_string = SPECIALIST_JOB_TRIGGER
+			building_icon = building_holo_theatres
+		}
+	}
+
+	possible_pre_triggers = {
+		has_owner = yes
+		is_being_purged = no
+		is_being_assimilated = no
+		is_sapient = yes
+	}
+
+	possible = {
+		entertainer_job_check_trigger = yes
+	}
+
+	triggered_country_modifier = {
+		planet_amenities_add = 5
+		mult = value:scripted_modifier_mult|MODIFIER|pop_job_amenities_mult|
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { is_pleasure_seeker = yes }
+		}
+		modifier = { logistic_growth_mult = 0.01 }
+	}
+
+	weight = {
+		weight = @high_prio_specialist_job_weight
+		mult = value:scripted_modifier_job_weight_mult|MODIFIER|pop_job_amenities_mult|
+		modifier = {
+			factor = 0.2
+			has_citizenship_rights = no
+			NOT = { has_trait = trait_mechanical }
+		}
+		modifier = {
+			factor = 3
+			has_trait = trait_robot_domestic_protocols
+			OR = {
+				is_non_sapient_robot = yes
+				is_shackled_robot = yes
+			}
+		}
+		modifier = {
+			factor = 1.5
+			any_planet_pop_has_job_type = { JOB = xvcv_mdlc_virtual_entertainer }
+		}
+		modifier = {
+			factor = 0.1
+			is_domestic_servant = yes
+		}
+		modifier = {
+			factor = 0.1
+			NOT = {
+				any_planet_pop_has_job_type = { JOB = xvcv_mdlc_virtual_entertainer }
+			}
+			exists = planet
+			planet = {
+				free_amenities > 5
+			}
+		}
+		modifier = {
+			factor = 2
+			NOT = {
+				any_planet_pop_has_job_type = { JOB = xvcv_mdlc_virtual_entertainer }
+			}
+			exists = planet
+			planet = {
+				free_amenities < 2
+				has_available_jobs = xvcv_mdlc_virtual_entertainer
+			}
+		}
+	}
+}
+xvcv_mdlc_virtual_calculator = {
+	category = complex_drone
+
+	swappable_data = {
+		default = {
+			condition_string = DRONE_JOB_TRIGGER
+			building_icon = building_research_lab_1
+		}
+	}
+
+	possible_pre_triggers = {
+		has_owner = yes
+		is_enslaved = no
+		is_being_purged = no
+		is_being_assimilated = no
+		is_sapient = yes
+	}
+
+	possible_precalc = can_fill_drone_job
+
+	possible = { NOT = { has_trait = trait_nerve_stapled } }
+
+	resources = {
+		category = planet_researchers
+		produces = {
+			physics_research = 4
+			engineering_research = 4
+			society_research = 4
+		}
+		upkeep = { energy = 4 }
+	}
+
+	weight = {
+		weight = @complex_drone_job_weight
+		mult = value:job_weights_research_modifier|JOB|xvcv_mdlc_virtual_calculator|
+		modifier = {
+			factor = 0.9
+			exists = owner
+			years_passed < 1
+			owner = { has_valid_civic = civic_machine_assimilator }
+			has_trait = trait_cybernetic
+		}
+	}
+}
+xvcv_mdlc_virtual_coordinator = {
+	category = complex_drone
+
+	swappable_data = {
+		default = {
+			condition_string = DRONE_JOB_TRIGGER
+			building_icon = building_machine_capital
+		}
+	}
+
+	possible_pre_triggers = {
+		has_owner = yes
+		is_enslaved = no
+		is_being_purged = no
+		is_being_assimilated = no
+		is_sapient = yes
+	}
+
+	possible_precalc = can_fill_drone_job
+
+	possible = { NOT = { has_trait = trait_nerve_stapled } }
+
+	resources = {
+		category = planet_administrators
+		produces = { unity = 4 }
+		upkeep = { energy = 4 }
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			planet = { has_modifier = planet_artifact_relays_machine }
+		}
+		modifier = {
+			planet_stability_add = 2
+			planet_jobs_simple_drone_produces_mult = 0.01
+		}
+	}
+	
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				has_active_tradition = tr_synchronicity_integrated_preservation
+			}
+		}
+		modifier = {
+			planet_crime_no_happiness_add = -2
+		}
+	}
+
+	weight = {
+		weight = @synapse_drone_job_weight
+		mult = value:job_weights_modifier|JOB|xvcv_mdlc_virtual_coordinator|RESOURCE|unity|
+		modifier = {
+			factor = 0.9
+			exists = owner
+			years_passed < 1
+			owner = { has_valid_civic = civic_machine_assimilator }
+			has_trait = trait_cybernetic
+		}
+	}
+}
+
+# EOF
