@@ -20,9 +20,9 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 		}
 	}
 	planet = {
-		# set homeworld to auto-capital
-		set_colony_type = xvcv_mdlc_col_machine_auto_capital
+		# have to do this planet class change in 4.0 for some reason
 		change_pc = xvcv_mdlc_pc_machine_auto
+		set_colony_type = xvcv_mdlc_col_machine_auto_capital
 
 		# optimize_memory
 		# This is starting in the PLANET scope
@@ -52,11 +52,6 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 		while = {
 			limit = { has_district = district_mining }
 			remove_district = district_mining
-			add_district = xvcv_mdlc_pc_machine_auto_district_mining
-		}
-		while = {
-			limit = { has_district = xvcv_mdlc_common_district_mining }
-			remove_district = xvcv_mdlc_common_district_mining
 			add_district = xvcv_mdlc_pc_machine_auto_district_mining
 		}
 
@@ -111,7 +106,7 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 				root = { add_resource = { alloys = 10 } }  # was 75
 			}
 		}
-		log = "Reduced starting population to 3"
+		log = "Reduced starting population to 300"
 
 		# Stop pop assembly
 		add_modifier = { modifier = "planet_population_control_gestalt" days = -1 }
@@ -140,7 +135,10 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 		# Install world machine core
 		add_deposit = oxr_mdlc_d_world_machine_core
 	}
-
+	# Automate capital
+	planet = {
+		oxr_mdlc_planet_wm_automate_capital = yes
+	}
 
 	# give_technology
 	owner = {
@@ -233,43 +231,24 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 		while = {
 			limit = { has_building = building_uplink_node }
 			remove_building = building_uplink_node
-			add_building = {
-				district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
-				zone = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
-				building = oxr_mdlc_world_machines_building_auto_unity_1
+			oxr_mdlc_planet_add_building_to_primary_wm_district = {
+				BUILDING = oxr_mdlc_world_machines_building_auto_unity_1
 			}
 		}
 		### Research
 		while = {
 			limit = { has_building = building_research_lab_1 }
 			remove_building = building_research_lab_1
-			add_building = {
-				district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
-				zone = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
-				building = oxr_mdlc_world_machines_building_fractal_sanitizer
+			oxr_mdlc_planet_add_building_to_primary_wm_district = {
+				BUILDING = oxr_mdlc_world_machines_building_fractal_sanitizer
 			}
 		}
 		### Military
 		while = {
 			limit = { has_building = building_military_academy }
 			remove_building = building_military_academy
-			add_building = {
-				district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
-				zone = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
-				building = oxr_mdlc_world_machines_building_maintenance_legion
-			}
-		}
-
-		### Capital
-		if = {
-			limit = {
-				has_building = building_machine_capital
-			}
-			remove_building = building_machine_capital
-			add_building = {
-				district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
-				zone = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
-				building = oxr_mdlc_world_machines_building_auto_capital
+			oxr_mdlc_planet_add_building_to_primary_wm_district = {
+				BUILDING = oxr_mdlc_world_machines_building_maintenance_legion
 			}
 		}
 
@@ -1379,84 +1358,11 @@ oxr_mdlc_planet_create_world_machine_colony = {
 		# Set name .. read a variable on the planet as a list index
 		# then according to that, set the name
 	}
-	add_deposit = oxr_mdlc_d_world_machine_core
-	remove_building = building_deployment_post
-
-	# The below block is also in 'oxr_mdlc_planet_add_building_to_primary_wm_district'
-	# But I am not using that here, to avoid accidentally hitting the effect stack limit
-	switch = {
-		trigger = planet_class
-		xvcv_mdlc_pc_machine_ecu = {
-			add_building = {
-				district = xvcv_mdlc_pc_machine_ecu_district_cooling_primary
-				zone = oxr_mdlc_origin_wm_zone_default
-				building = oxr_mdlc_world_machines_building_auto_capital
-			}
-		}
-		xvcv_mdlc_pc_machine_ser = {
-			add_building = {
-				district = xvcv_mdlc_pc_machine_ser_district_cooling_primary
-				zone = oxr_mdlc_origin_wm_zone_default
-				building = oxr_mdlc_world_machines_building_auto_capital
-			}
-		}
-		xvcv_mdlc_pc_machine_cpu = {
-			add_building = {
-				district = xvcv_mdlc_pc_machine_cpu_district_cooling_primary
-				zone = oxr_mdlc_origin_wm_zone_default
-				building = oxr_mdlc_world_machines_building_auto_capital
-			}
-		}
-		xvcv_mdlc_pc_machine_auto = {
-			if = {
-				limit = {
-					owner = {
-						oxr_mdlc_planet_owner_can_build_wm_districts = yes
-						has_auth_machine_intelligence = no
-						has_oxr_mdlc_origin_world_machine_awakened = no
-					}
-				}
-				add_building = {
-					district = xvcv_mdlc_pc_machine_auto_district_city
-					zone = zone_default
-					building = oxr_mdlc_world_machines_building_auto_capital
-				}
-			}
-			else_if = {
-				limit = {
-					owner = {
-						has_xvcv_mdlc_ap_world_machines = yes
-						has_authority = auth_machine_intelligence
-						has_oxr_mdlc_origin_world_machine_awakened = no
-					}
-				}
-				add_building = {
-					district = xvcv_mdlc_pc_machine_auto_district_nexus
-					zone = zone_default
-					building = oxr_mdlc_world_machines_building_auto_capital
-				}
-			}
-			else_if = {
-				limit = {
-					owner = {
-						has_oxr_mdlc_origin_world_machine_awakened = yes
-					}
-				}
-				add_building = {
-					district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
-					zone = oxr_mdlc_origin_wm_zone_default
-					building = oxr_mdlc_world_machines_building_auto_capital
-				}
-			}
-		}
-		xvcv_mdlc_pc_ringworld_machine_auto = {
-			add_building = {
-				district = xvcv_mdlc_pc_ringworld_machine_auto_district_primary
-				zone = oxr_mdlc_origin_wm_zone_default
-				building = oxr_mdlc_world_machines_building_auto_capital
-			}
-		}
+	planet = {
+		add_deposit = oxr_mdlc_d_world_machine_core
 	}
+
+	oxr_mdlc_planet_wm_automate_capital = yes
 
 	if = {
 		limit = {
@@ -1515,6 +1421,31 @@ oxr_mdlc_planet_create_world_machine_colony = {
 		days = -1
 	}
 	# Balance pops. Always have 3(00)
+
+	if = {
+		limit = {
+			pop_amount < 300
+		}
+		set_variable = {
+			which = oxr_mdlc_current_population_tmp
+			value = trigger:pop_amount
+		}
+		set_variable = {
+			which = oxr_mdlc_planet_population_target_tmp
+			value = 300
+		}
+		subtract_variable = {
+			which = oxr_mdlc_planet_population_target_tmp
+			value = oxr_mdlc_current_population_tmp
+		}
+		create_pop_group = {
+			species = from.founder_species
+			size = oxr_mdlc_planet_population_target_tmp
+		}
+		clear_variable = oxr_mdlc_current_population_tmp
+		clear_variable = oxr_mdlc_planet_population_target_tmp
+	}
+
 	if = {
 		limit = {
 			pop_amount = 200
@@ -1535,35 +1466,12 @@ oxr_mdlc_planet_create_world_machine_colony = {
 
 oxr_mdlc_planet_do_wm_origin_things_after_project = {
 	# Address new WMs but also existing WMs
-	remove_if_has_building = { WHICH = building_deployment_post }
-	remove_if_has_building = { WHICH = building_machine_capital }
-	remove_if_has_building = { WHICH = building_machine_major_capital }
-	remove_if_has_building = { WHICH = building_machine_system_capital }
-	# Avoid accidentally adding a duplicate auto-capital, in case this world
-	# was converted from one WM type to another
+
 	if = {
 		limit = {
 			oxr_mdlc_planet_has_any_auto_capital = no
 		}
-		if = {
-			limit = {
-				owner = {
-					has_oxr_mdlc_origin_world_machine_awakened = yes
-				}
-			}
-			add_building = {
-				district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
-				zone = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
-				building = oxr_mdlc_world_machines_building_auto_capital
-			}
-		}
-		else = {
-			add_building = {
-				district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
-				zone = zone_default
-				building = oxr_mdlc_world_machines_building_auto_capital
-			}
-		}
+		oxr_mdlc_planet_wm_automate_capital = yes
 	}
 
 	# Dont add the modifier if switching between ecu/ser/cpu
@@ -1831,9 +1739,6 @@ oxr_mdlc_planet_fix_things_after_restoring_ownership = {
 		WHICH = building_ancient_palace
 	}
 	remove_building_if_exists = {
-		WHICH = building_machine_capital_nanotech
-	}
-	remove_building_if_exists = {
 		WHICH = building_deployment_post
 	}
 
@@ -1957,9 +1862,9 @@ oxr_mdlc_planet_create_t3_world_colony = {
 		reroll_deposits = yes
 		clear_blockers = yes
 		add_deposit = oxr_mdlc_d_world_machine_core
-		remove_building = building_deployment_post
-		# TODO: Specify district unique to the world type
-		add_building = oxr_mdlc_world_machines_building_auto_capital
+		
+		oxr_mdlc_planet_wm_automate_capital = yes
+
 		if = {
 			limit = {
 				has_planet_flag = rikk_mdlc_world_machine_suitable
@@ -2082,7 +1987,7 @@ oxr_mdlc_planet_add_building_to_primary_wm_district = {
 	# Helper to plant a building in the world-machine's primary district
 	# Just use a $BUILDING$ parameter
 	switch = {
-		trigger = planet_class
+		trigger = is_planet_class
 		xvcv_mdlc_pc_machine_ecu = {
 			add_building = {
 				district = xvcv_mdlc_pc_machine_ecu_district_cooling_primary
@@ -2151,6 +2056,105 @@ oxr_mdlc_planet_add_building_to_primary_wm_district = {
 				district = xvcv_mdlc_pc_ringworld_machine_auto_district_primary
 				zone = oxr_mdlc_origin_wm_zone_default
 				building = $BUILDING$
+			}
+		}
+	}
+}
+
+oxr_mdlc_planet_balance_automaton_pops = {
+	# Bump up number of pops to 300, if they are too low
+	# Used when creating a colony
+	if = {
+		limit = {
+			pop_amount < 300
+		}
+		set_variable = {
+			which = oxr_mdlc_current_population_tmp
+			value = trigger:pop_amount
+		}
+		set_variable = {
+			which = oxr_mdlc_planet_population_target_tmp
+			value = 300
+		}
+		subtract_variable = {
+			which = oxr_mdlc_planet_population_target_tmp
+			value = oxr_mdlc_current_population_tmp
+		}
+		create_pop_group = {
+			species = from.founder_species
+			size = oxr_mdlc_planet_population_target_tmp
+		}
+		clear_variable = oxr_mdlc_current_population_tmp
+		clear_variable = oxr_mdlc_planet_population_target_tmp
+	}
+}
+
+
+oxr_mdlc_planet_wm_automate_capital = {
+	planet = {
+		if = {
+			limit = { has_building = building_deployment_post }
+			remove_building = building_deployment_post
+			oxr_mdlc_planet_add_building_to_primary_wm_district = {
+				BUILDING = oxr_mdlc_world_machines_building_auto_capital
+			}
+		}
+		else_if = {
+			limit = { has_building = building_machine_capital }
+			remove_building = building_machine_capital
+			oxr_mdlc_planet_add_building_to_primary_wm_district = {
+				BUILDING = oxr_mdlc_world_machines_building_auto_capital_upgraded
+			}
+		}
+		else_if = {
+			limit = { has_building = building_machine_major_capital }
+			remove_building = building_machine_major_capital
+			oxr_mdlc_planet_add_building_to_primary_wm_district = {
+				BUILDING = oxr_mdlc_world_machines_building_auto_capital_major_upgraded
+			}
+		}
+		else_if = {
+			limit = { has_building = building_machine_system_capital }
+			remove_building = building_machine_system_capital
+			oxr_mdlc_planet_add_building_to_primary_wm_district = {
+				BUILDING = oxr_mdlc_world_machines_building_auto_capital_fully_upgraded
+			}
+		}
+	}
+	# Seriously.. remove this building already!
+	planet = {
+		remove_building = building_deployment_post
+	}
+}
+
+oxr_mdlc_planet_wm_remove_capital_automation = {
+	planet = {
+		if = {
+			limit = { has_building = oxr_mdlc_world_machines_building_auto_capital }
+			remove_building = oxr_mdlc_world_machines_building_auto_capital
+			oxr_mdlc_planet_add_building_to_primary_wm_district = {
+				BUILDING = building_deployment_post
+			}
+		}
+		else_if = {
+			limit = { has_building = oxr_mdlc_world_machines_building_auto_capital_upgraded }
+			remove_building = oxr_mdlc_world_machines_building_auto_capital_upgraded
+			oxr_mdlc_planet_add_building_to_primary_wm_district = {
+				BUILDING = building_machine_capital
+			}
+		}
+		else_if = {
+			limit = { has_building = oxr_mdlc_world_machines_building_auto_capital_major_upgraded }
+			remove_building = oxr_mdlc_world_machines_building_auto_capital_major_upgraded
+			oxr_mdlc_planet_add_building_to_primary_wm_district = {
+				BUILDING = building_machine_major_capital
+			}
+		}
+		else_if = {
+			limit = { has_building = oxr_mdlc_world_machines_building_auto_capital_fully_upgraded }
+			remove_building = oxr_mdlc_world_machines_building_auto_capital_fully_upgraded
+			oxr_mdlc_planet_add_building_to_primary_wm_district = {
+				BUILDING = building_machine_system_capital
 			}
 		}
 	}
