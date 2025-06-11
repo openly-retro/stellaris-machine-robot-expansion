@@ -1372,15 +1372,7 @@ oxr_mdlc_planet_self_destruct = {
 
 # oxr_mdlc_origin_wm_main.500 after terraform finished
 oxr_mdlc_planet_create_world_machine_colony = {
-	if = {
-		limit = {
-			owner = {
-				has_oxr_mdlc_origin_world_machine_awakened = yes
-			}
-		}
-		change_pc = xvcv_mdlc_pc_machine_auto
-		log = "World Machine set to origin version of planet class on \\[This.GetName]"
-	}
+
 	create_colony = {
 		owner = from
 		species = from.owner_species
@@ -1389,26 +1381,83 @@ oxr_mdlc_planet_create_world_machine_colony = {
 	}
 	add_deposit = oxr_mdlc_d_world_machine_core
 	remove_building = building_deployment_post
-	if = {
-		limit = {
-			owner = {
-				has_oxr_mdlc_origin_world_machine_awakened = yes
+
+	# The below block is also in 'oxr_mdlc_planet_add_building_to_primary_wm_district'
+	# But I am not using that here, to avoid accidentally hitting the effect stack limit
+	switch = {
+		trigger = planet_class
+		xvcv_mdlc_pc_machine_ecu = {
+			add_building = {
+				district = xvcv_mdlc_pc_machine_ecu_district_cooling_primary
+				zone = oxr_mdlc_origin_wm_zone_default
+				building = oxr_mdlc_world_machines_building_auto_capital
 			}
 		}
-		add_building = {
-			district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
-			zone = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
-			building = oxr_mdlc_world_machines_building_auto_capital
+		xvcv_mdlc_pc_machine_ser = {
+			add_building = {
+				district = xvcv_mdlc_pc_machine_ser_district_cooling_primary
+				zone = oxr_mdlc_origin_wm_zone_default
+				building = oxr_mdlc_world_machines_building_auto_capital
+			}
+		}
+		xvcv_mdlc_pc_machine_cpu = {
+			add_building = {
+				district = xvcv_mdlc_pc_machine_cpu_district_cooling_primary
+				zone = oxr_mdlc_origin_wm_zone_default
+				building = oxr_mdlc_world_machines_building_auto_capital
+			}
+		}
+		xvcv_mdlc_pc_machine_auto = {
+			if = {
+				limit = {
+					owner = {
+						oxr_mdlc_planet_owner_can_build_wm_districts = yes
+						has_auth_machine_intelligence = no
+						has_oxr_mdlc_origin_world_machine_awakened = no
+					}
+				}
+				add_building = {
+					district = xvcv_mdlc_pc_machine_auto_district_city
+					zone = zone_default
+					building = oxr_mdlc_world_machines_building_auto_capital
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						has_xvcv_mdlc_ap_world_machines = yes
+						has_authority = auth_machine_intelligence
+						has_oxr_mdlc_origin_world_machine_awakened = no
+					}
+				}
+				add_building = {
+					district = xvcv_mdlc_pc_machine_auto_district_nexus
+					zone = zone_default
+					building = oxr_mdlc_world_machines_building_auto_capital
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						has_oxr_mdlc_origin_world_machine_awakened = yes
+					}
+				}
+				add_building = {
+					district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
+					zone = oxr_mdlc_origin_wm_zone_default
+					building = oxr_mdlc_world_machines_building_auto_capital
+				}
+			}
+		}
+		xvcv_mdlc_pc_ringworld_machine_auto = {
+			add_building = {
+				district = xvcv_mdlc_pc_ringworld_machine_auto_district_primary
+				zone = oxr_mdlc_origin_wm_zone_default
+				building = oxr_mdlc_world_machines_building_auto_capital
+			}
 		}
 	}
-	else = {
-		add_building = {
-			district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
-			zone = zone_default
-			building = oxr_mdlc_world_machines_building_auto_capital
-		}
-	}
-	# add_building = oxr_mdlc_world_machines_building_auto_capital
+
 	if = {
 		limit = {
 			has_planet_flag = rikk_mdlc_world_machine_suitable
@@ -1416,6 +1465,7 @@ oxr_mdlc_planet_create_world_machine_colony = {
 		rikk_mdlc_planet_wm_add_random_blockers = yes
 		remove_planet_flag = rikk_mdlc_world_machine_suitable
 	}
+
 	if = {
 		limit = {
 			from = {
@@ -2026,3 +2076,80 @@ oxr_mdlc_origin_wm_add_building_to_auto_wm_main = {
 	}
 }
 
+oxr_mdlc_planet_add_building_to_primary_wm_district = {
+	# Helper to plant a building in the world-machine's primary district
+	# Just use a $BUILDING$ parameter
+	switch = {
+		trigger = planet_class
+		xvcv_mdlc_pc_machine_ecu = {
+			add_building = {
+				district = xvcv_mdlc_pc_machine_ecu_district_cooling_primary
+				zone = oxr_mdlc_origin_wm_zone_default
+				building = $BUILDING$
+			}
+		}
+		xvcv_mdlc_pc_machine_ser = {
+			add_building = {
+				district = xvcv_mdlc_pc_machine_ser_district_cooling_primary
+				zone = oxr_mdlc_origin_wm_zone_default
+				building = $BUILDING$
+			}
+		}
+		xvcv_mdlc_pc_machine_cpu = {
+			add_building = {
+				district = xvcv_mdlc_pc_machine_cpu_district_cooling_primary
+				zone = oxr_mdlc_origin_wm_zone_default
+				building = $BUILDING$
+			}
+		}
+		xvcv_mdlc_pc_machine_auto = {
+			if = {
+				limit = {
+					owner = {
+						oxr_mdlc_planet_owner_can_build_wm_districts = yes
+						has_auth_machine_intelligence = no
+						has_oxr_mdlc_origin_world_machine_awakened = no
+					}
+				}
+				add_building = {
+					district = xvcv_mdlc_pc_machine_auto_district_city
+					zone = zone_default
+					building = $BUILDING$
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						has_xvcv_mdlc_ap_world_machines = yes
+						has_authority = auth_machine_intelligence
+						has_oxr_mdlc_origin_world_machine_awakened = no
+					}
+				}
+				add_building = {
+					district = xvcv_mdlc_pc_machine_auto_district_nexus
+					zone = zone_default
+					building = $BUILDING$
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						has_oxr_mdlc_origin_world_machine_awakened = yes
+					}
+				}
+				add_building = {
+					district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
+					zone = oxr_mdlc_origin_wm_zone_default
+					building = $BUILDING$
+				}
+			}
+		}
+		xvcv_mdlc_pc_ringworld_machine_auto = {
+			add_building = {
+				district = xvcv_mdlc_pc_ringworld_machine_auto_district_primary
+				zone = oxr_mdlc_origin_wm_zone_default
+				building = $BUILDING$
+			}
+		}
+	}
+}
