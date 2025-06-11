@@ -247,25 +247,15 @@ oxr_mdlc_world_machines_building_auto_capital = {
 		COST = @b2_minerals
 		UPKEEP = @b2_upkeep
 		BUILD_TIME = @b2_time
-		HOUSING_ADD = 3
-		AMENITIES_ADD = 5
-		HIBERNATION_JOBS = 3
-		MAX_BUILDINGS_ADD = 0
-		DEFENSE_ARMIES = 0
 		# allow upgrade if >= this many districts
 		# 0 in this instance
 		REQ_MIN_NUM_DISTRICTS = 0
+		TIER = 1
 	}
 
 	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 
-	convert_to = {
-		building_hive_capital
-		building_colony_shelter
-		building_ancient_control_center
-		building_ancient_palace
-		building_machine_capital_nanotech
-	}
+	inline_script = planet/buildings/convert_to/oxr_capital_convert_t1
 
 	prerequisites = { "tech_planetary_government" }
 
@@ -280,38 +270,23 @@ oxr_mdlc_world_machines_building_auto_capital_upgraded = {
 		COST = @b2_minerals
 		UPKEEP = @b2_upkeep
 		BUILD_TIME = @b2_time
-		HOUSING_ADD = 4
-		AMENITIES_ADD = 5
-		HIBERNATION_JOBS = 4
-		MAX_BUILDINGS_ADD = @buildings_t2
-		DEFENSE_ARMIES = @tier_2_capital_defense_armies
 		# allow upgrade if >= this many districts
 		REQ_MIN_NUM_DISTRICTS = @oxr_capital_upgrade_t2_districts_num
+		TIER = 2
 	}
 
 	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 
-	convert_to = {
-		building_hive_capital
-		building_colony_shelter
-		building_ancient_control_center
-		building_ancient_palace
-		building_machine_capital_nanotech
-	}
+	inline_script = planet/buildings/convert_to/oxr_capital_convert_t2
 
 	prerequisites = {
 		"tech_planetary_government"
 	}
 
-	# boost production w/ capital productivity tech
-	# inline_script = planet/buildings/auto/oxr_mdlc_capital_t2
-
 	upgrades = {
 		oxr_mdlc_world_machines_building_auto_capital_major_upgraded
 	}
-	building_sets = {
-		oxr_mdlc_building_set_wm_capital
-	}
+
 }
 # T3 (Major)
 oxr_mdlc_world_machines_building_auto_capital_major_upgraded = {
@@ -320,24 +295,14 @@ oxr_mdlc_world_machines_building_auto_capital_major_upgraded = {
 		COST = @b3_minerals
 		UPKEEP = @b3_upkeep
 		BUILD_TIME = @b3_time
-		HOUSING_ADD = 5
-		AMENITIES_ADD = 5
-		HIBERNATION_JOBS = 5
-		MAX_BUILDINGS_ADD = @buildings_t3
-		DEFENSE_ARMIES = @tier_3_capital_defense_armies
 		# allow upgrade if >= this many districts
 		REQ_MIN_NUM_DISTRICTS = @oxr_capital_upgrade_t3_districts_num
+		TIER = 3
 	}
 
 	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 
-	convert_to = {
-		building_hive_major_capital
-		building_major_capital
-		building_ancient_control_center
-		building_ancient_palace
-		building_machine_major_capital_nanotech
-	}
+	inline_script = planet/buildings/convert_to/oxr_capital_convert_t3
 
 	prerequisites = {
 		"tech_colonial_centralization"
@@ -346,9 +311,7 @@ oxr_mdlc_world_machines_building_auto_capital_major_upgraded = {
 	upgrades = {
 		"oxr_mdlc_world_machines_building_auto_capital_fully_upgraded"
 	}
-	building_sets = {
-		oxr_mdlc_building_set_wm_capital
-	}
+
 }
 # T4 (System)
 oxr_mdlc_world_machines_building_auto_capital_fully_upgraded = {
@@ -358,42 +321,24 @@ oxr_mdlc_world_machines_building_auto_capital_fully_upgraded = {
 		COST = @b4_minerals
 		UPKEEP = @b4_upkeep
 		BUILD_TIME = @b4_time
-		HOUSING_ADD = 6
-		AMENITIES_ADD = 6
-		HIBERNATION_JOBS = 6
-		MAX_BUILDINGS_ADD = @buildings_t4
-		DEFENSE_ARMIES = @tier_5_capital_defense_armies
 		# allow upgrade if >= this many districts
 		REQ_MIN_NUM_DISTRICTS = @oxr_capital_upgrade_t4_districts_num
+		TIER = 4
 	}
 
 	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 
-	convert_to = {
-		building_hive_major_capital
-		building_major_capital
-		building_machine_major_capital
-		building_ancient_control_center
-		building_ancient_palace
-		building_machine_system_capital_nanotech
-	}
+	inline_script = planet/buildings/convert_to/oxr_capital_convert_t4
 
 	prerequisites = { "tech_galactic_administration" }
-
-	# boost production w/ capital productivity tech
-	# inline_script = planet/buildings/auto/oxr_mdlc_capital_t2
-	# inline_script = planet/buildings/auto/oxr_mdlc_capital_t3
-	# inline_script = planet/buildings/auto/oxr_mdlc_capital_t4
 
 	upgrades = {
 		"oxr_mdlc_world_machines_building_auto_imperial_capital"
 	}
-	building_sets = {
-		oxr_mdlc_building_set_wm_capital
-	}
+
 }
 
-# Imperial Capital - T6
+# Imperial Capital - T5
 oxr_mdlc_world_machines_building_auto_imperial_capital = {
 	# not including this script bc potential is different
 	# inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
@@ -404,20 +349,15 @@ oxr_mdlc_world_machines_building_auto_imperial_capital = {
 		COST = @b4_minerals
 		UPKEEP = @b4_upkeep
 		BUILD_TIME = @b4_time
-		HOUSING_ADD = 6
-		AMENITIES_ADD = 6
-		HIBERNATION_JOBS = 6
-		MAX_BUILDINGS_ADD = @buildings_t4
-		DEFENSE_ARMIES = @tier_5_capital_defense_armies
 		# allow upgrade if >= this many districts
 		REQ_MIN_NUM_DISTRICTS = @oxr_capital_upgrade_t5_districts_num
+		TIER = 5
 	}
 
 	potential = {
 		exists = owner
 		owner = {
 			has_origin = oxr_mdlc_origin_world_machine_awakened
-			# oxr_mdlc_origin_world_machine_feature_enabled = yes
 			is_galactic_emperor = yes
 		}
 	}
@@ -425,24 +365,8 @@ oxr_mdlc_world_machines_building_auto_imperial_capital = {
 		has_origin = oxr_mdlc_origin_world_machine_awakened
 	}
 
-	convert_to = {
-		building_hive_major_capital
-		building_machine_system_capital
-		building_system_capital
-		building_hab_major_capital
-		building_ancient_control_center
-		building_ancient_palace
-	}
+	inline_script = planet/buildings/convert_to/oxr_capital_convert_t5
 
-	prerequisites = { }
-
-	# boost production w/ capital productivity tech
-	# inline_script = planet/buildings/auto/oxr_mdlc_capital_t2
-	# inline_script = planet/buildings/auto/oxr_mdlc_capital_t3
-	# inline_script = planet/buildings/auto/oxr_mdlc_capital_t4
-	building_sets = {
-		oxr_mdlc_building_set_wm_capital
-	}
 }
 
 #### MANUFACTURING ###
