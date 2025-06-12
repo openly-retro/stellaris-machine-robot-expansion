@@ -206,7 +206,8 @@ xvcv_mdlc_bio_robot_clone_technician = {
 		}
 		modifier = {
 			factor = 1.5
-			has_building = xvcv_mdlc_building_bio_robot_clone_plants
+			# in pop_group scope
+			planet = { has_building = xvcv_mdlc_building_bio_robot_clone_plants }
 		}
 		modifier = {
 			factor = 0.5
@@ -220,86 +221,86 @@ xvcv_mdlc_bio_robot_clone_technician = {
 		}
 	}
 }
-xvcv_mdlc_installation_dismantler = {
-	category = worker
+# xvcv_mdlc_installation_dismantler = {
+# 	category = worker
 
-	swappable_data = {
-		default = {
-			condition_string = WORKER_JOB_TRIGGER
-			building_icon = building_ruined
-		}
-	}
+# 	swappable_data = {
+# 		default = {
+# 			condition_string = WORKER_JOB_TRIGGER
+# 			building_icon = building_ruined
+# 		}
+# 	}
 
-	possible_pre_triggers = {
-		has_owner = yes
-		is_being_purged = no
-		is_being_assimilated = no
-		is_sapient = yes
-	}
+# 	possible_pre_triggers = {
+# 		has_owner = yes
+# 		is_being_purged = no
+# 		is_being_assimilated = no
+# 		is_sapient = yes
+# 	}
 
-	possible_precalc = can_fill_worker_job
+# 	possible_precalc = can_fill_worker_job
 
-	resources = {
-		category = planet_miners
-		produces = { minerals = 6 }
-		upkeep = {
-			trigger = {
-				exists = owner
-				owner = { has_edict = mining_subsidies }
-			}
-			energy = 0.5
-		}
-	}
+# 	resources = {
+# 		category = planet_miners
+# 		produces = { minerals = 6 }
+# 		upkeep = {
+# 			trigger = {
+# 				exists = owner
+# 				owner = { has_edict = mining_subsidies }
+# 			}
+# 			energy = 0.5
+# 		}
+# 	}
 
-	weight = {
-		weight = @worker_job_weight
-		mult = value:job_weights_modifier|JOB|xvcv_mdlc_installation_dismantler|RESOURCE|minerals|
-		modifier = {
-			factor = 10
-			is_enslaved = yes
-			can_take_servant_job = no
-			NOT = { has_slavery_type = { type = slavery_indentured } }
-		}
-		modifier = {
-			factor = 3
-			OR = {
-				is_non_sapient_robot = yes
-				is_shackled_robot = yes
-			}
-			can_take_servant_job = no
-			owner = { has_technology = tech_droid_workers }
-		}
-		modifier = {
-			factor = 200
-			OR = {
-				is_non_sapient_robot = yes
-				is_shackled_robot = yes
-			}
-			can_take_servant_job = no
-			owner = { NOT = { has_technology = tech_droid_workers } }
-		}
-		modifier = {
-			factor = 0.25
-			can_take_servant_job = yes
-		}
+# 	weight = {
+# 		weight = @worker_job_weight
+# 		mult = value:job_weights_modifier|JOB|xvcv_mdlc_installation_dismantler|RESOURCE|minerals|
+# 		modifier = {
+# 			factor = 10
+# 			is_enslaved = yes
+# 			can_take_servant_job = no
+# 			NOT = { has_slavery_type = { type = slavery_indentured } }
+# 		}
+# 		modifier = {
+# 			factor = 3
+# 			OR = {
+# 				is_non_sapient_robot = yes
+# 				is_shackled_robot = yes
+# 			}
+# 			can_take_servant_job = no
+# 			owner = { has_technology = tech_droid_workers }
+# 		}
+# 		modifier = {
+# 			factor = 200
+# 			OR = {
+# 				is_non_sapient_robot = yes
+# 				is_shackled_robot = yes
+# 			}
+# 			can_take_servant_job = no
+# 			owner = { NOT = { has_technology = tech_droid_workers } }
+# 		}
+# 		modifier = {
+# 			factor = 0.25
+# 			can_take_servant_job = yes
+# 		}
 
-		# low income modifier
-		modifier = {
-			factor = 1.1
-			exists = planet
-			planet = {
-				has_available_jobs = xvcv_mdlc_installation_dismantler
-			}
-			exists = owner
-			owner = {
-				is_ai = yes
-				has_monthly_income = {
-					resource = minerals
-					value < 0
-				}
-			}
-		}
-	}
-}
+# 		# low income modifier
+# 		modifier = {
+# 			factor = 1.1
+# 			exists = planet
+# 			planet = {
+# 				has_available_jobs = xvcv_mdlc_installation_dismantler
+# 			}
+# 			exists = owner
+# 			owner = {
+# 				is_ai = yes
+# 				has_monthly_income = {
+# 					resource = minerals
+# 					value < 0
+# 				}
+# 			}
+# 		}
+# 	}
+# }
 
 # EOF
