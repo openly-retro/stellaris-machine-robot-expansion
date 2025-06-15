@@ -135,6 +135,7 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 		# Install world machine core
 		add_deposit = oxr_mdlc_d_world_machine_core
 	}
+
 	# Automate capital
 	planet = {
 		oxr_mdlc_planet_wm_automate_capital = yes
@@ -146,10 +147,6 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 			tech = oxr_mdlc_tech_world_machines_unlocked
 			message = no
 		}
-		# give_technology = {
-		# 	tech = tech_terrestrial_sculpting
-		# 	message = no
-		# }
 	}
 	# Set up WMC counter vars
 	owner = {
@@ -1349,19 +1346,33 @@ oxr_mdlc_planet_self_destruct = {
 	reset_planet = yes
 }
 
-# oxr_mdlc_origin_wm_main.500 after terraform finished
+
+
 oxr_mdlc_planet_create_world_machine_colony = {
+	# Called via:
+	# oxr_mdlc_origin_wm_main.500 after terraform finished
+	# oxr_mdlc_decision_origin_wm_reactivate_colony
 
-	create_colony = {
-		owner = from
-		species = from.owner_species
-		# Set name .. read a variable on the planet as a list index
-		# then according to that, set the name
-	}
 	planet = {
-		add_deposit = oxr_mdlc_d_world_machine_core
+		create_colony = {
+			owner = from
+			species = from.owner_species
+			# Set name .. read a variable on the planet as a list index
+			# then according to that, set the name
+		}
 	}
 
+	planet = {
+		if = {
+			limit = {
+				NOT = { has_deposit = oxr_mdlc_d_world_machine_core }
+			}
+			add_deposit = oxr_mdlc_d_world_machine_core
+		}
+	}
+
+	oxr_mdlc_planet_wm_automate_capital = yes
+	# Twice, because the game really just doesn't want to remove the default colony capital
 	oxr_mdlc_planet_wm_automate_capital = yes
 
 	if = {
@@ -1379,6 +1390,10 @@ oxr_mdlc_planet_create_world_machine_colony = {
 					has_technology = oxr_mdlc_tech_world_machine_planetary_mastery
 				}
 			}
+			# The planet isn't being reclaimed/reactivated
+			NOT = {
+				has_planet_flag = oxr_mdlc_origin_world_machine_colony_reactivation
+			}
 		}
 		oxr_mdlc_origin_wm_planet_random_add_all_blockers = yes
 		# Don't trigger the event post-terraform if planet was ruined
@@ -1391,6 +1406,7 @@ oxr_mdlc_planet_create_world_machine_colony = {
 		else = {
 			planet_event = {
 				id = oxr_mdlc_origin_wm_main.501
+				days = 1
 			}
 		}
 	}
@@ -1404,12 +1420,6 @@ oxr_mdlc_planet_create_world_machine_colony = {
 		oxr_mdlc_origin_world_machine_create_digsite_for_blocker = yes
 	}
 	add_modifier = { modifier = "planet_population_control_gestalt" days = -1 }
-	from = {
-		oxr_mdlc_country_world_machine_cores_recalc_amount = yes
-		fire_on_action = {
-			on_action = on_world_machine_core_terraforming_complete
-		}
-	}
 
 	set_saved_date = {
 		key = oxr_mdlc_world_machine_founded_date
@@ -1462,7 +1472,35 @@ oxr_mdlc_planet_create_world_machine_colony = {
 	# Set these vars
 	oxr_mdlc_origin_world_machine_calc_max_district_armies = yes
 
+	if = {
+		limit = {
+			OR = {
+				is_planet_class = xvcv_mdlc_pc_machine_cpu
+				is_planet_class = xvcv_mdlc_pc_machine_ser
+				is_planet_class = xvcv_mdlc_pc_machine_ecu
+			}
+		}
+		xvcv_mdlc_planet_wm_calc_output_value = yes
+	}
+
+	# Clean up flags
+	planet = {
+		if = {
+			limit = {
+				has_planet_flag = oxr_mdlc_origin_world_machine_colony_reactivation
+			}
+			remove_planet_flag = oxr_mdlc_origin_world_machine_colony_reactivation
+		}
+	}
+
+	from = {
+		oxr_mdlc_country_world_machine_cores_recalc_amount = yes
+		fire_on_action = {
+			on_action = on_world_machine_core_terraforming_complete
+		}
+	}
 }
+
 
 oxr_mdlc_planet_do_wm_origin_things_after_project = {
 	# Address new WMs but also existing WMs
@@ -2088,7 +2126,6 @@ oxr_mdlc_planet_balance_automaton_pops = {
 		clear_variable = oxr_mdlc_planet_population_target_tmp
 	}
 }
-
 
 oxr_mdlc_planet_wm_automate_capital = {
 	planet = {
