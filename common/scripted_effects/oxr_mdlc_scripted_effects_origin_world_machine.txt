@@ -249,12 +249,11 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 			}
 		}
 
-		### Free up a slot
-		if = {
-			limit = { has_building = building_machine_assembly_plant }
-			remove_building = building_machine_assembly_plant
-		}
+		### Free up slots
+		remove_if_has_building = { WHICH = building_machine_assembly_plant }
+		remove_if_has_building = { WHICH = building_drone_storage }
 	}
+
 	planet = {
 		# Food adjustment
 		if = {

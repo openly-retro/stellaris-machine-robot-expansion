@@ -3653,7 +3653,9 @@ planet_event = {
 							}
 						}
 					}
-					prev = { create_pop_group = { species = prev.species } }
+					prev = {
+						create_pop_group = { species = prev.species }
+					}
 				}
 				xvcv_mdlc_civic_assimilating_swarm_control_half = {
 					if = {
@@ -3682,8 +3684,10 @@ planet_event = {
 							homeworld = this.home_planet
 						}
 					}
-					prev = { create_pop_group = { species = last_created_species } }
-					last_created_pop_group = {
+					prev = {
+						create_pop_group = { species = last_created_species }
+					}
+					event_target:last_created_pop_group = {
 						xvcv_mdlc_modify_species_clear_pc_preference_traits_effect = yes
 						xvcv_mdlc_modify_species_change_traits_for_lithoid_effect = yes
 						if = {
