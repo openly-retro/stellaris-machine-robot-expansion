@@ -21,6 +21,13 @@ xvcv_mdlc_organic_foundry = {
 		has_citizenship_type = { type = citizenship_organic_trophy }
 	}
 
+	tags = {
+		xvcv_mdlc_organic_foundry	# job id for use with 'num_pops_with_job_tag'
+		oxr_mdlc_job_tag_bio_trophy			# custom mod category
+		job_tag_alloys				# I would like to standardize a job_tag prefix
+		alloys
+	}
+
 	resources = {
 		category = planet_bio_trophies
 		produces = {
@@ -58,7 +65,16 @@ xvcv_mdlc_organic_foundry = {
 		mult = value:job_weights_modifier|JOB|xvcv_mdlc_organic_foundry|RESOURCE|alloys|
 		modifier = {
 			factor = 5
-			any_planet_pop_has_job_type = xvcv_mdlc_organic_foundry
+			planet = {
+				num_pops_with_job_tag = {
+					tags = { xvcv_mdlc_organic_foundry }
+					value > 0
+				}
+			}
+			# num_assigned_jobs = {
+			# 	job = xvcv_mdlc_organic_foundry
+			# 	value > 0
+			# }
 		}
 	}
 }
@@ -82,6 +98,12 @@ xvcv_mdlc_organic_artisan = {
 		has_citizenship_type = { type = citizenship_organic_trophy }
 	}
 
+	tags = {
+		xvcv_mdlc_organic_artisan
+		oxr_mdlc_job_tag_bio_trophy
+		consumer_goods
+	}
+
 	resources = {
 		# category = planet_artisans
 		category = planet_bio_trophies
@@ -94,7 +116,10 @@ xvcv_mdlc_organic_artisan = {
 		mult = value:job_weights_modifier|JOB|xvcv_mdlc_organic_artisan|RESOURCE|consumer_goods|
 		modifier = {
 			factor = 5
-			any_planet_pop_has_job_type = { JOB = xvcv_mdlc_organic_artisan }
+			num_assigned_jobs = {
+				job = xvcv_mdlc_organic_artisan
+				value > 0
+			}
 		}
 		# low income modifier
 		modifier = {
@@ -131,6 +156,11 @@ xvcv_mdlc_organic_researcher = {
 
 	possible = {
 		has_citizenship_type = { type = citizenship_organic_trophy }
+	}
+	tags = {
+		xvcv_mdlc_organic_researcher
+		oxr_mdlc_job_tag_bio_trophy
+		research
 	}
 
 	resources = {
@@ -173,6 +203,11 @@ xvcv_mdlc_organic_bureaucrat = {
 	possible = {
 		has_citizenship_type = { type = citizenship_organic_trophy }
 	}
+	tags = {
+		xvcv_mdlc_organic_bureaucrat
+		oxr_mdlc_job_tag_bio_trophy
+		unity
+	}
 
 	resources = {
 		# category = planet_administrators
@@ -209,6 +244,14 @@ xvcv_mdlc_organic_healthcare = {
 
 	possible = {
 		has_citizenship_type = { type = citizenship_organic_trophy }
+	}
+	tags = {
+		xvcv_mdlc_organic_healthcare
+		oxr_mdlc_job_tag_bio_trophy
+		bio_trophy
+		pop_growth
+		pop_assembly
+		amenities
 	}
 
 	planet_modifier = {
@@ -267,6 +310,11 @@ xvcv_mdlc_organic_chemist = {
 	possible = {
 		has_citizenship_type = { type = citizenship_organic_trophy }
 	}
+	tags = {
+		xvcv_mdlc_organic_chemist
+		oxr_mdlc_job_tag_bio_trophy
+		volatile_motes
+	}
 
 	resources = {
 		# category = planet_chemists
@@ -307,6 +355,11 @@ xvcv_mdlc_organic_gas_refiner = {
 	possible = {
 		has_citizenship_type = { type = citizenship_organic_trophy }
 	}
+	tags = {
+		xvcv_mdlc_organic_gas_refiner
+		oxr_mdlc_job_tag_bio_trophy
+		exotic_gases
+	}
 
 	resources = {
 		category = planet_bio_trophies
@@ -345,6 +398,11 @@ xvcv_mdlc_organic_translucer = {
 
 	possible = {
 		has_citizenship_type = { type = citizenship_organic_trophy }
+	}
+	tags = {
+		xvcv_mdlc_organic_translucer
+		oxr_mdlc_job_tag_bio_trophy
+		rare_crystals
 	}
 
 	resources = {
@@ -391,6 +449,11 @@ xvcv_mdlc_organic_roboticist = {
 	planet_modifier = {
 		planet_pop_assembly_add = 1
 	}
+	tags = {
+		xvcv_mdlc_organic_roboticist
+		oxr_mdlc_job_tag_bio_trophy
+		pop_assembly
+	}
 
 	resources = {
 		category = planet_bio_trophies
@@ -429,6 +492,12 @@ xvcv_mdlc_organic_enforcer = {
 	resources = {
 		category = planet_bio_trophies
 		produces = { unity = 1 }
+	}
+	tags = {
+		xvcv_mdlc_organic_enforcer
+		oxr_mdlc_job_tag_bio_trophy
+		crime
+		enforcer
 	}
 
 	planet_modifier = {
@@ -510,6 +579,11 @@ xvcv_mdlc_organic_administrator = {
 	possible = {
 		has_citizenship_type = { type = citizenship_organic_trophy }
 	}
+	tags = {
+		xvcv_mdlc_organic_administrator
+		oxr_mdlc_job_tag_bio_trophy
+		unity
+	}
 
 	resources = {
 		category = planet_bio_trophies
@@ -550,6 +624,11 @@ oxr_mdlc_organic_gardener = {
 	possible = {
 		has_citizenship_type = { type = citizenship_organic_trophy }
 	}
+	tags = {
+		oxr_mdlc_organic_gardener
+		oxr_mdlc_job_tag_bio_trophy
+		food
+	}
 
 	resources = {
 		category = planet_bio_trophies
@@ -589,389 +668,6 @@ oxr_mdlc_organic_gardener = {
 		modifier = {
 			factor = 1.5
 			any_planet_pop_has_job_type = { JOB = oxr_mdlc_organic_gardener }
-		}
-	}
-}
-
-xvcv_mdlc_virtual_researcher = {
-	category = specialist
-
-	swappable_data = {
-		default = {
-			condition_string = SPECIALIST_JOB_TRIGGER
-			building_icon = building_research_lab_1
-		}
-	}
-
-	possible_pre_triggers = {
-		has_owner = yes
-		is_being_purged = no
-		is_being_assimilated = no
-		is_sapient = yes
-	}
-
-	possible_precalc = can_fill_specialist_job
-	possible = {
-		complex_specialist_job_check_trigger = yes
-	}
-
-	resources = {
-		category = planet_researchers
-		produces = {
-			physics_research = 4
-			engineering_research = 4
-			society_research = 4
-		}
-		produces = {
-			trigger = {
-				exists = owner
-				owner = { has_valid_civic = civic_technocracy }
-			}
-			unity = 1
-		}
-		upkeep = {
-			consumer_goods = 2
-		}
-		upkeep = {
-			trigger = {
-				exists = owner
-				owner = { has_valid_civic = civic_technocracy }
-			}
-			consumer_goods = 1
-		}
-	}
-
-	weight = {
-		weight = @complex_drone_job_weight
-		mult = value:job_weights_research_modifier|JOB|xvcv_mdlc_virtual_researcher|
-		modifier = {
-			factor = 0.2
-			has_citizenship_rights = no
-			NOT = { has_trait = trait_mechanical }
-		}
-		modifier = {
-			factor = 2
-			has_living_standard = { type = living_standard_academic_privilege }
-		}
-		modifier = {
-			factor = 0.1
-			can_take_servant_job = yes
-		}
-		modifier = {
-			factor = 1.5
-			any_planet_pop_has_job_type = { JOB = xvcv_mdlc_virtual_researcher }
-		}
-		modifier = {
-			factor = 0.8
-			is_enslaved = yes
-			has_slavery_type = { type = slavery_indentured }
-		}
-	}
-}
-xvcv_mdlc_virtual_merchant = {
-	category = specialist
-
-	swappable_data = {
-		default = {
-			condition_string = SPECIALIST_JOB_TRIGGER
-			building_icon = building_galactic_stock_exchange
-		}
-	}
-
-	possible_pre_triggers = {
-		has_owner = yes
-		is_enslaved = no
-		is_being_purged = no
-		is_being_assimilated = no
-		is_sapient = yes
-	}
-
-	possible_precalc = can_fill_ruler_job
-
-	triggered_planet_modifier = {
-		trade_value_add = 12
-		mult = value:scripted_modifier_mult|MODIFIER|planet_jobs_trade_produces_mult|
-	}
-
-	resources = {
-		category = planet_merchants
-		produces = {
-			trigger = {
-				exists = owner
-				owner = { has_civic = civic_merchant_guilds	}
-			}
-			unity = 2
-		}
-	}
-
-	weight = {
-		weight = @ruler_job_weight
-		mult = value:scripted_modifier_job_weight_mult|MODIFIER|planet_jobs_trade_produces_mult|
-		modifier = {
-			factor = 5
-			any_planet_pop_has_job_type = { JOB = xvcv_mdlc_virtual_merchant }
-		}
-		# crisis purge
-		modifier = {
-			factor = 0.01
-			exists = planet
-			exists = planet.controller
-			planet.controller = {
-				OR = {
-					is_country_type = swarm
-					is_country_type = ai_empire
-				}
-			}
-			OR = { # contingency won't purge itself
-				NOT = { exists = event_target:custodian_bot }
-				AND = {
-					exists = event_target:custodian_bot
-					NOT = { species = { is_same_value = event_target:custodian_bot } }
-				}
-			}
-		}
-	}
-}
-xvcv_mdlc_virtual_bureaucrat = {
-	category = specialist
-
-	swappable_data = {
-		default = {
-			condition_string = SPECIALIST_JOB_TRIGGER
-			building_icon = building_capital
-		}
-	}
-
-	possible_pre_triggers = {
-		has_owner = yes
-		is_being_purged = no
-		is_being_assimilated = no
-		is_sapient = yes
-	}
-
-	possible_precalc = can_fill_specialist_job
-	possible = {
-		complex_specialist_job_check_trigger = yes
-	}
-
-	resources = {
-		category = planet_administrators
-		produces = { unity = 4 }
-		upkeep = { consumer_goods = 2 }
-	}
-
-	triggered_planet_modifier = {
-		potential = {
-			exists = owner
-			owner = { has_valid_civic = civic_byzantine_bureaucracy }
-		}
-		modifier = {
-			planet_stability_add = 1
-		}
-	}
-
-	weight = {
-		weight = @specialist_job_weight
-		mult = value:job_weights_modifier|JOB|xvcv_mdlc_virtual_bureaucrat|RESOURCE|unity|
-		modifier = {
-			factor = 0.2
-			has_citizenship_rights = no
-			NOT = { has_trait = trait_mechanical }
-		}
-		modifier = {
-			factor = 0.1
-			can_take_servant_job = yes
-		}
-		modifier = {
-			factor = 1.5
-			any_planet_pop_has_job_type = { JOB = xvcv_mdlc_virtual_bureaucrat }
-		}
-	}
-}
-xvcv_mdlc_virtual_entertainer = {
-	category = specialist
-
-	swappable_data = {
-		default = {
-			condition_string = SPECIALIST_JOB_TRIGGER
-			building_icon = building_holo_theatres
-		}
-	}
-
-	possible_pre_triggers = {
-		has_owner = yes
-		is_being_purged = no
-		is_being_assimilated = no
-		is_sapient = yes
-	}
-
-	possible = {
-		entertainer_job_check_trigger = yes
-	}
-
-	triggered_country_modifier = {
-		planet_amenities_add = 5
-		mult = value:scripted_modifier_mult|MODIFIER|pop_job_amenities_mult|
-	}
-
-	triggered_planet_modifier = {
-		potential = {
-			exists = owner
-			owner = { is_pleasure_seeker = yes }
-		}
-		modifier = { logistic_growth_mult = 0.01 }
-	}
-
-	weight = {
-		weight = @high_prio_specialist_job_weight
-		mult = value:scripted_modifier_job_weight_mult|MODIFIER|pop_job_amenities_mult|
-		modifier = {
-			factor = 0.2
-			has_citizenship_rights = no
-			NOT = { has_trait = trait_mechanical }
-		}
-		modifier = {
-			factor = 3
-			has_trait = trait_robot_domestic_protocols
-			OR = {
-				is_non_sapient_robot = yes
-				is_shackled_robot = yes
-			}
-		}
-		modifier = {
-			factor = 1.5
-			any_planet_pop_has_job_type = { JOB = xvcv_mdlc_virtual_entertainer }
-		}
-		modifier = {
-			factor = 0.1
-			is_domestic_servant = yes
-		}
-		modifier = {
-			factor = 0.1
-			NOT = {
-				any_planet_pop_has_job_type = { JOB = xvcv_mdlc_virtual_entertainer }
-			}
-			exists = planet
-			planet = {
-				free_amenities > 5
-			}
-		}
-		modifier = {
-			factor = 2
-			NOT = {
-				any_planet_pop_has_job_type = { JOB = xvcv_mdlc_virtual_entertainer }
-			}
-			exists = planet
-			planet = {
-				free_amenities < 2
-				has_available_jobs = xvcv_mdlc_virtual_entertainer
-			}
-		}
-	}
-}
-xvcv_mdlc_virtual_calculator = {
-	category = complex_drone
-
-	swappable_data = {
-		default = {
-			condition_string = DRONE_JOB_TRIGGER
-			building_icon = building_research_lab_1
-		}
-	}
-
-	possible_pre_triggers = {
-		has_owner = yes
-		is_enslaved = no
-		is_being_purged = no
-		is_being_assimilated = no
-		is_sapient = yes
-	}
-
-	possible_precalc = can_fill_drone_job
-
-	possible = { NOT = { has_trait = trait_nerve_stapled } }
-
-	resources = {
-		category = planet_researchers
-		produces = {
-			physics_research = 4
-			engineering_research = 4
-			society_research = 4
-		}
-		upkeep = { energy = 4 }
-	}
-
-	weight = {
-		weight = @complex_drone_job_weight
-		mult = value:job_weights_research_modifier|JOB|xvcv_mdlc_virtual_calculator|
-		modifier = {
-			factor = 0.9
-			exists = owner
-			years_passed < 1
-			owner = { has_valid_civic = civic_machine_assimilator }
-			has_trait = trait_cybernetic
-		}
-	}
-}
-xvcv_mdlc_virtual_coordinator = {
-	category = complex_drone
-
-	swappable_data = {
-		default = {
-			condition_string = DRONE_JOB_TRIGGER
-			building_icon = building_machine_capital
-		}
-	}
-
-	possible_pre_triggers = {
-		has_owner = yes
-		is_enslaved = no
-		is_being_purged = no
-		is_being_assimilated = no
-		is_sapient = yes
-	}
-
-	possible_precalc = can_fill_drone_job
-
-	possible = { NOT = { has_trait = trait_nerve_stapled } }
-
-	resources = {
-		category = planet_administrators
-		produces = { unity = 4 }
-		upkeep = { energy = 4 }
-	}
-
-	triggered_planet_modifier = {
-		potential = {
-			planet = { has_modifier = planet_artifact_relays_machine }
-		}
-		modifier = {
-			planet_stability_add = 2
-			planet_jobs_simple_drone_produces_mult = 0.01
-		}
-	}
-	
-	triggered_planet_modifier = {
-		potential = {
-			exists = owner
-			owner = {
-				has_active_tradition = tr_synchronicity_integrated_preservation
-			}
-		}
-		modifier = {
-			planet_crime_no_happiness_add = -2
-		}
-	}
-
-	weight = {
-		weight = @synapse_drone_job_weight
-		mult = value:job_weights_modifier|JOB|xvcv_mdlc_virtual_coordinator|RESOURCE|unity|
-		modifier = {
-			factor = 0.9
-			exists = owner
-			years_passed < 1
-			owner = { has_valid_civic = civic_machine_assimilator }
-			has_trait = trait_cybernetic
 		}
 	}
 }
