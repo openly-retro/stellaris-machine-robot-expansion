@@ -84,9 +84,24 @@ oxr_yes = {
 any_planet_pop_has_job_type = {
 	# Helper for the old usage of 'has_job_type'
 	# which has to be used in pop or job scope now
+
+	# count_owned_pop_amount
+
 	any_owned_pop_job = {
 		has_job_type = $JOB$
 	}
 }
+
+oxr_mdlc_planet_num_base_researchers_between = {
+	check_variable_arithmetic = {
+		which = value:oxr_mdlc_planet_count_any_base_researcher_jobs
+		value > $MIN$
+	}
+	check_variable_arithmetic = {
+		which = value:oxr_mdlc_planet_count_any_base_researcher_jobs
+		value <= $MAX$
+	}
+}
+
 
 # EOF

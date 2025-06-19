@@ -755,6 +755,7 @@ xvcv_mdlc_decision_pop_commoditization = {
 		weight = 0
 	}
 }
+
 xvcv_mdlc_decision_goods_for_research_bonus = {
 	owned_planets_only = yes
 
@@ -762,95 +763,110 @@ xvcv_mdlc_decision_goods_for_research_bonus = {
 		category = decisions
 		cost = {
 			trigger = {
-				count_owned_pop_group = {
-					limit = { oxr_pop_group_job_is_base_researcher = yes }
-					count <= 1000
+				check_variable_arithmetic = {
+					which = value:oxr_mdlc_planet_count_any_base_researcher_jobs
+					value <= 100
 				}
+				# count_owned_pop = { limit = { has_job = calculator } count <= 10 }
 			}
 			consumer_goods = 200
 		}
 		cost = {
 			trigger = {
-				count_owned_pop_group = {
-					limit = { oxr_pop_group_job_is_base_researcher = yes }
-					count > 1000
+				oxr_mdlc_planet_num_base_researchers_between = {
+					MIN = 100
+					MAX = 200
 				}
-				count_owned_pop_group = {
-					limit = { oxr_pop_group_job_is_base_researcher = yes }
-					count <= 2000
-				}
+				# count_owned_pop = { limit = { has_job = calculator } count > 10 }
+				# count_owned_pop = { limit = { has_job = calculator } count <= 20 }
 			}
 			consumer_goods = 400
 		}
 		cost = {
 			trigger = {
-				count_owned_pop_group = {
-					limit = { oxr_pop_group_job_is_base_researcher = yes }
-					count > 2000
+				oxr_mdlc_planet_num_base_researchers_between = {
+					MIN = 200
+					MAX = 300
 				}
-				count_owned_pop_group = {
-					limit = { oxr_pop_group_job_is_base_researcher = yes }
-					count <= 3000
-				}
+				# count_owned_pop = { limit = { has_job = calculator } count > 20 }
+				# count_owned_pop = { limit = { has_job = calculator } count <= 30 }
 			}
 			consumer_goods = 600
 		}
 		cost = {
 			trigger = {
-				count_owned_pop_group = {
-					limit = { oxr_pop_group_job_is_base_researcher = yes }
-					count > 3000
+				oxr_mdlc_planet_num_base_researchers_between = {
+					MIN = 300
+					MAX = 400
 				}
-				count_owned_pop_group = {
-					limit = { oxr_pop_group_job_is_base_researcher = yes }
-					count <= 4000
-				}
+				# count_owned_pop = { limit = { has_job = calculator } count > 30 }
+				# count_owned_pop = { limit = { has_job = calculator } count <= 40 }
 			}
 			consumer_goods = 800
 		}
 		cost = {
 			trigger = {
-				count_owned_pop_group = {
-					limit = { oxr_pop_group_job_is_base_researcher = yes }
-					count > 4000
+				oxr_mdlc_planet_num_base_researchers_between = {
+					MIN = 400
+					MAX = 500
 				}
-				count_owned_pop_group = {
-					limit = { oxr_pop_group_job_is_base_researcher = yes }
-					count <= 5000
-				}
+				# count_owned_pop = { limit = { has_job = calculator } count > 40 }
+				# count_owned_pop = { limit = { has_job = calculator } count <= 50 }
 			}
 			consumer_goods = 1000
 		}
 		cost = {
 			trigger = {
-				count_owned_pop_group = { limit = { oxr_pop_group_job_is_base_researcher = yes } count > 5000 }
-				count_owned_pop_group = { limit = { oxr_pop_group_job_is_base_researcher = yes } count <= 6000 }
+				oxr_mdlc_planet_num_base_researchers_between = {
+					MIN = 500
+					MAX = 600
+				}
+				# count_owned_pop = { limit = { has_job = calculator } count > 50 }
+				# count_owned_pop = { limit = { has_job = calculator } count <= 60 }
 			}
 			consumer_goods = 1200
 		}
 		cost = {
 			trigger = {
-				count_owned_pop_group = { limit = { oxr_pop_group_job_is_base_researcher = yes } count > 6000 }
-				count_owned_pop_group = { limit = { oxr_pop_group_job_is_base_researcher = yes } count <= 7000 }
+				oxr_mdlc_planet_num_base_researchers_between = {
+					MIN = 600
+					MAX = 700
+				}
+				# count_owned_pop = { limit = { has_job = calculator } count > 60 }
+				# count_owned_pop = { limit = { has_job = calculator } count <= 70 }
 			}
 			consumer_goods = 1400
 		}
 		cost = {
 			trigger = {
-				count_owned_pop_group = { limit = { oxr_pop_group_job_is_base_researcher = yes } count > 7000 }
-				count_owned_pop_group = { limit = { oxr_pop_group_job_is_base_researcher = yes } count <= 8000 }
+				oxr_mdlc_planet_num_base_researchers_between = {
+					MIN = 700
+					MAX = 800
+				}
+				# count_owned_pop = { limit = { has_job = calculator } count > 70 }
+				# count_owned_pop = { limit = { has_job = calculator } count <= 80 }
 			}
 			consumer_goods = 1600
 		}
 		cost = {
 			trigger = {
-				count_owned_pop_group = { limit = { oxr_pop_group_job_is_base_researcher = yes } count > 8000 }
-				count_owned_pop_group = { limit = { oxr_pop_group_job_is_base_researcher = yes } count <= 9000 }
+				oxr_mdlc_planet_num_base_researchers_between = {
+					MIN = 800
+					MAX = 900
+				}
+				# count_owned_pop = { limit = { has_job = calculator } count > 80 }
+				# count_owned_pop = { limit = { has_job = calculator } count <= 90 }
 			}
 			consumer_goods = 1800
 		}
 		cost = {
-			trigger = { count_owned_pop_group = { limit = { oxr_pop_group_job_is_base_researcher = yes } count > 9000 } }
+			trigger = {
+				check_variable_arithmetic = {
+					which = value:oxr_mdlc_planet_count_any_base_researcher_jobs
+					value > 900
+				}
+				# count_owned_pop = { limit = { has_job = calculator } count > 90 }
+			}
 			consumer_goods = 2000
 		}
 	}
