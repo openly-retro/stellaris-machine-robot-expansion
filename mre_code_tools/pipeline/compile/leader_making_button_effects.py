@@ -89,7 +89,7 @@ def gen_xvcv_mdlc_leader_making_start_button_effect(organized_traits_dict, for_c
     indentation = "                        "
     leader_making_target_conditional = (
         "    if = {{ limit = {{ prev = {{ has_country_flag = xvcv_mdlc_leader_{for_class}_{trait_name} }} }} "
-        "add_trait_no_notify = {trait_name} }}"
+        "add_trait = {{ trait = {trait_name} show_message = no }} }}"
     )
     header = """
 #{leader_class}
@@ -113,8 +113,8 @@ event_target:xvcv_mdlc_leader_making_target = {{"""
                 leader_making_target_conditional.format(for_class=for_class, trait_name=subclass)
             )
     # Append memory backup and shared memory
-    conditional_statement_list.append(f"""    if = {{ limit = {{ prev = {{ has_country_flag = xvcv_mdlc_leader_{for_class}_xvcv_mdlc_leader_trait_memory_backup }} }} add_trait_no_notify = xvcv_mdlc_leader_trait_memory_backup }}
-    if = {{ limit = {{ prev = {{ has_country_flag = xvcv_mdlc_leader_{for_class}_xvcv_mdlc_leader_trait_shared_memory }} }} add_trait_no_notify = xvcv_mdlc_leader_trait_shared_memory }}""")
+    conditional_statement_list.append(f"""    if = {{ limit = {{ prev = {{ has_country_flag = xvcv_mdlc_leader_{for_class}_xvcv_mdlc_leader_trait_memory_backup }} }} add_trait = {{ trait = xvcv_mdlc_leader_trait_memory_backup show_message = no }} }}
+    if = {{ limit = {{ prev = {{ has_country_flag = xvcv_mdlc_leader_{for_class}_xvcv_mdlc_leader_trait_shared_memory }} }} add_trait = {{ trait = xvcv_mdlc_leader_trait_shared_memory show_message = no }} }}""")
 
     return f"""{header.format(leader_class=for_class)}
 {"\n".join(conditional_statement_list)}

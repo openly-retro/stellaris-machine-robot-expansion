@@ -665,7 +665,7 @@ BUILD_TEMPLATE_FOLDER = os.path.join(
     BUILD_FOLDER, 'template_parts'
 )
 
-UNICORN = '''
+UNICORN = r'''
                 \\
                  \%,     ,'     , ,.
                   \%\,';/J,";";";;,,.

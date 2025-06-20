@@ -200,7 +200,7 @@ oxr_mdlc_councilor_editor_{councilor_type}_{trait_name}_add_button_effect = {{
 		custom_tooltip = oxr_mdlc_councilor_editor_show_trait_total_cost_{rarity}
 		event_target:oxr_mdlc_councilor_editor_target_@root_0 = {{
 			oxr_mdlc_councilor_editor_remove_tier_1_or_2_traits_effect = {{ TRAIT_NAME = {trait_name_no_tier} }}
-			add_trait_no_notify = {trait_name}
+			add_trait = {{ trait = {trait_name} show_message = no }}
 		}}
 		hidden_effect = {{
 			oxr_mdlc_councilor_editor_deduct_trait_resources_cost_{rarity} = yes
