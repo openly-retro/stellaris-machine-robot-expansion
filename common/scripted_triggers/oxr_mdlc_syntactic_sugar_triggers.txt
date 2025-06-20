@@ -81,14 +81,27 @@ oxr_yes = {
 	always = yes
 }
 
+oxr_mdlc_planet_any_pops_have_job_tag = {
+	# As long as a job is tagged with its own ID,
+	# we can easily find pops working that job
+	planet = {
+		num_pops_with_job_tag = {
+			tags = { $JOB$ }
+			value > 0
+		}
+	}
+}
+
+
 any_planet_pop_has_job_type = {
 	# Helper for the old usage of 'has_job_type'
 	# which has to be used in pop or job scope now
 
-	# count_owned_pop_amount
-
-	any_owned_pop_job = {
-		has_job_type = $JOB$
+	planet = {
+		num_pops_with_job_tag = {
+			tags = { $JOB$ }
+			value > 0
+		}
 	}
 }
 

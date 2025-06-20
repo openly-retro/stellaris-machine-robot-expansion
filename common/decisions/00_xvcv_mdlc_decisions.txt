@@ -887,13 +887,17 @@ xvcv_mdlc_decision_goods_for_research_bonus = {
 		weight = 0
 		modifier = {
 			weight = 10
-			count_owned_pop_group = {
-				limit = { oxr_pop_group_job_is_base_researcher = yes }
-				count > 0
+			planet = {
+				num_pops_with_job_tag = {
+					tags = { research }
+					value > 0
+				}
 			}
-			count_owned_pop_group = {
-				limit = { oxr_pop_group_job_is_base_researcher = yes }
-				count < 20
+			planet = {
+				num_pops_with_job_tag = {
+					tags = { research }
+					value < 200
+				}
 			}
 			owner = {
 				resource_income_compare = {
@@ -906,11 +910,14 @@ xvcv_mdlc_decision_goods_for_research_bonus = {
 				}
 			}
 		}
+
 		modifier = {
 			weight = 20
-			count_owned_pop_group = {
-				limit = { oxr_pop_group_job_is_base_researcher = yes }
-				count >= 20
+			planet = {
+				num_pops_with_job_tag = {
+					tags = { research }
+					value >= 200
+				}
 			}
 			owner = {
 				resource_income_compare = {
