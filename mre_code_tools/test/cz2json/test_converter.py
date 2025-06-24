@@ -298,3 +298,25 @@ leader_trait_scout = {
         expected = '"has_paragon_dlc": True,'
         actual = clean_up_line(test_data)
         assert expected == actual
+    
+    def test_blocks_inside_potential(self):
+        test_data = """prerequisites = {
+            OR = {
+                tech_cruisers
+                tech_harbingers
+            }
+            tech_strike_craft_1
+        }"""
+        expected = {
+            "prerequisites": [
+                {
+                    "OR": [
+                        "tech_cruisers",
+                        "tech_harbingers"
+                    ]
+                },
+                "tech_strike_craft_1"
+            ]
+        }
+        actual = input_cz_output_json(test_data)
+        assert expected == actual
