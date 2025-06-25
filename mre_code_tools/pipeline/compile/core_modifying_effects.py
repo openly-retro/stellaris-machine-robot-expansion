@@ -9,10 +9,15 @@ def gen_core_modifying_button_effects_code(
 ):
     # This needs to generate two effects: add, and remove
     # xvcv_mdls_button_effects_core_modifying_traits_<LEADER_CLASS>_customgui.txt
-    if rarity not in ['paragon', 'common', 'veteran']:
+    if rarity not in ['paragon', 'common', 'veteran', 'free_or_veteran']:
+        # It pains me to add 'free_or_veteran' .. WHICH IS IT !?
         raise ValueError(
             f"{rarity} rarity must be one of paragon, common, veteran"
         )
+    if rarity == 'free_or_veteran':
+        # All the traits that have this foolish schroedinger's rarity ..
+        # are veteran traits!
+        rarity = 'veteran'
     trait_ends_in_num = trait_name[-1].isdigit()
     needs_remove_tier_num_trait_effect = True if trait_ends_in_num else False
     if trait_ends_in_num:

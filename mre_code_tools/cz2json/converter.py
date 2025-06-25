@@ -278,10 +278,18 @@ def convert_iter_lines_to_dict(json_as_str: str) -> dict:
     # breakpoint()
     try:
         cleaned_content_obj = ast.literal_eval(cleaned_content)
-    except Exception as ex:
+    except Exception as exc:
+        breakpoint()
+        err_range = f"-->{cleaned_content[exc.colno-60:exc.colno+50]}<--"
+        
+        print(
+            "Range: \n"
+            f"{err_range}"
+        )
+        print(f"ERROR: {str(exc)}")
         with open("err_dump.txt", "w") as err_dump_file:
             err_dump_file.write(cleaned_content)
-        pdebug(f"{ex}: dumped to err_dump.txt")
+        print(f"{exc}: dumped to err_dump.txt")
         sys.exit(1)
 
     # try:
@@ -293,12 +301,12 @@ def convert_iter_lines_to_dict(json_as_str: str) -> dict:
 
     #     pdebug("**********")
     #     # breakpoint()
-    #     err_range = f"-->{cleaned_content[exc.colno-60:exc.colno+50]}<--"
-    #     pdebug(
-    #         "Range: \n"
-    #         f"{err_range}"
-    #     )
-    #     pdebug(f"ERROR: {str(exc)}")
+        # err_range = f"-->{cleaned_content[exc.colno-60:exc.colno+50]}<--"
+        # pdebug(
+        #     "Range: \n"
+        #     f"{err_range}"
+        # )
+        # pdebug(f"ERROR: {str(exc)}")
     #     sys.exit(1)
 
     return cleaned_content_obj

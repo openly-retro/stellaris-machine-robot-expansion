@@ -43,7 +43,7 @@ def do_all_work(base_stellaris_path):
     for loc_yml in VANILLA_LOC_FILES_WITH_MACHINE_TOOLTIPS:
         localisation_file_path = os.path.join(
             base_stellaris_path,
-            'localisation', 'english', loc_yml
+            'localisation', 'english', f"{loc_yml}_l_english.yml"
         )
         with open(localisation_file_path, "r") as vanilla_localisation:
             collected_machine_localisations = iterate_lines_collect_machine_localisations(vanilla_localisation)
