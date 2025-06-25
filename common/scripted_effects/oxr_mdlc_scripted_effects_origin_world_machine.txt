@@ -1829,14 +1829,29 @@ oxr_mdlc_country_clear_wm_arc_sites_on_knowledge_gain = {
 	}
 }
 
-oxr_mdlc_planet_set_initial_cooling_district_count = {
+oxr_mdlc_planet_set_initial_cooling_district_count_var = {
 	if = {
 		limit = {
-			num_districts = { type = xvcv_mdlc_common_district_cooling value > 0 }
+			trigger = is_planet_class
+			xvcv_mdlc_pc_machine_ecu = {
+				num_districts = {
+					type = xvcv_mdlc_pc_machine_ecu_district_cooling_primary value > 0
+				}
+			}
+			xvcv_mdlc_pc_machine_ser = {
+				num_districts = {
+					type = xvcv_mdlc_pc_machine_ser_district_cooling_primary value > 0
+				}
+			}
+			xvcv_mdlc_pc_machine_cpu = {
+				num_districts = {
+					type = xvcv_mdlc_pc_machine_cpu_district_cooling_primary value > 0
+				}
+			}
 		}
 		set_variable = {
 			which = num_xvcv_mdlc_cooling_districts
-			value = value:count_world_machines_districts_of_type|DISTRICT_NAME|xvcv_mdlc_common_district_cooling|
+			value = value:count_world_machines_cooling_districts_any
 		}
 	}
 	else = {
@@ -1970,7 +1985,7 @@ oxr_mdlc_planet_create_t3_world_colony = {
 			log = "Created one extra Automation species"
 		}
 		oxr_mdlc_origin_world_machine_calc_max_district_armies = yes
-		oxr_mdlc_planet_set_initial_cooling_district_count = yes
+		oxr_mdlc_planet_set_initial_cooling_district_count_var = yes
 		xvcv_mdlc_planet_wm_calc_output_value = yes
 	}
 

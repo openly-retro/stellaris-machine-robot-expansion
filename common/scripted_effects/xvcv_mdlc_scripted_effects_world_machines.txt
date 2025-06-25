@@ -424,7 +424,7 @@ oxr_mdlc_planet_destroy_excess_cooling_districts = {
 	else = {
 		set_planet_flag = oxr_lock_oxr_mdlc_planet_destroy_excess_cooling_districts
 		set_variable = {
-			which = cooling_district_strength_tmpnum_xvcv_mdlc_cooling_districts
+			which = cooling_district_strength_tmp
 			value = 0.3
 		}
 		change_variable = {
@@ -433,6 +433,8 @@ oxr_mdlc_planet_destroy_excess_cooling_districts = {
 		}
 		# log = "Cooling district strength limit is at \\[This.cooling_district_strength_tmp] "
 		# log = "Output var is set to \\[This.xvcv_mdlc_world_machines_districts_output_var]"
+
+		# Note 'num_xvcv_mdlc_cooling_districts' is created in cooling district on_build/destroy
 		set_variable = {
 			which = oxr_mdlc_combined_cooling_strength_tmp
 			value = num_xvcv_mdlc_cooling_districts
@@ -487,7 +489,9 @@ oxr_mdlc_planet_destroy_excess_cooling_districts = {
 		while = {
 			count = num_cooling_districts_to_remove_tmp
 
-			remove_district = xvcv_mdlc_common_district_cooling
+			# Remove whatever cooling district is specific to this planet type
+			oxr_mdlc_planet_remove_cooling_district = yes
+
 			space_owner = {
 				add_resource = {
 					exotic_gases = 100
@@ -589,7 +593,7 @@ xvcv_mdlc_planet_decision_convert_to_world_machine = {
 	}
 	if = {
 		limit = { oxr_mdlc_planet_is_t3_world_machine = yes }
-		oxr_mdlc_planet_set_initial_cooling_district_count = yes
+		oxr_mdlc_planet_set_initial_cooling_district_count_var = yes
 		xvcv_mdlc_planet_wm_calc_output_value = yes
 	}
 }

@@ -101,10 +101,26 @@ count_world_machines_districts_not_cooling = {
 	}
 	complex_trigger_modifier = {
 		trigger = num_districts
-		parameters = { type = xvcv_mdlc_common_district_cooling }
+		parameters = {
+			limit = {
+				oxr_mdlc_planet_district_is_cooling = yes
+			}
+		}
 		mode = subtract
 	}
-	# subtract = value:count_world_machines_districts_of_type|DISTRICT_NAME|xvcv_mdlc_common_district_cooling|
+}
+
+count_world_machines_cooling_districts_any = {
+	base = 0
+	complex_trigger_modifier = {
+		trigger = num_districts
+		parameters = {
+			limit = {
+				oxr_mdlc_planet_district_is_cooling = yes
+			}
+		}
+		mode = add
+	}
 }
 
 collected_world_machine_bonuses = {
