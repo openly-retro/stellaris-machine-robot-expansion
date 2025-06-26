@@ -366,9 +366,9 @@ country_event = {
 				prev = { set_country_flag = xvcv_mdlc_origin_mechanical_heritage_empire } #also see: xvcv_mdlc_pc_mechanical_district_set
 				# oxr_mdlc_planet_swap_vanilla_to_mechanical_world_districts = yes
 				remove_district = xvcv_mdlc_pc_mechanical_district_generator
-				# create_pop_group = { species = prev.species }
 				create_pop_group = {
 					species = prev.species
+					effect = { save_event_target_as = last_created_pop_group }
 				}
 			}
 			if = {
@@ -528,14 +528,15 @@ planet_event = {
 				create_pop_group = {
 					species = last_created_species
 					size = 500
+					effect = { save_event_target_as = last_created_pop_group }
 				}
 				owner = { add_resource = { food = 100 } }
 			}
 			while = {
 				limit = { free_jobs > 0 }
-				# create_pop_group = { species = owner.species }
 				create_pop_group = {
 					species = owner.species
+					effect = { save_event_target_as = last_created_pop_group }
 				}
 			}
 			while = {
@@ -573,6 +574,7 @@ planet_event = {
 						create_pop_group = {
 							species = owner.species
 							size = 100
+							effect = { save_event_target_as = last_created_pop_group }
 						}
 					}
 					while = {
@@ -2005,7 +2007,12 @@ country_event = {
 					}
 				}
 			}
-			every_owned_planet = { create_pop_group = { species = last_created_species } }
+			every_owned_planet = { 
+				create_pop_group = {
+					species = last_created_species
+					effect = { save_event_target_as = last_created_pop_group }
+				}
+			}
 			every_owned_pop_group = {
 				limit = { has_trait = xvcv_mdlc_trait_engineered_organics }
 				xvcv_mdlc_modify_species_clear_pc_preference_traits_effect = yes
@@ -2071,6 +2078,7 @@ country_event = {
 				create_pop_group = {
 					species = last_created_species
 					size = 500
+					effect = { save_event_target_as = last_created_pop_group }
 				}
 				if = { #if the planet has not enough free building slots
 					limit = { free_building_slots = 0 }
@@ -2369,7 +2377,12 @@ country_event = {
 			last_created_species = {
 				save_global_event_target_as = xvcv_mdlc_bio_robot_species
 			}
-			every_owned_planet = { create_pop_group = { species = last_created_species } }
+			every_owned_planet = {
+				create_pop_group = {
+					species = last_created_species
+					effect = { save_event_target_as = last_created_pop_group }
+				}
+			}
 			every_owned_pop_group = {
 				limit = { has_trait = xvcv_mdlc_trait_bio_robot }
 				prev = { add_resource = { food = 12 } } #12 foods per 1 created pop #1 default food upkeep per 1 month
@@ -3654,7 +3667,10 @@ planet_event = {
 						}
 					}
 					prev = {
-						create_pop_group = { species = prev.species }
+						create_pop_group = {
+							species = prev.species
+							effect = { save_event_target_as = last_created_pop_group }
+						}
 					}
 				}
 				xvcv_mdlc_civic_assimilating_swarm_control_half = {
@@ -3685,7 +3701,10 @@ planet_event = {
 						}
 					}
 					prev = {
-						create_pop_group = { species = last_created_species }
+						create_pop_group = {
+							species = last_created_species
+							effect = { save_event_target_as = last_created_pop_group }
+						}
 					}
 					event_target:last_created_pop_group = {
 						xvcv_mdlc_modify_species_clear_pc_preference_traits_effect = yes

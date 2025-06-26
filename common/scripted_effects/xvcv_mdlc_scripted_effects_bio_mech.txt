@@ -192,7 +192,12 @@ xvcv_mdlc_planet_calc_bio_mech_growth_rate = {
 			if = {
 				limit = { check_variable = { which = xvcv_mdlc_bio_robot_growth_progress_var value > xvcv_mdlc_bio_robot_growth_requirement_var } }
 				subtract_variable = { which = xvcv_mdlc_bio_robot_growth_progress_var value = xvcv_mdlc_bio_robot_growth_requirement_var }
-				create_pop_group = { species = prev.species }
+				create_pop_group = {
+					species = prev.species
+					effect = {
+						save_event_target_as = last_created_pop_group
+					}
+				}
 			}
 		}
 	}

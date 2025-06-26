@@ -858,6 +858,9 @@ country_event = {
 					create_pop_group = {
 						species = prev.species
 						size = 1000
+						effect = {
+							save_event_target_as = last_created_pop_group
+						}
 					}
 					while = {
 						limit = {
@@ -871,7 +874,14 @@ country_event = {
 						random_owned_pop_group = {
 							limit = { NOT = { is_exact_same_species = event_target:current_uprising.species } }
 							oxr_kill_pop_from_group = yes
-							prev = { create_pop_group = { species = event_target:current_uprising.species } }
+							prev = {
+								create_pop_group = {
+									species = event_target:current_uprising.species
+									effect = {
+										save_event_target_as = last_created_pop_group
+									}
+								}
+							}
 						}
 					}
 					# create armies
@@ -928,14 +938,29 @@ country_event = {
 							}
 							set_variable = { which = housing_var value = 15 }
 						}
-						while = { create_pop_group = { species = event_target:current_uprising } count = housing_var }
+						while = {
+							create_pop_group = {
+								species = event_target:current_uprising
+								effect = {
+									save_event_target_as = last_created_pop_group
+								}
+							}
+							count = housing_var
+						}
 						clear_variable = housing_var
 						while = {
 							limit = { count_owned_pop_group = { limit = { is_exact_same_species = event_target:current_uprising.species } count < 5 } }
 							random_owned_pop_group = {
 								limit = { NOT = { is_exact_same_species = event_target:current_uprising.species } }
 								oxr_kill_pop_from_group = yes
-								prev = { create_pop_group = { species = event_target:current_uprising.species } }
+								prev = {
+									create_pop_group = {
+										species = event_target:current_uprising.species
+										effect = {
+											save_event_target_as = last_created_pop_group
+										}
+									}
+								}
 							}
 						}
 
