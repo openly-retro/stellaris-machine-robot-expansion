@@ -291,7 +291,7 @@ def test_gen_xvcv_mdlc_leader_making_start_button_effect():
 #official
 event_target:xvcv_mdlc_leader_making_target = {
     if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_official_leader_trait_roamer_2 } } add_trait = { trait = leader_trait_roamer_2 show_message = no } }
-    if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_official_subclass_official_economy_councilor } } add_trait { trait = subclass_official_economy_councilor show_message = no } }
+    if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_official_subclass_official_economy_councilor } } add_trait = { trait = subclass_official_economy_councilor show_message = no } }
     if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_official_subclass_official_diplomacy_councilor } } add_trait = { trait = subclass_official_diplomacy_councilor show_message = no } }
     if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_official_subclass_official_governor } } add_trait = { trait = subclass_official_governor show_message = no } }
     if = { limit = { prev = { has_country_flag = xvcv_mdlc_leader_official_subclass_official_delegate } } add_trait = { trait = subclass_official_delegate show_message = no } }
