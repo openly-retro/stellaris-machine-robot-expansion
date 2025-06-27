@@ -15,11 +15,10 @@ oxr_mdlc_origin_wm_zone_default = {
 			minerals = @zone_cost
 		}
 	}
-
 	max_buildings = 6
-
-	include = {
-		all
+	include = { all }
+	zone_sets = {
+		oxr_mdlc_zone_set_wm_default
 	}
 
 }
@@ -32,41 +31,19 @@ oxr_mdlc_origin_wm_zone_any = {
 		is_planet_world_machine = yes
 	}
 
-	unlock = {
-		is_planet_world_machine = yes
-	}
-
+	unlock = { is_planet_world_machine = yes }
 	resources = {
 		category = planet_zones
 		cost = {
 			minerals = @zone_cost
 		}
 	}
-
-	# triggered_district_planet_modifier = {
-	# 	planet_housing_add = @zone_urban_housing_positive
-	# }
-
-	country_modifier = {
-		country_resource_max_add = 2500
-	}
-
+	country_modifier = { country_resource_max_add = 2500 }
 	max_buildings = 3
-
 	include = { all }
-
-	excluded_building_sets = {
-		# generator
-		# mining
-		# farming
-		knights
-		# betharian
-	}
-
-	planet_modifier = {
-		zone_building_slots_add = 3
-	}
-
+	excluded_building_sets = { knights }
+	planet_modifier = { zone_building_slots_add = 3 }
+	zone_sets = { oxr_mdlc_zone_set_wm }
 }
 
 oxr_mdlc_origin_wm_zone_any_wm = {
@@ -87,26 +64,15 @@ oxr_mdlc_origin_wm_zone_any_wm = {
 			minerals = @zone_cost
 		}
 	}
-
-	# triggered_district_planet_modifier = {
-	# 	# planet_housing_add = @zone_urban_housing_positive
-	# 	_resource_storage
-	# }
-
-	country_modifier = {
-		country_resource_max_add = 2500
-	}
-
+	country_modifier = { country_resource_max_add = 2500 }
 	max_buildings = 3
-
 	included_building_sets = {
 		oxr_mdlc_building_set_wm_all
 	}
-
 	excluded_building_sets = { }
-
-	planet_modifier = {
-		zone_building_slots_add = 3
+	planet_modifier = { zone_building_slots_add = 3 }
+	zone_sets = {
+		oxr_mdlc_zone_set_wm
 	}
 
 }
@@ -118,7 +84,6 @@ oxr_mdlc_origin_wm_zone_default_industrial = {
 		hidden_trigger = { exists = owner }
 		is_planet_world_machine = yes
 	}
-
 	unlock = { is_planet_world_machine = yes }
 
 	resources = {
@@ -127,11 +92,11 @@ oxr_mdlc_origin_wm_zone_default_industrial = {
 			minerals = @zone_cost
 		}
 	}
-
 	max_buildings = 6
-
 	include = { all }
-
+	zone_sets = {
+		oxr_mdlc_zone_set_wm_industrial
+	}
 }
 
 # Production zones
@@ -151,6 +116,9 @@ oxr_mdlc_zone_pc_machine_auto_alloys = {
 		script = planet/zones/auto/oxr_wm_alloys_zone_production
 		DISTRICT_CATEGORY = xvcv_mdlc_world_machines_production_districts
 		JOBS = 2
+	}
+	zone_sets = {
+		oxr_mdlc_zone_set_wm_production
 	}
 }
 
@@ -175,6 +143,9 @@ oxr_mdlc_zone_pc_machine_auto_consumer_goods = {
 		consumer_goods = 10
 		trigger = { always = yes }
 	}
+	zone_sets = {
+		oxr_mdlc_zone_set_wm_production
+	}
 }
 
 # Raw resource zones
@@ -196,6 +167,9 @@ oxr_mdlc_zone_pc_machine_auto_energy = {
 	# 	DISTRICT_CATEGORY = xvcv_mdlc_world_machines_production_districts
 	# 	JOBS = 2
 	# }
+	zone_sets = {
+		oxr_mdlc_zone_set_wm_energy
+	}
 }
 
 oxr_mdlc_zone_pc_machine_auto_food = {
@@ -216,4 +190,7 @@ oxr_mdlc_zone_pc_machine_auto_food = {
 	# }
 
 	show_in_tech = tech_food_processing_1
+	zone_sets = {
+		oxr_mdlc_zone_set_wm_food
+	}
 }
