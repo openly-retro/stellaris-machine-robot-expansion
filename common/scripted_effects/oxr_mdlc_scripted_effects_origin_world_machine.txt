@@ -1838,20 +1838,26 @@ oxr_mdlc_country_clear_wm_arc_sites_on_knowledge_gain = {
 oxr_mdlc_planet_set_initial_cooling_district_count_var = {
 	if = {
 		limit = {
-			trigger = is_planet_class
-			xvcv_mdlc_pc_machine_ecu = {
-				num_districts = {
-					type = xvcv_mdlc_pc_machine_ecu_district_cooling_primary value > 0
+			# Technically I can just check if any of these 3 districts exist,
+			# no planet class check needed
+			OR = {
+				AND = {
+					is_planet_class = xvcv_mdlc_pc_machine_ecu
+					num_districts = {
+						type = xvcv_mdlc_pc_machine_ecu_district_cooling_primary value > 0
+					}
 				}
-			}
-			xvcv_mdlc_pc_machine_ser = {
-				num_districts = {
-					type = xvcv_mdlc_pc_machine_ser_district_cooling_primary value > 0
+				AND = {
+					is_planet_class = xvcv_mdlc_pc_machine_ser
+					num_districts = {
+						type = xvcv_mdlc_pc_machine_ser_district_cooling_primary value > 0
+					}
 				}
-			}
-			xvcv_mdlc_pc_machine_cpu = {
-				num_districts = {
-					type = xvcv_mdlc_pc_machine_cpu_district_cooling_primary value > 0
+				AND = {
+					is_planet_class = xvcv_mdlc_pc_machine_cpu
+					num_districts = {
+						type = xvcv_mdlc_pc_machine_cpu_district_cooling_primary value > 0
+					}
 				}
 			}
 		}
