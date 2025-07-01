@@ -1,6 +1,8 @@
 # Virtual Reality planet districts
 
+# The trade district became the primary
 xvcv_mdlc_pc_virtual_district_primary = {
+
 	base_buildtime = @xvcv_mdlc_district_time_4
 	default_starting_district = yes
 
@@ -21,55 +23,81 @@ xvcv_mdlc_pc_virtual_district_primary = {
 		slot_city_02
 	}
 
-	conversion_ratio = 1
-	inline_script = planet/districts/convert_to/oxr_wm_district_primary
-}
-
-xvcv_mdlc_pc_virtual_district_essential = {
-	base_buildtime = @xvcv_mdlc_district_time_4
-
-	show_on_uncolonized = {
-		exists = from
-		from = { has_ascension_perk = xvcv_mdlc_ap_virtual_worlds }
-		uses_district_set = xvcv_mdlc_pc_virtual_district_set
-	}
-	potential = {
-		exists = owner
-		owner = { has_ascension_perk = xvcv_mdlc_ap_virtual_worlds }
-		uses_district_set = xvcv_mdlc_pc_virtual_district_set
-	}
-
-	conversion_ratio = 1
-	convert_to = {
-		district_mining_uncapped
-		xvcv_mdlc_pc_mechanical_district_mining
-		xvcv_mdlc_pc_machine_auto_district_mining
+	######
+	allow = {
+		has_building = xvcv_mdlc_building_matter_data_converter
 	}
 
 	planet_modifier = {
-		pop_housing_usage_add = -1
-		pop_amenities_usage_add = -1
+		job_xvcv_mdlc_virtual_merchant_add = 600
+	}
+
+	triggered_desc = {
+		text = job_xvcv_mdlc_virtual_merchant_effect_desc
 	}
 
 	resources = {
 		category = planet_districts
 		cost = {
 			minerals = @xvcv_mdlc_district_cost_5
-			volatile_motes = 100
 			rare_crystals = 100
-			exotic_gases = 100
 		}
 		upkeep = {
 			energy = 10
-			volatile_motes = 2
-			rare_crystals = 2
-			exotic_gases = 2
+			rare_crystals = 1
 		}
 	}
-	zone_slots = {
-		oxr_mdlc_slot_none
-	}
+	######
+
+	conversion_ratio = 1
+	inline_script = planet/districts/convert_to/oxr_wm_district_primary
 }
+
+# xvcv_mdlc_pc_virtual_district_essential = {
+# 	base_buildtime = @xvcv_mdlc_district_time_4
+
+# 	show_on_uncolonized = {
+# 		exists = from
+# 		from = { has_ascension_perk = xvcv_mdlc_ap_virtual_worlds }
+# 		uses_district_set = xvcv_mdlc_pc_virtual_district_set
+# 	}
+# 	potential = {
+# 		exists = owner
+# 		owner = { has_ascension_perk = xvcv_mdlc_ap_virtual_worlds }
+# 		uses_district_set = xvcv_mdlc_pc_virtual_district_set
+# 	}
+
+# 	conversion_ratio = 1
+# 	convert_to = {
+# 		district_mining_uncapped
+# 		xvcv_mdlc_pc_mechanical_district_mining
+# 		xvcv_mdlc_pc_machine_auto_district_mining
+# 	}
+
+# 	planet_modifier = {
+# 		pop_housing_usage_add = -1
+# 		pop_amenities_usage_add = -1
+# 	}
+
+# 	resources = {
+# 		category = planet_districts
+# 		cost = {
+# 			minerals = @xvcv_mdlc_district_cost_5
+# 			volatile_motes = 100
+# 			rare_crystals = 100
+# 			exotic_gases = 100
+# 		}
+# 		upkeep = {
+# 			energy = 10
+# 			volatile_motes = 2
+# 			rare_crystals = 2
+# 			exotic_gases = 2
+# 		}
+# 	}
+# 	zone_slots = {
+# 		oxr_mdlc_slot_none
+# 	}
+# }
 
 xvcv_mdlc_pc_virtual_district_research = {
 	base_buildtime = @xvcv_mdlc_district_time_4
@@ -86,7 +114,7 @@ xvcv_mdlc_pc_virtual_district_research = {
 		uses_district_set = xvcv_mdlc_pc_virtual_district_set
 	}
 	allow = {
-		has_district = xvcv_mdlc_pc_virtual_district_essential
+		has_building = xvcv_mdlc_building_matter_data_converter
 	}
 
 	conversion_ratio = 1
@@ -171,7 +199,7 @@ xvcv_mdlc_pc_virtual_district_admin = {
 		uses_district_set = xvcv_mdlc_pc_virtual_district_set
 	}
 	allow = {
-		has_district = xvcv_mdlc_pc_virtual_district_essential
+		has_building = xvcv_mdlc_building_matter_data_converter
 	}
 	zone_slots = {
 		oxr_mdlc_slot_none
@@ -229,61 +257,62 @@ xvcv_mdlc_pc_virtual_district_admin = {
 	}
 }
 
-xvcv_mdlc_pc_virtual_district_trade = {
-	base_buildtime = @xvcv_mdlc_district_time_4
-	is_capped_by_modifier = no
+# xvcv_mdlc_pc_virtual_district_trade = {
+# 	base_buildtime = @xvcv_mdlc_district_time_4
+# 	is_capped_by_modifier = no
 
-	show_on_uncolonized = {
-		exists = from
-		from = {
-			is_gestalt = no
-			has_ascension_perk = xvcv_mdlc_ap_virtual_worlds
-		}
-		uses_district_set = xvcv_mdlc_pc_virtual_district_set
-	}
-	potential = {
-		exists = owner
-		owner = {
-			is_gestalt = no
-			has_ascension_perk = xvcv_mdlc_ap_virtual_worlds
-		}
-		uses_district_set = xvcv_mdlc_pc_virtual_district_set
-	}
-	allow = {
-		has_district = xvcv_mdlc_pc_virtual_district_essential
-	}
-	zone_slots = {
-		oxr_mdlc_slot_none
-	}
+# 	show_on_uncolonized = {
+# 		exists = from
+# 		from = {
+# 			is_gestalt = no
+# 			has_ascension_perk = xvcv_mdlc_ap_virtual_worlds
+# 		}
+# 		uses_district_set = xvcv_mdlc_pc_virtual_district_set
+# 	}
+# 	potential = {
+# 		exists = owner
+# 		owner = {
+# 			is_gestalt = no
+# 			has_ascension_perk = xvcv_mdlc_ap_virtual_worlds
+# 		}
+# 		uses_district_set = xvcv_mdlc_pc_virtual_district_set
+# 	}
+# 	allow = {
+# 		has_building = xvcv_mdlc_building_matter_data_converter
+# 	}
+# 	zone_slots = {
+# 		oxr_mdlc_slot_none
+# 	}
 
-	conversion_ratio = 1
-	convert_to = {
-		district_mining_uncapped
-		xvcv_mdlc_pc_mechanical_district_mining
-		xvcv_mdlc_pc_machine_auto_district_mining
-		xvcv_mdlc_pc_virtual_district_research
-	}
+# 	conversion_ratio = 1
+# 	convert_to = {
+# 		district_mining_uncapped
+# 		xvcv_mdlc_pc_mechanical_district_mining
+# 		xvcv_mdlc_pc_machine_auto_district_mining
+# 		xvcv_mdlc_pc_virtual_district_research
+# 	}
 
-	planet_modifier = {
-		job_xvcv_mdlc_virtual_merchant_add = 6
-	}
+# 	planet_modifier = {
+# 		job_xvcv_mdlc_virtual_merchant_add = 6
+# 	}
 
-	triggered_desc = {
-		text = job_xvcv_mdlc_virtual_merchant_effect_desc
-	}
+# 	triggered_desc = {
+# 		text = job_xvcv_mdlc_virtual_merchant_effect_desc
+# 	}
 
-	resources = {
-		category = planet_districts
-		cost = {
-			minerals = @xvcv_mdlc_district_cost_5
-			rare_crystals = 100
-		}
-		upkeep = {
-			energy = 10
-			rare_crystals = 1
-		}
-	}
-}
+# 	resources = {
+# 		category = planet_districts
+# 		cost = {
+# 			minerals = @xvcv_mdlc_district_cost_5
+# 			rare_crystals = 100
+# 		}
+# 		upkeep = {
+# 			energy = 10
+# 			rare_crystals = 1
+# 		}
+# 	}
+# }
+
 xvcv_mdlc_pc_virtual_district_amenity = {
 	base_buildtime = @xvcv_mdlc_district_time_4
 	is_capped_by_modifier = no
@@ -305,7 +334,7 @@ xvcv_mdlc_pc_virtual_district_amenity = {
 		uses_district_set = xvcv_mdlc_pc_virtual_district_set
 	}
 	allow = {
-		has_district = xvcv_mdlc_pc_virtual_district_essential
+		has_building = xvcv_mdlc_building_matter_data_converter
 	}
 	zone_slots = {
 		oxr_mdlc_slot_none
@@ -320,7 +349,7 @@ xvcv_mdlc_pc_virtual_district_amenity = {
 	}
 
 	planet_modifier = {
-		job_xvcv_mdlc_virtual_entertainer_add = 4
+		job_xvcv_mdlc_virtual_entertainer_add = 400
 	}
 
 	triggered_desc = {
