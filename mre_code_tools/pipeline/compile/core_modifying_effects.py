@@ -144,6 +144,9 @@ def gen_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines(input_files_li
                     trait_name = [*trait][0]
                     root = trait[trait_name]
                     rarity = root['rarity']
+                    # Traits with free_or_veteran are almost always veteran traits
+                    if rarity == 'free_or_veteran':
+                        rarity = 'veteran'
                     effect_contents_items.append(
                         ruler_effect_line.format(
                             trait_name=trait_name,
