@@ -222,6 +222,25 @@ FILE_NUM_PREFIXES = {
 """ Map of file number prefixes, corresponding to the contents """
 
 
+GAME_RESOURCES = [
+    "alloys",
+    "astral_threads",
+    "consumer_goods",
+    "energy",
+    "engineering_research",
+    "exotic_gases",
+    "food",
+    "minerals",
+    "nanites",
+    "physics_research",
+    "rare_crystals",
+    "society_research",
+    "trade",
+    "unity",
+    "volatile_motes",
+    "zro"
+]
+
 """ On a bad yaml merge there will be other random stuff in the modifier dict
 on occasion. so make a list of what should get kicked out of modifiers """
 GARBAGE_MODIFIERS = (
