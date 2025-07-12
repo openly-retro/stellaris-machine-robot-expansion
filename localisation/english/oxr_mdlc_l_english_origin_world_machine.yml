@@ -39,6 +39,7 @@
  # misc         0x034
  # zone slots   0x035
  # zones        0x036
+ # zone name swp 0x037
 
 
 # symbols: £energy£ §R
@@ -1518,10 +1519,11 @@
  xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm_plural: "$xvcv_mdlc_pc_machine_auto_district_industrial_plural$"
 
  ### xvcv_mdlc_pc_ringworld_machine_auto
- xvcv_mdlc_pc_ringworld_machine_auto_district_primary: "Networking Station"
+ xvcv_mdlc_pc_ringworld_machine_auto_district_primary: "Segment Control Hub"
+ xvcv_mdlc_pc_ringworld_machine_auto_district_primary_plural: "Segment Control Hubs"
  xvcv_mdlc_pc_ringworld_machine_auto_district_primary_desc: "A hub for ring maintenance and command."
- xvcv_mdlc_pc_ringworld_machine_auto_rnd: "Research and Development District"
- xvcv_mdlc_pc_ringworld_machine_auto_rnd_plural: "Research and Development Districts"
+ xvcv_mdlc_pc_ringworld_machine_auto_rnd: "Research and Development Hub"
+ xvcv_mdlc_pc_ringworld_machine_auto_rnd_plural: "Research and Development Hubs"
  xvcv_mdlc_pc_ringworld_machine_auto_rnd_desc: "The base template for this research and development district can support several operational modes, functioning as a £research£ research server, £unity£ administrative server, or supporting £trade£ logistics."
  xvcv_mdlc_pc_ringworld_machine_auto_rnd_triggered_name_research: "Distributed Computing Mainframe"
  xvcv_mdlc_pc_ringworld_machine_auto_rnd_triggered_desc_research: "Vast mainframes handle excess research demand from other systems, asynchronously processing work in chunks and downloading more as needed."
@@ -1537,9 +1539,18 @@
  xvcv_mdlc_pc_ringworld_machine_auto_raw_resource_triggered_name_energy: "Solar Field Array"
  xvcv_mdlc_pc_ringworld_machine_auto_raw_resource_triggered_desc_energy: "A large array of solar energy collectors are mounted along the ring's surface. Thermal pumps and sinks are also implemented."
 
- xvcv_mdlc_pc_ringworld_machine_auto_industrial: "Industrial Sector"
+ xvcv_mdlc_pc_ringworld_machine_auto_industrial: "Industrial District"
  xvcv_mdlc_pc_ringworld_machine_auto_industrial_plural: "$xvcv_mdlc_pc_ringworld_machine_auto_industrial$s"
- xvcv_mdlc_pc_ringworld_machine_auto_industrial_desc: "The lower level of this district contains forges for producing alloys, and the upper levels recycle the heat to power manufacturing facilities for consumer goods."  
+ xvcv_mdlc_pc_ringworld_machine_auto_industrial_desc: "The lower level of this district contains forges for producing alloys, and the upper levels recycle the heat to power manufacturing facilities for consumer goods."
+
+ ### SWAPS
+ xvcv_mdlc_pc_ringworld_machine_auto_farming: "Nutrient Mega-Field"
+ xvcv_mdlc_pc_ringworld_machine_auto_farming_plural: "$xvcv_mdlc_pc_ringworld_machine_auto_farming$s"
+ xvcv_mdlc_pc_ringworld_machine_auto_farming_desc: "The entire gamut of nutrients consumed by biological lifeforms are synthesized here into a syrup which can be directly ingested, or absorbed via membrane."
+
+ xvcv_mdlc_pc_ringworld_machine_auto_generator: "Solar Field Array"
+ xvcv_mdlc_pc_ringworld_machine_auto_generator_plural: "$xvcv_mdlc_pc_ringworld_machine_auto_generator$s"
+ xvcv_mdlc_pc_ringworld_machine_auto_generator_desc: "A large array of solar energy collectors are mounted along the ring's surface. Thermal pumps and sinks are also implemented."
   
 #endregion
 
@@ -1927,32 +1938,53 @@
  oxr_mdlc_zone_pc_machine_auto_energy_desc: "$PLACEHOLDER$"
  oxr_mdlc_zone_pc_machine_cpu_research: "$PLACEHOLDER$"
  oxr_mdlc_zone_pc_machine_cpu_research_desc: "$PLACEHOLDER$"
- oxr_mdlc_zone_pc_machine_ecu_alloys: "$PLACEHOLDER$"
+ oxr_mdlc_zone_pc_machine_ecu_alloys: "Auto-Forge Module"
  oxr_mdlc_zone_pc_machine_ecu_alloys_desc: "$PLACEHOLDER$"
- oxr_mdlc_zone_pc_machine_ecu_consumer_goods: "$PLACEHOLDER$"
+ oxr_mdlc_zone_pc_machine_ecu_consumer_goods: "Auto-Factory Module"
  oxr_mdlc_zone_pc_machine_ecu_consumer_goods_desc: "$PLACEHOLDER$"
  oxr_mdlc_zone_unity: "$PLACEHOLDER$"
  oxr_mdlc_zone_unity_desc: "$PLACEHOLDER$"
- oxr_mdlc_zone_pc_ringworld_machine_auto_research: "$PLACEHOLDER$"
+ oxr_mdlc_zone_pc_ringworld_machine_auto_research: "Auto-Research Module"
  oxr_mdlc_zone_pc_ringworld_machine_auto_research_desc: "$PLACEHOLDER$"
- oxr_mdlc_zone_pc_ringworld_machine_auto_unity: "$PLACEHOLDER$"
+ oxr_mdlc_zone_pc_ringworld_machine_auto_unity: "Auto-Admin Module"
  oxr_mdlc_zone_pc_ringworld_machine_auto_unity_desc: "$PLACEHOLDER$"
- oxr_mdlc_zone_pc_ringworld_machine_auto_trade: "$PLACEHOLDER$"
+ oxr_mdlc_zone_pc_ringworld_machine_auto_trade: "Auto-Logistics Module"
  oxr_mdlc_zone_pc_ringworld_machine_auto_trade_desc: "$PLACEHOLDER$"
- oxr_mdlc_zone_pc_ringworld_machine_auto_alloys: "$PLACEHOLDER$"
+ oxr_mdlc_zone_pc_ringworld_machine_auto_alloys: "Auto-Forge Module"
  oxr_mdlc_zone_pc_ringworld_machine_auto_alloys_desc: "$PLACEHOLDER$"
- oxr_mdlc_zone_pc_ringworld_machine_auto_consumer_goods: "$PLACEHOLDER$"
+ oxr_mdlc_zone_pc_ringworld_machine_auto_consumer_goods: "Auto-Factory Module"
  oxr_mdlc_zone_pc_ringworld_machine_auto_consumer_goods_desc: "$PLACEHOLDER$"
- oxr_mdlc_zone_pc_ringworld_machine_auto_food: "$PLACEHOLDER$"
- oxr_mdlc_zone_pc_ringworld_machine_auto_food_desc: "$PLACEHOLDER$"
- oxr_mdlc_zone_pc_ringworld_machine_auto_energy: "$PLACEHOLDER$"
- oxr_mdlc_zone_pc_ringworld_machine_auto_energy_desc: "$PLACEHOLDER$"
- oxr_mdlc_zone_pc_virtual_research: "$PLACEHOLDER$"
+ oxr_mdlc_zone_pc_ringworld_machine_auto_food: "Nutrient Production Module"
+ oxr_mdlc_zone_pc_ringworld_machine_auto_food_desc: "Hot-swap district template hardware for nutrient production."
+ oxr_mdlc_zone_pc_ringworld_machine_auto_energy: "Energy Generation Module"
+ oxr_mdlc_zone_pc_ringworld_machine_auto_energy_desc: "Hot-swap district template hardware for energy generation."
+ oxr_mdlc_zone_pc_virtual_research: "Virtualized Research plug-in"
  oxr_mdlc_zone_pc_virtual_research_desc: "$PLACEHOLDER$"
- oxr_mdlc_zone_pc_virtual_admin: "$PLACEHOLDER$"
+ oxr_mdlc_zone_pc_virtual_admin: "Virtualized Admin plug-in"
  oxr_mdlc_zone_pc_virtual_admin_desc: "$PLACEHOLDER$"
- oxr_mdlc_zone_pc_virtual_amenity: "$PLACEHOLDER$"
+ oxr_mdlc_zone_pc_virtual_amenity: "Entertainment plug-in"
  oxr_mdlc_zone_pc_virtual_amenity_desc: "$PLACEHOLDER$"
+
+
+#endregion
+
+
+#region zone_name_swaps_0x037
+
+## triggered name swaps
+ xvcv_mdlc_pc_ringworld_machine_auto_industrial_name_alloys: "£alloys£ Auto-Forge Matrix"
+ xvcv_mdlc_pc_ringworld_machine_auto_industrial_name_goods: "£consumer_goods£ Auto-Factory Matrix"
+ xvcv_mdlc_pc_ringworld_machine_auto_industrial_name_mixed: "Mixed Industrial Matrix"
+ xvcv_mdlc_pc_ringworld_machine_auto_raw_resource_name_food: "£food£ Auto-Nutrient Matrix"
+ xvcv_mdlc_pc_ringworld_machine_auto_raw_resource_name_energy: "£energy£ Auto-Energy Matrix"
+ xvcv_mdlc_pc_ringworld_machine_auto_raw_resource_name_none: "Unconfigured Matrix"
+ xvcv_mdlc_pc_ringworld_machine_auto_raw_resource_desc_none: "The Raw Resources district is not configured to produce anything."
+ xvcv_mdlc_pc_ringworld_machine_auto_rnd_name_research: "£research£ Auto-Research Matrix"
+ xvcv_mdlc_pc_ringworld_machine_auto_rnd_name_admin: "£unity£ Auto-Admin Matrix"
+ xvcv_mdlc_pc_ringworld_machine_auto_rnd_name_trade: "£trade£ Auto-Logistics Matrix"
+ xvcv_mdlc_pc_ringworld_machine_auto_rnd_name_none: "Unconfigured Matrix"
+ xvcv_mdlc_pc_ringworld_machine_auto_generator_name_none: "$xvcv_mdlc_pc_ringworld_machine_auto_raw_resource_name_energy$"
+ xvcv_mdlc_pc_ringworld_machine_auto_farming_triggered_name_none: "$xvcv_mdlc_pc_ringworld_machine_auto_raw_resource_name_food$"
 
 
 #endregion

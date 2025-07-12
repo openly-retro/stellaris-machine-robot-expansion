@@ -146,7 +146,7 @@ oxr_mdlc_zone_pc_ringworld_machine_auto_alloys = {
 
 	inline_script = {
 		script = planet/zones/auto/oxr_wm_alloys_zone_production
-		DISTRICT_CATEGORY = xvcv_mdlc_world_machines_rnd_districts
+		DISTRICT_CATEGORY = xvcv_mdlc_world_machines_industrial_districts
 		JOBS = 12
 	}
 
@@ -178,7 +178,7 @@ oxr_mdlc_zone_pc_ringworld_machine_auto_consumer_goods = {
 
 	inline_script = {
 		script = planet/zones/auto/oxr_wm_consumer_goods_zone_production
-		DISTRICT_CATEGORY = xvcv_mdlc_world_machines_rnd_districts
+		DISTRICT_CATEGORY = xvcv_mdlc_world_machines_industrial_districts
 		JOBS = 12
 	}
 
@@ -207,6 +207,8 @@ oxr_mdlc_zone_pc_ringworld_machine_auto_food = {
 	}
 
 	unlock = { is_xvcv_mdlc_pc_ringworld_machine_auto = yes }
+	swap_type = xvcv_mdlc_pc_ringworld_machine_auto_farming
+	swap_type_weight = 5
 
 	resources = {
 		category = oxr_mdlc_world_machines_zones
@@ -246,6 +248,9 @@ oxr_mdlc_zone_pc_ringworld_machine_auto_energy = {
 
 	unlock = { is_xvcv_mdlc_pc_ringworld_machine_auto = yes }
 
+	swap_type = xvcv_mdlc_pc_ringworld_machine_auto_generator
+	swap_type_weight = 5
+
 	resources = {
 		category = oxr_mdlc_world_machines_zones
 		cost = {
@@ -253,17 +258,17 @@ oxr_mdlc_zone_pc_ringworld_machine_auto_energy = {
 		}
 	}
 
-	district_planet_modifier = {
-		xvcv_mdlc_world_machines_raw_resources_districts_energy_upkeep_add = 12  # one per 'drone'
-		xvcv_mdlc_world_machines_raw_resources_districts_rare_crystals_upkeep_add = @rw_maintenance_sr
-	}
+	# district_planet_modifier = {
+	# 	xvcv_mdlc_world_machines_raw_resources_districts_energy_upkeep_add = 12  # one per 'drone'
+	# 	xvcv_mdlc_world_machines_raw_resources_districts_rare_crystals_upkeep_add = @rw_maintenance_sr
+	# }
 
-	triggered_district_planet_modifier = {
-		# What was once in the district's 'produces' block
-		xvcv_mdlc_world_machines_raw_resources_districts_food_produces_add =  @[ 12 * oxr_mdlc_wm_base_technician_output ]
-		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
-		# district's old 'upkeep' block
-	}
+	# triggered_district_planet_modifier = {
+	# 	# What was once in the district's 'produces' block
+	# 	xvcv_mdlc_world_machines_raw_resources_districts_food_produces_add =  @[ 12 * oxr_mdlc_wm_base_technician_output ]
+	# 	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
+	# 	# district's old 'upkeep' block
+	# }
 
 	max_buildings = 3
 
