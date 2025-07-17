@@ -5,6 +5,10 @@ pop_category_drones = {
 		produces
 		upkeep
 	}
+	generate_mult_modifiers = {
+		upkeep
+		produces
+	}
 	modifier_category = pop_group
 	triggered_produces_modifier = {
 		key = pop_category_complex_drones
@@ -63,9 +67,12 @@ pop_category_specialists = {
 
 pop_category_rulers = {
 	parent = planet_pops
-	generate_add_modifiers = {
-		produces
+	generate_mult_modifiers = {
 		upkeep
+	}
+	generate_add_modifiers = {
+		upkeep
+		produces
 	}
 	modifier_category = pop_group
 	triggered_upkeep_modifier = {
@@ -75,32 +82,6 @@ pop_category_rulers = {
 	}
 }
 
-planet_jobs_productive = { #this should contain all categories that primarily produce resources (rather than e.g. amenities, trade, stability)
-	parent = planet_jobs
-	generate_mult_modifiers = {
-		produces
-		upkeep
-	}
-	modifier_category = pop_job
-}
-
-planet_farmers = {
-	icon = "job_farmer"
-	parent = planet_jobs_productive
-	generate_mult_modifiers = {
-		produces
-	}
-	generate_add_modifiers = {
-		produces
-		upkeep
-	}
-	modifier_category = pop_job
-	# triggered_produces_modifier = {
-	# 	key = planet_farmers_xvcv_bio_robot
-	# 	modifier_types = { add }
-	# 	trigger = { has_trait = xvcv_mdlc_trait_bio_robot }
-	# }
-}
 planet_researchers = {
 	icon = "job_researcher"
 	parent = planet_jobs_productive
@@ -109,62 +90,15 @@ planet_researchers = {
 		upkeep
 	}
 	generate_add_modifiers = {
-		# produces
 		upkeep
 	}
 	modifier_category = pop_job
-
-	# triggered_produces_modifier = {
-	# 	key = planet_researchers_xvcv_bio_robot
-	# 	modifier_types = { add }
-	# 	trigger = { has_trait = xvcv_mdlc_trait_bio_robot }
-	# }
 }
 
-planet_administrators = {
-	icon = "job_bureaucrat"
-	parent = planet_jobs_productive
-	generate_mult_modifiers = {
-		upkeep
-	}
-	modifier_category = pop_job
-
-	# triggered_produces_modifier = {
-	# 	key = planet_administrators_xvcv_bio_robot
-	# 	modifier_types = { add }
-	# 	trigger = { has_trait = xvcv_mdlc_trait_bio_robot }
-	# }
-}
-
-planet_metallurgists = {
-	icon = "job_foundry"
-	parent = planet_jobs_productive
+planet_jobs_robotic = {
+	parent = planet_jobs
 	generate_mult_modifiers = {
 		produces
-		upkeep
-	}
-	generate_add_modifiers = {
-		produces
-		upkeep
-	}
-	modifier_category = pop_job
-	# triggered_produces_modifier = {
-	# 	key = planet_metallurgists_xvcv_bio_robot
-	# 	modifier_types = { add }
-	# 	trigger = { has_trait = xvcv_mdlc_trait_bio_robot }
-	# }
-}
-
-planet_artisans = {
-	icon = "job_artisan"
-	parent = planet_jobs_productive
-	generate_mult_modifiers = {
-		produces
-		upkeep
-	}
-	generate_add_modifiers = {
-		produces
-		upkeep
 	}
 	modifier_category = pop_job
 }

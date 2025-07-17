@@ -105,10 +105,6 @@ xvcv_mdlc_virtual_merchant = {
 
 	possible_precalc = can_fill_ruler_job
 
-	triggered_planet_modifier = {
-		trade_value_add = 12
-		mult = value:scripted_modifier_mult|MODIFIER|planet_jobs_trade_produces_mult|
-	}
 	tags = {
 		xvcv_mdlc_virtual_merchant
 		oxr_mdlc_job_tag_virtual
@@ -124,6 +120,13 @@ xvcv_mdlc_virtual_merchant = {
 				owner = { has_civic = civic_merchant_guilds	}
 			}
 			unity = 2
+		}
+		produces = {
+			trigger = {
+				exists = owner
+			}
+			trade = 12
+			mult = value:scripted_modifier_mult|MODIFIER|planet_jobs_trade_produces_mult|
 		}
 	}
 
