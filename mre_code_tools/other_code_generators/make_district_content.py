@@ -57,6 +57,8 @@ DISTRICTS = {
     "xvcv_mdlc_pc_ringworld_machine_auto_rnd": CYAN,
     "xvcv_mdlc_pc_ringworld_machine_auto_industrial": ORANGE,
     "xvcv_mdlc_pc_ringworld_machine_auto_raw_resource": GREEN,
+    "xvcv_mdlc_pc_ringworld_machine_auto_generator": YELLOW,
+    "xvcv_mdlc_pc_ringworld_machine_auto_farming": GREEN,
     # VIRTUAL
     "xvcv_mdlc_pc_virtual_district_primary": BLUE,
     "xvcv_mdlc_pc_virtual_district_research": CYAN,
