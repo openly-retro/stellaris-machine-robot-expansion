@@ -181,7 +181,8 @@ country_event = {
 					limit = { uses_district_set = xvcv_mdlc_pc_mechanical_district_set }
 					log = "\\[prev.GetName] SYNTH SETUP (Mechanical) | Catalytic | Removing 1 generator, 1 industrial, adding 2 farms"
 					remove_district = xvcv_mdlc_pc_mechanical_district_generator
-					remove_district = xvcv_mdlc_pc_mechanical_district_industrial
+					# There could be a bug getting extra districts bc the last city can't be removed
+					remove_district = xvcv_mdlc_pc_mechanical_district_city
 					add_district = xvcv_mdlc_pc_mechanical_district_farming
 					add_district = xvcv_mdlc_pc_mechanical_district_farming
 				}
@@ -320,7 +321,7 @@ country_event = {
 					limit = { has_district = district_mining_uncapped }
 					remove_district = district_mining_uncapped
 				}
-				add_district = district_industrial
+				add_district = district_city
 				while = {
 					limit = { has_district = district_mining }
 					remove_district = district_mining
@@ -948,17 +949,7 @@ country_event = {
 				remove_district = district_rw_nexus
 				add_district = district_rw_city
 			}
-			while = {
-				limit = { has_district = xvcv_mdlc_pc_mechanical_district_nexus }
-				remove_district = xvcv_mdlc_pc_mechanical_district_nexus
-				add_district = xvcv_mdlc_pc_mechanical_district_city
-			}
-			while = {
-				limit = { has_district = xvcv_mdlc_pc_machine_auto_district_nexus }
-				remove_district = xvcv_mdlc_pc_machine_auto_district_nexus
-				add_district = xvcv_mdlc_pc_machine_auto_district_city
-			}
-	
+			# Conversion from gestalt to individual was here , RIP 7/19/2025
 			if = {
 				limit = { has_building = building_deployment_post }
 				remove_building = building_deployment_post
@@ -1473,16 +1464,16 @@ country_event = {
 				remove_district = district_rw_city
 				add_district = district_rw_nexus
 			}
-			while = {
-				limit = { has_district = xvcv_mdlc_pc_mechanical_district_city }
-				remove_district = xvcv_mdlc_pc_mechanical_district_city
-				add_district = xvcv_mdlc_pc_mechanical_district_nexus
-			}
-			while = {
-				limit = { has_district = xvcv_mdlc_pc_machine_auto_district_city }
-				remove_district = xvcv_mdlc_pc_machine_auto_district_city
-				add_district = xvcv_mdlc_pc_machine_auto_district_nexus
-			}
+			# while = {
+			# 	limit = { has_district = xvcv_mdlc_pc_mechanical_district_city }
+			# 	remove_district = xvcv_mdlc_pc_mechanical_district_city
+			# 	add_district = xvcv_mdlc_pc_mechanical_district_nexus
+			# }
+			# while = {
+			# 	limit = { has_district = xvcv_mdlc_pc_machine_auto_district_city }
+			# 	remove_district = xvcv_mdlc_pc_machine_auto_district_city
+			# 	add_district = xvcv_mdlc_pc_machine_auto_district_nexus
+			# }
 	
 			if = {
 				limit = { has_modifier = slave_colony }
@@ -3509,11 +3500,11 @@ planet_event = {
 			remove_district = district_nexus
 			change_variable = { which = xvcv_mdlc_pc_mechanical_district_city_var value = 1 }
 		}
-		while = {
-			limit = { has_district = district_industrial }
-			remove_district = district_industrial
-			change_variable = { which = xvcv_mdlc_pc_mechanical_district_industry_var value = 1 }
-		}
+		# while = {
+		# 	limit = { has_district = district_industrial }
+		# 	remove_district = district_industrial
+		# 	change_variable = { which = xvcv_mdlc_pc_mechanical_district_industry_var value = 1 }
+		# }
 		while = {
 			limit = { has_district = district_generator }
 			remove_district = district_generator
@@ -3546,38 +3537,23 @@ planet_event = {
 		}
 		change_pc = xvcv_mdlc_pc_mechanical
 		#1:1 conversion #let the player remove remaining redundant districts
-		if = {
-			limit = { owner = { has_auth_machine_intelligence = no } }
-			while = {
-				limit = { check_variable = { which = xvcv_mdlc_pc_mechanical_district_city_var value > 0 } }
-				subtract_variable = { which = xvcv_mdlc_pc_mechanical_district_city_var value = 1 }
-				add_district = xvcv_mdlc_pc_mechanical_district_city
-			}
-			# else = {
-			# 	while = {
-			# 		limit = { check_variable = { which = xvcv_mdlc_pc_mechanical_district_city_var value > 0 } }
-			# 		subtract_variable = { which = xvcv_mdlc_pc_mechanical_district_city_var value = 1 }
-			# 		add_district = xvcv_mdlc_pc_mechanical_district_nexus
-			# 	}
-			# }
+		while = {
+			limit = { check_variable = { which = xvcv_mdlc_pc_mechanical_district_city_var value > 0 } }
+			subtract_variable = { which = xvcv_mdlc_pc_mechanical_district_city_var value = 1 }
+			add_district = xvcv_mdlc_pc_mechanical_district_city
 		}
-		else = {
-			while = {
-				limit = { check_variable = { which = xvcv_mdlc_pc_mechanical_district_city_var value > 0 } }
-				subtract_variable = { which = xvcv_mdlc_pc_mechanical_district_city_var value = 1 }
-				add_district = xvcv_mdlc_pc_mechanical_district_nexus
-			}
-		}
+	
 		while = {
 			limit = { check_variable = { which = xvcv_mdlc_pc_mechanical_district_industry_var value > 0 } }
 			subtract_variable = { which = xvcv_mdlc_pc_mechanical_district_industry_var value = 1 }
-			add_district = xvcv_mdlc_pc_mechanical_district_industrial
+			add_district = xvcv_mdlc_pc_mechanical_district_city
 		}
 		while = {
 			limit = { check_variable = { which = xvcv_mdlc_pc_mechanical_district_generator_var value > 0 } }
 			subtract_variable = { which = xvcv_mdlc_pc_mechanical_district_generator_var value = 1 }
 			add_district = xvcv_mdlc_pc_mechanical_district_generator
 		}
+		# TODO: Maybe add industrial zone or smth "industrial"
 		while = {
 			limit = { check_variable = { which = xvcv_mdlc_pc_mechanical_district_mining_var value > 0 } }
 			subtract_variable = { which = xvcv_mdlc_pc_mechanical_district_mining_var value = 1 }

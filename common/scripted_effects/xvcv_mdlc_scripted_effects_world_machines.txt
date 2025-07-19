@@ -351,11 +351,11 @@ xvcv_mdlc_planet_decision_machine_world_automation_effect = {
 			remove_district = district_nexus
 			change_variable = { which = xvcv_mdlc_pc_machine_auto_district_city_var value = 1 }
 		}
-		while = {
-			limit = { has_district = district_industrial }
-			remove_district = district_industrial
-			change_variable = { which = xvcv_mdlc_pc_machine_auto_district_industrial_var value = 1 }
-		}
+		# while = {
+		# 	limit = { has_district = district_industrial }
+		# 	remove_district = district_industrial
+		# 	change_variable = { which = xvcv_mdlc_pc_machine_auto_district_industrial_var value = 1 }
+		# }
 		while = {
 			limit = { has_district = district_generator_uncapped }
 			remove_district = district_generator_uncapped
@@ -373,24 +373,32 @@ xvcv_mdlc_planet_decision_machine_world_automation_effect = {
 			add_modifier = { modifier = planet_population_control_gestalt days = -1 }
 		}
 		if = {
-			limit = { owner = { has_authority = auth_machine_intelligence } }
+			limit = { owner = { has_oxr_mdlc_origin_world_machine_awakened = yes } }
 			while = {
 				limit = { check_variable = { which = xvcv_mdlc_pc_machine_auto_district_city_var value > 0 } }
 				subtract_variable = { which = xvcv_mdlc_pc_machine_auto_district_city_var value = 1 }
-				add_district = xvcv_mdlc_pc_machine_auto_district_nexus
+				add_district = xvcv_mdlc_pc_machine_auto_district_city
 			}
 			else = {
 				while = {
 					limit = { check_variable = { which = xvcv_mdlc_pc_machine_auto_district_city_var value > 0 } }
 					subtract_variable = { which = xvcv_mdlc_pc_machine_auto_district_city_var value = 1 }
-					add_district = xvcv_mdlc_pc_machine_auto_district_city
+					add_district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
 				}
 			}
 		}
 		while = {
 			limit = { check_variable = { which = xvcv_mdlc_pc_machine_auto_district_industrial_var value > 0 } }
 			subtract_variable = { which = xvcv_mdlc_pc_machine_auto_district_industrial_var value = 1 }
-			add_district = xvcv_mdlc_pc_machine_auto_district_industrial
+			if = {
+				limit = {
+					owner = { has_oxr_mdlc_origin_world_machine_awakened = yes }
+				}
+				add_district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
+			}
+			else = {
+				add_district = xvcv_mdlc_pc_machine_auto_district_city
+			}
 		}
 		while = {
 			limit = { check_variable = { which = xvcv_mdlc_pc_machine_auto_district_generator_var value > 0 } }
