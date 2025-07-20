@@ -279,7 +279,7 @@ def convert_iter_lines_to_dict(json_as_str: str) -> dict:
     try:
         cleaned_content_obj = ast.literal_eval(cleaned_content)
     except Exception as exc:
-        # breakpoint()
+        breakpoint()
         err_range = f"-->{exc.text[exc.offset-60:exc.offset+60]}<--"
         
         print(

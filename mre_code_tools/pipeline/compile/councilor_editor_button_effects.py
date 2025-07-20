@@ -92,13 +92,13 @@ oxr_mdlc_councilor_editor_reset_traits_button_effect = {
                     if EXCLUDE_TRAITS_FROM_PARAGON_DLC.get(trait_name):
                         print(f"Skipping {trait_name}...")
                         continue
-                    unsorted_traits[rarity].append(trait_name)
                     # deal with free_or_veteran
                     trait_rarity_level = rarity
                     if trait_rarity_level == 'free_or_veteran':
                         trait_rarity_level = 'veteran'
-
-    conditional_limit = "                if = {{ limit = {{ has_trait = {trait_name} }} remove_trait = {trait_name} oxr_mdlc_councilor_editor_refund_trait_resources_cost_{trait_rarity_level} = yes }}"
+                    unsorted_traits[trait_rarity_level].append(trait_name)
+                    
+    conditional_limit = "                if = {{ limit = {{ has_trait = {trait_name} }} remove_trait = {trait_name} oxr_mdlc_councilor_editor_refund_trait_resources_cost_{rarity} = yes }}"
     # Sort them all
     for rarity in RARITIES:
         for trait_name in sorted(set(unsorted_traits[rarity])):
@@ -183,6 +183,9 @@ def gen_councilor_editor_traits_button_effects_code(
 
     leader_class = GESTALT_COUNCILOR_CLASS_MAP[councilor_type]
     subclass_check_trigger = f"oxr_mdlc_councilor_editor_check_leader_has_required_subclass = {{ CLASS = {leader_class} SUBCLASS = {required_subclass} }}"
+
+    if rarity == 'free_or_veteran':
+        rarity = 'veteran'
 
     return f"""
 #{councilor_type} #{trait_name} #{rarity}

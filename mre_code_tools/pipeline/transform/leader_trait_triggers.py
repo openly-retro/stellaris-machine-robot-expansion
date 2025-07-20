@@ -38,7 +38,7 @@ def write_leader_trait_trigger_files():
             # Evaluating files that are a large dict with traits sorted by feature and then rarity
             # We will surely get duplicates
             triggers_for_leader_traits = iterate_traits_create_requirements_triggers(buffer)
-            output_file_name = f"{FILE_NUM_PREFIXES["triggers"]}_mre_{leader_class}_leader_trait_triggers.txt"
+            output_file_name = f"{FILE_NUM_PREFIXES['triggers']}_mre_{leader_class}_leader_trait_triggers.txt"
             output_file_dest = os.path.join(
                 MOD_SCRIPTED_TRIGGERS_FOLDER, output_file_name
             )
