@@ -472,7 +472,7 @@ them because that DLC is not enabled. And there is no DLC-required flag in the t
 Use this information when building button effects for a trait, somehow"""
 HIDDEN_DLC_REQUIREMENTS = {
     "mod_planet_jobs_food_produces_mult": "Megacorp",  # implement in potential: host_has_dlc = "Megacorp"
-    "mod_planet_administrators_unity_produces_mult": "Megacorp",
+    "mod_planet_bureaucrats_unity_produces_mult": "Megacorp",
     "mod_planet_technician_energy_produces_mult": "Megacorp",
     "mod_weapon_archaeotech_weapon_damage_mult": "Ancient Realms",  # has_ancrel
     "mod_weapon_role_artillery_weapon_damage_mult": "Paragons",

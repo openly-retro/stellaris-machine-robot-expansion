@@ -108,6 +108,7 @@ xvcv_mdlc_modify_species_change_traits_for_lithoid_effect = {
 	if = { limit = { has_trait = trait_lithoid_gaseous_byproducts } modify_species = { base = none remove_trait = trait_lithoid_gaseous_byproducts add_trait = xvcv_mdlc_trait_lithoid_gaseous_byproducts } }
 	if = { limit = { has_trait = trait_lithoid_volatile_excretions } modify_species = { base = none remove_trait = trait_lithoid_volatile_excretions add_trait = xvcv_mdlc_trait_lithoid_volatile_excretions } }
 }
+
 xvcv_mdlc_leader_tied_traits_add_effect = {
 	optimize_memory
 	every_owned_leader = {
@@ -115,36 +116,36 @@ xvcv_mdlc_leader_tied_traits_add_effect = {
 			is_councilor = no
 			xvcv_mdlc_leader_tied_traits_add_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_shared_memory LEADER_TRAIT = xvcv_mdlc_leader_trait_shared_memory }
 		}
-		add_trait = { show_message = no trait  = xvcv_mdlc_leader_trait_shared_memory }
+		oxr_add_trait_no_notify = { t = xvcv_mdlc_leader_trait_shared_memory }
 	}
 	every_pool_leader = {
 		limit = {
 			is_councilor = no
 			xvcv_mdlc_leader_tied_traits_add_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_shared_memory LEADER_TRAIT = xvcv_mdlc_leader_trait_shared_memory }
 		}
-		add_trait = { show_message = no trait  = xvcv_mdlc_leader_trait_shared_memory }
+		oxr_add_trait_no_notify = { t = xvcv_mdlc_leader_trait_shared_memory }
 	}
 	every_owned_leader = {
 		limit = {
 			is_councilor = no
 			xvcv_mdlc_leader_tied_traits_add_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_memory_backup LEADER_TRAIT = xvcv_mdlc_leader_trait_memory_backup }
 		}
-		add_trait = { show_message = no trait  = xvcv_mdlc_leader_trait_memory_backup }
+		oxr_add_trait_no_notify = { t = xvcv_mdlc_leader_trait_memory_backup }
 	}
 	every_pool_leader = {
 		limit = {
 			is_councilor = no
 			xvcv_mdlc_leader_tied_traits_add_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_memory_backup LEADER_TRAIT = xvcv_mdlc_leader_trait_memory_backup }
 		}
-		add_trait = { show_message = no trait  = xvcv_mdlc_leader_trait_memory_backup }
+		oxr_add_trait_no_notify = { t = xvcv_mdlc_leader_trait_memory_backup }
 	}
 	every_owned_leader = {
 		limit = { xvcv_mdlc_leader_tied_traits_add_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_bio_robot LEADER_TRAIT = xvcv_mdlc_leader_trait_bio_robot } }
-		add_trait = { show_message = no trait  = xvcv_mdlc_leader_trait_bio_robot }
+		oxr_add_trait_no_notify = { t = xvcv_mdlc_leader_trait_bio_robot }
 	}
 	every_pool_leader = {
 		limit = { xvcv_mdlc_leader_tied_traits_add_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_bio_robot LEADER_TRAIT = xvcv_mdlc_leader_trait_bio_robot } }
-		add_trait = { show_message = no trait  = xvcv_mdlc_leader_trait_bio_robot }
+		oxr_add_trait_no_notify = { t = xvcv_mdlc_leader_trait_bio_robot }
 	}
 }
 xvcv_mdlc_leader_tied_traits_remove_effect = {
@@ -388,7 +389,7 @@ oxr_mdlc_set_custom_species_habitability = {
 			}
 		}
 		change_species_characteristics = {
-			add_trait = { show_message = no trait = oxr_mdlc_trait_dry_planet_preference }
+			add_trait = oxr_mdlc_trait_dry_planet_preference
 			add_traits_at_start_of_list = yes
 		}
 		log = "Changed species: added dry planet preference to \\[This.species.GetName]"
@@ -405,7 +406,7 @@ oxr_mdlc_set_custom_species_habitability = {
 			}
 		}
 		change_species_characteristics = {
-			add_trait = { show_message = no trait = oxr_mdlc_trait_wet_planet_preference }
+			add_trait = oxr_mdlc_trait_wet_planet_preference
 			add_traits_at_start_of_list = yes
 		}
 		log = "Changed species: added wet planet preference to \\[This.species.GetName]"
@@ -422,7 +423,7 @@ oxr_mdlc_set_custom_species_habitability = {
 			}
 		}
 		change_species_characteristics = {
-			add_trait = { show_message = no trait = oxr_mdlc_trait_frozen_planet_preference }
+			add_trait = oxr_mdlc_trait_frozen_planet_preference
 			add_traits_at_start_of_list = yes
 		}
 		log = "Changed species: added frozen planet preference to \\[This.species.GetName]"
@@ -437,7 +438,7 @@ oxr_mdlc_set_custom_species_habitability = {
 			}
 		}
 		change_species_characteristics = {
-			add_trait = { show_message = no trait = oxr_mdlc_trait_pc_habitat_preference }
+			add_trait = oxr_mdlc_trait_pc_habitat_preference
 			add_traits_at_start_of_list = yes
 		}
 		log = "Changed species: added habitat preference"
@@ -452,7 +453,7 @@ oxr_mdlc_set_custom_species_habitability = {
 			}
 		}
 		change_species_characteristics = {
-			add_trait = { show_message = no trait = oxr_mdlc_trait_pc_ringworld_habitable_preference }
+			add_trait = oxr_mdlc_trait_pc_ringworld_habitable_preference
 			add_traits_at_start_of_list = yes
 		}
 		log = "Changed species: add ringworld pref "
@@ -461,21 +462,21 @@ oxr_mdlc_set_custom_species_habitability = {
 		random_list = {
 			1 = {
 				change_species_characteristics = {
-					add_trait = { show_message = no trait = oxr_mdlc_trait_dry_planet_preference }
+					add_trait = oxr_mdlc_trait_dry_planet_preference
 					add_traits_at_start_of_list = yes
 				}
 				log = "changed species to randomly have dry planet preference"
 			}
 			1 = {
 				change_species_characteristics = {
-					add_trait = { show_message = no trait = oxr_mdlc_trait_wet_planet_preference }
+					add_trait = oxr_mdlc_trait_wet_planet_preference
 					add_traits_at_start_of_list = yes
 				}
 				log = "changed species to randomly have wet planet peference"
 			}
 			1 = {
 				change_species_characteristics = {
-					add_trait = { show_message = no trait = oxr_mdlc_trait_frozen_planet_preference }
+					add_trait = oxr_mdlc_trait_frozen_planet_preference
 					add_traits_at_start_of_list = yes
 				}
 				log = "Changed species to randomly have frozen planet preference"
@@ -484,20 +485,16 @@ oxr_mdlc_set_custom_species_habitability = {
 	}
 	# Void dweller
 	if = {
-		limit = {
-			prev = {
-				has_trait = trait_void_dweller_1
-			}
-		}
+		limit = { prev = { has_trait = trait_void_dweller_1 } }
 		change_species_characteristics = {
-			add_trait = { show_message = no trait = oxr_mdlc_trait_void_dweller_1 }
+			add_trait = oxr_mdlc_trait_void_dweller_1
 		}
 		log = "Changed species: added void dweller 1 to species"
 	}
 	else_if = {
 		limit = { prev = { has_trait = trait_void_dweller_2 } }
 		change_species_characteristics = {
-			add_trait = { show_message = no trait = oxr_mdlc_trait_void_dweller_2 }
+			add_trait = oxr_mdlc_trait_void_dweller_2
 		}
 		log = "Changed species: Added void dweller 2 to species"
 	}
@@ -519,7 +516,7 @@ oxr_mdlc_set_mechanical_heritage_species_habitability = {
 		change_species_characteristics = { remove_trait = trait_wet_planet_preference }
 	}
 	change_species_characteristics = {
-		add_trait = { show_message = no trait = trait_xvcv_mdlc_pc_mechanical_preference }
+		add_trait = trait_xvcv_mdlc_pc_mechanical_preference
 		add_traits_at_start_of_list = yes
 	}
 }

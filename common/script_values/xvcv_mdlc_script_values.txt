@@ -99,13 +99,20 @@ count_world_machines_districts_not_cooling = {
 		parameters = { type = any }
 		mode = add
 	}
+
 	complex_trigger_modifier = {
 		trigger = num_districts
-		parameters = {
-			limit = {
-				oxr_mdlc_planet_district_is_cooling = yes
-			}
-		}
+		parameters = { type = xvcv_mdlc_pc_machine_ecu_district_cooling_primary }
+		mode = subtract
+	}
+	complex_trigger_modifier = {
+		trigger = num_districts
+		parameters = { type = xvcv_mdlc_pc_machine_ser_district_cooling_primary }
+		mode = subtract
+	}
+	complex_trigger_modifier = {
+		trigger = num_districts
+		parameters = { type = xvcv_mdlc_pc_machine_cpu_district_cooling_primary }
 		mode = subtract
 	}
 }
