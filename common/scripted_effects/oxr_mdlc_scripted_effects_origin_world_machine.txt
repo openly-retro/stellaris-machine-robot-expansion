@@ -19,72 +19,72 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 			value = @oxr_mdlc_world_machine_defense_armies_per_district
 		}
 	}
+	# STARTING PLANET DISTRICT ADJUSTMENT
 	planet = {
 		# have to do this planet class change in 4.0 for some reason
 		change_pc = xvcv_mdlc_pc_machine_auto
 		set_colony_type = xvcv_mdlc_col_machine_auto_capital
 
-		# optimize_memory
-		# This is starting in the PLANET scope
-		export_trigger_value_to_variable = {
-			trigger = num_districts
-			parameters = { type = any }
-			variable = num_starting_districts
-		}
+		# In 4.0 we don't start with extra districts
+		# Calculate how many to add
+		# Other empires seem to start with 12 districts generally
 
-		# Swap in districts
-		while = {
-			limit = { has_district = district_city }
-			remove_district = district_city
-			add_district = xvcv_mdlc_pc_machine_auto_district_mining
-		}
-		while = {
-			limit = { has_district = district_nexus }
-			remove_district = district_nexus
-			add_district = xvcv_mdlc_pc_machine_auto_district_mining
-		}
-		while = {
-			limit = { has_district = district_generator }
-			remove_district = district_generator
-			add_district = xvcv_mdlc_pc_machine_auto_district_generator
-		}
-		while = {
-			limit = { has_district = district_mining }
-			remove_district = district_mining
-			add_district = xvcv_mdlc_pc_machine_auto_district_mining
-		}
+		# 2 industrial (one primary already exists on colonization)
+		add_district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
 
-		# Have a check here that looks whether the empire uses food.
-		# If not, convert these to generator
-		while = {
-			limit = { has_district = district_farming }
-			remove_district = district_farming
-			add_district = xvcv_mdlc_pc_machine_auto_district_farming
+		if = {
+			limit = {
+				owner = {
+					OR = {
+						has_civic = civic_machine_beastmasters
+						has_civic = civic_machine_catalytic_processing
+					}
+				}
+			}
+			# 4 energy
+			while = {
+				count = 3
+				add_district = xvcv_mdlc_pc_machine_auto_district_generator
+			}
+			while = {
+				count = 6
+				add_district = xvcv_mdlc_pc_machine_auto_district_farming
+			}
+			
 		}
-		while = {
-			limit = { has_district = district_city }
-			remove_district = district_city
-			add_district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
+		else = {
+			# 6 mining
+			while = {
+				count = 6
+				add_district = xvcv_mdlc_pc_machine_auto_district_mining
+			}
+			# 4 energy
+			while = {
+				count = 3
+				add_district = xvcv_mdlc_pc_machine_auto_district_generator
+			}
 		}
-		# Note the difference in starting vs now
-		export_trigger_value_to_variable = {
-			trigger = num_districts
-			parameters = { type = any }
-			variable = num_ending_districts
-		}
-		set_variable = {
-			which = starting_districts_difference
-			value = num_starting_districts
-		}
-		subtract_variable = {
-			which = starting_districts_difference
-			value = num_ending_districts
-		}
-		log = "Starting districts: \\[This.num_starting_districts]. End with \\[This.num_ending_districts]. Difference \\[This.starting_districts_difference]"
-		clear_variable = num_starting_districts
-		clear_variable = num_ending_districts
-		clear_variable = starting_districts_difference
 	}
+
+	planet = {
+		# Resource adjustment
+		if = {
+			limit = {
+				owner = {
+					OR = {
+						has_civic = civic_machine_beastmasters
+						has_civic = civic_machine_catalytic_processing
+					}
+				}
+			}
+			owner = {
+				add_resource = {
+					food = 100
+				}
+			}
+		}
+	}
+
 	# Set the primary production zone
 	planet = {
 		add_zone = {
@@ -251,26 +251,6 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 		### Free up slots
 		remove_if_has_building = { WHICH = building_machine_assembly_plant }
 		remove_if_has_building = { WHICH = building_drone_storage }
-	}
-
-	planet = {
-		# Food adjustment
-		if = {
-			limit = {
-				owner = {
-					OR = {
-						has_civic = civic_machine_beastmasters
-						has_civic = civic_machine_catalytic_processing
-					}
-				}
-			}
-			add_district = xvcv_mdlc_pc_machine_auto_district_farming
-			owner = {
-				add_resource = {
-					food = 100
-				}
-			}
-		}
 	}
 
 	# Add armies! there should be a few districts already
