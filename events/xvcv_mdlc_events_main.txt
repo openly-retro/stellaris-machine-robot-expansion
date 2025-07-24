@@ -65,53 +65,16 @@ country_event = {
 			}
 		}
 		#and that ends here
-		if = {
-			limit = { xvcv_mdlc_country_has_synthetic_origin = yes }
-			add_resource = {
-				energy = 200
-				food = -200
-			}
-			give_technology = { tech = tech_bio_reactor message = no }
-			if = {
-				limit = {
-					has_origin = xvcv_mdlc_origin_mechanical_heritage
-				}
-				add_modifier = {
-					modifier = oxr_mdlc_origin_mechanical_temp_pop_demotion
-					days = 30
-				}
-			}
-			# country_event = { id = xvcv_mdlc.4 days = 1 }
-			if = {
-				limit = { has_machine_age_dlc = yes }
-				country_event = {
-					id = xvcv_mdlc.1011
-					days = 0
-				}
-			}
-			else = {
-				country_event = {
-					id = xvcv_mdlc.1010
-					days = 0
-				}
-			}
-		}
+		#and this starts here
+		
 		capital_scope = {
-			if = {
-				limit = {
-					prev = {
-						has_origin = xvcv_mdlc_origin_mechanical_heritage
-					}
-				}
-				# Do the swaps now so as not to lose num of districts
-				oxr_mdlc_planet_swap_vanilla_to_mechanical_world_districts = yes
-				# Make adjustments to homeworld based on traits, civics, etc
-				# So as to avoid changing what XVCV has designed
-				# oxr_mdlc_adjust_capital_scope_mechanical_heritage_start = yes
-			}
 			# Rock body trait
 			if = {
-				limit = { prev.species = { has_trait = xvcv_mdlc_trait_rock_body } }
+				limit = {
+					prev.species = { has_trait = xvcv_mdlc_trait_rock_body }
+					# Exclude mechanical heritage origin, districts are balanced elsewhere
+					owner = { has_xvcv_mdlc_origin_mechanical_heritage = no }
+				}
 				if = {
 					limit = { has_district = district_generator }
 					while = {
@@ -129,21 +92,14 @@ country_event = {
 						count = 2
 					}
 				}
-				else_if = {
-					limit = {
-						uses_district_set = xvcv_mdlc_pc_mechanical_district_set
-					}
-					while = {
-						remove_district = xvcv_mdlc_pc_mechanical_district_generator
-						add_district = xvcv_mdlc_pc_mechanical_district_mining
-						count = 2
-						log = "\\[prev.GetName] MINERAL BODY (Mechanical) | swapped generators for mining districts"
-					}
-				}
 			}
 			# Organic skin trait
 			if = {
-				limit = { prev.species = { has_trait = xvcv_mdlc_trait_synth_skin } }
+				limit = {
+					prev.species = { has_trait = xvcv_mdlc_trait_synth_skin }
+					# Exclude mechanical heritage origin, districts are balanced elsewhere
+					owner = { has_xvcv_mdlc_origin_mechanical_heritage = no }
+				}
 				prev = { add_resource = { food = 200 } }
 				# Standard planets
 				if = {
@@ -156,17 +112,16 @@ country_event = {
 					limit = { uses_district_set = machine_world }
 					add_deposit = d_organic_slurry
 				}
-				# Mechanical
-				else_if = {
-					limit = { uses_district_set = xvcv_mdlc_pc_mechanical_district_set }
-					log = "\\[prev.GetName] SYNTH SETUP (Mechanical) | Organic skin | Adding 2 farms"
-					add_district = xvcv_mdlc_pc_mechanical_district_farming
-					add_district = xvcv_mdlc_pc_mechanical_district_farming
-				}
 			}
 			# Catalytic empires
 			if = {
-				limit = { prev = { has_civic = civic_catalytic_processing } }
+				limit = {
+					prev = {
+						has_civic = civic_catalytic_processing
+						# Exclude mechanical heritage origin, districts are balanced elsewhere
+						has_xvcv_mdlc_origin_mechanical_heritage = no
+					}
+				}
 				# Standard planets
 				if = {
 					limit = { uses_district_set = standard }
@@ -175,16 +130,6 @@ country_event = {
 					remove_district = district_generator
 					# add_district = district_farming
 					add_district = district_farming
-				}
-				# Mechanical
-				else_if = {
-					limit = { uses_district_set = xvcv_mdlc_pc_mechanical_district_set }
-					log = "\\[prev.GetName] SYNTH SETUP (Mechanical) | Catalytic | Removing 1 generator, 1 industrial, adding 2 farms"
-					remove_district = xvcv_mdlc_pc_mechanical_district_generator
-					# There could be a bug getting extra districts bc the last city can't be removed
-					remove_district = xvcv_mdlc_pc_mechanical_district_city
-					add_district = xvcv_mdlc_pc_mechanical_district_farming
-					add_district = xvcv_mdlc_pc_mechanical_district_farming
 				}
 			}
 			# Situational tweak for organic skin + synth ascended start
@@ -362,31 +307,7 @@ country_event = {
 				}
 				add_building = building_robot_assembly_plant
 			}
-			if = {
-				limit = { prev = { has_origin = xvcv_mdlc_origin_mechanical_heritage } }
-				prev = { set_country_flag = xvcv_mdlc_origin_mechanical_heritage_empire } #also see: xvcv_mdlc_pc_mechanical_district_set
-				# oxr_mdlc_planet_swap_vanilla_to_mechanical_world_districts = yes
-				remove_district = xvcv_mdlc_pc_mechanical_district_generator
-				create_pop_group = {
-					species = prev.species
-					effect = { save_event_target_as = last_created_pop_group }
-				}
-			}
-			if = {
-				limit = {
-					prev = {
-						has_monthly_income = { resource = minerals value < 0 }
-					}
-					uses_district_set = xvcv_mdlc_pc_mechanical_district_set
-					num_districts = {
-						type = any
-						value < 10
-					}
-				}
-				add_district = xvcv_mdlc_pc_mechanical_district_mining
-				add_district = xvcv_mdlc_pc_mechanical_district_mining
-				log = "\\[prev.GetName] Found mineral deficit, added two mining districts"
-			}
+
 			# I really don't like adding all these cascading conditionals at the end
 			# Additional resource balancing
 			if = {
@@ -700,6 +621,23 @@ country_event = {
 			set_country_flag = xvcv_mdlc_synth_origin_start_project_cleared
 		}
 		else = { country_event = { id = xvcv_mdlc.4 days = 1 } } #check per day
+	}
+}
+
+# Do game start things for mechanical heritage origin
+country_event = {
+	id = xvcv_mdlc.10
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		has_xvcv_mdlc_origin_mechanical_heritage = yes
+		# Don't want this firing multiple times
+		doesnt_have_country_flag = { FLAG = xvcv_mdlc_origin_mechanical_heritage_empire }
+	}
+
+	immediate = {
+		oxr_mdlc_country_mechanical_heritage_origin_game_start_effect = yes
 	}
 }
 
