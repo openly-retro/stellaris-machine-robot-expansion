@@ -10,27 +10,7 @@ xvcv_mdlc_pc_mechanical_district_city = {
 		slot_city_02
 	}
 
-	show_on_uncolonized = {
-		exists = from
-		from = {
-			OR = {
-				has_ascension_perk = xvcv_mdlc_ap_mechanical_worlds
-				has_country_flag = xvcv_mdlc_origin_mechanical_heritage_empire
-			}
-		}
-		uses_district_set = xvcv_mdlc_pc_mechanical_district_set
-	}
-
-	potential = {
-		exists = owner
-		owner = {
-			OR = {
-				has_ascension_perk = xvcv_mdlc_ap_mechanical_worlds
-				has_country_flag = xvcv_mdlc_origin_mechanical_heritage_empire
-			}
-		}
-		uses_district_set = xvcv_mdlc_pc_mechanical_district_set
-	}
+	inline_script = planet/districts/pc_mechanical/oxr_mech_district_potential
 
 	# triggered_desc = {
 	# 	trigger = {
@@ -165,8 +145,19 @@ xvcv_mdlc_pc_mechanical_district_city = {
 	# 	script = districts/district_triggered_flavor_desc_urban
 	# }
 
-	inline_script = {
-		script = districts/ai_urban_district_extra_weighting
+	# inline_script = {
+	# 	script = districts/ai_urban_district_extra_weighting
+	# }
+
+	triggered_name = {
+		trigger = {
+			exists = owner
+			owner = { has_auth_machine_intelligence = yes }
+		}
+		text = xvcv_mdlc_pc_mechanical_district_nexus
+	}
+	triggered_name = {
+		text = xvcv_mdlc_pc_mechanical_district_city
 	}
 
 }
@@ -175,26 +166,7 @@ xvcv_mdlc_pc_mechanical_district_generator = {
 	base_buildtime = @xvcv_mdlc_district_time_2
 	is_capped_by_modifier = no
 
-	show_on_uncolonized = {
-		exists = from
-		from = {
-			OR = {
-				has_ascension_perk = xvcv_mdlc_ap_mechanical_worlds
-				has_country_flag = xvcv_mdlc_origin_mechanical_heritage_empire
-			}
-		}
-		uses_district_set = xvcv_mdlc_pc_mechanical_district_set
-	}
-	potential = {
-		exists = owner
-		owner = {
-			OR = {
-				has_ascension_perk = xvcv_mdlc_ap_mechanical_worlds
-				has_country_flag = xvcv_mdlc_origin_mechanical_heritage_empire
-			}
-		}
-		uses_district_set = xvcv_mdlc_pc_mechanical_district_set
-	}
+	inline_script = planet/districts/pc_mechanical/oxr_mech_district_potential
 
 	conversion_ratio = 1
 	inline_script = planet/districts/convert_to/oxr_wm_district_2
@@ -283,26 +255,7 @@ xvcv_mdlc_pc_mechanical_district_mining = {
 	base_buildtime = @xvcv_mdlc_district_time_2
 	is_capped_by_modifier = no
 
-	show_on_uncolonized = {
-		exists = from
-		from = {
-			OR = {
-				has_ascension_perk = xvcv_mdlc_ap_mechanical_worlds
-				has_country_flag = xvcv_mdlc_origin_mechanical_heritage_empire
-			}
-		}
-		uses_district_set = xvcv_mdlc_pc_mechanical_district_set
-	}
-	potential = {
-		exists = owner
-		owner = {
-			OR = {
-				has_ascension_perk = xvcv_mdlc_ap_mechanical_worlds
-				has_country_flag = xvcv_mdlc_origin_mechanical_heritage_empire
-			}
-		}
-		uses_district_set = xvcv_mdlc_pc_mechanical_district_set
-	}
+	inline_script = planet/districts/pc_mechanical/oxr_mech_district_potential
 
 	conversion_ratio = 1
 	inline_script = planet/districts/convert_to/oxr_wm_district_3
@@ -392,26 +345,7 @@ xvcv_mdlc_pc_mechanical_district_farming = {
 	base_buildtime = @xvcv_mdlc_district_time_2
 	is_capped_by_modifier = no
 
-	show_on_uncolonized = {
-		exists = from
-		from = {
-			OR = {
-				has_ascension_perk = xvcv_mdlc_ap_mechanical_worlds
-				has_country_flag = xvcv_mdlc_origin_mechanical_heritage_empire
-			}
-		}
-		uses_district_set = xvcv_mdlc_pc_mechanical_district_set
-	}
-	potential = {
-		exists = owner
-		owner = {
-			OR = {
-				has_ascension_perk = xvcv_mdlc_ap_mechanical_worlds
-				has_country_flag = xvcv_mdlc_origin_mechanical_heritage_empire
-			}
-		}
-		uses_district_set = xvcv_mdlc_pc_mechanical_district_set
-	}
+	inline_script = planet/districts/pc_mechanical/oxr_mech_district_potential
 
 	conversion_ratio = 1
 	inline_script = planet/districts/convert_to/oxr_wm_district_4
@@ -423,7 +357,7 @@ xvcv_mdlc_pc_mechanical_district_farming = {
 	resources = {
 		category = planet_districts
 		cost = { minerals = @xvcv_mdlc_district_cost_2 }
-		upkeep = { energy = 100 }
+		upkeep = { energy = 1 }
 	}
 
 	planet_modifier = {
