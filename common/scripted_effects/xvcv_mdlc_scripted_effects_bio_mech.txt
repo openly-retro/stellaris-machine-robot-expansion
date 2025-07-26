@@ -183,15 +183,29 @@ xvcv_mdlc_planet_calc_bio_mech_growth_rate = {
 		if = {
 			limit = { has_trait = xvcv_mdlc_bio_robot_trait_org_body_copy_design }
 			prev = {
-				change_variable = { which = xvcv_mdlc_bio_robot_growth_progress_var value = @xvcv_mdlc_bio_robot_growth_add_2 }
-				change_variable = { which = xvcv_mdlc_bio_robot_growth_rate_per_month_var value = @xvcv_mdlc_bio_robot_growth_add_2 }
+				change_variable = {
+					which = xvcv_mdlc_bio_robot_growth_progress_var
+					value = @xvcv_mdlc_bio_robot_growth_add_2
+				}
+				change_variable = {
+					which = xvcv_mdlc_bio_robot_growth_rate_per_month_var
+					value = @xvcv_mdlc_bio_robot_growth_add_2
+				}
 			}
 		}
 		prev = {
 			#phase 3: create a pop
 			if = {
-				limit = { check_variable = { which = xvcv_mdlc_bio_robot_growth_progress_var value > xvcv_mdlc_bio_robot_growth_requirement_var } }
-				subtract_variable = { which = xvcv_mdlc_bio_robot_growth_progress_var value = xvcv_mdlc_bio_robot_growth_requirement_var }
+				limit = {
+					check_variable = {
+						which = xvcv_mdlc_bio_robot_growth_progress_var
+						value > xvcv_mdlc_bio_robot_growth_requirement_var
+					}
+				}
+				subtract_variable = {
+					which = xvcv_mdlc_bio_robot_growth_progress_var
+					value = xvcv_mdlc_bio_robot_growth_requirement_var
+				}
 				create_pop_group = {
 					species = prev.species
 					effect = {
