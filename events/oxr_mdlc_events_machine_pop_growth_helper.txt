@@ -1,0 +1,68 @@
+# Events for tracking fractional growth of assembly and converting to pops
+namespace = oxr_mdlc_machine_pop_helper
+
+# Monthly check for assembly correction feature
+country_event = {
+	id = oxr_mdlc_machine_pop_helper.10
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		has_country_flag = oxr_mdlc_machine_pop_growth_helper_feature_active
+	}
+
+	immediate = {
+		country_event = {
+			id = oxr_mdlc_machine_pop_helper.15
+		}
+	}
+}
+
+country_event = {
+	id = oxr_mdlc_machine_pop_helper.15
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_owned_planet = {
+			any_owned_pop_group = {
+				oxr_mdlc_pop_group_is_machine = yes
+			}
+		}
+	}
+
+	immediate = {
+		every_owned_planet = {
+			limit = {
+				any_owned_pop_group = {
+					oxr_mdlc_pop_group_is_machine = yes
+				}
+			}
+			planet = {
+				oxr_mdlc_planet_add_pops_from_fractional_compound_pop_assembly = yes
+			}
+		}
+	}
+}
+
+# turn it off
+country_event = {
+	id = oxr_mdlc_machine_pop_helper.20
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_owned_planet = {
+			has_modifier = oxr_mdlc_country_machine_pop_growth_helper
+		}
+	}
+
+	immediate = {
+		every_owned_planet = {
+			limit = {
+				has_modifier = oxr_mdlc_country_machine_pop_growth_helper
+			}
+			remove_modifier = oxr_mdlc_country_machine_pop_growth_helper
+		}
+	}
+}
