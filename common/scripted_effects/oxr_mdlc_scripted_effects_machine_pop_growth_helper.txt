@@ -15,6 +15,21 @@ oxr_mdlc_planet_add_pops_from_fractional_compound_pop_assembly = {
 		}
 	}
 
+	# this one apparently is not accurate
+	export_trigger_value_to_variable = {
+		trigger = artificial_pops_last_month_growth
+		variable = oxr_mdlc_planet_artificial_pops_last_month_growth
+	}
+	# Accurate
+	export_trigger_value_to_variable = {
+		trigger = count_owned_pop_group
+		limit = {
+			is_robot_pop_group = yes
+		}
+		variable = oxr_mdlc_planet_num_artificial_pop_groups
+	}
+
+
 	# set_variable = {
 	# 	which = oxr_mdlc_planet_machine_pop_growth_total_for_display
 	# 	value = modifier:planet_pop_assembly_add
@@ -23,7 +38,7 @@ oxr_mdlc_planet_add_pops_from_fractional_compound_pop_assembly = {
         modifier = planet_pop_assembly_add
         variable = oxr_mdlc_planet_machine_pop_growth_total_for_display
     }
-    log = "This month's Machine pop assembly is \\[This.oxr_mdlc_planet_machine_pop_growth_total_for_display] "
+    log = "This month's pop assembly is \\[This.oxr_mdlc_planet_machine_pop_growth_total_for_display] "
 
 	if = {
 		limit = {
@@ -77,9 +92,64 @@ oxr_mdlc_planet_add_pops_from_fractional_compound_pop_assembly = {
 
 	every_owned_pop_group = {
 		limit = {
-			oxr_mdlc_pop_group_is_machine = yes
+			oxr_mdlc_pop_group_has_robots = yes
 		}
 		add_pop_amount = 1
 		log = "Added 1 pops to \\[This.GetName] from fractional pop assembly rollover"
 	}
+
+}
+
+oxr_mdlc_planet_update_population_count_only = {
+
+	# last month's pop count
+	if = {
+		limit = {
+			NOT = {
+				is_variable_set = oxr_mdlc_planet_total_robot_pops_last_month
+			}
+		}
+		export_trigger_value_to_variable = {
+			trigger = count_owned_pop_amount
+			limit = {
+				oxr_mdlc_pop_group_has_robots = yes
+			}
+			variable = oxr_mdlc_planet_total_robot_pops_last_month
+		}
+	}
+	else = {
+		# Take the last known value of oxr_mdlc_planet_total_robot_pops_this_month
+		# and move into last month's register
+		set_variable = {
+			which = oxr_mdlc_planet_total_robot_pops_last_month
+			value = oxr_mdlc_planet_total_robot_pops_this_month
+		}
+	}
+
+	# set this month's
+	export_trigger_value_to_variable = {
+		trigger = count_owned_pop_amount
+		limit = {
+			oxr_mdlc_pop_group_has_robots = yes
+		}
+		variable = oxr_mdlc_planet_total_robot_pops_this_month
+	}
+
+	set_variable = {
+		which = oxr_mdlc_planet_robot_pop_difference
+		value = oxr_mdlc_planet_total_robot_pops_this_month
+	}
+	subtract_variable = {
+		which = oxr_mdlc_planet_robot_pop_difference
+		value = oxr_mdlc_planet_total_robot_pops_last_month
+	}
+
+	export_trigger_value_to_variable = {
+		trigger = count_owned_pop_amount
+		limit = {
+			oxr_mdlc_pop_group_has_robots = yes
+		}
+		variable = oxr_mdlc_planet_total_robot_pops_this_month
+	}
+
 }

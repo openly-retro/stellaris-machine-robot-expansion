@@ -26,7 +26,7 @@ country_event = {
 	trigger = {
 		any_owned_planet = {
 			any_owned_pop_group = {
-				oxr_mdlc_pop_group_is_machine = yes
+				oxr_mdlc_pop_group_has_robots = yes
 			}
 		}
 	}
@@ -35,13 +35,29 @@ country_event = {
 		every_owned_planet = {
 			limit = {
 				any_owned_pop_group = {
-					oxr_mdlc_pop_group_is_machine = yes
+					oxr_mdlc_pop_group_has_robots = yes
 				}
 			}
 			planet = {
 				oxr_mdlc_planet_add_pops_from_fractional_compound_pop_assembly = yes
+				planet_event = {
+					id = oxr_mdlc_machine_pop_helper.16
+					days = 1
+				}
 			}
 		}
+	}
+}
+
+# Update planet population count and number of created pops
+planet_event = {
+	id = oxr_mdlc_machine_pop_helper.16
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = { }
+	immediate = {
+		oxr_mdlc_planet_update_population_count_only = yes
 	}
 }
 

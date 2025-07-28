@@ -1,0 +1,155 @@
+complex_drone_unemployment = {
+	category = complex_drone_unemployment
+	count_as_available_for_ai = yes
+
+	swappable_data = {
+		default = {
+			condition_string = DRONE_JOB_TRIGGER
+			icon = unemployment
+			building_icon = building_hive_capital
+		}
+	}
+
+	possible = {
+		hidden_trigger = { exists = owner }
+		owner = {
+			is_gestalt = yes
+			is_wilderness_empire = no
+		}
+	}
+
+	possible_pre_triggers = {
+		has_owner = yes
+		is_enslaved = no
+		is_being_purged = no
+		is_being_assimilated = no
+		is_sapient = yes
+	}
+
+	resources = {
+		category = unemployment_resources
+		# Unemployment Benefits Crime event
+		upkeep = {
+			trigger = {
+				planet = {
+					has_modifier = unemployment_benefits
+				}
+			}
+			consumer_goods = 2
+		}
+		upkeep = {
+			trigger = {
+				planet = {
+					has_modifier = activity_program
+				}
+			}
+			unity = 1
+		}
+		upkeep = {
+			trigger = {
+				planet = {
+					has_modifier = standby_mode
+				}
+			}
+			energy = 2
+		}
+	}
+
+	possible_precalc = can_fill_drone_job
+
+	weight = {
+		weight = 0
+	}
+
+	demotion = {
+		time = 30
+		effect = {
+			oxr_mdlc_pop_amount_change_category = {
+				CATEGORY = maintenance_drone
+				AMOUNT = local_pop_amount
+			}
+		}
+	}
+
+	is_capped_by_modifier = no
+	can_set_priority = no
+	contributes_to_diplo_weight = no
+}
+
+simple_drone_unemployment = {
+	category = simple_drone_unemployment
+	count_as_available_for_ai = yes
+
+	swappable_data = {
+		default = {
+			condition_string = DRONE_JOB_TRIGGER
+			icon = unemployment
+			building_icon = building_hive_capital
+		}
+	}
+
+	possible = {
+		hidden_trigger = { exists = owner }
+		owner = {
+			is_gestalt = yes
+			is_wilderness_empire = no
+		}
+	}
+
+	possible_pre_triggers = {
+		has_owner = yes
+		is_enslaved = no
+		is_being_purged = no
+		is_being_assimilated = no
+		is_sapient = yes
+	}
+
+	resources = {
+		category = unemployment_resources
+		# Unemployment Benefits Crime event
+		upkeep = {
+			trigger = {
+				planet = {
+					has_modifier = unemployment_benefits
+				}
+			}
+			consumer_goods = 2
+		}
+		upkeep = {
+			trigger = {
+				planet = {
+					has_modifier = activity_program
+				}
+			}
+			unity = 1
+		}
+		upkeep = {
+			trigger = {
+				planet = {
+					has_modifier = standby_mode
+				}
+			}
+			energy = 2
+		}
+	}
+
+	possible_precalc = can_fill_drone_job
+
+	weight = {
+		weight = 0
+	}
+
+	demotion = {
+		time = 10
+		effect = {
+			oxr_mdlc_pop_amount_change_category = {
+				CATEGORY = maintenance_drone
+				AMOUNT = local_pop_amount
+			}
+		}
+	}
+
+	is_capped_by_modifier = no
+	can_set_priority = no
+	contributes_to_diplo_weight = no
+}

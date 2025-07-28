@@ -91,12 +91,15 @@ oxr_mdlc_is_gestalt_machine = {
 	is_gestalt = yes
 }
 
-oxr_mdlc_pop_group_is_machine = {
+oxr_mdlc_pop_group_has_robots = {
 	OR = {
 		has_trait = trait_machine_unit
+		has_trait = trait_mechanical
 		is_species_class = MACHINE
+		is_species_class = ROBOT
+		is_species_class = XVCV_MDLC_ROBOT
 	}
-	# Ignore Bio-Mech, they have their own assembly system
+	# Ignore Bio-Mech, they have their own super-cool and sensible assembly system
 	NOT = {
 		is_species_class = XVCV_MDLC_BIO_ROBOT
 	}
@@ -236,6 +239,24 @@ oxr_mdlc_planet_decision_dismantle_habitat_active = {
 # ORIGINS
 has_oxr_mdlc_origin_world_machine_awakened = {
 	has_origin = oxr_mdlc_origin_world_machine_awakened
+}
+
+# Pop group stuff
+oxr_mdlc_pop_amount_change_category = {
+	planet = {
+		create_pop_group = {
+			pop_group = root
+			category = $CATEGORY$
+			size = 0
+			effect = {
+				transfer_pop_amount = {
+					source = root
+					target = this
+					amount = $AMOUNT$
+				}
+			}
+		}
+	}
 }
 
 
