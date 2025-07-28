@@ -15,10 +15,15 @@ oxr_mdlc_planet_add_pops_from_fractional_compound_pop_assembly = {
 		}
 	}
 
-	set_variable = {
-		which = oxr_mdlc_planet_machine_pop_growth_total_for_display
-		value = modifier:planet_pop_assembly_add
-	}
+	# set_variable = {
+	# 	which = oxr_mdlc_planet_machine_pop_growth_total_for_display
+	# 	value = modifier:planet_pop_assembly_add
+	# }
+    export_modifier_to_variable = {
+        modifier = planet_pop_assembly_add
+        variable = oxr_mdlc_planet_machine_pop_growth_total_for_display
+    }
+    log = "This month's Machine pop assembly is \\[This.oxr_mdlc_planet_machine_pop_growth_total_for_display] "
 
 	if = {
 		limit = {
@@ -46,7 +51,7 @@ oxr_mdlc_planet_add_pops_from_fractional_compound_pop_assembly = {
 		which = oxr_mdlc_planet_machine_pop_growth_running_compounded_total
 		value = oxr_mdlc_planet_machine_pop_growth_this_months_fraction
 	}
-	clear_variable = oxr_mdlc_planet_machine_pop_growth_this_months_fraction
+	# clear_variable = oxr_mdlc_planet_machine_pop_growth_this_months_fraction
 
 	# check if leftover fraction is > 1
 	if = {
