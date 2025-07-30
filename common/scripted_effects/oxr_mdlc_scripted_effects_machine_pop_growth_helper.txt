@@ -10,16 +10,11 @@ oxr_mdlc_planet_add_pops_from_fractional_compound_pop_assembly = {
 		}
 		add_modifier = {
 			modifier = oxr_mdlc_country_machine_pop_growth_helper
-			days = -1
-			clear_on_owner_change = yes
+			days = 30
+			clear_on_owner_change = no
 		}
 	}
 
-	# this one apparently is not accurate
-	export_trigger_value_to_variable = {
-		trigger = artificial_pops_last_month_growth
-		variable = oxr_mdlc_planet_artificial_pops_last_month_growth
-	}
 	# Accurate
 	export_trigger_value_to_variable = {
 		trigger = count_owned_pop_group
@@ -29,11 +24,6 @@ oxr_mdlc_planet_add_pops_from_fractional_compound_pop_assembly = {
 		variable = oxr_mdlc_planet_num_artificial_pop_groups
 	}
 
-
-	# set_variable = {
-	# 	which = oxr_mdlc_planet_machine_pop_growth_total_for_display
-	# 	value = modifier:planet_pop_assembly_add
-	# }
     export_modifier_to_variable = {
         modifier = planet_pop_assembly_add
         variable = oxr_mdlc_planet_machine_pop_growth_total_for_display
@@ -109,13 +99,10 @@ oxr_mdlc_planet_update_population_count_only = {
 				is_variable_set = oxr_mdlc_planet_total_robot_pops_last_month
 			}
 		}
-		export_trigger_value_to_variable = {
-			trigger = count_owned_pop_amount
-			limit = {
-				oxr_mdlc_pop_group_has_robots = yes
-			}
-			variable = oxr_mdlc_planet_total_robot_pops_last_month
-		}
+        set_variable = {
+            which = oxr_mdlc_planet_total_robot_pops_last_month
+            value = value:oxr_mdlc_num_assembled_pops_on_planet
+        }
 	}
 	else = {
 		# Take the last known value of oxr_mdlc_planet_total_robot_pops_this_month
@@ -127,14 +114,12 @@ oxr_mdlc_planet_update_population_count_only = {
 	}
 
 	# set this month's
-	export_trigger_value_to_variable = {
-		trigger = count_owned_pop_amount
-		limit = {
-			oxr_mdlc_pop_group_has_robots = yes
-		}
-		variable = oxr_mdlc_planet_total_robot_pops_this_month
-	}
+    set_variable = {
+        which = oxr_mdlc_planet_total_robot_pops_this_month
+        value = value:oxr_mdlc_num_assembled_pops_on_planet
+    }
 
+    # calc difference
 	set_variable = {
 		which = oxr_mdlc_planet_robot_pop_difference
 		value = oxr_mdlc_planet_total_robot_pops_this_month
@@ -142,14 +127,6 @@ oxr_mdlc_planet_update_population_count_only = {
 	subtract_variable = {
 		which = oxr_mdlc_planet_robot_pop_difference
 		value = oxr_mdlc_planet_total_robot_pops_last_month
-	}
-
-	export_trigger_value_to_variable = {
-		trigger = count_owned_pop_amount
-		limit = {
-			oxr_mdlc_pop_group_has_robots = yes
-		}
-		variable = oxr_mdlc_planet_total_robot_pops_this_month
 	}
 
 }

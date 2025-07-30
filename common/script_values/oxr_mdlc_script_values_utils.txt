@@ -86,3 +86,45 @@ oxr_mdlc_planet_count_any_base_researcher_jobs = {
 		mode = add
 	}
 }
+
+oxr_mdlc_num_assembled_pops_on_planet = {
+	complex_trigger_modifier = {
+		trigger = count_owned_pop_amount
+		parameters = {
+			limit = {
+				oxr_mdlc_pop_group_has_robots = yes
+			}
+		}
+		mode = add
+	}
+}
+
+oxr_mdlc_num_machine_pops_on_planet = {
+	complex_trigger_modifier = {
+		trigger = count_owned_pop_amount
+		parameters = {
+			limit = {
+				OR = {
+					has_trait = trait_machine_unit
+					is_species_class = MACHINE
+				}
+			}
+		}
+		mode = add
+	}
+}
+
+oxr_mdlc_num_mechanical_pops_on_planet = {
+	complex_trigger_modifier = {
+		trigger = count_owned_pop_amount
+		parameters = {
+			limit = {
+				OR = {
+					has_trait = trait_mechanical
+					is_species_class = ROBOT
+				}
+			}
+		}
+		mode = add
+	}
+}
