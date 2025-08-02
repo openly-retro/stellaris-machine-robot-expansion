@@ -54,11 +54,11 @@ DISTRICTS = {
     "xvcv_mdlc_pc_mechanical_district_farming": GREEN,
     # AUTO RING
     "xvcv_mdlc_pc_ringworld_machine_auto_district_primary": BLUE,
-    "xvcv_mdlc_pc_ringworld_machine_auto_rnd": CYAN,
-    "xvcv_mdlc_pc_ringworld_machine_auto_industrial": ORANGE,
-    "xvcv_mdlc_pc_ringworld_machine_auto_raw_resource": GREEN,
-    "xvcv_mdlc_pc_ringworld_machine_auto_generator": YELLOW,
-    "xvcv_mdlc_pc_ringworld_machine_auto_farming": GREEN,
+    "xvcv_mdlc_pc_ringworld_machine_auto_district_rnd": CYAN,
+    "xvcv_mdlc_pc_ringworld_machine_auto_district_industrial": ORANGE,
+    "xvcv_mdlc_pc_ringworld_machine_auto_district_raw_resource": GREEN,
+    "xvcv_mdlc_pc_ringworld_machine_auto_district_generator": YELLOW,
+    "xvcv_mdlc_pc_ringworld_machine_auto_district_farming": GREEN,
     # VIRTUAL
     "xvcv_mdlc_pc_virtual_district_primary": BLUE,
     "xvcv_mdlc_pc_virtual_district_research": CYAN,
