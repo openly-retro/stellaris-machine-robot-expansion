@@ -3560,35 +3560,51 @@ planet_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		from = { has_valid_civic = xvcv_mdlc_civic_assimilating_swarm }
-		fromfrom = { NOT = { has_trait = trait_machine_unit } }
+		# from = { has_civic = xvcv_mdlc_civic_assimilating_swarm }
+		# fromfrom = { NOT = { has_trait = trait_machine_unit } }
+        exists = from
 	}
 
+	# This = Planet scope
+	# From = Country
+	# FromFrom = Pop group
+	# local_pop_amount = variable of how many pops were purged
+	# prev will refer to "this"
 	immediate = {
-		from = {
+		log = "Entered the xvcv_mdlc.1003 event which is for corpse processing"
+        set_variable = {
+            which = oxr_mdlc_corpse_processor_amount_tmp
+            value = this.local_pop_amount
+        }
+		log = "Corpse processor wants to convert \\[this.local_pop_amount] num of pops"
+
+		from = {  # Country
 			switch = {
 				trigger = has_policy_flag
 				xvcv_mdlc_civic_assimilating_swarm_control_full = {
+					
 					if = {
 						limit = { has_country_flag = xvcv_mdlc_civic_assimilating_swarm_message_on }
-						create_message = {
-							type = XVCV_MDLC_CIVIC_ASSIMILATING_SWARM_MESSAGE_TYPE
-							localization = XVCV_MDLC_CIVIC_ASSIMILATING_SWARM_CONTROL_FULL_DONE_MESSAGE
-							days = 10
-							target = prev
-							variable = {
-								type = name
-								localization = XVCV_MDLC_CIVIC_ASSIMILATING_SWARM_PLANET
-								scope = prev
-							}
+						prev = {
+							log = "hi we are back in planet scope"
+							oxr_mdlc_show_full_assimilation_message = yes
 						}
 					}
-					prev = {
-						create_pop_group = {
-							species = prev.species
-							effect = { save_event_target_as = last_created_pop_group }
-						}
-					}
+					log = "Corpse processing \\[prev.oxr_mdlc_corpse_processor_amount_tmp] of bio pops to machines ..."
+
+                    prev = {
+                        create_pop_group = {
+                            species = from.species
+                            size = root.local_pop_amount
+                            effect = {
+                                save_event_target_as = last_created_pop_group
+                                set_citizenship_type = {
+									country = root.owner
+									type = citizenship_full_machine
+								}
+                            }
+                        }
+                    }
 				}
 				xvcv_mdlc_civic_assimilating_swarm_control_half = {
 					if = {
@@ -3605,22 +3621,26 @@ planet_event = {
 							}
 						}
 					}
-					prev.fromfrom.species = {
+					prev.owner.species = {
 						create_species = {
 							name = this
-							namelist = prev
+							namelist = from
 							plural = this
 							class = "MACHINE"
 							portrait = this
 							traits = { trait = trait_machine_unit }
 							traits = this
 							homeworld = this.home_planet
+							effect = {
+								save_event_target_as = last_created_species
+							}
 						}
 					}
 					prev = {
 						create_pop_group = {
 							species = last_created_species
 							effect = { save_event_target_as = last_created_pop_group }
+							size = local_pop_amount
 						}
 					}
 					event_target:last_created_pop_group = {
@@ -3633,7 +3653,9 @@ planet_event = {
 								remove_trait = trait_aquatic
 							}
 						}
-						set_citizenship_type = { country = prev type = citizenship_full_machine cooldown = no }
+						set_citizenship_type = {
+							country = from type = citizenship_full_machine cooldown = no
+						}
 					}
 				}
 				xvcv_mdlc_civic_assimilating_swarm_control_dismantle = {
@@ -3657,8 +3679,12 @@ planet_event = {
 						influence = 5
 					}
 				}
+				default = {
+					log = "Entered 'default' case for corpse processing, this shouldnt happen!"
+				}
 			}
 		}
+        clear_variable = oxr_mdlc_corpse_processor_amount_tmp
 	}
 }
 
