@@ -12,6 +12,7 @@ country_event = {
 	}
 
 	immediate = {
+		log = "Going into machine pop assembly helper event"
 		country_event = {
 			id = oxr_mdlc_machine_pop_helper.15
 		}
@@ -24,6 +25,7 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
+		has_country_flag = oxr_mdlc_machine_pop_growth_helper_feature_active
 		any_owned_planet = {
 			any_owned_pop_group = {
 				oxr_mdlc_pop_group_has_robots = yes
@@ -55,7 +57,10 @@ planet_event = {
 	hide_window = yes
 	is_triggered_only = yes
 
-	trigger = { }
+	trigger = {
+		owner = exists
+		owner = { has_country_flag = oxr_mdlc_machine_pop_growth_helper_feature_active }
+	}
 	immediate = {
 		oxr_mdlc_planet_update_population_count_only = yes
 	}
