@@ -525,7 +525,7 @@ oxr_mdlc_set_mechanical_heritage_species_habitability = {
 oxr_mdlc_show_full_assimilation_message = {
 	create_message = {
 		type = XVCV_MDLC_CIVIC_ASSIMILATING_SWARM_MESSAGE_TYPE
-		localization = XVCV_MDLC_CIVIC_ASSIMILATING_SWARM_CONTROL_FULL_DONE_MESSAGE
+		localization = $MESSAGE$
 		days = 10
 		target = this
 		variable = {
@@ -540,4 +540,138 @@ oxr_mdlc_show_full_assimilation_message = {
 			scope = this
 		}
 	}
+}
+
+oxr_mdlc_species_swap_organic_for_robot_traits = {
+    # This only covers vanilla traits.. and not all of them either
+    # $SOURCE$ - source species (organic)
+    # $TARGET$ - target species (robot/machine)
+    # bio traits can't be added so we add the machine version
+    $SOURCE$ = {
+        switch = {
+            trigger = has_trait
+            trait_auto_mod_biological = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_auto_mod_robotic } }
+            }
+            trait_agrarian = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_harvesters } }
+            }
+            trait_ingenious = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_superconductive } }
+            }
+            trait_industrious = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_power_drills } }
+            }
+            trait_intelligent = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_logic_engines } }
+            }
+            trait_thrifty = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_trading_algorithms } }
+            }
+            trait_natural_engineers = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_artificial_engineers } }
+            }
+            trait_natural_physicists = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_artificial_physicists } }
+            }
+            trait_natural_sociologists = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_artificial_sociologists } }
+            }
+            trait_extremely_adaptive = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_shielded_components } }
+                log = "Added trait_robot_shielded_components to processed pop"
+            }
+            # no equivalent
+            # trait_adaptive
+            # trait_nonadaptive
+            trait_rapid_breeders = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_custom_made } }
+            }
+            trait_slow_breeders = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_luxurious } }
+            }
+            trait_talented = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_enhanced_memory } }
+            }
+            trait_quick_learners = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_learning_algorithms } }
+            }
+            trait_slow_learners = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_repurposed_hardware } }
+            }
+            trait_traditional = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_propaganda_machines } }
+            }
+            trait_quarrelsome = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_quarrelsome } }
+            }
+            trait_docile = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_streamlined_protocols } }
+            }
+            trait_unruly = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_high_bandwidth } }
+            }
+            trait_very_strong = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_integrated_weaponry } }
+            }
+            trait_strong = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_history_warbot } }
+            }
+            trait_weak = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_delicate_frames } }
+            }
+            # trait_nomadic - no match
+            # trait_sedentary - no match
+            trait_communal = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_double_jointed } }
+            }
+            trait_solitary = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_bulky } }
+            }
+            trait_charismatic = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_emotion_emulators } }
+            }
+            trait_repugnant = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_uncanny } }
+            }
+            # trait_uplifted - no match
+            # trait_conformists - no match
+            trait_deviants = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_deviants } }
+            }
+            trait_venerable = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_shielded_components } }
+            }
+            trait_enduring = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_survivor } }
+            }
+            # trait_fleeting - no match
+            # trait_fleeting_lithoid - no match
+            trait_decadent = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_decadent } }
+            }
+            # trait_resilient - no match
+            # trait_conservational - no match
+            trait_wasteful = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_wasteful } }
+            }
+            trait_wasteful = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_wasteful } }
+            }
+            # trait_cybernetic - no match
+            # trait_latent_psionic - no match
+            # trait_psionic - no match
+            # trait_self_modified - no match
+            trait_survivor = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_survivor } }
+            }
+            # and that ends here (tm)
+        }
+    }
+}
+
+oxr_mdlc_species_modify_add_trait = {
+    modify_species = {
+        add_trait = $t$
+    }
 }

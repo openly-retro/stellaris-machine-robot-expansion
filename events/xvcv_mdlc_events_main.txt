@@ -3576,7 +3576,7 @@ planet_event = {
             which = oxr_mdlc_corpse_processor_amount_tmp
             value = this.local_pop_amount
         }
-		log = "Corpse processor wants to convert \\[this.local_pop_amount] num of pops"
+		log = "Corpse processor wants to convert \\[this.oxr_mdlc_corpse_processor_amount_tmp] num of pops"
 
 		from = {  # Country
 			switch = {
@@ -3586,8 +3586,9 @@ planet_event = {
 					if = {
 						limit = { has_country_flag = xvcv_mdlc_civic_assimilating_swarm_message_on }
 						prev = {
-							log = "hi we are back in planet scope"
-							oxr_mdlc_show_full_assimilation_message = yes
+							oxr_mdlc_show_full_assimilation_message = {
+								MESSAGE = XVCV_MDLC_CIVIC_ASSIMILATING_SWARM_CONTROL_FULL_DONE_MESSAGE
+							}
 						}
 					}
 					log = "Corpse processing \\[prev.oxr_mdlc_corpse_processor_amount_tmp] of bio pops to machines ..."
@@ -3609,17 +3610,23 @@ planet_event = {
 				xvcv_mdlc_civic_assimilating_swarm_control_half = {
 					if = {
 						limit = { has_country_flag = xvcv_mdlc_civic_assimilating_swarm_message_on }
-						create_message = {
-							type = XVCV_MDLC_CIVIC_ASSIMILATING_SWARM_MESSAGE_TYPE
-							localization = XVCV_MDLC_CIVIC_ASSIMILATING_SWARM_CONTROL_HALF_DONE_MESSAGE
-							days = 10
-							target = prev
-							variable = {
-								type = name
-								localization = XVCV_MDLC_CIVIC_ASSIMILATING_SWARM_PLANET
-								scope = prev
+						# create_message = {
+						# 	type = XVCV_MDLC_CIVIC_ASSIMILATING_SWARM_MESSAGE_TYPE
+						# 	localization = XVCV_MDLC_CIVIC_ASSIMILATING_SWARM_CONTROL_HALF_DONE_MESSAGE
+						# 	days = 10
+						# 	target = prev
+						# 	variable = {
+						# 		type = name
+						# 		localization = XVCV_MDLC_CIVIC_ASSIMILATING_SWARM_PLANET
+						# 		scope = prev
+						# 	}
+						# }
+						prev = {
+							oxr_mdlc_show_full_assimilation_message = {
+								MESSAGE = XVCV_MDLC_CIVIC_ASSIMILATING_SWARM_CONTROL_HALF_DONE_MESSAGE
 							}
 						}
+						
 					}
 					prev.owner.species = {
 						create_species = {
@@ -3638,9 +3645,9 @@ planet_event = {
 					}
 					prev = {
 						create_pop_group = {
-							species = last_created_species
+							species = event_target:last_created_species
 							effect = { save_event_target_as = last_created_pop_group }
-							size = local_pop_amount
+							size = this.local_pop_amount
 						}
 					}
 					event_target:last_created_pop_group = {
@@ -3649,9 +3656,13 @@ planet_event = {
 						if = {
 							limit = { has_trait = trait_aquatic }
 							modify_species = {
-								base = none
 								remove_trait = trait_aquatic
+								# add_trait = trait_robot_aquatic
 							}
+						}
+						oxr_mdlc_species_swap_organic_for_robot_traits = {
+							SOURCE = fromfrom
+							TARGET = event_target:last_created_pop_group
 						}
 						set_citizenship_type = {
 							country = from type = citizenship_full_machine cooldown = no
@@ -3659,6 +3670,33 @@ planet_event = {
 					}
 				}
 				xvcv_mdlc_civic_assimilating_swarm_control_dismantle = {
+					# Temp vars for showing how much resource the player got
+					# 1 mineral and 1 society research per 4.0 pop
+					# set these vars on planet.. dont want them done on country to avoid conflict with other purges
+					prev = {
+						set_variable = {
+							which = oxr_mdlc_minerals_per_pop_tmp
+							value = root.local_pop_amount
+						}
+						set_variable = {
+							which = oxr_mdlc_society_research_per_pop_tmp
+							value = root.local_pop_amount
+						}
+						set_variable = {
+							which = oxr_mdlc_influence_per_pop_tmp
+							value = 0.05
+						}
+						multiply_variable = {
+							which = oxr_mdlc_influence_per_pop_tmp
+							value = this.local_pop_amount
+						}
+					}
+			
+					add_resource = {
+						minerals = prev.oxr_mdlc_minerals_per_pop_tmp
+						society_research = prev.oxr_mdlc_society_research_per_pop_tmp
+						influence = prev.oxr_mdlc_influence_per_pop_tmp
+					}
 					if = {
 						limit = { has_country_flag = xvcv_mdlc_civic_assimilating_swarm_message_on }
 						create_message = {
@@ -3671,12 +3709,38 @@ planet_event = {
 								localization = XVCV_MDLC_CIVIC_ASSIMILATING_SWARM_PLANET
 								scope = prev
 							}
+							variable = {
+								type = variable
+								localization = XVCV_MDLC_CIVIC_ASSIMILATING_SWARM_PLANET_AMOUNT
+								varname = oxr_mdlc_corpse_processor_amount_tmp
+								scope = prev
+							}
+							variable = {
+								type = variable
+								localization = OXR_MDLC_MINERALS_PER_POP
+								varname = oxr_mdlc_minerals_per_pop_tmp
+								scope = prev
+							}
+							variable = {
+								type = variable
+								localization = OXR_MDLC_SOCIETY_RESEARCH_PER_POP
+								varname = oxr_mdlc_society_research_per_pop_tmp
+								scope = prev
+							}
+							variable = {
+								type = variable
+								localization = OXR_MDLC_INFLUENCE_PER_POP
+								varname = oxr_mdlc_influence_per_pop_tmp
+								scope = prev
+							}
 						}
-					}
-					add_resource = {
-						minerals = 100
-						society_research = 100
-						influence = 5
+						# oxr_mdlc_show_full_assimilation_message = {
+						# 	MESSAGE = XVCV_MDLC_CIVIC_ASSIMILATING_SWARM_CONTROL_DISMANTLE_DONE_MESSAGE
+						# }
+						clear_variable = oxr_mdlc_influence_per_pop_tmp
+						clear_variable = oxr_mdlc_society_research_per_pop_tmp
+						clear_variable = oxr_mdlc_minerals_per_pop_tmp
+						clear_variable = oxr_mdlc_corpse_processor_amount_tmp
 					}
 				}
 				default = {
