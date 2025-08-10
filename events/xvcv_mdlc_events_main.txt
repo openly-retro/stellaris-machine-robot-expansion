@@ -2657,7 +2657,8 @@ country_event = {
 					xvcv_mdlc_leader_tied_traits_remove_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_shared_memory LEADER_TRAIT = xvcv_mdlc_leader_trait_shared_memory }
 					#xvcv_mdlc_trait_memory_backup
 					AND = {
-						is_councilor = no
+						# TODO: Keep an eye out here in case somehow a gestalt councilor dies with this trait on
+						# is_councilor = no
 						xvcv_mdlc_leader_tied_traits_add_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_memory_backup LEADER_TRAIT = xvcv_mdlc_leader_trait_memory_backup }
 					}
 					xvcv_mdlc_leader_tied_traits_remove_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_memory_backup LEADER_TRAIT = xvcv_mdlc_leader_trait_memory_backup }
@@ -2670,13 +2671,13 @@ country_event = {
 				OR = {
 					#xvcv_mdlc_trait_shared_memory
 					AND = {
-						is_councilor = no
+						# is_councilor = no
 						xvcv_mdlc_leader_tied_traits_add_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_shared_memory LEADER_TRAIT = xvcv_mdlc_leader_trait_shared_memory }
 					}
 					xvcv_mdlc_leader_tied_traits_remove_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_shared_memory LEADER_TRAIT = xvcv_mdlc_leader_trait_shared_memory }
 					#xvcv_mdlc_trait_memory_backup
 					AND = {
-						is_councilor = no
+						# is_councilor = no
 						xvcv_mdlc_leader_tied_traits_add_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_memory_backup LEADER_TRAIT = xvcv_mdlc_leader_trait_memory_backup }
 					}
 					xvcv_mdlc_leader_tied_traits_remove_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_memory_backup LEADER_TRAIT = xvcv_mdlc_leader_trait_memory_backup }
@@ -2777,7 +2778,8 @@ country_event = {
 
 	trigger = {
 		from = {
-			is_councilor = no
+			# allow reviving councilors, like scientists on mission, or commanders leading a fleet
+			# is_councilor = no
 			NOT = { prev = { any_pool_leader = { is_same_value = prevprev } } } #the leader must be recruited to revive
 			has_trait = xvcv_mdlc_leader_trait_memory_backup
 		}
