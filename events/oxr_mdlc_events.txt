@@ -666,12 +666,57 @@ country_event = {
 			2 = { }
 			1 = {
 				fromfromfrom = {
-					create_army = {
-						owner = root.fromfrom
-						# type = oxr_mdlc_reanimated_cyborg_army
-						type = undead_army
-						species = root.from.species
+					if = {
+						limit = {
+							root.fromfrom = {
+								has_policy_flag = oxr_mdlc_army_reanimation_control_cyborg
+							}
+						}
+						create_army = {
+							owner = root.fromfrom
+							type = oxr_mdlc_reanimated_cyborg_army
+							# type = undead_army
+							species = root.from.species
+						}
 					}
+					else_if = {
+						limit = {
+							root.fromfrom = {
+								has_policy_flag = oxr_mdlc_army_reanimation_control_undead
+							}
+						}
+						create_army = {
+							owner = root.fromfrom
+							# type = oxr_mdlc_reanimated_cyborg_army
+							type = undead_army
+							species = root.from.species
+						}
+					}
+					else = {
+						# Create either
+						1 = {
+							create_army = {
+								owner = root.fromfrom
+								# type = oxr_mdlc_reanimated_cyborg_army
+								type = undead_army
+								species = root.from.species
+							}
+						}
+						1 = {
+							create_army = {
+								owner = root.fromfrom
+								type = oxr_mdlc_reanimated_cyborg_army
+								# type = undead_army
+								species = root.from.species
+							}
+						}
+					}
+					# create_army = {
+					# 	owner = root.fromfrom
+					# 	# type = oxr_mdlc_reanimated_cyborg_army
+					# 	type = undead_army
+					# 	species = root.from.species
+					# }
 				}
 			}
 		}
