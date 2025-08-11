@@ -32,6 +32,7 @@ from pipeline.compile.main import (
     pipeline_make_leader_making_clear_values_effect,
     pipeline_make_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines,
     pipeline_make_core_modifying_subclasses_gui_code,
+    pipeline_make_xvcv_mdlc_core_modifying_still_has_subclass_traits_picked,
 )
 from pipeline.extract.mre_translation_key_normalizer import do_all_work as do_uppercase_modifier_mapping_work
 from pipeline.extract.harvest_machine_tooltips import do_all_work as harvest_machine_tooltips
@@ -149,6 +150,8 @@ if __name__=="__main__":
     pipeline_make_leader_making_clear_values_effect()
     print_stars("Making lines of EFFECTS code for core_modifying_reset_traits_button_effect ... ",2)
     pipeline_make_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines()
+    print_stars("Making lines of EFFECTS code for core_modifying_still_has_subclass_traits_picked", 2)
+    pipeline_make_xvcv_mdlc_core_modifying_still_has_subclass_traits_picked()
     print_stars("Making lines of GUI code for core_modifying subclasses_gui_code ... ",2)
     pipeline_make_core_modifying_subclasses_gui_code()
 

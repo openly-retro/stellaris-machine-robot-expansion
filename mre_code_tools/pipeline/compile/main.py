@@ -9,7 +9,11 @@ from pipeline.compile.utils import (
     write_build_scripted_trigger,
     write_build_file,
 )
-from pipeline.compile.core_modifying_effects import gen_core_modifying_button_effects_code, gen_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines
+from pipeline.compile.core_modifying_effects import (
+    gen_core_modifying_button_effects_code,
+    gen_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines,
+    gen_xvcv_mdlc_core_modifying_still_has_subclass_traits_picked,
+)   
 from pipeline.compile.core_modifying_gui import iterate_subclasses_make_core_modifying_subclasses_gui_code, iterate_traits_make_coremodifying_gui_code
 from pipeline.compile.core_modifying_triggers import gen_xvcv_mdlc_core_modifying_ruler_traits_trigger
 from pipeline.compile.leader_making_button_effects import (
@@ -204,6 +208,18 @@ def pipeline_make_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines():
 
     write_build_file(
         blob_for_writing, blob_filename, MOD_BUTTON_EFFECTS_FOLDER, "LEADER MAKING CLEAR VALUES"
+    )
+
+def pipeline_make_xvcv_mdlc_core_modifying_still_has_subclass_traits_picked():
+    input_files_in_build_folder = [
+        os.path.join(BUILD_FOLDER, codegen_ready_file)
+        for codegen_ready_file in INPUT_FILES_FOR_CODEGEN
+    ]
+    blob_filename = "85_core_modifying_still_has_subclass_traits_picked.txt"
+    blob_for_writing = gen_xvcv_mdlc_core_modifying_still_has_subclass_traits_picked(input_files_in_build_folder)
+
+    write_build_file(
+        blob_for_writing, blob_filename, MOD_SCRIPTED_TRIGGERS_FOLDER, "CORE MODIFYING "
     )
 
 

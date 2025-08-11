@@ -135,6 +135,8 @@ def gen_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines(input_files_li
         " {{ xvcv_mdlc_core_modifying_refund_trait_resources_cost_{rarity} = yes }} }}"
     )
     for trait_json_data_path in input_files_list:
+        # Iterate through mre_code_tools/compile/20_mre_<leader_class>_traits_for_codegen.json
+        # On opening each file we know what leader class it is
         with open(trait_json_data_path, "r") as codegen_stream:
             _tmp = json_load(codegen_stream)
             for rarity in RARITIES:
@@ -167,4 +169,73 @@ def gen_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines(input_files_li
 {CORE_MODIFYING_RESET_TRAITS_BUTTON_EFFECT_HEADER}
 {"\n".join(effect_contents_items)}
 {CORE_MODIFYING_RESET_TRAITS_BUTTON_EFFECT_FOOTER}
+"""
+
+
+def gen_xvcv_mdlc_core_modifying_still_has_subclass_traits_picked(input_files_list):
+        header = """
+xvcv_mdlc_core_modifying_still_has_subclass_traits_picked = {
+    optimize_memory
+    # Restrict a subclass from being removed from the ruler
+    # if there are T2/T3/destiny subclass-specific traits chosen
+    custom_tooltip = {
+        text = trigger_xvcv_mdlc_core_modifying_must_remove_subclass_trait_notice
+    }
+    ruler = {
+        switch = {
+            trigger = leader_class
+"""
+        footer = """
+        }
+    }
+}
+"""
+        indent = "                    "
+        ruler_traits = {
+            'commander': [],
+            'official': [],
+            'scientist': []
+        }
+
+        for trait_json_data_path in input_files_list:
+            with open(trait_json_data_path, "r") as codegen_stream:
+                _tmp = json_load(codegen_stream)
+                for rarity in RARITIES:
+                    if not _tmp['core_modifying_traits'].get(rarity):
+                        continue
+                    for trait in _tmp['core_modifying_traits'][rarity]:
+                        trait_name = [*trait][0]
+                        root = trait[trait_name]
+                        leader_class = root['leader_class']
+                        ruler_traits[leader_class].append(
+                            f"has_trait = {trait_name}"
+                        )
+        
+        block_official = f"""
+            official = {{
+                OR = {{
+                    {"\n                    ".join(ruler_traits['official'])}
+                }}
+            }}
+"""
+        block_commander = f"""
+            commander = {{
+                OR = {{
+                    {"\n                    ".join(ruler_traits['commander'])}
+                }}
+            }}
+"""
+        block_scientist = f"""
+            scientist = {{
+                OR = {{
+                    {"\n                    ".join(ruler_traits['scientist'])}
+                }}
+            }}
+"""
+        return f"""
+{header}
+{block_official}
+{block_commander}
+{block_scientist}
+{footer}
 """
