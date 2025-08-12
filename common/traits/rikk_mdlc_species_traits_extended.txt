@@ -259,29 +259,31 @@ rikk_mdlc_trait_robotic_captcha_locked = {
 #increased it to 0.25% so it makes sense no matter when it is used
 #it has a max of 100 so 100 pop world gets a 25% bonus which is more on tier with usual bonuses at mid-end game
 
-# rikk_mdlc_trait_robotic_mesh_network = {
-# 	cost = 2
-# 	inline_script = trait/rikk_extended
-# 	opposites = { "rikk_mdlc_trait_robotic_deviants" }
+rikk_mdlc_trait_robotic_mesh_network = {
+	cost = 2
+	inline_script = trait/rikk_extended
+	opposites = { "rikk_mdlc_trait_robotic_deviants" }
 
-# 	triggered_pop_group_modifier = {
-# 		potential = {
-# 			exists = planet
-# 			planet = {
-# 				any_owned_pop_group = {
-# 					has_trait = rikk_mdlc_trait_robotic_mesh_network
-# 				}
-# 			}
-# 		}
-# 		planet_jobs_unity_produces_mult = 0.0025
-# 		planet_jobs_physics_research_produces_mult = 0.0025
-# 		planet_jobs_society_research_produces_mult = 0.0025
-# 		planet_jobs_engineering_research_produces_mult = 0.0025
+	triggered_pop_group_modifier = {
+		potential = {
+			exists = planet
+			planet = {
+				any_owned_pop_group = {
+					has_trait = rikk_mdlc_trait_robotic_mesh_network
+				}
+			}
+		}
+		# planet_jobs_unity_produces_mult = 0.000025
+		bureaucrat_jobs_bonus_workforce_mult = 0.000025
+		researcher_jobs_bonus_workforce_mult = 0.000025
+		trader_jobs_bonus_workforce_mult = 0.000025  # added by Retro
+		# planet_jobs_society_research_produces_mult = 0.000025
+		# planet_jobs_engineering_research_produces_mult = 0.000025
 
-# 		mult = owner.value:rikk_mdlc_counter_mesh_network
-# 	}
-# 	custom_tooltip_with_modifiers = rikk_mdlc_trait_robotic_mesh_network_effect
-# }
+		mult = owner.value:rikk_mdlc_counter_mesh_network
+	}
+	custom_tooltip_with_modifiers = rikk_mdlc_trait_robotic_mesh_network_effect
+}
  
 #########################################################################################################
 ### Mini-Origins; Can't be picked or removed during game ###
@@ -311,9 +313,9 @@ rikk_mdlc_trait_robotic_constant_growth = {
                 }
             }
         }
-		species_empire_size_mult = 0.002
-		pop_amenities_usage_add = 0.005
-		planet_pops_robotics_upkeep_mult = 0.004
+		species_empire_size_mult = 0.00002
+		pop_amenities_usage_add = 0.00005
+		planet_pops_robotics_upkeep_mult = 0.00004
         mult = planet.value:rikk_mdlc_counter_nano_pops
     }
 

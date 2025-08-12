@@ -41,26 +41,11 @@ country_event = {
 				parameters = { limit = { has_trait = rikk_mdlc_trait_robotic_deviants } }
 				variable = rikk_mdlc_count_pop_trait_robotic_deviants_var
 			}
-			export_trigger_value_to_variable = {
-				trigger = count_deposits
-				parameters = { type = rikk_mdlc_d_trait_robotic_deviants }
-				variable = rikk_mdlc_count_d_trait_robotic_deviants_var
-			}
 			if = {
-				limit = { check_variable = { which = rikk_mdlc_count_pop_trait_robotic_deviants_var value > rikk_mdlc_count_d_trait_robotic_deviants_var } }
-				subtract_variable = { which = rikk_mdlc_count_pop_trait_robotic_deviants_var value = rikk_mdlc_count_d_trait_robotic_deviants_var }
-				while = {
-					add_deposit = rikk_mdlc_d_trait_robotic_deviants
-					count = rikk_mdlc_count_pop_trait_robotic_deviants_var
+				limit = {
+					NOT = { has_deposit = rikk_mdlc_d_trait_robotic_deviants }
 				}
-			}
-			else_if = {
-				limit = { check_variable = { which = rikk_mdlc_count_pop_trait_robotic_deviants_var value < rikk_mdlc_count_d_trait_robotic_deviants_var } }
-				subtract_variable = { which = rikk_mdlc_count_d_trait_robotic_deviants_var value = rikk_mdlc_count_pop_trait_robotic_deviants_var }
-				while = {
-					remove_deposit = rikk_mdlc_d_trait_robotic_deviants
-					count = rikk_mdlc_count_d_trait_robotic_deviants_var
-				}
+				add_deposit = rikk_mdlc_d_trait_robotic_deviants
 			}
 		}
 	}
@@ -85,9 +70,11 @@ country_event = {
 				has_deposit = rikk_mdlc_d_trait_robotic_deviants
 				NOT = { any_owned_species = { has_trait = rikk_mdlc_trait_robotic_deviants } }
 			}
-			oxr_mdlc_planet_clear_all_custom_deposits_of_type = {
-				CUSTOM_DEPOSIT_TYPE = rikk_mdlc_d_trait_robotic_deviants
-			}
+			# oxr_mdlc_planet_clear_all_custom_deposits_of_type = {
+			# 	CUSTOM_DEPOSIT_TYPE = rikk_mdlc_d_trait_robotic_deviants
+			# }
+			remove_deposit = rikk_mdlc_d_trait_robotic_deviants
+			clear_variable = rikk_mdlc_count_pop_trait_robotic_deviants_var
 		}
 	}
 }
