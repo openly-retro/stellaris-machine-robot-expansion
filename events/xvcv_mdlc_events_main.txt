@@ -3124,43 +3124,23 @@ country_event = {
 	immediate = {
 		every_owned_planet = {
 			limit = { any_owned_species = { has_trait = xvcv_mdlc_trait_self_replicating_microbot } }
-			export_trigger_value_to_variable = {
-				trigger = count_owned_pop_group
-				parameters = { limit = { has_trait = xvcv_mdlc_trait_self_replicating_microbot } }
-				variable = xvcv_mdlc_count_pop_trait_self_replicating_microbot_var
-			}
-			export_trigger_value_to_variable = {
-				trigger = count_deposits
-				parameters = { type = xvcv_mdlc_d_trait_self_replicating_microbot }
-				variable = xvcv_mdlc_count_d_trait_self_replicating_microbot_var
+			# New method: Count the number of pops with the trait, set to planet var
+			# Then, the deposit will add pop assembly, multiplied by that var
+			# So, just 1 deposit per planet
+			set_variable = {
+				which = oxr_mdlc_count_self_replicating_microbot_pops_var
+				value = value:oxr_mdlc_num_self_replicating_microbot_pops
 			}
 			if = {
-				limit = { check_variable = { which = xvcv_mdlc_count_pop_trait_self_replicating_microbot_var value > xvcv_mdlc_count_d_trait_self_replicating_microbot_var } }
-				#had to change from this:
-				#while = {
-				#	limit = { check_variable = { which = xvcv_mdlc_count_pop_trait_self_replicating_microbot_var value > xvcv_mdlc_count_d_trait_self_replicating_microbot_var } }
-				#	add_deposit = xvcv_mdlc_d_trait_self_replicating_microbot
-				#	change_variable = { which = xvcv_mdlc_count_d_trait_self_replicating_microbot_var value = 1 }
-				#}
-				#to this:
-				subtract_variable = { which = xvcv_mdlc_count_pop_trait_self_replicating_microbot_var value = xvcv_mdlc_count_d_trait_self_replicating_microbot_var }
-				while = {
-					add_deposit = xvcv_mdlc_d_trait_self_replicating_microbot
-					count = xvcv_mdlc_count_pop_trait_self_replicating_microbot_var
+				limit = {
+					NOT = { has_deposit = xvcv_mdlc_d_trait_self_replicating_microbot }
 				}
-				#due to this error #[12:49:00][effect_impl.cpp:2093]: while effect limit never reached, aborting after 100 repetitions. Set a higher max count if needed.  file: events/xvcv_mdlc_events_main.txt line: 4426
-			}
-			else_if = {
-				limit = { check_variable = { which = xvcv_mdlc_count_pop_trait_self_replicating_microbot_var value < xvcv_mdlc_count_d_trait_self_replicating_microbot_var } }
-				subtract_variable = { which = xvcv_mdlc_count_d_trait_self_replicating_microbot_var value = xvcv_mdlc_count_pop_trait_self_replicating_microbot_var }
-				while = {
-					remove_deposit = xvcv_mdlc_d_trait_self_replicating_microbot
-					count = xvcv_mdlc_count_d_trait_self_replicating_microbot_var
-				}
+				add_deposit = xvcv_mdlc_d_trait_self_replicating_microbot
 			}
 		}
 	}
 }
+
 #clear 'xvcv_mdlc_d_trait_self_replicating_microbot' deposit when its requirement is not met
 country_event = {
 	id = xvcv_mdlc.81
@@ -3180,13 +3160,8 @@ country_event = {
 				has_deposit = xvcv_mdlc_d_trait_self_replicating_microbot
 				NOT = { any_owned_species = { has_trait = xvcv_mdlc_trait_self_replicating_microbot } }
 			}
-			oxr_mdlc_planet_clear_all_custom_deposits_of_type = {
-				CUSTOM_DEPOSIT_TYPE = xvcv_mdlc_d_trait_self_replicating_microbot
-			}
-			# every_deposit = {
-			# 	limit = { is_deposit_type = xvcv_mdlc_d_trait_self_replicating_microbot }
-			# 	remove_deposit = yes
-			# }
+			remove_deposit = xvcv_mdlc_d_trait_self_replicating_microbot
+			clear_variable = oxr_mdlc_count_self_replicating_microbot_pops_var
 		}
 	}
 }
