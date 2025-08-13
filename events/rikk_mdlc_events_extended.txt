@@ -237,4 +237,56 @@ country_event = {
 	}
 }
 
+
+# Count nanomachines per planet, on day 2 of the month
+country_event = {
+	id = rikk_mdlc_extended.20
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_owned_planet = {
+			any_owned_species = { has_trait = rikk_mdlc_trait_robotic_constant_growth }
+		}
+		has_mute_extended_machines = no
+	}
+
+	immediate = {
+		country_event = {
+			id = rikk_mdlc_extended.22
+			days = 1
+		}
+	}
+}
+
+# Count nanomachines per planet, that have them, and set a static var that gets updated monthly,
+country_event = {
+	id = rikk_mdlc_extended.22
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		# Because we already filtered for these conditions in the entry event
+		
+	}
+
+	immediate = {
+		every_owned_planet = {
+			limit = { any_owned_species = { has_trait = rikk_mdlc_trait_robotic_constant_growth } }
+			export_trigger_value_to_variable = {
+				trigger = count_owned_pop_amount
+				parameters = { limit = { has_trait = rikk_mdlc_trait_robotic_constant_growth } }
+				variable = rikk_mdlc_count_nanomachine_pops_on_planet_var_tmp
+			}
+			# Homeworld starts at 5k...
+			# When planet population of nanomachines reaches 10k, they don't get their bonuses any more,
+			# and penalties start to kick in
+			subtract_variable = {
+				which = rikk_mdlc_count_nanomachine_pops_on_planet_var_tmp
+				value = 10000
+			}
+		}
+		log = "Planet nanomachine pop bonus on \\[this.GetName] set to \\[this.rikk_mdlc_count_nanomachine_pops_on_planet_var] for empire \\[This.owner.GetName]]"
+	}
+}
 # EOF
