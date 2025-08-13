@@ -12,34 +12,21 @@ machinery, arose an anomaly. An interruption. An intelligence.*
 Origin Description
 ------------------
 
-World Machine, Awakened is a pop-less origin which focuses on producing
-a strategic resource in order to create more automated (popless)
-planets. The lore focuses on Auto-Machine Worlds, which are a type of
-Machine World where districts produce resources automatically without
-pops.
+World Machine, Awakened is a pop-less origin which focuses on producing a strategic resource in order to create more automated (popless) planets. The lore focuses on Auto-Machine Worlds, which are a type of Machine World where districts produce resources automatically without pops.
 
-The difference between this origin and the World Machines Ascension Perk
-provided by this mod, which also grants access to Auto-Machine Worlds is
-that the origin is completely focused on running an empire without pops,
-so for the origin this includes alternative buildings to the base
-buildings that produce resources automatically when built.
+The difference between this origin and the World Machines Ascension Perk provided by this mod, which also grants access to Auto-Machine Worlds is that the origin is completely focused on running an empire without pops, so for the origin this includes alternative buildings to the base buildings that produce resources automatically when built.
 
-The origin includes many new technologies, automated versions of nearly
-every vanilla building, many projects, events, and lots and lots of lore
-text.
+The origin includes many new technologies, automated versions of nearly every vanilla building, many projects, events, and lots and lots of lore text.
 
 Starting off
 ------------
 
-This origin has an active situation log with guides for players and
-tasks to do at game start. Take time to get familiar with the background
-of the empire via the Databank.
+This origin has an active situation log with guides for players and tasks to do at game start. Take time to get familiar with the background of the empire via the Databank.
 
 World-Machine Automaton
 -----------------------
 
-Automatons are not useful on World-Machines since everything is
-automated. They do not assemble like other Machine species.
+Automatons are not useful on World-Machines since everything is automated. They do not assemble like other Machine species.
 
 .. figure:: https://github.com/user-attachments/assets/0e55e9b4-b672-48a6-a6b5-f98fb3a6a37c
    :alt: image
@@ -49,9 +36,7 @@ automated. They do not assemble like other Machine species.
 Specialized for Auto-Machine Worlds
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-They are uniquely built for these worlds and have serious trouble
-functioning on other types of worlds as the infrastructure is not there
-to support them.
+They are uniquely built for these worlds and have serious trouble functioning on other types of worlds as the infrastructure is not there to support them.
 
 .. figure:: https://github.com/user-attachments/assets/37b9d60c-dcc0-4d20-9160-22e4cbdccbdd
    :alt: image
@@ -61,16 +46,14 @@ to support them.
 Primary Goals
 -------------
 
-The first goal is to accumulate information about World-Machines. The
-empire itself lacks knowledge, even though it arose into being on one.
+The first goal is to accumulate information about World-Machines. The empire itself lacks knowledge, even though it arose into being on one.
 
 .. figure:: https://github.com/user-attachments/assets/cbebfc2c-31fe-4617-a592-d0044c7a12a5
    :alt: image
 
    image
 
-A critical amount of insights are needed to approximate reverse
-engineering a World-Machine Core and recovering the technology.
+A critical amount of insights are needed to approximate reverse engineering a World-Machine Core and recovering the technology.
 
 .. figure:: https://github.com/user-attachments/assets/177a47b6-b1eb-466f-8175-11241728a8db
    :alt: image
@@ -97,9 +80,7 @@ Study Planetary Defects
 Lore and milestones
 -------------------
 
-Visit the empire databank for a complete overview of the empire’s
-origins, and as certain milestones are reached, detailed information
-about those milestones is added here.
+Visit the empire databank for a complete overview of the empire’s origins, and as certain milestones are reached, detailed information about those milestones is added here.
 
 .. figure:: https://github.com/user-attachments/assets/447a3f8c-aa1f-46d9-b1d5-95768882488f
    :alt: image
@@ -114,9 +95,7 @@ about those milestones is added here.
 Visiting Home
 -------------
 
-Every World-Machine planet has its installation date stamped in the
-Info-Bank modifier. It includes concept information and data about total
-World-Machine Core resources stored, if any.
+Every World-Machine planet has its installation date stamped in the Info-Bank modifier. It includes concept information and data about total World-Machine Core resources stored, if any.
 
 .. figure:: https://github.com/user-attachments/assets/04406fb0-d92e-411c-b895-53fb378f8140
    :alt: image
@@ -126,8 +105,7 @@ World-Machine Core resources stored, if any.
 Heart of the Machine
 --------------------
 
-The World-Core sits in a protected area of the planet, and can’t be
-destroyed by bombardments or invasions.
+The World-Core sits in a protected area of the planet, and can’t be destroyed by bombardments or invasions.
 
 .. figure:: https://github.com/user-attachments/assets/42928b86-ccd2-4465-80ed-96c6dbf5a1a5
    :alt: image
@@ -137,9 +115,7 @@ destroyed by bombardments or invasions.
 World-Machines aren't perfect
 -----------------------------
 
-There will be some defects that need to be cleared. They block
-construction progress on the world, and can be dug out by empire
-archaeologists.
+There will be some defects that need to be cleared. They block construction progress on the world, and can be dug out by empire archaeologists.
 
 .. figure:: https://github.com/user-attachments/assets/28c98503-5058-4bcc-9ef9-7e4f3e3ed37b
    :alt: image
@@ -152,11 +128,9 @@ Producing Resources
 Auto-Districts (pop-less)
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-All districts have a slight production bonus (10%) on the empire
-capital.
+All districts have a slight production bonus (10%) on the empire capital.
 
-Note that the Auto-Industrial district will use Food if the empire has
-the Organic Reprocessing (catalytic) civic.
+Note that the Auto-Industrial district will use Food if the empire has the Organic Reprocessing (catalytic) civic.
 
 +-----------------------+-----------------------+-----------------------+
 | District              | Produces              | Blueprint             |
@@ -178,8 +152,7 @@ the Organic Reprocessing (catalytic) civic.
 Auto-Districts are well-defended
 --------------------------------
 
-Since Automatons do not fight, all districts are automatically equipped
-with intrusion defenses.
+Since Automatons do not fight, all districts are automatically equipped with intrusion defenses.
 
 .. figure:: https://github.com/user-attachments/assets/05844653-e9d3-4155-8370-43887297bb8c
    :alt: image
@@ -189,8 +162,7 @@ with intrusion defenses.
 Automated Capital
 -----------------
 
-The capital is fully automated. It does not provide any jobs, since
-Automatons do not need to work (are other empires’ pops jealous yet?).
+The capital is fully automated. It does not provide any jobs, since Automatons do not need to work (are other empires’ pops jealous yet?).
 
 **Research and tradition bonuses will be applied through the capital to
 all districts and buildings on the planet.**
@@ -211,9 +183,7 @@ Automatons on the planet may dream in endless sleep while working the
 Auto-Buildings (pop-less)
 -------------------------
 
-Many new buildings can be built exclusively on World-Machines. The
-building will be named “Auto-” (something) and there will be blue text
-at the description. *Most vanilla buildings have a pop-less equivalent.*
+Many new buildings can be built exclusively on World-Machines. The building will be named “Auto-” (something) and there will be blue text at the description. *Most vanilla buildings have a pop-less equivalent.*
 
 .. figure:: https://github.com/user-attachments/assets/c10af97e-608f-4976-a679-ed0a632f8fca
    :alt: image
@@ -223,9 +193,7 @@ at the description. *Most vanilla buildings have a pop-less equivalent.*
 Fractal-Powered Research
 ------------------------
 
-The Auto-Fractal Algorithm building has several upgrades and produces
-all physics research and services needed in the empire. It may be
-improved / upgraded if certain research is completed.
+The Auto-Fractal Algorithm building has several upgrades and produces all physics research and services needed in the empire. It may be improved / upgraded if certain research is completed.
 
 .. figure:: https://github.com/user-attachments/assets/cbc1f753-7b9d-48e1-8112-c9b7a1631fcb
    :alt: image
@@ -235,10 +203,7 @@ improved / upgraded if certain research is completed.
 Auto-Resource buildings require science services
 ------------------------------------------------
 
-On World-Machine planets, some buildings can produce resources
-automatically. However, in order to maintain them, science services
-upkeep is required, and upkeep increases when these buildings are
-upgraded.
+On World-Machine planets, some buildings can produce resources automatically. However, in order to maintain them, science services upkeep is required, and upkeep increases when these buildings are upgraded.
 
 ================= ======== ============================= =========
 Building          Produces Operational Services required Blueprint
@@ -251,9 +216,7 @@ Auto-Nutrient Vat Food     Society services              |image7|
 Expanding the Empire
 --------------------
 
-Find a habitable world, or Barren planet, and enact the decision from
-space. It will require a complete World-Machine Core to begin the
-terraforming and colony deployment phases.
+Find a habitable world, or Barren planet, and enact the decision from space. It will require a complete World-Machine Core to begin the terraforming and colony deployment phases.
 
 .. figure:: https://github.com/user-attachments/assets/030a8f29-881e-4342-85b8-52d7d7236e32
    :alt: image

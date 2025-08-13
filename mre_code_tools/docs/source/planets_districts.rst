@@ -6,18 +6,20 @@ World-Machines
 
 All World-Machines, except the non-specialized **Auto-Machine World Project** will overheat, reducing resource output on the planet, unless a **Cooling System** district is built to counteract the **Thermal Throttling** effect. The specialized districts of each type **do not require pops** to provide their bonuses.
 
-The planet can be automated using a planetary decision costing 20,000 minerals, 200 influence, and takes 3600 days to complete.
+Colonizable planets can be transformed into the four types of World-Machine, using a planetary decision costing 20,000 minerals, 200 influence. It takes 3600 days to complete.
 
 Auto-Machine World Project
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+An automated planet useful for producing raw resources.
 
-- Auto-storage: Improved housing district, provides amenities.
 - Auto-Generator Machine: Produces energy
 - Auto-Mining Machine: Produces minerals
 - Auto-Farming Machine: Produces food
 
 Auto-Factory World Project
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+An automated planet useful for producing secondary resources, like alloys, consumer goods, and rare resources.
 
 Districts:
 
@@ -27,6 +29,7 @@ Districts:
 
 Auto-Processor World Project
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+For your empire's research needs: a specialized computing planet.
 
 - Circuit Unit Pi: Produces physics research
 - Circuit Unit Sigma: Produces society research
@@ -34,15 +37,19 @@ Auto-Processor World Project
 
 Auto-Server World Project
 ^^^^^^^^^^^^^^^^^^^^^^^^^
+A world specialized for handling administrative overhead
 
 - Drive: Produces unity.
-- Router: Increases administrative capacity by +90 (which helps counteract empire sprawl size)
+- Router: Produces Logistics
 - Firewall: Empire-wide deviancy -5 per district
 
 Auto-Ringworld
 ^^^^^^^^^^^^^^
+A more powerful version of a Ringworld.
 
-- Has automated versions of the standard Ringworld districts
+- R&D District: Support producing either Unity, or Research
+- Industrial District: Produce Alloys or Consumer Goods
+- Raw Resource district: Produce Food, or Energy
 
 Colony designations
 -------------------
@@ -51,6 +58,7 @@ Each world-machine type has several colony designations available, set up genera
 
 Using the colony automations with auto-machine worlds is a great quality-of-life improvement for players who don't want much planetary micromanagement.
 
+*As of Phoenix 4.0 the colony automations don't work anymore sadly, we have to wait for Paradox to fix this in the base game*
 
 Mechanical Worlds
 -----------------
@@ -67,6 +75,10 @@ The Mechanical World is a terraforming option, not a decision like the auto-mach
 Virtual Reality Server
 ----------------------
 
-Available for the Mechanical origin (Utopia)
+**Available for the Mechanical origin (Utopia)**
 
-The Virtual Reality server converts pops into planetary trade value by way of virtualisation. Additionally, the planet has districts for boosting empire-wide amenities, entertainment, and other bonuses.
+The Virtual Reality server converts pops into planetary trade value by way of virtualisation.
+Additionally, the planet has districts for boosting empire-wide amenities, entertainment, and other bonuses.
+
+- Primary District: Produces Trade
+- Secondary districts: Research, Unity, Amenities

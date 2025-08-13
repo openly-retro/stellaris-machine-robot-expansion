@@ -1,0 +1,34 @@
+Update: Oct 11, 2024 @ 10:24pm
+==============================
+
+- Vanilla rule override: is_individual_machine will return yes for Machine empires that ascended to Bio Robot and are not Gestalt
+- Vanilla trait override: trait_mechanical gets 100% Mechanical world habitability by default. This is done using triggered_planet_growth_habitability_modifier so you will NOT see habitability in the green for robot species until you colonize the planet. I added in Planetary Diversity's changes to this trait. Please report any compatibility issues with other mods here.
+- Vanilla rule override: can_species_be_assembled now blocks Bio-Mech species from being assembled, since the custom cloning system will produce Bio-Mechanical pops
+- Vanilla rule override: can_add_genetic_traits and can_remove_beneficial_genetic_traits will return true/yes for empires with the Bio-Genetics Mastery AP
+- Origin fix: Mechanical World start will get the habitability class of the selected Planet/Class at the game setup menu added to the founder species, so you can for example have a Mechanical World start and have picked an Ocean world, and your habitable worlds will match your selected planet class but your mechanical world habitability will also be 100%
+Mechanical World start has no additional habitability #231
+- Origin fix: Mechanical Heritage & Synth Ascended get 1 pop_assembly added to the empire so capital buildings correctly give a Roboticist job
+- Bio-Mech empires lose roboticist jobs because of failing is_individual_machine check [TenneT] #262
+Empires that pick Bio Mech AP will get +1 to Bio Mech species trait picks from the AP directly
+- Bio Mech tech : Two new techs boost Mechanical Hybrid points and picks; they are copies of the vanilla techs that boost machine and robot points/picks.
+- Bio Mech traits: Added (back) copies of the basic bio/organic species traits, so that machine empires that ascend to Bio Robot (and are not Servitor or Assimilator) can have those traits available and add them to species. They have "(Bio-Mechanical)" in the trait name.
+- Bio Mech empires: To help improve species assembly speed, the Bio-Mech Cloning vats have 3 stages of upgrades, with T3 having 8 cloning assembler jobs in total. Previously there weren't any upgrades.
+- Encrypted protocol origin update: Made the ending of the encrypted protocol situation more transparent by making the reward show in the finisher slot. (Thanks Legit-Rikk)
+
+Vanilla overrides:
+
+Game rules:
+common/game_rules/00_rules.txt:
+- can_species_be_assembled - pops with Bio Mech trait won't assemble
+
+Triggers:
+common/scripted_triggers/02_scripted_triggers_machine_age.txt
+- is_individual_machine - return True for non-gestalt Machine bio-mech
+
+common/scripted_triggers/05_scripted_triggers_traits.txt
+- can_add_genetic_traits - true/yes for empires with the Bio-Genetics Mastery AP
+- can_remove_beneficial_genetic_traits - true/yes for empires with the Bio-Genetics Mastery AP
+
+Trait overrides:
+common/traits/02_species_traits_basic_characteristics.txt
+- trait_mechanical - Add habitability for Mechanical Worlds
