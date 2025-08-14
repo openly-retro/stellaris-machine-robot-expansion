@@ -37,6 +37,11 @@
  # OVERRIDES    0x032
  # colony types 0x033
  # misc         0x034
+ # zone slots   0x035
+ # zones        0x036
+ # zone name swp 0x037
+ # trig. name   0x038
+
 
 # symbols: £energy£ §R
 
@@ -49,7 +54,7 @@
  oxr_mdlc_wm_core_tip: "£oxr_mdlc_world_machine_core£ §M$oxr_mdlc_world_machine_core$§!"
  oxr_mdlc_popless: "§B(Popless)§!"
  oxr_mdlc_geological: "£oxr_geological£"
-#  oxr_gear: "£oxr_gear£"
+ oxr_gear2: "£oxr_gear£"
 #  oxr_gear: "£oxr_empty£"
  oxr_gear: ""
  oxr_mdlc_imperial_nexus: "Imperial Nexus"
@@ -299,6 +304,16 @@
  rikk_mdlc_world_machine_SR_building: "$oxr_gear$ Strategic Resource Filtering Module"
  rikk_mdlc_world_machine_SR_building_effect: "$xvcv_mdlc_world_machines_generator_districts$ £volatile_motes£ output: §G+0.2§!\n$xvcv_mdlc_world_machines_generator_districts$ £minerals£ $minerals$ upkeep: §R+2§!\n$xvcv_mdlc_world_machines_mining_districts$ £rare_crystals£ output: §G+0.2§!\n$xvcv_mdlc_world_machines_mining_districts$ £energy£ $energy$ upkeep: §R+1§!\n$xvcv_mdlc_world_machines_food_districts$ £exotic_gases£ output: §G+0.2§!\n$xvcv_mdlc_world_machines_food_districts$ £energy£ $energy$ upkeep: §R+1§!"
  rikk_mdlc_world_machine_SR_building_desc: "Processes and alters world machine detritus scrubbing techniques to allow it to collect trace amounts of strategic resources from our harvesting industries. Applied on a planetary scale, these trace amounts can add up to a greater whole.$oxr_mdlc_mod_tag$ $oxr_mdlc_world_machine_building_category_note$"
+
+ #### TRADE ####
+
+ oxr_mdlc_world_machines_auto_logistics_1: "$oxr_gear$ Auto-Logistics Governor 1"
+ oxr_mdlc_world_machines_auto_logistics_desc_part: "This module adds specialized subroutines for monitoring and management of the district's supply chains. It includes an auto-load balancer, and redundant hardware in case of failures resulting in service downtime."
+ oxr_mdlc_world_machines_auto_logistics_1_desc: "$oxr_mdlc_world_machines_auto_logistics_desc_part$$oxr_mdlc_mod_tag$"
+ oxr_mdlc_world_machines_auto_logistics_2: "$oxr_mdlc_world_machines_auto_logistics_1$ 2"
+ oxr_mdlc_world_machines_auto_logistics_2_desc: "$oxr_mdlc_world_machines_auto_logistics_desc_part$ This module has four units running in parallel for improved output. $oxr_mdlc_mod_tag$"
+ oxr_mdlc_world_machines_auto_logistics_3: "$oxr_mdlc_world_machines_auto_logistics_1$ 3"
+ oxr_mdlc_world_machines_auto_logistics_3_desc: "$oxr_mdlc_world_machines_auto_logistics_desc_part$ This module has eight units running in parallel for maximum output.$oxr_mdlc_mod_tag$"
 
  #### UNITY ####
 # building_uplink_node
@@ -638,140 +653,20 @@
  # CUSTOM TOOLTIPS OVERRIDING TECH BONUSES AND SUCH FOR CAPITAL
  oxr_output: "output"
  oxr_upkeep: "upkeep"
+ COST: "cost"
 
  oxr_mdlc_capital_extraction_tooltip: "£food£ $food$ £minerals£ $minerals$ £energy£ $energy$ from Auto-Buildings and Districts: §G+15%§!"
  oxr_mdlc_capital_has_tr_discovery_faith: "§H(Tradition) $tr_discovery_faith_in_science_machine$§!\nAuto-Science buildings upkeep/production: §R+10%§!/§G+10%§!"
  oxr_mdlc_capital_has_tech_administrative_ai: "§M(Tech) $tech_administrative_ai$§!\nAuto-Science building upkeep: §G-5%§!"
  oxr_mdlc_capital_has_civic_astromining: "§B(Civic) $civic_machine_astromining_drones$§! reduces planetary £minerals£ $minerals$ £energy£ $energy$ £food£ $food$ output."
  oxr_mdlc_unity_building_has_civic_planetary_systems_audit: "§H(Tradition) $oxr_mdlc_tr_machinery_planetary_systems_audit$§!\nAuto-Unity buildings Upkeep/output: §R+10%§!/§G+5%§!"
- 
- # CUSTOM DISTRICT PRODUCES ADD
- mod_xvcv_mdlc_world_machines_foundry_districts_alloys_produces_add: "£alloys£ $alloys$ from World-Machine Foundry Districts"
- mod_xvcv_mdlc_world_machines_factory_districts_consumer_goods_produces_add: "£consumer_goods£ $consumer_goods$ from World-Machine Factory Districts"
- mod_xvcv_mdlc_world_machines_food_districts_food_produces_add: "£food£ $food$ from Auto-Machine World Farming districts"
- mod_xvcv_mdlc_world_machines_mining_districts_minerals_produces_add: "£minerals£ $minerals$ from Auto-Machine World Mining districts"
- mod_xvcv_mdlc_world_machines_generator_districts_energy_produces_add: "£energy£ $energy$ from Auto-Machine World Generator districts"
- mod_xvcv_mdlc_world_machines_unity_districts_unity_produces_add: "£unity£ $unity$ from Auto-Machine World administrative districts"
- 
- mod_xvcv_mdlc_world_machines_mining_districts_rare_crystals_produces_add: "£rare_crystals£ from $xvcv_mdlc_world_machines_mining_districts$"
- mod_xvcv_mdlc_world_machines_food_districts_exotic_gases_produces_add: "£exotic_gases£ from $xvcv_mdlc_world_machines_farming_districts$"
- mod_xvcv_mdlc_world_machines_generator_districts_volatile_motes_produces_add: "£volatile_motes£ from $xvcv_mdlc_world_machines_generator_districts$"
+
  # for rikk SR building
  xvcv_mdlc_food_district_gas_produces: "Producing £exotic_gases£ from $rikk_mdlc_world_machine_SR_building$"
 
  xvcv_mdlc_mining_district_crystals_produces: "Producing £rare_crystals£ from $rikk_mdlc_world_machine_SR_building$"
 
  xvcv_mdlc_generator_district_motes_produces: "Producing £volatile_motes£ from $rikk_mdlc_world_machine_SR_building$"
-
- # CUSTOM DISTRICT UPKEEP ADD
- mod_xvcv_mdlc_world_machines_foundry_districts_alloys_upkeep_add: "$xvcv_mdlc_world_machines_foundry_districts$ £alloys£ $alloys$ upkeep"
- mod_xvcv_mdlc_world_machines_factory_districts_consumer_goods_upkeep_add: "$xvcv_mdlc_world_machines_factory_districts$ £consumer_goods£ $consumer_goods$ upkeep"
- mod_xvcv_mdlc_world_machines_food_districts_food_upkeep_add: "$xvcv_mdlc_world_machines_food_districts$ £food£ $food$ upkeep"
- mod_xvcv_mdlc_world_machines_mining_districts_minerals_upkeep_add: "$xvcv_mdlc_world_machines_mining_districts$ £minerals£ $minerals$ upkeep"
- mod_xvcv_mdlc_world_machines_generator_districts_energy_upkeep_add: "$xvcv_mdlc_world_machines_generator_districts$ £energy£ $energy$ upkeep"
- mod_xvcv_mdlc_world_machines_unity_districts_unity_upkeep_add: "$xvcv_mdlc_world_machines_unity_districts$ £unity£ upkeep"
- mod_xvcv_mdlc_world_machines_mining_districts_energy_upkeep_add: "$xvcv_mdlc_world_machines_mining_districts$ £energy£ $energy$ upkeep"
- mod_xvcv_mdlc_world_machines_food_districts_energy_upkeep_add: "$xvcv_mdlc_world_machines_food_districts$ £energy£ $energy$ upkeep"
- mod_xvcv_mdlc_world_machines_computer_districts_food_upkeep_add: "$xvcv_mdlc_world_machines_computer_districts$ £food£ $food$ upkeep"
- mod_oxr_mdlc_world_machines_science_buildings_energy_upkeep_mult: "$oxr_mdlc_world_machines_science_buildings$ £energy£ $energy$ upkeep"
-
- mod_xvcv_mdlc_world_machines_computer_districts_energy_upkeep_add: "$xvcv_mdlc_world_machines_computer_districts$ £energy£ $energy$ upkeep"
- mod_xvcv_mdlc_world_machines_computer_districts_volatile_motes_upkeep_add: "$xvcv_mdlc_world_machines_computer_districts$ £volatile_motes£ upkeep"
-
- # CUSTOM DISTRICT UPKEEP MULT
- mod_xvcv_mdlc_world_machines_mining_districts_energy_upkeep_mult: " $xvcv_mdlc_world_machines_mining_districts$ £energy£ $energy$ upkeep"
- mod_xvcv_mdlc_world_machines_computer_districts_upkeep_mult: "$xvcv_mdlc_world_machines_computer_districts$ upkeep"
- mod_xvcv_mdlc_world_machines_cooling_districts_upkeep_mult: "$xvcv_mdlc_world_machines_cooling_districts$ $upkeep$"
- mod_xvcv_mdlc_world_machines_mining_districts_upkeep_mult: "$xvcv_mdlc_world_machines_mining_districts$ $upkeep$"
- mod_xvcv_mdlc_world_machines_computer_districts_energy_upkeep_mult: "$xvcv_mdlc_world_machines_computer_districts$ £energy£ $energy$ upkeep"
-
- # CUSTOM DISTRICT PRODUCES MULT
- mod_xvcv_mdlc_world_machines_generator_districts_energy_produces_mult: "$xvcv_mdlc_world_machines_generator_districts$ £energy£ $energy$ $OUTPUT$"
- mod_xvcv_mdlc_world_machines_mining_districts_minerals_produces_mult: "$xvcv_mdlc_world_machines_mining_districts$ £minerals£ $minerals$ $OUTPUT$"
- mod_xvcv_mdlc_world_machines_food_districts_food_produces_mult: "$xvcv_mdlc_world_machines_food_districts$ £food£ $food$ $OUTPUT$"
- mod_xvcv_mdlc_world_machines_generator_districts_produces_mult: "$xvcv_mdlc_world_machines_generator_districts$ $OUTPUT$"
- mod_xvcv_mdlc_world_machines_mining_districts_produces_mult: "$xvcv_mdlc_world_machines_mining_districts$ $OUTPUT$"
- mod_xvcv_mdlc_world_machines_mining_districts_minerals_produces_mult: "$xvcv_mdlc_world_machines_mining_districts$ £minerals£ $minerals$ $OUTPUT$"
- mod_oxr_mdlc_world_machines_mining_buildings_produces_mult: "$oxr_mdlc_world_machines_mining_buildings$ $OUTPUT$"
- mod_xvcv_mdlc_world_machines_industrial_districts_produces_mult: "$xvcv_mdlc_world_machines_industrial_districts$ $OUTPUT$"
- mod_xvcv_mdlc_world_machines_foundry_districts_produces_mult: "$xvcv_mdlc_world_machines_foundry_districts$ $OUTPUT$"
- mod_xvcv_mdlc_world_machines_food_districts_produces_mult: "$xvcv_mdlc_world_machines_food_districts$ $OUTPUT$"
- mod_xvcv_mdlc_world_machines_computer_districts_engineering_research_produces_mult: "$xvcv_mdlc_world_machines_computer_districts$ £engineering_research£ $OUTPUT$"
- mod_xvcv_mdlc_world_machines_food_districts_food_produces_mult: "$xvcv_mdlc_world_machines_farming_districts$ £food£ $OUTPUT$"
-
- mod_xvcv_mdlc_world_machines_industrial_districts_energy_upkeep_add: "$xvcv_mdlc_world_machines_industrial_districts$ £energy£ $energy$ upkeep"
- mod_xvcv_mdlc_world_machines_industrial_districts_consumer_goods_produces_mult: "$xvcv_mdlc_world_machines_industrial_districts$ £consumer_goods£ $OUTPUT$"
- mod_xvcv_mdlc_world_machines_industrial_districts_alloys_produces_mult: "$xvcv_mdlc_world_machines_industrial_districts$ £alloys£ $OUTPUT$"
- mod_xvcv_mdlc_world_machines_computer_districts_physics_research_produces_mult: "$xvcv_mdlc_world_machines_computer_districts$ £physics_research£ $OUTPUT$"
- mod_xvcv_mdlc_world_machines_computer_districts_society_research_produces_mult: "$xvcv_mdlc_world_machines_computer_districts$ £society_research£ $OUTPUT$"
- mod_xvcv_mdlc_world_machines_foundry_districts_energy_upkeep_add: "$xvcv_mdlc_world_machines_foundry_districts$ £energy£ $energy$ upkeep"
- mod_xvcv_mdlc_world_machines_foundry_districts_upkeep_mult: "$xvcv_mdlc_world_machines_foundry_districts$ upkeep"
- mod_xvcv_mdlc_world_machines_factory_districts_energy_upkeep_add: "$xvcv_mdlc_world_machines_factory_districts$ £energy£ $energy$ upkeep"
- mod_xvcv_mdlc_world_machines_factory_districts_consumer_goods_produces_mult: "$xvcv_mdlc_world_machines_factory_districts$ £consumer_goods£ $OUTPUT$"
- mod_xvcv_mdlc_world_machines_factory_districts_upkeep_mult: "$xvcv_mdlc_world_machines_factory_districts$ upkeep"
- mod_xvcv_mdlc_world_machines_factory_districts_produces_mult: "$xvcv_mdlc_world_machines_factory_districts$ $OUTPUT$"
- mod_xvcv_mdlc_world_machines_science_districts_energy_upkeep_add: "$xvcv_mdlc_world_machines_science_districts$ £energy£ $energy$ upkeep"
- mod_xvcv_mdlc_world_machines_science_districts_produces_mult: "$xvcv_mdlc_world_machines_science_districts$ $OUTPUT$"
- mod_xvcv_mdlc_world_machines_science_districts_upkeep_mult: "$xvcv_mdlc_world_machines_science_districts$ upkeep"
- mod_oxr_mdlc_world_machines_unity_buildings_produces_mult: "$oxr_mdlc_world_machines_unity_buildings$ $OUTPUT$"
- mod_xvcv_mdlc_world_machines_unity_districts_unity_produces_mult: "$xvcv_mdlc_world_machines_unity_districts$ output"
- mod_xvcv_mdlc_world_machines_foundry_districts_alloys_produces_mult: "$xvcv_mdlc_world_machines_foundry_districts$ £alloys£ output"
- mod_xvcv_mdlc_world_machines_mining_districts_minerals_produces_mult: "$xvcv_mdlc_world_machines_mining_districts$ £minerals£ output"
-
-
- # CUSTOM DISTRICT UPKEEP MULT
- mod_xvcv_mdlc_world_machines_food_districts_upkeep_mult: "$xvcv_mdlc_world_machines_food_districts$ $upkeep$"
- mod_xvcv_mdlc_world_machines_generator_districts_upkeep_mult: "$xvcv_mdlc_world_machines_generator_districts$ $upkeep$"
- mod_xvcv_mdlc_world_machines_foundry_districts_minerals_upkeep_mult: "$xvcv_mdlc_world_machines_foundry_districts$ £minerals£ $upkeep$"
- mod_xvcv_mdlc_world_machines_foundry_districts_food_upkeep_mult: "$xvcv_mdlc_world_machines_foundry_districts$ £food£ $upkeep$"
-
-
- # CUSTOM BUILDING PRODUCES MULT
- mod_oxr_mdlc_world_machines_generator_buildings_energy_produces_mult: "$oxr_mdlc_world_machines_generator_buildings$ £energy£ $energy$ $OUTPUT$"
- mod_oxr_mdlc_world_machines_mining_buildings_minerals_produces_mult: "$oxr_mdlc_world_machines_mining_buildings$ £minerals£ $minerals$ $OUTPUT$"
- mod_oxr_mdlc_world_machines_food_buildings_food_produces_mult: "$oxr_mdlc_world_machines_food_buildings$ £food£ $food$ $OUTPUT$"
- mod_oxr_mdlc_world_machines_science_buildings_produces_mult: "$oxr_mdlc_world_machines_science_buildings$ £physics_research£ £society_research£ £engineering_research£ $OUTPUT$"
- mod_oxr_mdlc_world_machines_generator_buildings_produces_mult: "$oxr_mdlc_world_machines_generator_buildings$ $OUTPUT$"
- mod_oxr_mdlc_world_machines_foundry_buildings_produces_mult: "$oxr_mdlc_world_machines_foundry_buildings$ $OUTPUT$"
- mod_oxr_mdlc_world_machines_food_buildings_produces_mult: "$oxr_mdlc_world_machines_food_buildings$ $OUTPUT$"
- mod_oxr_mdlc_category_world_machines_buildings_produces_mult: "$oxr_mdlc_category_world_machines_buildings$ $OUTPUT$"
- mod_oxr_mdlc_world_machines_science_buildings_engineering_research_produces_mult: "$oxr_mdlc_world_machines_science_buildings$ £engineering_research£ $OUTPUT$"
- mod_oxr_mdlc_world_machines_science_buildings_physics_research_produces_mult: "$oxr_mdlc_world_machines_science_buildings$ £physics_research£ $OUTPUT$"
- mod_oxr_mdlc_world_machines_science_buildings_society_research_produces_mult: "$oxr_mdlc_world_machines_science_buildings$ £society_research£ $OUTPUT$"
- mod_oxr_mdlc_world_machines_factory_buildings_consumer_goods_produces_mult: "$oxr_mdlc_world_machines_factory_buildings$ £consumer_goods£ $OUTPUT$"
- mod_oxr_mdlc_world_machines_factory_buildings_produces_mult: "$oxr_mdlc_world_machines_factory_buildings$ $OUTPUT$"
- mod_oxr_mdlc_world_machines_foundry_buildings_upkeep_mult: "$oxr_mdlc_world_machines_foundry_buildings$ upkeep"
- mod_oxr_mdlc_world_machines_unity_buildings_output_mult: "$oxr_mdlc_world_machines_unity_buildings$ $OUTPUT$"
- mod_xvcv_mdlc_world_machines_strategic_resource_districts_produces_mult: "$xvcv_mdlc_world_machines_strategic_resource_districts$ output"
- mod_oxr_mdlc_world_machines_strategic_resource_buildings_produces_mult: "$oxr_mdlc_world_machines_strategic_resource_buildings$ £exotic_gases£ £rare_crystals£ £volatile_motes£ output"
- mod_oxr_mdlc_world_machines_unity_buildings_unity_produces_mult: "$oxr_mdlc_world_machines_unity_buildings$ £unity£ output"
- mod_oxr_mdlc_world_machines_mining_buildings_minerals_produces_mult: "$oxr_mdlc_world_machines_mining_buildings$ £minerals£ output"
-
- # CUSTOM BUILDING UPKEEP MULT
- mod_oxr_mdlc_world_machines_mining_buildings_energy_upkeep_mult: "$oxr_mdlc_world_machines_mining_buildings$ £energy£ $energy$ upkeep"
- mod_oxr_mdlc_world_machines_science_buildings_upkeep_mult: "$oxr_mdlc_world_machines_science_buildings$ upkeep"
- mod_oxr_mdlc_world_machines_unity_buildings_upkeep_mult: "$oxr_mdlc_world_machines_unity_buildings$ $oxr_upkeep$"
- mod_oxr_mdlc_world_machines_government_buildings_upkeep_mult: "$oxr_mdlc_world_machines_government_buildings$ $oxr_upkeep$"
- mod_oxr_mdlc_world_machines_food_buildings_upkeep_mult: "$oxr_mdlc_world_machines_food_buildings$ $oxr_upkeep$"
- mod_oxr_mdlc_world_machines_generator_buildings_upkeep_mult: "$oxr_mdlc_world_machines_generator_buildings$ $oxr_upkeep$"
- mod_oxr_mdlc_world_machines_mining_buildings_upkeep_mult: "$oxr_mdlc_world_machines_mining_buildings$ $oxr_upkeep$"
- mod_oxr_mdlc_world_machines_factory_buildings_upkeep_mult: "$oxr_mdlc_world_machines_factory_buildings$ $oxr_upkeep$"
-
- # CUSTOM DISTRICT UPKEEP ADD
- mod_xvcv_mdlc_world_machines_generator_districts_food_upkeep_add: "$xvcv_mdlc_world_machines_generator_districts$ £food£ $food$ upkeep"
- mod_oxr_mdlc_world_machines_generator_buildings_food_upkeep_add: "$oxr_mdlc_world_machines_generator_buildings$ £food£ $food$ upkeep"
- mod_xvcv_mdlc_world_machines_districts_minerals_cost_add: "$xvcv_mdlc_world_machines_districts$ £minerals£ upkeep"
-
- # CUSTOM BUILDING UPKEEP ADD
- mod_oxr_mdlc_world_machines_food_buildings_energy_upkeep_add: "$oxr_mdlc_world_machines_food_buildings$ £energy£ $energy$ upkeep"
- mod_oxr_mdlc_world_machines_mining_buildings_energy_upkeep_add: "$oxr_mdlc_world_machines_mining_buildings$ £energy£ $energy$ upkeep"
- mod_oxr_mdlc_world_machines_generator_buildings_energy_upkeep_add: "$oxr_mdlc_world_machines_generator_buildings$ £energy£ $energy$ upkeep"
-
- mod_oxr_mdlc_world_machines_science_buildings_energy_upkeep_add: "$oxr_mdlc_world_machines_science_buildings$ £energy£ $energy$ upkeep"
- mod_oxr_mdlc_world_machines_science_buildings_volatile_motes_upkeep_add: "$oxr_mdlc_world_machines_science_buildings$ £volatile_motes£ upkeep"
- mod_oxr_mdlc_world_machines_science_buildings_food_upkeep_add: "$oxr_mdlc_world_machines_science_buildings$ £food£ $food$ upkeep"
- mod_oxr_mdlc_world_machines_factory_buildings_energy_upkeep_add: "$oxr_mdlc_world_machines_factory_buildings$ £energy£ $energy$ upkeep"
- mod_oxr_mdlc_world_machines_foundry_buildings_energy_upkeep_add: "$oxr_mdlc_world_machines_foundry_buildings$ £energy£ $energy$ upkeep"
 
  # OTHER
  mod_planet_oxr_mdlc_world_machines_auto_generator_1_build_speed_mult: "$oxr_mdlc_world_machines_auto_generator_1$ build speed"
@@ -785,6 +680,12 @@
  mod_planet_xvcv_mdlc_pc_ringworld_machine_auto_district_industrial_build_speed_mult: "$xvcv_mdlc_pc_ringworld_machine_auto_district_industrial$ build speed"
  mod_planet_oxr_mdlc_world_machines_building_fractal_sanitizer_1_build_speed_mult: "$oxr_mdlc_world_machines_building_fractal_sanitizer_1$ build speed"
  mod_planet_xvcv_mdlc_pc_ringworld_machine_auto_district_rnd_build_speed_mult: "$xvcv_mdlc_pc_ringworld_machine_auto_science$ build speed"
+
+ # UNSORTED -- :O
+
+ mod_planet_bureaucrats_upkeep_mult: "$PLACEHOLDER$"
+ mod_xvcv_mdlc_pc_virtual_district_primary_max: "$PLACEHOLDER$"
+ mod_oxr_mdlc_pc_bio_mech_habitability: "$PLACEHOLDER$"
 
 #endregion
 
@@ -1452,13 +1353,65 @@
  oxr_desc_for_xvcv_mdlc_pc_machine_ecu_district_rare_resources: "The Sythesizer combines the §Y$oxr_mdlc_world_machines_building_welding_colony$§!, §Y$oxr_mdlc_world_machines_building_particle_collider$§!, and §Y$oxr_mdlc_world_machines_building_crystal_cultivation_tank$§!, producing together far more than what each would produce alone."
  oxr_desc_for_xvcv_mdlc_pc_machine_ecu_district_naval_cap: "This district manufactures ship parts, sensors, components, weapons, and the various ammunition needed (shells, missiles, cells), and sends them all to shipyards for manufacture. Additionally, it houses combat computers running real-time logistical support programs for fleets; it manages resupply orders, supply chains for reloading weapons and refueling engines, schedules repairs, and launches additional satellites as needed when arrays reach peak bandwidth in various systems."
 
+ ## The duplicated Auto-Machine World for the origin
+ ## where the primary district is the industrial district
+ xvcv_mdlc_pc_machine_auto_district_generator_origin_wm: "$xvcv_mdlc_pc_machine_auto_district_generator$"
+ xvcv_mdlc_pc_machine_auto_district_generator_origin_wm_desc: "$xvcv_mdlc_pc_machine_auto_district_generator_desc$"
+ xvcv_mdlc_pc_machine_auto_district_generator_origin_wm_plural: "$xvcv_mdlc_pc_machine_auto_district_generator_plural$"
+
+ xvcv_mdlc_pc_machine_auto_district_mining_origin_wm: "$xvcv_mdlc_pc_machine_auto_district_mining$"
+ xvcv_mdlc_pc_machine_auto_district_mining_origin_wm_desc: "$xvcv_mdlc_pc_machine_auto_district_mining_desc$"
+ xvcv_mdlc_pc_machine_auto_district_mining_origin_wm_plural: "$xvcv_mdlc_pc_machine_auto_district_mining_plural$"
+
+ xvcv_mdlc_pc_machine_auto_district_farming_origin_wm: "$xvcv_mdlc_pc_machine_auto_district_farming$"
+ xvcv_mdlc_pc_machine_auto_district_farming_origin_wm_desc: "$xvcv_mdlc_pc_machine_auto_district_farming_desc$"
+ xvcv_mdlc_pc_machine_auto_district_farming_origin_wm_plural: "$xvcv_mdlc_pc_machine_auto_district_farming_plural$"
+
+ xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm: "$xvcv_mdlc_pc_machine_auto_district_industrial$"
+ xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm_desc: "$xvcv_mdlc_pc_machine_auto_district_industrial_desc$"
+ xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm_plural: "$xvcv_mdlc_pc_machine_auto_district_industrial_plural$"
+
+ ### xvcv_mdlc_pc_ringworld_machine_auto
+ xvcv_mdlc_pc_ringworld_machine_auto_district_primary: "Segment Control Hub"
+ xvcv_mdlc_pc_ringworld_machine_auto_district_primary_plural: "Segment Control Hubs"
+ xvcv_mdlc_pc_ringworld_machine_auto_district_primary_desc: "A hub for ring maintenance and command."
+ xvcv_mdlc_pc_ringworld_machine_auto_district_rnd: "Research and Development Hub"
+ xvcv_mdlc_pc_ringworld_machine_auto_district_rnd_plural: "Research and Development Hubs"
+ xvcv_mdlc_pc_ringworld_machine_auto_district_rnd_desc: "The base template for this research and development district can support several operational modes, functioning as a £research£ research server, £unity£ administrative server, or supporting £trade£ logistics."
+ xvcv_mdlc_pc_ringworld_machine_auto_district_rnd_triggered_name_research: "Distributed Computing Mainframe"
+ xvcv_mdlc_pc_ringworld_machine_auto_district_rnd_triggered_desc_research: "Vast mainframes handle excess research demand from other systems, asynchronously processing work in chunks and downloading more as needed."
+ xvcv_mdlc_pc_ringworld_machine_auto_district_rnd_triggered_name_unity: "Administrative Sector"
+ xvcv_mdlc_pc_ringworld_machine_auto_district_rnd_triggered_desc_unity: "The hardware stacks for this district analyze the millions of informational log messages produced by all automated facilities in the empire, and uses predictive analysis to improve decision-making capacity and to improve the effectiveness of edicts."
+ xvcv_mdlc_pc_ringworld_machine_auto_district_rnd_triggered_desc_logistics: "Logistics Sector"
+ xvcv_mdlc_pc_ringworld_machine_auto_district_rnd_triggered_desc_trade: "This district houses hardware towers that focus on balancing supply and demand of resources within the empire. Additionally it schedules munitions and fuel resupply runs for active fleets and handles some navigational calculations."
+ xvcv_mdlc_pc_ringworld_machine_auto_district_raw_resource: "Raw Resource Production District"
+ xvcv_mdlc_pc_ringworld_machine_auto_district_raw_resource_plural: "Raw Resource Production Districts"
+ xvcv_mdlc_pc_ringworld_machine_auto_district_raw_resource_desc: "The base template for this raw resource production zone can support several operational modes, producing £food£ §Gnutrients and organic products§!, or £energy£ §Yenergy§!."
+ xvcv_mdlc_pc_ringworld_machine_auto_district_raw_resource_triggered_name_food: "Nutrient Mega-Field"
+ xvcv_mdlc_pc_ringworld_machine_auto_district_raw_resource_triggered_desc_food: "The entire gamut of nutrients consumed by biological lifeforms are synthesized here into a syrup which can be directly ingested, or absorbed via membrane."
+ xvcv_mdlc_pc_ringworld_machine_auto_district_raw_resource_triggered_name_energy: "Solar Field Array"
+ xvcv_mdlc_pc_ringworld_machine_auto_district_raw_resource_triggered_desc_energy: "A large array of solar energy collectors are mounted along the ring's surface. Thermal pumps and sinks are also implemented."
+
+ xvcv_mdlc_pc_ringworld_machine_auto_district_industrial: "Industrial District"
+ xvcv_mdlc_pc_ringworld_machine_auto_district_industrial_plural: "$xvcv_mdlc_pc_ringworld_machine_auto_district_industrial$s"
+ xvcv_mdlc_pc_ringworld_machine_auto_district_industrial_desc: "The lower level of this district contains forges for producing alloys, and the upper levels recycle the heat to power manufacturing facilities for consumer goods."
+
+ ### SWAPS
+ xvcv_mdlc_pc_ringworld_machine_auto_district_farming: "Nutrient Mega-Field"
+ xvcv_mdlc_pc_ringworld_machine_auto_district_farming_plural: "$xvcv_mdlc_pc_ringworld_machine_auto_district_farming$s"
+ xvcv_mdlc_pc_ringworld_machine_auto_district_farming_desc: "The entire gamut of nutrients consumed by biological lifeforms are synthesized here into a syrup which can be directly ingested, or absorbed via membrane."
+
+ xvcv_mdlc_pc_ringworld_machine_auto_district_generator: "Solar Field Array"
+ xvcv_mdlc_pc_ringworld_machine_auto_district_generator_plural: "$xvcv_mdlc_pc_ringworld_machine_auto_district_generator$s"
+ xvcv_mdlc_pc_ringworld_machine_auto_district_generator_desc: "A large array of solar energy collectors are mounted along the ring's surface. Thermal pumps and sinks are also implemented."
+  
 #endregion
 
 
 #region jobs_0x020
 
  oxr_mdlc_world_machine_hibernation_slot: "Drone Hibernation Slot"
- oxr_mdlc_world_machine_hibernation_slot_desc: "Unit is put into ultra-low-power mode while it awaits further instructions."
+ oxr_mdlc_world_machine_hibernation_slot_desc: "The Machine unit is placed into a metal storage slot where it sits in hibernation mode until it is needed. The climate inside the box is automatically dehumidified and kept at sufficient temperature to prevent any vital oils and comms fluids from solidifying during disuse. For Machines with individual personalities, one personal item is permitted."
  job_oxr_mdlc_world_machine_hibernation_slot: "Offline Drone"
  job_oxr_mdlc_world_machine_hibernation_slot_plural: "$job_oxr_mdlc_world_machine_hibernation_slot$s"
  job_oxr_mdlc_world_machine_hibernation_slot_desc: "$oxr_mdlc_world_machine_hibernation_slot_desc$"
@@ -1496,6 +1449,73 @@
 
  concept_oxr_pc_relic: "Relic World (Buried)"
  concept_oxr_pc_relic_desc: "A planet littered with the remains of an unidentified civilization, including large cities. When converted to a World-Machine, computing districts and research buildings will be able to utilize the buried errata for research purposes."
+
+ concept_xvcv_mdlc_pc_mechanical: "$xvcv_mdlc_pc_mechanical$"
+ concept_xvcv_mdlc_pc_mechanical_desc: "$xvcv_mdlc_pc_mechanical_desc$"
+ concept_xvcv_mdlc_pc_machine_auto: "$xvcv_mdlc_pc_machine_auto$"
+ concept_xvcv_mdlc_pc_machine_auto_desc: "$xvcv_mdlc_pc_machine_auto_desc$"
+ concept_xvcv_mdlc_pc_machine_ecu: "$xvcv_mdlc_pc_machine_ecu$"
+ concept_xvcv_mdlc_pc_machine_ecu_desc: "The Auto-Forge is a specialized class of Auto-World Machine, programmed and designed for producing £alloys£ alloys, £consumer_goods£, consumer goods, and £exotic_gases£ £rare_crystals£ £volatile_motes£ rare resources. Its operation requires assembly of cooling maintenance districts that continuously monitor smelters, production lines, and refineries, to ensure efficient operations."
+ concept_xvcv_mdlc_pc_machine_cpu: "$xvcv_mdlc_pc_machine_cpu$"
+ concept_xvcv_mdlc_pc_machine_cpu_desc: "The Auto-Processor is a specialized class of automated World Machine, designed for the single purpose of running research algorithms and protocols. It has libraries and modules supporting the fields of £society£ society research, £physics£ physics, and £engineering£ engineering."
+ concept_xvcv_mdlc_pc_machine_ser: "$xvcv_mdlc_pc_machine_ser$"
+ concept_xvcv_mdlc_pc_machine_ser_desc: "The Auto-Server is a specialized data processing construct. It is configurable for processing operational insights from empire decisions, support expanding economic activity, and monitoring automatons for any deviancy."
+ concept_xvcv_mdlc_pc_virtual: "$xvcv_mdlc_pc_virtual$"
+ concept_xvcv_mdlc_pc_virtual_desc: "Artificial structures radiate from a central control point on the planet's surface. Massive, translucent hardware silos protrude from the colony like capacitors on a circui; within them is the planet's ever-active virtual reality program complete with its own economy, trade, entertainment, and culture. There are surface docks for resupplying the resource-hungry appliances."
+ concept_xvcv_mdlc_pc_ringworld_machine_auto: "$PLACEHOLDER$"
+ concept_xvcv_mdlc_pc_ringworld_machine_auto_desc: "$PLACEHOLDER$"
+ concept_xvcv_mdlc_pc_machine_auto_ruined: "$PLACEHOLDER$"
+ concept_xvcv_mdlc_pc_machine_auto_ruined_desc: "$PLACEHOLDER$"
+ concept_oxr_mdlc_pc_bio_mech: "$PLACEHOLDER$"
+ concept_oxr_mdlc_pc_bio_mech_desc: "$PLACEHOLDER$"
+ concept_xvcv_mdlc_robot: "$PLACEHOLDER$"
+ concept_xvcv_mdlc_robot_desc: "$PLACEHOLDER$"
+ concept_oxr_mdlc_ruler_node: "$PLACEHOLDER$"
+ concept_oxr_mdlc_ruler_node_desc: "$PLACEHOLDER$"
+ concept_oxr_mdlc_cognitive_node: "$PLACEHOLDER$"
+ concept_oxr_mdlc_cognitive_node_desc: "$PLACEHOLDER$"
+ concept_oxr_mdlc_regulatory_node: "$PLACEHOLDER$"
+ concept_oxr_mdlc_regulatory_node_desc: "$PLACEHOLDER$"
+ concept_oxr_mdlc_legion_node: "$PLACEHOLDER$"
+ concept_oxr_mdlc_legion_node_desc: "$PLACEHOLDER$"
+ concept_oxr_mdlc_growth_node: "$PLACEHOLDER$"
+ concept_oxr_mdlc_growth_node_desc: "$PLACEHOLDER$"
+ concept_oxr_mdlc_wm_colony_start_date: "$PLACEHOLDER$"
+ concept_oxr_mdlc_wm_colony_start_date_desc: "$PLACEHOLDER$"
+ concept_oxr_mdlc_world_machine_planetary_reactivation: "$PLACEHOLDER$"
+ concept_oxr_mdlc_world_machine_planetary_reactivation_desc: "$PLACEHOLDER$"
+ concept_oxr_mdlc_world_machine_planetary_deactivation: "$PLACEHOLDER$"
+ concept_oxr_mdlc_world_machine_planetary_deactivation_desc: "$PLACEHOLDER$"
+ concept_planetary_expansion: "$PLACEHOLDER$"
+ concept_planetary_expansion_desc: "$PLACEHOLDER$"
+ concept_geological_expansion: "$PLACEHOLDER$"
+ concept_geological_expansion_desc: "$PLACEHOLDER$"
+ concept_fractal_algorithm_science: "$PLACEHOLDER$"
+ concept_fractal_algorithm_science_desc: "$PLACEHOLDER$"
+ concept_resource_buildings_science_services_upkeep: "$PLACEHOLDER$"
+ concept_resource_buildings_science_services_upkeep_desc: "$PLACEHOLDER$"
+ concept_resource_buildings_tier_5_stability: "$PLACEHOLDER$"
+ concept_resource_buildings_tier_5_stability_desc: "$PLACEHOLDER$"
+ concept_world_machine_blockers: "$PLACEHOLDER$"
+ concept_world_machine_blockers_desc: "$PLACEHOLDER$"
+ concept_world_machine_blockers_proficiency: "$PLACEHOLDER$"
+ concept_world_machine_blockers_proficiency_desc: "$PLACEHOLDER$"
+ concept_world_machine_blockers_mastery: "$PLACEHOLDER$"
+ concept_world_machine_blockers_mastery_desc: "$PLACEHOLDER$"
+ concept_ruined_world_machine: "$PLACEHOLDER$"
+ concept_ruined_world_machine_desc: "$PLACEHOLDER$"
+ concept_oxr_mdlc_world_machines_building_fractal_fpga: "$PLACEHOLDER$"
+ concept_oxr_mdlc_world_machines_building_fractal_fpga_desc: "$PLACEHOLDER$"
+ concept_oxr_mdlc_world_machines_building_welding_colony: "$PLACEHOLDER$"
+ concept_oxr_mdlc_world_machines_building_welding_colony_desc: "$PLACEHOLDER$"
+ concept_oxr_mdlc_world_machines_building_particle_collider: "$PLACEHOLDER$"
+ concept_oxr_mdlc_world_machines_building_particle_collider_desc: "$PLACEHOLDER$"
+ concept_oxr_mdlc_world_machines_building_crystal_cultivation_tank: "$PLACEHOLDER$"
+ concept_oxr_mdlc_world_machines_building_crystal_cultivation_tank_desc: "$PLACEHOLDER$"
+ concept_oxr_mdlc_world_machines_building_storage_cradle: "$PLACEHOLDER$"
+ concept_oxr_mdlc_world_machines_building_storage_cradle_desc: "$PLACEHOLDER$"
+ concept_oxr_mdlc_world_machines_building_core_fabrication_depot: "$PLACEHOLDER$"
+ concept_oxr_mdlc_world_machines_building_core_fabrication_depot_desc: "$PLACEHOLDER$"
 
 #endregion
 
@@ -1564,6 +1584,7 @@
 
 ### ECONOMIC CATEGORIES
 
+ xvcv_mdlc_world_machines_vanilla_industrial_districts: "$oxr_wm$ Industrial Districts"
  xvcv_mdlc_world_machines_food_districts: "$oxr_wm$ $auto$-Farming $districts$"
  xvcv_mdlc_world_machines_mining_districts: "$oxr_wm$ $auto$-Mining $districts$"
  xvcv_mdlc_world_machines_generator_districts: "$oxr_wm$ $auto$-Generator $districts$"
@@ -1576,6 +1597,7 @@
  xvcv_mdlc_world_machines_housing_districts: "$oxr_wm$ $auto$-Housing $districts$"
  xvcv_mdlc_world_machines_strategic_resource_districts: "$oxr_wm$ $auto$-Strategic-Resource $districts$"
  xvcv_mdlc_world_machines_cooling_districts: "$oxr_wm$ Cooling $districts$"
+ xvcv_mdlc_world_machines_trade_districts: "$oxr_wm$ Logistical $districts$"
 
  oxr_mdlc_category_world_machines_buildings: "$oxr_wm$ $auto$-$buildings$"
  oxr_mdlc_world_machines_government_buildings: "$oxr_wm$ $auto$-Capital $buildings$"
@@ -1599,6 +1621,17 @@
  oxr_mdlc_planet_world_machine_improvements: "$oxr_mdlc_gear$ $oxr_wm$ Infrastructure Upgrades"
  oxr_mdlc_planet_world_machine_geo_improvements: "$oxr_mdlc_geological$ $oxr_wm$ Geological Upgrades"
  oxr_mdlc_deposit_cat_world_machine_lore: "$oxr_wm$ Core Systems"
+
+ oxr_mdlc_bio_mech_buildings: "Bio-Mechanical Buildings"
+ oxr_mdlc_bio_mech_planetary_features: "Bio-Mechanical Planet Features"
+ oxr_mdlc_pop_category_bio_mechanical: "Bio-Mech Pops"
+ oxr_mdlc_world_machines_zones: "World-Machines District Specializations"
+ oxr_mdlc_world_machine_jobs: "World-Machines Ad-hoc Assignments"
+ xvcv_mdlc_world_machines_cities_districts: "Auto-Habitation Districts"
+ xvcv_mdlc_world_machines_production_districts: "World-Machines Production Districts"
+ xvcv_mdlc_world_machines_raw_resources_districts: "World-Machines Raw Resources Districts"
+ xvcv_mdlc_world_machines_rnd_districts: "World-Machines R&D Districts"
+
 #endregion
 
 #region agendas_0x028
@@ -1706,6 +1739,111 @@
 
 #region misc_0x034
  oxr_mdlc_leader_memory_backup_catchphrase: "Age is merely a state of mind."
+ xvcv_mdlc_pc_machine_auto_origin_wm: "$xvcv_mdlc_pc_machine_auto$"
+ xvcv_mdlc_pc_machine_auto_origin_wm_desc: "$xvcv_mdlc_pc_machine_auto_desc$"
+
+#endregion
+
+#region zone_slots_0x035
+ oxr_mdlc_origin_wm_slot_city_government: "Process Monitor"
+ oxr_mdlc_origin_wm_slot_city_01: "Primary Threadpool Worker"
+ oxr_mdlc_origin_wm_slot_city_02: "Secondary Threadpool Worker"
+ oxr_mdlc_origin_wm_slot_city_03: "Tertiary Threadpool Worker"
+ oxr_mdlc_origin_wm_slot_city_04: "Quaternary Threadpool Worker"
+ oxr_mdlc_origin_wm_slot_city_05: "Quinary Threadpool Worker"
+ oxr_mdlc_origin_wm_slot_minerals: "Auto-Mine Linked Library"
+ oxr_mdlc_origin_wm_slot_energy: "Auto-Generator Linked Library"
+ oxr_mdlc_origin_wm_slot_food: "Auto-Farm Linked Library"
+
+ oxr_mdlc_origin_wm_slot_city_government_desc: "$slot_city_government_desc$"
+ oxr_mdlc_origin_wm_slot_city_01_desc: "$slot_city_01_desc$"
+ oxr_mdlc_origin_wm_slot_city_02_desc: "$slot_city_02_desc$"
+ oxr_mdlc_origin_wm_slot_city_04_desc: "$slot_city_04_desc$"
+ oxr_mdlc_origin_wm_slot_city_05_desc: "$slot_city_05_desc$"
+ oxr_mdlc_origin_wm_slot_minerals_desc: "$slot_minerals_desc$"
+ oxr_mdlc_origin_wm_slot_energy_desc: "$slot_energy_desc$"
+ oxr_mdlc_origin_wm_slot_food_desc: "$slot_food_desc$"
+
+ oxr_mdlc_origin_wm_slot_any: "Auto-Utility Zone"
+ oxr_mdlc_origin_wm_slot_any_desc: "Any structures for which our empire has blueprints may be built here."
+
+#endregion
 
 
-#
+#region zones_0x036
+ oxr_mdlc_origin_wm_zone_default: "$oxr_gear2$ $oxr_mdlc_origin_wm_slot_city_government$"
+ oxr_mdlc_origin_wm_zone_default_desc: "$zone_default_desc$"
+ oxr_mdlc_origin_wm_zone_any: "$oxr_gear2$ Universal Adapter"
+ oxr_mdlc_origin_wm_zone_any_desc: "Any modules for which our empire has blueprints or technologies may be built here."
+ oxr_mdlc_origin_wm_zone_any_wm: "$oxr_gear2$ WM-1 Adapter"
+ oxr_mdlc_origin_wm_zone_any_wm_desc: "Any World-Machine specific modules pertaining to this planet class type."
+ oxr_mdlc_zone_pc_machine_auto_alloys: "$oxr_gear2$ Auto-Furnace"
+ oxr_mdlc_zone_pc_machine_auto_alloys_desc: "Expansion hardware for modulating furnace temperatures, hammer speeds, and automation efficacy."
+ oxr_mdlc_zone_pc_machine_auto_consumer_goods: "Auto-Factory"
+ oxr_mdlc_zone_pc_machine_auto_consumer_goods_desc: "Expansion slots linked to the Auto-Factory for various production improvements."
+ oxr_mdlc_zone_pc_machine_auto_food: "$oxr_gear2$ Auto Nutrient Zone"
+ oxr_mdlc_zone_pc_machine_auto_food_desc: "Expansion slots linked to the Auto-Farm for various production improvements."
+
+ oxr_mdlc_zone_none: "$PLACEHOLDER$"
+ oxr_mdlc_zone_none_desc: "$PLACEHOLDER$"
+ oxr_mdlc_origin_wm_zone_default_industrial: "$oxr_gear$ $PLACEHOLDER$"
+ oxr_mdlc_origin_wm_zone_default_industrial_desc: "$PLACEHOLDER$"
+ oxr_mdlc_zone_pc_machine_auto_energy: "$oxr_gear$ Auto-Generator Subsystem"
+ oxr_mdlc_zone_pc_machine_auto_energy_desc: "$PLACEHOLDER$"
+ oxr_mdlc_zone_pc_machine_cpu_research: "$oxr_gear$ Auto-Algorithm Module"
+ oxr_mdlc_zone_pc_machine_cpu_research_desc: "$PLACEHOLDER$"
+ oxr_mdlc_zone_pc_machine_ecu_alloys: "$oxr_gear$ Auto-Forge Module"
+ oxr_mdlc_zone_pc_machine_ecu_alloys_desc: "$PLACEHOLDER$"
+ oxr_mdlc_zone_pc_machine_ecu_consumer_goods: "$oxr_gear$ Auto-Factory Module"
+ oxr_mdlc_zone_pc_machine_ecu_consumer_goods_desc: "$PLACEHOLDER$"
+ oxr_mdlc_zone_unity: "$oxr_gear$ Auto-Decision Module"
+ oxr_mdlc_zone_unity_desc: "$PLACEHOLDER$"
+ oxr_mdlc_zone_pc_ringworld_machine_auto_research: "$oxr_gear$ Research Hub Expansion"
+ oxr_mdlc_zone_pc_ringworld_machine_auto_research_desc: "$PLACEHOLDER$"
+ oxr_mdlc_zone_pc_ringworld_machine_auto_unity: "$oxr_gear$ Decision Analysis Expansion"
+ oxr_mdlc_zone_pc_ringworld_machine_auto_unity_desc: "$PLACEHOLDER$"
+ oxr_mdlc_zone_pc_ringworld_machine_auto_trade: "$oxr_gear$ Auto-Logistics Module"
+ oxr_mdlc_zone_pc_ringworld_machine_auto_trade_desc: "$PLACEHOLDER$"
+ oxr_mdlc_zone_pc_ringworld_machine_auto_alloys: "$oxr_gear$ Auto-Forge Module"
+ oxr_mdlc_zone_pc_ringworld_machine_auto_alloys_desc: "$PLACEHOLDER$"
+ oxr_mdlc_zone_pc_ringworld_machine_auto_consumer_goods: "$oxr_gear$ Auto-Factory Module"
+ oxr_mdlc_zone_pc_ringworld_machine_auto_consumer_goods_desc: "$PLACEHOLDER$"
+ oxr_mdlc_zone_pc_ringworld_machine_auto_food: "$oxr_gear$ Nutrient Production Module"
+ oxr_mdlc_zone_pc_ringworld_machine_auto_food_desc: "Hot-swap district template hardware for nutrient production."
+ oxr_mdlc_zone_pc_ringworld_machine_auto_energy: "$oxr_gear$ Energy Generation Module"
+ oxr_mdlc_zone_pc_ringworld_machine_auto_energy_desc: "Hot-swap district template hardware for energy generation."
+ oxr_mdlc_zone_pc_virtual_research: "$oxr_gear$ Virtualized Research plug-in"
+ oxr_mdlc_zone_pc_virtual_research_desc: "$PLACEHOLDER$"
+ oxr_mdlc_zone_pc_virtual_admin: "$oxr_gear$ Virtualized Admin plug-in"
+ oxr_mdlc_zone_pc_virtual_admin_desc: "$PLACEHOLDER$"
+ oxr_mdlc_zone_pc_virtual_amenity: "$oxr_gear$ Entertainment plug-in"
+ oxr_mdlc_zone_pc_virtual_amenity_desc: "$PLACEHOLDER$"
+
+
+#endregion
+
+
+#region zone_name_swaps_0x037
+
+## triggered name swaps
+ xvcv_mdlc_pc_ringworld_machine_auto_district_industrial_name_alloys: "£alloys£ Auto-Forge Matrix"
+ xvcv_mdlc_pc_ringworld_machine_auto_district_industrial_name_goods: "£consumer_goods£ Auto-Factory Matrix"
+ xvcv_mdlc_pc_ringworld_machine_auto_district_industrial_name_mixed: "Mixed Industrial Matrix"
+ xvcv_mdlc_pc_ringworld_machine_auto_district_raw_resource_name_food: "£food£ Auto-Nutrient Matrix"
+ xvcv_mdlc_pc_ringworld_machine_auto_district_raw_resource_name_energy: "£energy£ Auto-Energy Matrix"
+ xvcv_mdlc_pc_ringworld_machine_auto_district_raw_resource_name_none: "Unconfigured Matrix"
+ xvcv_mdlc_pc_ringworld_machine_auto_district_raw_resource_desc_none: "The Raw Resources district is not configured to produce anything."
+ xvcv_mdlc_pc_ringworld_machine_auto_district_rnd_name_research: "£research£ Auto-Research Matrix"
+ xvcv_mdlc_pc_ringworld_machine_auto_district_rnd_name_admin: "£unity£ Auto-Admin Matrix"
+ xvcv_mdlc_pc_ringworld_machine_auto_district_rnd_name_trade: "£trade£ Auto-Logistics Matrix"
+ xvcv_mdlc_pc_ringworld_machine_auto_district_rnd_name_none: "Unconfigured Matrix"
+ xvcv_mdlc_pc_ringworld_machine_auto_district_generator_name_none: "$xvcv_mdlc_pc_ringworld_machine_auto_district_raw_resource_name_energy$"
+ xvcv_mdlc_pc_ringworld_machine_auto_district_farming_triggered_name_none: "$xvcv_mdlc_pc_ringworld_machine_auto_district_raw_resource_name_food$"
+
+
+#endregion
+
+#region triggered_names_0x038
+
+
+#endregion
