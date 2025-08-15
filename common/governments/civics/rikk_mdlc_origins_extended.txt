@@ -6,17 +6,18 @@ rikk_mdlc_origin_overclocked = {
 		has_mute_extended_machines = no	#disable the origin if the base mod is back
 	}
 	possible = {
-		authority = {
-			value = auth_machine_intelligence
-		}
-		civics = {
-			NOR = {
-				value = civic_machine_terminator
-				value = civic_machine_servitor
-				value = civic_machine_assimilator
-				value = civic_machine_exploration_protocol
-			}
-		}
+		# authority = {
+		# 	value = auth_machine_intelligence
+		# }
+		# civics = {
+		# 	NOR = {
+		# 		value = civic_machine_terminator
+		# 		value = civic_machine_servitor
+		# 		value = civic_machine_assimilator
+		# 		value = civic_machine_exploration_protocol
+		# 	}
+		# }
+		always = no  # on hold bc 4.0 pop stuff breaks adding glitch modifiers 
 	}
 
 	description = rikk_mdlc_origin_tooltip_overclocked_effects
@@ -93,7 +94,8 @@ rikk_mdlc_origin_encrypted_protocol_warmachine = {
 		starbase_shipyard_build_speed_mult = 0.25
 		planet_army_build_speed_mult = 0.50
 		country_war_exhaustion_mult = -0.50
-		job_warrior_drone_per_pop = 0.10
+		# job_warrior_drone_per_pop = 0.001  # TODO: This could work if it referenced a static var
+		country_naval_cap_mult = 0.25
 		#gain naval cap from pops
 	}
 
@@ -121,7 +123,7 @@ rikk_mdlc_origin_encrypted_protocol_production = {
 	}
 
 	modifier = {
-		planet_jobs_robotic_produces_mult = 0.20
+		robotic_pop_bonus_workforce_mult = 0.20
 		#pop assembly from pops
 	}
 	
@@ -148,12 +150,12 @@ rikk_mdlc_origin_encrypted_protocol_research = {
 	}
 
 	modifier = {
-		planet_jobs_engineering_research_produces_mult = 0.15
-		planet_jobs_physics_research_produces_mult = 0.10
-		planet_jobs_society_research_produces_mult = 0.05
+		engineer_jobs_bonus_workforce_mult = 0.25
+		physicist_jobs_bonus_workforce_mult = 0.15
+		biologist_jobs_bonus_workforce_mult = 0.10
 		#gain unity from tech unlocks
 	}
-	
+
 	description = rikk_mdlc_origin_encrypted_protocol_research_effects
 
 	random_weight = {

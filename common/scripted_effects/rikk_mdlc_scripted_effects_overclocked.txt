@@ -137,6 +137,10 @@ oxr_mdlc_planet_glitch_30_percent_of_pops = {
 		effect = {
 			set_pop_group_flag = rikk_mdlc_planet_glitched_pops
 			save_event_target_as = rikk_mdlc_planet_glitched_pops
+            add_modifier = {
+                modifier = rikk_mdlc_overclocked_pop_overheating_mod
+                days = 180
+            }
 			# Go thru all qualifing pop groups, take out 100, until we are done transferring
 			prev = {
 				# planet scope again
@@ -156,6 +160,7 @@ oxr_mdlc_planet_glitch_30_percent_of_pops = {
 					every_owned_pop_group = {
 						limit = {
 							rikk_mdlc_pop_has_any_overclocked_trait = yes
+                            NOT = { has_flag = rikk_mdlc_planet_glitched_pops }
 						}
 						transfer_pop_amount = {
 							source = this
@@ -174,12 +179,7 @@ oxr_mdlc_planet_glitch_30_percent_of_pops = {
 
 			} # close planet scope effect inside pop group creation effect
 			log = "Applying rikk_mdlc_overclocked_pop_overheating_mod modifier to glitched pop group. "
-			event_target:rikk_mdlc_planet_glitched_pops = {
-				add_modifier = {
-					modifier = rikk_mdlc_overclocked_pop_overheating_mod
-					days = 180
-				}
-			}
+			remove_pop_group_flag = rikk_mdlc_planet_glitched_pops
 		} # close pop group creation effect
 	}
 
