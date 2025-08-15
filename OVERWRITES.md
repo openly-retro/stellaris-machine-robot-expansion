@@ -20,6 +20,11 @@
 - **can_remove_beneficial_genetic_traits**: Yes for the Genetic Mastery AP
 - **can_add_overclocked_traits**: Yes for the Overclocked origin
 
+## Species:
+
+- MACHINE: Overwritten to support additional modifiers for World Machine Automatons
+- ROBOT: Overwritten to give it a comparable amount of starting trait points and picks
+
 ## Technology:
 
 Changed weight to consider custom World-Machine blockers
@@ -31,4 +36,4 @@ Changed weight to consider custom World-Machine blockers
 
 ## Traits
 
-- trait_mechanical: Add triggered habitability for Mechanical Worlds 
+- trait_mechanical: Add triggered habitability for Mechanical Worlds, and compatibility with Planetary Diversity

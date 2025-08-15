@@ -318,15 +318,25 @@ country_event = {
 			}
 		}
 		hidden_effect = {
-			while = {
-				count = value:rikk_mdlc_counter_pops_glitched #affects 33% of pops, roughly. Probably less as it might iterate through the same pop
-				random_owned_pop_group = {
-					add_modifier = {
-						modifier = rikk_mdlc_overclocked_pop_overheating_mod
-						days = 180
-					}
+			every_owned_planet = {
+				limit = {
+					rikk_mdlc_planet_has_any_overclocked_pops = yes
 				}
-			}
+				planet = {
+					oxr_mdlc_planet_glitch_30_percent_of_pops = yes
+				}
+				# transfer_pop_amount
+			} # every owned planet
+
+			# while = {
+			# 	count = value:rikk_mdlc_counter_pops_glitched #affects 33% of pops, roughly. Probably less as it might iterate through the same pop
+			# 	random_owned_pop_group = {
+			# 		add_modifier = {
+			# 			modifier = rikk_mdlc_overclocked_pop_overheating_mod
+			# 			days = 180
+			# 		}
+			# 	}
+			# }
 		}
 	}
 	option = {

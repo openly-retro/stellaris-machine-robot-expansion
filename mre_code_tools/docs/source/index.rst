@@ -15,6 +15,7 @@ This adaptation/continuation will continue to make the Machine & Robot Expansion
 
 .. toctree::
    :maxdepth: 2
+   :glob:
    :caption: Contents:
 
    core
@@ -25,10 +26,5 @@ This adaptation/continuation will continue to make the Machine & Robot Expansion
    planets_districts
    traits
    technologies
-
-Developer blog, for those who are interested:
-
-.. toctree::
-   :maxdepth 2
-   :caption: Entries:
-   dev_blog/*
+   patch_notes/index
+   
