@@ -1,5 +1,3 @@
-# This override is in place until Gigastructures folks are able to merge the changes I've proposed
-# Meanwhile, it's coded specific to this mod, with toggles if players don't have Gigastructures active
 orbital_ring = {
 	entity = ""
 	construction_entity = "orbital_ring_construction_entity"
@@ -14,13 +12,17 @@ orbital_ring = {
 	starbase = starbase_level_orbital_ring_tier_1
 
 	resources = {
-		category = megastructures
+		category = giga_kilostructures
 		cost = {
-			alloys = 1000
 			influence = 50
+		}
+		inline_script = {
+			script = megastructures/generic_parts/giga_mega_alloy_cost
+			alloys = 1000
 		}
 	}
 	construction_blocks_and_blocked_by = none
+	custom_tooltip_requirements = "MEGASTRUCTURE_TOOLTIP_REQUIREMENTS_ORBITAL_RING"
 
 	potential = { has_technology = tech_orbital_ring_tier_1 }
 
@@ -95,7 +97,7 @@ orbital_ring = {
 					}
 					OR = {
 						# these are allowed
-                        # Gigastructures-specific code
+						# Gigastructures-specific code
                         inline_script = {
                             script = oxr_merger_of_rules_copy/toggled_code
                             code = "
@@ -124,6 +126,7 @@ orbital_ring = {
 						is_planet_class = pc_ringworld_tech_damaged
 						is_planet_class = pc_ringworld_seam
 						is_planet_class = pc_ringworld_seam_damaged
+						
 					}
 				}
 			}
@@ -135,16 +138,16 @@ orbital_ring = {
 			}
 			OR = {
 				# Machines & Robot Expac: Continued checks will be here
-                AND = {
-                    is_planet_world_machine = yes
-                    exists = owner
-                    owner = {
-                        OR = {
-                            has_xvcv_mdlc_ap_world_machines = yes
-                            has_oxr_mdlc_origin_world_machine_awakened = yes
-                        }
-                    }
-                }
+				AND = {
+					oxr_mdlc_is_planet_world_machine = yes
+					exists = owner
+					owner = {
+						OR = {
+							has_xvcv_mdlc_ap_world_machines = yes
+							has_oxr_mdlc_origin_world_machine_awakened = yes
+						}
+					}
+				}
 				# Vanilla
 				if = {
 					limit = {
@@ -222,7 +225,7 @@ orbital_ring = {
 		remove_megastructure = fromfrom
 		from = {
 			country_event = { id = tutorial.2121 }
-            inline_script = {
+			inline_script = {
                 script = oxr_merger_of_rules_copy/toggled_code
                 code = "
                     country_event = { id = giga_dialog.13500 }
