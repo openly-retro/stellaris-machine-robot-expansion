@@ -1,7 +1,7 @@
 # Zones for the auto-ringworld
 ## R&D Slot
 oxr_mdlc_zone_pc_ringworld_machine_auto_research = {
-	icon = GFX_diplomatic_weight_large
+	icon = GFX_colony_type_research
 	base_buildtime = @zone_buildtime
 	potential = {
 		hidden_trigger = { exists = owner }
@@ -16,7 +16,9 @@ oxr_mdlc_zone_pc_ringworld_machine_auto_research = {
 		}
 	}
 
-	max_buildings = 3
+	planet_modifier = {
+		zone_building_slots_add = 3
+	}
 	included_building_sets = {
 		research
 		oxr_mdlc_building_set_wm_research
@@ -30,7 +32,7 @@ oxr_mdlc_zone_pc_ringworld_machine_auto_research = {
 
 # unity
 oxr_mdlc_zone_pc_ringworld_machine_auto_unity = {
-	icon = GFX_diplomatic_weight_large
+	icon = GFX_colony_type_bureaucratic
 	base_buildtime = @zone_buildtime
 	potential = {
 		hidden_trigger = { exists = owner }
@@ -46,7 +48,9 @@ oxr_mdlc_zone_pc_ringworld_machine_auto_unity = {
 		}
 	}
 
-	max_buildings = 3
+	planet_modifier = {
+		zone_building_slots_add = 3
+	}
 	included_building_sets = {
 		unity
 		oxr_mdlc_building_set_wm_unity
@@ -74,7 +78,9 @@ oxr_mdlc_zone_pc_ringworld_machine_auto_trade = {
 		cost = { minerals = @oxr_rw_cost }
 	}
 
-	max_buildings = 3
+	planet_modifier = {
+		zone_building_slots_add = 3
+	}
 	included_building_sets = {
 		trade
 		oxr_mdlc_building_set_wm_trade
@@ -95,25 +101,18 @@ oxr_mdlc_zone_pc_ringworld_machine_auto_alloys = {
 		hidden_trigger = { exists = owner }
 		is_xvcv_mdlc_pc_ringworld_machine_auto = yes
 	}
+	swap_type = district_arcology_mixed_industry
+	swap_type_weight = 5
 
 	unlock = { is_xvcv_mdlc_pc_ringworld_machine_auto = yes }
-
-	# district_planet_modifier = {
-	# 	xvcv_mdlc_world_machines_rnd_districts_volatile_motes_upkeep_add = @rw_maintenance_sr
-	# 	xvcv_mdlc_world_machines_rnd_districts_volatile_motes_cost_add = @oxr_rw_cost_sr
-	# }
-
-	# inline_script = {
-	# 	script = planet/zones/auto/oxr_wm_alloys_zone_production
-	# 	DISTRICT_CATEGORY = xvcv_mdlc_world_machines_industrial_districts
-	# 	JOBS = 12
-	# }
 
 	resources = {
 		category = oxr_mdlc_world_machines_zones
 		cost = { minerals = @oxr_rw_cost }
 	}
-	max_buildings = 3
+	planet_modifier = {
+		zone_building_slots_add = 3
+	}
 	included_building_sets = {
 		foundry
 		oxr_mdlc_building_set_wm_production
@@ -136,17 +135,13 @@ oxr_mdlc_zone_pc_ringworld_machine_auto_consumer_goods = {
 
 	unlock = { is_xvcv_mdlc_pc_ringworld_machine_auto = yes }
 
-	# inline_script = {
-	# 	script = planet/zones/auto/oxr_wm_consumer_goods_zone_production
-	# 	DISTRICT_CATEGORY = xvcv_mdlc_world_machines_industrial_districts
-	# 	JOBS = 12
-	# }
-
 	resources = {
 		category = oxr_mdlc_world_machines_zones
 		cost = { minerals = @oxr_rw_cost }
 	}
-	max_buildings = 3
+	planet_modifier = {
+		zone_building_slots_add = 3
+	}
 	included_building_sets = {
 		factory
 		oxr_mdlc_building_set_wm_production
@@ -176,15 +171,6 @@ oxr_mdlc_zone_pc_ringworld_machine_auto_food = {
 		cost = {
 			minerals = @zone_cost
 		}
-	}
-	# Ringworld-specific upkeep
-	district_planet_modifier = {
-		xvcv_mdlc_world_machines_raw_resources_districts_rare_crystals_upkeep_add = @rw_maintenance_sr
-	}
-	inline_script = {
-		script = planet/zones/auto/oxr_wm_food_zone_production
-		DISTRICT_CATEGORY = xvcv_mdlc_world_machines_raw_resources_districts
-		JOBS = 12
 	}
 
 	max_buildings = 3
