@@ -1,3 +1,4 @@
+# XVCV Special projects
 special_project = {
 	key = "XVCV_MDLC_CIVIC_TRADING_MACHINE_SHIP_BUILD_PROJECT_1"
 	cost = 0
@@ -17,7 +18,7 @@ special_project = {
 
 	on_success = {
 		set_country_flag = xvcv_mdlc_civic_trading_machine_ship_build_project_1_done #a temporary flag to show that it is 'this' special project which is finished
-		country_event = { id = xvcv_mdlc.11 }
+		country_event = { id = xvcv_mdlc_civic_trading.11 }
 	}
 }
 special_project = {
@@ -39,7 +40,7 @@ special_project = {
 
 	on_success = {
 		set_country_flag = xvcv_mdlc_civic_trading_machine_ship_build_project_2_done
-		country_event = { id = xvcv_mdlc.11 }
+		country_event = { id = xvcv_mdlc_civic_trading.11 }
 	}
 }
 special_project = {
@@ -61,7 +62,7 @@ special_project = {
 
 	on_success = {
 		set_country_flag = xvcv_mdlc_civic_trading_machine_ship_build_project_3_done
-		country_event = { id = xvcv_mdlc.11 }
+		country_event = { id = xvcv_mdlc_civic_trading.11 }
 	}
 }
 special_project = {
@@ -83,7 +84,7 @@ special_project = {
 
 	on_success = {
 		set_country_flag = xvcv_mdlc_civic_trading_machine_ship_build_project_4_done
-		country_event = { id = xvcv_mdlc.11 }
+		country_event = { id = xvcv_mdlc_civic_trading.11 }
 	}
 }
 special_project = {
@@ -105,7 +106,7 @@ special_project = {
 
 	on_success = {
 		set_country_flag = xvcv_mdlc_civic_trading_machine_ship_build_project_5_done
-		country_event = { id = xvcv_mdlc.11 }
+		country_event = { id = xvcv_mdlc_civic_trading.11 }
 	}
 }
 special_project = {
@@ -127,9 +128,10 @@ special_project = {
 
 	on_success = {
 		set_country_flag = xvcv_mdlc_civic_trading_machine_ship_build_project_6_done
-		country_event = { id = xvcv_mdlc.11 }
+		country_event = { id = xvcv_mdlc_civic_trading.11 }
 	}
 }
+# XVCV_MDLC_AP_BASE_CODE_RECOMPOSITIONS_PROJECT
 special_project = {
 	key = "XVCV_MDLC_AP_BASE_CODE_RECOMPOSITIONS_PROJECT"
 	cost = {
@@ -138,7 +140,7 @@ special_project = {
 			limit = { has_trait = trait_machine_unit }
 			scope = this
 			add = 50
-			calc = pop_count
+			calc = pop_amount
 		}
 	}
 	tech_department = engineering_technology
@@ -155,6 +157,7 @@ special_project = {
 		country_event = { id = xvcv_mdlc.40 }
 	}
 }
+# XVCV_MDLC_AP_MIND_SEPARATION_PROJECT
 special_project = {
 	key = "XVCV_MDLC_AP_MIND_SEPARATION_PROJECT"
 	cost = {
@@ -163,7 +166,7 @@ special_project = {
 			limit = { has_trait = trait_machine_unit }
 			scope = this
 			add = 50
-			calc = pop_count
+			calc = pop_amount
 		}
 	}
 	tech_department = engineering_technology
@@ -176,6 +179,7 @@ special_project = {
 		country_event = { id = xvcv_mdlc.30 }
 	}
 }
+# XVCV_MDLC_AP_MIND_INTEGRATION_PROJECT
 special_project = {
 	key = "XVCV_MDLC_AP_MIND_INTEGRATION_PROJECT"
 	cost = {
@@ -184,7 +188,7 @@ special_project = {
 			limit = { has_trait = trait_mechanical }
 			scope = this
 			add = 50
-			calc = pop_count
+			calc = pop_amount
 		}
 	}
 	tech_department = engineering_technology
@@ -197,15 +201,17 @@ special_project = {
 		country_event = { id = xvcv_mdlc.33 }
 	}
 }
+# XVCV_MDLC_AP_BIO_ROBOT_PROJECT
 special_project = {
 	key = "XVCV_MDLC_AP_BIO_ROBOT_PROJECT"
 	cost = {
 		base = 10000
 		scaled_modifier = {
-			limit = {}
+			limit = { }
 			scope = this
 			add = 200
-			calc = planets_in_country
+			# calc = planets_in_country
+			calc = count_owned_planet
 		}
 	}
 	tech_department = society_technology
@@ -213,12 +219,14 @@ special_project = {
 	picture = GFX_evt_clones
 
 	event_scope = country_event
+	requirements = { }
 
 	on_success = {
 		set_country_flag = xvcv_mdlc_bio_robot_research_complete
-		country_event = { id = xvcv_mdlc.41 }
+		country_event = { id = xvcv_mdlc.41 days = 1 }
 	}
 }
+
 special_project = {
 	key = "XVCV_MDLC_AP_ABYSS_PROJECT"
 	cost = 15000

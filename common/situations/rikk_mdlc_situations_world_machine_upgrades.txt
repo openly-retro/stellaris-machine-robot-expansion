@@ -205,7 +205,15 @@ rikk_mdlc_situation_core_core = {
 		icon_background = GFX_situation_approach_bg_yellow
 		ai_weight = { base = 0 }
 		potential = { current_stage = rikk_mdlc_situation_core_upgrade_stage_1 }
-		allow = { target = { has_district = xvcv_mdlc_common_district_cooling } }
+		allow = {
+			target = {
+				OR = {
+					has_district = xvcv_mdlc_pc_machine_ecu_district_cooling_primary
+					has_district = xvcv_mdlc_pc_machine_ser_district_cooling_primary
+					has_district = xvcv_mdlc_pc_machine_cpu_district_cooling_primary
+				}
+			}
+		}
 		resources = {
 			category = situations
 			upkeep = { energy = 10 alloys = 10 }

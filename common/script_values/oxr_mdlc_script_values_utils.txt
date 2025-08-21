@@ -13,3 +13,130 @@ oxr_mdlc_empire_size_penalty = {
 	subtract = 100
 	multiply = 0.2
 }
+
+oxr_mdlc_num_pops_on_planet = {
+	base = 0
+	complex_trigger_modifier = {
+		trigger = count_owned_pop_amount
+		mode = add
+	}
+}
+
+oxr_mdlc_num_pops_on_planet_oldstyle = {
+	base = 0
+	complex_trigger_modifier = {
+		trigger = count_owned_pop_amount
+		mode = add
+	}
+	divide = 100
+	round = yes
+}
+
+oxr_mdlc_num_single_pops_on_planet_with_trait = {
+	base = 0
+	complex_trigger_modifier = {
+		trigger = count_owned_pop_amount
+		limit = {
+			has_trait = $TRAIT$
+		}
+		mode = add
+	}
+	divide = 100
+	round = yes
+}
+
+oxr_mdlc_num_group_pops_on_planet_with_trait = {
+	base = 0
+	complex_trigger_modifier = {
+		trigger = count_owned_pop_amount
+		limit = {
+			has_trait = $TRAIT$
+		}
+		mode = add
+	}
+}
+
+oxr_mdlc_count_pops_with_job = {
+	base = 0
+	complex_trigger_modifier = {
+		trigger = num_assigned_jobs
+		parameters = {
+			job = $JOB$
+		}
+		mode = add
+	}
+}
+
+
+oxr_mdlc_planet_count_any_base_researcher_jobs = {
+	base = 0
+	complex_trigger_modifier = {
+		trigger = num_assigned_jobs
+		parameters = { job = calculator_physicist }
+		mode = add
+	}
+	complex_trigger_modifier = {
+		trigger = num_assigned_jobs
+		parameters = { job = calculator_biologist }
+		mode = add
+	}
+	complex_trigger_modifier = {
+		trigger = num_assigned_jobs
+		parameters = { job = calculator_engineer }
+		mode = add
+	}
+}
+
+oxr_mdlc_num_assembled_pops_on_planet = {
+	complex_trigger_modifier = {
+		trigger = count_owned_pop_amount
+		parameters = {
+			limit = {
+				oxr_mdlc_pop_group_has_robots = yes
+			}
+		}
+		mode = add
+	}
+}
+
+oxr_mdlc_num_machine_pops_on_planet = {
+	complex_trigger_modifier = {
+		trigger = count_owned_pop_amount
+		parameters = {
+			limit = {
+				OR = {
+					has_trait = trait_machine_unit
+					is_species_class = MACHINE
+				}
+			}
+		}
+		mode = add
+	}
+}
+
+oxr_mdlc_num_mechanical_pops_on_planet = {
+	complex_trigger_modifier = {
+		trigger = count_owned_pop_amount
+		parameters = {
+			limit = {
+				OR = {
+					has_trait = trait_mechanical
+					is_species_class = ROBOT
+				}
+			}
+		}
+		mode = add
+	}
+}
+
+oxr_mdlc_num_self_replicating_microbot_pops = {
+	complex_trigger_modifier = {
+		trigger = count_owned_pop_amount
+		parameters = {
+			limit = {
+				has_trait = xvcv_mdlc_trait_self_replicating_microbot
+			}
+		}
+		mode = add
+	}
+}

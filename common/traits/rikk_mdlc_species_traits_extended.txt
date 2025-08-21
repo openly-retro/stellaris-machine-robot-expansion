@@ -45,7 +45,7 @@ rikk_mdlc_trait_robotic_solar_poweredd = {
 		pop_environment_tolerance = 0.50
 	}
 
-	triggered_pop_modifier = {
+	triggered_pop_group_modifier = {
 		potential = {
 			exists = system_star
 			system_star = {
@@ -71,7 +71,7 @@ rikk_mdlc_trait_robotic_solar_poweredd = {
 		pop_environment_tolerance = 0.25
 	}
 
-	triggered_pop_modifier = {
+	triggered_pop_group_modifier = {
 		potential = {
 			exists = system_star
 			system_star = {
@@ -97,7 +97,7 @@ rikk_mdlc_trait_robotic_solar_poweredd = {
 		pop_environment_tolerance = -0.25
 	}
 
-	triggered_pop_modifier = {
+	triggered_pop_group_modifier = {
 		potential = {
 			exists = system_star
 			system_star = {
@@ -125,7 +125,7 @@ rikk_mdlc_trait_robotic_solar_poweredd = {
 		pop_environment_tolerance = -0.50
 	}
 
-	triggered_pop_modifier = {
+	triggered_pop_group_modifier = {
 		potential = {
 			exists = system_star
 			system_star = {
@@ -150,7 +150,7 @@ rikk_mdlc_trait_robotic_radiotrophic = {
 	inline_script = trait/rikk_extended
 	opposites = { "rikk_mdlc_trait_robotic_solar_poweredd" }
 
-	triggered_pop_modifier = {
+	triggered_pop_group_modifier = {
 		potential = {
 			OR = {
 				AND = {
@@ -206,7 +206,7 @@ rikk_mdlc_trait_robotic_radiotrophic = {
 #crime for robots is really bad. This basically doubles it, along with a unity negative so I'm making it a -4 trait.
 rikk_mdlc_trait_robotic_deviants = {
 	cost = -4
-	opposites = { "rikk_mdlc_trait_robotic_mesh_network" }
+	# opposites = { "rikk_mdlc_trait_robotic_mesh_network" }
 	inline_script = trait/rikk_extended
 
 	modifier = {
@@ -223,11 +223,11 @@ rikk_mdlc_trait_robotic_captcha_locked = {
 	cost = 2
 	inline_script = trait/rikk_extended
 
-	triggered_pop_modifier = {
+	triggered_pop_group_modifier = {
 		potential = {
 			exists = planet
 			planet = {
-				any_owned_pop = {
+				any_owned_pop_group = {
 					OR = {
 						has_trait = trait_machine_unit
 						has_trait = trait_mechanical
@@ -235,13 +235,13 @@ rikk_mdlc_trait_robotic_captcha_locked = {
 				}
 			}
 		}
-		planet_jobs_produces_mult = -0.05
+		pop_bonus_workforce_mult = -0.05
 	}
-	triggered_pop_modifier = {
+	triggered_pop_group_modifier = {
 		potential = {
 			exists = planet
 			planet = {
-				any_owned_pop = {
+				any_owned_pop_group = {
 					NOR = {
 						has_trait = trait_machine_unit
 						has_trait = trait_mechanical
@@ -249,34 +249,38 @@ rikk_mdlc_trait_robotic_captcha_locked = {
 				}
 			}
 		}
-		planet_jobs_produces_mult = 0.05
+		pop_bonus_workforce_mult = 0.05
 	}
+
 	custom_tooltip_with_modifiers = rikk_mdlc_trait_robotic_captcha_locked_effect
 }
 
 #The bonuses for 0.1% per pop only really come into effect later game (a starting world with 35-ish pops gets a 3.5% bonus? who cares.) 
 #increased it to 0.25% so it makes sense no matter when it is used
 #it has a max of 100 so 100 pop world gets a 25% bonus which is more on tier with usual bonuses at mid-end game
+
 rikk_mdlc_trait_robotic_mesh_network = {
 	cost = 2
 	inline_script = trait/rikk_extended
 	opposites = { "rikk_mdlc_trait_robotic_deviants" }
 
-	triggered_pop_modifier = {
+	triggered_pop_group_modifier = {
 		potential = {
 			exists = planet
 			planet = {
-				any_owned_pop = {
+				any_owned_pop_group = {
 					has_trait = rikk_mdlc_trait_robotic_mesh_network
 				}
 			}
 		}
-		planet_jobs_unity_produces_mult = 0.0025
-		planet_jobs_physics_research_produces_mult = 0.0025
-		planet_jobs_society_research_produces_mult = 0.0025
-		planet_jobs_engineering_research_produces_mult = 0.0025
+		# planet_jobs_unity_produces_mult = 0.000025
+		bureaucrat_jobs_bonus_workforce_mult = 0.000025
+		researcher_jobs_bonus_workforce_mult = 0.000025
+		trader_jobs_bonus_workforce_mult = 0.000025  # added by Retro
+		# planet_jobs_society_research_produces_mult = 0.000025
+		# planet_jobs_engineering_research_produces_mult = 0.000025
 
-		mult = owner.value:rikk_mdlc_counter_mesh_network
+		mult = planet.owner.rikk_mdlc_count_mesh_net_pops_in_empire_var
 	}
 	custom_tooltip_with_modifiers = rikk_mdlc_trait_robotic_mesh_network_effect
 }
@@ -285,13 +289,13 @@ rikk_mdlc_trait_robotic_mesh_network = {
 ### Mini-Origins; Can't be picked or removed during game ###
 #########################################################################################################
 
+# NANOMACHINES
 # Change the text to make it more apparent that it provides bonus for a high amount of pops, also lowered housing reduction
 # originally it provided a bonus for a low amount and negatives for a high amount but that didn't make sense?
 rikk_mdlc_trait_robotic_constant_growth = {
 	cost = 3
 	inline_script = trait/rikk_extended_origin
 
-	# species_possible_add = { always = no }
 	species_possible_remove = { always = no }
 	species_possible_merge_add = { always = no }
 	species_possible_merge_remove = { always = no }
@@ -300,19 +304,19 @@ rikk_mdlc_trait_robotic_constant_growth = {
 		pop_housing_usage_add = -0.5
 	}
 
-	triggered_pop_modifier = {
+	triggered_pop_group_modifier = {
         potential = {
             exists = planet
             planet = {
-                any_owned_pop = {
+                any_owned_pop_group = {
                     has_trait = rikk_mdlc_trait_robotic_constant_growth
                 }
             }
         }
-		species_empire_size_mult = 0.002
-		pop_amenities_usage_add = 0.005
-		planet_pops_robotics_upkeep_mult = 0.004
-        mult = planet.value:rikk_mdlc_counter_nano_pops
+		species_empire_size_mult = 0.00002
+		pop_amenities_usage_add = 0.00005
+		planet_pops_robotics_upkeep_mult = 0.00004
+        mult = planet.rikk_mdlc_count_nanomachine_pops_on_planet_var
     }
 
 	custom_tooltip_with_modifiers = rikk_mdlc_trait_robotic_constant_growth_effect
@@ -320,9 +324,19 @@ rikk_mdlc_trait_robotic_constant_growth = {
 
 rikk_mdlc_trait_robotic_ai_splitting = {
 	cost = 2
-	inline_script = trait/rikk_extended_origin
+	# inline_script = trait/rikk_extended_origin
+	initial = yes
+	allowed_archetypes = { MACHINE ROBOT XVCV_MDLC_BIO_ROBOT }
+	# species_possible_add = {
+	# 	hidden_trigger = {
+	# 		exists = from
+	# 		NOT = { has_global_flag = game_started }
+	# 		has_mute_extended_machines = no
+	# 	}
+	# }
+	sorting_priority = 128
 
-	# species_possible_add = { always = no }
+	species_possible_add = { always = no }  # deactivated for now
 	species_possible_remove = { always = no }
 	species_possible_merge_add = { always = no }
 	species_possible_merge_remove = { always = no }

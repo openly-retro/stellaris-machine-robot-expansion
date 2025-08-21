@@ -60,10 +60,40 @@ CODE_HEADER = "0xRetro Machine & Robot Expansion Mod Codegen Tools"
 # ]
 
 VANILLA_LOC_FILES_WITH_MACHINE_TOOLTIPS = [
-    "paragon_4_l_english.yml",
-    "l_english.yml",
-    "leaders_l_english.yml",
+    "astral_planes",
+    "astral_rifts_2",
+    "biogenesis",
+    "civic_and_origin_concepts",
+    "concepts",
+    "cosmic_storms",
+    "events_1",
+    "events_2",
+    "federations_anniversary",
+    "federations",
+    "first_contact_dlc_espionage",
+    "grand_archive",
+    "leaders",
+    "machine_age",
+    "main_1",
+    "main_2",
+    "main_3",
+    "megacorp",
+    "nemesis_content",
+    "nemesis_espionage",
+    "nemesis_intel",
+    "overlord_enclaves",
+    "paragon_1",
+    "paragon_2",
+    "paragon_4",
+    "paragon_dont_translate",
+    "scripted_loc",
+    "strange_worlds",
+    "toxoids",
+    "traditions",
+    "triggers_effects",
+    "unrest",
 ]
+
 
 VANILLA_LOC_FILES_WITH_UPPERCASE_MODIFIERS = [
     "ancient_relics_l_english",
@@ -72,11 +102,15 @@ VANILLA_LOC_FILES_WITH_UPPERCASE_MODIFIERS = [
     "distant_stars_l_english",
     "federations_l_english",
     "grand_archive_l_english",
-    "l_english",
+    "main_1_l_english",
+    "main_2_l_english",
+    "main_3_l_english",
     "machine_age_l_english",
     "megacorp_l_english",
     "modifiers_2_l_english",
-    "modifiers_l_english",
+    "modifiers_1_l_english",
+    "modifiers_2_l_english",
+    "modifiers_3_l_english",
     "nemesis_espionage_l_english",
     "overlord_l_english",
     "overlord_mega_l_english",
@@ -187,6 +221,25 @@ FILE_NUM_PREFIXES = {
 }
 """ Map of file number prefixes, corresponding to the contents """
 
+
+GAME_RESOURCES = [
+    "alloys",
+    "astral_threads",
+    "consumer_goods",
+    "energy",
+    "engineering_research",
+    "exotic_gases",
+    "food",
+    "minerals",
+    "nanites",
+    "physics_research",
+    "rare_crystals",
+    "society_research",
+    "trade",
+    "unity",
+    "volatile_motes",
+    "zro"
+]
 
 """ On a bad yaml merge there will be other random stuff in the modifier dict
 on occasion. so make a list of what should get kicked out of modifiers """
@@ -419,7 +472,7 @@ them because that DLC is not enabled. And there is no DLC-required flag in the t
 Use this information when building button effects for a trait, somehow"""
 HIDDEN_DLC_REQUIREMENTS = {
     "mod_planet_jobs_food_produces_mult": "Megacorp",  # implement in potential: host_has_dlc = "Megacorp"
-    "mod_planet_administrators_unity_produces_mult": "Megacorp",
+    "mod_planet_bureaucrats_unity_produces_mult": "Megacorp",
     "mod_planet_technician_energy_produces_mult": "Megacorp",
     "mod_weapon_archaeotech_weapon_damage_mult": "Ancient Realms",  # has_ancrel
     "mod_weapon_role_artillery_weapon_damage_mult": "Paragons",
@@ -665,7 +718,7 @@ BUILD_TEMPLATE_FOLDER = os.path.join(
     BUILD_FOLDER, 'template_parts'
 )
 
-UNICORN = '''
+UNICORN = r'''
                 \\
                  \%,     ,'     , ,.
                   \%\,';/J,";";";;,,.

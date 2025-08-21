@@ -1,28 +1,6 @@
 namespace = rikk_mdlc_extended
 
-#add modifier from deviant trait
-#country_event = {
-#	id = rikk_mdlc_extended.01
-#	hide_window = yes
-#	is_triggered_only = yes
-#	trigger = {
-#		OR = {
-#			any_owned_species = { has_trait = rikk_mdlc_trait_robotic_deviants }
-#			any_owned_planet = { has_modifier = rikk_mdlc_trait_robotic_deviant_mod }
-#		}
-#		#can_add_extended_traits = yes
-#	}
-#	
-#	immediate = {
-#		every_owned_planet = {
-#			add_modifier = {
-#				modifier = rikk_mdlc_trait_robotic_deviant_mod
-#				mult = value:rikk_mdlc_counter_deviants
-#			}
-#		}
-#	}
-#}
-
+# Calculate rikk_mdlc_trait_robotic_deviants
 country_event = {
 	id = rikk_mdlc_extended.01
 	hide_window = yes
@@ -37,30 +15,15 @@ country_event = {
 		every_owned_planet = {
 			limit = { any_owned_species = { has_trait = rikk_mdlc_trait_robotic_deviants } }
 			export_trigger_value_to_variable = {
-				trigger = count_owned_pop
+				trigger = count_owned_pop_amount
 				parameters = { limit = { has_trait = rikk_mdlc_trait_robotic_deviants } }
 				variable = rikk_mdlc_count_pop_trait_robotic_deviants_var
 			}
-			export_trigger_value_to_variable = {
-				trigger = count_deposits
-				parameters = { type = rikk_mdlc_d_trait_robotic_deviants }
-				variable = rikk_mdlc_count_d_trait_robotic_deviants_var
-			}
 			if = {
-				limit = { check_variable = { which = rikk_mdlc_count_pop_trait_robotic_deviants_var value > rikk_mdlc_count_d_trait_robotic_deviants_var } }
-				subtract_variable = { which = rikk_mdlc_count_pop_trait_robotic_deviants_var value = rikk_mdlc_count_d_trait_robotic_deviants_var }
-				while = {
-					add_deposit = rikk_mdlc_d_trait_robotic_deviants
-					count = rikk_mdlc_count_pop_trait_robotic_deviants_var
+				limit = {
+					NOT = { has_deposit = rikk_mdlc_d_trait_robotic_deviants }
 				}
-			}
-			else_if = {
-				limit = { check_variable = { which = rikk_mdlc_count_pop_trait_robotic_deviants_var value < rikk_mdlc_count_d_trait_robotic_deviants_var } }
-				subtract_variable = { which = rikk_mdlc_count_d_trait_robotic_deviants_var value = rikk_mdlc_count_pop_trait_robotic_deviants_var }
-				while = {
-					remove_deposit = rikk_mdlc_d_trait_robotic_deviants
-					count = rikk_mdlc_count_d_trait_robotic_deviants_var
-				}
+				add_deposit = rikk_mdlc_d_trait_robotic_deviants
 			}
 		}
 	}
@@ -85,9 +48,11 @@ country_event = {
 				has_deposit = rikk_mdlc_d_trait_robotic_deviants
 				NOT = { any_owned_species = { has_trait = rikk_mdlc_trait_robotic_deviants } }
 			}
-			oxr_mdlc_planet_clear_all_custom_deposits_of_type = {
-				CUSTOM_DEPOSIT_TYPE = rikk_mdlc_d_trait_robotic_deviants
-			}
+			# oxr_mdlc_planet_clear_all_custom_deposits_of_type = {
+			# 	CUSTOM_DEPOSIT_TYPE = rikk_mdlc_d_trait_robotic_deviants
+			# }
+			remove_deposit = rikk_mdlc_d_trait_robotic_deviants
+			clear_variable = rikk_mdlc_count_pop_trait_robotic_deviants_var
 		}
 	}
 }
@@ -111,97 +76,267 @@ country_event = {
 	}
 
 	immediate = {
-		from = {
+		ruler = {
+			export_trigger_value_to_variable = {
+				trigger = has_base_skill
+				variable = oxr_mdlc_skill_to_add_to_leader_tmp
+			}
+			# Subtract one because that's how many levels to add to the leader to catch up
+			# to the ruler's level
+			subtract_variable = {
+				which = oxr_mdlc_skill_to_add_to_leader_tmp
+				value = 1
+			}
+		}
+		if = {
+			limit = {
+				ruler = { has_base_skill > 1 }
+			}
 			if = {
-				limit = { 
-					ruler = {
-						has_level = 1
+				limit = {
+					ruler = { has_base_skill > 9 }
+				}
+				from = {
+					# Add levels 1 at a time so players can pick traits for each level
+					while = {
+						count = 9
+						add_skill = 1
+					}
+					add_trait = { show_message = no trait  = rikk_mdlc_trait_leader_ai_splitting_09 }
+				}
+			}
+			else = {
+				# Ruler skill is greater than 1 but not more than 9, so 2 through 8
+				while = {
+					count = ruler.oxr_mdlc_skill_to_add_to_leader_tmp
+					# Add levels 1 at a time so players can pick traits for each level
+					from = {
+						add_skill = 1
 					}
 				}
-				add_trait_no_notify = rikk_mdlc_trait_leader_ai_splitting_00
-			}
-			else_if = {
-				limit = { 
-					ruler = {
-						has_level = 2
-					}
+				from = {
+					oxr_mdlc_add_ai_trait_to_leader = { SKILL = ruler.oxr_mdlc_skill_to_add_to_leader_tmp }
 				}
-				add_skill = 1
-				add_trait_no_notify = rikk_mdlc_trait_leader_ai_splitting_01
 			}
-			else_if = {
-				limit = { 
-					ruler = {
-						has_level = 3
-					}
-				}
-				add_skill = 2
-				add_trait_no_notify = rikk_mdlc_trait_leader_ai_splitting_02
+		}
+		else = {
+			# The ruler is level 1
+			from = {
+				add_trait = { show_message = no trait  = rikk_mdlc_trait_leader_ai_splitting_00 }
 			}
-			else_if = {
-				limit = { 
-					ruler = {
-						has_level = 4
-					}
-				}
-				add_skill = 3
-				add_trait_no_notify = rikk_mdlc_trait_leader_ai_splitting_03
-			}
-			else_if = {
-				limit = { 
-					ruler = {
-						has_level = 5
-					}
-				}
-				add_skill = 4
-				add_trait_no_notify = rikk_mdlc_trait_leader_ai_splitting_04
-			}
-			else_if = {
-				limit = { 
-					ruler = {
-						has_level = 6
-					}
-				}
-				add_skill = 5
-				add_trait_no_notify = rikk_mdlc_trait_leader_ai_splitting_05
-			}
-			else_if = {
-				limit = { 
-					ruler = {
-						has_level = 7
-					}
-				}
-				add_skill = 6
-				add_trait_no_notify = rikk_mdlc_trait_leader_ai_splitting_06
-			}
-			else_if = {
-				limit = { 
-					ruler = {
-						has_level = 8
-					}
-				}
-				add_skill = 7
-				add_trait_no_notify = rikk_mdlc_trait_leader_ai_splitting_07
-			}
-			else_if = {
-				limit = { 
-					ruler = {
-						has_level = 9
-					}
-				}
-				add_skill = 8
-				add_trait_no_notify = rikk_mdlc_trait_leader_ai_splitting_08
-			}
-			else_if = {
-				limit = { 
-					ruler = {
-						has_level > 9
-					}
-				}
-				add_skill = 9
-				add_trait_no_notify = rikk_mdlc_trait_leader_ai_splitting_09
-			}
-			set_leader_flag = ai_splitting_leader_flag
+		}
+
+		# from = {
+		# 	if = {
+		# 		limit = { 
+		# 			ruler = {
+		# 				has_base_skill = 1
+		# 			}
+		# 		}
+		# 		add_trait = { show_message = no trait  = rikk_mdlc_trait_leader_ai_splitting_00 }
+		# 	}
+		# 	else_if = {
+		# 		limit = { 
+		# 			ruler = {
+		# 				has_base_skill = 2
+		# 			}
+		# 		}
+		# 		add_skill = 1
+		# 		add_trait = { show_message = no trait  = rikk_mdlc_trait_leader_ai_splitting_01 }
+		# 	}
+		# 	else_if = {
+		# 		limit = { 
+		# 			ruler = {
+		# 				has_base_skill = 3
+		# 			}
+		# 		}
+		# 		add_skill = 2
+		# 		add_trait = { show_message = no trait  = rikk_mdlc_trait_leader_ai_splitting_02 }
+		# 	}
+		# 	else_if = {
+		# 		limit = { 
+		# 			ruler = {
+		# 				has_base_skill = 4
+		# 			}
+		# 		}
+		# 		add_skill = 3
+		# 		add_trait = { show_message = no trait  = rikk_mdlc_trait_leader_ai_splitting_03 }
+		# 	}
+		# 	else_if = {
+		# 		limit = { 
+		# 			ruler = {
+		# 				has_base_skill = 5
+		# 			}
+		# 		}
+		# 		add_skill = 4
+		# 		add_trait = { show_message = no trait  = rikk_mdlc_trait_leader_ai_splitting_04 }
+		# 	}
+		# 	else_if = {
+		# 		limit = { 
+		# 			ruler = {
+		# 				has_base_skill = 6
+		# 			}
+		# 		}
+		# 		add_skill = 5
+		# 		add_trait = { show_message = no trait  = rikk_mdlc_trait_leader_ai_splitting_05 }
+		# 	}
+		# 	else_if = {
+		# 		limit = { 
+		# 			ruler = {
+		# 				has_base_skill = 7
+		# 			}
+		# 		}
+		# 		add_skill = 6
+		# 		add_trait = { show_message = no trait  = rikk_mdlc_trait_leader_ai_splitting_06 }
+		# 	}
+		# 	else_if = {
+		# 		limit = { 
+		# 			ruler = {
+		# 				has_base_skill = 8
+		# 			}
+		# 		}
+		# 		add_skill = 7
+		# 		add_trait = { show_message = no trait  = rikk_mdlc_trait_leader_ai_splitting_07 }
+		# 	}
+		# 	else_if = {
+		# 		limit = { 
+		# 			ruler = {
+		# 				has_base_skill = 9
+		# 			}
+		# 		}
+		# 		add_skill = 8
+		# 		add_trait = { show_message = no trait  = rikk_mdlc_trait_leader_ai_splitting_08 }
+		# 	}
+		# 	else_if = {
+		# 		limit = { 
+		# 			ruler = {
+		# 				has_base_skill > 9
+		# 			}
+		# 		}
+		# 		add_skill = 9
+		# 		add_trait = { show_message = no trait  = rikk_mdlc_trait_leader_ai_splitting_09 }
+		# 	}
+		# 	set_leader_flag = ai_splitting_leader_flag
+		# }
+	}
+}
+
+# Count meshnet pops on day 2 of the month, rather than at the top of the month,
+# when all other mods, etc, are doing monthly calculations
+# If we are 1 day late calculating the meshnet bonus, it should be fine
+country_event = {
+	id = rikk_mdlc_extended.10
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_owned_planet = {
+			any_owned_species = { has_trait = rikk_mdlc_trait_robotic_mesh_network }
+		}
+		has_mute_extended_machines = no
+	}
+
+	immediate = {
+		country_event = {
+			id = rikk_mdlc_extended.12
+			days = 1
 		}
 	}
 }
+
+# Calculate rikk_mdlc_counter_mesh_network at the country level. Called monthly
+# If there are no meshnet pops in the empire any more, because the player modded the species,
+# or for some other reason ... there is no "shutoff" condition, meaning,
+# there is no reason to unset the variable that is set in this country event.
+# If there are no meshnet pops then the entry trigger will fail and nothing will happen.
+country_event = {
+	id = rikk_mdlc_extended.12
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_owned_planet = {
+			any_owned_species = { has_trait = rikk_mdlc_trait_robotic_mesh_network }
+		}
+		has_mute_extended_machines = no
+	}
+
+	immediate = {
+		# Set at country level
+		# If there are no meshnet pops in the empire, there's no reason to clear this var,
+		# since it won't matter
+		export_trigger_value_to_variable = {
+			trigger = count_owned_pop_amount
+			parameters = { limit = { has_trait = rikk_mdlc_trait_robotic_mesh_network } }
+			variable = rikk_mdlc_count_mesh_net_pops_in_empire_var
+		}
+		# Cap the value at 10000
+		if = {
+			limit = {
+				check_variable = {
+					which = rikk_mdlc_count_mesh_net_pops_in_empire_var
+					value > 10000
+				}
+			}
+			set_variable = {
+				which = rikk_mdlc_count_mesh_net_pops_in_empire_var
+				value > 10000
+			}
+		}
+		log = "Empire meshnet pop bonus for \\[this.GetName] set to \\[this.rikk_mdlc_count_mesh_net_pops_in_empire_var] "
+	}
+}
+
+
+# Count nanomachines per planet, on day 2 of the month
+country_event = {
+	id = rikk_mdlc_extended.20
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_owned_planet = {
+			any_owned_species = { has_trait = rikk_mdlc_trait_robotic_constant_growth }
+		}
+		has_mute_extended_machines = no
+	}
+
+	immediate = {
+		country_event = {
+			id = rikk_mdlc_extended.22
+			days = 1
+		}
+	}
+}
+
+# Count nanomachines per planet, that have them, and set a static var that gets updated monthly,
+country_event = {
+	id = rikk_mdlc_extended.22
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		# Because we already filtered for these conditions in the entry event
+		
+	}
+
+	immediate = {
+		every_owned_planet = {
+			limit = { any_owned_species = { has_trait = rikk_mdlc_trait_robotic_constant_growth } }
+			export_trigger_value_to_variable = {
+				trigger = count_owned_pop_amount
+				parameters = { limit = { has_trait = rikk_mdlc_trait_robotic_constant_growth } }
+				variable = rikk_mdlc_count_nanomachine_pops_on_planet_var_tmp
+			}
+			# Homeworld starts at 5k...
+			# When planet population of nanomachines reaches 10k, they don't get their bonuses any more,
+			# and penalties start to kick in
+			subtract_variable = {
+				which = rikk_mdlc_count_nanomachine_pops_on_planet_var_tmp
+				value = 10000
+			}
+		}
+		log = "Planet nanomachine pop bonus on \\[this.GetName] set to \\[this.rikk_mdlc_count_nanomachine_pops_on_planet_var] for empire \\[This.owner.GetName]]"
+	}
+}
+# EOF

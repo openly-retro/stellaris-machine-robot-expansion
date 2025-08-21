@@ -1,373 +1,400 @@
 # Bio-Mech AP things
 # owner = { has_oxr_mdlc_country_feature_bio_mech_buildings }
 
-oxr_mdlc_building_bio_robot_directive_bio_goods_1 = {
-	base_buildtime = @b1_time
-	base_cap_amount = 1
-	category = manufacturing
+# oxr_mdlc_building_bio_robot_directive_bio_goods_1 = {
+# 	base_buildtime = @b1_time
+# 	base_cap_amount = 1
+# 	category = manufacturing
 
-	potential = {
-		exists = owner
-		owner = {
-			has_xvcv_mdlc_ap_bio_robot = yes
-			has_oxr_mdlc_country_feature_bio_mech_buildings = yes
-		}
+# 	potential = {
+# 		exists = owner
+# 		owner = {
+# 			has_xvcv_mdlc_ap_bio_robot = yes
+# 			has_oxr_mdlc_country_feature_bio_mech_buildings = yes
+# 		}
 		
-		planet = {
-			NOR = {
-				has_modifier = resort_colony
-				has_modifier = slave_colony
-			}
-		}
-	}
+# 		planet = {
+# 			NOR = {
+# 				has_modifier = resort_colony
+# 				has_modifier = slave_colony
+# 			}
+# 		}
+# 	}
 
-	ruined_trigger = {
-		OR = {
-			has_modifier = resort_colony
-			has_modifier = slave_colony
-			AND = {
-				exists = owner
-				owner = { has_oxr_mdlc_civic_bio_robot_directive = no }
-			}
-		}
-	}
+# 	ruined_trigger = {
+# 		OR = {
+# 			has_modifier = resort_colony
+# 			has_modifier = slave_colony
+# 			AND = {
+# 				exists = owner
+# 				owner = { has_oxr_mdlc_civic_bio_robot_directive = no }
+# 			}
+# 		}
+# 	}
 
-	inline_script = {
-		script = jobs/factory_add
-		AMOUNT = @b1_jobs
-	}
+# 	inline_script = {
+# 		script = jobs/factory_add
+# 		AMOUNT = @b1_jobs
+# 	}
 
-	resources = {
-		category = planet_buildings
-		cost = {
-			food = @b1_minerals
-		}
-		upkeep = {
-			food = @b1_upkeep
-		}
-	}
+# 	resources = {
+# 		category = planet_buildings
+# 		cost = {
+# 			food = @b1_minerals
+# 		}
+# 		upkeep = {
+# 			food = @b1_upkeep
+# 		}
+# 	}
 
-	prerequisites = {
-		# oxr_mdlc_tech_bio_robot_directive_1
-	}
+# 	prerequisites = {
+# 		# oxr_mdlc_tech_bio_robot_directive_1
+# 	}
 
-	upgrades = {
-		oxr_mdlc_building_bio_robot_directive_bio_goods_2
-	}
-}
+# 	upgrades = {
+# 		oxr_mdlc_building_bio_robot_directive_bio_goods_2
+# 	}
+# 	building_sets = {
+# 		oxr_mdlc_bio
+# 		oxr_mdlc_bio_production
+# 	}
+# }
 
-oxr_mdlc_building_bio_robot_directive_bio_goods_2 = {
-	base_buildtime = @b2_time
-	can_build = no
-	category = manufacturing
+# oxr_mdlc_building_bio_robot_directive_bio_goods_2 = {
+# 	base_buildtime = @b2_time
+# 	can_build = no
+# 	category = manufacturing
 
-	allow = {
-		planet = { has_upgraded_capital = yes }
-	}
+# 	allow = {
+# 		planet = { has_upgraded_capital = yes }
+# 	}
 
-	potential = {
-		exists = owner
-		planet = {
-			NOT = {
-				has_modifier = resort_colony
-				has_modifier = slave_colony
-			}
-		}
-	}
+# 	potential = {
+# 		exists = owner
+# 		planet = {
+# 			NOT = {
+# 				has_modifier = resort_colony
+# 				has_modifier = slave_colony
+# 			}
+# 		}
+# 	}
 
-	ruined_trigger = {
-		OR = {
-			has_modifier = resort_colony
-			has_modifier = slave_colony
-			AND = {
-				exists = owner
-				owner = { has_oxr_mdlc_civic_bio_robot_directive = no }
-			}
-		}
-	}
+# 	ruined_trigger = {
+# 		OR = {
+# 			has_modifier = resort_colony
+# 			has_modifier = slave_colony
+# 			AND = {
+# 				exists = owner
+# 				owner = { has_oxr_mdlc_civic_bio_robot_directive = no }
+# 			}
+# 		}
+# 	}
 
-	planet_modifier = {
-		planet_artisans_consumer_goods_produces_add = 1
-		planet_artisans_food_upkeep_add = 2.5
-	}
+# 	planet_modifier = {
+# 		planet_artisans_consumer_goods_produces_add = 1
+# 		planet_artisans_food_upkeep_add = 2.5
+# 	}
 
-	inline_script = {
-		script = jobs/factory_add
-		AMOUNT = @b1_jobs
-	}
+# 	inline_script = {
+# 		script = jobs/factory_add
+# 		AMOUNT = @b1_jobs
+# 	}
 
-	resources = {
-		category = planet_buildings
-		cost = {
-			food = @b2_minerals
-			rare_crystals = @b3_rare_cost
-		}
-		upkeep = {
-			food = @b2_upkeep
-			rare_crystals = @b3_rare_upkeep
-		}
-	}
+# 	resources = {
+# 		category = planet_buildings
+# 		cost = {
+# 			food = @b2_minerals
+# 			rare_crystals = @b3_rare_cost
+# 		}
+# 		upkeep = {
+# 			food = @b2_upkeep
+# 			rare_crystals = @b3_rare_upkeep
+# 		}
+# 	}
 
-	prerequisites = {
-		oxr_mdlc_tech_bio_robot_directive_1
-	}
+# 	prerequisites = {
+# 		oxr_mdlc_tech_bio_robot_directive_1
+# 	}
 
-	upgrades = {
-		oxr_mdlc_building_bio_robot_directive_bio_goods_3
-	}
-}
+# 	upgrades = {
+# 		oxr_mdlc_building_bio_robot_directive_bio_goods_3
+# 	}
+# 	building_sets = {
+# 		oxr_mdlc_bio
+# 		oxr_mdlc_bio_production
+# 	}
+# }
 
-oxr_mdlc_building_bio_robot_directive_bio_goods_3 = {
-	base_buildtime = @b3_time
-	can_build = no
+# oxr_mdlc_building_bio_robot_directive_bio_goods_3 = {
+# 	base_buildtime = @b3_time
+# 	can_build = no
 
-	category = manufacturing
+# 	category = manufacturing
 
-	allow = {
-		planet = { has_major_upgraded_capital = yes }
-	}
+# 	allow = {
+# 		planet = { has_major_upgraded_capital = yes }
+# 	}
 
-	potential = {
-		exists = owner
-		NOT = {
-			has_modifier = resort_colony
-			has_modifier = slave_colony
-		}
-	}
+# 	potential = {
+# 		exists = owner
+# 		NOT = {
+# 			has_modifier = resort_colony
+# 			has_modifier = slave_colony
+# 		}
+# 	}
 
-	ruined_trigger = {
-		OR = {
-			has_modifier = resort_colony
-			has_modifier = slave_colony
-			AND = {
-				exists = owner
-				owner = { has_oxr_mdlc_civic_bio_robot_directive = no }
-			}
-		}
-	}
+# 	ruined_trigger = {
+# 		OR = {
+# 			has_modifier = resort_colony
+# 			has_modifier = slave_colony
+# 			AND = {
+# 				exists = owner
+# 				owner = { has_oxr_mdlc_civic_bio_robot_directive = no }
+# 			}
+# 		}
+# 	}
 
 
-	planet_modifier = {
-		planet_artisans_consumer_goods_produces_add = 2
-		planet_artisans_food_upkeep_add = 5
-	}
+# 	planet_modifier = {
+# 		planet_artisans_consumer_goods_produces_add = 2
+# 		planet_artisans_food_upkeep_add = 5
+# 	}
 
-	triggered_planet_modifier = {
-		potential = {
-			has_ringworld_output_boost = yes
-		}
-		modifier = {
-			planet_artisans_consumer_goods_produces_add = 1
-			planet_artisans_food_upkeep_add = 2.5
-		}
-	}
+# 	triggered_planet_modifier = {
+# 		potential = {
+# 			has_ringworld_output_boost = yes
+# 		}
+# 		modifier = {
+# 			planet_artisans_consumer_goods_produces_add = 1
+# 			planet_artisans_food_upkeep_add = 2.5
+# 		}
+# 	}
 
-	inline_script = {
-		script = jobs/factory_add
-		AMOUNT = @b1_jobs
-	}
+# 	inline_script = {
+# 		script = jobs/factory_add
+# 		AMOUNT = @b1_jobs
+# 	}
 
-	resources = {
-		category = planet_buildings
-		cost = {
-			trigger = {
-				has_ringworld_output_boost = no
-			}
-			food = @b3_minerals
-			rare_crystals = @b4_rare_cost
-		}
-		cost = {
-			trigger = {
-				has_ringworld_output_boost = yes
-			}
-			food = 1500
-			rare_crystals = 600
-		}
-		upkeep = {
-			trigger = {
-				has_ringworld_output_boost = no
-			}
-			food = @b3_upkeep
-			rare_crystals = @b4_rare_upkeep
-		}
-		upkeep = {
-			trigger = {
-				has_ringworld_output_boost = yes
-			}
-			food = 15
-			rare_crystals = 8
-		}
-	}
+# 	resources = {
+# 		category = planet_buildings
+# 		cost = {
+# 			trigger = {
+# 				has_ringworld_output_boost = no
+# 			}
+# 			food = @b3_minerals
+# 			rare_crystals = @b4_rare_cost
+# 		}
+# 		cost = {
+# 			trigger = {
+# 				has_ringworld_output_boost = yes
+# 			}
+# 			food = 1500
+# 			rare_crystals = 600
+# 		}
+# 		upkeep = {
+# 			trigger = {
+# 				has_ringworld_output_boost = no
+# 			}
+# 			food = @b3_upkeep
+# 			rare_crystals = @b4_rare_upkeep
+# 		}
+# 		upkeep = {
+# 			trigger = {
+# 				has_ringworld_output_boost = yes
+# 			}
+# 			food = 15
+# 			rare_crystals = 8
+# 		}
+# 	}
 
-	prerequisites = {
-		oxr_mdlc_tech_bio_robot_directive_2
-	}
-}
+# 	prerequisites = {
+# 		oxr_mdlc_tech_bio_robot_directive_2
+# 	}
 
-oxr_mdlc_building_bio_robot_directive_integrated_lab_1 = {
-	base_buildtime = @b2_time
-	category = research
+# 	building_sets = {
+# 		oxr_mdlc_bio
+# 		oxr_mdlc_bio_production
+# 	}
+# }
 
-	potential = {
-		exists = owner
-		owner = {
-			has_oxr_mdlc_civic_bio_robot_directive = yes
-			has_oxr_mdlc_country_feature_bio_mech_buildings = yes
-		}
-		planet = {
-			NOR = {
-				has_modifier = resort_colony
-				has_modifier = slave_colony
-			}
-		}
-	}
+# oxr_mdlc_building_bio_robot_directive_integrated_lab_1 = {
+# 	base_buildtime = @b2_time
+# 	category = research
 
-	ruined_trigger = {
-		OR = {
-			has_modifier = resort_colony
-			has_modifier = slave_colony
-			AND = {
-				exists = owner
-				owner = { has_oxr_mdlc_civic_bio_robot_directive = no }
-			}
-		}
-	}
+# 	potential = {
+# 		exists = owner
+# 		owner = {
+# 			has_oxr_mdlc_civic_bio_robot_directive = yes
+# 			has_oxr_mdlc_country_feature_bio_mech_buildings = yes
+# 		}
+# 		planet = {
+# 			NOR = {
+# 				has_modifier = resort_colony
+# 				has_modifier = slave_colony
+# 			}
+# 		}
+# 	}
 
-	resources = {
-		category = planet_buildings
-		cost = {
-			food = @b2_minerals
-		}
-		upkeep = {
-			food = @b2_upkeep
-		}
-	}
-	planet_modifier = {
-		job_oxr_mdlc_bio_robot_lustra_integrated_researcher_add = 2
-	}
-	prerequisites = {
+# 	ruined_trigger = {
+# 		OR = {
+# 			has_modifier = resort_colony
+# 			has_modifier = slave_colony
+# 			AND = {
+# 				exists = owner
+# 				owner = { has_oxr_mdlc_civic_bio_robot_directive = no }
+# 			}
+# 		}
+# 	}
+
+# 	resources = {
+# 		category = planet_buildings
+# 		cost = {
+# 			food = @b2_minerals
+# 		}
+# 		upkeep = {
+# 			food = @b2_upkeep
+# 		}
+# 	}
+# 	planet_modifier = {
+# 		job_oxr_mdlc_bio_robot_lustra_integrated_researcher_add = 2
+# 	}
+# 	prerequisites = {
 		
-	}
+# 	}
 
-	upgrades = {
-		oxr_mdlc_building_bio_robot_directive_integrated_lab_2
-	}
+# 	upgrades = {
+# 		oxr_mdlc_building_bio_robot_directive_integrated_lab_2
+# 	}
 
-}
+# 	building_sets = {
+# 		oxr_mdlc_bio
+# 		oxr_mdlc_bio_research
+# 	}
 
-oxr_mdlc_building_bio_robot_directive_integrated_lab_2 = {
-	base_buildtime = @b2_time
-	category = research
+# }
 
-	allow = {
-		has_upgraded_capital = yes
-	}
+# oxr_mdlc_building_bio_robot_directive_integrated_lab_2 = {
+# 	base_buildtime = @b2_time
+# 	category = research
 
-	potential = {
-		exists = owner
-		# owner = { has_oxr_mdlc_civic_bio_robot_directive = yes }
-		owner = { has_oxr_mdlc_civic_bio_robot_directive = yes  }
-		planet = {
-			NOR = {
-				has_modifier = resort_colony
-				has_modifier = slave_colony
-			}
-		}
-	}
+# 	allow = {
+# 		has_upgraded_capital = yes
+# 	}
 
-	ruined_trigger = {
-		OR = {
-			has_modifier = resort_colony
-			has_modifier = slave_colony
-			AND = {
-				exists = owner
-				owner = { has_oxr_mdlc_civic_bio_robot_directive = no }
-			}
-		}
-	}
+# 	potential = {
+# 		exists = owner
+# 		# owner = { has_oxr_mdlc_civic_bio_robot_directive = yes }
+# 		owner = { has_oxr_mdlc_civic_bio_robot_directive = yes  }
+# 		planet = {
+# 			NOR = {
+# 				has_modifier = resort_colony
+# 				has_modifier = slave_colony
+# 			}
+# 		}
+# 	}
 
-	resources = {
-		category = planet_buildings
-		cost = {
-			food = @b2_minerals
-			exotic_gases = @b2_rare_cost
-		}
-		upkeep = {
-			food = @b2_upkeep
-			exotic_gases = @b2_rare_upkeep
-		}
-	}
-	planet_modifier = {
-		job_oxr_mdlc_bio_robot_lustra_integrated_researcher_add = 2
-	}
+# 	ruined_trigger = {
+# 		OR = {
+# 			has_modifier = resort_colony
+# 			has_modifier = slave_colony
+# 			AND = {
+# 				exists = owner
+# 				owner = { has_oxr_mdlc_civic_bio_robot_directive = no }
+# 			}
+# 		}
+# 	}
 
-	prerequisites = {
-		oxr_mdlc_tech_bio_robot_directive_1
-	}
-	upgrades = {
-		oxr_mdlc_building_bio_robot_directive_integrated_lab_3
-	}
+# 	resources = {
+# 		category = planet_buildings
+# 		cost = {
+# 			food = @b2_minerals
+# 			exotic_gases = @b2_rare_cost
+# 		}
+# 		upkeep = {
+# 			food = @b2_upkeep
+# 			exotic_gases = @b2_rare_upkeep
+# 		}
+# 	}
+# 	planet_modifier = {
+# 		job_oxr_mdlc_bio_robot_lustra_integrated_researcher_add = 2
+# 	}
 
-}
+# 	prerequisites = {
+# 		oxr_mdlc_tech_bio_robot_directive_1
+# 	}
+# 	upgrades = {
+# 		oxr_mdlc_building_bio_robot_directive_integrated_lab_3
+# 	}
+# 	building_sets = {
+# 		oxr_mdlc_bio
+# 		oxr_mdlc_bio_research
+# 	}
 
-oxr_mdlc_building_bio_robot_directive_integrated_lab_3 = {
-	base_buildtime = @b2_time
-	category = research
+# }
 
-	allow = {
-		has_major_upgraded_capital = yes
-	}
+# oxr_mdlc_building_bio_robot_directive_integrated_lab_3 = {
+# 	base_buildtime = @b2_time
+# 	category = research
 
-	potential = {
-		exists = owner
-		owner = { has_oxr_mdlc_civic_bio_robot_directive = yes }
-		planet = {
-			NOR = {
-				has_modifier = resort_colony
-				has_modifier = slave_colony
-			}
-		}
-	}
+# 	allow = {
+# 		has_major_upgraded_capital = yes
+# 	}
 
-	ruined_trigger = {
-		OR = {
-			has_modifier = resort_colony
-			has_modifier = slave_colony
-			AND = {
-				exists = owner
-				owner = { has_oxr_mdlc_civic_bio_robot_directive = no }
-			}
-		}
-	}
+# 	potential = {
+# 		exists = owner
+# 		owner = { has_oxr_mdlc_civic_bio_robot_directive = yes }
+# 		planet = {
+# 			NOR = {
+# 				has_modifier = resort_colony
+# 				has_modifier = slave_colony
+# 			}
+# 		}
+# 	}
 
-	resources = {
-		category = planet_buildings
-		cost = {
-			food = @b3_minerals
-			exotic_gases = @b3_rare_cost
-		}
-		upkeep = {
-			food = @b3_upkeep
-			exotic_gases = @b3_rare_upkeep
-		}
-		upkeep = {
-			trigger = {
-				owner = {
-					is_galactic_community_member = yes
-				}
-				is_active_resolution = "resolution_galacticstudies_extradimensional_experimentation"
-				planet = {
-					has_modifier = pm_extradimensional_experimentation
-				}
-			}
-			sr_zro = 1
-		}
-	}
-	planet_modifier = {
-		job_oxr_mdlc_bio_robot_lustra_integrated_researcher_add = 2
-	}
+# 	ruined_trigger = {
+# 		OR = {
+# 			has_modifier = resort_colony
+# 			has_modifier = slave_colony
+# 			AND = {
+# 				exists = owner
+# 				owner = { has_oxr_mdlc_civic_bio_robot_directive = no }
+# 			}
+# 		}
+# 	}
 
-	prerequisites = {
-		oxr_mdlc_tech_bio_robot_directive_2
-	}
-}
+# 	resources = {
+# 		category = planet_buildings
+# 		cost = {
+# 			food = @b3_minerals
+# 			exotic_gases = @b3_rare_cost
+# 		}
+# 		upkeep = {
+# 			food = @b3_upkeep
+# 			exotic_gases = @b3_rare_upkeep
+# 		}
+# 		upkeep = {
+# 			trigger = {
+# 				owner = {
+# 					is_galactic_community_member = yes
+# 				}
+# 				is_active_resolution = "resolution_galacticstudies_extradimensional_experimentation"
+# 				planet = {
+# 					has_modifier = pm_extradimensional_experimentation
+# 				}
+# 			}
+# 			sr_zro = 1
+# 		}
+# 	}
+# 	planet_modifier = {
+# 		job_oxr_mdlc_bio_robot_lustra_integrated_researcher_add = 2
+# 	}
+
+# 	prerequisites = {
+# 		oxr_mdlc_tech_bio_robot_directive_2
+# 	}
+
+# 	building_sets = {
+# 		oxr_mdlc_bio
+# 		oxr_mdlc_bio_research
+# 	}
+# }

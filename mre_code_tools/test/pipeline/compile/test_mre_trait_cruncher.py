@@ -19,11 +19,11 @@ def test_filter_trait_info():
             },
             'triggered_planet_modifier': {
                 'potential': {'always': True},
-                'planet_administrators_unity_produces_mult': 0.05
+                'planet_bureaucrats_unity_produces_mult': 0.05
             },
             'triggered_sector_modifier': {
                 'potential': {'always': True},
-                'planet_administrators_unity_produces_mult': 0.025
+                'planet_bureaucrats_unity_produces_mult': 0.025
             },
             'triggered_desc': {
                 'exclusive_trigger': {'always': True},
@@ -39,10 +39,10 @@ def test_filter_trait_info():
         "gfx": "GFX_leader_trait_bureaucrat",
         "rarity": "common",
         "triggered_planet_modifier": {
-            'planet_administrators_unity_produces_mult': 0.05
+            'planet_bureaucrats_unity_produces_mult': 0.05
         },
         "triggered_sector_modifier": {
-            'planet_administrators_unity_produces_mult': 0.025
+            'planet_bureaucrats_unity_produces_mult': 0.025
         },
         "requires_paragon_dlc": False,
         "custom_tooltip": "leader_trait_bureaucrat_2_tt"
@@ -835,7 +835,7 @@ def test_3_11_eridanus_filter_negative_traits():
             },
             'triggered_planet_modifier': {
                 'potential': {'always': True},
-                'planet_administrators_unity_produces_mult': 0.05
+                'planet_bureaucrats_unity_produces_mult': 0.05
             },
             'leader_class': ['official', 'commander', 'scientist']
         }

@@ -16,15 +16,19 @@ xvcv_mdlc_civic_trading_machine_target_all_trade_value_calc_effect = {
 	# TODO: Add logic to find the system with the highest trade value
 	#Rikk: It would be better than constantly hitting that new reset button
 	#Rikk: This is the part that finds the target's trade value
-	every_system_within_border = {
-		limit = { has_system_trade_value > 0 }
-		event_target:xvcv_mdlc_trading_machine_owner = { 
-			change_variable = { 
-				which = xvcv_mdlc_target_$ID$_trade_value 
-				value = prev.trigger:has_system_trade_value 
-			} 
-		}
-	}
+
+	## TODO: REFACTOR THIS PART FOR 4.0 !!
+	# every_system_within_border = {
+	# 	limit = { has_system_trade_value > 0 }
+	# 	event_target:xvcv_mdlc_trading_machine_owner = { 
+	# 		change_variable = { 
+	# 			which = xvcv_mdlc_target_$ID$_trade_value 
+	# 			value = prev.trigger:has_system_trade_value 
+	# 		} 
+	# 	}
+	# }
+	## :ODOT
+
 	#Rikk: This next part calculates how much value a target has
 	event_target:xvcv_mdlc_trading_machine_owner = {
 		divide_variable = {

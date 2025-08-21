@@ -1,7 +1,12 @@
 rikk_mdlc_nano_drone = {
-	category = simple_drone
-	condition_string = DRONE_JOB_TRIGGER
-	building_icon = building_mineral_purification_plant
+	category = maintenance_drone
+	swappable_data = {
+		default = {
+			condition_string = DRONE_JOB_TRIGGER
+			building_icon = building_maintenance_depot
+		}
+	}
+
 	is_capped_by_modifier = no
 
 	possible_pre_triggers = {
@@ -11,6 +16,11 @@ rikk_mdlc_nano_drone = {
 		is_being_assimilated = no
 		is_sapient = yes
 	}
+	tags = {
+		rikk_mdlc_nano_drone
+		oxr_mdlc_job_tag_pop_assembly
+		pop_assembly
+	}
 	
 	possible_precalc = can_fill_drone_job
 
@@ -19,13 +29,14 @@ rikk_mdlc_nano_drone = {
     }
 
 	planet_modifier = {
-		planet_pop_assembly_mult = 0.01
-		planet_jobs_produces_mult = 0.02
-		planet_jobs_upkeep_mult = 0.01
+		planet_pop_assembly_mult = 0.0001
+		planet_jobs_produces_mult = 0.0002
+		planet_jobs_upkeep_mult = 0.0001
 	}
 
     weight = {
-        weight = 1
+        weight = 10
+		# mult = value:scripted_modifier_job_weight_mult|MODIFIER|pop_job_amenities_mult|
         modifier = {
             factor = 0
             NOT = { has_trait = rikk_mdlc_trait_robotic_constant_growth }

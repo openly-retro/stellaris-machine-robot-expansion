@@ -123,11 +123,11 @@ country_event = {
 		#add trait
 		every_owned_leader = {
 			limit = { xvcv_mdlc_leader_tied_traits_add_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_abyss_psi_emulator LEADER_TRAIT = xvcv_mdlc_leader_trait_abyss_psi_emulator } }
-			add_trait_no_notify = xvcv_mdlc_leader_trait_abyss_psi_emulator
+			add_trait = { show_message = no trait  = xvcv_mdlc_leader_trait_abyss_psi_emulator }
 		}
 		every_pool_leader = {
 			limit = { xvcv_mdlc_leader_tied_traits_add_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_abyss_psi_emulator LEADER_TRAIT = xvcv_mdlc_leader_trait_abyss_psi_emulator } }
-			add_trait_no_notify = xvcv_mdlc_leader_trait_abyss_psi_emulator
+			add_trait = { show_message = no trait  = xvcv_mdlc_leader_trait_abyss_psi_emulator }
 		}
 		#remove trait
 		every_owned_leader = {
@@ -1306,8 +1306,9 @@ country_event = {
 				}
 				modifier = {
 					factor = 1.6
-					num_buildings = { type = building_clinic value = 0 }
-					num_buildings = { type = building_hospital value = 0 }
+					num_buildings = { type = building_medical_1 value = 0 }
+					num_buildings = { type = building_medical_2 value = 0 }
+					num_buildings = { type = building_medical_3 value = 0 }
 				}
 				modifier = {
 					factor = 0.7
@@ -1677,7 +1678,7 @@ country_event = {
 	immediate = {
 		random_owned_leader = {
 			save_event_target_as = xvcv_mdlc_abyss_patron_whisperers_penalty_1_leader
-			add_trait_no_notify = leader_trait_arrested_development
+			add_trait = { show_message = no trait  = leader_trait_arrested_development }
 		}
 	}
 
@@ -1721,19 +1722,19 @@ country_event = {
 		random_owned_planet = {
 			limit = {
 				has_building = xvcv_mdlc_building_abyss_gateway
-				count_owned_pop = { count > 1 }
+				count_owned_pop_amount = { count > 100 }
 			}
 			save_event_target_as = xvcv_mdlc_abyss_neg_patron_whisperers_planet
 		}
 		if = {
 			limit = { NOT = { exists = event_target:xvcv_mdlc_abyss_neg_patron_whisperers_planet } }
 			random_owned_planet = {
-				limit = { count_owned_pop = { count > 1 } }
+				limit = { count_owned_pop_amount = { count > 100 } }
 				save_event_target_as = xvcv_mdlc_abyss_neg_patron_whisperers_planet
 			}
 		}
 		event_target:xvcv_mdlc_abyss_neg_patron_whisperers_planet = {
-			random_owned_pop = { kill_pop = yes }
+			random_owned_pop_group = { oxr_kill_pop_from_group = yes }
 			add_modifier = { modifier = xvcv_mdlc_abyss_neg_patron_whisperers days = 3600 }
 		}
 	}
@@ -1791,7 +1792,7 @@ country_event = {
 		}
 		while = {
 			random_owned_planet = {
-				random_owned_pop = {
+				random_owned_pop_group = {
 					limit = { NOT = { is_species_class = EXD } }
 					change_species = last_created_species
 				}
@@ -1891,19 +1892,22 @@ country_event = {
 		random_owned_planet = {
 			limit = {
 				has_building = xvcv_mdlc_building_abyss_gateway
-				count_owned_pop = { count > 5 }
+				count_owned_pop_amount = { count > 500 }
 			}
 			save_event_target_as = xvcv_mdlc_abyss_neg_patron_eater_planet
 		}
 		if = {
 			limit = { NOT = { exists = event_target:xvcv_mdlc_abyss_neg_patron_eater_planet } }
 			random_owned_planet = {
-				limit = { count_owned_pop = { count > 5 } }
+				limit = { count_owned_pop_amount = { count > 500 } }
 				save_event_target_as = xvcv_mdlc_abyss_neg_patron_eater_planet
 			}
 		}
 		event_target:xvcv_mdlc_abyss_neg_patron_eater_planet = {
-			while = { random_owned_pop = { kill_pop = yes } count = 5 }
+			while = {
+				random_owned_pop_group = { oxr_kill_pop_from_group = yes }
+				count = 5
+			}
 			add_modifier = { modifier = xvcv_mdlc_abyss_neg_patron_eater days = 3600 }
 		}
 	}
@@ -1927,19 +1931,21 @@ country_event = {
 		random_owned_planet = {
 			limit = {
 				has_building = xvcv_mdlc_building_abyss_gateway
-				count_owned_pop = { count > 10 }
+				count_owned_pop_amount = { count > 1000 }
 			}
 			save_event_target_as = xvcv_mdlc_abyss_neg_patron_eater_alt_planet
 		}
 		if = {
 			limit = { NOT = { exists = event_target:xvcv_mdlc_abyss_neg_patron_eater_alt_planet } }
 			random_owned_planet = {
-				limit = { count_owned_pop = { count > 10 } }
+				limit = { count_owned_pop_amount = { count > 1000 } }
 				save_event_target_as = xvcv_mdlc_abyss_neg_patron_eater_alt_planet
 			}
 		}
 		event_target:xvcv_mdlc_abyss_neg_patron_eater_alt_planet = {
-			while = { random_owned_pop = { kill_pop = yes } count = 10 }
+			random_owned_pop_group = {
+				oxr_kill_pop_from_group = { count = 1000 }
+			}
 			add_modifier = { modifier = xvcv_mdlc_abyss_neg_patron_eater_alt days = 3600 }
 		}
 	}
@@ -1975,7 +1981,9 @@ country_event = {
 			}
 		}
 		event_target:xvcv_mdlc_abyss_destroyed_by_patron_planet = {
-			every_owned_pop = { kill_pop = yes }
+			every_owned_pop_group = {
+				oxr_kill_all_pops_in_group = yes
+			}
 			destroy_colony = yes
 			clear_planet_modifiers = yes
 			clear_deposits = yes
@@ -2835,10 +2843,10 @@ country_event = {
 		event_target:xvcv_mdlc_abyss_patron_chosen_leader = { remove_all_negative_traits = yes }
 		switch = {
 			trigger = has_country_flag
-			xvcv_mdlc_abyss_patron_whisperers_rank_3 = { event_target:xvcv_mdlc_abyss_patron_chosen_leader = { add_trait = xvcv_mdlc_leader_trait_whisperers_chosen } }
-			xvcv_mdlc_abyss_patron_composer_rank_3 = { event_target:xvcv_mdlc_abyss_patron_chosen_leader = { add_trait = xvcv_mdlc_leader_trait_composer_chosen } }
-			xvcv_mdlc_abyss_patron_instrument_rank_3 = { event_target:xvcv_mdlc_abyss_patron_chosen_leader = { add_trait = xvcv_mdlc_leader_trait_instrument_chosen } }
-			xvcv_mdlc_abyss_patron_eater_rank_3 = { event_target:xvcv_mdlc_abyss_patron_chosen_leader = { add_trait = xvcv_mdlc_leader_trait_eater_chosen } }
+			xvcv_mdlc_abyss_patron_whisperers_rank_3 = { event_target:xvcv_mdlc_abyss_patron_chosen_leader = { add_trait = { trait = xvcv_mdlc_leader_trait_whisperers_chosen } } }
+			xvcv_mdlc_abyss_patron_composer_rank_3 = { event_target:xvcv_mdlc_abyss_patron_chosen_leader = { add_trait = { trait = xvcv_mdlc_leader_trait_composer_chosen } } }
+			xvcv_mdlc_abyss_patron_instrument_rank_3 = { event_target:xvcv_mdlc_abyss_patron_chosen_leader = { add_trait = { trait = xvcv_mdlc_leader_trait_instrument_chosen } } }
+			xvcv_mdlc_abyss_patron_eater_rank_3 = { event_target:xvcv_mdlc_abyss_patron_chosen_leader = { add_trait = { trait = xvcv_mdlc_leader_trait_eater_chosen } } }
 		}
 	}
 }

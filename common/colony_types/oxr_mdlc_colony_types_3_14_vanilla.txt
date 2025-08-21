@@ -1,0 +1,77 @@
+# Refinery Planet designation from 3.14
+col_refinery = {
+	icon = GFX_colony_type_refinery
+
+	potential = {
+		exists = owner
+		NOR = {
+			uses_district_set = city_world
+			uses_district_set = ring_world
+			uses_district_set = habitat
+			uses_district_set = cosmogenesis_world
+		}
+		is_special_colony_type = no
+		is_capital = no
+		NOT = { is_planet_class = pc_nanotech }
+	}
+
+	planet_modifier = {
+		planet_refiners_produces_mult = 0.15
+		planet_translucers_produces_mult = 0.15
+		planet_chemists_produces_mult = 0.15
+		planet_sr_miners_produces_mult = 0.15
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				is_galactic_community_member = yes
+			}
+			OR = {
+				is_active_resolution = "resolution_industry_environmental_ordinance_waivers"
+				is_active_resolution = "resolution_industry_project_cornucopia"
+			}
+		}
+		modifier = {
+			planet_refiners_produces_mult = 0.1
+			planet_translucers_produces_mult = 0.1
+			planet_chemists_produces_mult = 0.1
+			planet_sr_miners_produces_mult = 0.1
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_tradition = tr_adaptability_finish }
+		}
+		modifier = {
+			planet_refiners_produces_mult = 0.05
+			planet_translucers_produces_mult = 0.05
+			planet_chemists_produces_mult = 0.05
+			planet_sr_miners_produces_mult = 0.05
+		}
+	}
+
+	weight_modifier = {
+		modifier = {
+			add = @stickiness
+			has_designation = col_refinery
+		}
+		modifier = {
+			add = 3
+			OR = {
+				has_building = building_refinery
+				has_building = building_chemical_plant
+				has_building = building_crystal_plant
+				has_building = building_nanite_transmuter
+				has_building = building_mote_harvesters
+				has_building = building_gas_extractors
+				has_building = building_crystal_mines
+			}
+
+		}
+		
+	}
+}

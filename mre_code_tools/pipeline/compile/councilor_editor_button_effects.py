@@ -66,8 +66,8 @@ oxr_mdlc_councilor_editor_reset_traits_button_effect = {
     potential = { always = yes }
 	allow = { oxr_mdlc_councilor_editor_check_can_use_reset_button_wrapper = yes }
     effect = {
-        custom_tooltip = "Click to reset all Councilor traits."
-		custom_tooltip = "This will not remove traits that have been awarded by civics or special events."
+        custom_tooltip = oxr_mdlc_councilor_editor_reset_button_tooltip_1
+		custom_tooltip = oxr_mdlc_councilor_editor_reset_button_tooltip_2
         hidden_effect = {
             event_target:oxr_mdlc_councilor_editor_target_@root_0 = {
 """
@@ -92,7 +92,12 @@ oxr_mdlc_councilor_editor_reset_traits_button_effect = {
                     if EXCLUDE_TRAITS_FROM_PARAGON_DLC.get(trait_name):
                         print(f"Skipping {trait_name}...")
                         continue
-                    unsorted_traits[rarity].append(trait_name)
+                    # deal with free_or_veteran
+                    trait_rarity_level = rarity
+                    if trait_rarity_level == 'free_or_veteran':
+                        trait_rarity_level = 'veteran'
+                    unsorted_traits[trait_rarity_level].append(trait_name)
+                    
     conditional_limit = "                if = {{ limit = {{ has_trait = {trait_name} }} remove_trait = {trait_name} oxr_mdlc_councilor_editor_refund_trait_resources_cost_{rarity} = yes }}"
     # Sort them all
     for rarity in RARITIES:
@@ -179,6 +184,9 @@ def gen_councilor_editor_traits_button_effects_code(
     leader_class = GESTALT_COUNCILOR_CLASS_MAP[councilor_type]
     subclass_check_trigger = f"oxr_mdlc_councilor_editor_check_leader_has_required_subclass = {{ CLASS = {leader_class} SUBCLASS = {required_subclass} }}"
 
+    if rarity == 'free_or_veteran':
+        rarity = 'veteran'
+
     return f"""
 #{councilor_type} #{trait_name} #{rarity}
 oxr_mdlc_councilor_editor_{councilor_type}_{trait_name}_add_button_effect = {{
@@ -200,7 +208,7 @@ oxr_mdlc_councilor_editor_{councilor_type}_{trait_name}_add_button_effect = {{
 		custom_tooltip = oxr_mdlc_councilor_editor_show_trait_total_cost_{rarity}
 		event_target:oxr_mdlc_councilor_editor_target_@root_0 = {{
 			oxr_mdlc_councilor_editor_remove_tier_1_or_2_traits_effect = {{ TRAIT_NAME = {trait_name_no_tier} }}
-			add_trait_no_notify = {trait_name}
+			add_trait = {{ trait = {trait_name} show_message = no }}
 		}}
 		hidden_effect = {{
 			oxr_mdlc_councilor_editor_deduct_trait_resources_cost_{rarity} = yes

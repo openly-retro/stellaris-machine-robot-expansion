@@ -1,6 +1,6 @@
 xvcv_mdlc_dominant_species_changing_effect = {
 	optimize_memory #see the '99_advanced_documentation.txt', 'Memory Management' section
-	every_owned_pop = {
+	every_owned_pop_group = {
 		limit = { is_same_species = prev.species }
 		change_species = last_created_species
 	}
@@ -108,6 +108,7 @@ xvcv_mdlc_modify_species_change_traits_for_lithoid_effect = {
 	if = { limit = { has_trait = trait_lithoid_gaseous_byproducts } modify_species = { base = none remove_trait = trait_lithoid_gaseous_byproducts add_trait = xvcv_mdlc_trait_lithoid_gaseous_byproducts } }
 	if = { limit = { has_trait = trait_lithoid_volatile_excretions } modify_species = { base = none remove_trait = trait_lithoid_volatile_excretions add_trait = xvcv_mdlc_trait_lithoid_volatile_excretions } }
 }
+
 xvcv_mdlc_leader_tied_traits_add_effect = {
 	optimize_memory
 	every_owned_leader = {
@@ -115,36 +116,36 @@ xvcv_mdlc_leader_tied_traits_add_effect = {
 			is_councilor = no
 			xvcv_mdlc_leader_tied_traits_add_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_shared_memory LEADER_TRAIT = xvcv_mdlc_leader_trait_shared_memory }
 		}
-		add_trait_no_notify = xvcv_mdlc_leader_trait_shared_memory
+		oxr_add_trait_no_notify = { t = xvcv_mdlc_leader_trait_shared_memory }
 	}
 	every_pool_leader = {
 		limit = {
 			is_councilor = no
 			xvcv_mdlc_leader_tied_traits_add_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_shared_memory LEADER_TRAIT = xvcv_mdlc_leader_trait_shared_memory }
 		}
-		add_trait_no_notify = xvcv_mdlc_leader_trait_shared_memory
+		oxr_add_trait_no_notify = { t = xvcv_mdlc_leader_trait_shared_memory }
 	}
 	every_owned_leader = {
 		limit = {
 			is_councilor = no
 			xvcv_mdlc_leader_tied_traits_add_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_memory_backup LEADER_TRAIT = xvcv_mdlc_leader_trait_memory_backup }
 		}
-		add_trait_no_notify = xvcv_mdlc_leader_trait_memory_backup
+		oxr_add_trait_no_notify = { t = xvcv_mdlc_leader_trait_memory_backup }
 	}
 	every_pool_leader = {
 		limit = {
 			is_councilor = no
 			xvcv_mdlc_leader_tied_traits_add_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_memory_backup LEADER_TRAIT = xvcv_mdlc_leader_trait_memory_backup }
 		}
-		add_trait_no_notify = xvcv_mdlc_leader_trait_memory_backup
+		oxr_add_trait_no_notify = { t = xvcv_mdlc_leader_trait_memory_backup }
 	}
 	every_owned_leader = {
 		limit = { xvcv_mdlc_leader_tied_traits_add_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_bio_robot LEADER_TRAIT = xvcv_mdlc_leader_trait_bio_robot } }
-		add_trait_no_notify = xvcv_mdlc_leader_trait_bio_robot
+		oxr_add_trait_no_notify = { t = xvcv_mdlc_leader_trait_bio_robot }
 	}
 	every_pool_leader = {
 		limit = { xvcv_mdlc_leader_tied_traits_add_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_bio_robot LEADER_TRAIT = xvcv_mdlc_leader_trait_bio_robot } }
-		add_trait_no_notify = xvcv_mdlc_leader_trait_bio_robot
+		oxr_add_trait_no_notify = { t = xvcv_mdlc_leader_trait_bio_robot }
 	}
 }
 xvcv_mdlc_leader_tied_traits_remove_effect = {
@@ -178,32 +179,32 @@ xvcv_mdlc_leader_tied_traits_remove_effect = {
 xvcv_mdlc_servitor_morale_calc_main_effect = {
 	optimize_memory
 	if = {
-		limit = { pop_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage < 0.1 } }
+		limit = { pop_amount_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage < 0.1 } }
 		add_modifier = { modifier = xvcv_mdlc_servitor_morale_abysmal days = -1 }
 	}
 	else_if = {
 		limit = {
-			pop_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage < 0.2 }
-			pop_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage >= 0.1 }
+			pop_amount_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage < 0.2 }
+			pop_amount_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage >= 0.1 }
 		}
 		add_modifier = { modifier = xvcv_mdlc_servitor_morale_low days = -1 }
 	}
 	else_if = {
 		limit = {
-			pop_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage < 0.3 }
-			pop_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage >= 0.2 }
+			pop_amount_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage < 0.3 }
+			pop_amount_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage >= 0.2 }
 		}
 		add_modifier = { modifier = xvcv_mdlc_servitor_morale_average days = -1 }
 	}
 	else_if = {
 		limit = {
-			pop_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage < 0.4 }
-			pop_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage >= 0.3 }
+			pop_amount_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage < 0.4 }
+			pop_amount_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage >= 0.3 }
 		}
 		add_modifier = { modifier = xvcv_mdlc_servitor_morale_high days = -1 }
 	}
 	else_if = {
-		limit = { pop_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage >= 0.4 } }
+		limit = { pop_amount_percentage = { limit = { has_living_standard = { type = living_standard_organic_trophy } } percentage >= 0.4 } }
 		add_modifier = { modifier = xvcv_mdlc_servitor_morale_max days = -1 }
 	}
 }
@@ -248,7 +249,7 @@ xvcv_mdlc_civic_goods_distributor_pop_bonus_effect = {
 		}
 	}
 	export_trigger_value_to_variable = {
-		trigger = count_owned_pop
+		trigger = count_owned_pop_amount
 		parameters = {
 			limit = {
 				OR = {
@@ -313,7 +314,7 @@ xvcv_mdlc_ap_genetics_mastery_species_new_template_create_effect = {
 		homeworld = this.home_planet
 	}
 	prev = {
-		random_owned_pop = {
+		random_owned_pop_group = {
 			limit = { is_same_species = prevprev }
 			change_species = last_created_species
 			xvcv_mdlc_machine_species_rights_adjustments_effect = yes
@@ -363,7 +364,7 @@ xvcv_mdlc_iterate_leaders_level_up_classes_under_skill = {
 			is_councilor = no
 			has_trait = xvcv_mdlc_leader_trait_shared_memory
 			leader_class = $CLASS$
-			has_skill < $SKILL_LEVEL$
+			has_base_skill < $SKILL_LEVEL$
 			NOT = { has_leader_flag = xvcv_mdlc_leader_trait_shared_memory_target_@this }
 		}
 		# log = "Leveling \\[prev.xvcv_total_class_specific_leaders_under_level_2] scientists level below 2"
@@ -417,7 +418,7 @@ oxr_mdlc_set_custom_species_habitability = {
 					has_trait = trait_pc_arctic_preference
 					has_trait = trait_pc_tundra_preference
 					has_trait = trait_pc_alpine_preference
-					has_trait = trait_frozen_planet_preference
+					has_trait = trait_cold_planet_preference
 				}
 			}
 		}
@@ -484,11 +485,7 @@ oxr_mdlc_set_custom_species_habitability = {
 	}
 	# Void dweller
 	if = {
-		limit = {
-			prev = {
-				has_trait = trait_void_dweller_1
-			}
-		}
+		limit = { prev = { has_trait = trait_void_dweller_1 } }
 		change_species_characteristics = {
 			add_trait = oxr_mdlc_trait_void_dweller_1
 		}
@@ -507,8 +504,8 @@ oxr_mdlc_set_custom_species_habitability = {
 oxr_mdlc_set_mechanical_heritage_species_habitability = {
 	optimize_memory
 	if = {
-		limit = { prev = { has_trait = trait_frozen_planet_preference } }
-		change_species_characteristics = { remove_trait = trait_frozen_planet_preference }
+		limit = { prev = { has_trait = trait_cold_planet_preference } }
+		change_species_characteristics = { remove_trait = trait_cold_planet_preference }
 	}
 	else_if = {
 		limit = { prev = { has_trait = trait_dry_planet_preference } }
@@ -522,4 +519,159 @@ oxr_mdlc_set_mechanical_heritage_species_habitability = {
 		add_trait = trait_xvcv_mdlc_pc_mechanical_preference
 		add_traits_at_start_of_list = yes
 	}
+}
+
+# corpse processor helper effects
+oxr_mdlc_show_full_assimilation_message = {
+	create_message = {
+		type = XVCV_MDLC_CIVIC_ASSIMILATING_SWARM_MESSAGE_TYPE
+		localization = $MESSAGE$
+		days = 10
+		target = this
+		variable = {
+			type = name
+			localization = XVCV_MDLC_CIVIC_ASSIMILATING_SWARM_PLANET
+			scope = this
+		}
+		variable = {
+			type = variable
+			localization = XVCV_MDLC_CIVIC_ASSIMILATING_SWARM_PLANET_AMOUNT
+			varname = oxr_mdlc_corpse_processor_amount_tmp
+			scope = this
+		}
+	}
+}
+
+oxr_mdlc_species_swap_organic_for_robot_traits = {
+    # This only covers vanilla traits.. and not all of them either
+    # $SOURCE$ - source species (organic)
+    # $TARGET$ - target species (robot/machine)
+    # bio traits can't be added so we add the machine version
+    $SOURCE$ = {
+        switch = {
+            trigger = has_trait
+            trait_auto_mod_biological = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_auto_mod_robotic } }
+            }
+            trait_agrarian = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_harvesters } }
+            }
+            trait_ingenious = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_superconductive } }
+            }
+            trait_industrious = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_power_drills } }
+            }
+            trait_intelligent = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_logic_engines } }
+            }
+            trait_thrifty = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_trading_algorithms } }
+            }
+            trait_natural_engineers = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_artificial_engineers } }
+            }
+            trait_natural_physicists = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_artificial_physicists } }
+            }
+            trait_natural_sociologists = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_artificial_sociologists } }
+            }
+            trait_extremely_adaptive = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_shielded_components } }
+                log = "Added trait_robot_shielded_components to processed pop"
+            }
+            # no equivalent
+            # trait_adaptive
+            # trait_nonadaptive
+            trait_rapid_breeders = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_custom_made } }
+            }
+            trait_slow_breeders = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_luxurious } }
+            }
+            trait_talented = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_enhanced_memory } }
+            }
+            trait_quick_learners = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_learning_algorithms } }
+            }
+            trait_slow_learners = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_repurposed_hardware } }
+            }
+            trait_traditional = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_propaganda_machines } }
+            }
+            trait_quarrelsome = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_quarrelsome } }
+            }
+            trait_docile = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_streamlined_protocols } }
+            }
+            trait_unruly = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_high_bandwidth } }
+            }
+            trait_very_strong = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_integrated_weaponry } }
+            }
+            trait_strong = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_history_warbot } }
+            }
+            trait_weak = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_delicate_frames } }
+            }
+            # trait_nomadic - no match
+            # trait_sedentary - no match
+            trait_communal = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_double_jointed } }
+            }
+            trait_solitary = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_bulky } }
+            }
+            trait_charismatic = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_emotion_emulators } }
+            }
+            trait_repugnant = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_uncanny } }
+            }
+            # trait_uplifted - no match
+            # trait_conformists - no match
+            trait_deviants = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_deviants } }
+            }
+            trait_venerable = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_shielded_components } }
+            }
+            trait_enduring = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_survivor } }
+            }
+            # trait_fleeting - no match
+            # trait_fleeting_lithoid - no match
+            trait_decadent = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_decadent } }
+            }
+            # trait_resilient - no match
+            # trait_conservational - no match
+            trait_wasteful = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_wasteful } }
+            }
+            trait_wasteful = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_wasteful } }
+            }
+            # trait_cybernetic - no match
+            # trait_latent_psionic - no match
+            # trait_psionic - no match
+            # trait_self_modified - no match
+            trait_survivor = {
+                $TARGET$ = { oxr_mdlc_species_modify_add_trait = { t = trait_robot_survivor } }
+            }
+            # and that ends here (tm)
+        }
+    }
+}
+
+oxr_mdlc_species_modify_add_trait = {
+    modify_species = {
+        add_trait = $t$
+    }
 }

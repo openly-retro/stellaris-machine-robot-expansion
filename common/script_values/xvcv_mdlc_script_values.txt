@@ -42,10 +42,10 @@
 # 		trigger = count_owned_planet
 # 		trigger_scope = owner 		#Lets you get the result of the trigger on a different scope. Default is "this"
 # 		parameters = { 				#Stick any further information necessary in here, like you'd do within the {} of the trigger normally
-# 			limit = { num_pops > 10 }
+# 			limit = { pop_amount > 1000 }
 # 		}
 # 		mode = add 					#Allows all numerical operations
-# 		mult = 5 					#Multiplies the outcome by this. In this example, this means adding 5 for each planet with more than 10 pops
+# 		mult = 5 					#Multiplies the outcome by this. In this example, this means adding 5 for each planet with more than 1000 pops
 # 	}
 # }
 
@@ -73,7 +73,7 @@ count_leaders_of_class_under_level = {
 				is_councilor = no
 				has_trait = xvcv_mdlc_leader_trait_shared_memory
 				leader_class = $CLASS$
-				has_skill < $SKILL_LEVEL$
+				has_base_skill < $SKILL_LEVEL$
 				NOT = { has_leader_flag = xvcv_leader_leveled_up }
 			}
 		}
@@ -99,12 +99,44 @@ count_world_machines_districts_not_cooling = {
 		parameters = { type = any }
 		mode = add
 	}
+
 	complex_trigger_modifier = {
 		trigger = num_districts
-		parameters = { type = xvcv_mdlc_common_district_cooling }
+		parameters = { type = xvcv_mdlc_pc_machine_ecu_district_cooling_primary }
 		mode = subtract
 	}
-	# subtract = value:count_world_machines_districts_of_type|DISTRICT_NAME|xvcv_mdlc_common_district_cooling|
+	complex_trigger_modifier = {
+		trigger = num_districts
+		parameters = { type = xvcv_mdlc_pc_machine_ser_district_cooling_primary }
+		mode = subtract
+	}
+	complex_trigger_modifier = {
+		trigger = num_districts
+		parameters = { type = xvcv_mdlc_pc_machine_cpu_district_cooling_primary }
+		mode = subtract
+	}
+}
+
+count_world_machines_cooling_districts_any = {
+	base = 0
+
+	# Error log complained about 'limit' even tho it's valid so i'm just writing it out
+	# bc error.log is so noisy
+	complex_trigger_modifier = {
+		trigger = num_districts
+		parameters = { type = xvcv_mdlc_pc_machine_ecu_district_cooling_primary }
+		mode = add
+	}
+	complex_trigger_modifier = {
+		trigger = num_districts
+		parameters = { type = xvcv_mdlc_pc_machine_ser_district_cooling_primary }
+		mode = add
+	}
+	complex_trigger_modifier = {
+		trigger = num_districts
+		parameters = { type = xvcv_mdlc_pc_machine_cpu_district_cooling_primary }
+		mode = add
+	}
 }
 
 collected_world_machine_bonuses = {
@@ -116,7 +148,7 @@ collected_world_machine_bonuses = {
 count_cat_1_mamp_on_planet = {
 	base = 0
 	complex_trigger_modifier = {
-		trigger = count_owned_pop
+		trigger = count_owned_pop_amount
 		parameters = {
 			limit = {
 				species = event_target:oxr_mdlc_mamp_cat_1_pop_species
@@ -128,7 +160,7 @@ count_cat_1_mamp_on_planet = {
 count_non_mamp_non_bio_pops_on_planet = {
 	base = 0
 	complex_trigger_modifier = {
-		trigger = count_owned_pop
+		trigger = count_owned_pop_amount
 		parameters = {
 			limit = {
 				species = {

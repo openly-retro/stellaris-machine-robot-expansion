@@ -22,7 +22,7 @@ xvcv_mdlc_planet_calc_bio_mech_growth_rate = {
 			}
 		} #get the current growth scale value from the data storage
 	}
-	multiply_variable = { which = xvcv_mdlc_pop_growth_scale_var value = owner.trigger:num_pops }
+	multiply_variable = { which = xvcv_mdlc_pop_growth_scale_var value = owner.trigger:pop_amount }
 	change_variable = {
 		which = xvcv_mdlc_bio_robot_growth_requirement_var
 		value = xvcv_mdlc_pop_growth_scale_var
@@ -142,7 +142,7 @@ xvcv_mdlc_planet_calc_bio_mech_growth_rate = {
 	}
 
 
-	random_owned_pop = {
+	random_owned_pop_group = {
 		limit = { xvcv_mdlc_bio_robot_auto_growth_possible_pop_trigger = yes }
 		#choose a species to be born (if there are more than one hybrid)
 		weights = {
@@ -183,16 +183,35 @@ xvcv_mdlc_planet_calc_bio_mech_growth_rate = {
 		if = {
 			limit = { has_trait = xvcv_mdlc_bio_robot_trait_org_body_copy_design }
 			prev = {
-				change_variable = { which = xvcv_mdlc_bio_robot_growth_progress_var value = @xvcv_mdlc_bio_robot_growth_add_2 }
-				change_variable = { which = xvcv_mdlc_bio_robot_growth_rate_per_month_var value = @xvcv_mdlc_bio_robot_growth_add_2 }
+				change_variable = {
+					which = xvcv_mdlc_bio_robot_growth_progress_var
+					value = @xvcv_mdlc_bio_robot_growth_add_2
+				}
+				change_variable = {
+					which = xvcv_mdlc_bio_robot_growth_rate_per_month_var
+					value = @xvcv_mdlc_bio_robot_growth_add_2
+				}
 			}
 		}
 		prev = {
 			#phase 3: create a pop
 			if = {
-				limit = { check_variable = { which = xvcv_mdlc_bio_robot_growth_progress_var value > xvcv_mdlc_bio_robot_growth_requirement_var } }
-				subtract_variable = { which = xvcv_mdlc_bio_robot_growth_progress_var value = xvcv_mdlc_bio_robot_growth_requirement_var }
-				create_pop = { species = prev.species }
+				limit = {
+					check_variable = {
+						which = xvcv_mdlc_bio_robot_growth_progress_var
+						value > xvcv_mdlc_bio_robot_growth_requirement_var
+					}
+				}
+				subtract_variable = {
+					which = xvcv_mdlc_bio_robot_growth_progress_var
+					value = xvcv_mdlc_bio_robot_growth_requirement_var
+				}
+				create_pop_group = {
+					species = prev.species
+					effect = {
+						save_event_target_as = last_created_pop_group
+					}
+				}
 			}
 		}
 	}
@@ -223,7 +242,15 @@ xvcv_mdlc_planet_extract_assembly_rate_for_data = {
 	# Calculate the base assembly requirement for a bio mech pop
 	# look at the amount of "artificial" pops/yr, ex: 0.41
 	# The assembly requirement 
-	export_trigger_value_to_variable = { trigger = num_artificial_pops_per_year variable = xvcv_mdlc_pops_per_year_var }
+	export_trigger_value_to_variable = {
+		trigger = artificial_pops_last_month_growth
+		variable = xvcv_mdlc_pops_per_year_var
+	}
+	multiply_variable = {
+		which = xvcv_mdlc_pops_per_year_var
+		value = 12
+	}
+
 	set_variable = { which = xvcv_mdlc_assembly_requirement_var value = xvcv_mdlc_pop_assembly_add_var }
 	multiply_variable = { which = xvcv_mdlc_assembly_requirement_var value = 12 }
 	divide_variable = { which = xvcv_mdlc_assembly_requirement_var value = xvcv_mdlc_pops_per_year_var }
@@ -231,7 +258,7 @@ xvcv_mdlc_planet_extract_assembly_rate_for_data = {
 
 	set_variable = { which = xvcv_mdlc_pop_growth_scale_var value = xvcv_mdlc_assembly_requirement_var }
 	change_variable = { which = xvcv_mdlc_pop_growth_scale_var value = -100 }
-	divide_variable = { which = xvcv_mdlc_pop_growth_scale_var value = prev.trigger:num_pops }
+	divide_variable = { which = xvcv_mdlc_pop_growth_scale_var value = prev.trigger:pop_amount }
 	multiply_variable = { which = xvcv_mdlc_pop_growth_scale_var value = 100 }
 	floor_variable = xvcv_mdlc_pop_growth_scale_var
 	divide_variable = { which = xvcv_mdlc_pop_growth_scale_var value = 100 }
@@ -279,7 +306,7 @@ xvcv_mdlc_country_calculate_bio_mech_growth_required = {
 		}
 		multiply_variable = {
 			which = oxr_mdlc_bio_mech_growth_progress_goal
-			value = trigger:num_pops
+			value = trigger:pop_amount
 		}
 		change_variable = {
 			which = oxr_mdlc_bio_mech_growth_progress_goal

@@ -91,21 +91,35 @@ oxr_mdlc_is_gestalt_machine = {
 	is_gestalt = yes
 }
 
+oxr_mdlc_pop_group_has_robots = {
+	AND = {
+		OR = {
+			is_robot_pop = yes
+			is_species_class = XVCV_MDLC_ROBOT
+		}
+		# Ignore Bio-Mech, they have their own super-cool and sensible assembly system
+		NOT = {
+			is_species_class = XVCV_MDLC_BIO_ROBOT
+		}
+		# World-Machine Automatons don't grow
+		NOT = {
+			has_trait = oxr_mdlc_trait_world_machine_automaton
+		}
+		# Neither does MAMP
+		species = {
+			NOT = {
+				is_archetype = OXR_MDLC_MAMP
+			}
+		}
+	}
+}
+
 # Did the empire complete the Bio Mech project?
 oxr_mdlc_country_is_finished_bio_mech = {
 	has_xvcv_mdlc_ap_bio_robot = yes
 	# Converted species
 	has_country_flag = xvcv_mdlc_bio_robot_research_complete
 }
-
-# vanilla 'is_robotic' is not transparent, so redefine it here
-# oxr_mdlc_is_species_non_organic = {
-# 	OR = {
-# 		is_archetype = ROBOT
-# 		is_archetype = MACHINE
-# 		is_archetype = XVCV_MDLC_BIO_ROBOT
-# 	}
-# }
 
 oxr_mdlc_can_add_genetic_traits = {
 	hidden_trigger = { exists = from }
@@ -235,7 +249,6 @@ oxr_mdlc_planet_decision_dismantle_habitat_active = {
 has_oxr_mdlc_origin_world_machine_awakened = {
 	has_origin = oxr_mdlc_origin_world_machine_awakened
 }
-
 
 # TRAITS
 ## Positive
@@ -399,52 +412,65 @@ is_xvcv_mdlc_pc_machine_ser = { is_planet_class = xvcv_mdlc_pc_machine_ser }
 is_xvcv_mdlc_pc_virtual = { is_planet_class = xvcv_mdlc_pc_virtual }
 is_xvcv_mdlc_pc_ringworld_machine_auto = { is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto }
 is_oxr_mdlc_pc_bio_mech = { is_planet_class = oxr_mdlc_pc_bio_mech }
+
+
+
 # DISTRICTS
-## Placeholder
-has_xvcv_mdlc_common_district_mining = { has_district = xvcv_mdlc_common_district_mining }
-## Common cooling district
-has_xvcv_mdlc_common_district_cooling = { has_district = xvcv_mdlc_common_district_cooling }
 ## Auto-Machine World
 has_xvcv_mdlc_pc_machine_auto_district_city = { has_district = xvcv_mdlc_pc_machine_auto_district_city }
-has_xvcv_mdlc_pc_machine_auto_district_nexus = { has_district = xvcv_mdlc_pc_machine_auto_district_nexus }
 has_xvcv_mdlc_pc_machine_auto_district_generator = { has_district = xvcv_mdlc_pc_machine_auto_district_generator }
 has_xvcv_mdlc_pc_machine_auto_district_mining = { has_district = xvcv_mdlc_pc_machine_auto_district_mining }
 has_xvcv_mdlc_pc_machine_auto_district_farming = { has_district = xvcv_mdlc_pc_machine_auto_district_farming }
-has_xvcv_mdlc_pc_machine_auto_district_industrial = { has_district = xvcv_mdlc_pc_machine_auto_district_industrial }
+has_xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm = { has_district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm }
 ## Auto-CPU World districts
+has_xvcv_mdlc_pc_machine_cpu_district_cooling_primary = { has_district = xvcv_mdlc_pc_machine_cpu_district_cooling_primary }
 has_xvcv_mdlc_pc_machine_cpu_district_physics = { has_district = xvcv_mdlc_pc_machine_cpu_district_physics }
 has_xvcv_mdlc_pc_machine_cpu_district_society = { has_district = xvcv_mdlc_pc_machine_cpu_district_society }
 has_xvcv_mdlc_pc_machine_cpu_district_engineering = { has_district = xvcv_mdlc_pc_machine_cpu_district_engineering }
-has_xvcv_mdlc_pc_machine_cpu_district_decryption = { has_district = xvcv_mdlc_pc_machine_cpu_district_decryption }
 ## Auto-Factory World Districts
-has_xvcv_mdlc_pc_machine_ecu_district_alloys = { has_district = xvcv_mdlc_pc_machine_ecu_district_alloys }
-has_xvcv_mdlc_pc_machine_ecu_district_goods = { has_district = xvcv_mdlc_pc_machine_ecu_district_goods }
+has_xvcv_mdlc_pc_machine_ecu_district_cooling_primary = { has_district = xvcv_mdlc_pc_machine_ecu_district_cooling_primary }
+has_xvcv_mdlc_pc_machine_ecu_district_production = { has_district = xvcv_mdlc_pc_machine_ecu_district_production }
 has_xvcv_mdlc_pc_machine_ecu_district_rare_resources = { has_district = xvcv_mdlc_pc_machine_ecu_district_rare_resources }
 has_xvcv_mdlc_pc_machine_ecu_district_naval_cap = { has_district = xvcv_mdlc_pc_machine_ecu_district_naval_cap }
 ## Server world districts
+has_xvcv_mdlc_pc_machine_ser_district_cooling_primary = { has_district = xvcv_mdlc_pc_machine_ser_district_cooling_primary }
 has_xvcv_mdlc_pc_machine_ser_district_unity = { has_district = xvcv_mdlc_pc_machine_ser_district_unity }
-has_xvcv_mdlc_pc_machine_ser_district_admin_cap = { has_district = xvcv_mdlc_pc_machine_ser_district_admin_cap }
+has_xvcv_mdlc_pc_machine_ser_district_logistics = { has_district = xvcv_mdlc_pc_machine_ser_district_logistics }
 has_xvcv_mdlc_pc_machine_ser_district_crime = { has_district = xvcv_mdlc_pc_machine_ser_district_crime }
-has_xvcv_mdlc_pc_machine_ser_district_encryption = { has_district = xvcv_mdlc_pc_machine_ser_district_encryption }
 ## Mechanical world districts
 has_xvcv_mdlc_pc_mechanical_district_city = { has_district = xvcv_mdlc_pc_mechanical_district_city }
-has_xvcv_mdlc_pc_mechanical_district_nexus = { has_district = xvcv_mdlc_pc_mechanical_district_nexus }
-has_xvcv_mdlc_pc_mechanical_district_industrial = { has_district = xvcv_mdlc_pc_mechanical_district_industrial }
 has_xvcv_mdlc_pc_mechanical_district_generator = { has_district = xvcv_mdlc_pc_mechanical_district_generator }
 has_xvcv_mdlc_pc_mechanical_district_mining = { has_district = xvcv_mdlc_pc_mechanical_district_mining }
 has_xvcv_mdlc_pc_mechanical_district_farming = { has_district = xvcv_mdlc_pc_mechanical_district_farming }
 ## Virtual Server (Mechanical) World
-has_xvcv_mdlc_pc_virtual_district_essential = { has_district = xvcv_mdlc_pc_virtual_district_essential }
+has_xvcv_mdlc_pc_virtual_district_primary = { has_district = xvcv_mdlc_pc_virtual_district_primary }
+has_xvcv_mdlc_building_matter_data_converter = { has_building = xvcv_mdlc_building_matter_data_converter }
 has_xvcv_mdlc_pc_virtual_district_research = { has_district = xvcv_mdlc_pc_virtual_district_research }
-has_xvcv_mdlc_pc_virtual_district_trade = { has_district = xvcv_mdlc_pc_virtual_district_trade }
 has_xvcv_mdlc_pc_virtual_district_admin = { has_district = xvcv_mdlc_pc_virtual_district_admin }
 has_xvcv_mdlc_pc_virtual_district_amenity = { has_district = xvcv_mdlc_pc_virtual_district_amenity }
 ## Auto-Ringworld xvcv_mdlc_pc_ringworld_machine_auto
-has_xvcv_mdlc_pc_ringworld_machine_auto_generator = { has_district = xvcv_mdlc_pc_ringworld_machine_auto_generator }
-has_xvcv_mdlc_pc_ringworld_machine_auto_commercial = { has_district = xvcv_mdlc_pc_ringworld_machine_auto_commercial }
-has_xvcv_mdlc_pc_ringworld_machine_auto_science = { has_district = xvcv_mdlc_pc_ringworld_machine_auto_science }
-has_xvcv_mdlc_pc_ringworld_machine_auto_industrial = { has_district = xvcv_mdlc_pc_ringworld_machine_auto_industrial }
-has_xvcv_mdlc_pc_ringworld_machine_auto_farming = { has_district = xvcv_mdlc_pc_ringworld_machine_auto_farming }
+has_xvcv_mdlc_pc_ringworld_machine_auto_district_primary = { has_district = xvcv_mdlc_pc_ringworld_machine_auto_district_primary }
+has_xvcv_mdlc_pc_ringworld_machine_auto_district_rnd = { has_district = xvcv_mdlc_pc_ringworld_machine_auto_district_rnd }
+has_xvcv_mdlc_pc_ringworld_machine_auto_district_industrial = { has_district = xvcv_mdlc_pc_ringworld_machine_auto_district_industrial }
+has_xvcv_mdlc_pc_ringworld_machine_auto_district_raw_resource = { has_district = xvcv_mdlc_pc_ringworld_machine_auto_district_raw_resource }
+has_xvcv_mdlc_pc_ringworld_machine_auto_district_farming = { has_district = xvcv_mdlc_pc_ringworld_machine_auto_district_farming }
+
+# ZONES
+## AUTO-RINGWORLD
+has_oxr_mdlc_zone_pc_ringworld_machine_auto_research = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_research value > 0 } }
+has_oxr_mdlc_zone_pc_ringworld_machine_auto_unity = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_unity value > 0 } }
+has_oxr_mdlc_zone_pc_ringworld_machine_auto_trade = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_trade value > 0 } }
+has_oxr_mdlc_zone_pc_ringworld_machine_auto_consumer_goods = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_consumer_goods value > 0 } }
+has_oxr_mdlc_zone_pc_ringworld_machine_auto_alloys = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_alloys value > 0 } }
+has_oxr_mdlc_zone_pc_ringworld_machine_auto_food = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_food value > 0 } }
+has_oxr_mdlc_zone_pc_ringworld_machine_auto_energy = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_energy value > 0 } }
+
+# ECU zones
+has_oxr_mdlc_zone_pc_machine_ecu_alloys = { num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_alloys value > 0 } }
+has_oxr_mdlc_zone_pc_machine_ecu_consumer_goods = { num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_consumer_goods value > 0 } }
+
+
+
 
 # ASCENSION PERKS
 has_xvcv_mdlc_ap_self_assembling_colony_ship = { has_ascension_perk = xvcv_mdlc_ap_self_assembling_colony_ship }

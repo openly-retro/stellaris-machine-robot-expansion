@@ -58,8 +58,7 @@ country_event = {
 				set_variable = { which = xvcv_mdlc_empire_all_free_housing_count_var value = 0 }
 			}
 			export_trigger_value_to_variable = {
-				trigger = num_assigned_jobs
-				parameters = { job = unemployed }
+				trigger = num_unemployed
 				variable = xvcv_mdlc_empire_all_unemployed_pops_count_var
 			}
 			set_country_flag = xvcv_mdlc_config_value_counts_locked
@@ -154,6 +153,25 @@ country_event = {
 		trigger = { NOT = { has_country_flag = xvcv_mdlc_config_4_on } }
 		hidden_effect = {
 			set_country_flag = xvcv_mdlc_config_4_on
+			country_event = { id = xvcv_mdlc_config.1 }
+		}
+	}
+	# Machine assembly helper
+	option = {
+		name = xvcv_mdlc_config.1.5.on
+		custom_tooltip = xvcv_mdlc_config.machine_assembly_helper_desc.on
+		trigger = { has_country_flag = oxr_mdlc_machine_pop_growth_helper_feature_active }
+		hidden_effect = {
+			remove_country_flag = oxr_mdlc_machine_pop_growth_helper_feature_active
+			country_event = { id = xvcv_mdlc_config.1 }
+		}
+	}
+	option = {
+		name = xvcv_mdlc_config.1.5.off
+		custom_tooltip = xvcv_mdlc_config.machine_assembly_helper_desc.off
+		trigger = { doesnt_have_country_flag = { FLAG = oxr_mdlc_machine_pop_growth_helper_feature_active } }
+		hidden_effect = {
+			set_country_flag = oxr_mdlc_machine_pop_growth_helper_feature_active
 			country_event = { id = xvcv_mdlc_config.1 }
 		}
 	}
@@ -544,7 +562,7 @@ country_event = {
 			if = {
 				limit = { root = { has_country_flag = xvcv_mdlc_config_3_on } }
 				root = {
-					every_owned_pop = {
+					every_owned_pop_group = {
 						limit = { is_same_species = prevprev }
 						change_species = prev.species
 					}
@@ -568,7 +586,7 @@ country_event = {
 						}
 					}
 					root = {
-						every_owned_pop = {
+						every_owned_pop_group = {
 							limit = { is_same_species = prevprev }
 							change_species = last_created_species
 						}
@@ -597,7 +615,7 @@ country_event = {
 			if = {
 				limit = { root = { has_country_flag = xvcv_mdlc_config_3_on } }
 				root = {
-					every_owned_pop = {
+					every_owned_pop_group = {
 						limit = { is_same_species = prevprev }
 						change_species = prev.species
 					}
@@ -621,7 +639,7 @@ country_event = {
 						}
 					}
 					root = {
-						every_owned_pop = {
+						every_owned_pop_group = {
 							limit = { is_same_species = prevprev }
 							change_species = last_created_species
 						}
@@ -661,14 +679,14 @@ country_event = {
 				}
 			}
 			root = {
-				random_owned_pop = {
+				random_owned_pop_group = {
 					limit = { is_same_species = prevprev }
 					modify_species = {
 						species = this
 						base = prev.species
 					}
 				}
-				every_owned_pop = {
+				every_owned_pop_group = {
 					limit = { is_same_species = prevprev }
 					change_species = last_created_species
 				}
@@ -687,7 +705,7 @@ country_event = {
 		has_country_flag = xvcv_mdlc_config_4_on
 		count_owned_planet = { count > 1 }
 		is_robot_empire = yes
-		any_owned_pop = { is_unemployed = yes }
+		any_owned_pop_group = { is_unemployed = yes }
 		any_owned_planet = {
 			free_jobs > 0
 			is_under_colonization = no
@@ -699,7 +717,7 @@ country_event = {
 	immediate = {
 		while = {
 			limit = {
-				any_owned_pop = { is_unemployed = yes }
+				any_owned_pop_group = { is_unemployed = yes }
 				any_owned_planet = {
 					free_jobs > 0
 					is_under_colonization = no
@@ -707,17 +725,19 @@ country_event = {
 					is_controlled_by = owner
 				}
 			}
-			random_owned_pop = {
+			random_owned_pop_group = {
 				limit = { is_unemployed = yes }
-				if = {
-					limit = {
-						OR = {
-							is_pop_category = specialist
-							is_pop_category = ruler
-						}
-					}
-					clear_pop_category = yes
-				}
+				# TODO: identify 'unemployed' drones
+				# they are auto-maintenance drones 
+				# if = {
+				# 	limit = {
+				# 		OR = {
+				# 			is_pop_category = specialist
+				# 			is_pop_category = ruler
+				# 		}
+				# 	}
+				# 	clear_pop_category = yes
+				# }
 				prev = {
 					random_owned_planet = {
 						limit = {

@@ -32,13 +32,13 @@ oxr_mdlc_mamp_frame_base = {
 		pop_amenities_usage_base = 1
 	}
 	# Can't do ruler jobs, and other specific jobs
-	triggered_pop_modifier = {
+	triggered_pop_group_modifier = {
 		potential = {
 			OR = {
 				is_pop_category = ruler
-				has_job = researcher
-				has_job = bureaucrat
-				has_job = entertainer
+				oxr_mdlc_planet_any_pops_have_job_tag = { JOB = research }
+				oxr_mdlc_planet_any_pops_have_job_tag = { JOB = unity }
+				oxr_mdlc_planet_any_pops_have_job_tag = { JOB = amenities }
 			}
 		}
 		pop_demotion_time_mult = -10.0
@@ -62,7 +62,7 @@ oxr_mdlc_mamp_frame_1 = {
 	species_possible_merge_add = { always = no }
 
 	modifier = {
-		planet_jobs_produces_mult = @oxr_mdlc_mamp_cat_1_multiplier
+		pop_bonus_workforce_mult = @oxr_mdlc_mamp_cat_1_multiplier
 		planet_jobs_upkeep_mult = @oxr_mdlc_mamp_cat_1_multiplier
 		pop_resettlement_cost_mult = @oxr_mdlc_mamp_cat_1_multiplier
 	}
@@ -95,7 +95,7 @@ oxr_mdlc_mamp_frame_2 = {
 	}
 
 	modifier = {
-		planet_jobs_produces_mult = 5
+		pop_bonus_workforce_mult = 5
 		planet_jobs_upkeep_mult = 5
 		pop_housing_usage_add = 4
 		pop_amenities_usage_add = 4
@@ -134,7 +134,7 @@ oxr_mdlc_mamp_frame_3 = {
 	}
 
 	modifier = {
-		planet_jobs_produces_mult = 10
+		pop_bonus_workforce_mult = 10
 		planet_jobs_upkeep_mult = 10
 		pop_housing_usage_add = 9
 		pop_amenities_usage_add = 9
@@ -182,11 +182,11 @@ oxr_mdlc_mamp_trait_delia_module = {
 		# planet_crime_add = -15
 		# planet_stability_add = 0.5
 		# country_naval_cap_add = 1
-		pop_defense_armies_add = 1
+		planet_defense_armies_add = 1
 		planet_combat_width_add = 0.25
 
 		armies_upkeep_mult = 1.5
-		planet_jobs_produces_mult = -0.5
+		pop_bonus_workforce_mult = -0.5
 
 		pop_category_simple_drones_volatile_motes_upkeep_add = @oxr_mdlc_mamp_cat_1_upkeep_sr
 		pop_category_simple_drones_energy_upkeep_add = 3
@@ -194,7 +194,7 @@ oxr_mdlc_mamp_trait_delia_module = {
 		pop_category_complex_drones_volatile_motes_upkeep_add = @oxr_mdlc_mamp_cat_1_upkeep_sr
 		pop_category_complex_drones_energy_upkeep_add = 3
 	}
-	# triggered_pop_modifier = {
+	# triggered_pop_group_modifier = {
 	# 	potential = {
 	# 		from = { is_individual_machine = yes }
 	# 	}
@@ -207,26 +207,27 @@ oxr_mdlc_mamp_trait_delia_module = {
 	# triggered_planet_modifier = {
 	# 	potential = {
 	# 		OR = {
-	# 			has_job = soldier
-	# 			has_job = enforcer
+	# 			oxr_mdlc_planet_any_pops_have_job_tag = { JOB = soldier }
+	# 			oxr_mdlc_planet_any_pops_have_job_tag = { JOB = enforcer }
 	# 		}
 	# 	}
 	# 	planet_orbital_bombardment_damage = -0.05
 	# }
-	# planet_modifier = {
-	# 	planet_orbital_bombardment_damage = -0.05
-	# }
-
-	triggered_pop_modifier = {
-		potential = {
-			OR = {
-				has_job = soldier
-				has_job = enforcer
-			}
-		}
-		pop_defense_armies_add = 2
-		# country_naval_cap_add = 3
+	planet_modifier = {
+		# planet_orbital_bombardment_damage = -0.05
+		planet_defense_armies_add = 2
 	}
+
+	# triggered_pop_group_modifier = {
+	# 	potential = {
+	# 		OR = {
+	# 			oxr_mdlc_planet_any_pops_have_job_tag = { JOB = soldier }
+	# 			oxr_mdlc_planet_any_pops_have_job_tag = { JOB = enforcer }
+	# 		}
+	# 	}
+	# 	planet_defense_armies_add = 2
+	# 	# country_naval_cap_add = 3
+	# }
 	opposites = {
 		"oxr_mdlc_mamp_trait_aryx_module"
 		"oxr_mdlc_mamp_trait_owl1_module"
@@ -317,7 +318,7 @@ oxr_mdlc_mamp_trait_owl1_module = {
 		pop_category_complex_drones_exotic_gases_upkeep_add = @oxr_mdlc_mamp_cat_1_upkeep_sr
 
 	}
-	# triggered_pop_modifier = {
+	# triggered_pop_group_modifier = {
 	# 	potential = {
 	# 		from = { is_individual_machine = yes }
 	# 	}
@@ -332,11 +333,11 @@ oxr_mdlc_mamp_trait_owl1_module = {
 
 	# }
 
-	# triggered_pop_modifier = {
+	# triggered_pop_group_modifier = {
 	# 	potential = {
 	# 		OR = {
-	# 			has_job = researcher
-	# 			has_job = dimensional_portal_researcher
+	# 			oxr_mdlc_planet_any_pops_have_job_tag = { JOB = researcher }
+	# 			oxr_mdlc_planet_any_pops_have_job_tag = { JOB = dimensional_portal_researcher }
 	# 		}
 	# 	}
 	# }

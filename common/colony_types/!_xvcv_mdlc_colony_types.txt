@@ -1,3 +1,4 @@
+# Colony designations
 xvcv_mdlc_col_organic_sanctuary = {
 	icon = GFX_xvcv_mdlc_col_organic_sanctuary
 
@@ -87,7 +88,7 @@ xvcv_mdlc_col_machine_ecu_auto_forge = {
 	inline_script = country/colony_types/oxr_mdlc_ecu
 
 	planet_modifier = {
-		planet_xvcv_mdlc_pc_machine_ecu_district_alloys_build_speed_mult = 0.25
+		planet_xvcv_mdlc_pc_machine_ecu_district_production_build_speed_mult = 0.25
 	}
 
 }
@@ -97,7 +98,7 @@ xvcv_mdlc_col_machine_ecu_industrial = {
 	inline_script = country/colony_types/oxr_mdlc_ecu
 
 	planet_modifier = {
-		planet_xvcv_mdlc_pc_machine_ecu_district_goods_build_speed_mult = 0.25
+		planet_xvcv_mdlc_pc_machine_ecu_district_production_build_speed_mult = 0.25
 	}
 
 }
@@ -167,17 +168,6 @@ xvcv_mdlc_col_machine_cpu_society = {
 	planet_modifier = {
 		planet_xvcv_mdlc_pc_machine_cpu_district_society_build_speed_mult = 0.25
 	}
-
-}
-xvcv_mdlc_col_machine_cpu_decryption = {
-	icon = GFX_xvcv_mdlc_col_machine_cpu_decryption
-
-	inline_script = country/colony_types/oxr_mdlc_cpu
-
-	planet_modifier = {
-		planet_xvcv_mdlc_pc_machine_cpu_district_decryption_build_speed_mult = 0.25
-	}
-
 }
 
 ### Server
@@ -208,7 +198,7 @@ xvcv_mdlc_col_machine_ser_router = {
 	inline_script = country/colony_types/oxr_mdlc_ser
 
 	planet_modifier = {
-		planet_xvcv_mdlc_pc_machine_ser_district_admin_cap_build_speed_mult = 0.25
+		planet_xvcv_mdlc_pc_machine_ser_district_logistics_build_speed_mult = 0.25
 	}
 }
 xvcv_mdlc_col_machine_ser_antivirus = {
@@ -221,16 +211,15 @@ xvcv_mdlc_col_machine_ser_antivirus = {
 	}
 
 }
-xvcv_mdlc_col_machine_ser_firewall = {
-	icon = GFX_xvcv_mdlc_col_machine_ser_encryption
-
+xvcv_mdlc_col_machine_ser_logistics = {
+	icon = GFX_resource_trade
 	inline_script = country/colony_types/oxr_mdlc_ser
-
 	planet_modifier = {
-		planet_xvcv_mdlc_pc_machine_ser_district_encryption_build_speed_mult = 0.25
+		planet_xvcv_mdlc_pc_machine_ser_district_logistics_build_speed_mult = 0.25
 	}
-
 }
+
+### Virtual (Mechanical)
 xvcv_mdlc_col_virtual_research = {
 	icon = GFX_xvcv_mdlc_col_virtual_research
 
@@ -282,7 +271,7 @@ xvcv_mdlc_col_virtual_trade = {
 
 	planet_modifier = {
 		planet_building_build_speed_mult = 0.25
-		trade_value_mult = 0.2
+		planet_jobs_trade_produces_mult = 0.2
 	}
 
 	weight_modifier = {
@@ -293,7 +282,7 @@ xvcv_mdlc_col_virtual_trade = {
 		}
 		modifier = {
 			factor = 3
-			num_districts = { type = xvcv_mdlc_pc_virtual_district_trade value >= 3 }
+			num_districts = { type = xvcv_mdlc_pc_virtual_district_primary value >= 3 }
 		}
 	}
 }
@@ -309,7 +298,7 @@ xvcv_mdlc_col_virtual_admin = {
 
 	planet_modifier = {
 		planet_building_build_speed_mult = 0.25
-		planet_administrators_upkeep_mult = -0.2
+		planet_bureaucrats_upkeep_mult = -0.2
 	}
 
 	weight_modifier = {
@@ -348,40 +337,3 @@ xvcv_mdlc_col_virtual_admin = {
 		}
 	}
 }
-
-### Capital planet automations
-# xvcv_mdlc_col_capital_resources = {
-# 	# Focus on raw resources
-# 	icon = GFX_xvcv_mdlc_col_capital_resources
-
-# 	potential = {
-# 		is_capital = yes
-# 		exists = owner
-# 		owner = {
-# 			is_country_type = default
-# 			is_machine_empire = yes
-# 		}
-# 		xvcv_mdlc_world_machines_districts_valid_trigger = yes
-# 		uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
-# 	}
-
-# 	planet_modifier = {
-# 		planet_stability_add = 5
-# 		planet_amenities_no_happiness_add = 10
-# 		planet_crime_no_happiness_add = -20
-# 		planet_jobs_produces_mult = 0.15
-# 		planet_resettlement_unemployed_destination_mult = 0.1
-# 		# planet_building_build_speed_mult = 0.25
-# 	}
-
-# 	triggered_planet_modifier = {
-# 		potential = { uses_district_set = ring_world }
-# 		pop_growth_speed = 0.1
-# 		planet_pop_assembly_mult = 0.1
-# 		planet_pop_assembly_organic_mult = 0.1
-# 	}
-
-# 	weight_modifier = {
-# 		base = 1000
-# 	}
-# }

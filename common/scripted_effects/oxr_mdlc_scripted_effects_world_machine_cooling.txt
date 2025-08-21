@@ -1,0 +1,98 @@
+xvcv_mdlc_planet_count_districts_calculate_output_display_var = {
+	# A workaround to properly export the world_machines_district_mult value
+	# because export_modifier_to_variable is broken in on_district_complete in 3.12.* +
+	# HOW THIS WORKS:
+	# 1. Count cooling & production districts
+	# 2. Calculate production penalty from districts, and bonus from cooling
+	# 2. For each cooling district, add 0.3, plus the value of rikk_mdlc_world_machine_cooling_district_effectiveness
+	# 5. For each non-cooling district, subtract 0.1
+	# 6. The result is exported to xvcv_mdlc_world_machines_districts_output_var
+	#log = "Beginning calculating the output display var."
+
+	## ESTABLISH COUNTS OF DISTRICTS
+	# 1
+	export_trigger_value_to_variable = {
+		trigger = num_districts
+		parameters = { type = any }
+		variable = xvcv_mdlc_world_machines_num_production_districts
+	}
+	#log = "There are \\[This.xvcv_mdlc_world_machines_num_production_districts] not-cooling districts"
+	export_trigger_value_to_variable = {
+		trigger = num_districts
+		parameters = { type = $COOLING_DISTRICT$ }
+		variable = xvcv_mdlc_world_machines_num_cooling_districts
+	}
+	#log = "There are \\[This.xvcv_mdlc_world_machines_num_cooling_districts] cooling districts"
+	# total count minus cooling is num production districts
+	subtract_variable = {
+		which = xvcv_mdlc_world_machines_num_production_districts
+		value = xvcv_mdlc_world_machines_num_cooling_districts
+	}
+	### CREATE DECIMAL BONUS AND PENALTY
+	## PENALTY
+	# Ex: There are 6 production districts, and 2 cooling
+	#2
+	set_variable = {
+		which = xvcv_mdlc_world_machines_production_penalty 
+		value = xvcv_mdlc_world_machines_num_production_districts
+	}
+	divide_variable = { #convert 6 districts to -0.6
+		which = xvcv_mdlc_world_machines_production_penalty
+		value = -10
+	}
+	#log = "Production penalty: \\[This.xvcv_mdlc_world_machines_production_penalty]"
+	## BONUS
+	set_variable = {
+		which = xvcv_mdlc_world_machines_production_bonus
+		value = xvcv_mdlc_world_machines_num_cooling_districts
+	}
+	# The base value is 0.3 and this never changes
+	set_variable = {
+		which = xvcv_mdlc_cooling_district_strength_tmp
+		value = 0.3
+	}
+	# add rikk's bonuses via modifier, if it exists on the planet
+	change_variable = {
+		which = xvcv_mdlc_cooling_district_strength_tmp
+		value = modifier:rikk_mdlc_world_machine_cooling_district_effectiveness
+	}
+	# 2 cooling districts count for 0.3 + modifier (ex: 0.1) for total of 0.4
+	# so 2 cooling districts yield a value of 0.8
+	multiply_variable = {
+		which = xvcv_mdlc_world_machines_production_bonus
+		value = xvcv_mdlc_cooling_district_strength_tmp
+	}
+
+	## MATH UP
+	#4 - Add total cooling effectiveness to output penalty
+	set_variable = {
+		which = xvcv_mdlc_world_machines_districts_output_var
+		value = xvcv_mdlc_world_machines_production_penalty
+	}
+	change_variable = {
+		which = xvcv_mdlc_world_machines_districts_output_var
+		value = xvcv_mdlc_world_machines_production_bonus
+	}
+
+	log = "Districts output display var calculated to be: \\[This.xvcv_mdlc_world_machines_districts_output_var]"
+
+	clear_variable = xvcv_mdlc_world_machines_production_penalty
+	clear_variable = xvcv_mdlc_world_machines_production_bonus
+	clear_variable = xvcv_mdlc_world_machines_num_cooling_districts
+}
+
+oxr_mdlc_planet_remove_cooling_district = {
+	# For a given world machine, remove one of its cooling districts
+	switch = {
+		trigger = is_planet_class
+		xvcv_mdlc_pc_machine_ecu = {
+			remove_district = xvcv_mdlc_pc_machine_ecu_district_cooling_primary
+		}
+		xvcv_mdlc_pc_machine_ser = {
+			remove_district = xvcv_mdlc_pc_machine_ser_district_cooling_primary
+		}
+		xvcv_mdlc_pc_machine_cpu = {
+			remove_district = xvcv_mdlc_pc_machine_cpu_district_cooling_primary
+		}
+	}
+}

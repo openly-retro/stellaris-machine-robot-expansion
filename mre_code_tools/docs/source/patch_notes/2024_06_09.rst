@@ -1,0 +1,18 @@
+Update: Jun 9, 2024 @ 5:05pm
+============================
+
+- Bugfix: Force Mechanical World habitability to be re-added on game start after player chooses Mechanical Heritage origin. Apparently the game was overriding the habitability after species creation with whatever default planet type was selected, even though the mechanical world was set as the preferred planet.
+- Bugfix: Don't set duplicate habitability for bio mech species on creation
+- Bugfix: Due to an issue with export_modifier_to_variable in the on_district_complete scope, which was introduced in 3.12.* the logic for the world machine cooling system had to be updated and fixed.
+- Various other small bugfixes to make error.log quieter
+- Bugfix: Leader builder was updated so it's not possible to pick Paragon/Destiny or Veteran traits and then pick a lower leader level
+- Bugfix: Add missing icon for MAMP bay tech
+- Behind-the-scenes: Leader builder was updated to use variables instead of flags, which will make it easier in the future to support mods that increase leader levels above 10
+- New feature: Ringworlds can now be automated with the World Machines trait. Automated districts have some new graphics, and a new planet sky. Auto-Ringworld districts will not produce as much as the pop-oriented versions, which is in line with the base design of auto-machine worlds.
+- New feature: Dismantle habitats is available as a decision if you have any habitat tech, or any APs that give habitat tech. Refunds some alloys for the main complex and orbitals, and removes all the orbitals.
+- Gameplay: Orbital Cracker was reworked to use a deposit system to produce minerals on planets. These will be boosted by space mining modifiers. However this means it won't be able to be placed on artificial planets like habitats and ringworlds.
+- Gameplay: Large improvement to MAMP species feature. Add planetary decision to toggle continuously auto-constructing MAMP Cat-1 frames. Pops will be created on a timer. Construction will automatically shut off if there aren't enough pops or resources. Planet modifiers show which category of MAMP frame is being produced. Lots of tooltip info on decisions to show what's happening. In-game messages when frames are produced and when auto-construction shuts off.
+- Language: Korean language translation is back! Thank you y1224y1 for contributing!
+
+Vanilla overrides:
+- can_colonize_planet - modified to deny colonizing a habitat if it is being dismantled (via the new feature). Scripted trigger to detect this is called oxr_mdlc_planet_decision_dismantle_habitat_active

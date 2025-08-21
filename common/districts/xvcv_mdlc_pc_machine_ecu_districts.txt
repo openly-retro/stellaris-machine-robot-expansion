@@ -1,154 +1,230 @@
-xvcv_mdlc_pc_machine_ecu_district_alloys = {
+# Auto-Forge district set
+xvcv_mdlc_pc_machine_ecu_district_cooling_primary = {
+	inline_script = {
+		script = planet/districts/auto/oxr_wm_cooling_base
+		DISTRICT_SET = xvcv_mdlc_pc_machine_ecu_district_set
+	}
+}
+
+xvcv_mdlc_pc_machine_ecu_district_production = {
 	base_buildtime = @xvcv_mdlc_district_time_4
 	is_capped_by_modifier = no
-	# can_demolish = no
 
 	show_on_uncolonized = {
 		exists = from
 		from = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
 		uses_district_set = xvcv_mdlc_pc_machine_ecu_district_set
 	}
+
 	potential = {
 		exists = owner
 		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
 		uses_district_set = xvcv_mdlc_pc_machine_ecu_district_set
 	}
-	# allow = {}
+
+	zone_slots = {
+		oxr_mdlc_slot_pc_machine_ecu_forge
+		oxr_mdlc_slot_pc_machine_ecu_consumer_goods
+	}
+
+	resources = {
+		category = xvcv_mdlc_world_machines_production_districts
+				cost = {
+			minerals = @oxr_rw_cost
+		}
+		cost = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_machine_ecu_alloys = no
+			}
+			rare_crystals = @oxr_rw_cost_sr
+		}
+		cost = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_machine_ecu_alloys = yes
+			}
+			volatile_motes = @oxr_rw_cost_sr
+		}
+		upkeep = {
+			energy = @rw_maintenance
+		}
+		upkeep = {
+			trigger = { has_oxr_mdlc_zone_pc_machine_ecu_alloys = no }
+			rare_crystals = @rw_maintenance_sr
+		}
+		upkeep = {
+			trigger = { has_oxr_mdlc_zone_pc_machine_ecu_alloys = yes }
+			volatile_motes = @rw_maintenance_sr
+		}
+		upkeep = {
+			trigger = {
+				exists = owner
+				owner = {
+					has_edict = industrial_maintenance
+				}
+			}
+			energy = 4
+		}
+		# NO ZONES, NOT CATALYTIC, NO GOODS
+		produces = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_machine_ecu_consumer_goods = no
+				has_oxr_mdlc_zone_pc_machine_ecu_alloys = no
+				oxr_planet_owner_is_catalytic = no
+				oxr_planet_owner_uses_goods = no
+			}
+			# consumer_goods = @[ 6 * oxr_mdlc_wm_base_artisan_output ]
+			# alloys = @[ 6 * oxr_mdlc_wm_base_fabricator_output ]
+			alloys = @[ 6 * oxr_mdlc_wm_base_fabricator_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
+		}
+		upkeep = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_machine_ecu_consumer_goods = no
+				has_oxr_mdlc_zone_pc_machine_ecu_alloys = no
+				oxr_planet_owner_is_catalytic = no
+				oxr_planet_owner_uses_goods = no
+			}
+			# minerals = @[ ( 6 * oxr_mdlc_wm_base_artisan_upkeep ) + ( 6 * oxr_mdlc_wm_base_fabricator_upkeep ) ]
+			minerals = @[ 6 * oxr_mdlc_wm_base_fabricator_upkeep ]
+		}
+		# NO ZONES, YES CATALYTIC, NO GOODS
+		produces = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_machine_ecu_consumer_goods = no
+				has_oxr_mdlc_zone_pc_machine_ecu_alloys = no
+				oxr_planet_owner_is_catalytic = yes
+				oxr_planet_owner_uses_goods = no
+			}
+			alloys = @[ 6 * oxr_mdlc_wm_base_catalytic_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
+		}
+		upkeep = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_machine_ecu_consumer_goods = no
+				has_oxr_mdlc_zone_pc_machine_ecu_alloys = no
+				oxr_planet_owner_is_catalytic = yes
+				oxr_planet_owner_uses_goods = no
+			}
+			food = @[ 6 * oxr_mdlc_wm_base_catalytic_upkeep_food ]
+		}
+		# NO ZONES, NOT CATALYTIC, USES GOODS
+		produces = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_machine_ecu_consumer_goods = no
+				has_oxr_mdlc_zone_pc_machine_ecu_alloys = no
+				oxr_planet_owner_is_catalytic = no
+				oxr_planet_owner_uses_goods = yes
+			}
+			consumer_goods = @[ 3 * oxr_mdlc_wm_base_artisan_output ]
+			alloys = @[ 3 * oxr_mdlc_wm_base_fabricator_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
+		}
+		upkeep = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_machine_ecu_consumer_goods = no
+				has_oxr_mdlc_zone_pc_machine_ecu_alloys = no
+				oxr_planet_owner_is_catalytic = no
+				oxr_planet_owner_uses_goods = yes
+			}
+			minerals = @[ ( 3 * oxr_mdlc_wm_base_artisan_upkeep ) + ( 3 * oxr_mdlc_wm_base_fabricator_upkeep ) ]
+		}
+		# NO ZONES, YES CATALYTIC, YES GOODS
+		produces = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_machine_ecu_consumer_goods = no
+				has_oxr_mdlc_zone_pc_machine_ecu_alloys = no
+				oxr_planet_owner_is_catalytic = no
+				oxr_planet_owner_uses_goods = yes
+			}
+			consumer_goods = @[ 3 * oxr_mdlc_wm_base_artisan_output ]
+			alloys = @[ 3 * oxr_mdlc_wm_base_catalytic_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
+		}
+		upkeep = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_machine_ecu_consumer_goods = no
+				has_oxr_mdlc_zone_pc_machine_ecu_alloys = no
+				oxr_planet_owner_is_catalytic = no
+				oxr_planet_owner_uses_goods = yes
+			}
+			minerals = @[ 3 * oxr_mdlc_wm_base_artisan_upkeep ]
+			food = @[ 3 * oxr_mdlc_wm_base_catalytic_output ]
+		}
+		#### ZONES ####
+		# ALLOYS - NOT CATALYTIC
+		produces = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_machine_ecu_alloys = yes
+				oxr_planet_owner_is_catalytic = no
+			}
+			alloys = @[ 6 * oxr_mdlc_wm_base_fabricator_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
+		}
+		upkeep = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_machine_ecu_alloys = yes
+				oxr_planet_owner_is_catalytic = no
+			}
+			alloys = @[ 6 * oxr_mdlc_wm_base_fabricator_output ]
+		}
+		# ALLOYS - CATALYTIC
+		produces = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_machine_ecu_alloys = yes
+				oxr_planet_owner_is_catalytic = yes
+			}
+			alloys = @[ 6 * oxr_mdlc_wm_base_catalytic_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
+		}
+		upkeep = {
+		trigger = {
+				has_oxr_mdlc_zone_pc_machine_ecu_alloys = yes
+				oxr_planet_owner_is_catalytic = yes
+			}
+			food = @[ 6 * oxr_mdlc_wm_base_catalytic_upkeep_food ]
+		}
+		# GOODS
+		produces = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_machine_ecu_consumer_goods = yes
+			}
+			consumer_goods = @[ 6 * oxr_mdlc_wm_base_artisan_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
+		}
+		upkeep = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_machine_ecu_consumer_goods = yes
+			}
+			minerals = @[ 6 * oxr_mdlc_wm_base_artisan_upkeep ]
+		}
+
+
+	}
 
 	conversion_ratio = 1
-	convert_to = {
-		xvcv_mdlc_common_district_mining
-		district_mining_uncapped
-		xvcv_mdlc_pc_machine_cpu_district_physics
-		xvcv_mdlc_pc_machine_ser_district_unity
-	}
+	inline_script = planet/districts/convert_to/oxr_wm_district_2
 
 	planet_modifier = {
 		xvcv_mdlc_world_machines_districts_produces_mult = -0.1
 		xvcv_mdlc_world_machines_districts_upkeep_mult = 0.1
 	}
 
-	resources = {
-		category = xvcv_mdlc_world_machines_foundry_districts
-		cost = {
-			minerals = @xvcv_mdlc_district_cost_5
-		}
-		cost = {
-			volatile_motes = 100
-		}
-		produces = {
-			trigger = {
-				exists = owner
-				owner = { is_catalytic_empire = no }
-			}
-			alloys = @[ oxr_t3_planet_district_jobs * oxr_mdlc_wm_base_fabricator_output ]
-			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
-		}
-		upkeep = {
-			trigger = { exists = owner }
-			rare_crystals = 1
-		}
-		upkeep = {
-			trigger = {
-				exists = owner
-				owner = { is_catalytic_empire = no }
-			}
-			minerals = @[ oxr_t3_planet_district_jobs * oxr_mdlc_wm_base_fabricator_upkeep ]
-		}
-		##
-		# CATALYTIC
-		##
-		produces = {
-			trigger = {
-				exists = owner
-				owner = { is_catalytic_empire = yes }
-			}
-			alloys = @[ oxr_t3_planet_district_jobs * oxr_mdlc_wm_base_catalytic_output ]
-			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
-		}
-		upkeep = {
-			trigger = {
-				exists = owner
-				owner = { is_catalytic_empire = yes }
-			}
-			food = @[ oxr_t3_planet_district_jobs * oxr_mdlc_wm_base_catalytic_upkeep_food ]
-		}
-	}
+	# Resources are managed in oxr_mdlc_zones_pc_machine_ecu.txt
 
 	ai_resource_production = {
 		alloys = 10
 		trigger = { always = yes }
 	}
 	on_built = {
-		inline_script = planet/districts/on_action/on_t3_completed
-		fire_on_action = { on_action = xvcv_on_world_machine_t3_district_built }
+		inline_script = planet/districts/on_action/on_wm_district_built
+		inline_script = planet/districts/on_action/on_wm_t3_district_change
 	}
 	on_destroy = {
-		fire_on_action = { on_action = xvcv_on_world_machine_t3_district_demolished }
-		fire_on_action = { on_action = on_world_machine_district_demolished }
+		inline_script = planet/districts/on_action/on_wm_district_destroy
+		inline_script = planet/districts/on_action/on_wm_t3_district_change
 	}
 }
 
-xvcv_mdlc_pc_machine_ecu_district_goods = {
-	base_buildtime = @xvcv_mdlc_district_time_4
-	is_capped_by_modifier = no
-
-	show_on_uncolonized = {
-		exists = from
-		from = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
-		uses_district_set = xvcv_mdlc_pc_machine_ecu_district_set
-	}
-	potential = {
-		exists = owner
-		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
-		uses_district_set = xvcv_mdlc_pc_machine_ecu_district_set
-	}
-
-	conversion_ratio = 1
-	convert_to = {
-		xvcv_mdlc_common_district_mining
-		district_mining_uncapped
-		xvcv_mdlc_pc_machine_cpu_district_society
-		xvcv_mdlc_pc_machine_ser_district_admin_cap
-	}
-
-	planet_modifier = {
-		xvcv_mdlc_world_machines_districts_produces_mult = -0.1
-		xvcv_mdlc_world_machines_districts_upkeep_mult = 0.1
-	}
-
-	resources = {
-		category = xvcv_mdlc_world_machines_factory_districts
-		cost = {
-			minerals = @xvcv_mdlc_district_cost_5
-		}
-		cost = {
-			rare_crystals = 100
-		}
-		produces = {
-			consumer_goods = @[ oxr_t3_planet_district_jobs * oxr_mdlc_wm_base_artisan_output ]
-			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
-		}
-		upkeep = {
-			minerals = @[ oxr_t3_planet_district_jobs * oxr_mdlc_wm_base_artisan_upkeep ]
-			energy = 10
-			rare_crystals = 1
-		}
-	}
-
-	ai_resource_production = {
-		consumer_goods = 10
-		trigger = { always = yes }
-	}
-	on_built = {
-		inline_script = planet/districts/on_action/on_t3_completed
-		fire_on_action = { on_action = xvcv_on_world_machine_t3_district_built }
-	}
-	on_destroy = {
-		fire_on_action = { on_action = xvcv_on_world_machine_t3_district_demolished }
-		fire_on_action = { on_action = on_world_machine_district_demolished }
-	}
-}
 xvcv_mdlc_pc_machine_ecu_district_rare_resources = {
 	base_buildtime = @xvcv_mdlc_district_time_4
 	is_capped_by_modifier = no
@@ -165,16 +241,15 @@ xvcv_mdlc_pc_machine_ecu_district_rare_resources = {
 	}
 
 	conversion_ratio = 1
-	convert_to = {
-		xvcv_mdlc_common_district_mining
-		district_mining_uncapped
-		xvcv_mdlc_pc_machine_cpu_district_engineering
-		xvcv_mdlc_pc_machine_ser_district_crime
-	}
+	inline_script = planet/districts/convert_to/oxr_wm_district_3
 
 	planet_modifier = {
 		xvcv_mdlc_world_machines_districts_produces_mult = -0.1
 		xvcv_mdlc_world_machines_districts_upkeep_mult = 0.1
+	}
+
+	zone_slots = {
+		oxr_mdlc_origin_wm_slot_any
 	}
 
 	resources = {
@@ -207,14 +282,15 @@ xvcv_mdlc_pc_machine_ecu_district_rare_resources = {
 		trigger = { always = yes }
 	}
 	on_built = {
-		inline_script = planet/districts/on_action/on_t3_completed
-		fire_on_action = { on_action = xvcv_on_world_machine_t3_district_built }
+		inline_script = planet/districts/on_action/on_wm_district_built
+		inline_script = planet/districts/on_action/on_wm_t3_district_change
 	}
 	on_destroy = {
-		fire_on_action = { on_action = xvcv_on_world_machine_t3_district_demolished }
-		fire_on_action = { on_action = on_world_machine_district_demolished }
+		inline_script = planet/districts/on_action/on_wm_district_destroy
+		inline_script = planet/districts/on_action/on_wm_t3_district_change
 	}
 }
+
 xvcv_mdlc_pc_machine_ecu_district_naval_cap = {
 	base_buildtime = @xvcv_mdlc_district_time_4
 	is_capped_by_modifier = no
@@ -229,14 +305,12 @@ xvcv_mdlc_pc_machine_ecu_district_naval_cap = {
 		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
 		uses_district_set = xvcv_mdlc_pc_machine_ecu_district_set
 	}
+	zone_slots = {
+		oxr_mdlc_origin_wm_slot_any
+	}
 
 	conversion_ratio = 1
-	convert_to = {
-		xvcv_mdlc_common_district_mining
-		district_mining_uncapped
-		xvcv_mdlc_pc_machine_cpu_district_decryption
-		xvcv_mdlc_pc_machine_ser_district_encryption
-	}
+	inline_script = planet/districts/convert_to/oxr_wm_district_4
 
 	planet_modifier = {
 		xvcv_mdlc_world_machines_districts_produces_mult = -0.1
@@ -259,9 +333,10 @@ xvcv_mdlc_pc_machine_ecu_district_naval_cap = {
 			volatile_motes = 1
 		}
 	}
+
 	on_built = {
-		inline_script = planet/districts/on_action/on_t3_completed
-		fire_on_action = { on_action = xvcv_on_world_machine_t3_resource_district_built }
+		inline_script = planet/districts/on_action/on_wm_district_built
+		inline_script = planet/districts/on_action/on_wm_t3_district_change
 		planet = {
 			set_or_increment_variable = {
 				VAR = xvcv_mdlc_pc_machine_ecu_district_naval_cap_num
@@ -275,8 +350,8 @@ xvcv_mdlc_pc_machine_ecu_district_naval_cap = {
 		}
 	}
 	on_destroy = {
-		fire_on_action = { on_action = xvcv_on_world_machine_t3_resource_district_demolished }
-		fire_on_action = { on_action = on_world_machine_district_demolished }
+		inline_script = planet/districts/on_action/on_wm_district_destroy
+		inline_script = planet/districts/on_action/on_wm_t3_district_change
 		planet = {
 			dec_var_by_one = {
 				which = xvcv_mdlc_pc_machine_ecu_district_naval_cap_num

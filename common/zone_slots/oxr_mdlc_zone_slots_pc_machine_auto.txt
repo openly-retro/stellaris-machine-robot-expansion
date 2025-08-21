@@ -1,0 +1,234 @@
+# Zone slots mainly copied from vanilla & tweaked here
+oxr_mdlc_origin_wm_slot_city_government = {
+	start = oxr_mdlc_origin_wm_zone_default
+
+	include = {
+		oxr_mdlc_origin_wm_zone_default
+	}
+
+	exclude = {
+		# zone_default
+	}
+
+    potential = { # planet scope
+        always = yes
+    }
+
+	unlock = { # planet scope
+		always = yes
+	}
+}
+
+oxr_mdlc_origin_wm_slot_city_01 = {
+	include = {
+		oxr_mdlc_origin_wm_zone_any
+		zone_machine_replication
+		zone_urban
+		zone_industrial
+		zone_foundry
+		zone_factory
+		zone_unity
+		zone_unity_spiritualist
+		zone_research
+		zone_research_physics
+		zone_research_engineering
+		zone_research_society
+		zone_research_unity
+		zone_trade
+		zone_fortress
+		zone_urban_food
+		zone_urban_minerals
+		zone_urban_energy
+		# zone_foundry_wilderness
+		# zone_unity_wilderness
+		# zone_research_wilderness
+		# zone_research_unity_wilderness
+		# zone_fortress_wilderness
+		# zone_trade_wilderness
+	}
+
+	exclude = {
+		zone_default
+		zone_minerals
+		zone_food
+		zone_energy
+		oxr_mdlc_origin_wm_zone_default
+	}
+
+
+	unlock = { # planet scope
+		always = yes
+	}
+}
+
+oxr_mdlc_origin_wm_slot_city_02 = {
+	include = {
+		oxr_mdlc_origin_wm_zone_any
+		zone_machine_replication
+		zone_urban
+		zone_industrial
+		zone_foundry
+		zone_factory
+		zone_unity
+		zone_unity_spiritualist
+		zone_research
+		zone_research_physics
+		zone_research_engineering
+		zone_research_society
+		zone_research_unity
+		zone_trade
+		zone_fortress
+		zone_urban_food
+		zone_urban_minerals
+		zone_urban_energy
+		# zone_foundry_wilderness
+		# zone_unity_wilderness
+		# zone_research_wilderness
+		# zone_research_unity_wilderness
+		# zone_fortress_wilderness
+		# zone_trade_wilderness
+	}
+
+	exclude = {
+		zone_default
+		zone_minerals
+		zone_food
+		zone_energy
+		oxr_mdlc_origin_wm_zone_default
+	}
+
+
+	unlock = { # planet scope
+		custom_tooltip = {
+			fail_text = zone_city_02_prereq
+			OR = {
+				is_capital = yes
+				AND = {
+					is_capital = no
+					exists = owner
+					owner = {
+						has_tech_or_functional_civic = {
+							TECH = tech_colonial_centralization
+						}
+					}
+					OR = {
+						has_upgraded_capital = yes
+						oxr_mdlc_has_upgraded_capital = yes
+					}
+					
+				}
+			}
+		}
+	}
+}
+
+oxr_mdlc_origin_wm_slot_any = {
+
+	include = {
+		oxr_mdlc_origin_wm_zone_any
+		oxr_mdlc_origin_wm_zone_any_wm
+	}
+
+	exclude = {
+		oxr_mdlc_origin_wm_zone_default
+		zone_default
+		# zone_foundry_wilderness
+		# zone_unity_wilderness
+		# zone_research_wilderness
+		# zone_research_unity_wilderness
+		# zone_fortress_wilderness
+		# zone_trade_wilderness
+	}
+
+	unlock = { is_planet_world_machine = yes }
+}
+
+oxr_mdlc_origin_wm_slot_minerals = {
+	include = {
+		oxr_mdlc_origin_wm_zone_any
+		oxr_mdlc_origin_wm_zone_any_wm
+		zone_minerals
+		zone_minerals_engineering
+		zone_betharian
+		zone_subterranean_urban
+	}
+
+	exclude = {
+		zone_default
+		oxr_mdlc_origin_wm_zone_default
+	}
+
+	unlock = { is_planet_world_machine = yes }
+}
+
+oxr_mdlc_origin_wm_slot_energy = {
+	include = {
+		oxr_mdlc_zone_pc_machine_auto_energy
+		oxr_mdlc_origin_wm_zone_any
+		oxr_mdlc_origin_wm_zone_any_wm
+		zone_energy
+		zone_energy_physics
+	}
+
+	exclude = {
+		zone_default
+		oxr_mdlc_origin_wm_zone_default
+	}
+
+	unlock = { is_planet_world_machine = yes }
+}
+
+oxr_mdlc_origin_wm_slot_food = {
+
+	include = {
+		oxr_mdlc_origin_wm_zone_any
+		oxr_mdlc_origin_wm_zone_any_wm
+		zone_food
+		zone_food_biology
+		zone_anglers
+		zone_agrarian_urban
+		zone_food_wilderness
+	}
+
+	exclude = {
+		zone_default
+		oxr_mdlc_origin_wm_zone_default
+	}
+
+	unlock = { is_planet_world_machine = yes }
+
+	# custom_tooltip = {
+	# 	fail_text = zone_unavailable_tech_food_processing_1
+	# 	OR = {
+	# 		AND = {
+	# 			exists = owner
+	# 			owner = { is_anglers_empire = yes }
+	# 			is_wet = yes
+	# 		}
+	# 		AND = {
+	# 			exists = owner
+	# 			owner = {
+	# 				has_valid_civic = civic_agrarian_idyll
+	# 			}
+	# 		}
+	# 		AND = {
+	# 			exists = owner
+	# 			owner = {
+	# 				has_tech_or_functional_civic = {
+	# 					TECH = tech_food_processing_1
+	# 				}
+	# 			}
+	# 		}
+	# 	}
+	# }
+}
+
+oxr_mdlc_origin_wm_slot_production = {
+	unlock = { is_planet_world_machine = yes }
+	include = {
+		oxr_mdlc_zone_pc_machine_auto_alloys
+		oxr_mdlc_zone_pc_machine_auto_consumer_goods
+	}
+}
+
+# EOF

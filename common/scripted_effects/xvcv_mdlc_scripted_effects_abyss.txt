@@ -3,22 +3,28 @@ xvcv_mdlc_abyss_destroy_building_abyss_gateway_and_kill_pop_effect = {
 	random_owned_planet = {
 		limit = {
 			has_building = xvcv_mdlc_building_abyss_gateway
-			count_owned_pop = { count > 3 }
+			count_owned_pop_amount = { count > 300 }
 		}
 		save_event_target_as = xvcv_mdlc_abyss_kill_pop_effect_planet
 	}
 	if = { #if the player destroy the building to avoid penalty #hey, don't do that :(
 		limit = { NOT = { exists = event_target:xvcv_mdlc_abyss_kill_pop_effect_planet } }
 		random_owned_planet = {
-			limit = { count_owned_pop = { count > 3 } }
+			limit = { count_owned_pop_amount = { count > 300 } }
 			save_event_target_as = xvcv_mdlc_abyss_kill_pop_effect_planet
 		}
 	}
 	event_target:xvcv_mdlc_abyss_kill_pop_effect_planet = {
-		while = { random_owned_pop = { kill_pop = yes } count = 3 }
+		while = {
+			count = 3
+			random_owned_pop_group = {
+				oxr_kill_pop_from_group = yes
+			}
+		}
 		add_deposit = xvcv_mdlc_d_devastated_area
 	}
 }
+
 xvcv_mdlc_abyss_exit_effect = {
 	optimize_memory
 	random_list = {

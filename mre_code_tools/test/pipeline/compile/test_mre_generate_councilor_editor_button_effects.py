@@ -23,7 +23,7 @@ oxr_mdlc_councilor_editor_regulatory_leader_trait_army_veteran_2_add_button_effe
 		custom_tooltip = oxr_mdlc_councilor_editor_show_trait_total_cost_common
 		event_target:oxr_mdlc_councilor_editor_target_@root_0 = {
 			oxr_mdlc_councilor_editor_remove_tier_1_or_2_traits_effect = { TRAIT_NAME = leader_trait_army_veteran }
-			add_trait_no_notify = leader_trait_army_veteran_2
+			add_trait = { trait = leader_trait_army_veteran_2 show_message = no }
 		}
 		hidden_effect = {
 			oxr_mdlc_councilor_editor_deduct_trait_resources_cost_common = yes
@@ -95,7 +95,7 @@ oxr_mdlc_councilor_editor_legion_leader_trait_armada_logistician_3_add_button_ef
 		custom_tooltip = oxr_mdlc_councilor_editor_show_trait_total_cost_veteran
 		event_target:oxr_mdlc_councilor_editor_target_@root_0 = {
 			oxr_mdlc_councilor_editor_remove_tier_1_or_2_traits_effect = { TRAIT_NAME = leader_trait_armada_logistician }
-			add_trait_no_notify = leader_trait_armada_logistician_3
+			add_trait = { trait = leader_trait_armada_logistician_3 show_message = no }
 		}
 		hidden_effect = {
 			oxr_mdlc_councilor_editor_deduct_trait_resources_cost_veteran = yes

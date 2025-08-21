@@ -1,29 +1,144 @@
 # Scripted effects for synth/mechanical origin, and species
 # By 0xRetro, adapted from XVCV's code
 
-oxr_mdlc_planet_swap_vanilla_to_mechanical_world_districts = {
-	while = {
-		limit = { has_district = district_city }
-		remove_district = district_city
-		add_district = xvcv_mdlc_pc_mechanical_district_city
+oxr_mdlc_country_mechanical_heritage_origin_game_start_effect = {
+	# Country scope effects for Mechanical Heritage origin
+
+	add_resource = {
+		energy = 200
+		food = -200
 	}
-	while = {
-		limit = { has_district = district_generator }
-		remove_district = district_generator
-		add_district = xvcv_mdlc_pc_mechanical_district_generator
+	give_technology = { tech = tech_bio_reactor message = no }
+
+	add_modifier = {
+		modifier = oxr_mdlc_origin_mechanical_temp_pop_demotion
+		days = 30
 	}
-	while = {
-		limit = { has_district = district_mining }
-		remove_district = district_mining
-		add_district = xvcv_mdlc_pc_mechanical_district_mining
+
+	set_country_flag = xvcv_mdlc_origin_mechanical_heritage_empire
+	capital_scope = {
+		# For some reason the planet must be changed to this class manually, after game start
+		# otherwise a second city district shows up instead of the food district ...
+		change_pc = xvcv_mdlc_pc_mechanical
+
+		create_pop_group = {
+			species = prev.species
+			effect = { save_event_target_as = last_created_pop_group }
+		}
 	}
-	while = {
-		limit = { has_district = district_farming }
-		remove_district = district_farming
+
+	if = {
+		limit = { has_machine_age_dlc = yes }
+		country_event = {
+			id = xvcv_mdlc.1011
+			days = 0
+		}
 	}
-	while = {
-		limit = { has_district = district_industrial }
-		remove_district = district_industrial
-		add_district = xvcv_mdlc_pc_mechanical_district_industrial
+	else = {
+		country_event = {
+			id = xvcv_mdlc.1010
+			days = 0
+		}
 	}
+	
+	# Tweak starting planet
+	capital_scope = {
+		# Without any mineral/food-using traits, or catalytic processing:
+		# 4 city, 3 generator, 4 mining = 11
+
+		# 3 city , 3 generator, 2 mining, 4 farming
+
+		# One city district already exists on the planet
+		while = {
+			count = 3
+			add_district = xvcv_mdlc_pc_mechanical_district_city
+		}
+
+		while = {
+			count = 4
+			add_district = xvcv_mdlc_pc_mechanical_district_generator
+		}
+		while = {
+			count = 2
+			add_district = xvcv_mdlc_pc_mechanical_district_mining
+		}
+
+		# Set up industrial zone
+		add_zone = {
+			district = xvcv_mdlc_pc_mechanical_district_city
+			zone_slot = 1
+			zone = zone_industrial
+		}
+		add_building = {
+			district = xvcv_mdlc_pc_mechanical_district_city
+			zone = zone_industrial
+			building = building_factory_1
+		}
+
+		## Traits
+		if = {
+			limit = {
+				prev.species = { has_trait = xvcv_mdlc_trait_rock_body }
+			}
+			remove_district = xvcv_mdlc_pc_mechanical_district_generator
+			remove_district = xvcv_mdlc_pc_mechanical_district_city
+
+			add_district = xvcv_mdlc_pc_mechanical_district_mining
+			add_district = xvcv_mdlc_pc_mechanical_district_mining
+			log = "\\[prev.GetName] MINERAL BODY (Mechanical) | swapped generators for mining districts"
+		}
+
+		if = {
+			limit = {
+				prev.species = { has_trait = xvcv_mdlc_trait_synth_skin }
+			}
+			log = "\\[prev.GetName] SYNTH SETUP (Mechanical) | Organic skin | Adding 2 farms"
+			remove_district = xvcv_mdlc_pc_mechanical_district_generator
+			remove_district = xvcv_mdlc_pc_mechanical_district_generator
+
+			add_district = xvcv_mdlc_pc_mechanical_district_farming
+			add_district = xvcv_mdlc_pc_mechanical_district_farming
+
+			owner = {
+				add_resource = {
+					food = 100
+				}
+			}
+		}
+	}
+
+	if = {
+		limit = {
+			has_civic = civic_catalytic_processing
+		}
+		capital_scope = {
+			log = "\\[prev.GetName] SYNTH SETUP (Mechanical) | Catalytic | Removing 1 generator, 1 industrial, adding 2 farms"
+			remove_district = xvcv_mdlc_pc_mechanical_district_generator
+			remove_district = xvcv_mdlc_pc_mechanical_district_city
+
+			add_district = xvcv_mdlc_pc_mechanical_district_farming
+			add_district = xvcv_mdlc_pc_mechanical_district_farming
+		}
+		add_resource = {
+			food = 100
+		}
+	}
+
+	# Balancing minerals
+	# if = {
+	# 	limit = {
+	# 		has_monthly_income = { resource = minerals value < 0 }
+	# 		capital_scope = {
+	# 			num_districts = {
+	# 				type = any
+	# 				value < 10
+	# 			}
+	# 		}
+	# 	}
+	# 	capital_scope = {
+
+	# 		add_district = xvcv_mdlc_pc_mechanical_district_mining
+	# 	}
+	# 	log = "\\[prev.GetName] Found mineral deficit, added two mining districts"
+	# }
 }

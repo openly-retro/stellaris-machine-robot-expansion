@@ -15,7 +15,7 @@ leader_trait_oxr_mdlc_origin_wm_decision_analysis_module = {
 	}
 	initial = yes
 	leader_potential_add = {
-		has_skill > 1
+		has_base_skill > 1
 		inline_script = trait/leader/oxr_wm_leader_potential
 		# Lock behind feature flag while in development
 		owner = { has_oxr_mdlc_country_feature_wm_leader_traits = yes }
@@ -23,7 +23,7 @@ leader_trait_oxr_mdlc_origin_wm_decision_analysis_module = {
 	triggered_planet_modifier = {
 		oxr_mdlc_world_machines_unity_buildings_unity_produces_mult = 0.05
 		xvcv_mdlc_world_machines_unity_districts_unity_produces_mult = 0.05
-		mult = trigger:has_skill
+		mult = trigger:has_base_skill
 	}
 	leader_class = { official scientist }
 	selectable_weight = {
@@ -101,7 +101,7 @@ leader_trait_oxr_mdlc_origin_wm_nutrient_boost_module = {
 			RESOURCE = food
 			AMT = 0.05
 		}
-		mult = trigger:has_skill
+		mult = trigger:has_base_skill
 	}
 
 	leader_class = { commander official scientist }
@@ -141,15 +141,16 @@ leader_trait_oxr_mdlc_origin_wm_nutrient_boost_module_2 = {
 			RESOURCE = food
 			AMT = 0.05
 		}
-		mult = trigger:has_skill
+		mult = trigger:has_base_skill
 	}
-	sector_modifier = {
+	triggered_sector_modifier = {
+		potential = { always = yes }
 		inline_script = {
 			script = planet/modifiers/oxr_wm_planet_category_boost
 			RESOURCE = food
 			AMT = 0.05
 		}
-		mult = trigger:has_skill
+		mult = trigger:has_base_skill
 	}
 	leader_class = { commander official scientist }
 	selectable_weight = {

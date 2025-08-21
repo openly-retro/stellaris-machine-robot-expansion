@@ -16,7 +16,7 @@ country_event = {
 				is_councilor = yes
 				is_councilor_type = councilor_gestalt_regulatory
 			}
-			add_trait_no_notify = xvcv_mdlc_leader_trait_civic_malware_machine
+			add_trait = { show_message = no trait  = xvcv_mdlc_leader_trait_civic_malware_machine }
 		}
 	}
 }
@@ -147,7 +147,7 @@ country_event = {
 					is_councilor = yes
 					is_councilor_type = councilor_gestalt_legion
 				}
-				add_trait_no_notify = xvcv_mdlc_leader_trait_civic_malware_machine
+				add_trait = { show_message = no trait  = xvcv_mdlc_leader_trait_civic_malware_machine }
 			}
 		}
 		else_if = {
@@ -672,7 +672,7 @@ country_event = {
 			every_controlled_fleet = { set_event_locked = yes }
 			random_owned_planet = {
 				limit = {
-					any_owned_pop = {
+					any_owned_pop_group = {
 						OR = {
 							has_trait = trait_machine_unit
 							has_trait = trait_mechanical
@@ -685,8 +685,12 @@ country_event = {
 
 			# Determine Robot Pop percentage of Empire.
 			export_trigger_value_to_variable = {
-				trigger = pop_percentage
-				parameters = { limit = { is_robot_pop = yes } }
+				trigger = pop_amount_percentage
+				parameters = {
+					limit = {
+						species = { is_robotic = yes }
+					}
+				}
 				variable = var_country_robot_pops_percent
 			}
 			# Take percentage of Robot pops and average it together with 0.5 to get Uprising strength (0.25 to 0.75).
@@ -855,13 +859,33 @@ country_event = {
 						}
 					}
 					# create pops
-					while = { create_pop = { species = prev.species } count = 10 }
+					create_pop_group = {
+						species = prev.species
+						size = 1000
+						effect = {
+							save_event_target_as = last_created_pop_group
+						}
+					}
 					while = {
-						limit = { count_owned_pop = { limit = { is_exact_same_species = event_target:current_uprising.species } count < 5 } }
-						random_owned_pop = {
+						limit = {
+							count_owned_pop_amount = {
+								limit = {
+									is_exact_same_species = event_target:current_uprising.species
+								}
+								count < 500
+							}
+						}
+						random_owned_pop_group = {
 							limit = { NOT = { is_exact_same_species = event_target:current_uprising.species } }
-							kill_pop = yes
-							prev = { create_pop = { species = event_target:current_uprising.species } }
+							oxr_kill_pop_from_group = yes
+							prev = {
+								create_pop_group = {
+									species = event_target:current_uprising.species
+									effect = {
+										save_event_target_as = last_created_pop_group
+									}
+								}
+							}
 						}
 					}
 					# create armies
@@ -918,17 +942,32 @@ country_event = {
 							}
 							set_variable = { which = housing_var value = 15 }
 						}
-						while = { create_pop = { species = event_target:current_uprising } count = housing_var }
+						while = {
+							create_pop_group = {
+								species = event_target:current_uprising
+								effect = {
+									save_event_target_as = last_created_pop_group
+								}
+							}
+							count = housing_var
+						}
 						clear_variable = housing_var
 						while = {
-							limit = { count_owned_pop = { limit = { is_exact_same_species = event_target:current_uprising.species } count < 5 } }
-							random_owned_pop = {
+							limit = { count_owned_pop_amount = { limit = { is_exact_same_species = event_target:current_uprising.species } count < 500 } }
+							random_owned_pop_group = {
 								limit = { NOT = { is_exact_same_species = event_target:current_uprising.species } }
-								kill_pop = yes
-								prev = { create_pop = { species = event_target:current_uprising.species } }
+								oxr_kill_pop_from_group = yes
+								prev = {
+									create_pop_group = {
+										species = event_target:current_uprising.species
+										effect = {
+											save_event_target_as = last_created_pop_group
+										}
+									}
+								}
 							}
 						}
-				
+
 						# create armies on planets
 						while = { create_army = { owner = event_target:current_uprising type = machine_assault_1 } count = 6 }
 						if = {

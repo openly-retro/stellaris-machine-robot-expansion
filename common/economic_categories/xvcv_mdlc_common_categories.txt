@@ -1,3 +1,4 @@
+# Common categories for World Machines
 xvcv_mdlc_world_machines_districts = {
 	parent = planet_districts
 	use_for_ai_budget = yes
@@ -7,12 +8,16 @@ xvcv_mdlc_world_machines_districts = {
 		cost
 	}
 	generate_add_modifiers = {
-	 	produces
-	 	upkeep
 		cost
 	}
 }
-# to encompass auto and ecu world districts
+
+xvcv_mdlc_world_machines_cities_districts = {
+	parent = xvcv_mdlc_world_machines_districts
+}
+
+
+## Production districts: alloys, goods, SR
 xvcv_mdlc_world_machines_industrial_districts = {
 	parent = xvcv_mdlc_world_machines_districts
 	generate_mult_modifiers = {
@@ -23,16 +28,45 @@ xvcv_mdlc_world_machines_industrial_districts = {
 		produces
 		upkeep
 	}
-	# modifier_category = planet
 }
 
-# To encompass 'xvcv_mdlc_pc_machine_auto_district_industrial'
-# Which needs an economic category in order to be boosted by 
-# oxr_mdlc_world_machines_building_auto_forge_2 and 3
-xvcv_mdlc_world_machines_vanilla_industrial_districts = {
+# xvcv_mdlc_world_machines_vanilla_industrial_districts = {
+# 	parent = xvcv_mdlc_world_machines_industrial_districts
+# 	generate_add_modifiers = {
+# 		produces
+# 		upkeep
+# 	}
+# 	generate_mult_modifiers = {
+# 		produces
+# 		upkeep
+# 	}
+# }
+
+# naval cap
+xvcv_mdlc_world_machines_military_districts = {
 	parent = xvcv_mdlc_world_machines_industrial_districts
+	modifier_category = planet
+}
+# logistics / trade
+xvcv_mdlc_world_machines_trade_districts = {
+	parent = xvcv_mdlc_world_machines_industrial_districts
+	modifier_category = planet
+}
+# To encompass Forge and Foundry as Zones in a single industrial district
+xvcv_mdlc_world_machines_production_districts = {
+	parent = xvcv_mdlc_world_machines_industrial_districts
+	modifier_category = planet
+
 	generate_add_modifiers = {
+		upkeep
 		produces
+	}
+}
+# alloys, nanites
+xvcv_mdlc_world_machines_foundry_districts = {
+	parent = xvcv_mdlc_world_machines_production_districts
+	modifier_category = planet
+	generate_add_modifiers = {
 		upkeep
 	}
 	generate_mult_modifiers = {
@@ -40,25 +74,43 @@ xvcv_mdlc_world_machines_vanilla_industrial_districts = {
 		upkeep
 	}
 }
-# to encompass ser and cpu world districts
-xvcv_mdlc_world_machines_computer_districts = {
+# CG.. nothing else really
+xvcv_mdlc_world_machines_factory_districts = {
+	parent = xvcv_mdlc_world_machines_production_districts
+	modifier_category = planet
+	generate_add_modifiers = {
+		upkeep
+	}
+	generate_mult_modifiers = {
+		produces
+		upkeep
+	}
+}
+
+xvcv_mdlc_world_machines_strategic_resource_districts = {
+	parent = xvcv_mdlc_world_machines_industrial_districts
+	modifier_category = planet
+	generate_mult_modifiers = {
+		produces
+	}
+	generate_add_modifiers = {
+	 	produces
+	}
+}
+
+## Raw resources
+xvcv_mdlc_world_machines_raw_resources_districts = {
 	parent = xvcv_mdlc_world_machines_districts
-	generate_mult_modifiers = {
-		produces
-		upkeep
-	}
+	modifier_category = planet
 	generate_add_modifiers = {
 		produces
 		upkeep
 	}
-	modifier_category = planet
 }
-# Added by Retro, standardized to have xvcv_ prefix for consistency
 xvcv_mdlc_world_machines_food_districts = {
-	parent = xvcv_mdlc_world_machines_industrial_districts
+	parent = xvcv_mdlc_world_machines_raw_resources_districts
 	modifier_category = planet
 	generate_add_modifiers = {
-		produces
 		upkeep
 	}
 	generate_mult_modifiers = {
@@ -67,10 +119,9 @@ xvcv_mdlc_world_machines_food_districts = {
 	}
 }
 xvcv_mdlc_world_machines_mining_districts = {
-	parent = xvcv_mdlc_world_machines_industrial_districts
+	parent = xvcv_mdlc_world_machines_raw_resources_districts
 	modifier_category = planet
 	generate_add_modifiers = {
-		produces
 		upkeep
 	}
 	generate_mult_modifiers = {
@@ -79,24 +130,9 @@ xvcv_mdlc_world_machines_mining_districts = {
 	}
 }
 xvcv_mdlc_world_machines_generator_districts = {
-	parent = xvcv_mdlc_world_machines_industrial_districts
+	parent = xvcv_mdlc_world_machines_raw_resources_districts
 	modifier_category = planet
 	generate_add_modifiers = {
-		produces
-		upkeep
-		# cost
-	}
-	generate_mult_modifiers = {
-		produces
-		upkeep
-	}
-}
-# alloys, nanites, living metal
-xvcv_mdlc_world_machines_foundry_districts = {
-	parent = xvcv_mdlc_world_machines_industrial_districts
-	modifier_category = planet
-	generate_add_modifiers = {
-		produces
 		upkeep
 	}
 	generate_mult_modifiers = {
@@ -104,24 +140,25 @@ xvcv_mdlc_world_machines_foundry_districts = {
 		upkeep
 	}
 }
-xvcv_mdlc_world_machines_factory_districts = {
-	parent = xvcv_mdlc_world_machines_industrial_districts
-	modifier_category = planet
-	generate_add_modifiers = {
-		produces
-		upkeep
-	}
+
+
+## Computing & Data districts
+xvcv_mdlc_world_machines_computer_districts = {
+	parent = xvcv_mdlc_world_machines_districts
 	generate_mult_modifiers = {
 		produces
 		upkeep
 	}
+	generate_add_modifiers = {
+		upkeep
+	}
+	modifier_category = planet
 }
 # standard research, astral?, dark matter?
 xvcv_mdlc_world_machines_science_districts = {
 	parent = xvcv_mdlc_world_machines_computer_districts
 	modifier_category = planet
 	generate_add_modifiers = {
-		produces
 		upkeep
 	}
 	generate_mult_modifiers = {
@@ -138,76 +175,51 @@ xvcv_mdlc_world_machines_unity_districts = {
 	}
 	generate_mult_modifiers = {
 		produces
-		upkeep
-	}
-}
-# naval cap
-xvcv_mdlc_world_machines_military_districts = {
-	parent = xvcv_mdlc_world_machines_industrial_districts
-	modifier_category = planet
-	generate_add_modifiers = {
-	 	produces
-	 	upkeep
 	}
 }
 # encryption, decryption, infiltration speed
-# although currently covered by 'computer' districts
 xvcv_mdlc_world_machines_cybersecurity_districts = {
 	parent = xvcv_mdlc_world_machines_computer_districts
 	modifier_category = planet
-	generate_add_modifiers = {
-	 	produces
-	 	upkeep
-	}
 }
+
+## Misc
+
 xvcv_mdlc_world_machines_housing_districts = {
 	parent = xvcv_mdlc_world_machines_districts
 	modifier_category = planet
-	# generate_add_modifiers = {
-	# 	produces
-	# 	upkeep
-	# }
 }
-xvcv_mdlc_world_machines_strategic_resource_districts = {
-	parent = xvcv_mdlc_world_machines_industrial_districts
-	modifier_category = planet
-	generate_mult_modifiers = {
-		produces
-		upkeep
-	}
-	generate_add_modifiers = {
-	 	produces
-	 	upkeep
-	}
-}
+
 xvcv_mdlc_world_machines_cooling_districts = {
 	parent = xvcv_mdlc_world_machines_districts
 	modifier_category = planet
 	generate_add_modifiers = {
-		produces
 		upkeep
 	}
 	generate_mult_modifiers = {
-		# produces
 		upkeep
 	}
 }
-# TODO
+
 # Maybe servitor district is better on a mechanical world ?
 # Need to think about how bio-trophies will survive on these worlds
 xvcv_mdlc_world_machines_servitor_districts = {
 	parent = xvcv_mdlc_world_machines_districts
 	modifier_category = planet
-	# generate_add_modifiers = {
-	# 	produces
-	# 	upkeep
-	# }
 }
+
 xvcv_mdlc_world_machines_assimilator_districts = {
 	parent = xvcv_mdlc_world_machines_districts
 	modifier_category = planet
-	# generate_add_modifiers = {
-	# 	produces
-	# 	upkeep
-	# }
+}
+
+# for auto ringworld
+xvcv_mdlc_world_machines_rnd_districts = {
+	parent = xvcv_mdlc_world_machines_districts
+	modifier_category = planet
+	generate_add_modifiers = {
+		produces
+		upkeep
+		cost
+	}
 }

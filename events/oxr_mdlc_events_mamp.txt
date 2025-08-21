@@ -13,8 +13,8 @@ country_event = {
 	picture = GFX_evt_physics_research
 
 	trigger = {
-		NOT = {
-			has_country_flag = oxr_mdlc_mamp_event_chain_started
+		doesnt_have_country_flag = {
+			FLAG = oxr_mdlc_mamp_event_chain_started
 		}
 		is_machine_empire = yes
 		has_ascension_perk = oxr_mdlc_ap_mamp
@@ -50,8 +50,6 @@ country_event = {
 	desc = oxr_mdlc_mamp.2.desc
 	is_triggered_only = yes
 	picture = GFX_evt_space_hangar
-
-	trigger = { }
 
 	immediate = {
 		capital_scope = {
@@ -103,6 +101,7 @@ country_event = {
 		allow = { always = yes }
 	}
 }
+
 # Conclusion of second in-space project
 country_event = {
 	id = oxr_mdlc_mamp.4
@@ -121,6 +120,7 @@ country_event = {
 		allow = { always = yes }
 	}
 }
+
 # Conclusion of special project to make species prototype
 country_event = {
 	id = oxr_mdlc_mamp.5
@@ -236,7 +236,7 @@ planet_event = {
 	id = oxr_mdlc_mamp.1001
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { }
+
 	immediate = {
 		log = "Stopping auto-construction on \\[This.GetName]"
 		log = "Removing auto-construction planet modifiers."
@@ -282,7 +282,6 @@ planet_event = {
 	id = oxr_mdlc_mamp.1002
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { }
 
 	immediate = {
 		# At this point, costs and pop were already deducted
@@ -292,18 +291,24 @@ planet_event = {
 			limit = {
 				oxr_mdlc_mamp_planet_auto_constructing_cat_1 = yes
 			}
-			create_pop = {
+			create_pop_group = {
 				species = event_target:oxr_mdlc_mamp_cat_1_pop_species
+				effect = {
+					save_event_target_as = last_created_pop_group
+				}
 			}
 		}
 		else_if = {
 			limit = { oxr_mdlc_mamp_planet_auto_constructing_cat_2 = yes }
 			# TODO: UPDATE THIS TO REAL CAT 2 SPECIES :)
-			create_pop = {
+			create_pop_group = {
 				species = event_target:oxr_mdlc_mamp_cat_1_pop_species
+				effect = {
+					save_event_target_as = last_created_pop_group
+				}
 			}
 		}
-		last_created_pop = {
+		event_target:last_created_pop_group = {
 			set_citizenship_type = {
 				country = root.owner
 				type = citizenship_full_machine
@@ -322,3 +327,5 @@ planet_event = {
 		}
 	}
 }
+
+# EOF

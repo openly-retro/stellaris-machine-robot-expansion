@@ -42,6 +42,11 @@ oxr_mdlc_world_machines_building_auto_astral_2 = {
 	upgrades = {
 		oxr_mdlc_world_machines_building_auto_astral_3
 	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_research
+		oxr_mdlc_building_set_wm_strategic
+	}
 }
 
 oxr_mdlc_world_machines_building_auto_astral_3 = {
@@ -50,6 +55,11 @@ oxr_mdlc_world_machines_building_auto_astral_3 = {
 		script = planet/buildings/auto/oxr_mdlc_astral_siphon
 		ENERGY_UPKEEP = @b3_upkeep
 		TIER = 3
+	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_research
+		oxr_mdlc_building_set_wm_strategic
 	}
 }
 
@@ -64,6 +74,11 @@ oxr_mdlc_world_machines_building_archaeostudies_recombinator = {
 
 	empire_limit = {
 		base = 1
+	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_research
+		oxr_mdlc_building_set_wm_strategic
 	}
 
 	potential = {
@@ -216,6 +231,10 @@ oxr_mdlc_world_machines_building_auto_stabilizer_2 = {
 	prerequisites = {
 		"tech_colonial_centralization"
 	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_security
+	}
 }
 
 ### CAPITAL BUILDINGS ###
@@ -228,25 +247,15 @@ oxr_mdlc_world_machines_building_auto_capital = {
 		COST = @b2_minerals
 		UPKEEP = @b2_upkeep
 		BUILD_TIME = @b2_time
-		HOUSING_ADD = 3
-		AMENITIES_ADD = 5
-		HIBERNATION_JOBS = 3
-		MAX_BUILDINGS_ADD = 0
-		DEFENSE_ARMIES = 0
 		# allow upgrade if >= this many districts
 		# 0 in this instance
 		REQ_MIN_NUM_DISTRICTS = 0
+		TIER = 1
 	}
 
 	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 
-	convert_to = {
-		building_hive_capital
-		building_colony_shelter
-		building_ancient_control_center
-		building_ancient_palace
-		building_machine_capital_nanotech
-	}
+	inline_script = planet/buildings/convert_to/oxr_capital_convert_t1
 
 	prerequisites = { "tech_planetary_government" }
 
@@ -261,35 +270,23 @@ oxr_mdlc_world_machines_building_auto_capital_upgraded = {
 		COST = @b2_minerals
 		UPKEEP = @b2_upkeep
 		BUILD_TIME = @b2_time
-		HOUSING_ADD = 4
-		AMENITIES_ADD = 5
-		HIBERNATION_JOBS = 4
-		MAX_BUILDINGS_ADD = @buildings_t2
-		DEFENSE_ARMIES = @tier_2_capital_defense_armies
 		# allow upgrade if >= this many districts
 		REQ_MIN_NUM_DISTRICTS = @oxr_capital_upgrade_t2_districts_num
+		TIER = 2
 	}
 
 	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 
-	convert_to = {
-		building_hive_capital
-		building_colony_shelter
-		building_ancient_control_center
-		building_ancient_palace
-		building_machine_capital_nanotech
-	}
+	inline_script = planet/buildings/convert_to/oxr_capital_convert_t2
 
 	prerequisites = {
 		"tech_planetary_government"
 	}
 
-	# boost production w/ capital productivity tech
-	# inline_script = planet/buildings/auto/oxr_mdlc_capital_t2
-
 	upgrades = {
 		oxr_mdlc_world_machines_building_auto_capital_major_upgraded
 	}
+
 }
 # T3 (Major)
 oxr_mdlc_world_machines_building_auto_capital_major_upgraded = {
@@ -298,24 +295,14 @@ oxr_mdlc_world_machines_building_auto_capital_major_upgraded = {
 		COST = @b3_minerals
 		UPKEEP = @b3_upkeep
 		BUILD_TIME = @b3_time
-		HOUSING_ADD = 5
-		AMENITIES_ADD = 5
-		HIBERNATION_JOBS = 5
-		MAX_BUILDINGS_ADD = @buildings_t3
-		DEFENSE_ARMIES = @tier_3_capital_defense_armies
 		# allow upgrade if >= this many districts
 		REQ_MIN_NUM_DISTRICTS = @oxr_capital_upgrade_t3_districts_num
+		TIER = 3
 	}
 
 	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 
-	convert_to = {
-		building_hive_major_capital
-		building_major_capital
-		building_ancient_control_center
-		building_ancient_palace
-		building_machine_major_capital_nanotech
-	}
+	inline_script = planet/buildings/convert_to/oxr_capital_convert_t3
 
 	prerequisites = {
 		"tech_colonial_centralization"
@@ -324,6 +311,7 @@ oxr_mdlc_world_machines_building_auto_capital_major_upgraded = {
 	upgrades = {
 		"oxr_mdlc_world_machines_building_auto_capital_fully_upgraded"
 	}
+
 }
 # T4 (System)
 oxr_mdlc_world_machines_building_auto_capital_fully_upgraded = {
@@ -333,39 +321,24 @@ oxr_mdlc_world_machines_building_auto_capital_fully_upgraded = {
 		COST = @b4_minerals
 		UPKEEP = @b4_upkeep
 		BUILD_TIME = @b4_time
-		HOUSING_ADD = 6
-		AMENITIES_ADD = 6
-		HIBERNATION_JOBS = 6
-		MAX_BUILDINGS_ADD = @buildings_t4
-		DEFENSE_ARMIES = @tier_5_capital_defense_armies
 		# allow upgrade if >= this many districts
 		REQ_MIN_NUM_DISTRICTS = @oxr_capital_upgrade_t4_districts_num
+		TIER = 4
 	}
 
 	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 
-	convert_to = {
-		building_hive_major_capital
-		building_major_capital
-		building_machine_major_capital
-		building_ancient_control_center
-		building_ancient_palace
-		building_machine_system_capital_nanotech
-	}
+	inline_script = planet/buildings/convert_to/oxr_capital_convert_t4
 
 	prerequisites = { "tech_galactic_administration" }
-
-	# boost production w/ capital productivity tech
-	# inline_script = planet/buildings/auto/oxr_mdlc_capital_t2
-	# inline_script = planet/buildings/auto/oxr_mdlc_capital_t3
-	# inline_script = planet/buildings/auto/oxr_mdlc_capital_t4
 
 	upgrades = {
 		"oxr_mdlc_world_machines_building_auto_imperial_capital"
 	}
+
 }
 
-# Imperial Capital - T6
+# Imperial Capital - T5
 oxr_mdlc_world_machines_building_auto_imperial_capital = {
 	# not including this script bc potential is different
 	# inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
@@ -376,20 +349,15 @@ oxr_mdlc_world_machines_building_auto_imperial_capital = {
 		COST = @b4_minerals
 		UPKEEP = @b4_upkeep
 		BUILD_TIME = @b4_time
-		HOUSING_ADD = 6
-		AMENITIES_ADD = 6
-		HIBERNATION_JOBS = 6
-		MAX_BUILDINGS_ADD = @buildings_t4
-		DEFENSE_ARMIES = @tier_5_capital_defense_armies
 		# allow upgrade if >= this many districts
 		REQ_MIN_NUM_DISTRICTS = @oxr_capital_upgrade_t5_districts_num
+		TIER = 5
 	}
 
 	potential = {
 		exists = owner
 		owner = {
 			has_origin = oxr_mdlc_origin_world_machine_awakened
-			# oxr_mdlc_origin_world_machine_feature_enabled = yes
 			is_galactic_emperor = yes
 		}
 	}
@@ -397,21 +365,7 @@ oxr_mdlc_world_machines_building_auto_imperial_capital = {
 		has_origin = oxr_mdlc_origin_world_machine_awakened
 	}
 
-	convert_to = {
-		building_hive_major_capital
-		building_machine_system_capital
-		building_system_capital
-		building_hab_major_capital
-		building_ancient_control_center
-		building_ancient_palace
-	}
-
-	prerequisites = { }
-
-	# boost production w/ capital productivity tech
-	# inline_script = planet/buildings/auto/oxr_mdlc_capital_t2
-	# inline_script = planet/buildings/auto/oxr_mdlc_capital_t3
-	# inline_script = planet/buildings/auto/oxr_mdlc_capital_t4
+	inline_script = planet/buildings/convert_to/oxr_capital_convert_t5
 
 }
 
@@ -715,6 +669,11 @@ oxr_mdlc_world_machines_building_auto_nanite_transmuter = {
 			}
 		}
 	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_production
+		oxr_mdlc_building_set_wm_strategic
+	}
 }
 
 
@@ -773,6 +732,7 @@ oxr_mdlc_world_machines_building_maintenance_legion = {
 			on_action = on_world_machine_district_completed_planet
 		}
 	}
+
 }
 # MILITARY T2
 oxr_mdlc_world_machines_building_maintenance_legion_2 = {
@@ -891,7 +851,7 @@ oxr_mdlc_world_machines_building_military_academy = {
 			trigger = {
 				exists = owner
 				owner = {
-					has_civic_machine_tactical_algorithms = no
+					NOT = { has_valid_civic = civic_machine_tactical_algorithms }
 				}
 			}
 			volatile_motes = @b2_rare_cost
@@ -903,7 +863,7 @@ oxr_mdlc_world_machines_building_military_academy = {
 			trigger = {
 				exists = owner
 				owner = {
-					has_civic_machine_tactical_algorithms = no
+					NOT = { has_valid_civic = civic_machine_tactical_algorithms }
 				}
 			}
 			volatile_motes = @b2_rare_upkeep
@@ -924,6 +884,10 @@ oxr_mdlc_world_machines_building_military_academy = {
 		"tech_centralized_command"
 		"oxr_mdlc_tech_world_machine_wmc_core"
 	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_military
+	}
 
 }
 # SHIELD GENERATOR
@@ -936,7 +900,7 @@ oxr_mdlc_world_machines_building_planetary_shield_generator = {
 
 	allow = {
 		oxr_mdlc_has_upgraded_capital = yes
-		doesnt_have_building = { WHICH = planetary_shield_generator }
+		doesnt_have_building = { WHICH = building_planetary_shield_generator }
 		if = {
 			limit = { exists = orbital_defence }
 			orbital_defence = {
@@ -1012,6 +976,10 @@ oxr_mdlc_world_machines_building_planetary_shield_generator = {
 				}
 			}
 		}
+	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_military
 	}
 }
 
@@ -1203,6 +1171,10 @@ oxr_mdlc_world_machines_building_cold_storage_datacenter = {
 		society_research = 8
 		engineering_research = 8
 	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_research
+	}
 }
 # RESEARCH BOOSTER - TODO (?)
 # oxr_mdlc_world_machines_building_central_data_router = {
@@ -1357,6 +1329,10 @@ oxr_mdlc_world_machines_building_fractal_fpga = {
 	prerequisites = {
 		"oxr_mdlc_tech_world_machine_cpu_reprogrammable_gate"
 	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_research
+	}
 }
 
 
@@ -1386,6 +1362,11 @@ oxr_mdlc_world_machines_auto_farm_1 = {
 			RESOURCE = society_research
 			TIER = 1
 		}
+	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_raw_resource
+		oxr_mdlc_building_set_wm_food
 	}
 }
 oxr_mdlc_world_machines_auto_farm_2 = {
@@ -1585,7 +1566,7 @@ oxr_mdlc_world_machines_auto_mine_1 = {
 			TIER = 1
 		}
 	}
-	
+
 }
 oxr_mdlc_world_machines_auto_mine_2 = {
 	can_build = no
@@ -1780,6 +1761,7 @@ oxr_mdlc_world_machines_auto_generator_1 = {
 			TIER = 1
 		}
 	}
+
 }
 oxr_mdlc_world_machines_auto_generator_2 = {
 	can_build = no
@@ -1990,6 +1972,12 @@ oxr_mdlc_world_machines_biofuel_refit_1 = {
 	prerequisites = {
 		tech_bio_reactor_2
 	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_raw_resource
+		oxr_mdlc_building_set_wm_food
+		oxr_mdlc_building_set_wm_food
+	}
 }
 
 
@@ -2021,6 +2009,11 @@ oxr_mdlc_world_machines_building_welding_colony = {
 		"oxr_mdlc_tech_world_machines_unlocked"
 		"tech_exotic_gases"
 	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_raw_resource
+		oxr_mdlc_building_set_wm_strategic
+	}
 
 }
 # Motes
@@ -2050,6 +2043,11 @@ oxr_mdlc_world_machines_building_particle_collider = {
 	prerequisites = {
 		"oxr_mdlc_tech_world_machines_unlocked"
 		"tech_volatile_motes"
+	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_raw_resource
+		oxr_mdlc_building_set_wm_strategic
 	}
 
 }
@@ -2082,11 +2080,55 @@ oxr_mdlc_world_machines_building_crystal_cultivation_tank = {
 		"oxr_mdlc_tech_world_machines_unlocked"
 		"tech_rare_crystals"
 	}
+
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_strategic
+	}
+
 }
 
  # Convert biomass to minerals by burning them ?
  # oxr_mdlc_world_machines_building_bio_furnace = {}
 
+#### TRADE ####
+
+oxr_mdlc_world_machines_auto_logistics_1 = {
+	base_buildtime = @b2_time
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_auto_logistics
+		TIER = 1
+	}
+
+	allow = { always = yes }
+	upgrades = {
+		oxr_mdlc_world_machines_auto_logistics_2
+	}
+}
+
+oxr_mdlc_world_machines_auto_logistics_2 = {
+	base_buildtime = @b3_time
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_auto_logistics
+		TIER = 2
+	}
+
+	allow = { oxr_mdlc_has_upgraded_capital = yes }
+	upgrades = {
+		oxr_mdlc_world_machines_auto_logistics_3
+	}
+}
+
+oxr_mdlc_world_machines_auto_logistics_3 = {
+	base_buildtime = @b4_time
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_auto_logistics
+		TIER = 3
+	}
+
+	allow = { oxr_mdlc_has_major_upgraded_capital = yes }
+
+}
 
 #### UNITY ####
 
@@ -2117,15 +2159,13 @@ oxr_mdlc_world_machines_building_auto_unity_1 = {
 		building_hive_node
 	}
 
-	resources = {
-		category = oxr_mdlc_world_machines_unity_buildings  # could also be planet_administrators
-		cost = {
-			minerals = @b1_minerals  # 400
-		}
-		upkeep = {
-			energy = 8 #@b1_upkeep
-		}
-		produces = { unity = 8 }
+
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_unity
+		TIER = 1
+		BUILD_COST = @b1_minerals
+		RARE_BUILD_COST = 0
+		UPKEEP_RARE_COST = 0
 	}
 
 	upgrades = {
@@ -2136,6 +2176,7 @@ oxr_mdlc_world_machines_building_auto_unity_1 = {
 		"tech_planetary_government"
 		"oxr_mdlc_tech_world_machines_unlocked"
 	}
+
 }
 # UNITY T2
 oxr_mdlc_world_machines_building_auto_unity_2 = {
@@ -2168,14 +2209,10 @@ oxr_mdlc_world_machines_building_auto_unity_2 = {
 
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_unity
-		# BUILD_RESOURCE = minerals
 		BUILD_COST = @b2_minerals
-		# RARE_BUILD_RESOURCE = rare_crystals
 		RARE_BUILD_COST = @b2_rare_cost
-		UPKEEP_COST = @b2_upkeep
-		# UPKEEP_RARE_RESOURCE = rare_crystals
 		UPKEEP_RARE_COST = @b2_rare_upkeep
-		PRODUCES_AMOUNT = 16
+		TIER = 2
 	}
 
 	prerequisites = {
@@ -2217,14 +2254,10 @@ oxr_mdlc_world_machines_building_auto_unity_3 = {
 
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_unity
-		# BUILD_RESOURCE = minerals
 		BUILD_COST = @b3_minerals
-		# RARE_BUILD_RESOURCE = rare_crystals
 		RARE_BUILD_COST = @b3_rare_cost
-		UPKEEP_COST = @b3_upkeep
-		# UPKEEP_RARE_RESOURCE = rare_crystals
 		UPKEEP_RARE_COST = @b3_rare_upkeep
-		PRODUCES_AMOUNT = 24
+		TIER = 3
 	}
 
 	prerequisites = {
@@ -2233,6 +2266,10 @@ oxr_mdlc_world_machines_building_auto_unity_3 = {
 	}
 	upgrades = {
 		"oxr_mdlc_world_machines_building_auto_unity_4"
+	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_unity
 	}
 }
 # UNITY T4
@@ -2266,14 +2303,10 @@ oxr_mdlc_world_machines_building_auto_unity_4 = {
 
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_unity
-		# BUILD_RESOURCE = minerals
 		BUILD_COST = @b4_minerals
-		# RARE_BUILD_RESOURCE = rare_crystals
 		RARE_BUILD_COST = @b4_rare_cost
-		UPKEEP_COST = @b4_upkeep
-		# UPKEEP_RARE_RESOURCE = rare_crystals
 		UPKEEP_RARE_COST = @b4_rare_upkeep
-		PRODUCES_AMOUNT = 32
+		TIER = 4
 	}
 
 	prerequisites = {
@@ -2325,6 +2358,11 @@ oxr_mdlc_world_machines_building_auto_unity_alpha_hub = {
 	prerequisites = {
 		"tech_autocurating_vault"
 	}
+
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_unity
+	}
 }
 
 #### UNIQUE ####
@@ -2369,6 +2407,12 @@ oxr_mdlc_world_machines_building_storage_cradle = {
 		owner = {
 			oxr_mdlc_country_world_machine_cores_recalc_amount = yes
 		}
+	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_unity
+		oxr_mdlc_building_set_wm_utility
+		oxr_mdlc_building_set_wm_production
 	}
 
 }
@@ -2429,6 +2473,12 @@ oxr_mdlc_world_machines_building_core_fabrication_depot = {
 	prerequisites = {
 		"oxr_mdlc_tech_world_machine_wmc_core"
 	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_unity
+		oxr_mdlc_building_set_wm_utility
+		oxr_mdlc_building_set_wm_production
+	}
 }
 
 oxr_mdlc_building_auto_organoid_research_center = {
@@ -2476,4 +2526,11 @@ oxr_mdlc_building_auto_organoid_research_center = {
 		xvcv_mdlc_world_machines_computer_districts_energy_upkeep_mult = -0.1
 		xvcv_mdlc_world_machines_computer_districts_food_upkeep_add = 4
 	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_utility
+		oxr_mdlc_building_set_wm_research
+	}
 }
+
+# EOF

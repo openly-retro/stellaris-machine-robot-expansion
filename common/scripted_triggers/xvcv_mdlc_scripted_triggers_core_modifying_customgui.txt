@@ -75,7 +75,7 @@ xvcv_mdlc_core_modifying_trait_skill_level_veteran_trigger = {
     optimize_memory
     custom_tooltip_fail = {
         text = xvcv_mdlc_core_modifying_trait_skill_level.fail_veteran
-        ruler = { has_skill >= 4 }
+        ruler = { has_base_skill >= 4 }
     }
 }
 #for destiny traits
@@ -98,7 +98,7 @@ xvcv_mdlc_core_modifying_trait_skill_level_paragon_trigger = {
     optimize_memory
     custom_tooltip_fail = {
         text = xvcv_mdlc_core_modifying_trait_skill_level.fail_paragon
-        ruler = { has_skill >= 8 }
+        ruler = { has_base_skill >= 8 }
     }
 }
 #and that ends here
@@ -114,87 +114,8 @@ xvcv_mdlc_core_modifying_check_trait_picks = {
 # and take the highest level of that trait and add it to the list.
 # Traits are organized by which vanilla file are they taken from, and there are a LOT.
 
-xvcv_mdlc_core_modifying_ruler_traits_trigger = {
-    optimize_memory
-    OR = {
-        has_trait = leader_trait_armada_logistician_3
-        has_trait = leader_trait_armorer
-        has_trait = leader_trait_army_veteran_2
-        has_trait = leader_trait_aturion_organizer
-        has_trait = leader_trait_bellicose
-        has_trait = leader_trait_border_guard_3
-        has_trait = leader_trait_brilliant_shipwright
-        has_trait = leader_trait_cartographer_3
-        has_trait = leader_trait_collective_wisdom
-        has_trait = leader_trait_consul_general_3
-        has_trait = leader_trait_courtroom_training_3
-        has_trait = leader_trait_crew_trainer_3
-        has_trait = leader_trait_cultural_focus_3
-        has_trait = leader_trait_defence_engineer_2
-        has_trait = leader_trait_educator
-        has_trait = leader_trait_expeditionist_3
-        has_trait = leader_trait_fleet_organizer_2
-        has_trait = leader_trait_frontier_spirit_3
-        has_trait = leader_trait_gale_speed_3
-        has_trait = leader_trait_great_researcher
-        has_trait = leader_trait_guardian_3
-        has_trait = leader_trait_home_guard_3
-        has_trait = leader_trait_inquisitive_3
-        has_trait = leader_trait_intimidator_3
-        has_trait = leader_trait_knowledge_for_the_masses
-        has_trait = leader_trait_maniacal_3
-        has_trait = leader_trait_master_bureaucrat
-        has_trait = leader_trait_master_diplomat
-        has_trait = leader_trait_maven_of_war
-        has_trait = leader_trait_military_overseer
-        has_trait = leader_trait_overseer_3
-        has_trait = leader_trait_peacekeeper
-        has_trait = leader_trait_politician_2
-        has_trait = leader_trait_principled_2
-        has_trait = leader_trait_reformer_3
-        has_trait = leader_trait_retired_fleet_officer_2
-        has_trait = leader_trait_science_communicator_3
-        has_trait = leader_trait_shadow_broker_3
-        has_trait = leader_trait_shipwright_2
-        has_trait = leader_trait_skirmisher_2
-        has_trait = leader_trait_society_focus_3
-        has_trait = leader_trait_spark_of_genius_2
-        has_trait = leader_trait_spycraft_2
-        has_trait = leader_trait_spymaster
-        has_trait = leader_trait_supreme_organizer
-        has_trait = leader_trait_totalitarian
-        has_trait = subclass_commander_admiral
-        has_trait = subclass_commander_councilor
-        has_trait = subclass_commander_general
-        has_trait = subclass_commander_governor
-        has_trait = subclass_official_delegate
-        has_trait = subclass_official_diplomacy_councilor
-        has_trait = subclass_official_economy_councilor
-        has_trait = subclass_official_governor
-        has_trait = subclass_scientist_councilor
-        has_trait = subclass_scientist_explorer
-        has_trait = subclass_scientist_governor
-        has_trait = subclass_scientist_scholar
-        has_trait = trait_ruler_architectural_sense_3
-        has_trait = trait_ruler_champion_of_the_people_2
-        has_trait = trait_ruler_charismatic_2
-        has_trait = trait_ruler_deep_connections_3
-        has_trait = trait_ruler_expansionist_3
-        has_trait = trait_ruler_feedback_loop_2
-        has_trait = trait_ruler_fertility_preacher_2
-        has_trait = trait_ruler_fortifier_3
-        has_trait = trait_ruler_from_the_ranks_3
-        has_trait = trait_ruler_frontier_spirit
-        has_trait = trait_ruler_home_in_the_sky
-        has_trait = trait_ruler_industrialist_2
-        has_trait = trait_ruler_investor_3
-        has_trait = trait_ruler_logistic_understanding_2
-        has_trait = trait_ruler_military_pioneer_3
-        has_trait = trait_ruler_recruiter_3
-        has_trait = trait_ruler_space_miner
-        has_trait = trait_ruler_warlike_2
-    }
-}
+# xvcv_mdlc_core_modifying_ruler_traits_trigger moved to
+# 85_core_modifying_ruler_trait_trigger.txt
 
 xvcv_mdlc_core_modifying_reset_traits_trigger = {
     optimize_memory
@@ -206,71 +127,5 @@ xvcv_mdlc_core_modifying_reset_traits_trigger = {
     }
 }
 
-xvcv_mdlc_core_modifying_still_has_subclass_traits_picked = {
-    optimize_memory
-    # Restrict a subclass from being removed from the ruler
-    # if there are T2/T3/destiny subclass-specific traits chosen
-    custom_tooltip = {
-        text = trigger_xvcv_mdlc_core_modifying_must_remove_subclass_trait_notice
-    }
-    ruler = {
-        switch = {
-            trigger = leader_class
-            #sadly, this won't support modded leader classes
-            official = {
-                OR = {
-                    has_trait = leader_trait_cartographer_3
-                    has_trait = leader_trait_consul_general_3
-                    has_trait = leader_trait_courtroom_training_3
-                    has_trait = leader_trait_cultural_focus_3
-                    has_trait = leader_trait_expeditionist_3
-                    has_trait = leader_trait_frontier_spirit_3
-                    has_trait = leader_trait_master_diplomat
-                    has_trait = leader_trait_overseer_3
-                    has_trait = leader_trait_peacekeeper
-                    has_trait = leader_trait_reformer_3
-                    has_trait = leader_trait_shadow_broker_3
-                    has_trait = leader_trait_spymaster
-                    has_trait = leader_trait_supreme_organizer
-                    has_trait = leader_trait_totalitarian
-                    has_trait = trait_ruler_architectural_sense_3
-                    has_trait = trait_ruler_deep_connections_3
-                    has_trait = trait_ruler_investor_3
-                }
-            }
-            commander = {
-                OR = {
-                    has_trait = leader_trait_armada_logistician_3
-                    has_trait = leader_trait_armorer
-                    has_trait = leader_trait_bellicose
-                    has_trait = leader_trait_border_guard_3
-                    has_trait = leader_trait_crew_trainer_3
-                    has_trait = leader_trait_gale_speed_3
-                    has_trait = leader_trait_guardian_3
-                    has_trait = leader_trait_home_guard_3
-                    has_trait = leader_trait_intimidator_3
-                    has_trait = leader_trait_maven_of_war
-                    has_trait = leader_trait_military_overseer
-                    has_trait = leader_trait_peacekeeper
-                    has_trait = trait_ruler_fortifier_3
-                    has_trait = trait_ruler_from_the_ranks_3
-                    has_trait = trait_ruler_military_pioneer_3
-                    has_trait = trait_ruler_recruiter_3
-                }
-            }
-            scientist = {
-                OR = {
-                    has_trait = leader_trait_brilliant_shipwright
-                    has_trait = leader_trait_cartographer_3
-                    has_trait = leader_trait_great_researcher
-                    has_trait = leader_trait_inquisitive_3
-                    has_trait = leader_trait_knowledge_for_the_masses
-                    has_trait = leader_trait_maniacal_3
-                    has_trait = leader_trait_science_communicator_3
-                    has_trait = leader_trait_society_focus_3
-                    has_trait = trait_ruler_expansionist_3
-                }
-            }
-        }
-    }
-}
+# xvcv_mdlc_core_modifying_still_has_subclass_traits_picked
+# moved to its own auto-generated file

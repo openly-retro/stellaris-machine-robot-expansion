@@ -250,7 +250,7 @@ country_event = {
 		}
 		ruler = {
 			remove_all_traits = yes
-			add_trait_no_notify = leader_trait_ruler_machine_intelligence
+			add_trait = { show_message = no trait  = leader_trait_ruler_machine_intelligence }
 		}
 		country_create_gestalt_councilor = {
 			CLASS = official
@@ -358,13 +358,13 @@ country_event = {
 			}
 	
 			if = {
-				limit = { has_building = building_clinic }
-				remove_building = building_clinic
+				limit = { has_building = building_medical_1 }
+				remove_building = building_medical_1
 				add_building = building_uplink_node
 			}
 			if = {
-				limit = { has_building = building_hospital }
-				remove_building = building_hospital
+				limit = { has_building = building_medical_2 }
+				remove_building = building_medical_2
 				add_building = building_network_junction
 			}
 	
@@ -666,12 +666,60 @@ country_event = {
 			2 = { }
 			1 = {
 				fromfromfrom = {
-					create_army = {
-						owner = root.fromfrom
-						# type = oxr_mdlc_reanimated_cyborg_army
-						type = undead_army
-						species = root.from.species
+					if = {
+						limit = {
+							root.fromfrom = {
+								has_policy_flag = oxr_mdlc_army_reanimation_control_cyborg
+							}
+						}
+						create_army = {
+							owner = root.fromfrom
+							type = oxr_mdlc_reanimated_cyborg_army
+							# type = undead_army
+							species = root.from.species
+						}
 					}
+					else_if = {
+						limit = {
+							root.fromfrom = {
+								has_policy_flag = oxr_mdlc_army_reanimation_control_undead
+							}
+						}
+						create_army = {
+							owner = root.fromfrom
+							# type = oxr_mdlc_reanimated_cyborg_army
+							type = undead_army
+							species = root.from.species
+						}
+					}
+					else = {
+						# Create either
+						random_list = {
+							1 = {
+								create_army = {
+									owner = root.fromfrom
+									# type = oxr_mdlc_reanimated_cyborg_army
+									type = undead_army
+									species = root.from.species
+								}
+							}
+							1 = {
+								create_army = {
+									owner = root.fromfrom
+									type = oxr_mdlc_reanimated_cyborg_army
+									# type = undead_army
+									species = root.from.species
+								}
+							}
+						}
+						
+					}
+					# create_army = {
+					# 	owner = root.fromfrom
+					# 	# type = oxr_mdlc_reanimated_cyborg_army
+					# 	type = undead_army
+					# 	species = root.from.species
+					# }
 				}
 			}
 		}

@@ -1,0 +1,17 @@
+# Overwriting to support Bio-Mech trait
+@robot_trait_points = 1  # basegame = 0
+@robot_max_traits = 5  # basegame = 4
+
+
+ROBOT = { # Localized as "Mechanical" but kept as ROBOT for script compatibility
+	species_trait_points = @robot_trait_points
+	species_max_traits = @robot_max_traits
+	robotic = yes
+	resources = {
+		category = planet_pops
+		# Regular food, mineral and energy upkeep.
+		inline_script = "pop_resources/regular_upkeep"
+		# Resource production from other sources
+		inline_script = "pop_resources/pop_misc_production"
+	}
+}
