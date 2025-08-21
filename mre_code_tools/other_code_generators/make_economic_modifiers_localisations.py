@@ -1,5 +1,6 @@
 import time
 from yaml import safe_load
+from os.path import join as path_join
 
 """
 Look in mdlc_economic_modifiers.yml
@@ -17,7 +18,8 @@ etc.
 
 ECONOMIC_CATEGORY_CONFIG_FILES = [
     'mdlc_economic_modifiers.yml',
-    'mdlc_building_economic_modifiers.yml'
+    'mdlc_building_economic_modifiers.yml',
+    'mdlc_pop_economic_modifiers.yml'
 ]
 
 GAME_RESOURCES = [
@@ -176,7 +178,8 @@ if __name__ == "__main__":
     for config_file in ECONOMIC_CATEGORY_CONFIG_FILES:
         # list_of_all_loc_strings = []
         buffer = ''
-        with open(config_file, 'r') as source_file:
+        data_path = path_join('data', config_file)
+        with open(data_path, 'r') as source_file:
             buffer = safe_load(source_file)
 
         root_item = list(buffer.keys())[0]
