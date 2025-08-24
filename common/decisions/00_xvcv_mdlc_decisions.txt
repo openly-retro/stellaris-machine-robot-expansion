@@ -254,8 +254,15 @@ xvcv_mdlc_decision_machine_world_automation = {
 	}
 
 	effect = {
-		xvcv_mdlc_planet_decision_machine_world_automation_effect = yes
+		if = {
+			limit = { owner = { has_authority = auth_machine_intelligence } }
+			custom_tooltip = xvcv_mdlc_decision_machine_world_automation_tooltip
+			else = { custom_tooltip = xvcv_mdlc_decision_machine_world_automation_tooltip_alt }
+		}
+		custom_tooltip = xvcv_mdlc_decision_machine_world_automation_tooltip_2
+
 		hidden_effect = {
+			xvcv_mdlc_planet_decision_machine_world_automation_effect = yes
 			if = {
 				limit = {
 					owner = {
@@ -676,7 +683,6 @@ xvcv_mdlc_decision_virtual_world_project = {
 			}
 			num_uncleared_blockers < 1
 		}
-		
 	}
 
 	effect = {
