@@ -329,92 +329,108 @@ oxr_mdlc_planet_clear_all_custom_deposits_of_type = {
 
 # Specific effect for converting existing worlds to Auto-Machine Worlds
 xvcv_mdlc_planet_decision_machine_world_automation_effect = {
+
+	set_variable = { which = xvcv_mdlc_pc_machine_auto_district_city_var value = 0 }
+	set_variable = { which = xvcv_mdlc_pc_machine_auto_district_generator_var value = 0 }
+	set_variable = { which = xvcv_mdlc_pc_machine_auto_district_mining_var value = 0 }
+	set_variable = { which = xvcv_mdlc_pc_machine_auto_district_farming_var value = 0 }
 	if = {
-		limit = { owner = { has_authority = auth_machine_intelligence } }
-		custom_tooltip = xvcv_mdlc_decision_machine_world_automation_tooltip
-		else = { custom_tooltip = xvcv_mdlc_decision_machine_world_automation_tooltip_alt }
+		limit = { is_planet_class = pc_machine }
+		export_trigger_value_to_variable = {
+			trigger = num_districts
+			parameters = { type = district_nexus }
+			variable = xvcv_mdlc_pc_machine_auto_district_city_var
+		}
+		# Generators
+		export_trigger_value_to_variable = {
+			trigger = num_districts
+			parameters = { type = district_nexus_1 }
+			variable = xvcv_mdlc_pc_machine_auto_district_generator_var
+		}
+		# Mining
+		export_trigger_value_to_variable = {
+			trigger = num_districts
+			parameters = { type = district_nexus_2 }
+			variable = xvcv_mdlc_pc_machine_auto_district_mining_var
+		}
+		export_trigger_value_to_variable = {
+			trigger = num_districts
+			parameters = { type = district_nexus_3 }
+			variable = xvcv_mdlc_pc_machine_auto_district_farming_var
+		}
 	}
-	custom_tooltip = xvcv_mdlc_decision_machine_world_automation_tooltip_2
-
-	hidden_effect = {
-		set_variable = { which = xvcv_mdlc_pc_machine_auto_district_city_var value = 0 }
-		set_variable = { which = xvcv_mdlc_pc_machine_auto_district_industrial_var value = 0 }
-		set_variable = { which = xvcv_mdlc_pc_machine_auto_district_generator_var value = 0 }
-		set_variable = { which = xvcv_mdlc_pc_machine_auto_district_mining_var value = 0 }
-		while = {
-			limit = { has_district = district_city }
-			remove_district = district_city
-			change_variable = { which = xvcv_mdlc_pc_machine_auto_district_city_var value = 1 }
+	else = {
+		# should apply to nearly all standard world classes
+		# Uncapped appear on hive and ringworlds
+		export_trigger_value_to_variable = {
+			trigger = num_districts
+			parameters = { type = district_city }
+			variable = xvcv_mdlc_pc_machine_auto_district_city_var
 		}
-		while = {
-			limit = { has_district = district_nexus }
-			remove_district = district_nexus
-			change_variable = { which = xvcv_mdlc_pc_machine_auto_district_city_var value = 1 }
+		# Generator
+		export_trigger_value_to_variable = {
+			trigger = num_districts
+			parameters = { type = district_generator }
+			variable = xvcv_mdlc_pc_machine_auto_district_generator_var
 		}
-		# while = {
-		# 	limit = { has_district = district_industrial }
-		# 	remove_district = district_industrial
-		# 	change_variable = { which = xvcv_mdlc_pc_machine_auto_district_industrial_var value = 1 }
-		# }
-		while = {
-			limit = { has_district = district_generator_uncapped }
-			remove_district = district_generator_uncapped
-			change_variable = { which = xvcv_mdlc_pc_machine_auto_district_generator_var value = 1 }
+		export_trigger_value_to_variable = {
+			trigger = num_districts
+			parameters = { type = district_mining }
+			variable = xvcv_mdlc_pc_machine_auto_district_mining_var
 		}
-		while = {
-			limit = { has_district = district_mining_uncapped }
-			remove_district = district_mining_uncapped
-			change_variable = { which = xvcv_mdlc_pc_machine_auto_district_mining_var value = 1 }
+		export_trigger_value_to_variable = {
+			trigger = num_districts
+			parameters = { type = district_farming }
+			variable = xvcv_mdlc_pc_machine_auto_district_farming_var
 		}
-
-		change_pc = xvcv_mdlc_pc_machine_auto
-		if = {
-			limit = { NOT = { has_modifier = planet_population_control_gestalt } }
-			add_modifier = { modifier = planet_population_control_gestalt days = -1 }
-		}
-		if = {
-			limit = { owner = { has_oxr_mdlc_origin_world_machine_awakened = yes } }
-			while = {
-				limit = { check_variable = { which = xvcv_mdlc_pc_machine_auto_district_city_var value > 0 } }
-				subtract_variable = { which = xvcv_mdlc_pc_machine_auto_district_city_var value = 1 }
-				add_district = xvcv_mdlc_pc_machine_auto_district_city
-			}
-			else = {
-				while = {
-					limit = { check_variable = { which = xvcv_mdlc_pc_machine_auto_district_city_var value > 0 } }
-					subtract_variable = { which = xvcv_mdlc_pc_machine_auto_district_city_var value = 1 }
-					add_district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
-				}
-			}
-		}
-		while = {
-			limit = { check_variable = { which = xvcv_mdlc_pc_machine_auto_district_industrial_var value > 0 } }
-			subtract_variable = { which = xvcv_mdlc_pc_machine_auto_district_industrial_var value = 1 }
-			if = {
-				limit = {
-					owner = { has_oxr_mdlc_origin_world_machine_awakened = yes }
-				}
-				add_district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
-			}
-			else = {
-				add_district = xvcv_mdlc_pc_machine_auto_district_city
-			}
-		}
-		while = {
-			limit = { check_variable = { which = xvcv_mdlc_pc_machine_auto_district_generator_var value > 0 } }
-			subtract_variable = { which = xvcv_mdlc_pc_machine_auto_district_generator_var value = 1 }
-			add_district = xvcv_mdlc_pc_machine_auto_district_generator
-		}
-		while = {
-			limit = { check_variable = { which = xvcv_mdlc_pc_machine_auto_district_mining_var value > 0 } }
-			subtract_variable = { which = xvcv_mdlc_pc_machine_auto_district_mining_var value = 1 }
-			add_district = xvcv_mdlc_pc_machine_auto_district_mining
-		}
-		clear_variable = xvcv_mdlc_pc_machine_auto_district_city_var
-		clear_variable = xvcv_mdlc_pc_machine_auto_district_industrial_var
-		clear_variable = xvcv_mdlc_pc_machine_auto_district_generator_var
-		clear_variable = xvcv_mdlc_pc_machine_auto_district_mining_var
 	}
+
+	change_pc = xvcv_mdlc_pc_machine_auto
+	if = {
+		limit = { NOT = { has_modifier = planet_population_control_gestalt } }
+		add_modifier = { modifier = planet_population_control_gestalt days = -1 }
+	}
+	subtract_variable = {
+		which = xvcv_mdlc_pc_machine_auto_district_city_var
+		value = 1
+	}
+	# ADD DISTRICTS
+	if = {
+		limit = { owner = { has_oxr_mdlc_origin_world_machine_awakened = yes } }
+		while = {
+			limit = { check_variable = { which = xvcv_mdlc_pc_machine_auto_district_city_var value > 0 } }
+			subtract_variable = { which = xvcv_mdlc_pc_machine_auto_district_city_var value = 1 }
+			add_district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
+		}
+	}
+	else = {
+		while = {
+			limit = { check_variable = { which = xvcv_mdlc_pc_machine_auto_district_city_var value > 0 } }
+			subtract_variable = { which = xvcv_mdlc_pc_machine_auto_district_city_var value = 1 }
+			add_district = xvcv_mdlc_pc_machine_auto_district_city
+		}
+	}
+
+	while = {
+		limit = { check_variable = { which = xvcv_mdlc_pc_machine_auto_district_generator_var value > 0 } }
+		subtract_variable = { which = xvcv_mdlc_pc_machine_auto_district_generator_var value = 1 }
+		add_district = xvcv_mdlc_pc_machine_auto_district_generator
+	}
+	while = {
+		limit = { check_variable = { which = xvcv_mdlc_pc_machine_auto_district_mining_var value > 0 } }
+		subtract_variable = { which = xvcv_mdlc_pc_machine_auto_district_mining_var value = 1 }
+		add_district = xvcv_mdlc_pc_machine_auto_district_mining
+	}
+	while = {
+		limit = { check_variable = { which = xvcv_mdlc_pc_machine_auto_district_farming_var value > 0 } }
+		subtract_variable = { which = xvcv_mdlc_pc_machine_auto_district_farming_var value = 1 }
+		add_district = xvcv_mdlc_pc_machine_auto_district_farming
+	}
+	clear_variable = xvcv_mdlc_pc_machine_auto_district_city_var
+	clear_variable = xvcv_mdlc_pc_machine_auto_district_industrial_var
+	clear_variable = xvcv_mdlc_pc_machine_auto_district_mining_var
+	clear_variable = xvcv_mdlc_pc_machine_auto_district_farming_var
+
 	xvcv_mdlc_planet_owner_terraforming_resolution_breached_effect = yes
 	oxr_mdlc_planet_add_wmc_core_deposit_if_missing = yes
 }
