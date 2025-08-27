@@ -129,33 +129,55 @@ oxr_mdlc_planet_increment_bio_pop_groups_each_month = {
 	floor_variable = xvcv_mdlc_bio_robot_growth_rate_per_month_var
 	log = "Bio-Mech growth floored to \\[This.xvcv_mdlc_bio_robot_growth_rate_per_month_var] "
 
-	every_owned_pop_group = {
+	# Find the largest pop group, add pops to it, so the game will redistribute them
+	ordered_owned_pop_group = {
 		limit = {
 			OR = {
 				pop_group_has_trait = xvcv_mdlc_trait_bio_robot
 				is_species_class = XVCV_MDLC_BIO_ROBOT
 			}
 		}
-		add_pop_amount = planet.xvcv_mdlc_bio_robot_growth_rate_per_month_var
-		log = "Added \\[This.planet.xvcv_mdlc_bio_robot_growth_rate_per_month_var]] pops to \\[This.GetName] "
+		position = 0
+		order_by = trigger:pop_group_size
+		# effects
 		# Check traits while we are here
 		if = {
 			limit = {
 				pop_group_has_trait = xvcv_mdlc_bio_robot_trait_org_body_copy_design
 			}
-			add_pop_amount = 2
+			# add_pop_amount = 2
+			planet = {
+				change_variable = {
+					which = xvcv_mdlc_bio_robot_growth_rate_per_month_var
+					value = 2
+				}
+			}
 		}
 		if = {
 			limit = {
 				pop_group_has_trait = trait_robot_mass_produced
 			}
-			add_pop_amount = 1
+			# add_pop_amount = 1
+			planet = {
+				change_variable = {
+					which = xvcv_mdlc_bio_robot_growth_rate_per_month_var
+					value = 1
+				}
+			}
 		}
 		if = {
 			limit = {
 				pop_group_has_trait = trait_rapid_breeders
 			}
-			add_pop_amount = 1
+			# add_pop_amount = 1
+			planet = {
+				change_variable = {
+					which = xvcv_mdlc_bio_robot_growth_rate_per_month_var
+					value = 1
+				}
+			}
 		}
+		add_pop_amount = planet.xvcv_mdlc_bio_robot_growth_rate_per_month_var
+		log = "Added \\[This.planet.xvcv_mdlc_bio_robot_growth_rate_per_month_var]] pops to \\[This.GetName] "
 	}
 }
