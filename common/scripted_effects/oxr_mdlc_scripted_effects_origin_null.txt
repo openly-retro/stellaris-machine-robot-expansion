@@ -401,5 +401,66 @@ oxr_mdlc_planet_calculate_decomposer_stage_values = {
 
 }
 
+oxr_mdlc_planet_calculate_decomposer_single_stage_value = {
+	# $STAGE$ - integer
+	# $STAGE_LENGTH_DECIMAL$ - percent value represented in decimal form
+	# $VAR$ - name of var to store this value in
+
+	# formula:
+	# A = take the known stage 1 value of a size 100 planet (3600)
+	# B = take the correct, scaled amount of days the stage should take (540)
+	# C = B / 30 days to get num of months for the stage
+	# Y = A / C to get monthly progress for that stage, for our planet size
+	export_trigger_value_to_variable = {
+		trigger = planet_size
+		variable = oxr_mdlc_planet_decomposer_planet_starting_size
+	}
+	set_variable = {
+		which = $VAR$
+		value = this.oxr_mdlc_planet_decomposer_planet_starting_size
+	}
+	multiply_variable = {
+		which = $VAR$
+		value = 730
+	}
+	multiply_variable = {
+		which = $VAR$
+		value = $STAGE_LENGTH_DECIMAL$
+	}
+	# Get number of months from number of days
+	set_variable = {
+		which = $VAR$_num_months_total
+		value = $VAR$
+	}
+	divide_variable = {
+		which = $VAR$_num_months_total
+		value = 30
+	}
+	# Calculate for size 100
+	set_variable = {
+		which = $VAR$_100
+		value = 72000  # size 100 * 360 * 2
+	}
+	# find the stage length of this stage, for size 100 planet
+	multiply_variable = {
+		which = $VAR$_100
+		value = $STAGE_LENGTH_DECIMAL$
+	}
+	# Get monthly progress for this stage
+	set_variable = {
+		which = $VAR$_monthly_progress
+		value = $VAR$_100
+	}
+	divide_variable = {
+		which = $VAR$_monthly_progress
+		value = $VAR$_num_months_total
+	}
+	# Now we know how much monthly progress should be added to this stage,
+	# scaled for our planet values
+
+}
+oxr_mdlc_planet_calculate_decomposer_stage_monthly_progress_amount = {
+	# $VAR$ - source var of stage, holds number of days the stage should last
+}
 
 # EOF
