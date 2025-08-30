@@ -293,5 +293,113 @@ oxr_mdlc_origin_null_mega_iterate_values_create_deposits_for_consumption = {
 	}
 }
 
+oxr_mdlc_planet_calculate_decomposer_stage_values = {
+	# Create 7 variables, which will be the size of the situation stages
+	# Stage as function of percent of duration
+	# 1    2     3     4     5     6     7
+	# 5% / 10% / 15% / 25% / 25% / 15% / 5%
+	# base 1
+	# add 30 (planet size)
+	# mult Y (year * 2) 730
+	# mult Z (stage fraction) 0.01
+	export_trigger_value_to_variable = {
+		trigger = planet_size
+		variable = oxr_mdlc_planet_decomposer_planet_starting_size
+	}
+	set_variable = {
+		which = oxr_mdlc_planet_decomposer_situation_stage_1
+		value = this.oxr_mdlc_planet_decomposer_planet_starting_size
+	}
+	set_variable = {
+		which = oxr_mdlc_planet_decomposer_situation_stage_2
+		value = this.oxr_mdlc_planet_decomposer_planet_starting_size
+	}
+	set_variable = {
+		which = oxr_mdlc_planet_decomposer_situation_stage_3
+		value = this.oxr_mdlc_planet_decomposer_planet_starting_size
+	}
+	set_variable = {
+		which = oxr_mdlc_planet_decomposer_situation_stage_4
+		value = this.oxr_mdlc_planet_decomposer_planet_starting_size
+	}
+	set_variable = {
+		which = oxr_mdlc_planet_decomposer_situation_stage_5
+		value = this.oxr_mdlc_planet_decomposer_planet_starting_size
+	}
+	set_variable = {
+		which = oxr_mdlc_planet_decomposer_situation_stage_6
+		value = this.oxr_mdlc_planet_decomposer_planet_starting_size
+	}
+	set_variable = {
+		which = oxr_mdlc_planet_decomposer_situation_stage_7
+		value = this.oxr_mdlc_planet_decomposer_planet_starting_size
+	}
+	# 30 (planet size) * 2 years
+	# represents a time frame of 60 years, for example,
+	# which is how long I want the situation for this planet to last
+	multiply_variable = {
+		which = oxr_mdlc_planet_decomposer_situation_stage_1
+		value = 730
+	}
+	multiply_variable = {
+		which = oxr_mdlc_planet_decomposer_situation_stage_2
+		value = 730
+	}
+	multiply_variable = {
+		which = oxr_mdlc_planet_decomposer_situation_stage_3
+		value = 730
+	}
+	multiply_variable = {
+		which = oxr_mdlc_planet_decomposer_situation_stage_4
+		value = 730
+	}
+	multiply_variable = {
+		which = oxr_mdlc_planet_decomposer_situation_stage_5
+		value = 730
+	}
+	multiply_variable = {
+		which = oxr_mdlc_planet_decomposer_situation_stage_6
+		value = 730
+	}
+	multiply_variable = {
+		which = oxr_mdlc_planet_decomposer_situation_stage_7
+		value = 730
+	}
+	# multiply each stage now by its fraction of time, in relation to the whole
+	# in order to make each stage the appropriate length of time
+	# stage 1 takes 5% of the total time, so mult by 0.05
+	# 1    2     3     4     5     6     7
+	# 5% / 10% / 15% / 25% / 25% / 15% / 5%
+	multiply_variable = {
+		which = oxr_mdlc_planet_decomposer_situation_stage_1
+		value = 0.05
+	}
+	multiply_variable = {
+		which = oxr_mdlc_planet_decomposer_situation_stage_2
+		value = 0.1
+	}
+	multiply_variable = {
+		which = oxr_mdlc_planet_decomposer_situation_stage_3
+		value = 0.15
+	}
+	multiply_variable = {
+		which = oxr_mdlc_planet_decomposer_situation_stage_4
+		value = 0.25
+	}
+	multiply_variable = {
+		which = oxr_mdlc_planet_decomposer_situation_stage_5
+		value = 0.25
+	}
+	multiply_variable = {
+		which = oxr_mdlc_planet_decomposer_situation_stage_6
+		value = 0.15
+	}
+	multiply_variable = {
+		which = oxr_mdlc_planet_decomposer_situation_stage_7
+		value = 0.05
+	}
+
+}
+
 
 # EOF
