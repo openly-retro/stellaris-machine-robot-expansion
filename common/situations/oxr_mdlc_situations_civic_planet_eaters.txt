@@ -21,7 +21,7 @@ oxr_mdlc_situation_planet_decomposer_mega = {
 			# Pick/make some kind of pops-related icon
 			icon = GFX_xvcv_mdlc_situation_stage_1
 			icon_background = GFX_situation_stage_frame_green
-            end = target.oxr_mdlc_planet_decomposer_situation_stage_1
+            end = 1800
 			# on_first_enter = {
 			# 	if = {
 			# 		limit = {
@@ -38,7 +38,7 @@ oxr_mdlc_situation_planet_decomposer_mega = {
 		oxr_mdlc_situation_planet_decomposer_mega_stage_2 = {
 			icon = GFX_xvcv_mdlc_situation_stage_2
 			icon_background = GFX_situation_stage_frame_green
-            end = target.oxr_mdlc_planet_decomposer_situation_stage_2
+            end = 5400
 			# on_first_enter = {
 			# 	if = {
 			# 		limit = {
@@ -55,21 +55,21 @@ oxr_mdlc_situation_planet_decomposer_mega = {
 		oxr_mdlc_situation_planet_decomposer_mega_stage_3 = {
 			icon = GFX_xvcv_mdlc_situation_stage_3
 			icon_background = GFX_situation_stage_frame_green
-            end = target.oxr_mdlc_planet_decomposer_situation_stage_3
+            end = 10800
 		}
 
 		# Mantle
 		oxr_mdlc_situation_planet_decomposer_mega_stage_4 = {
 			icon = GFX_xvcv_mdlc_situation_stage_4
 			icon_background = GFX_situation_stage_frame_green
-            end = target.oxr_mdlc_planet_decomposer_situation_stage_4
+            end = 19800
 		}
 
 		# Core cooling
 		oxr_mdlc_situation_planet_decomposer_mega_stage_5 = {
 			icon = GFX_xvcv_mdlc_situation_stage_5
 			icon_background = GFX_situation_stage_frame_green
-            end = target.oxr_mdlc_planet_decomposer_situation_stage_5
+            end = 28800
 			on_first_enter = {
 				if = {
 					limit = {
@@ -86,18 +86,54 @@ oxr_mdlc_situation_planet_decomposer_mega = {
 		oxr_mdlc_situation_planet_decomposer_mega_stage_6 = {
 			icon = GFX_xvcv_mdlc_situation_stage_6
 			icon_background = GFX_situation_stage_frame_green
-            end = target.oxr_mdlc_planet_decomposer_situation_stage_6
+            end = 34200
 		}
 
 		# Cleanup
 		oxr_mdlc_situation_planet_decomposer_mega_stage_7 = {
 			icon = GFX_xvcv_mdlc_situation_stage_7
 			icon_background = GFX_situation_stage_frame_green
-            end = target.oxr_mdlc_planet_decomposer_situation_stage_7
+            end = 36000
 		}
 	}
     monthly_progress = {
-        base = 30  # 30 days per month ...
+        base = 30  # 1 month of progress per month
+		modifier = {
+			add = target.oxr_mdlc_planet_decomposer_situation_stage_1_progress
+			mult = target.oxr_mdlc_planet_decomposer_situation_stage_1_progress_stage_multiplier
+			current_stage = oxr_mdlc_situation_planet_decomposer_mega_stage_1
+		}
+		modifier = {
+			add = target.oxr_mdlc_planet_decomposer_situation_stage_2_progress
+			mult = target.oxr_mdlc_planet_decomposer_situation_stage_2_progress_stage_multiplier
+			current_stage = oxr_mdlc_situation_planet_decomposer_mega_stage_2
+		}
+		modifier = {
+			add = target.oxr_mdlc_planet_decomposer_situation_stage_3_progress
+			mult = target.oxr_mdlc_planet_decomposer_situation_stage_3_progress_stage_multiplier
+			current_stage = oxr_mdlc_situation_planet_decomposer_mega_stage_3
+		}
+		modifier = {
+			add = target.oxr_mdlc_planet_decomposer_situation_stage_4_progress
+			mult = target.oxr_mdlc_planet_decomposer_situation_stage_4_progress_stage_multiplier
+			current_stage = oxr_mdlc_situation_planet_decomposer_mega_stage_4
+		}
+		modifier = {
+			add = target.oxr_mdlc_planet_decomposer_situation_stage_5_progress
+			mult = target.oxr_mdlc_planet_decomposer_situation_stage_5_progress_stage_multiplier
+			current_stage = oxr_mdlc_situation_planet_decomposer_mega_stage_5
+		}
+		modifier = {
+			add = target.oxr_mdlc_planet_decomposer_situation_stage_6_progress
+			mult = target.oxr_mdlc_planet_decomposer_situation_stage_6_progress_stage_multiplier
+			current_stage = oxr_mdlc_situation_planet_decomposer_mega_stage_6
+		}
+		modifier = {
+			add = target.oxr_mdlc_planet_decomposer_situation_stage_7_progress
+			mult = target.oxr_mdlc_planet_decomposer_situation_stage_7_progress_stage_multiplier
+			current_stage = oxr_mdlc_situation_planet_decomposer_mega_stage_7
+		}
+
     }
 
 	## For all stages
@@ -123,6 +159,7 @@ oxr_mdlc_situation_planet_decomposer_mega = {
 		on_select = {
 			custom_tooltip = oxr_mdlc_situation_planet_decomposer_mega_approach_pops_relocate_home_tooltip
 		}
+		default = yes
 	}
 	# Displace
 	approach = {
@@ -141,6 +178,7 @@ oxr_mdlc_situation_planet_decomposer_mega = {
 		name = oxr_mdlc_situation_planet_decomposer_mega_approach_pops_purge
 		icon = GFX_situation_approach_suspicious
 		icon_background = GFX_situation_approach_bg_blue
+		default = yes
 		allow = {
 			current_stage = oxr_mdlc_situation_planet_decomposer_mega_stage_1
 			owner = {
@@ -173,6 +211,7 @@ oxr_mdlc_situation_planet_decomposer_mega = {
 		on_select = {
 			custom_tooltip = oxr_mdlc_situation_planet_decomposer_mega_approach_standard_tooltip
 		}
+		
 	}
 
 	# Slow, but more efficient
@@ -207,6 +246,7 @@ oxr_mdlc_situation_planet_decomposer_mega = {
 		name = oxr_mdlc_situation_planet_decomposer_mega_stage_7_pay_influence
 		icon = GFX_situation_approach_energy_credits
 		icon_background = GFX_situation_approach_bg_red
+		default = yes
 		allow = {
 			current_stage = oxr_mdlc_situation_planet_decomposer_mega_stage_7
 		}

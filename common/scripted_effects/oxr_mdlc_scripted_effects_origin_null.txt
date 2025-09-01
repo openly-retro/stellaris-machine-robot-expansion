@@ -24,6 +24,7 @@ oxr_mdlc_planet_origin_null_formatter_entry_effect = {
 			}
 		}
 		oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_habitable_planets = yes
+		oxr_mdlc_planet_calculate_decomposer_stage_values = yes
 	}
 	# BLACK HOLE
 	else_if = {
@@ -294,169 +295,106 @@ oxr_mdlc_origin_null_mega_iterate_values_create_deposits_for_consumption = {
 }
 
 oxr_mdlc_planet_calculate_decomposer_stage_values = {
+	## STACK LEVEL @
 	# Create 7 variables, which will be the size of the situation stages
 	# Stage as function of percent of duration
 	# 1    2     3     4     5     6     7
 	# 5% / 10% / 15% / 25% / 25% / 15% / 5%
-	# base 1
-	# add 30 (planet size)
-	# mult Y (year * 2) 730
-	# mult Z (stage fraction) 0.01
 	export_trigger_value_to_variable = {
 		trigger = planet_size
 		variable = oxr_mdlc_planet_decomposer_planet_starting_size
 	}
+	# Planet size is 1:1 how many years it takes to decompose
 	set_variable = {
-		which = oxr_mdlc_planet_decomposer_situation_stage_1
+		which = oxr_mdlc_planet_decomposer_total_days
 		value = this.oxr_mdlc_planet_decomposer_planet_starting_size
 	}
-	set_variable = {
-		which = oxr_mdlc_planet_decomposer_situation_stage_2
-		value = this.oxr_mdlc_planet_decomposer_planet_starting_size
-	}
-	set_variable = {
-		which = oxr_mdlc_planet_decomposer_situation_stage_3
-		value = this.oxr_mdlc_planet_decomposer_planet_starting_size
-	}
-	set_variable = {
-		which = oxr_mdlc_planet_decomposer_situation_stage_4
-		value = this.oxr_mdlc_planet_decomposer_planet_starting_size
-	}
-	set_variable = {
-		which = oxr_mdlc_planet_decomposer_situation_stage_5
-		value = this.oxr_mdlc_planet_decomposer_planet_starting_size
-	}
-	set_variable = {
-		which = oxr_mdlc_planet_decomposer_situation_stage_6
-		value = this.oxr_mdlc_planet_decomposer_planet_starting_size
-	}
-	set_variable = {
-		which = oxr_mdlc_planet_decomposer_situation_stage_7
-		value = this.oxr_mdlc_planet_decomposer_planet_starting_size
-	}
-	# 30 (planet size) * 2 years
-	# represents a time frame of 60 years, for example,
-	# which is how long I want the situation for this planet to last
+	# Size * 1 year = total days to decompose the planet
 	multiply_variable = {
-		which = oxr_mdlc_planet_decomposer_situation_stage_1
-		value = 730
+		which = oxr_mdlc_planet_decomposer_total_days
+		value = 360
 	}
-	multiply_variable = {
-		which = oxr_mdlc_planet_decomposer_situation_stage_2
-		value = 730
-	}
-	multiply_variable = {
-		which = oxr_mdlc_planet_decomposer_situation_stage_3
-		value = 730
-	}
-	multiply_variable = {
-		which = oxr_mdlc_planet_decomposer_situation_stage_4
-		value = 730
-	}
-	multiply_variable = {
-		which = oxr_mdlc_planet_decomposer_situation_stage_5
-		value = 730
-	}
-	multiply_variable = {
-		which = oxr_mdlc_planet_decomposer_situation_stage_6
-		value = 730
-	}
-	multiply_variable = {
-		which = oxr_mdlc_planet_decomposer_situation_stage_7
-		value = 730
-	}
+	
 	# multiply each stage now by its fraction of time, in relation to the whole
 	# in order to make each stage the appropriate length of time
 	# stage 1 takes 5% of the total time, so mult by 0.05
 	# 1    2     3     4     5     6     7
 	# 5% / 10% / 15% / 25% / 25% / 15% / 5%
-	multiply_variable = {
-		which = oxr_mdlc_planet_decomposer_situation_stage_1
-		value = 0.05
+
+	oxr_mdlc_planet_calculate_decomposer_single_stage_value = {
+		VAR = oxr_mdlc_planet_decomposer_situation_stage_1_progress
+		STAGE_LENGTH_DECIMAL = 0.05
+		SIZE_100_DAYS_FOR_STAGE = 1800
 	}
-	multiply_variable = {
-		which = oxr_mdlc_planet_decomposer_situation_stage_2
-		value = 0.1
+
+	oxr_mdlc_planet_calculate_decomposer_single_stage_value = {
+		VAR = oxr_mdlc_planet_decomposer_situation_stage_2_progress
+		STAGE_LENGTH_DECIMAL = 0.1
+		SIZE_100_DAYS_FOR_STAGE = 3600
 	}
-	multiply_variable = {
-		which = oxr_mdlc_planet_decomposer_situation_stage_3
-		value = 0.15
+
+	oxr_mdlc_planet_calculate_decomposer_single_stage_value = {
+		VAR = oxr_mdlc_planet_decomposer_situation_stage_3_progress
+		STAGE_LENGTH_DECIMAL = 0.15
+		SIZE_100_DAYS_FOR_STAGE = 5400
 	}
-	multiply_variable = {
-		which = oxr_mdlc_planet_decomposer_situation_stage_4
-		value = 0.25
+
+	oxr_mdlc_planet_calculate_decomposer_single_stage_value = {
+		VAR = oxr_mdlc_planet_decomposer_situation_stage_4_progress
+		STAGE_LENGTH_DECIMAL = 0.25
+		SIZE_100_DAYS_FOR_STAGE = 9000
 	}
-	multiply_variable = {
-		which = oxr_mdlc_planet_decomposer_situation_stage_5
-		value = 0.25
+
+	oxr_mdlc_planet_calculate_decomposer_single_stage_value = {
+		VAR = oxr_mdlc_planet_decomposer_situation_stage_5_progress
+		STAGE_LENGTH_DECIMAL = 0.25
+		SIZE_100_DAYS_FOR_STAGE = 9000
 	}
-	multiply_variable = {
-		which = oxr_mdlc_planet_decomposer_situation_stage_6
-		value = 0.15
+
+	oxr_mdlc_planet_calculate_decomposer_single_stage_value = {
+		VAR = oxr_mdlc_planet_decomposer_situation_stage_6_progress
+		STAGE_LENGTH_DECIMAL = 0.15
+		SIZE_100_DAYS_FOR_STAGE = 5400
 	}
-	multiply_variable = {
-		which = oxr_mdlc_planet_decomposer_situation_stage_7
-		value = 0.05
+
+	oxr_mdlc_planet_calculate_decomposer_single_stage_value = {
+		VAR = oxr_mdlc_planet_decomposer_situation_stage_7_progress
+		STAGE_LENGTH_DECIMAL = 0.05
+		SIZE_100_DAYS_FOR_STAGE = 1800
 	}
+
 
 }
 
 oxr_mdlc_planet_calculate_decomposer_single_stage_value = {
-	# $STAGE$ - integer
-	# $STAGE_LENGTH_DECIMAL$ - percent value represented in decimal form
 	# $VAR$ - name of var to store this value in
+	# $STAGE_LENGTH_DECIMAL$ - percent value represented in decimal form
+	# $SIZE_100_DAYS_FOR_STAGE$ - How many days would stage 1 be for a size 100 planet
+	# Sets a new var, $VAR$_monthly_progress
 
-	# formula:
-	# A = take the known stage 1 value of a size 100 planet (3600)
-	# B = take the correct, scaled amount of days the stage should take (540)
-	# C = B / 30 days to get num of months for the stage
-	# Y = A / C to get monthly progress for that stage, for our planet size
-	export_trigger_value_to_variable = {
-		trigger = planet_size
-		variable = oxr_mdlc_planet_decomposer_planet_starting_size
-	}
+	## STACK LEVEL 3
+
+	# Take total number of days, and multiply by what percent of the total is this stage
 	set_variable = {
 		which = $VAR$
-		value = this.oxr_mdlc_planet_decomposer_planet_starting_size
-	}
-	multiply_variable = {
-		which = $VAR$
-		value = 730
+		value = this.oxr_mdlc_planet_decomposer_total_days
 	}
 	multiply_variable = {
 		which = $VAR$
 		value = $STAGE_LENGTH_DECIMAL$
 	}
-	# Get number of months from number of days
+	# Now that we have the number of days .. let's say that's 540 days
+	# divide the known base amount of stage 1 days for a size 100 planet
 	set_variable = {
-		which = $VAR$_num_months_total
+		which = $VAR$_stage_multiplier
+		value = $SIZE_100_DAYS_FOR_STAGE$
+	}
+	divide_variable = {
+		which = $VAR$_stage_multiplier
 		value = $VAR$
 	}
-	divide_variable = {
-		which = $VAR$_num_months_total
-		value = 30
-	}
-	# Calculate for size 100
-	set_variable = {
-		which = $VAR$_100
-		value = 72000  # size 100 * 360 * 2
-	}
-	# find the stage length of this stage, for size 100 planet
-	multiply_variable = {
-		which = $VAR$_100
-		value = $STAGE_LENGTH_DECIMAL$
-	}
-	# Get monthly progress for this stage
-	set_variable = {
-		which = $VAR$_monthly_progress
-		value = $VAR$_100
-	}
-	divide_variable = {
-		which = $VAR$_monthly_progress
-		value = $VAR$_num_months_total
-	}
-	# Now we know how much monthly progress should be added to this stage,
-	# scaled for our planet values
+	# $VAR$_stage_multiplier will be compounded to the monthly progress for the given stage
+
 
 }
 oxr_mdlc_planet_calculate_decomposer_stage_monthly_progress_amount = {
