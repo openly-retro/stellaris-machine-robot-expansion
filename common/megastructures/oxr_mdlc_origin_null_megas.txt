@@ -1,15 +1,13 @@
 oxr_mdlc_origin_null_stellar_formatter = {
-	# entity = "xvcv_mdlc_planet_cracker_entity"
-	# portrait = "GFX_megastructure_xvcv_mdlc_planet_cracker"
-	entity = "hyper_relay_entity"
-	construction_entity = "hyper_relay_entity"
+	entity = "xvcv_mdlc_planet_cracker_entity"
+	portrait = "GFX_megastructure_xvcv_mdlc_planet_cracker"
 	place_entity_on_planet_plane = yes
 	show_galactic_map_icon = no
-	show_in_outliner = no
+	show_in_outliner = yes
 	use_planet_resource = yes
 	build_time = 1  # change this later :)
-	entity_offset = { x = 0 y = 0 }
-	scales_with_planet = yes
+	entity_offset = { x = 1 y = 0 }
+	scales_with_planet = no
 
 	construction_blocks_and_blocked_by = none
 
@@ -42,7 +40,12 @@ oxr_mdlc_origin_null_stellar_formatter = {
 	on_build_complete = {
 		fromfrom.planet = {
 			set_planet_flag = has_megastructure
+			set_planet_flag = oxr_mdlc_origin_null_stellar_formatter_placed
 			oxr_mdlc_planet_origin_null_formatter_entry_effect = yes
+		}
+		set_variable = {
+			which = oxr_mdlc_wtf_is_this_scope
+			value = 5
 		}
 		# Start yearly consumption event
 		# event ....
@@ -52,15 +55,12 @@ oxr_mdlc_origin_null_stellar_formatter = {
 				target = fromfrom.planet
 			}
 		}
-		
 	}
 
 	resources = {
 		# category = station_gatherers <-- use for deposits
 		category = oxr_mdlc_category_origin_null_disassembler_mega
-		# cost = {
-		# 	energy = 1
-		# }
+
 		produces = {
 			trigger = {
 				planet = {
@@ -108,8 +108,8 @@ oxr_mdlc_origin_null_stellar_formatter = {
 	on_dismantle_complete = {
 		fromfrom.planet = {
 			# stop consumption and remove planet modifier
-			remove_flag = has_megastructure
-			remove_flag = oxr_mdlc_origin_null_stellar_formatter_placed
+			remove_planet_flag = has_megastructure
+			remove_planet_flag = oxr_mdlc_origin_null_stellar_formatter_placed
 		}
 	}
 }

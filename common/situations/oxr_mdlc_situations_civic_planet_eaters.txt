@@ -15,6 +15,21 @@ oxr_mdlc_situation_planet_decomposer_mega = {
 	picture = GFX_evt_continental
 	complete_icon_frame = GFX_situation_outcome_frame_green
 	complete_icon = GFX_situation_outcome_positive
+	on_start = {
+		if = {
+			limit = {
+				target = {
+					OR = {
+						is_colony = no
+						pop_amount = 0
+					}
+				}
+			}
+			# Skip the first stage
+			add_situation_progress = 1800
+		}
+	}
+
 	stages = {
 		# Deal with pops
 		oxr_mdlc_situation_planet_decomposer_mega_stage_1 = {
