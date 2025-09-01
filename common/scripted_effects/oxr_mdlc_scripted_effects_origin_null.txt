@@ -98,10 +98,10 @@ oxr_mdlc_planet_origin_null_formatter_entry_effect = {
 	##
 	else = {
 		# Don't know what this planet class is
-		export_trigger_value_to_variable = {
-			trigger = is_planet_class
-			variable = oxr_mdlc_origin_null_unknown_pc
-		}
+		# export_trigger_value_to_variable = {
+		# 	trigger = is_planet_class
+		# 	variable = oxr_mdlc_origin_null_unknown_pc
+		# }
 		log = "Encountered unsupported planet class in Formatter mega setup effect \\[This.oxr_mdlc_origin_null_unknown_pc]"
 		oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_unknown = yes
 	}
@@ -112,7 +112,7 @@ oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_habitable_planets = {
 	# This effect looks at what deposits are on the planet, and exports the total district modifiers
 	# so that the mega can access the vars and produce resources based on the planet's deposits
 	# SECOND LEVEL IN EFFECT STACK
-	planet = {
+	# planet = {
 		export_trigger_value_to_variable = {
 			trigger = planet_size
 			variable = oxr_mdlc_origin_null_starting_planet_size
@@ -156,15 +156,15 @@ oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_habitable_planets = {
 		## RESOURCES
 		# The number of how many of each resource the formatting process generates
 		export_modifier_to_variable = {
-			modifier = district_generator_max
+			modifier = district_generator_max_add
 			variable = oxr_mdlc_origin_null_planet_energy_produces_tmp
 		}
 		export_modifier_to_variable = {
-			modifier = district_mining_max
+			modifier = district_mining_max_add
 			variable = oxr_mdlc_origin_null_planet_minerals_produces_tmp
 		}
 		export_modifier_to_variable = {
-			modifier = district_farming_max
+			modifier = district_farming_max_add
 			variable = oxr_mdlc_origin_null_planet_food_produces_tmp
 		}
 	
@@ -231,7 +231,31 @@ oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_habitable_planets = {
 			which = oxr_mdlc_origin_null_planet_debris_produces_tmp
 			value = 100
 		}
-	}
+
+		# Now, copy these vars to the mega
+		# oxr_mdlc_origin_null_planet_energy_produces_tmp
+		# oxr_mdlc_origin_null_planet_minerals_produces_tmp
+		# oxr_mdlc_origin_null_planet_food_produces_tmp
+		# oxr_mdlc_origin_null_planet_debris_produces_tmp
+		prev = {
+			set_variable = {
+				which = oxr_mdlc_origin_null_planet_energy_produces
+				value = planet.oxr_mdlc_origin_null_planet_energy_produces_tmp
+			}
+			set_variable = {
+				which = oxr_mdlc_origin_null_planet_minerals_produces
+				value = planet.oxr_mdlc_origin_null_planet_minerals_produces_tmp
+			}
+			set_variable = {
+				which = oxr_mdlc_origin_null_planet_food_produces
+				value = planet.oxr_mdlc_origin_null_planet_food_produces_tmp
+			}
+			set_variable = {
+				which = oxr_mdlc_origin_null_planet_debris_produces
+				value = planet.oxr_mdlc_origin_null_planet_debris_produces_tmp
+			}
+		}		
+	# }
 }
 
 oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_uninhabitable_regular_planets = {
