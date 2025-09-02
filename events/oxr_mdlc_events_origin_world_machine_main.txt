@@ -1291,10 +1291,12 @@ planet_event = {
 			modifier = oxr_mdlc_planet_origin_world_machine_automaton_pop_timer
 			days = 180
 		}
-		while = {
-			count = @oxr_mdlc_world_machine_decision_temp_automaton_amount_1
+		# while = {
+			# count = @oxr_mdlc_world_machine_decision_temp_automaton_amount_1
 			create_pop_group = {
 				species = owner.species
+				size = @oxr_mdlc_world_machine_decision_temp_automaton_amount_1
+				# size = 400
 				effect = {
 					save_event_target_as = last_created_pop_group
 				}
@@ -1305,12 +1307,25 @@ planet_event = {
 					days = 180
 				}
 				# Self-decommission .. bye bye
+				# TODO: In phoenix 4.0 this event never fires!
 				pop_group_event = {
 					id = oxr_mdlc_origin_wm_main.2110
 					days = 180
 				}
+				log = "Fired event from last created pop group, to call main.2110 "
 			}
-		}
+		# }
+	}
+}
+
+pop_group_event = {
+	id = oxr_mdlc_origin_wm_main.9999
+	title = OK
+	desc = OK
+	is_triggered_only = yes
+
+	immediate = {
+		log = "Hello, this is event: oxr_mdlc_origin_wm_main.9999"
 	}
 }
 
@@ -1320,10 +1335,19 @@ pop_group_event = {
 	hide_window = yes
 
 	trigger = {
-		has_modifier = oxr_mdlc_pop_origin_world_machine_automaton_timer
+		# has_modifier = oxr_mdlc_pop_origin_world_machine_automaton_timer
+		has_trait = oxr_mdlc_trait_world_machine_automaton
+		# always = yes
 	}
+
 	immediate = {
-		oxr_kill_pop_from_group = yes
+		# oxr_kill_pop_from_group = yes
+		log = "oxr_mdlc_origin_wm_main.2110 was called, should remove 400 pops now .."
+		kill_pop_group = {
+			pop_group = this
+			# amount = @oxr_mdlc_world_machine_decision_temp_automaton_amount_1
+			amount = 400
+		}
 	}
 }
 
