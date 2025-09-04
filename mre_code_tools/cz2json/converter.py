@@ -3,6 +3,7 @@ from json import loads
 from json.decoder import JSONDecodeError
 import sys
 import logging
+from uuid import uuid4
 
 logger = logging.getLogger(__name__)
 
@@ -98,8 +99,9 @@ def clean_up_line(line: str) -> str:
         result = line + COMMA
     elif single_word_result := re.match(re_single_word_line, line):
         # If it's just one line, return that line ...
-        if 'tech_strike_craft_1' in line:
-            result = f'"tech": "{single_word_result.group("word")}"'
+        if 'tech_' in line:
+            # Use UUID so we can have multiple techs alongside an OR block
+            result = f'"tech{uuid4()}": "{single_word_result.group("word")}"'
         else:
             result = single_word_result.group("word")
     # Don't munge a list that we crunched already

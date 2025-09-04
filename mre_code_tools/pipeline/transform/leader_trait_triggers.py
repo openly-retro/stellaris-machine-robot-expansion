@@ -77,6 +77,46 @@ def create_requirements_triggers_for_leader_traits(trait: dict) -> str:
         requirements.append(
             f"has_base_skill >= 8"
         )
+    if trait_name == 'leader_trait_carrier_specialization_2':
+        breakpoint()
+    elif root.get('prerequisites'):
+        """ Fix this kind of abomination
+        "prerequisites": {
+            "OR": [
+                "tech_cruisers",
+                "tech_harbingers"
+            ],
+            "tech": "tech_strike_craft_1"
+        },
+        """
+        tech_reqs = root.get('prerequisites')
+        if type(tech_reqs) == list:
+            for owner_tech_req in tech_reqs:
+                requirements.append(
+                    f"owner = {{ has_technology = {owner_tech_req} }}"
+                )
+        elif type(tech_reqs) == dict:
+            reqs_keys = list(tech_reqs.keys())
+            # if 'tech_strike_craft_1' in str(tech_reqs):
+            #     breakpoint()
+
+            for req_data in reqs_keys:
+                if req_data.startswith('tech'):
+                    # breakpoint()
+                    requirements.append(
+                        f"owner = {{ has_technology = {tech_reqs[req_data]} }}"
+                    )
+                elif req_data == 'OR':
+                    # breakpoint()
+                    techs_in_or = tech_reqs['OR']
+
+                    # Addres OR
+                    owner_tech_choice_requirement = "owner = { OR = { "
+                    for or_tech in techs_in_or:
+                        owner_tech_choice_requirement += f" has_technology = {or_tech} "
+                    owner_tech_choice_requirement += " } }"
+                    requirements.append(owner_tech_choice_requirement)
+                
     for trigger, value in root.get("leader_potential_add", {}).items():
         if trigger == "is_pool_leader":
             print(f"Skipping locking trait to 'starting only': {trait_name}")
@@ -113,7 +153,7 @@ def create_requirements_triggers_for_leader_traits(trait: dict) -> str:
             # aHAhahAHahhAHAHA let's see what happens with this t(@_o)t
             abomination = str(value).replace(':',' =').replace("'",' ').replace(',','').replace('True','yes').replace('False','no').replace('}',' }')
             requirements.append(f"""owner = {abomination} """)
-
+                
         # if it's a standard assignment, put in the list
         elif type(value) not in [dict, list]:
             if type(value) != bool:
@@ -124,7 +164,10 @@ def create_requirements_triggers_for_leader_traits(trait: dict) -> str:
                 requirements.append(
                     f"{trigger} = {'yes' if value else 'no'}"
                 )
+    
     # Shroud help us
+    if trait_name == 'trait_carrier_specialization_2':
+        breakpoint()
     return f"""
 oxr_mdlc_leader_{root["leader_class"]}_can_add_{trait_name} = {{
     { "\n    ".join(requirements) }
