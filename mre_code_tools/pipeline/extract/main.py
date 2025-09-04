@@ -28,7 +28,7 @@ def make_converted_filename_2(base_filename):
 def batch_convert_traits_files_into_json(stellaris_path: str) -> list:
     """ New 2.0 pipeline method """
     generated_files = []
-    buffer = ''
+    buffer = None
 
     for base_file in BASE_TRAIT_FILES:
         base_file_path = os.path.join(
@@ -56,6 +56,8 @@ def batch_convert_traits_files_into_json(stellaris_path: str) -> list:
             try:
                 json_dump(buffer, dest_file, indent=4)
             except Exception as ex:
+                
+                print(str(ex))
                 with open(f"{base_file}_parse_err.txt", "w") as dumpfile:
                     dumpfile.write(str(buffer))
                     sys.exit(f"There was a problem parsing {base_file}")
