@@ -67,10 +67,12 @@ def batch_convert_traits_files_into_json(stellaris_path: str) -> list:
     return generated_files
 
 def read_and_sort_extracted_traits(list_of_extracted_files: list) -> list:
-    """ Load up the traits from the extracted file data, sort them, save only 3 files
+    """ Load up the traits from the extracted file data, in 'extract', sort them, save only 3 files
     The list of extracted files will already have the pathname in it
     Return the list of 3 files expected to be in the base build/ folder
     TODO: move the 3 exported files to a sub folder in build?
+
+    This function makes use of files in the 'extract' folder
     """
     output = {
         "commander": [],
@@ -127,6 +129,7 @@ def read_and_sort_extracted_traits(list_of_extracted_files: list) -> list:
     target_filenames = []
     for leader_class in LEADER_CLASSES:
         prefix = FILE_NUM_PREFIXES['json_to_simple_traits_list']
+        # For example, '10_mre_commander_traits.json'
         newfile_name = f"{prefix}_mre_{leader_class}_traits.json"
         newfilepath = os.path.join(BUILD_FOLDER, EXTRACT_FOLDER, newfile_name)
         with open(newfilepath, "w") as traitsfile:

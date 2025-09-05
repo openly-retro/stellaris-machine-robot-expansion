@@ -1,23 +1,25 @@
 from json import load as json_load
+from pipeline.transform.leader_trait_triggers import create_requirements_triggers_for_leader_traits, process_complex_tech_requirements
 from pipeline.mre_common_vars import LEADER_SUBCLASSES, RARITIES, TRAITS_REQUIRING_DLC
 
 
 def gen_core_modifying_button_effects_code(
-    leader_class: str, trait_name: str, rarity: str,
-    required_subclass: str='', prerequisites: list = [],
+    leader_class: str, trait_name: str, trait_data: dict,
     requires_paragon_dlc: bool=False
 ):
     # This needs to generate two effects: add, and remove
     # xvcv_mdls_button_effects_core_modifying_traits_<LEADER_CLASS>_customgui.txt
-    if rarity not in ['paragon', 'common', 'veteran', 'free_or_veteran']:
+    if trait_data['rarity'] not in ['paragon', 'common', 'veteran', 'free_or_veteran']:
         # It pains me to add 'free_or_veteran' .. WHICH IS IT !?
         raise ValueError(
             f"{rarity} rarity must be one of paragon, common, veteran"
         )
-    if rarity == 'free_or_veteran':
+    if trait_data['rarity'] == 'free_or_veteran':
         # All the traits that have this foolish schroedinger's rarity ..
         # are veteran traits!
         rarity = 'veteran'
+    else:
+        rarity = trait_data['rarity']
     trait_ends_in_num = trait_name[-1].isdigit()
     needs_remove_tier_num_trait_effect = True if trait_ends_in_num else False
     if trait_ends_in_num:
@@ -30,7 +32,7 @@ def gen_core_modifying_button_effects_code(
 
     allowances = []
     allowances.append(f"custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_{leader_class}_{trait_name}")
-    if required_subclass:
+    if required_subclass := trait_data.get('required_subclass'):
         allowances.append(
             "xvcv_mdlc_core_modifying_requires_ruler_subclass_or_focus_trigger = "
             f"{{ CLASS = {leader_class} ID = {required_subclass} }}"
@@ -47,9 +49,14 @@ def gen_core_modifying_button_effects_code(
     if dlc_dependecy := TRAITS_REQUIRING_DLC.get(trait_name):
         allowances.append(f"{dlc_dependecy} = yes")
     # Assuming that prerequisites will always be tech *fingers crossed*
-    if len(prerequisites):
-        for tech in prerequisites:
-            allowances.append(f"has_technology = {tech}")
+    # Sorry to ruin your assumption, me-from-the-past ...
+
+    if tech_prereqs := trait_data.get('prerequisites'):
+        ruler_trigger_block = create_requirements_triggers_for_leader_traits(
+            trait=trait_data, generate_for_ruler=True
+        )
+        allowances.append(ruler_trigger_block)
+
 
     effects = []
     if needs_remove_tier_num_trait_effect:

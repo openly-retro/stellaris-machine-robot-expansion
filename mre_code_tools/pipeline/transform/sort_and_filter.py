@@ -94,16 +94,15 @@ def trait_qualifies_for_core_modifying(trait_dict: dict) -> bool:
     if any(
         [
             "ruler" in trait_dict['trait_name'],
-            trait_dict.get('self_modifier'),
-            trait_dict.get('triggered_self_modifier'),
-            trait_dict.get('councilor_modifier'),
-            trait_dict.get('triggered_councilor_modifier'),
+            # trait_dict.get('self_modifier'),
+            # trait_dict.get('triggered_self_modifier'),
+            # trait_dict.get('councilor_modifier'),
+            # trait_dict.get('triggered_councilor_modifier'),
             trait_dict.get('allow_for_ruler'),
             trait_dict.get('is_councilor_trait'),
         ]
     ):
         is_core_modifying_trait = True
-    # breakpoint()
     return is_core_modifying_trait
 
 def trait_qualifies_for_councilor_editor(trait_dict: dict) -> bool:
