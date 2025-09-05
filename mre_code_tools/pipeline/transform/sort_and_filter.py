@@ -27,19 +27,20 @@ from pipeline.transform.leader_trait_triggers import write_leader_trait_trigger_
 from pipeline.mre_common_vars import (
     BUILD_FOLDER,
     COMPILE_FOLDER,
+    CORE_MODIFYING_TRAITS_TO_EXCLUDE,
+    EXCLUDE_TRAITS_FROM_CORE_MODIFYING,
+    EXCLUDE_TRAITS_FROM_COUNCILOR_EDITOR,
+    EXCLUDE_TRAITS_FROM_PARAGON_DLC,
     EXTRACT_FOLDER,
+    FILE_NUM_PREFIXES,
     LEADER_CLASSES,
     MISSING,
+    MOD_SCRIPTED_TRIGGERS_FOLDER,
     PIPELINE_OUTPUT_FILES,
     PLACEHOLDER,
     SKIP_TRAIT_FOR_SUBCLASS_LIST,
     TRAIT_MODIFIER_KEYS,
     TRAITS_TO_EXCLUDE,
-    EXCLUDE_TRAITS_FROM_CORE_MODIFYING,
-    EXCLUDE_TRAITS_FROM_COUNCILOR_EDITOR,
-    EXCLUDE_TRAITS_FROM_PARAGON_DLC,
-    FILE_NUM_PREFIXES,
-    MOD_SCRIPTED_TRIGGERS_FOLDER,
 )
 
 MODIFIER_VALUES_SUBSTITUTIONS = {
@@ -94,15 +95,19 @@ def trait_qualifies_for_core_modifying(trait_dict: dict) -> bool:
     if any(
         [
             "ruler" in trait_dict['trait_name'],
-            # trait_dict.get('self_modifier'),
-            # trait_dict.get('triggered_self_modifier'),
-            # trait_dict.get('councilor_modifier'),
-            # trait_dict.get('triggered_councilor_modifier'),
+            trait_dict.get('self_modifier'),
+            trait_dict.get('triggered_self_modifier'),
+            trait_dict.get('councilor_modifier'),
+            trait_dict.get('triggered_councilor_modifier'),
             trait_dict.get('allow_for_ruler'),
             trait_dict.get('is_councilor_trait'),
         ]
     ):
         is_core_modifying_trait = True
+
+    # if get_trait_series_name(trait_dict['trait_name']) in CORE_MODIFYING_TRAITS_TO_EXCLUDE:
+    #     is_core_modifying_trait = False
+    #     print(f"Excluded {trait_dict['trait_name']} from Core Modifying list")
     return is_core_modifying_trait
 
 def trait_qualifies_for_councilor_editor(trait_dict: dict) -> bool:

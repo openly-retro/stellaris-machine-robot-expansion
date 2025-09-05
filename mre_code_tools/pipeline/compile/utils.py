@@ -35,3 +35,10 @@ def write_build_file(
     with open(outfile_path, "a") as file_output:
         sys.stdout.write(f"Writing {log_text} code to {file_name}\n")
         file_output.write(file_contents)
+
+def get_trait_series_name(trait_name: str) -> str:
+    trait_series_name = trait_name
+    if trait_name[-1].isdigit():
+        trait_series_name = trait_name[:-2]
+
+    return trait_series_name

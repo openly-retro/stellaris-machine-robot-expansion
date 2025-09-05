@@ -143,6 +143,9 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
     if root.get('prerequisites'):
         # Simple convert to list, also captures just 1 string
         slim_trait['prerequisites'] = root['prerequisites']
+    
+    if root.get('allowed_origins'):
+        slim_trait['allowed_origins'] = root['allowed_origins']
 
     return slim_trait
 
