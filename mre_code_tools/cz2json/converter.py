@@ -3,6 +3,7 @@ from json import loads
 from json.decoder import JSONDecodeError
 import sys
 import logging
+from uuid import uuid4
 
 logger = logging.getLogger(__name__)
 
@@ -29,7 +30,7 @@ re_parse_simple_assignment = re.compile(
 )
 re_indendation = re.compile(r"^(?P<indent>\s*)")
 re_block_open = re.compile(r"^(?P<indent>\s{0,})(?P<name>\w*) = {\s{0,}$")
-re_single_word_line = re.compile(r"^\s{0,}(\w*){1}[ ]{0,}$")
+re_single_word_line = re.compile(r"^\s{0,}(?P<word>\w*){1}[ ]{0,}$")
 re_code_block_open = re.compile(r"\s=\s{1,}\{")
 
 # Use re.sub and give it a function that quotes a string,
@@ -44,6 +45,7 @@ re_multiline_list = re.compile(
 )
 # re_simple_word = re.compile(r"\b(([\@a-zA-Z_\/]{2,}))\b")
 re_simple_word = re.compile(r"([\@\/\._a-zA-Z0-9]+)")
+
 
 COMMA = ','
 EMPTY_LINE = ''
@@ -97,7 +99,11 @@ def clean_up_line(line: str) -> str:
         result = line + COMMA
     elif single_word_result := re.match(re_single_word_line, line):
         # If it's just one line, return that line ...
-        result = line
+        if 'tech_' in line:
+            # Use UUID so we can have multiple techs alongside an OR block
+            result = f'"tech{uuid4()}": "{single_word_result.group("word")}"'
+        else:
+            result = single_word_result.group("word")
     # Don't munge a list that we crunched already
     elif list_detected := re.search(re_detect_crunched_list, line):
         result = line
@@ -232,13 +238,17 @@ def search_blob_crunch_lists(blob: str) -> str:
 
 def compress_list_result_from_search(search_results) -> str:
     # given the "words" group, chew it
-    words_raw = search_results.group("words")
+    words_raw = search_results.group("words").replace('\t','')
+    # breakpoint()
     words_list = words_raw.strip().split("\n")
-    cleaned_words = [ word.strip() for word in words_list ]
+    cleaned_words = [ 
+        word.strip() for word in words_list
+    ]
     list_with_json_quotes = str(cleaned_words).replace('\'','"')
 
     blockname = search_results.group('blockname')
     contents = f"{quote_string(blockname)}: {list_with_json_quotes}"
+
     return append_comma(contents)
 
 def iter_clean_up_lines(lines: list[str]) -> str:
@@ -255,6 +265,9 @@ def iter_clean_up_lines(lines: list[str]) -> str:
             )
     
     return " ".join(processed_lines)
+
+def turn_prereqs_into_lists() -> str:
+    1
 
 def convert_iter_lines_to_dict(json_as_str: str) -> dict:
     # Take output of iter_clean_up_lines into dict
@@ -278,7 +291,8 @@ def convert_iter_lines_to_dict(json_as_str: str) -> dict:
     # breakpoint()
     try:
         cleaned_content_obj = ast.literal_eval(cleaned_content)
-    except Exception as exc:
+    #  ValueError, TypeError, SyntaxError, MemoryError and RecursionError
+    except SyntaxError as exc:
         breakpoint()
         err_range = f"-->{exc.text[exc.offset-60:exc.offset+60]}<--"
         
@@ -290,6 +304,12 @@ def convert_iter_lines_to_dict(json_as_str: str) -> dict:
         with open("err_dump.txt", "w") as err_dump_file:
             err_dump_file.write(cleaned_content)
         print(f"{exc}: dumped to err_dump.txt")
+        sys.exit(1)
+    except Exception as exc:
+        breakpoint()
+        print(f"ERROR: {str(exc)}")
+        with open("err_dump.txt", "w") as err_dump_file:
+            err_dump_file.write(cleaned_content)
         sys.exit(1)
 
     # try:

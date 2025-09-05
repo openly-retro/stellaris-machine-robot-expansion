@@ -267,21 +267,17 @@ rikk_mdlc_trait_robotic_mesh_network = {
 	triggered_pop_group_modifier = {
 		potential = {
 			exists = planet
-			planet = {
-				any_owned_pop_group = {
-					has_trait = rikk_mdlc_trait_robotic_mesh_network
-				}
+			owner = {
+				# Already checked at the country level whether this planet has meshnet pops
+				is_variable_set = rikk_mdlc_country_pop_meshnet_bonus_var
 			}
 		}
-		# planet_jobs_unity_produces_mult = 0.000025
-		bureaucrat_jobs_bonus_workforce_mult = 0.000025
-		researcher_jobs_bonus_workforce_mult = 0.000025
-		trader_jobs_bonus_workforce_mult = 0.000025  # added by Retro
-		# planet_jobs_society_research_produces_mult = 0.000025
-		# planet_jobs_engineering_research_produces_mult = 0.000025
+		bureaucrat_jobs_bonus_workforce_mult = 1
+		researcher_jobs_bonus_workforce_mult = 1
+		trader_jobs_bonus_workforce_mult = 1  # added by Retro
 
-		mult = planet.owner.rikk_mdlc_count_mesh_net_pops_in_empire_var
-	}
+		mult = planet.owner.rikk_mdlc_country_pop_meshnet_bonus_var
+	# }
 	custom_tooltip_with_modifiers = rikk_mdlc_trait_robotic_mesh_network_effect
 }
  

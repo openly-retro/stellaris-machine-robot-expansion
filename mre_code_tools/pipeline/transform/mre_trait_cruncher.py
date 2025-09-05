@@ -32,6 +32,7 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
     if root.get('leader_trait_type', '') == 'negative':
         # Skip negative traits
         return {}
+    # Skip 'triggered' traits
     if council_value := root['inline_script'].get('COUNCIL', False):
         if council_value == "triggered":
             print(
@@ -124,6 +125,13 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
         slim_trait["is_councilor_trait"] = True
     if root.get('force_councilor_trait'):
         slim_trait["is_councilor_trait"] = True
+    if 'COUNCIL' in root.get('inline_script'):
+        if root['inline_script']['COUNCIL'] == False:
+            slim_trait["is_councilor_trait"] = False
+        # Yes there's a more pythonic way, don't lecture me, it's 12:03 AM
+        elif root['inline_script']['COUNCIL'] == True:
+            slim_trait["is_councilor_trait"] = True
+            # print(f'Council trait detected for {trait_name} from inline_script COUNCIL key')
     # Galcom stuff
     if root.get('galcom_modifier'):
         slim_trait['galcom_modifier'] = root['galcom_modifier']
@@ -135,6 +143,9 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
     if root.get('prerequisites'):
         # Simple convert to list, also captures just 1 string
         slim_trait['prerequisites'] = root['prerequisites']
+    
+    if root.get('allowed_origins'):
+        slim_trait['allowed_origins'] = root['allowed_origins']
 
     return slim_trait
 
@@ -182,43 +193,6 @@ def guess_rarity_from_trait_data(trait_root_data):
             approximated_rarity = declared_rarity
 
     return approximated_rarity
-
-
-# def read_and_write_traits_data(infile, outfile, format):
-#     with open(infile, "r") as infile:
-#         # buffer = safe_load(infile.read())
-#         buffer = load_yaml(infile, Loader=Loader)
-#     sorted_data = iterate_yaml_to_create_filtered_sorted_traits(buffer)
-#     if format=="yaml":
-#         with open(outfile, "w") as useful_traits_yaml:
-#             # useful_traits_yaml.write(
-#             #     (sorted_data)
-#             # )
-#             dump_yaml(sorted_data, useful_traits_yaml)
-#         print(f"Wrote crunched traits data from {infile.name} to {outfile}")
-#     elif format=="json":
-#         with open(outfile, "w") as useful_traits_json:
-#             json_dump(sorted_data, useful_traits_json, indent=4)
-#         print(f"Wrote crunched traits data from {infile.name} to {outfile}")
-
-
-# if __name__=="__main__":
-#     parser = argparse.ArgumentParser(
-#         prog="0xRetro Stellaris->>YAML",
-#         description="Read Stellaris traits in abbreviated wannabe YAML"
-#     )
-#     parser.add_argument('--infile', help='Stellaris standard YAML file to read. This should have been processed already with stellaris_yaml_converter.py.', required=True)
-#     parser.add_argument('--outfile', help="Write filtered traits to a YAML file.", required=False)
-
-#     args = parser.parse_args()
-#     buffer = ''
-#     sorted_data = ''
-#     if not args.infile:
-#         sys.exit('Need to specify an input file with --infile <filename>')
-#     print("0xRetro Stellaris script chopper.. spinning up blades...")
-#     read_and_write_traits_data(args.infile, args.outfile)
-
-
 
 class LeaderType(Enum):
     COMMANDER = "commander"

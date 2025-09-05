@@ -114,10 +114,12 @@ if __name__=="__main__":
     # New steps:
     # 1. Crunch trait files into individual files named the same as the source, into a tmp folder
     print_stars("Reading Clausewitz Traits files and mapping to JSON ..",2)
+    # Print files to 'extract'
     extracted_files = batch_convert_traits_files_into_json(args.stellaris_path)
     # 2. For each LEADER trait in each json file, place a copy into a dict tracking traits by class
     # 3. Save them to commander/scientist/official
     print_stars("Reducing multiple traits files to 3 ..",2)
+    # Sorted files are 10_*.json in 'build/extract'
     sorted_files = read_and_sort_extracted_traits(extracted_files)
 
     print_stars("Mm mm, delicious, sane, predictable data! (mostly)",2)

@@ -280,13 +280,33 @@ country_event = {
 			}
 			set_variable = {
 				which = rikk_mdlc_count_mesh_net_pops_in_empire_var
-				value > 10000
+				value = 10000
+			}
+			set_variable = {
+				which = rikk_mdlc_country_pop_meshnet_bonus_var
+				value = 0.25
 			}
 		}
-		log = "Empire meshnet pop bonus for \\[this.GetName] set to \\[this.rikk_mdlc_count_mesh_net_pops_in_empire_var] "
+		else = {
+			set_variable = {
+				which = rikk_mdlc_country_pop_meshnet_bonus_var
+				value = rikk_mdlc_count_mesh_net_pops_in_empire_var
+			}
+			multiply_variable = {
+				which = rikk_mdlc_country_pop_meshnet_bonus_var
+				value = 0.000025
+			}
+		}
+
+		# log = "Empire meshnet pop bonus for \\[this.GetName] set to \\[this.rikk_mdlc_country_pop_meshnet_bonus_var] "
+		# every_owned_planet = {
+		# 	limit = {
+		# 		any_owned_species = { has_trait = rikk_mdlc_trait_robotic_mesh_network }
+		# 	}
+		# 	planet_event = { id = rikk_mdlc_extended.13 }
+		# }
 	}
 }
-
 
 # Count nanomachines per planet, on day 2 of the month
 country_event = {
