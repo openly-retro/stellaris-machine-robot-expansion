@@ -86,14 +86,14 @@ oxr_mdlc_situation_planet_decomposer_mega = {
 			icon_background = GFX_situation_stage_frame_green
             end = 28800
 			on_first_enter = {
-				if = {
-					limit = {
-						target = {
-							is_planet_class = pc_frozen
-						}
-					}
-					# Effect to skip/complete this stage, barren has no atmosphere?
-				}
+				# if = {
+				# 	limit = {
+				# 		target = {
+				# 			is_planet_class = pc_frozen
+				# 		}
+				# 	}
+				# 	# Effect to skip/complete this stage, barren has no atmosphere?
+				# }
 			}
 		}
 
@@ -168,20 +168,20 @@ oxr_mdlc_situation_planet_decomposer_mega = {
 		name = oxr_mdlc_situation_planet_decomposer_mega_approach_pops_relocate_home
 		icon = GFX_situation_approach_suspicious
 		icon_background = GFX_situation_approach_bg_blue
-		allow = {
+		potential = {
 			current_stage = oxr_mdlc_situation_planet_decomposer_mega_stage_1
 		}
 		on_select = {
 			custom_tooltip = oxr_mdlc_situation_planet_decomposer_mega_approach_pops_relocate_home_tooltip
 		}
-		default = yes
+
 	}
 	# Displace
 	approach = {
 		name = oxr_mdlc_situation_planet_decomposer_mega_approach_pops_displace
 		icon = GFX_situation_approach_suspicious
 		icon_background = GFX_situation_approach_bg_blue
-		allow = {
+		potential = {
 			current_stage = oxr_mdlc_situation_planet_decomposer_mega_stage_1
 		}
 		on_select = {
@@ -194,7 +194,7 @@ oxr_mdlc_situation_planet_decomposer_mega = {
 		icon = GFX_situation_approach_suspicious
 		icon_background = GFX_situation_approach_bg_blue
 		default = yes
-		allow = {
+		potential = {
 			current_stage = oxr_mdlc_situation_planet_decomposer_mega_stage_1
 			owner = {
 				# or they have any species policy set to purge
@@ -206,27 +206,26 @@ oxr_mdlc_situation_planet_decomposer_mega = {
 		}
 	}
 
-    ## Stages 2,3,4,6
-	approach = {
-		name = oxr_mdlc_situation_planet_decomposer_mega_approach_pause
-		icon = GFX_situation_approach_suspicious
-		icon_background = GFX_situation_approach_bg_blue
-		on_select = {
-			custom_tooltip = oxr_mdlc_situation_planet_decomposer_mega_approach_pause_tooltip
-		}
-	}
 	# Standard approach
 	approach = {
 		name = oxr_mdlc_situation_planet_decomposer_mega_approach_standard
 		icon = GFX_situation_approach_balance_sheet
 		icon_background = GFX_situation_approach_bg_green
-		allow = {
+		potential = {
 			NOT = { current_stage = oxr_mdlc_situation_planet_decomposer_mega_stage_1 }
 		}
 		on_select = {
 			custom_tooltip = oxr_mdlc_situation_planet_decomposer_mega_approach_standard_tooltip
 		}
-		
+		resources = {
+			category = oxr_mdlc_category_origin_null_disassembler_situation
+			# produces = {
+			# 	food = target.oxr_mdlc_origin_null_planet_food_produces_tmp
+			# 	energy = target.oxr_mdlc_origin_null_planet_energy_produces_tmp
+			# 	minerals = target.oxr_mdlc_origin_null_planet_minerals_produces_tmp
+			# 	oxr_mdlc_resource_null_mega_debris = target.oxr_mdlc_origin_null_planet_debris_produces_tmp
+			# }
+		}
 	}
 
 	# Slow, but more efficient
@@ -234,7 +233,7 @@ oxr_mdlc_situation_planet_decomposer_mega = {
 		name = oxr_mdlc_situation_planet_decomposer_mega_approach_refinement
 		icon = GFX_situation_approach_minerals
 		icon_background = GFX_situation_approach_bg_yellow
-		allow = {
+		potential = {
 			NOT = { current_stage = oxr_mdlc_situation_planet_decomposer_mega_stage_1 }
 		}
 		on_select = {
@@ -247,7 +246,7 @@ oxr_mdlc_situation_planet_decomposer_mega = {
 		name = oxr_mdlc_situation_planet_decomposer_mega_approach_careless
 		icon = GFX_situation_approach_energy_credits
 		icon_background = GFX_situation_approach_bg_red
-		allow = {
+		potential = {
 			NOT = { current_stage = oxr_mdlc_situation_planet_decomposer_mega_stage_1 }
 		}
 		on_select = {
@@ -261,8 +260,8 @@ oxr_mdlc_situation_planet_decomposer_mega = {
 		name = oxr_mdlc_situation_planet_decomposer_mega_stage_7_pay_influence
 		icon = GFX_situation_approach_energy_credits
 		icon_background = GFX_situation_approach_bg_red
-		default = yes
-		allow = {
+
+		potential = {
 			current_stage = oxr_mdlc_situation_planet_decomposer_mega_stage_7
 		}
 		on_select = {
@@ -274,7 +273,7 @@ oxr_mdlc_situation_planet_decomposer_mega = {
 		name = oxr_mdlc_situation_planet_decomposer_mega_stage_7_share_wealth
 		icon = GFX_situation_approach_energy_credits
 		icon_background = GFX_situation_approach_bg_red
-		allow = {
+		potential = {
 			current_stage = oxr_mdlc_situation_planet_decomposer_mega_stage_7
 		}
 		on_select = {
@@ -286,7 +285,7 @@ oxr_mdlc_situation_planet_decomposer_mega = {
 		name = oxr_mdlc_situation_planet_decomposer_mega_stage_7_ignore_consequences
 		icon = GFX_situation_approach_energy_credits
 		icon_background = GFX_situation_approach_bg_red
-		allow = {
+		potential = {
 			current_stage = oxr_mdlc_situation_planet_decomposer_mega_stage_7
 		}
 		on_select = {
