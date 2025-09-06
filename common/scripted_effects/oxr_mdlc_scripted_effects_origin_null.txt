@@ -48,7 +48,8 @@ oxr_mdlc_planet_origin_null_formatter_entry_effect = {
 			}
 		}
 		planet = {
-			oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_pulsars = yes
+			# oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_pulsars = yes
+			log = "oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_pulsars"
 		}
 	}
 	# STARS
@@ -233,26 +234,23 @@ oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_habitable_planets = {
 		}
 
 		# Now, copy these vars to the mega
-		# oxr_mdlc_origin_null_planet_energy_produces_tmp
-		# oxr_mdlc_origin_null_planet_minerals_produces_tmp
-		# oxr_mdlc_origin_null_planet_food_produces_tmp
-		# oxr_mdlc_origin_null_planet_debris_produces_tmp
-		prev = {
+
+		event_target:oxr_mdlc_new_decomposer_mega = {
 			set_variable = {
 				which = oxr_mdlc_origin_null_planet_energy_produces
-				value = planet.oxr_mdlc_origin_null_planet_energy_produces_tmp
+				value = event_target:oxr_mdlc_new_decomposer_planet.oxr_mdlc_origin_null_planet_energy_produces_tmp
 			}
 			set_variable = {
 				which = oxr_mdlc_origin_null_planet_minerals_produces
-				value = planet.oxr_mdlc_origin_null_planet_minerals_produces_tmp
+				value = event_target:oxr_mdlc_new_decomposer_planet.oxr_mdlc_origin_null_planet_minerals_produces_tmp
 			}
 			set_variable = {
 				which = oxr_mdlc_origin_null_planet_food_produces
-				value = planet.oxr_mdlc_origin_null_planet_food_produces_tmp
+				value = event_target:oxr_mdlc_new_decomposer_planet.oxr_mdlc_origin_null_planet_food_produces_tmp
 			}
 			set_variable = {
 				which = oxr_mdlc_origin_null_planet_debris_produces
-				value = planet.oxr_mdlc_origin_null_planet_debris_produces_tmp
+				value = event_target:oxr_mdlc_new_decomposer_planet.oxr_mdlc_origin_null_planet_debris_produces_tmp
 			}
 		}		
 	# }
