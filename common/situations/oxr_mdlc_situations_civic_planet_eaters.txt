@@ -29,6 +29,16 @@ oxr_mdlc_situation_planet_decomposer_mega = {
 			add_situation_progress = 1800
 		}
 	}
+	# BOOM
+	on_progress_complete = {
+		custom_tooltip = oxr_mdlc_situation_planet_decomposer_finish_effect
+		hidden_effect = {
+			target = {
+				remove_planet = this
+			}
+			destroy_situaton = this
+		}
+	}
 
 	stages = {
 		# Deal with pops
@@ -113,6 +123,23 @@ oxr_mdlc_situation_planet_decomposer_mega = {
 	}
     monthly_progress = {
         base = 30  # 1 month of progress per month
+
+		# paused
+		modifier = {
+			mult = 0
+			current_situation_approach = oxr_mdlc_situation_planet_decomposer_mega_approach_pause
+		}
+		# standard approach - no modifier
+		# slow/more efficient
+		modifier = {
+			mult = 0.8
+			current_situation_approach = oxr_mdlc_situation_planet_decomposer_mega_approach_refinement
+		}
+		# wasteful/push forward
+		modifier = {
+			mult = 1.25
+			current_situation_approach = oxr_mdlc_situation_planet_decomposer_mega_approach_careless
+		}
 		modifier = {
 			add = target.oxr_mdlc_planet_decomposer_situation_stage_1_progress
 			mult = target.oxr_mdlc_planet_decomposer_situation_stage_1_progress_stage_multiplier
@@ -174,7 +201,6 @@ oxr_mdlc_situation_planet_decomposer_mega = {
 		on_select = {
 			custom_tooltip = oxr_mdlc_situation_planet_decomposer_mega_approach_pops_relocate_home_tooltip
 		}
-
 	}
 	# Displace
 	approach = {
@@ -217,14 +243,46 @@ oxr_mdlc_situation_planet_decomposer_mega = {
 		on_select = {
 			custom_tooltip = oxr_mdlc_situation_planet_decomposer_mega_approach_standard_tooltip
 		}
+		default = yes
 		resources = {
 			category = oxr_mdlc_category_origin_null_disassembler_situation
-			# produces = {
-			# 	food = target.oxr_mdlc_origin_null_planet_food_produces_tmp
-			# 	energy = target.oxr_mdlc_origin_null_planet_energy_produces_tmp
-			# 	minerals = target.oxr_mdlc_origin_null_planet_minerals_produces_tmp
-			# 	oxr_mdlc_resource_null_mega_debris = target.oxr_mdlc_origin_null_planet_debris_produces_tmp
-			# }
+			upkeep = {
+				energy = 10
+				minerals = 10
+			}
+			produces = {
+				trigger = {
+					exists = target
+					target = { is_variable_set = oxr_mdlc_origin_null_planet_food_produces_tmp }
+				}
+				food = 1
+				multiplier = target.oxr_mdlc_origin_null_planet_food_produces_tmp
+			}
+			produces = {
+				trigger = {
+					exists = target
+					target = { is_variable_set = oxr_mdlc_origin_null_planet_energy_produces_tmp }
+				}
+				energy = 1
+				multiplier = target.oxr_mdlc_origin_null_planet_energy_produces_tmp
+			}
+			produces = {
+				trigger = {
+					exists = target
+					target = { is_variable_set = oxr_mdlc_origin_null_planet_minerals_produces_tmp }
+				}
+				minerals = 1
+				multiplier = target.oxr_mdlc_origin_null_planet_minerals_produces_tmp
+			}
+			produces = {
+				trigger = {
+					exists = target
+					target = { is_variable_set = oxr_mdlc_origin_null_planet_oxr_mdlc_resource_null_mega_debris_produces_tmp }
+				}
+				oxr_mdlc_resource_null_mega_debris = 1
+				multiplier = target.oxr_mdlc_origin_null_planet_oxr_mdlc_resource_null_mega_debris_produces_tmp
+			}
+			
 		}
 	}
 
@@ -238,6 +296,46 @@ oxr_mdlc_situation_planet_decomposer_mega = {
 		}
 		on_select = {
 			custom_tooltip = oxr_mdlc_situation_planet_decomposer_mega_approach_refinement_tooltip
+		}
+		resources = {
+			category = oxr_mdlc_category_origin_null_disassembler_situation
+			upkeep = {
+				energy = 20
+				minerals = 20
+			}
+			produces = {
+				trigger = {
+					exists = target
+					target = { is_variable_set = oxr_mdlc_origin_null_planet_food_produces_tmp }
+				}
+				food = 1.25
+				multiplier = target.oxr_mdlc_origin_null_planet_food_produces_tmp
+			}
+			produces = {
+				trigger = {
+					exists = target
+					target = { is_variable_set = oxr_mdlc_origin_null_planet_energy_produces_tmp }
+				}
+				energy = 1.25
+				multiplier = target.oxr_mdlc_origin_null_planet_energy_produces_tmp
+			}
+			produces = {
+				trigger = {
+					exists = target
+					target = { is_variable_set = oxr_mdlc_origin_null_planet_minerals_produces_tmp }
+				}
+				minerals = 1.25
+				multiplier = target.oxr_mdlc_origin_null_planet_minerals_produces_tmp
+			}
+			produces = {
+				trigger = {
+					exists = target
+					target = { is_variable_set = oxr_mdlc_origin_null_planet_oxr_mdlc_resource_null_mega_debris_produces_tmp }
+				}
+				oxr_mdlc_resource_null_mega_debris = 1.25
+				multiplier = target.oxr_mdlc_origin_null_planet_oxr_mdlc_resource_null_mega_debris_produces_tmp
+			}
+
 		}
 	}
 
