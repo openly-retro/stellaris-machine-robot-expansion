@@ -1179,6 +1179,7 @@ oxr_mdlc_world_machines_building_cold_storage_datacenter = {
 oxr_mdlc_world_machines_building_circuit_physics_1 = {
 	base_buildtime = @b1_time
 	exempt_from_ai_planet_specialization = no
+	planet_limit = 1
 
 	category = research
 	inline_script = planet/buildings/oxr_sort_important
@@ -1214,6 +1215,7 @@ oxr_mdlc_world_machines_building_circuit_physics_1 = {
 	prerequisites = { "tech_physics_1" }
 }
 oxr_mdlc_world_machines_building_circuit_physics_2 = {
+	can_build = no
 	base_buildtime = @b2_time
 	exempt_from_ai_planet_specialization = no
 
@@ -1255,8 +1257,8 @@ oxr_mdlc_world_machines_building_circuit_physics_2 = {
 	upgrades = { "oxr_mdlc_world_machines_building_circuit_physics_3" }
 	prerequisites = { "tech_physics_2" }
 }
-
 oxr_mdlc_world_machines_building_circuit_physics_3 = {
+	can_build = no
 	base_buildtime = @b3_time
 	exempt_from_ai_planet_specialization = no
 
@@ -1304,8 +1306,243 @@ oxr_mdlc_world_machines_building_circuit_physics_3 = {
 	prerequisites = { "tech_physics_3" }
 }
 
-oxr_mdlc_world_machines_building_circuit_society = {}
-oxr_mdlc_world_machines_building_circuit_engineering = {}
+oxr_mdlc_world_machines_building_circuit_society_1 = {
+	base_buildtime = @b1_time
+	exempt_from_ai_planet_specialization = no
+	planet_limit = 1
+
+	category = research
+	inline_script = planet/buildings/oxr_sort_important
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_destroy
+	building_sets = {
+		research
+		society
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_research
+	}
+
+	resources = {
+		category = oxr_mdlc_world_machines_science_buildings
+		cost = {
+			minerals = @b1_minerals
+		}
+		upkeep = {
+			energy = @b1_upkeep
+		}
+		produces = {
+			society_research = 12
+		}
+	}
+
+	planet_modifier = {
+		oxr_mdlc_world_machines_science_buildings_society_research_produces_add = 1
+		xvcv_mdlc_world_machines_science_districts_society_research_produces_add = 1
+	}
+
+	upgrades = { "oxr_mdlc_world_machines_building_circuit_society_2" }
+	prerequisites = { "tech_society_1" }
+}
+oxr_mdlc_world_machines_building_circuit_society_2 = {
+	can_build = no
+	base_buildtime = @b2_time
+	exempt_from_ai_planet_specialization = no
+
+	category = research
+	inline_script = planet/buildings/oxr_sort_important
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_destroy
+	building_sets = {
+		research
+		society
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_research
+	}
+
+	resources = {
+		category = oxr_mdlc_world_machines_science_buildings
+		cost = {
+			minerals = @b2_minerals
+			exotic_gases = @b2_rare_cost
+		}
+		upkeep = {
+			energy = @b2_upkeep
+			exotic_gases = @b2_rare_upkeep
+		}
+	}
+
+	planet_modifier = {
+		oxr_mdlc_world_machines_science_buildings_society_research_produces_add = 2
+		xvcv_mdlc_world_machines_science_districts_society_research_produces_add = 2
+
+		oxr_mdlc_world_machines_science_buildings_exotic_gases_upkeep_add = 0.5
+		xvcv_mdlc_world_machines_science_districts_exotic_gases_upkeep_add = 0.5
+	}
+
+	upgrades = { "oxr_mdlc_world_machines_building_circuit_society_3" }
+	prerequisites = { "tech_society_2" }
+}
+oxr_mdlc_world_machines_building_circuit_society_3 = {
+	can_build = no
+	base_buildtime = @b2_time
+	exempt_from_ai_planet_specialization = no
+
+	category = research
+	inline_script = planet/buildings/oxr_sort_important
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_destroy
+	building_sets = {
+		research
+		society
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_research
+	}
+
+	resources = {
+		category = oxr_mdlc_world_machines_science_buildings
+		cost = {
+			minerals = @b3_minerals
+			exotic_gases = @b3_rare_cost
+		}
+		upkeep = {
+			energy = @b3_upkeep
+			exotic_gases = @b3_rare_upkeep
+		}
+	}
+
+	planet_modifier = {
+		oxr_mdlc_world_machines_science_buildings_society_research_produces_add = 2
+		xvcv_mdlc_world_machines_science_districts_society_research_produces_add = 2
+
+		oxr_mdlc_world_machines_science_buildings_society_research_produces_mult = 0.15
+		xvcv_mdlc_world_machines_science_districts_society_research_produces_mult = 0.15
+
+		oxr_mdlc_world_machines_science_buildings_exotic_gases_upkeep_add = 0.5
+		xvcv_mdlc_world_machines_science_districts_exotic_gases_upkeep_add = 0.5
+	}
+
+	prerequisites = { "tech_society_3" }
+}
+
+oxr_mdlc_world_machines_building_circuit_engineering_1 = {
+	base_buildtime = @b1_time
+	exempt_from_ai_planet_specialization = no
+	planet_limit = 1
+
+	category = research
+	inline_script = planet/buildings/oxr_sort_important
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_destroy
+	building_sets = {
+		research
+		society
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_research
+	}
+
+	resources = {
+		category = oxr_mdlc_world_machines_science_buildings
+		cost = {
+			minerals = @b1_minerals
+		}
+		upkeep = {
+			energy = @b1_upkeep
+		}
+		produces = {
+			engineering_research = 12
+		}
+	}
+
+	planet_modifier = {
+		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_add = 1
+		xvcv_mdlc_world_machines_science_districts_engineering_research_produces_add = 1
+	}
+
+	upgrades = { "oxr_mdlc_world_machines_building_circuit_engineering_2" }
+	prerequisites = { "tech_engineering_1" }
+}
+oxr_mdlc_world_machines_building_circuit_engineering_2 = {
+    can_build = no
+	base_buildtime = @b1_time
+	exempt_from_ai_planet_specialization = no
+
+	category = research
+	inline_script = planet/buildings/oxr_sort_important
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_destroy
+	building_sets = {
+		research
+		society
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_research
+	}
+
+	resources = {
+		category = oxr_mdlc_world_machines_science_buildings
+		cost = {
+			minerals = @b2_minerals
+			rare_crystals = @b2_rare_cost
+		}
+		upkeep = {
+			energy = @b2_upkeep
+			rare_crystals = @b2_rare_upkeep
+		}
+	}
+
+	planet_modifier = {
+		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_add = 2
+		xvcv_mdlc_world_machines_science_districts_engineering_research_produces_add = 2
+
+		oxr_mdlc_world_machines_science_buildings_rare_crystals_upkeep_add = 0.5
+		xvcv_mdlc_world_machines_science_districts_rare_crystals_upkeep_add = 0.5
+	}
+
+	upgrades = { "oxr_mdlc_world_machines_building_circuit_engineering_3" }
+	prerequisites = { "tech_engineering_2" }
+}
+oxr_mdlc_world_machines_building_circuit_engineering_3 = {
+    can_build = no
+	base_buildtime = @b1_time
+	exempt_from_ai_planet_specialization = no
+	planet_limit = 1
+
+	category = research
+	inline_script = planet/buildings/oxr_sort_important
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_destroy
+	building_sets = {
+		research
+		society
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_research
+	}
+
+	resources = {
+		category = oxr_mdlc_world_machines_science_buildings
+		cost = {
+			minerals = @b2_minerals
+			rare_crystals = @b2_rare_cost
+		}
+		upkeep = {
+			energy = @b2_upkeep
+			rare_crystals = @b2_rare_upkeep
+		}
+	}
+
+	planet_modifier = {
+		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_add = 2
+		xvcv_mdlc_world_machines_science_districts_engineering_research_produces_add = 2
+
+		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_mult = 0.15
+		xvcv_mdlc_world_machines_science_districts_engineering_research_produces_mult = 0.15
+
+		oxr_mdlc_world_machines_science_buildings_rare_crystals_upkeep_add = 0.5
+		xvcv_mdlc_world_machines_science_districts_rare_crystals_upkeep_add = 0.5
+	}
+
+	prerequisites = { "tech_engineering_3" }
+}
+
 # RESEARCH BOOSTER - TODO (?)
 # oxr_mdlc_world_machines_building_central_data_router = {
 # 	base_buildtime = @b2_time
