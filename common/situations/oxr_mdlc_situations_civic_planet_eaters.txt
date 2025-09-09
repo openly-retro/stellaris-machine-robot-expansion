@@ -19,6 +19,7 @@ oxr_mdlc_situation_planet_decomposer_mega = {
 		if = {
 			limit = {
 				target = {
+					# In a few cases, skip Stage 1 (pops)
 					OR = {
 						is_colony = no
 						pop_amount = 0
@@ -64,16 +65,20 @@ oxr_mdlc_situation_planet_decomposer_mega = {
 			icon = GFX_xvcv_mdlc_situation_stage_2
 			icon_background = GFX_situation_stage_frame_green
             end = 5400
-			# on_first_enter = {
-			# 	if = {
-			# 		limit = {
-			# 			target = {
-			# 				is_planet_class = pc_barren
-			# 			}
-			# 		}
-			# 		# Effect to skip/complete this stage, barren has no atmosphere?
-			# 	}
-			# }
+			on_first_enter = {
+				if = {
+					limit = {
+						target = {
+							OR = {
+								is_planet_class = pc_barren
+								is_planet_class = pc_shattered
+							}
+						}
+					}
+					# Effect to skip/complete this stage, barren has no atmosphere?
+					add_situation_progress = 3600
+				}
+			}
 		}
 
 		# Crust
@@ -250,38 +255,8 @@ oxr_mdlc_situation_planet_decomposer_mega = {
 				energy = 10
 				minerals = 10
 			}
-			produces = {
-				trigger = {
-					exists = target
-					target = { is_variable_set = oxr_mdlc_origin_null_planet_food_produces_tmp }
-				}
-				food = 1
-				multiplier = target.oxr_mdlc_origin_null_planet_food_produces_tmp
-			}
-			produces = {
-				trigger = {
-					exists = target
-					target = { is_variable_set = oxr_mdlc_origin_null_planet_energy_produces_tmp }
-				}
-				energy = 1
-				multiplier = target.oxr_mdlc_origin_null_planet_energy_produces_tmp
-			}
-			produces = {
-				trigger = {
-					exists = target
-					target = { is_variable_set = oxr_mdlc_origin_null_planet_minerals_produces_tmp }
-				}
-				minerals = 1
-				multiplier = target.oxr_mdlc_origin_null_planet_minerals_produces_tmp
-			}
-			produces = {
-				trigger = {
-					exists = target
-					target = { is_variable_set = oxr_mdlc_origin_null_planet_oxr_mdlc_resource_null_mega_debris_produces_tmp }
-				}
-				oxr_mdlc_resource_null_mega_debris = 1
-				multiplier = target.oxr_mdlc_origin_null_planet_oxr_mdlc_resource_null_mega_debris_produces_tmp
-			}
+			inline_script = country/situation/oxr_decomposer_approach_standard_stage2
+			inline_script = country/situation/oxr_decomposer_approach_standard_stage3
 			
 		}
 	}
