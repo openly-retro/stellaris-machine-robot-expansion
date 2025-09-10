@@ -113,7 +113,7 @@ oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_habitable_planets = {
 	# This effect looks at what deposits are on the planet, and exports the total district modifiers
 	# so that the mega can access the vars and produce resources based on the planet's deposits
 	# SECOND LEVEL IN EFFECT STACK
-	# planet = {
+
 		export_trigger_value_to_variable = {
 			trigger = planet_size
 			variable = oxr_mdlc_origin_null_starting_planet_size
@@ -202,6 +202,220 @@ oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_habitable_planets = {
 				value = 0
 			}
 		}
+		## DETERMINE ALLOY PRODUCTION
+		# Alloy jobs have 2 upkeep:1 production
+		# A mineral-poor planet probably won't have many natural alloy deposits,
+		# until the core gets processed
+		# Let Alloy production be 1/2 of mineral production
+		set_variable = {
+			which = oxr_mdlc_origin_null_planet_alloys_produces_tmp
+			value = oxr_mdlc_origin_null_planet_minerals_produces_tmp
+		}
+		divide_variable = {
+			which = oxr_mdlc_origin_null_planet_alloys_produces_tmp
+			value = 2
+		}
+		round_variable = oxr_mdlc_origin_null_planet_alloys_produces_tmp
+
+		### CAPTURE RARE RESOURCE PRODUCTION
+		set_variable = {
+			which = oxr_mdlc_origin_null_planet_volatile_motes_produces_tmp
+			value = 0
+		}
+		set_variable = {
+			which = oxr_mdlc_origin_null_planet_exotic_gases_produces_tmp
+			value = 0
+		}
+		set_variable = {
+			which = oxr_mdlc_origin_null_planet_rare_crystals_produces_tmp
+			value = 0
+		}
+		export_modifier_to_variable = {
+			modifier = planet_technician_volatile_motes_produces_add
+			variable = oxr_mdlc_origin_null_planet_volatile_motes_produces_tmp
+		}
+		export_modifier_to_variable = {
+			modifier = planet_farmers_exotic_gases_produces_add
+			variable = oxr_mdlc_origin_null_planet_exotic_gases_produces_tmp
+		}
+		export_modifier_to_variable = {
+			modifier = planet_miners_rare_crystals_produces_add
+			variable = oxr_mdlc_origin_null_planet_rare_crystals_produces_tmp
+		}
+		## INITIALIZE EXOTIC RESOURCES
+		set_variable = {
+			which = oxr_mdlc_origin_null_planet_zro_produces_tmp
+			value = 0
+		}
+		set_variable = {
+			which = oxr_mdlc_origin_null_planet_dark_matter_produces_tmp
+			value = 0
+		}
+		set_variable = {
+			which = oxr_mdlc_origin_null_planet_living_metal_produces_tmp
+			value = 0
+		}
+
+		## Capture rare resource production from orbital deposits
+		if = {
+			limit = {
+				has_deposit_for = shipclass_mining_station
+			}
+			switch = {
+				trigger = has_deposit
+				d_exotic_gases_1 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_exotic_gases_produces_tmp
+						value = 1
+					}
+				}
+				d_exotic_gases_2 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_exotic_gases_produces_tmp
+						value = 2
+					}
+				}
+				d_exotic_gases_3 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_exotic_gases_produces_tmp
+						value = 3
+					}
+				}
+				d_exotic_gases_4 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_exotic_gases_produces_tmp
+						value = 4
+					}
+				}
+				d_exotic_gases_5 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_exotic_gases_produces_tmp
+						value = 5
+					}
+				}
+				d_rare_crystals_1 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_rare_crystals_produces_tmp
+						value = 1
+					}
+				}
+				d_rare_crystals_2 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_rare_crystals_produces_tmp
+						value = 2
+					}
+				}
+				d_rare_crystals_3 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_rare_crystals_produces_tmp
+						value = 3
+					}
+				}
+				d_rare_crystals_4 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_rare_crystals_produces_tmp
+						value = 4
+					}
+				}
+				d_rare_crystals_5 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_rare_crystals_produces_tmp
+						value = 5
+					}
+				}
+				d_volatile_motes_1 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_volatile_motes_produces_tmp
+						value = 1
+					}
+				}
+				d_volatile_motes_2 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_volatile_motes_produces_tmp
+						value = 2
+					}
+				}
+				d_volatile_motes_3 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_volatile_motes_produces_tmp
+						value = 3
+					}
+				}
+				d_volatile_motes_4 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_volatile_motes_produces_tmp
+						value = 4
+					}
+				}
+				d_volatile_motes_5 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_volatile_motes_produces_tmp
+						value = 5
+					}
+				}
+				d_zro_deposit_1 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_zro_produces_tmp
+						value = 1
+					}
+				}
+				d_zro_deposit_2 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_zro_produces_tmp
+						value = 2
+					}
+				}
+				d_zro_deposit_3 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_zro_produces_tmp
+						value = 3
+					}
+				}
+				d_zro_deposit_4 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_zro_produces_tmp
+						value = 4
+					}
+				}
+				d_zro_deposit_5 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_zro_produces_tmp
+						value = 5
+					}
+				}
+				d_dark_matter_deposit_1 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_dark_matter_produces_tmp
+						value = 1
+					}
+				}
+				d_dark_matter_deposit_2 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_dark_matter_produces_tmp
+						value = 2
+					}
+				}
+				d_dark_matter_deposit_3 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_dark_matter_produces_tmp
+						value = 3
+					}
+				}
+				d_dark_matter_deposit_10 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_dark_matter_produces_tmp
+						value = 10
+					}
+				}
+				d_living_metal_deposit = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_living_metal_produces_tmp
+						value = 1
+					}
+				}
+			}
+		}
+
 
 		# Mult by 10 so we dont have to do this in the mega/resources block
 		# The representative deposit 'resources' block will read these vars to produce resources
@@ -215,6 +429,10 @@ oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_habitable_planets = {
 		}
 		multiply_variable = {
 			which = oxr_mdlc_origin_null_planet_food_produces_tmp
+			value = @oxr_mdlc_origin_null_base_deposit_mult_value
+		}
+		multiply_variable = {
+			which = oxr_mdlc_origin_null_planet_alloys_produces_tmp
 			value = @oxr_mdlc_origin_null_base_deposit_mult_value
 		}
 		# The deposit will reference these planet vars in its 'produces' block
@@ -233,27 +451,6 @@ oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_habitable_planets = {
 			value = 100
 		}
 
-		# Now, copy these vars to the mega
-
-		# event_target:oxr_mdlc_new_decomposer_mega = {
-		# 	set_variable = {
-		# 		which = oxr_mdlc_origin_null_planet_energy_produces
-		# 		value = event_target:oxr_mdlc_new_decomposer_planet.oxr_mdlc_origin_null_planet_energy_produces_tmp
-		# 	}
-		# 	set_variable = {
-		# 		which = oxr_mdlc_origin_null_planet_minerals_produces
-		# 		value = event_target:oxr_mdlc_new_decomposer_planet.oxr_mdlc_origin_null_planet_minerals_produces_tmp
-		# 	}
-		# 	set_variable = {
-		# 		which = oxr_mdlc_origin_null_planet_food_produces
-		# 		value = event_target:oxr_mdlc_new_decomposer_planet.oxr_mdlc_origin_null_planet_food_produces_tmp
-		# 	}
-		# 	set_variable = {
-		# 		which = oxr_mdlc_origin_null_planet_debris_produces
-		# 		value = event_target:oxr_mdlc_new_decomposer_planet.oxr_mdlc_origin_null_planet_oxr_mdlc_resource_null_mega_debris_produces_tmp
-		# 	}
-		# }		
-	# }
 }
 
 oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_uninhabitable_regular_planets = {
