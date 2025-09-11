@@ -1,0 +1,120 @@
+oxr_mdlc_origin_null_stellar_formatter = {
+	entity = "xvcv_mdlc_planet_cracker_entity"
+	portrait = "GFX_megastructure_xvcv_mdlc_planet_cracker"
+	place_entity_on_planet_plane = yes
+	show_galactic_map_icon = no
+	show_in_outliner = yes
+	use_planet_resource = yes
+	build_time = 1  # change this later :)
+	entity_offset = { x = 1 y = 0 }
+	scales_with_planet = no
+
+	construction_blocks_and_blocked_by = none
+
+	dismantle_cost = { category = megastructures cost = { energy = 1 } }
+	dismantle_time = 1
+	dismantle_potential = { always = yes }
+	dismantle_possible = { always = yes }
+
+	potential = {
+		# has_oxr_mdlc_civic_planet_eaters = yes
+		has_oxr_mdlc_country_feature_planet_eaters = yes
+	}
+
+	possible = {
+		hidden_trigger = {
+			exists = starbase
+		}
+		custom_tooltip = {
+			fail_text = "requires_inside_border"
+			is_inside_border = from
+		}
+	}
+	placement_rules = {
+		planet_possible = {
+			has_moon = no
+			doesnt_have_planet_flag = megastructure
+		}
+	}
+	
+	on_build_complete = {
+		save_event_target_as = oxr_mdlc_new_decomposer_mega
+		fromfrom.planet = {
+			save_event_target_as = oxr_mdlc_new_decomposer_planet
+			set_planet_flag = has_megastructure
+			set_planet_flag = oxr_mdlc_origin_null_stellar_formatter_placed
+			oxr_mdlc_planet_origin_null_formatter_entry_effect = yes
+		}
+
+		# Start yearly consumption event
+		# event ....
+		space_owner = {
+			start_situation = {
+				type = oxr_mdlc_situation_planet_decomposer_mega
+				target = fromfrom.planet
+			}
+		}
+	}
+
+	resources = {
+		# category = station_gatherers <-- use for deposits
+		# category = oxr_mdlc_category_origin_null_disassembler_mega
+		category = oxr_mdlc_category_origin_null_station_gatherer_megas
+
+		produces = {
+			trigger = {
+				is_variable_set = planet.oxr_mdlc_origin_null_planet_food_produces_tmp
+			}
+			food = 1
+			multiplier = planet.oxr_mdlc_origin_null_planet_food_produces_tmp
+		}
+		# # try using the planet again...
+		produces = {
+			trigger = {
+				is_variable_set = planet.oxr_mdlc_origin_null_planet_minerals_produces_tmp
+			}
+			minerals = 1
+			multiplier = planet.oxr_mdlc_origin_null_planet_minerals_produces_tmp
+		}
+
+		# produces = {
+		# 	trigger = {
+		# 		exists = planet
+		# 		is_variable_set = planet.oxr_mdlc_origin_null_planet_minerals_produces_tmp
+		# 	}
+		# 	minerals = planet.oxr_mdlc_origin_null_planet_minerals_produces_tmp
+		# }
+		# produces = {
+		# 	trigger = {
+		# 		exists = planet
+		# 		is_variable_set = planet.oxr_mdlc_origin_null_planet_energy_produces_tmp
+		# 	}
+		# 	energy = planet.oxr_mdlc_origin_null_planet_energy_produces_tmp
+		# }
+		# produces = {
+		# 	trigger = {
+		# 		exists = planet
+		# 		is_variable_set = planet.oxr_mdlc_origin_null_planet_oxr_mdlc_resource_null_mega_debris_produces_tmp
+		# 	}
+		# 	oxr_mdlc_resource_null_mega_debris = oxr_mdlc_origin_null_planet_debris_produces
+		# }
+	}
+
+	on_dismantle_start = {
+		fromfrom.planet = {
+			# pause the consumption event
+		}
+	}
+	on_dismantle_cancel = {
+		fromfrom.planet = {
+			# continue consumption event
+		}
+	}
+	on_dismantle_complete = {
+		fromfrom.planet = {
+			# stop consumption and remove planet modifier
+			remove_planet_flag = has_megastructure
+			remove_planet_flag = oxr_mdlc_origin_null_stellar_formatter_placed
+		}
+	}
+}

@@ -1,0 +1,67 @@
+oxr_mdlc_d_origin_null_decompose_resources = {
+	# This deposit represents the output of the disassembling megastructure in orbit
+	# Just look how nicely the resources are coerced into the output of the deposit
+	# Too bad it won't show up in the system UI because of the variable mult
+	resources = {
+		category = oxr_mdlc_category_origin_null_disassembler_orbital_deposits
+
+		## NORMAL HABITABLE PLANETS ##
+		# Basic resources
+		produces = {
+			trigger = {
+				is_variable_set = oxr_mdlc_origin_null_planet_food_produces_tmp
+			}
+			food = 1
+			# var will be set to 10 resouce per district
+			mult = oxr_mdlc_origin_null_planet_food_produces_tmp
+		}
+		produces = {
+			trigger = {
+				is_variable_set = oxr_mdlc_origin_null_planet_minerals_produces_tmp
+			}
+			minerals = 1
+			# var will be set to 10 resouce per district
+			mult = oxr_mdlc_origin_null_planet_minerals_produces_tmp
+		}
+		produces = {
+			trigger = {
+				is_variable_set = oxr_mdlc_origin_null_planet_energy_produces_tmp
+			}
+			energy = 1
+			# var will be set to 10 resouce per district
+			mult = oxr_mdlc_origin_null_planet_energy_produces_tmp
+		}
+		produces = {
+			trigger = {
+				is_variable_set = oxr_mdlc_origin_null_planet_oxr_mdlc_resource_null_mega_debris_produces_tmp
+			}
+			oxr_mdlc_resource_null_mega_debris = 1
+			# var will be set to 10 resouce per district
+			mult = oxr_mdlc_origin_null_planet_oxr_mdlc_resource_null_mega_debris_produces_tmp
+		}
+	}
+	station = shipclass_mining_station
+	is_for_colonizable = no
+}
+
+# We have to make these individually because the elegant way
+# does not get rendered in the UI (one deposit w/ all resources on it)
+# Each one creates 10
+oxr_mdlc_d_origin_null_decompose_resources_food = {
+	inline_script = {
+		script = planet/deposits/oxr_null_resource
+		RESOURCE = food
+	}
+}
+oxr_mdlc_d_origin_null_decompose_resources_minerals = {
+	inline_script = {
+		script = planet/deposits/oxr_null_resource
+		RESOURCE = minerals
+	}
+}
+oxr_mdlc_d_origin_null_decompose_resources_energy = {
+	inline_script = {
+		script = planet/deposits/oxr_null_resource
+		RESOURCE = energy
+	}
+}
