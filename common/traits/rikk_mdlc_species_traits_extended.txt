@@ -290,11 +290,32 @@ rikk_mdlc_trait_robotic_mesh_network = {
 # originally it provided a bonus for a low amount and negatives for a high amount but that didn't make sense?
 rikk_mdlc_trait_robotic_constant_growth = {
 	cost = 3
-	inline_script = trait/rikk_extended_origin
+	initial = yes
+	allowed_archetypes = { MACHINE ROBOT XVCV_MDLC_BIO_ROBOT }
+	species_possible_add = {
+		hidden_trigger = {
+			exists = from
+			if = {
+				limit = {
+					from = { oxr_mdlc_country_finished_nanotech = yes }
+				}
+				always = yes
+			}
+			else = {
+				NOT = { has_global_flag = game_started }
+			}
+			# OR = {
+			# 	from = { oxr_mdlc_country_finished_nanotech = yes }
+			# 	NOT = { has_global_flag = game_started }
+			# }
+			has_mute_extended_machines = no
+		}
+	}
+	sorting_priority = 128
 
-	species_possible_remove = { always = no }
-	species_possible_merge_add = { always = no }
-	species_possible_merge_remove = { always = no }
+	species_possible_remove = { from = { oxr_mdlc_country_finished_nanotech = yes } }
+	species_possible_merge_add = { from = { oxr_mdlc_country_finished_nanotech = yes } }
+	species_possible_merge_remove = { from = { oxr_mdlc_country_finished_nanotech = yes } }
 
 	modifier = {
 		pop_housing_usage_add = -0.75
