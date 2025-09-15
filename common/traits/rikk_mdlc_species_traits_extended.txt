@@ -294,28 +294,39 @@ rikk_mdlc_trait_robotic_constant_growth = {
 	allowed_archetypes = { MACHINE ROBOT XVCV_MDLC_BIO_ROBOT }
 	species_possible_add = {
 		hidden_trigger = {
-			exists = from
-			if = {
-				limit = {
-					from = { oxr_mdlc_country_finished_nanotech = yes }
-				}
-				always = yes
-			}
-			else = {
-				NOT = { has_global_flag = game_started }
-			}
-			# OR = {
-			# 	from = { oxr_mdlc_country_finished_nanotech = yes }
-			# 	NOT = { has_global_flag = game_started }
-			# }
-			has_mute_extended_machines = no
-		}
+            exists = from
+            has_mute_extended_machines = no
+        }
+        custom_tooltip = {
+            fail_text = oxr_mdlc_species_add_nanomachines_fail.missing_tradition
+            from = { oxr_mdlc_country_finished_nanotech = yes }
+        }
 	}
 	sorting_priority = 128
 
-	species_possible_remove = { from = { oxr_mdlc_country_finished_nanotech = yes } }
-	species_possible_merge_add = { from = { oxr_mdlc_country_finished_nanotech = yes } }
-	species_possible_merge_remove = { from = { oxr_mdlc_country_finished_nanotech = yes } }
+	species_possible_remove = {
+        hidden_trigger = {
+            exists = from
+        }
+        custom_tooltip = {
+            fail_text = oxr_mdlc_species_add_nanomachines_fail.missing_tradition
+            from = { oxr_mdlc_country_finished_nanotech = yes }
+        }
+    }
+	species_possible_merge_add = {
+        hidden_trigger = { exists = from }
+        custom_tooltip = {
+            fail_text = oxr_mdlc_species_add_nanomachines_fail.missing_tradition
+            from = { oxr_mdlc_country_finished_nanotech = yes }
+        }
+    }
+	species_possible_merge_remove = {
+        hidden_trigger = { exists = from }
+        custom_tooltip = {
+            fail_text = oxr_mdlc_species_add_nanomachines_fail.missing_tradition
+            from = { oxr_mdlc_country_finished_nanotech = yes }
+        }
+    }
 
 	modifier = {
 		pop_housing_usage_add = -0.75
@@ -328,10 +339,6 @@ rikk_mdlc_trait_robotic_constant_growth = {
                 any_owned_pop_group = {
                     has_trait = rikk_mdlc_trait_robotic_constant_growth
                 }
-				# check_variable = {
-				# 	which = rikk_mdlc_count_nanomachine_pops_on_planet_var
-				# 	value <= 10000
-				# }
             }
         }
 		# species_empire_size_mult = 0.00002
