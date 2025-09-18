@@ -23,37 +23,18 @@ xvcv_mdlc_pc_machine_ecu_district_production = {
 	}
 
 	zone_slots = {
-		oxr_mdlc_slot_pc_machine_ecu_forge
-		oxr_mdlc_slot_pc_machine_ecu_consumer_goods
+		rikk_mdlc_slot_pc_machine_ecu_forge
 	}
 
 	resources = {
 		category = xvcv_mdlc_world_machines_production_districts
-				cost = {
+		cost = {
 			minerals = @oxr_rw_cost
 		}
-		cost = {
-			trigger = {
-				has_oxr_mdlc_zone_pc_machine_ecu_alloys = no
-			}
-			rare_crystals = @oxr_rw_cost_sr
-		}
-		cost = {
-			trigger = {
-				has_oxr_mdlc_zone_pc_machine_ecu_alloys = yes
-			}
-			volatile_motes = @oxr_rw_cost_sr
-		}
+#rikk: it defaults alloys so mote cost/upkeep,
+#once it has been specialized as consumer goods via zone it converts to rare crystal cost/upkeep
 		upkeep = {
 			energy = @rw_maintenance
-		}
-		upkeep = {
-			trigger = { has_oxr_mdlc_zone_pc_machine_ecu_alloys = no }
-			rare_crystals = @rw_maintenance_sr
-		}
-		upkeep = {
-			trigger = { has_oxr_mdlc_zone_pc_machine_ecu_alloys = yes }
-			volatile_motes = @rw_maintenance_sr
 		}
 		upkeep = {
 			trigger = {
@@ -64,141 +45,6 @@ xvcv_mdlc_pc_machine_ecu_district_production = {
 			}
 			energy = 4
 		}
-		# NO ZONES, NOT CATALYTIC, NO GOODS
-		produces = {
-			trigger = {
-				has_oxr_mdlc_zone_pc_machine_ecu_consumer_goods = no
-				has_oxr_mdlc_zone_pc_machine_ecu_alloys = no
-				oxr_planet_owner_is_catalytic = no
-				oxr_planet_owner_uses_goods = no
-			}
-			# consumer_goods = @[ 6 * oxr_mdlc_wm_base_artisan_output ]
-			# alloys = @[ 6 * oxr_mdlc_wm_base_fabricator_output ]
-			alloys = @[ 6 * oxr_mdlc_wm_base_fabricator_output ]
-			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
-		}
-		upkeep = {
-			trigger = {
-				has_oxr_mdlc_zone_pc_machine_ecu_consumer_goods = no
-				has_oxr_mdlc_zone_pc_machine_ecu_alloys = no
-				oxr_planet_owner_is_catalytic = no
-				oxr_planet_owner_uses_goods = no
-			}
-			# minerals = @[ ( 6 * oxr_mdlc_wm_base_artisan_upkeep ) + ( 6 * oxr_mdlc_wm_base_fabricator_upkeep ) ]
-			minerals = @[ 6 * oxr_mdlc_wm_base_fabricator_upkeep ]
-		}
-		# NO ZONES, YES CATALYTIC, NO GOODS
-		produces = {
-			trigger = {
-				has_oxr_mdlc_zone_pc_machine_ecu_consumer_goods = no
-				has_oxr_mdlc_zone_pc_machine_ecu_alloys = no
-				oxr_planet_owner_is_catalytic = yes
-				oxr_planet_owner_uses_goods = no
-			}
-			alloys = @[ 6 * oxr_mdlc_wm_base_catalytic_output ]
-			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
-		}
-		upkeep = {
-			trigger = {
-				has_oxr_mdlc_zone_pc_machine_ecu_consumer_goods = no
-				has_oxr_mdlc_zone_pc_machine_ecu_alloys = no
-				oxr_planet_owner_is_catalytic = yes
-				oxr_planet_owner_uses_goods = no
-			}
-			food = @[ 6 * oxr_mdlc_wm_base_catalytic_upkeep_food ]
-		}
-		# NO ZONES, NOT CATALYTIC, USES GOODS
-		produces = {
-			trigger = {
-				has_oxr_mdlc_zone_pc_machine_ecu_consumer_goods = no
-				has_oxr_mdlc_zone_pc_machine_ecu_alloys = no
-				oxr_planet_owner_is_catalytic = no
-				oxr_planet_owner_uses_goods = yes
-			}
-			consumer_goods = @[ 3 * oxr_mdlc_wm_base_artisan_output ]
-			alloys = @[ 3 * oxr_mdlc_wm_base_fabricator_output ]
-			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
-		}
-		upkeep = {
-			trigger = {
-				has_oxr_mdlc_zone_pc_machine_ecu_consumer_goods = no
-				has_oxr_mdlc_zone_pc_machine_ecu_alloys = no
-				oxr_planet_owner_is_catalytic = no
-				oxr_planet_owner_uses_goods = yes
-			}
-			minerals = @[ ( 3 * oxr_mdlc_wm_base_artisan_upkeep ) + ( 3 * oxr_mdlc_wm_base_fabricator_upkeep ) ]
-		}
-		# NO ZONES, YES CATALYTIC, YES GOODS
-		produces = {
-			trigger = {
-				has_oxr_mdlc_zone_pc_machine_ecu_consumer_goods = no
-				has_oxr_mdlc_zone_pc_machine_ecu_alloys = no
-				oxr_planet_owner_is_catalytic = no
-				oxr_planet_owner_uses_goods = yes
-			}
-			consumer_goods = @[ 3 * oxr_mdlc_wm_base_artisan_output ]
-			alloys = @[ 3 * oxr_mdlc_wm_base_catalytic_output ]
-			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
-		}
-		upkeep = {
-			trigger = {
-				has_oxr_mdlc_zone_pc_machine_ecu_consumer_goods = no
-				has_oxr_mdlc_zone_pc_machine_ecu_alloys = no
-				oxr_planet_owner_is_catalytic = no
-				oxr_planet_owner_uses_goods = yes
-			}
-			minerals = @[ 3 * oxr_mdlc_wm_base_artisan_upkeep ]
-			food = @[ 3 * oxr_mdlc_wm_base_catalytic_output ]
-		}
-		#### ZONES ####
-		# ALLOYS - NOT CATALYTIC
-		produces = {
-			trigger = {
-				has_oxr_mdlc_zone_pc_machine_ecu_alloys = yes
-				oxr_planet_owner_is_catalytic = no
-			}
-			alloys = @[ 6 * oxr_mdlc_wm_base_fabricator_output ]
-			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
-		}
-		upkeep = {
-			trigger = {
-				has_oxr_mdlc_zone_pc_machine_ecu_alloys = yes
-				oxr_planet_owner_is_catalytic = no
-			}
-			minerals = @[ 6 * oxr_mdlc_wm_base_fabricator_upkeep ]
-		}
-		# ALLOYS - CATALYTIC
-		produces = {
-			trigger = {
-				has_oxr_mdlc_zone_pc_machine_ecu_alloys = yes
-				oxr_planet_owner_is_catalytic = yes
-			}
-			alloys = @[ 6 * oxr_mdlc_wm_base_catalytic_output ]
-			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
-		}
-		upkeep = {
-		trigger = {
-				has_oxr_mdlc_zone_pc_machine_ecu_alloys = yes
-				oxr_planet_owner_is_catalytic = yes
-			}
-			food = @[ 6 * oxr_mdlc_wm_base_catalytic_upkeep_food ]
-		}
-		# GOODS
-		produces = {
-			trigger = {
-				has_oxr_mdlc_zone_pc_machine_ecu_consumer_goods = yes
-			}
-			consumer_goods = @[ 6 * oxr_mdlc_wm_base_artisan_output ]
-			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
-		}
-		upkeep = {
-			trigger = {
-				has_oxr_mdlc_zone_pc_machine_ecu_consumer_goods = yes
-			}
-			minerals = @[ 6 * oxr_mdlc_wm_base_artisan_upkeep ]
-		}
-
-
 	}
 
 	conversion_ratio = 1
