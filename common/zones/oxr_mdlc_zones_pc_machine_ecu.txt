@@ -1,10 +1,37 @@
-# ECU zones
+ ECU zones
 oxr_mdlc_zone_pc_machine_ecu_alloys = {
 	icon = GFX_colony_type_foundry
+
 	inline_script = planet/zones/oxr_wm_zone_base_ecu
 
 	swap_type = xvcv_mdlc_pc_machine_ecu_district_alloys
 	swap_type_weight = 5
+
+	base_buildtime = @zone_buildtime
+	
+	swap_type = xvcv_mdlc_pc_machine_ecu_district_alloys
+	swap_type_weight = 5
+
+	
+	# ALLOYS - NOT CATALYTIC
+	triggered_planet_modifier = {
+		potential = { oxr_planet_owner_is_catalytic = no }
+		xvcv_mdlc_world_machines_production_districts_alloys_produces_add = @[ 6 * oxr_mdlc_wm_base_fabricator_output ]
+		xvcv_mdlc_world_machines_production_districts_minerals_upkeep_add = @[ 6 * oxr_mdlc_wm_base_fabricator_upkeep ]
+		xvcv_mdlc_world_machines_production_districts_volatile_motes_upkeep_add = @rw_maintenance_sr
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
+	}
+
+	# ALLOYS - CATALYTIC
+	triggered_planet_modifier = {
+		potential = { oxr_planet_owner_is_catalytic = yes }
+		xvcv_mdlc_world_machines_production_districts_alloys_produces_add = @[ 6 * oxr_mdlc_wm_base_catalytic_output ]
+		xvcv_mdlc_world_machines_production_districts_food_upkeep_add = @[ 6 * oxr_mdlc_wm_base_catalytic_upkeep_food ]
+		xvcv_mdlc_world_machines_production_districts_volatile_motes_upkeep_add = @rw_maintenance_sr
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
+	}
+	
+	triggered_desc = { trigger = { always = yes } text = rikk_mdlc_zone_swap_tt }
 
 	included_building_sets = {
 		foundry
@@ -19,19 +46,34 @@ oxr_mdlc_zone_pc_machine_ecu_alloys = {
 		cost = { minerals = @xvcv_mdlc_district_cost_5 }
 	}
 
-	inline_script = {
-		script = planet/zones/auto/oxr_wm_alloys_zone_production
-		DISTRICT_CATEGORY = xvcv_mdlc_world_machines_production_districts
-		JOBS = @oxr_t3_planet_district_jobs
-	}
+	# inline_script = {
+	# 	script = planet/zones/auto/oxr_wm_alloys_zone_production
+	# 	DISTRICT_CATEGORY = xvcv_mdlc_world_machines_production_districts
+	# 	JOBS = @oxr_t3_planet_district_jobs
+	# }
+
 	zone_sets = {
-		oxr_mdlc_zone_set_wm_production
+		rikk_mdlc_slot_pc_machine_ecu_forge_zone
 	}
 }
 
 oxr_mdlc_zone_pc_machine_ecu_consumer_goods = {
 	icon = GFX_colony_type_factory
 	inline_script = planet/zones/oxr_wm_zone_base_ecu
+	base_buildtime = @zone_buildtime
+	
+	swap_type = xvcv_mdlc_pc_machine_ecu_district_goods
+	swap_type_weight = 5
+
+	
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_production_districts_consumer_goods_produces_add = @[ 6 * oxr_mdlc_wm_base_artisan_output ]
+		xvcv_mdlc_world_machines_production_districts_minerals_upkeep_add = @[ 6 * oxr_mdlc_wm_base_artisan_upkeep ]
+		xvcv_mdlc_world_machines_production_districts_rare_crystals_upkeep_add = @rw_maintenance_sr
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
+	}
+
+	triggered_desc = { trigger = { always = yes } text = rikk_mdlc_zone_swap_tt }
 
 	included_building_sets = {
 		factory
@@ -41,20 +83,18 @@ oxr_mdlc_zone_pc_machine_ecu_consumer_goods = {
 		oxr_mdlc_building_set_wm_factory
 	}
 
-	swap_type = xvcv_mdlc_pc_machine_ecu_district_goods
-	swap_type_weight = 5
-
-	inline_script = {
-		script = planet/zones/auto/oxr_wm_consumer_goods_zone_production
-		DISTRICT_CATEGORY = xvcv_mdlc_world_machines_production_districts
-		JOBS = @oxr_t3_planet_district_jobs
-	}
+	# inline_script = {
+	# 	script = planet/zones/auto/oxr_wm_consumer_goods_zone_production
+	# 	DISTRICT_CATEGORY = xvcv_mdlc_world_machines_production_districts
+	# 	JOBS = @oxr_t3_planet_district_jobs
+	# }
 
 	ai_resource_production = {
 		consumer_goods = 10
 		trigger = { always = yes }
 	}
+	
 	zone_sets = {
-		oxr_mdlc_zone_set_wm_production
+		rikk_mdlc_slot_pc_machine_ecu_forge_zone
 	}
 }
