@@ -230,7 +230,7 @@ rikk_mdlc_world_machine_dyson_receiver = {
 			# Do easy calculations here to show static variables in the planet modifier text
 			set_or_increment_variable = {
 				VAR = rikk_mdlc_planet_dyson_receiver_count
-				AMOUNT = 1
+				AMOUNT = 0.5
 			}
 			set_variable = {
 				which = rikk_mdlc_planet_dyson_receiver_boost_effect_var
@@ -239,6 +239,10 @@ rikk_mdlc_world_machine_dyson_receiver = {
 			multiply_variable = {
 				which = rikk_mdlc_planet_dyson_receiver_boost_effect_var
 				value = @oxr_mdlc_planet_base_production_per_orbital_dyson_receiver
+			}
+			multiply_variable = {
+				which = rikk_mdlc_planet_dyson_receiver_boost_effect_var
+				value = 100
 			}
 			if = {
 				limit = {
@@ -259,8 +263,8 @@ rikk_mdlc_world_machine_dyson_receiver = {
 			dec_var_by_one = { which = rikk_mdlc_planet_dyson_receiver_count }
 			if = {
 				limit = {
-					check_modifier_value = {
-						modifier = rikk_mdlc_planet_dyson_receiver_count
+					check_variable = {
+						which = rikk_mdlc_planet_dyson_receiver_count
 						value < 1
 					}
 				}
@@ -277,6 +281,10 @@ rikk_mdlc_world_machine_dyson_receiver = {
 				multiply_variable = {
 					which = rikk_mdlc_planet_dyson_receiver_boost_effect_var
 					value = @oxr_mdlc_planet_base_production_per_orbital_dyson_receiver
+				}
+				multiply_variable = {
+					which = rikk_mdlc_planet_dyson_receiver_boost_effect_var
+					value = 100
 				}
 			}
 			
