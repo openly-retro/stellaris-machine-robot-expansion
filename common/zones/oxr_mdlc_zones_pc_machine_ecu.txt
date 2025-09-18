@@ -1,4 +1,4 @@
- ECU zones
+#ECU zones
 oxr_mdlc_zone_pc_machine_ecu_alloys = {
 	icon = GFX_colony_type_foundry
 	base_buildtime = @zone_buildtime
@@ -18,11 +18,17 @@ oxr_mdlc_zone_pc_machine_ecu_alloys = {
 	
 	resources = {
 		category = oxr_mdlc_world_machines_zones
-		cost = { minerals = @zone_cost }
+		cost = { 
+			minerals = @zone_cost
+			volatile_motes = @oxr_rw_cost_sr
+		}
 	}
 	
 	planet_modifier = {
 		zone_building_slots_add = 3
+	}
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_production_districts_volatile_motes_cost_add = @oxr_rw_cost_sr
 	}
 	
 	#COST NEEDS TO BE ADDED
@@ -79,11 +85,17 @@ oxr_mdlc_zone_pc_machine_ecu_consumer_goods = {
 	
 	resources = {
 		category = oxr_mdlc_world_machines_zones
-		cost = { minerals = @zone_cost }
+		cost = { 
+			minerals = @zone_cost
+			rare_crystals = @oxr_rw_cost_sr
+		}
 	}
 	
 	planet_modifier = {
 		zone_building_slots_add = 3
+	}
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_production_districts_rare_crystals_cost_add = @oxr_rw_cost_sr
 	}
 	
 	triggered_planet_modifier = {
