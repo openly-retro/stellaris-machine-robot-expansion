@@ -2478,7 +2478,7 @@ country_event = {
 	}
 }
 
-### 'xvcv_mdlc_civic_goods_distributor_pop_bonus_on' Edict Events ###
+### 'xvcv_mdlc_civic_goods_distributor_edict' Edict Events ###
 #'xvcv_mdlc_goods_for_pop_unity_bonus' modifier add effect event
 country_event = {
 	id = xvcv_mdlc.60
@@ -2486,7 +2486,7 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		has_country_flag = xvcv_mdlc_civic_goods_distributor_pop_bonus_on
+		has_country_flag = xvcv_mdlc_country_flag_civic_goods_distributor_pop_bonus_on
 		resource_income_compare = { resource = consumer_goods value > 0 }
 	}
 
@@ -2495,6 +2495,7 @@ country_event = {
 			limit = { has_modifier = xvcv_mdlc_goods_for_pop_unity_bonus_none }
 			remove_modifier = xvcv_mdlc_goods_for_pop_unity_bonus_none
 		}
+		log = "triggered monthly goods distributor check"
 		xvcv_mdlc_civic_goods_distributor_pop_bonus_effect = yes
 	}
 }

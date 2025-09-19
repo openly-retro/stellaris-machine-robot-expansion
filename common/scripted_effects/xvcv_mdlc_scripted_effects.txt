@@ -232,6 +232,8 @@ xvcv_mdlc_planet_owner_terraforming_resolution_breached_effect = {
 	}
 }
 xvcv_mdlc_civic_goods_distributor_pop_bonus_effect = {
+	# This effect converts consumer goods to unity, by dividing it amongst all pops
+	# as added unity production
 	optimize_memory
 	if = {
 		limit = { has_modifier = xvcv_mdlc_goods_for_pop_unity_bonus }
@@ -244,7 +246,7 @@ xvcv_mdlc_civic_goods_distributor_pop_bonus_effect = {
 	if = {
 		limit = { is_ai = no }
 		add_resource = {
-			consumer_goods = -1
+			consumer_goods = xvcv_mdlc_civic_goods_distributor_income_var
 			mult = xvcv_mdlc_civic_goods_distributor_income_var
 		}
 	}
@@ -260,6 +262,11 @@ xvcv_mdlc_civic_goods_distributor_pop_bonus_effect = {
 		}
 		variable = xvcv_mdlc_civic_goods_distributor_pop_var
 	}
+	# 50 surplus goods
+	# 5000 pops
+	# would be 0.01 goods per pop distributed, resulting in 50 unity total produced
+
+
 	#calculation e.g.
 	#the total income = 19
 	#the total pop = 33
@@ -270,8 +277,14 @@ xvcv_mdlc_civic_goods_distributor_pop_bonus_effect = {
 		which = xvcv_mdlc_civic_goods_distributor_income_var
 		value = xvcv_mdlc_civic_goods_distributor_pop_var
 	}
-	add_modifier = { modifier = xvcv_mdlc_goods_for_pop_unity_bonus days = -1 multiplier = xvcv_mdlc_civic_goods_distributor_income_var }
+	add_modifier = {
+		modifier = xvcv_mdlc_goods_for_pop_unity_bonus
+		days = -1
+		multiplier = xvcv_mdlc_civic_goods_distributor_income_var
+	}
+	log = "goods -> unity per pop: \\[This.xvcv_mdlc_civic_goods_distributor_income_var] "
 }
+
 xvcv_mdlc_situation_machine_learning_add_progress_effect = {
 	optimize_memory
 	random_situation = {
