@@ -3261,15 +3261,35 @@ planet_event = {
 	}
 
 	immediate = {
-		remove_building = building_deployment_post
-		add_building = building_machine_capital
-		# Replace the old colony_start_num_pops_add effect
-		create_pop = {
-			species = owner.species
-			ethos = owner
+		if = {
+			limit = {
+				has_building = building_deployment_post
+			}
+			log = "Found building_deployment_post on \\[This.GetName]"
 		}
+		save_event_target_as = oxr_last_colonized_planet
+
+		event_target:oxr_last_colonized_planet = {
+			add_building = building_machine_capital
+			remove_building = building_deployment_post
+			
+			# Replace the old colony_start_num_pops_add effect
+			create_pop = {
+				species = owner.species
+				ethos = owner
+			}
+		}
+		this = {
+			remove_building = building_deployment_post
+		}
+
+		planet_event = {
+			id = xvcv_mdlc.1005 days = 1
+		}
+
 	}
 }
+
 
 ## Synthetic Origin setup - no TMA
 country_event = {
