@@ -2365,12 +2365,25 @@ oxr_mdlc_world_machines_building_welding_colony = {
 		cost = {
 			minerals = 500
 		}
+		upkeep = { energy = 1 }
+		produces = {
+			exotic_gases = @[ 1 * oxr_mdlc_wm_base_chemist_drone_output ]
+		}
 		upkeep = {
-			energy = 3
-			alloys = 1  # 2 minerals, 4 EC
+			#upkeep per SR job is currently 10 minerals 
+			energy = 2
+			alloys = 2 # worth 4 each
 		}
 		produces = {
-			exotic_gases = 3
+			trigger = { oxr_planet_owner_is_catalytic = yes }
+			volatile_motes = @[ 1 * oxr_mdlc_wm_base_chemist_drone_catalytic_output ]
+		}
+		upkeep = {
+			#upkeep per catalytic SR job is currently 15 food
+			trigger = { oxr_planet_owner_is_catalytic = yes }
+			energy = 2
+			alloys = 2 # worth 4 each
+			food = 5
 		}
 	}
 
@@ -2399,13 +2412,28 @@ oxr_mdlc_world_machines_building_particle_collider = {
 		cost = {
 			minerals = @b2_minerals
 		}
+		upkeep = { energy = 1 }
+		produces = {
+			trigger = { oxr_planet_owner_is_catalytic = no }
+			volatile_motes = @[ 1 * oxr_mdlc_wm_base_chemist_drone_output ]
+			physics_research = 3
+		}
 		upkeep = {
-			energy = 12
+			trigger = { oxr_planet_owner_is_catalytic = no }
+			#upkeep per SR job is currently 10 minerals, science is 1 energy for 3 science
+			energy = 9
 			minerals = 2
 		}
 		produces = {
-			volatile_motes = 3
+			trigger = { oxr_planet_owner_is_catalytic = yes }
+			volatile_motes = @[ 1 * oxr_mdlc_wm_base_chemist_drone_catalytic_output ]
 			physics_research = 3
+		}
+		upkeep = {
+			#upkeep per catalytic SR job is currently 15 food
+			trigger = { oxr_planet_owner_is_catalytic = yes }
+			energy = 11
+			food = 5
 		}
 	}
 
@@ -2436,12 +2464,26 @@ oxr_mdlc_world_machines_building_crystal_cultivation_tank = {
 			rare_crystals = 500
 			alloys = 50
 		}
+		upkeep = { energy = 1 }
+		produces = {
+			trigger = { oxr_planet_owner_is_catalytic = no }
+			rare_crystals = @[ 1 * oxr_mdlc_wm_base_chemist_drone_output ]
+		}
 		upkeep = {
+			trigger = { oxr_planet_owner_is_catalytic = no }
+			#upkeep per SR job is currently 10 minerals 
 			energy = 5
 			minerals = 5
 		}
 		produces = {
-			rare_crystals = 3
+			trigger = { oxr_planet_owner_is_catalytic = yes }
+			rare_crystals = @[ 1 * oxr_mdlc_wm_base_chemist_drone_catalytic_output ]
+		}
+		upkeep = {
+			#upkeep per catalytic SR job is currently 15 food
+			trigger = { oxr_planet_owner_is_catalytic = yes }
+			energy = 7.5
+			food = 7.5
 		}
 	}
 
