@@ -47,6 +47,7 @@ xvcv_mdlc_pc_ringworld_machine_auto_district_primary = {
 		}
 		upkeep = {
 			energy = @rw_maintenance
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 		}
 	}
 }
@@ -83,6 +84,7 @@ xvcv_mdlc_pc_ringworld_machine_auto_district_rnd = {
 		}
 		upkeep = {
 			exotic_gases = 1
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 		}
 		# BASE PRODUCTION, NO SPECIALIZATION
 		produces = {
@@ -96,6 +98,7 @@ xvcv_mdlc_pc_ringworld_machine_auto_district_rnd = {
 			society_research = @[ 1.5 * oxr_mdlc_wm_base_calculator_output ]
 			unity = @[ 2 * oxr_mdlc_wm_base_coordinator_output ]
 			trade = @[ 2 * oxr_mdlc_wm_base_logistics_drone_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 		}
 		upkeep = {
 			trigger = {
@@ -104,6 +107,55 @@ xvcv_mdlc_pc_ringworld_machine_auto_district_rnd = {
 				has_oxr_mdlc_zone_pc_ringworld_machine_auto_trade = no
 			}
 			energy = @[ 4.5 + ( 2 * oxr_mdlc_wm_base_coordinator_upkeep ) + ( 2 * oxr_mdlc_wm_base_logistics_drone_upkeep ) ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+
+		# RESEARCH
+		produces = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_ringworld_machine_auto_research = yes
+			}
+			physics_research = @[ 12 * oxr_mdlc_wm_base_calculator_output ]
+			engineering_research = @[ 12 * oxr_mdlc_wm_base_calculator_output ]
+			society_research = @[ 12 * oxr_mdlc_wm_base_calculator_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency||
+		}
+		upkeep = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_ringworld_machine_auto_research = yes
+			}
+			energy = @[ 12 * oxr_mdlc_wm_base_calculator_upkeep ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		# UNITY
+		produces = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_ringworld_machine_auto_unity = yes
+			}
+			unity = @[ 12 * oxr_mdlc_wm_base_coordinator_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		upkeep = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_ringworld_machine_auto_unity = yes
+			}
+			energy = @[ 12 * oxr_mdlc_wm_base_coordinator_upkeep ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		# TRADE / LOGISTICS
+		produces = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_ringworld_machine_auto_trade = yes
+			}
+			trade = @[ 12 * oxr_mdlc_wm_base_logistics_drone_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		upkeep = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_ringworld_machine_auto_trade = yes
+			}
+			energy = @[ 12 * oxr_mdlc_wm_base_logistics_drone_upkeep ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 		}
 	}
 
@@ -178,7 +230,13 @@ xvcv_mdlc_pc_ringworld_machine_auto_district_industrial = {
 				has_oxr_mdlc_zone_pc_ringworld_machine_auto_alloys = no
 				has_oxr_mdlc_zone_pc_ringworld_machine_auto_consumer_goods = no
 			}
+			energy = @rw_maintenance
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		upkeep = {
+			# trigger = { has_oxr_mdlc_zone_pc_ringworld_machine_auto_alloys = no }
 			rare_crystals = @rw_maintenance_sr
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 		}
 
 		upkeep = {
@@ -187,6 +245,148 @@ xvcv_mdlc_pc_ringworld_machine_auto_district_industrial = {
 				owner = { has_edict = industrial_maintenance }
 			}
 			energy = 4
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+
+		# NO ZONES, NOT CATALYTIC, NO GOODS
+		produces = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_ringworld_machine_auto_consumer_goods = no
+				has_oxr_mdlc_zone_pc_ringworld_machine_auto_alloys = no
+				oxr_planet_owner_is_catalytic = no
+				oxr_planet_owner_uses_goods = no
+			}
+			# consumer_goods = @[ 6 * oxr_mdlc_wm_base_artisan_output ]
+			# alloys = @[ 6 * oxr_mdlc_wm_base_fabricator_output ]
+			alloys = @[ 12 * oxr_mdlc_wm_base_fabricator_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		upkeep = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_ringworld_machine_auto_consumer_goods = no
+				has_oxr_mdlc_zone_pc_ringworld_machine_auto_alloys = no
+				oxr_planet_owner_is_catalytic = no
+				oxr_planet_owner_uses_goods = no
+			}
+			# minerals = @[ ( 6 * oxr_mdlc_wm_base_artisan_upkeep ) + ( 6 * oxr_mdlc_wm_base_fabricator_upkeep ) ]
+			minerals = @[ 12 * oxr_mdlc_wm_base_fabricator_upkeep ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		# NO ZONES, YES CATALYTIC, NO GOODS
+		produces = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_ringworld_machine_auto_consumer_goods = no
+				has_oxr_mdlc_zone_pc_ringworld_machine_auto_alloys = no
+				oxr_planet_owner_is_catalytic = yes
+				oxr_planet_owner_uses_goods = no
+			}
+			alloys = @[ 12 * oxr_mdlc_wm_base_catalytic_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		upkeep = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_ringworld_machine_auto_consumer_goods = no
+				has_oxr_mdlc_zone_pc_ringworld_machine_auto_alloys = no
+				oxr_planet_owner_is_catalytic = yes
+				oxr_planet_owner_uses_goods = no
+			}
+			food = @[ 12 * oxr_mdlc_wm_base_catalytic_upkeep_food ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		# NO ZONES, NOT CATALYTIC, USES GOODS
+		produces = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_ringworld_machine_auto_consumer_goods = no
+				has_oxr_mdlc_zone_pc_ringworld_machine_auto_alloys = no
+				oxr_planet_owner_is_catalytic = no
+				oxr_planet_owner_uses_goods = yes
+			}
+			consumer_goods = @[ 6 * oxr_mdlc_wm_base_artisan_output ]
+			alloys = @[ 6 * oxr_mdlc_wm_base_fabricator_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		upkeep = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_ringworld_machine_auto_consumer_goods = no
+				has_oxr_mdlc_zone_pc_ringworld_machine_auto_alloys = no
+				oxr_planet_owner_is_catalytic = no
+				oxr_planet_owner_uses_goods = yes
+			}
+			minerals = @[ ( 6 * oxr_mdlc_wm_base_artisan_upkeep ) + ( 6 * oxr_mdlc_wm_base_fabricator_upkeep ) ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		# NO ZONES, YES CATALYTIC, YES GOODS
+		produces = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_ringworld_machine_auto_consumer_goods = no
+				has_oxr_mdlc_zone_pc_ringworld_machine_auto_alloys = no
+				oxr_planet_owner_is_catalytic = no
+				oxr_planet_owner_uses_goods = yes
+			}
+			consumer_goods = @[ 6 * oxr_mdlc_wm_base_artisan_output ]
+			alloys = @[ 6 * oxr_mdlc_wm_base_catalytic_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		upkeep = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_ringworld_machine_auto_consumer_goods = no
+				has_oxr_mdlc_zone_pc_ringworld_machine_auto_alloys = no
+				oxr_planet_owner_is_catalytic = no
+				oxr_planet_owner_uses_goods = yes
+			}
+			minerals = @[ 6 * oxr_mdlc_wm_base_artisan_upkeep ]
+			food = @[ 6 * oxr_mdlc_wm_base_catalytic_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		#### ZONES ####
+		# ALLOYS - NOT CATALYTIC
+		produces = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_ringworld_machine_auto_alloys = yes
+				oxr_planet_owner_is_catalytic = no
+			}
+			alloys = @[ 12 * oxr_mdlc_wm_base_fabricator_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		upkeep = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_ringworld_machine_auto_alloys = yes
+				oxr_planet_owner_is_catalytic = no
+			}
+			minerals = @[ 12 * oxr_mdlc_wm_base_fabricator_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		# ALLOYS - CATALYTIC
+		produces = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_ringworld_machine_auto_alloys = yes
+				oxr_planet_owner_is_catalytic = yes
+			}
+			alloys = @[ 12 * oxr_mdlc_wm_base_catalytic_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		upkeep = {
+		trigger = {
+				has_oxr_mdlc_zone_pc_ringworld_machine_auto_alloys = yes
+				oxr_planet_owner_is_catalytic = yes
+			}
+			food = @[ 12 * oxr_mdlc_wm_base_catalytic_upkeep_food ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		# GOODS
+		produces = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_ringworld_machine_auto_consumer_goods = yes
+			}
+			consumer_goods = @[ 12 * oxr_mdlc_wm_base_artisan_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		upkeep = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_ringworld_machine_auto_consumer_goods = yes
+			}
+			minerals = @[ 12 * oxr_mdlc_wm_base_artisan_upkeep ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 		}
 	}
 
@@ -246,6 +446,49 @@ xvcv_mdlc_pc_ringworld_machine_auto_district_raw_resource = {
 		
 		upkeep = {
 			rare_crystals = @rw_maintenance_sr
+		}
+
+
+        ## GENERATOR ##
+        produces = {
+            trigger = {
+                has_oxr_mdlc_zone_pc_ringworld_machine_auto_energy = yes
+            }
+            energy = @[ 12 * oxr_mdlc_wm_base_technician_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+        }
+        # GENERATOR UPKEEP
+        upkeep = {
+            trigger = {
+                doesnt_have_active_building = { WHICH = oxr_mdlc_world_machines_biofuel_refit_1 }
+                has_oxr_mdlc_zone_pc_ringworld_machine_auto_energy = yes
+            }
+            minerals = 2  # 2 for auto-machine world, 5 for ringworld
+	        energy = 2
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+        }
+        upkeep = {
+            trigger = {
+                has_active_building = oxr_mdlc_world_machines_biofuel_refit_1
+                has_oxr_mdlc_zone_pc_ringworld_machine_auto_energy = yes
+            }
+            food = @[ 12 * ( oxr_mdlc_wm_base_technician_output / 4 ) ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+        }
+        ## FARM ##
+        produces = {
+            trigger = { has_oxr_mdlc_zone_pc_ringworld_machine_auto_food = yes }
+			food = @[ 12 * oxr_mdlc_wm_base_farmer_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		produces = {
+			trigger = {
+				exists = owner
+				owner = { has_tradition = tr_nanotech_1 }
+                has_oxr_mdlc_zone_pc_ringworld_machine_auto_food = yes
+			}
+			nanites = @[ 12 * 0.2 ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 		}
 	}
 

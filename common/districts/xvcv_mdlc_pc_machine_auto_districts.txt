@@ -223,11 +223,12 @@ xvcv_mdlc_pc_machine_auto_district_generator = {
 		produces = {
 			trigger = { has_active_building = rikk_mdlc_world_machine_SR_building }
 			volatile_motes = 0.20
-			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 		}
 		upkeep = {
 			trigger = { has_active_building = rikk_mdlc_world_machine_SR_building }
 			minerals = 2
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 		}
 	}
 	triggered_desc = {
@@ -284,7 +285,7 @@ xvcv_mdlc_pc_machine_auto_district_mining = {
 		}
 		produces = {
 			minerals = @[ 2 * oxr_mdlc_wm_base_miner_output ]
-			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency||
 		}
 		produces = { 
 			trigger = {
@@ -294,34 +295,36 @@ xvcv_mdlc_pc_machine_auto_district_mining = {
 				}
 			}
 			nanites = @[ 2 * oxr_mdlc_wm_base_drone_nanite_output ]
-			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 		}
 		upkeep = { 
 			energy = @xvcv_mdlc_pc_machine_auto_district_mining_upkeep  # 2 drones * 1, plus 1 base district upkeep 
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency||
 		}
 		produces = {
 			trigger = {
 				has_building = oxr_mdlc_world_machines_building_auto_mining_support
 			}
 			minerals = 1
-			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency||
 		}
 		produces = {
 			trigger = {
 				has_building = oxr_mdlc_world_machines_building_auto_mining_support
 			}
 			minerals = 2
-			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency||
 		}
 		produces = {
-		trigger = { has_active_building = rikk_mdlc_world_machine_SR_building }
+			trigger = { has_active_building = rikk_mdlc_world_machine_SR_building }
 			rare_crystals = 0.20
-			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency||
 			
 		}
 		upkeep = {
 		trigger = { has_active_building = rikk_mdlc_world_machine_SR_building }
 			energy = 1
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency||
 		}
 	}
 	triggered_desc = {
@@ -376,7 +379,7 @@ xvcv_mdlc_pc_machine_auto_district_farming = {
 		}
 		produces = {
 			food = @[ 2 * oxr_mdlc_wm_base_farmer_output ]
-			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency||
 		}
 		produces = {
 			trigger = {
@@ -384,20 +387,22 @@ xvcv_mdlc_pc_machine_auto_district_farming = {
 				owner = { has_tradition = tr_nanotech_1 }
 			}
 			nanites = @[ 2 * oxr_mdlc_wm_base_drone_nanite_output ]
-			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency||
 		}
 		upkeep = { 
 			energy = @xvcv_mdlc_pc_machine_auto_district_farming_upkeep
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency||
 		}
 		produces = {
-		trigger = { has_active_building = rikk_mdlc_world_machine_SR_building }
+			trigger = { has_active_building = rikk_mdlc_world_machine_SR_building }
 			exotic_gases = 0.20
 			# mult = value:collected_world_machine_bonuses
-			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency||
 		}
 		upkeep = {
-		trigger = { has_active_building = rikk_mdlc_world_machine_SR_building }
+			trigger = { has_active_building = rikk_mdlc_world_machine_SR_building }
 			energy = 1
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency||
 		}
 	}
 	triggered_desc = {
