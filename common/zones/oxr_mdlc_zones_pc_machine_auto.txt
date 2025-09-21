@@ -30,7 +30,7 @@ oxr_mdlc_origin_wm_zone_default = {
 
 }
 
-oxr_mdlc_origin_wm_zone_any_wm = {
+oxr_mdlc_origin_wm_zone_any = {
 	icon = GFX_colony_type_urban
 	base_buildtime = @zone_buildtime
 	potential = { # planet scope
@@ -38,27 +38,25 @@ oxr_mdlc_origin_wm_zone_any_wm = {
 		is_planet_world_machine = yes
 	}
 
-	unlock = {
-		is_planet_world_machine = yes
-	}
-
+	unlock = { is_planet_world_machine = yes }
 	resources = {
 		category = planet_zones
 		cost = {
 			minerals = @zone_cost
 		}
 	}
-	country_modifier = { country_resource_max_add = 2500 }
+	# planet_modifier = { xvcv_mdlc_world_machines_districts_produces_mult = -0.05 }
 	max_buildings = 3
-	included_building_sets = {
-		oxr_mdlc_building_set_wm_all
+	include = { all }
+	excluded_building_sets = { 
+		knights
+		generator_automation
+		mining_automation
+		farming_automation
+		urban_automation
 	}
-	excluded_building_sets = { }
 	planet_modifier = { zone_building_slots_add = 3 }
-	zone_sets = {
-		oxr_mdlc_zone_set_wm
-	}
-
+	zone_sets = { oxr_mdlc_zone_set_wm }
 }
 
 oxr_mdlc_origin_wm_zone_default_industrial = {
