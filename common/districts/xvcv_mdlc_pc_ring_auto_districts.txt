@@ -224,7 +224,6 @@ xvcv_mdlc_pc_ringworld_machine_auto_district_industrial = {
 			}
 			rare_crystals = @oxr_rw_cost_sr
 		}
-		# If no zones have been built, incur a default upkeep cost
 		upkeep = {
 			trigger = {
 				has_oxr_mdlc_zone_pc_ringworld_machine_auto_alloys = no
@@ -238,7 +237,6 @@ xvcv_mdlc_pc_ringworld_machine_auto_district_industrial = {
 			rare_crystals = @rw_maintenance_sr
 			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 		}
-
 		upkeep = {
 			trigger = {
 				exists = owner
@@ -256,8 +254,6 @@ xvcv_mdlc_pc_ringworld_machine_auto_district_industrial = {
 				oxr_planet_owner_is_catalytic = no
 				oxr_planet_owner_uses_goods = no
 			}
-			# consumer_goods = @[ 6 * oxr_mdlc_wm_base_artisan_output ]
-			# alloys = @[ 6 * oxr_mdlc_wm_base_fabricator_output ]
 			alloys = @[ 12 * oxr_mdlc_wm_base_fabricator_output ]
 			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 		}
@@ -268,7 +264,6 @@ xvcv_mdlc_pc_ringworld_machine_auto_district_industrial = {
 				oxr_planet_owner_is_catalytic = no
 				oxr_planet_owner_uses_goods = no
 			}
-			# minerals = @[ ( 6 * oxr_mdlc_wm_base_artisan_upkeep ) + ( 6 * oxr_mdlc_wm_base_fabricator_upkeep ) ]
 			minerals = @[ 12 * oxr_mdlc_wm_base_fabricator_upkeep ]
 			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 		}
@@ -280,7 +275,7 @@ xvcv_mdlc_pc_ringworld_machine_auto_district_industrial = {
 				oxr_planet_owner_is_catalytic = yes
 				oxr_planet_owner_uses_goods = no
 			}
-			alloys = @[ 12 * oxr_mdlc_wm_base_catalytic_output ]
+			alloys = @[ 12 * oxr_mdlc_wm_base_fabricator_catalytic_output ]
 			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 		}
 		upkeep = {
@@ -290,7 +285,7 @@ xvcv_mdlc_pc_ringworld_machine_auto_district_industrial = {
 				oxr_planet_owner_is_catalytic = yes
 				oxr_planet_owner_uses_goods = no
 			}
-			food = @[ 12 * oxr_mdlc_wm_base_catalytic_upkeep_food ]
+			food = @[ 12 * oxr_mdlc_wm_base_fabricator_catalytic_upkeep ]
 			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 		}
 		# NO ZONES, NOT CATALYTIC, USES GOODS
@@ -323,8 +318,8 @@ xvcv_mdlc_pc_ringworld_machine_auto_district_industrial = {
 				oxr_planet_owner_is_catalytic = no
 				oxr_planet_owner_uses_goods = yes
 			}
-			consumer_goods = @[ 6 * oxr_mdlc_wm_base_artisan_output ]
-			alloys = @[ 6 * oxr_mdlc_wm_base_catalytic_output ]
+			consumer_goods = @[ 6 * oxr_mdlc_wm_base_artisan_catalytic_output ]
+			alloys = @[ 6 * oxr_mdlc_wm_base_fabricator_catalytic_output ]
 			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 		}
 		upkeep = {
@@ -334,8 +329,7 @@ xvcv_mdlc_pc_ringworld_machine_auto_district_industrial = {
 				oxr_planet_owner_is_catalytic = no
 				oxr_planet_owner_uses_goods = yes
 			}
-			minerals = @[ 6 * oxr_mdlc_wm_base_artisan_upkeep ]
-			food = @[ 6 * oxr_mdlc_wm_base_catalytic_output ]
+			food = @[ ( 6 * oxr_mdlc_wm_base_fabricator_catalytic_upkeep ) + ( 6 * oxr_mdlc_wm_base_artisan_catalytic_upkeep ) ]
 			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 		}
 		#### ZONES ####
@@ -353,7 +347,7 @@ xvcv_mdlc_pc_ringworld_machine_auto_district_industrial = {
 				has_oxr_mdlc_zone_pc_ringworld_machine_auto_alloys = yes
 				oxr_planet_owner_is_catalytic = no
 			}
-			minerals = @[ 12 * oxr_mdlc_wm_base_fabricator_output ]
+			minerals = @[ 12 * oxr_mdlc_wm_base_fabricator_upkeep ]
 			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 		}
 		# ALLOYS - CATALYTIC
@@ -362,7 +356,7 @@ xvcv_mdlc_pc_ringworld_machine_auto_district_industrial = {
 				has_oxr_mdlc_zone_pc_ringworld_machine_auto_alloys = yes
 				oxr_planet_owner_is_catalytic = yes
 			}
-			alloys = @[ 12 * oxr_mdlc_wm_base_catalytic_output ]
+			alloys = @[ 12 * oxr_mdlc_wm_base_fabricator_catalytic_output ]
 			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 		}
 		upkeep = {
@@ -370,13 +364,14 @@ xvcv_mdlc_pc_ringworld_machine_auto_district_industrial = {
 				has_oxr_mdlc_zone_pc_ringworld_machine_auto_alloys = yes
 				oxr_planet_owner_is_catalytic = yes
 			}
-			food = @[ 12 * oxr_mdlc_wm_base_catalytic_upkeep_food ]
+			food = @[ 12 * oxr_mdlc_wm_base_fabricator_catalytic_upkeep ]
 			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 		}
 		# GOODS
 		produces = {
 			trigger = {
 				has_oxr_mdlc_zone_pc_ringworld_machine_auto_consumer_goods = yes
+				oxr_planet_owner_is_catalytic = no
 			}
 			consumer_goods = @[ 12 * oxr_mdlc_wm_base_artisan_output ]
 			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
@@ -384,8 +379,26 @@ xvcv_mdlc_pc_ringworld_machine_auto_district_industrial = {
 		upkeep = {
 			trigger = {
 				has_oxr_mdlc_zone_pc_ringworld_machine_auto_consumer_goods = yes
+				oxr_planet_owner_is_catalytic = no
 			}
 			minerals = @[ 12 * oxr_mdlc_wm_base_artisan_upkeep ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		# GOODS - CATALYTIC
+		produces = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_ringworld_machine_auto_consumer_goods = yes
+				oxr_planet_owner_is_catalytic = yes
+			}
+			consumer_goods = @[ 12 * oxr_mdlc_wm_base_artisan_catalytic_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		upkeep = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_ringworld_machine_auto_consumer_goods = yes
+				oxr_planet_owner_is_catalytic = yes
+			}
+			minerals = @[ 12 * oxr_mdlc_wm_base_artisan_catalytic_upkeep ]
 			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 		}
 	}

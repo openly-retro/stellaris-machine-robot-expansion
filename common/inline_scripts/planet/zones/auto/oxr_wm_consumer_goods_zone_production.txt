@@ -5,12 +5,35 @@ planet_modifier = {
 }
 
 planet_modifier = {
+	potential = { 
+		exists = owner
+		oxr_planet_owner_is_catalytic = no
+	}
 	$DISTRICT_CATEGORY$_minerals_upkeep_add = @[ $JOBS$ * oxr_mdlc_wm_base_artisan_upkeep ]
+	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+}
+triggered_planet_modifier = {
+	potential = { 
+		exists = owner
+		oxr_planet_owner_is_catalytic = yes
+	}
+	$DISTRICT_CATEGORY$_minerals_upkeep_add = @[ $JOBS$ * oxr_mdlc_wm_base_artisan_catalytic_upkeep ]
 	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 }
 
 triggered_planet_modifier = {
-	potential = { exists = owner }
+	potential = { 
+		exists = owner
+		oxr_planet_owner_is_catalytic = no
+	}
 	$DISTRICT_CATEGORY$_consumer_goods_produces_add = @[ $JOBS$ * oxr_mdlc_wm_base_artisan_output ]
+	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+}
+triggered_planet_modifier = {
+	potential = { 
+		exists = owner
+		oxr_planet_owner_is_catalytic = yes
+	}
+	$DISTRICT_CATEGORY$_consumer_goods_produces_add = @[ $JOBS$ * oxr_mdlc_wm_base_artisan_catalytic_output ]
 	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 }
