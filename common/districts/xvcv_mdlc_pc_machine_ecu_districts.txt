@@ -36,7 +36,6 @@ xvcv_mdlc_pc_machine_ecu_district_production = {
 		}
 		upkeep = {
 			trigger = {
-				exists = owner
 				owner = {
 					has_edict = industrial_maintenance
 				}
@@ -102,14 +101,29 @@ xvcv_mdlc_pc_machine_ecu_district_rare_resources = {
 			minerals = @xvcv_mdlc_district_cost_5
 		}
 		produces = {
-			volatile_motes = 8
-			exotic_gases = 8
-			rare_crystals = 8
+			potential = { oxr_planet_owner_is_catalytic = no }
+			volatile_motes = @[ 2 * oxr_mdlc_wm_base_chemist_drone_output ]
+			exotic_gases = @[ 2 * oxr_mdlc_wm_base_chemist_drone_output ]
+			rare_crystals = @[ 2 * oxr_mdlc_wm_base_chemist_drone_output ]
 			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
 		}
 		upkeep = {
-			minerals = 80
-			energy = 10
+			potential = { oxr_planet_owner_is_catalytic = no }
+			minerals = @[ 6 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
+		}
+		produces = {
+			potential = { oxr_planet_owner_is_catalytic = yes }
+			volatile_motes = @[ 2 * oxr_mdlc_wm_base_chemist_drone_catalytic_output ]
+			exotic_gases = @[ 2 * oxr_mdlc_wm_base_chemist_drone_catalytic_output ]
+			rare_crystals = @[ 2 * oxr_mdlc_wm_base_chemist_drone_catalytic_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
+		}
+		upkeep = {
+			potential = { oxr_planet_owner_is_catalytic = yes }
+			food = @[ 6 * oxr_mdlc_wm_base_chemist_drone_catalytic_upkeep ]
+		}
+		upkeep = {
+			energy = 6
 		}
 	}
 
@@ -168,10 +182,10 @@ xvcv_mdlc_pc_machine_ecu_district_naval_cap = {
 
 	resources = {
 		category = xvcv_mdlc_world_machines_military_districts
-		cost = {
+		cost = { 
 			minerals = @xvcv_mdlc_district_cost_5
+			volatile_motes = 100
 		}
-		cost = { volatile_motes = 100 }
 		upkeep = {
 			energy = 15
 			volatile_motes = 1
