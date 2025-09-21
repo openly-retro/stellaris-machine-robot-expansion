@@ -244,6 +244,43 @@ oxr_mdlc_starbase_auto_ring_consumer_goods_hub = {
 	}
 }
 
+oxr_mdlc_starbase_auto_ring_trade_hub = {
+	icon = "GFX_orbitalring_trade_hub"
+	construction_days = 360
+	starbase_type = orbital_ring
+
+	potential = {
+		exists = owner
+		is_orbital_ring = yes
+		inline_script = megas/orbital_ring/buildings/oxr_auto_starbase_possible
+	}
+	possible = {
+		this.planet = { is_xvcv_mdlc_pc_machine_ser = yes }
+	}
+
+	planet_modifier = {
+		xvcv_mdlc_world_machines_trade_districts_trade_produces_mult = 0.25
+		xvcv_mdlc_world_machines_trade_districts_upkeep_mult = 0.25
+	}
+
+	resources = {
+		category = starbase_buildings
+		cost = {
+			alloys = 200
+			rare_crystals = 300
+		}
+
+		upkeep = {
+			energy = 5
+			rare_crystals = 2
+		}
+	}
+
+	ai_weight = {
+		weight = 100
+	}
+}
+
 oxr_mdlc_starbase_auto_ring_alloys_hub = {
 	icon = "GFX_orbitalring_alloy_hub"
 	construction_days = 360
