@@ -1,0 +1,93 @@
+rikk_mdlc_zone_crystal_conductor = {
+	icon = GFX_rare_crystals
+	base_buildtime = @zone_buildtime
+	potential = {
+		exists = owner
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		is_xvcv_mdlc_pc_machine_auto = yes
+	}
+	unlock = { owner = { has_technology = tech_rare_crystals } }
+	resources = {
+		category = oxr_mdlc_world_machines_zones
+		cost = {
+			minerals = @zone_cost
+		}
+	}
+	
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_generator_districts_energy_produces_add = @oxr_mdlc_wm_base_technician_output
+		xvcv_mdlc_world_machines_generator_districts_rare_crystals_upkeep_add = 0.5
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+	}
+	
+	max_buildings = 3
+	included_building_sets = { generator }
+	excluded_building_sets = { }
+	zone_sets = {
+		rikk_mdlc_zone_set_modifier_energy
+		energy
+	}
+}
+
+rikk_mdlc_zone_mote_carving = {
+	icon = GFX_volatile_motes
+	base_buildtime = @zone_buildtime
+	potential = {
+		always = yes
+		exists = owner
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		is_xvcv_mdlc_pc_machine_auto = yes
+	}
+	unlock = { owner = { has_technology = tech_volatile_motes } }
+	resources = {
+		category = oxr_mdlc_world_machines_zones
+		cost = {
+			minerals = @zone_cost
+		}
+	}
+	
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_mining_districts_minerals_produces_add = @oxr_mdlc_wm_base_miner_output
+		xvcv_mdlc_world_machines_mining_districts_volatile_motes_upkeep_add = 0.5
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+	}
+	
+	max_buildings = 3
+	included_building_sets = { mining }
+	excluded_building_sets = { }
+	zone_sets = {
+		rikk_mdlc_zone_set_modifier_minerals
+		minerals
+	}
+}
+
+rikk_mdlc_zone_gas_fertilizing = {
+	icon = GFX_exotic_gases
+	base_buildtime = @zone_buildtime
+	potential = {
+		exists = owner
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		is_xvcv_mdlc_pc_machine_auto = yes
+	}
+	unlock = { owner = { has_technology = tech_exotic_gases } }
+	resources = {
+		category = oxr_mdlc_world_machines_zones
+		cost = {
+			minerals = @zone_cost
+		}
+	}
+	
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_food_districts_food_produces_add = @oxr_mdlc_wm_base_farmer_output
+		xvcv_mdlc_world_machines_food_districts_exotic_gases_upkeep_add = 0.5
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+	}
+	
+	max_buildings = 3
+	included_building_sets = { farming }
+	excluded_building_sets = { }
+	zone_sets = {
+		rikk_mdlc_zone_set_modifier_food
+		food
+	}
+}
