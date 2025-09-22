@@ -1,7 +1,9 @@
+# origin-related events, taken out of main events file
 namespace = xvcv_mdlc_origins
 
 # xvcv_mdlc_origin_start_with_colony
 country_event = {
+	# Find the two flagged colonies, add some deposits, and trim the population down
 	id = xvcv_mdlc_origins.100
 	hide_window = yes
 	is_triggered_only = yes 
@@ -20,8 +22,13 @@ country_event = {
 			save_event_target_as = oxr_mdlc_doomsday_empire
 		}
 		capital_scope = {
+			save_event_target_as = oxr_mdlc_home_planet
 			solar_system = {
 				save_event_target_as = oxr_mdlc_home_system
+			}
+			export_trigger_value_to_variable = {
+				trigger = is_planet_class
+				variable = oxr_mdlc_homeworld_planet_class
 			}
 		}
 		event_target:oxr_mdlc_home_system = {
@@ -30,6 +37,7 @@ country_event = {
 					has_planet_flag = xvcv_mdlc_origin_start_with_colony_1st_settlement
 				}
 				save_event_target_as = xvcv_mdlc_origin_start_with_colony_1st_settlement
+				change_pc = capital_scope.oxr_mdlc_homeworld_planet_class
 				create_colony = { owner = event_target:oxr_mdlc_doomsday_empire }
 
 				generate_start_deposits_and_blockers = yes
@@ -46,7 +54,7 @@ country_event = {
 				add_deposit = xvcv_mdlc_d_origin_start_with_colony_inactive_drones
 
 				while = {
-					count = 38
+					count = 40
 
 					random_owned_pop_group = {
 						kill_pop_group = {
@@ -55,6 +63,7 @@ country_event = {
 						}
 					}
 				}
+				remove_building = building_machine_capital
 
 			}
 			random_system_planet = {
@@ -78,7 +87,7 @@ country_event = {
 				add_deposit = xvcv_mdlc_d_origin_start_with_colony_inactive_drones
 
 				while = {
-					count = 38
+					count = 40
 
 					random_owned_pop_group = {
 						kill_pop_group = {
@@ -87,6 +96,7 @@ country_event = {
 						}
 					}
 				}
+				remove_building = building_machine_capital
 
 			}
 		}
@@ -107,10 +117,46 @@ country_event = {
 			# 	limit = { is_blocker = yes }
 			# 	remove_deposit = yes #don't clear, just remove them completely #so they won't execute the on_cleared effect
 			# }
+			generate_start_deposits_and_blockers = yes
+			remove_building = building_machine_capital
+			add_building = building_machine_assembly_plant
+
 			add_deposit = xvcv_mdlc_d_origin_start_with_colony_arkship
 			add_deposit = xvcv_mdlc_d_origin_start_with_colony_pop_factory_incomplete
 			add_deposit = xvcv_mdlc_d_origin_start_with_colony_lab_incomplete
 			add_deposit = xvcv_mdlc_d_origin_start_with_colony_inactive_drones
+			add_building = building_deployment_post
+			
+			# Scale down the number of pops.. not sure how many XVCV intended at the start
+			# This leaves about 600
+			export_trigger_value_to_variable = {
+				trigger = pop_amount
+				variable = oxr_mdlc_origin_start_with_colony_homeworld_pops
+			}
+			set_variable = {
+				which = oxr_mdlc_origin_start_with_colony_homeworld_pops_num_remove
+				value = oxr_mdlc_origin_start_with_colony_homeworld_pops
+			}
+			subtract_variable = {
+				which = oxr_mdlc_origin_start_with_colony_homeworld_pops_num_remove
+				value = 2000
+			}
+			divide_variable = {
+				which = oxr_mdlc_origin_start_with_colony_homeworld_pops_num_remove
+				value = 100
+			}
+			log = "Homeworld \\[This.GetName] started with \\[This.oxr_mdlc_origin_start_with_colony_homeworld_pops] pops"
+			log = "Will reduce population down to (x100) \\[This.oxr_mdlc_origin_start_with_colony_homeworld_pops_num_remove] "
+			# Leave behind 1000 pops
+			random_owned_pop_group = {
+				add_pop_amount = 700
+			}
+			
+			while = {
+				count = 3
+				add_district = district_generator
+				add_district = district_mining
+			}
 
 		}
 
@@ -139,7 +185,7 @@ country_event = {
 						has_valid_civic = civic_machine_servitor
 					}
 				}
-				capital_scope = {
+				event_target:oxr_mdlc_home_planet = {
 					remove_building = building_deployment_post
 					add_building = building_machine_capital
 					add_building = building_organic_sanctuary
