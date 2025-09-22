@@ -111,7 +111,7 @@ oxr_mdlc_origin_wm_situation_restore_ruined_world_machine = {
 			icon_background = GFX_situation_stage_frame_red
 			end = 30
 			on_first_enter = {
-				event_target:oxr_mdlc_ruined_world_machine = {
+				target = {
 					add_modifier = {
 						modifier = oxr_mdlc_origin_world_machine_world_rebooting_stage_1
 						days = -1
@@ -174,7 +174,7 @@ oxr_mdlc_origin_wm_situation_restore_ruined_world_machine = {
 						on_action = on_world_machine_restoration_stage_complete
 					}
 				}
-				event_target:oxr_mdlc_ruined_world_machine = {
+				target = {
 					remove_modifier = oxr_mdlc_origin_world_machine_world_rebooting_stage_1
 					add_modifier = {
 						modifier = oxr_mdlc_origin_world_machine_world_rebooting_stage_2
@@ -202,7 +202,7 @@ oxr_mdlc_origin_wm_situation_restore_ruined_world_machine = {
 						on_action = on_world_machine_restoration_stage_complete
 					}
 				}
-				event_target:oxr_mdlc_ruined_world_machine = {
+				target = {
 					remove_modifier = oxr_mdlc_origin_world_machine_world_rebooting_stage_2
 					add_modifier = {
 						modifier = oxr_mdlc_origin_world_machine_world_rebooting_stage_3
@@ -245,7 +245,7 @@ oxr_mdlc_origin_wm_situation_restore_ruined_world_machine = {
 						on_action = on_world_machine_restoration_stage_complete
 					}
 				}
-				event_target:oxr_mdlc_ruined_world_machine = {
+				target = {
 					remove_modifier = oxr_mdlc_origin_world_machine_world_rebooting_stage_3
 					add_modifier = {
 						modifier = oxr_mdlc_origin_world_machine_world_rebooting_stage_4
@@ -288,7 +288,7 @@ oxr_mdlc_origin_wm_situation_restore_ruined_world_machine = {
 						on_action = on_world_machine_restoration_stage_complete
 					}
 				}
-				event_target:oxr_mdlc_ruined_world_machine = {
+				target = {
 					remove_modifier = oxr_mdlc_origin_world_machine_world_rebooting_stage_4
 					add_modifier = {
 						modifier = oxr_mdlc_origin_world_machine_world_rebooting_stage_5
@@ -364,9 +364,6 @@ oxr_mdlc_origin_wm_situation_restore_ruined_world_machine = {
 	on_progress_complete = {
 		# Fire finisher event, convert to world machine, add blockers and digsite
 		owner = {
-			country_event = {
-				id = oxr_mdlc_origin_wm_main.1025
-			}
 			fire_on_action = {
 				on_action = on_world_machine_restoration_stage_complete
 			}
@@ -374,8 +371,15 @@ oxr_mdlc_origin_wm_situation_restore_ruined_world_machine = {
 				on_action = on_world_machine_restoration_finished
 			}
 		}
-		event_target:oxr_mdlc_ruined_world_machine = {
+		target = {
 			remove_modifier = oxr_mdlc_origin_world_machine_world_rebooting_stage_5
+			change_pc = xvcv_mdlc_pc_machine_auto
+			fire_on_action = {
+				on_action = on_world_machine_pc_machine_auto_terraforming_complete
+			}
+			planet_event = {
+				id = oxr_mdlc_origin_wm_main.1025
+			}
 		}
 		destroy_situation = this
 	}

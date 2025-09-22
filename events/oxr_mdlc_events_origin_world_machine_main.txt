@@ -635,40 +635,40 @@ country_event = {
 	}
 }
 # ALL DONE WITH RESTORATION
-country_event = {
+planet_event = {
 	id = oxr_mdlc_origin_wm_main.1025
 	title = oxr_mdlc_origin_wm_main.1025.title
 	desc = oxr_mdlc_origin_wm_main.1025.desc
 	picture = GFX_evt_colony_settlement
 	is_triggered_only = yes
 
-	immediate = {
-		event_target:oxr_mdlc_ruined_world_machine = {
-			change_pc = xvcv_mdlc_pc_machine_auto
-			fire_on_action = {
-				on_action = on_world_machine_pc_machine_auto_terraforming_complete
-			}
-		}
-	}
-
 	option = {
 		name = oxr_mdlc_origin_wm_main.1025.a
-		add_resource = {
-			physics_research = 750
-			society_research = 750
-			engineering_research = 750
-			unity = 500
+		owner = {
+			add_resource = {
+				physics_research = 750
+				society_research = 750
+				engineering_research = 750
+				unity = 500
+			}
 		}
+
 		hidden_effect = {
 			if = {
 				limit = {
-					has_event_chain = "oxr_mdlc_origin_wm_chain_deploy_world_cores"
-					NOT = { has_completed_event_chain = oxr_mdlc_origin_wm_chain_deploy_world_cores }
+					owner = {
+						has_event_chain = "oxr_mdlc_origin_wm_chain_deploy_world_cores"
+						NOT = { has_completed_event_chain = oxr_mdlc_origin_wm_chain_deploy_world_cores }
+
+					}
 				}
 				# bump up the event chain tracker
-				country_event = {
-					id = oxr_mdlc_origin_wm_main.1100
+				owner = {
+					country_event = {
+						id = oxr_mdlc_origin_wm_main.1100
+					}
 				}
+				
 			}
 		}
 	}
