@@ -259,6 +259,15 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 		### Free up slots
 		remove_if_has_building = { WHICH = building_machine_assembly_plant }
 		remove_if_has_building = { WHICH = building_drone_storage }
+		# Add a unity building
+		if = {
+			limit = {
+				NOT = { has_building = oxr_mdlc_world_machines_building_auto_unity_1 }
+			}
+			oxr_mdlc_planet_add_building_to_primary_wm_district = {
+				BUILDING = oxr_mdlc_world_machines_building_auto_unity_1
+			}
+		}
 	}
 
 	# Add armies! there should be a few districts already
@@ -1795,7 +1804,7 @@ oxr_mdlc_planet_fix_things_after_restoring_ownership = {
 		}
 		else = {
 			add_building = {
-				district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
+				district = xvcv_mdlc_pc_machine_auto_district_city
 				zone = zone_default
 				building = oxr_mdlc_world_machines_building_auto_capital
 			}
