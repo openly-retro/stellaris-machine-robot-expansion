@@ -1,3 +1,68 @@
+# Scripted effects for calculating and managing cooling/overheating on World Machines
+xvcv_mdlc_planet_wm_calc_output_value = {
+	# optimize_memory
+	# This effect is only called from on_built/on_destroy of t3 world districts, and on cooling tower built
+
+	clear_variable = xvcv_mdlc_world_machines_districts_output_var
+	switch = {
+		trigger = has_modifier
+		xvcv_mdlc_world_machines_districts_heat_indicator_good = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_good }
+		xvcv_mdlc_world_machines_districts_heat_indicator_neutral = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral }
+		xvcv_mdlc_world_machines_districts_heat_indicator_bad = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad }
+	}
+
+	# create/update 'xvcv_mdlc_world_machines_districts_output_var'
+	# create/update 'xvcv_mdlc_world_machines_districts_current_output_for_display_var'
+	switch = {
+		trigger = is_planet_class
+		xvcv_mdlc_pc_machine_ecu = {
+			xvcv_mdlc_planet_count_districts_calculate_output_display_var = {
+				COOLING_DISTRICT = xvcv_mdlc_pc_machine_ecu_district_cooling_primary
+			}
+		}
+		xvcv_mdlc_pc_machine_ser = {
+			xvcv_mdlc_planet_count_districts_calculate_output_display_var = {
+				COOLING_DISTRICT = xvcv_mdlc_pc_machine_ser_district_cooling_primary
+			}
+		}
+		xvcv_mdlc_pc_machine_cpu = {
+			xvcv_mdlc_planet_count_districts_calculate_output_display_var = {
+				COOLING_DISTRICT = xvcv_mdlc_pc_machine_cpu_district_cooling_primary
+			}
+		}
+	}
+
+	#log = "Going into xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect"
+	if = {
+		limit = { check_variable = { which = xvcv_mdlc_world_machines_districts_output_var value > 0 } }
+		add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_good days = -1 }
+	}
+	else_if = {
+		limit = { check_variable = { which = xvcv_mdlc_world_machines_districts_output_var value = 0 } }
+		add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral days = -1 }
+	}
+	else_if = {
+		limit = { check_variable = { which = xvcv_mdlc_world_machines_districts_output_var value < 0 } }
+		add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad days = -1 }
+	}
+	# Reset the display to be "100%" (1)
+	set_variable = {
+		which = xvcv_mdlc_world_machines_districts_current_output_for_display_var
+		value = 1
+	}
+	# Add or subtract a decimal value (1 minus 0.1 = 0.9 )
+	change_variable = {
+		which = xvcv_mdlc_world_machines_districts_current_output_for_display_var
+		value = xvcv_mdlc_world_machines_districts_output_var
+	}
+	# convert 0.1 to 10%
+	multiply_variable = {
+		which = xvcv_mdlc_world_machines_districts_current_output_for_display_var
+		value = 100
+	}
+	#log = "Finished xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect"
+}
+
 xvcv_mdlc_planet_count_districts_calculate_output_display_var = {
 	# A workaround to properly export the world_machines_district_mult value
 	# because export_modifier_to_variable is broken in on_district_complete in 3.12.* +
@@ -79,70 +144,6 @@ xvcv_mdlc_planet_count_districts_calculate_output_display_var = {
 	clear_variable = xvcv_mdlc_world_machines_production_penalty
 	clear_variable = xvcv_mdlc_world_machines_production_bonus
 	clear_variable = xvcv_mdlc_world_machines_num_cooling_districts
-}
-
-xvcv_mdlc_planet_wm_calc_output_value = {
-	# optimize_memory
-	# This effect is only called from on_built/on_destroy of t3 world districts, and on cooling tower built
-
-	clear_variable = xvcv_mdlc_world_machines_districts_output_var
-	switch = {
-		trigger = has_modifier
-		xvcv_mdlc_world_machines_districts_heat_indicator_good = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_good }
-		xvcv_mdlc_world_machines_districts_heat_indicator_neutral = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral }
-		xvcv_mdlc_world_machines_districts_heat_indicator_bad = { remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad }
-	}
-
-	# create/update 'xvcv_mdlc_world_machines_districts_output_var'
-	# create/update 'xvcv_mdlc_world_machines_districts_current_output_for_display_var'
-	switch = {
-		trigger = is_planet_class
-		xvcv_mdlc_pc_machine_ecu = {
-			xvcv_mdlc_planet_count_districts_calculate_output_display_var = {
-				COOLING_DISTRICT = xvcv_mdlc_pc_machine_ecu_district_cooling_primary
-			}
-		}
-		xvcv_mdlc_pc_machine_ser = {
-			xvcv_mdlc_planet_count_districts_calculate_output_display_var = {
-				COOLING_DISTRICT = xvcv_mdlc_pc_machine_ser_district_cooling_primary
-			}
-		}
-		xvcv_mdlc_pc_machine_cpu = {
-			xvcv_mdlc_planet_count_districts_calculate_output_display_var = {
-				COOLING_DISTRICT = xvcv_mdlc_pc_machine_cpu_district_cooling_primary
-			}
-		}
-	}
-
-	#log = "Going into xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect"
-	if = {
-		limit = { check_variable = { which = xvcv_mdlc_world_machines_districts_output_var value > 0 } }
-		add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_good days = -1 }
-	}
-	else_if = {
-		limit = { check_variable = { which = xvcv_mdlc_world_machines_districts_output_var value = 0 } }
-		add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral days = -1 }
-	}
-	else_if = {
-		limit = { check_variable = { which = xvcv_mdlc_world_machines_districts_output_var value < 0 } }
-		add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad days = -1 }
-	}
-	# Reset the display to be "100%" (1)
-	set_variable = {
-		which = xvcv_mdlc_world_machines_districts_current_output_for_display_var
-		value = 1
-	}
-	# Add or subtract a decimal value (1 minus 0.1 = 0.9 )
-	change_variable = {
-		which = xvcv_mdlc_world_machines_districts_current_output_for_display_var
-		value = xvcv_mdlc_world_machines_districts_output_var
-	}
-	# convert 0.1 to 10%
-	multiply_variable = {
-		which = xvcv_mdlc_world_machines_districts_current_output_for_display_var
-		value = 100
-	}
-	#log = "Finished xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect"
 }
 
 # Check modifier, remove districts, recalculate
