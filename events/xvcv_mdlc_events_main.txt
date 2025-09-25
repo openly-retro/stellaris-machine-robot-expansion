@@ -1919,7 +1919,8 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		has_completed_special_project_in_log = XVCV_MDLC_AP_BIO_ROBOT_PROJECT
+		# has_completed_special_project_in_log = XVCV_MDLC_AP_BIO_ROBOT_PROJECT
+		oxr_mdlc_country_is_finished_bio_mech = yes
 	}
 
 	trigger = {
@@ -1930,15 +1931,31 @@ country_event = {
 
 	immediate = {
 		every_owned_planet = {
-			limit = { xvcv_mdlc_bio_robot_auto_growth_possible_planet_trigger = yes }
+			limit = {
+				xvcv_mdlc_bio_robot_auto_growth_possible_planet_trigger = yes
+				NOT = { has_modifier = planet_robot_assembly_control }
+				NOT = { has_modifier = planet_population_control_gestalt }
+			}
 			planet = {
 				# xvcv_mdlc_planet_calc_bio_mech_growth_rate = yes
 				# new Phoenix 4.0 calc
 				oxr_mdlc_planet_calc_monthly_bio_mech_pops_add = yes
 				oxr_mdlc_planet_increment_bio_pop_groups_each_month = yes
 			}
-			
-		} # close every_owned_planet
+		}
+		# Remove the modifier info from the planet UI, but don't clear any vars
+		# every_owned_planet = {
+		# 	limit = {
+		# 		xvcv_mdlc_bio_robot_auto_growth_possible_planet_trigger = yes
+		# 		OR = {
+		# 			has_modifier = planet_robot_assembly_control
+		# 			has_modifier = planet_population_control_gestalt
+		# 		}
+		# 	}
+		# 	planet = {
+		# 		remove_modifier = xvcv_mdlc_bio_robot_growth_progress_percent
+		# 	}
+		# }
 	}
 }
 #variables for bio robot auto growth reset effect event
