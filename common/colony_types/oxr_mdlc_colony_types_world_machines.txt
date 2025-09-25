@@ -707,27 +707,21 @@ xvcv_mdlc_col_machine_auto_capital_extraction = {
 		planet_amenities_no_happiness_add = 10
 		planet_crime_no_happiness_add = -6
 	}
-	triggered_planet_modifier = {
-		potential = {
-			owner = {
-				OR = {
-					has_ascension_perk = xvcv_mdlc_ap_world_machines
-					has_origin = oxr_mdlc_origin_world_machine_awakened
-				}
-			}
-		}
-		xvcv_mdlc_world_machines_food_districts_produces_mult = 0.15
-		xvcv_mdlc_world_machines_mining_districts_produces_mult = 0.15
-		xvcv_mdlc_world_machines_generator_districts_produces_mult = 0.15
 
+	planet_modifier = {
+		xvcv_mdlc_world_machines_food_districts_produces_mult = 0.15
 		oxr_mdlc_world_machines_food_buildings_produces_mult = 0.15
+		xvcv_mdlc_world_machines_mining_districts_produces_mult = 0.15
 		oxr_mdlc_world_machines_mining_buildings_produces_mult = 0.15
+		xvcv_mdlc_world_machines_generator_districts_produces_mult = 0.15
 		oxr_mdlc_world_machines_generator_buildings_produces_mult = 0.15
-		custom_tooltip = oxr_mdlc_capital_extraction_tooltip
+
+		# custom_tooltip = oxr_mdlc_capital_extraction_tooltip
 	}
 
 	triggered_planet_modifier = {
 		potential = {
+			exists = owner
 			owner = {
 				has_ascension_perk = xvcv_mdlc_ap_world_machines
 			}
@@ -737,7 +731,13 @@ xvcv_mdlc_col_machine_auto_capital_extraction = {
 	}
 
 	triggered_planet_modifier = {
-		potential = { uses_district_set = ring_world }
+		potential = {
+			exists = owner
+			owner = {
+				has_ascension_perk = xvcv_mdlc_ap_world_machines
+			}
+			uses_district_set = ring_world
+		}
 		logistic_growth_mult = 0.1
 		planet_pop_assembly_mult = 0.1
 		bonus_pop_growth_mult = 0.1
