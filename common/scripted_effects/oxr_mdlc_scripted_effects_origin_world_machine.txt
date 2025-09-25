@@ -1425,6 +1425,7 @@ oxr_mdlc_planet_create_world_machine_colony = {
 		days = -1
 	}
 	# Balance pops. Always have 3(00)
+	# log = "There are \\[This.oxr_mdlc_planet_starting_pops] pops on \\[This.GetName] at colony creation"
 
 	if = {
 		limit = {
@@ -1449,26 +1450,67 @@ oxr_mdlc_planet_create_world_machine_colony = {
 				save_event_target_as = last_created_pop_group
 			}
 		}
+		log = "Added \\[This.oxr_mdlc_planet_population_target_tmp] pops on start to \\[This.GetName]"
 		clear_variable = oxr_mdlc_current_population_tmp
 		clear_variable = oxr_mdlc_planet_population_target_tmp
 	}
-
-	if = {
+	else_if = {
 		limit = {
-			pop_amount = 200
-			from = {
-				has_origin = oxr_mdlc_origin_world_machine_awakened
+			pop_amount > 300
+		}
+		set_variable = {
+			which = oxr_mdlc_current_population_tmp
+			value = trigger:pop_amount
+		}
+		set_variable = {
+			which = oxr_mdlc_planet_current_pops
+			value = oxr_mdlc_current_population_tmp
+		}
+		set_variable = {
+			which = oxr_mdlc_planet_target_pops
+			value = 300
+		}
+		set_variable = {
+			which = oxr_mdlc_planet_num_pops_to_remove
+			value = oxr_mdlc_planet_current_pops
+		}
+		subtract_variable = {
+			which = oxr_mdlc_planet_num_pops_to_remove
+			value = oxr_mdlc_planet_target_pops
+		}
+		random_owned_pop_group = {
+			limit = {
+				pop_group_size >= prev.oxr_mdlc_planet_num_pops_to_remove
+			}
+			kill_pop_group = {
+				pop_group = this
+				amount = prev.oxr_mdlc_planet_num_pops_to_remove
 			}
 		}
-		create_pop_group = {
-			species = from.founder_species
-			size = 100
-			effect = {
-				save_event_target_as = last_created_pop_group
-			}
-		}
-		log = "Created one extra Automation species"
+		log = "Auto-balanced pops on \\[This.GetName] to remove \\[This.oxr_mdlc_planet_num_pops_to_remove]"
+
+		clear_variable = oxr_mdlc_current_population_tmp
+		clear_variable = oxr_mdlc_planet_current_pops
+		clear_variable = oxr_mdlc_planet_target_pops
+		clear_variable = oxr_mdlc_planet_num_pops_to_remove
 	}
+
+	# if = {
+	# 	limit = {
+	# 		pop_amount = 200
+	# 		from = {
+	# 			has_origin = oxr_mdlc_origin_world_machine_awakened
+	# 		}
+	# 	}
+	# 	create_pop_group = {
+	# 		species = from.founder_species
+	# 		size = 100
+	# 		effect = {
+	# 			save_event_target_as = last_created_pop_group
+	# 		}
+	# 	}
+	# 	log = "Created one extra Automation species"
+	# }
 	# Set these vars
 	oxr_mdlc_origin_world_machine_calc_max_district_armies = yes
 

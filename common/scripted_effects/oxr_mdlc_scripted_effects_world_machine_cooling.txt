@@ -1,7 +1,10 @@
 # Scripted effects for calculating and managing cooling/overheating on World Machines
 xvcv_mdlc_planet_wm_calc_output_value = {
 	# optimize_memory
-	# This effect is only called from on_built/on_destroy of t3 world districts, and on cooling tower built
+	# This effect is called from 
+	# - on_built/on_destroy of t3 world districts
+	# - on cooling tower built
+	# - xvcv_mdlc.73
 
 	clear_variable = xvcv_mdlc_world_machines_districts_output_var
 	switch = {
@@ -114,13 +117,9 @@ xvcv_mdlc_planet_count_districts_calculate_output_display_var = {
 	# The base value is 0.3 and this never changes
 	set_variable = {
 		which = xvcv_mdlc_cooling_district_strength_tmp
-		value = 0.3
+		value = value:oxr_mdlc_planet_cooling_district_strength
 	}
-	# add rikk's bonuses via modifier, if it exists on the planet
-	change_variable = {
-		which = xvcv_mdlc_cooling_district_strength_tmp
-		value = modifier:rikk_mdlc_world_machine_cooling_district_effectiveness
-	}
+
 	# 2 cooling districts count for 0.3 + modifier (ex: 0.1) for total of 0.4
 	# so 2 cooling districts yield a value of 0.8
 	multiply_variable = {
@@ -144,47 +143,33 @@ xvcv_mdlc_planet_count_districts_calculate_output_display_var = {
 	clear_variable = xvcv_mdlc_world_machines_production_penalty
 	clear_variable = xvcv_mdlc_world_machines_production_bonus
 	clear_variable = xvcv_mdlc_world_machines_num_cooling_districts
+	clear_variable = xvcv_mdlc_cooling_district_strength_tmp
 }
 
 # Check modifier, remove districts, recalculate
 oxr_mdlc_planet_wm_check_should_balance_cooling_districts = {
+	# Call this effect in order to update the different variables
 	xvcv_mdlc_planet_wm_calc_output_value = yes
 	if = {
 		limit = {
 			check_variable = {
 				which = xvcv_mdlc_world_machines_districts_output_var
-				value > 0.4
+				# 0.3 base plus rikk_mdlc_world_machine_cooling_district_effectiveness
+				value > value:oxr_mdlc_planet_cooling_district_strength
 			}
 		}
 		oxr_mdlc_planet_destroy_excess_cooling_districts = yes
+		# Re-calculate cooling/overheating, etc, now that districts have been removed
 		xvcv_mdlc_planet_wm_calc_output_value = yes
 	}
 	else = {
-		log = "Not going to balance cooling districts, modifier is below 0.4"
+		log = "Not going to balance cooling districts"
 	}
 }
-
-oxr_mdlc_planet_remove_cooling_district = {
-	# For a given world machine, remove one of its cooling districts
-	switch = {
-		trigger = is_planet_class
-		xvcv_mdlc_pc_machine_ecu = {
-			remove_district = xvcv_mdlc_pc_machine_ecu_district_cooling_primary
-		}
-		xvcv_mdlc_pc_machine_ser = {
-			remove_district = xvcv_mdlc_pc_machine_ser_district_cooling_primary
-		}
-		xvcv_mdlc_pc_machine_cpu = {
-			remove_district = xvcv_mdlc_pc_machine_cpu_district_cooling_primary
-		}
-	}
-}
-
 
 oxr_mdlc_planet_destroy_excess_cooling_districts = {
-	# the original formula was not to exceed 130%, and destroy districts above that
-	# max now is 0.45 per district, so let 0.45 be the new maximum
-	# Add 0.1 to try and keep the heat indicator green
+	# If the output is above oxr_mdlc_planet_cooling_district_strength,
+	# remove extra cooling districts
 	if = {
 		limit = {
 			has_planet_flag = oxr_lock_oxr_mdlc_planet_destroy_excess_cooling_districts
@@ -193,16 +178,12 @@ oxr_mdlc_planet_destroy_excess_cooling_districts = {
 	}
 	else = {
 		set_planet_flag = oxr_lock_oxr_mdlc_planet_destroy_excess_cooling_districts
-		set_variable = {
-			which = cooling_district_strength_tmp
-			value = 0.3
-		}
-		change_variable = {
-			which = cooling_district_strength_tmp
-			value = modifier:rikk_mdlc_world_machine_cooling_district_effectiveness
-		}
-		# log = "Cooling district strength limit is at \\[This.cooling_district_strength_tmp] "
-		# log = "Output var is set to \\[This.xvcv_mdlc_world_machines_districts_output_var]"
+		# The plan is this:
+		# 1 - count regular districts, multiply by 0.1 to find "cooling used"
+		# 2 - count cooling districts, multiply by 'oxr_mdlc_planet_cooling_district_strength' to get "cooling provided"
+		# 3 - subtract cooling provided from cooling used, to get 'excess cooling'
+		# 4 - divide excess cooling by district cooling strength, to get 'num districts to remove'
+		# 5 - remove that many districts, rounded down
 
 		# Note 'num_xvcv_mdlc_cooling_districts' is created in cooling district on_build/destroy
 		set_variable = {
@@ -211,7 +192,7 @@ oxr_mdlc_planet_destroy_excess_cooling_districts = {
 		}
 		multiply_variable = {
 			which = oxr_mdlc_combined_cooling_strength_tmp
-			value = cooling_district_strength_tmp
+			value = value:oxr_mdlc_planet_cooling_district_strength
 		}
 		# log = " \\[This.GetName] has \\[This.num_xvcv_mdlc_cooling_districts] cooling districts now."
 		export_trigger_value_to_variable = {
@@ -229,9 +210,7 @@ oxr_mdlc_planet_destroy_excess_cooling_districts = {
 		}
 		# log = "Cooling power currently used: \\[This.oxr_mdlc_used_cooling_amount_tmp] "
 
-		# 5 cooling districts at 0.4 each is 2.0
-		# minus the used cooling amount
-
+		# Find out how much excess cooling capacity is being provided
 		set_variable = {
 			which = oxr_mdlc_cooling_excess_tmp
 			value = oxr_mdlc_combined_cooling_strength_tmp
@@ -240,7 +219,7 @@ oxr_mdlc_planet_destroy_excess_cooling_districts = {
 			which = oxr_mdlc_cooling_excess_tmp
 			value = oxr_mdlc_used_cooling_amount_tmp
 		}
-		# log = "Amount of excess cooling is \\[This.oxr_mdlc_cooling_excess_tmp] "
+		log = "Amount of excess cooling detected on \\[This.GetName] is \\[This.oxr_mdlc_cooling_excess_tmp] "
 
 		# Now we have some decimal value like 1.0 (if output var was 1.1 and cumulative str was 2.1)
 		set_variable = {
@@ -249,34 +228,57 @@ oxr_mdlc_planet_destroy_excess_cooling_districts = {
 		}
 		# then divide and get the number of cooling districts to be removed
 		divide_variable = {
-			which = num_cooling_districts_to_remove_tmp
-			value = cooling_district_strength_tmp
+			which = num_cooling_districts_to_remove_tmp  # a decimal value like 0.6
+			value = value:oxr_mdlc_planet_cooling_district_strength  # 0.3, for example
 		}
 		# Now we have some decimal like 2.2, drop the remainder so we don't overshoot
-		floor_variable = num_cooling_districts_to_remove_tmp
+		ceiling_variable = num_cooling_districts_to_remove_tmp
 		# log = "Going to remove \\[This.num_cooling_districts_to_remove_tmp] num of cooling districts"
 
-		while = {
-			count = num_cooling_districts_to_remove_tmp
-
-			# Remove whatever cooling district is specific to this planet type
-			oxr_mdlc_planet_remove_cooling_district = yes
-
-			space_owner = {
-				add_resource = {
-					exotic_gases = 100
-					minerals = @xvcv_mdlc_district_cost_5
+		if = {
+			limit = {
+				check_variable = {
+					which = num_cooling_districts_to_remove_tmp
+					value > 0
 				}
 			}
+			while = {
+				count = num_cooling_districts_to_remove_tmp
 
-			create_message = {
-				type = OXR_MDLC_WM_COOLING_DISTRICT_REFUND
-				localization = OXR_MDLC_ORIGIN_WM_COOLING_DISTRICT_REFUND_MESSAGE
-				days = 20
-				target = this
+				# Remove whatever cooling district is specific to this planet type
+				switch = {
+					trigger = is_planet_class
+					xvcv_mdlc_pc_machine_ecu = {
+						remove_district = xvcv_mdlc_pc_machine_ecu_district_cooling_primary
+					}
+					xvcv_mdlc_pc_machine_ser = {
+						remove_district = xvcv_mdlc_pc_machine_ser_district_cooling_primary
+					}
+					xvcv_mdlc_pc_machine_cpu = {
+						remove_district = xvcv_mdlc_pc_machine_cpu_district_cooling_primary
+					}
+				}
+
+				space_owner = {
+					add_resource = {
+						exotic_gases = 100
+						minerals = @xvcv_mdlc_district_cost_5
+					}
+				}
+
+				create_message = {
+					type = OXR_MDLC_WM_COOLING_DISTRICT_REFUND
+					localization = OXR_MDLC_ORIGIN_WM_COOLING_DISTRICT_REFUND_MESSAGE
+					days = 20
+					target = this
+				}
+				# log = "(2) districts_produces_mult_copy_tmp is at \\[This.districts_produces_mult_copy_tmp]"
 			}
-			# log = "(2) districts_produces_mult_copy_tmp is at \\[This.districts_produces_mult_copy_tmp]"
 		}
+		else = {
+			log = "Not going to remove cooling districts on \\[This.GetName] because \\[This.num_cooling_districts_to_remove_tmp] ended up being less than 1"
+		}
+		
 
 		clear_variable = cooling_district_strength_tmp
 		clear_variable = districts_produces_mult_copy_tmp
