@@ -111,7 +111,19 @@ can_colonize_planet = {
 		fail_text = oxr_mdlc_can_colonize_planet.wm_is_rebooting
 		NOT = { oxr_mdlc_planet_world_machine_is_rebooting = yes }
 	}
+	custom_tooltip = {
+		# Machine & Robot Expansion Continued
+		fail_text = oxr_mdlc_can_colonize_planet.is_wm_empire_non_wm
+		NAND = {
+			exists = space_owner
+			is_planet_world_machine = yes
+			space_owner = {
+				has_oxr_mdlc_origin_world_machine_awakened = yes
+			}
+		}
+	}
 }
+
 can_species_be_assembled = {
 	is_sapient = yes
 	NOT = {
