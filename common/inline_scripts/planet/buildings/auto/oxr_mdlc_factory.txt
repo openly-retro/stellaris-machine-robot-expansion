@@ -12,10 +12,33 @@ resources = {
 	}
 	## PRODUCES
 	produces = {
-		consumer_goods = $PRODUCES_GOODS$
+		trigger = {
+			exists = owner
+			oxr_planet_owner_is_catalytic = no
+		}
+		consumer_goods = @[ $JOBS$ * oxr_mdlc_wm_base_artisan_output ]
 	}
 	upkeep = {
-		minerals = $UPKEEP_MINERALS$
+		trigger = {
+			exists = owner
+			oxr_planet_owner_is_catalytic = no
+		}
+		minerals = @[ $JOBS$ * oxr_mdlc_wm_base_artisan_upkeep ]
+	}
+	# CATALYTIC
+	produces = {
+		trigger = {
+			exists = owner
+			oxr_planet_owner_is_catalytic = yes
+		}
+		consumer_goods = @[ $JOBS$ * oxr_mdlc_wm_base_artisan_catalytic_output ]
+	}
+	upkeep = {
+		trigger = {
+			exists = owner
+			oxr_planet_owner_is_catalytic = yes
+		}
+		food = @[ $JOBS$ * oxr_mdlc_wm_base_artisan_catalytic_upkeep ]
 	}
 }
 

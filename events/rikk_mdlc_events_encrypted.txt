@@ -450,18 +450,41 @@ country_event = {
 			limit = { 
 				has_origin = rikk_mdlc_origin_encrypted_protocol_production
 			}
+			export_trigger_value_to_variable = {
+				trigger = count_owned_pop_amount
+				parameters = { 
+					limit = { has_trait = trait_machine_unit }
+				}
+				variable = rikk_mdlc_empire_machine_pops_count
+			}
+			if = {
+				limit = { has_modifier = rikk_mdlc_production_protocol_mod }
+				remove_modifier = rikk_mdlc_production_protocol_mod
+			}
 			add_modifier = {
 				modifier = rikk_mdlc_production_protocol_mod
-				mult = value:rikk_mdlc_counter_protocol_activated
+				mult = rikk_mdlc_empire_machine_pops_count
 			}
 		}
 		else_if = {
 			limit = { 
 				has_origin = rikk_mdlc_origin_encrypted_protocol_warmachine
 			}
+			export_trigger_value_to_variable = {
+				trigger = count_owned_pop_amount
+				parameters = { 
+					limit = { has_trait = trait_machine_unit }
+				}
+				variable = rikk_mdlc_empire_machine_pops_count
+			}
+			if = {
+				limit = { has_modifier = rikk_mdlc_warmachine_protocol_mod }
+				remove_modifier = rikk_mdlc_warmachine_protocol_mod
+			}
+			log = "(Monthly update) Machine pops in empire: \\[This.rikk_mdlc_empire_machine_pops_count]"
 			add_modifier = {
 				modifier = rikk_mdlc_warmachine_protocol_mod
-				mult = value:rikk_mdlc_counter_protocol_activated
+				mult = rikk_mdlc_empire_machine_pops_count
 			}
 		}
 	}
