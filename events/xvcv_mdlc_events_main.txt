@@ -1919,7 +1919,8 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		has_completed_special_project_in_log = XVCV_MDLC_AP_BIO_ROBOT_PROJECT
+		# has_completed_special_project_in_log = XVCV_MDLC_AP_BIO_ROBOT_PROJECT
+		oxr_mdlc_country_is_finished_bio_mech = yes
 	}
 
 	trigger = {
@@ -1930,15 +1931,31 @@ country_event = {
 
 	immediate = {
 		every_owned_planet = {
-			limit = { xvcv_mdlc_bio_robot_auto_growth_possible_planet_trigger = yes }
+			limit = {
+				xvcv_mdlc_bio_robot_auto_growth_possible_planet_trigger = yes
+				NOT = { has_modifier = planet_robot_assembly_control }
+				NOT = { has_modifier = planet_population_control_gestalt }
+			}
 			planet = {
 				# xvcv_mdlc_planet_calc_bio_mech_growth_rate = yes
 				# new Phoenix 4.0 calc
 				oxr_mdlc_planet_calc_monthly_bio_mech_pops_add = yes
 				oxr_mdlc_planet_increment_bio_pop_groups_each_month = yes
 			}
-			
-		} # close every_owned_planet
+		}
+		# Remove the modifier info from the planet UI, but don't clear any vars
+		# every_owned_planet = {
+		# 	limit = {
+		# 		xvcv_mdlc_bio_robot_auto_growth_possible_planet_trigger = yes
+		# 		OR = {
+		# 			has_modifier = planet_robot_assembly_control
+		# 			has_modifier = planet_population_control_gestalt
+		# 		}
+		# 	}
+		# 	planet = {
+		# 		remove_modifier = xvcv_mdlc_bio_robot_growth_progress_percent
+		# 	}
+		# }
 	}
 }
 #variables for bio robot auto growth reset effect event
@@ -2537,6 +2554,7 @@ planet_event = {
 		# Any time a T3-world district is built, cooling must be recalculated,
 		# as well as deposits must be re-checked to create offsets in case cooling is unbalanced
 		xvcv_mdlc_planet_wm_calc_output_value = yes
+
 		if = {
 			limit = { xvcv_mdlc_planet_wm_has_non_resource_district = yes }
 			#log = "Going into xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all"
@@ -3024,19 +3042,49 @@ planet_event = {
 	trigger = {
 		exists = owner
 		owner = { has_ascension_perk = xvcv_mdlc_ap_robotic_age }
-		check_modifier_value = { modifier = job_roboticist_add value != 0 } #when the value is not 0 #which means this event won't consider the case where the value equals 0
+		check_modifier_value = {
+			modifier = job_roboticist_add
+			value != 0
+		} #when the value is not 0 #which means this event won't consider the case where the value equals 0
 	}
 
 	immediate = {
-		export_modifier_to_variable = { modifier = job_roboticist_add variable = xvcv_mdlc_job_roboticist_count_var }
+		export_modifier_to_variable = {
+			modifier = job_roboticist_add
+			variable = xvcv_mdlc_job_roboticist_count_var
+		}
+		# Account for the x100 increase in pop numbers in Phoenix 4.0
+		divide_variable = {
+			which = xvcv_mdlc_job_roboticist_count_var
+			value = 100
+		}
 		if = {
-			limit = { check_variable = { which = xvcv_mdlc_job_roboticist_count_var value > 0 } }
-			while = { add_deposit = xvcv_mdlc_d_ap_robotic_age count = xvcv_mdlc_job_roboticist_count_var }
+			limit = {
+				check_variable = {
+					which = xvcv_mdlc_job_roboticist_count_var
+					value > 0
+				}
+			}
+			while = {
+				add_deposit = xvcv_mdlc_d_ap_robotic_age
+				count = xvcv_mdlc_job_roboticist_count_var
+			}
 		}
 		else_if = {
-			limit = { check_variable = { which = xvcv_mdlc_job_roboticist_count_var value < 0 } }
-			multiply_variable = { which = xvcv_mdlc_job_roboticist_count_var value = -1 } #change minus value to plus one
-			while = { remove_deposit = xvcv_mdlc_d_ap_robotic_age count = xvcv_mdlc_job_roboticist_count_var }
+			limit = {
+				check_variable = {
+					which = xvcv_mdlc_job_roboticist_count_var
+					value < 0
+				}
+			}
+			multiply_variable = {
+				which = xvcv_mdlc_job_roboticist_count_var
+				value = -1
+			} #change minus value to plus one
+			while = {
+				remove_deposit = xvcv_mdlc_d_ap_robotic_age
+				count = xvcv_mdlc_job_roboticist_count_var
+			}
 		}
 	}
 }
@@ -3261,30 +3309,32 @@ planet_event = {
 	}
 
 	immediate = {
+		save_event_target_as = oxr_last_colonized_planet
 		if = {
 			limit = {
 				has_building = building_deployment_post
 			}
-			log = "Found building_deployment_post on \\[This.GetName]"
-		}
-		save_event_target_as = oxr_last_colonized_planet
-
-		event_target:oxr_last_colonized_planet = {
-			add_building = building_machine_capital
-			remove_building = building_deployment_post
-			
-			# Replace the old colony_start_num_pops_add effect
-			create_pop = {
-				species = owner.species
-				ethos = owner
+			event_target:oxr_last_colonized_planet = {
+				add_building = building_machine_capital
+				remove_building = building_deployment_post
+				log = "In xvcv_mdlc.1004, supposed to remove deployment post ..?"
 			}
 		}
-		this = {
-			remove_building = building_deployment_post
-		}
+		# switch = {
+		# 	trigger = has_building
+		# 	building_deployment_post = {
+		# 		event_target:oxr_last_colonized_planet = {
+		# 			add_building = building_machine_capital
+		# 			remove_building = building_deployment_post
+		# 			log = "In xvcv_mdlc.1004, supposed to remove deployment post ..?"
+		# 		}
+		# 	}
+		# }
 
-		planet_event = {
-			id = xvcv_mdlc.1005 days = 1
+		# Replace the old colony_start_num_pops_add effect
+		create_pop = {
+			species = owner.species
+			ethos = owner
 		}
 
 	}
