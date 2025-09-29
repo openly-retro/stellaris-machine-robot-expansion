@@ -41,6 +41,7 @@
  # zones        0x036
  # zone name swp 0x037
  # trig. name   0x038
+ # scripted mod.0x039
 
 
 # symbols: £energy£ §R
@@ -61,6 +62,7 @@
  oxr_wm: "World-Machine"
  oxr_mdlc_gear: "£oxr_mdlc_gear£"
  oxr_build_speed: "build speed"
+ oxr_research_with_icon: "£physics££society££engineering£ $research$"
 
 #region main_origin_0x001
  # Origin description 0x001
@@ -1714,6 +1716,13 @@
 
 
 #region zones_0x036
+ oxr_mdlc_zone_unique_to_ecu: "\nThis zone can be built on §R$xvcv_mdlc_pc_machine_ecu$§! worlds."
+ oxr_mdlc_zone_unique_to_cpu: "\nThis zone can be built on §G$xvcv_mdlc_pc_machine_cpu$§! worlds."
+ oxr_mdlc_zone_unique_to_ser: "\nThis zone can be built on §B$xvcv_mdlc_pc_machine_ser$§! worlds."
+ oxr_mdlc_zone_unique_to_ring: "\nThis zone can be built on §W$xvcv_mdlc_pc_ringworld_machine_auto$§! worlds."
+ oxr_mdlc_zone_unique_to_virtual: "\nThis zone can be built on §C$xvcv_mdlc_pc_virtual$§! worlds."
+ oxr_mdlc_zone_common_to_primary: "\nThis zone can be built on World-Machine §Yprimary§! districts."
+
  oxr_mdlc_origin_wm_zone_default: "$oxr_gear2$ $oxr_mdlc_origin_wm_slot_city_government$"
  oxr_mdlc_origin_wm_zone_default_desc: "$zone_default_desc$"
  oxr_mdlc_origin_wm_zone_any: "$oxr_gear2$ Universal Adapter"
@@ -1729,39 +1738,42 @@
 
  oxr_mdlc_zone_none: "$PLACEHOLDER$"
  oxr_mdlc_zone_none_desc: "$PLACEHOLDER$"
- oxr_mdlc_zone_configure_for_text: "The district will be reconfigured for"
+ oxr_mdlc_zone_configure_for_text: "['concept_oxr_mdlc_wm_district_submodule_rack'] which reconfigures the district for"
+ oxr_mdlc_zone_enhances_text: "['concept_oxr_mdlc_wm_district_submodule_rack'] which provides upgrades for"
 #  oxr_mdlc_origin_wm_zone_default_industrial: "$oxr_gear$ $PLACEHOLDER$"
 #  oxr_mdlc_origin_wm_zone_default_industrial_desc: "$PLACEHOLDER$"
  oxr_mdlc_zone_pc_machine_auto_energy: "$oxr_gear$ Auto-Generator Subsystem"
- oxr_mdlc_zone_pc_machine_auto_energy_desc: "Specialization for generating additional $energy_with_icon$"
+ oxr_mdlc_zone_pc_machine_auto_energy_desc: "$oxr_mdlc_zone_enhances_text$ generating additional $energy_with_icon$"
  oxr_mdlc_zone_pc_machine_cpu_research: "$oxr_gear$ Auto-Algorithm Module"
- oxr_mdlc_zone_pc_machine_cpu_research_desc: "Support constructing additional modules to support the base district."
+ oxr_mdlc_zone_pc_machine_cpu_research_desc: "$oxr_mdlc_zone_enhances_text$ research purposes.$oxr_mdlc_zone_unique_to_cpu$"
  oxr_mdlc_zone_pc_machine_ecu_alloys: "$oxr_gear$ Auto-Forge Module"
- oxr_mdlc_zone_pc_machine_ecu_alloys_desc: "The district will be reconfigured for $alloys_with_icon$ production.\n§HRequires $volatile_motes_with_icon$ for construction and upkeep.§!"
+ oxr_mdlc_zone_pc_machine_ecu_alloys_desc: "$oxr_mdlc_zone_configure_for_text$ $alloys_with_icon$ production.$oxr_mdlc_zone_unique_to_ecu$"
  oxr_mdlc_zone_pc_machine_ecu_consumer_goods: "$oxr_gear$ Auto-Factory Module"
- oxr_mdlc_zone_pc_machine_ecu_consumer_goods_desc: "$oxr_mdlc_zone_configure_for_text$ $consumer_goods_with_icon$ production.\n§HRequires $rare_crystals_with_icon$ for construction and upkeep.§!"
+ oxr_mdlc_zone_pc_machine_ecu_consumer_goods_desc: "$oxr_mdlc_zone_configure_for_text$ $consumer_goods_with_icon$ production.$oxr_mdlc_zone_unique_to_ecu$"
  oxr_mdlc_zone_pc_machine_ser_unity: "$oxr_gear$ Auto-Decision Module"
- oxr_mdlc_zone_pc_machine_ser_unity_desc: "Support constructing additional modules to support the base district."
+ oxr_mdlc_zone_pc_machine_ser_unity_desc: "$oxr_mdlc_zone_configure_for_text$ $oxr_mdlc_zone_unique_to_ser$"
  oxr_mdlc_zone_pc_ringworld_machine_auto_research: "$oxr_gear$ Research Hub Expansion"
- oxr_mdlc_zone_pc_ringworld_machine_auto_research_desc: "$oxr_mdlc_zone_configure_for_text$ Research support."
+ oxr_mdlc_zone_pc_ringworld_machine_auto_research_desc: "$oxr_mdlc_zone_configure_for_text$ Research support.$oxr_mdlc_zone_unique_to_ring$"
  oxr_mdlc_zone_pc_ringworld_machine_auto_unity: "$oxr_gear$ Decision Analysis Expansion"
- oxr_mdlc_zone_pc_ringworld_machine_auto_unity_desc: "$oxr_mdlc_zone_configure_for_text$ $unity_with_icon$ production."
+ oxr_mdlc_zone_pc_ringworld_machine_auto_unity_desc: "$oxr_mdlc_zone_configure_for_text$ $unity_with_icon$ production.$oxr_mdlc_zone_unique_to_ring$"
  oxr_mdlc_zone_pc_ringworld_machine_auto_trade: "$oxr_gear$ Auto-Logistics Module"
- oxr_mdlc_zone_pc_ringworld_machine_auto_trade_desc: "$oxr_mdlc_zone_configure_for_text$ $trade_with_icon$ production"
+ oxr_mdlc_zone_pc_ringworld_machine_auto_trade_desc: "$oxr_mdlc_zone_configure_for_text$ $trade_with_icon$ production$oxr_mdlc_zone_unique_to_ring$"
  oxr_mdlc_zone_pc_ringworld_machine_auto_alloys: "$oxr_gear$ Auto-Forge Module"
- oxr_mdlc_zone_pc_ringworld_machine_auto_alloys_desc: "$oxr_mdlc_zone_configure_for_text$ $alloys_with_icon$ production."
+ oxr_mdlc_zone_pc_ringworld_machine_auto_alloys_desc: "$oxr_mdlc_zone_configure_for_text$ $alloys_with_icon$ production.$oxr_mdlc_zone_unique_to_ring$"
  oxr_mdlc_zone_pc_ringworld_machine_auto_consumer_goods: "$oxr_gear$ Auto-Factory Module"
- oxr_mdlc_zone_pc_ringworld_machine_auto_consumer_goods_desc: "$oxr_mdlc_zone_configure_for_text$ $consumer_goods_with_icon$ production."
+ oxr_mdlc_zone_pc_ringworld_machine_auto_consumer_goods_desc: "$oxr_mdlc_zone_configure_for_text$ $consumer_goods_with_icon$ production.$oxr_mdlc_zone_unique_to_ring$"
  oxr_mdlc_zone_pc_ringworld_machine_auto_food: "$oxr_gear$ Nutrient Production Module"
- oxr_mdlc_zone_pc_ringworld_machine_auto_food_desc: "$oxr_mdlc_zone_configure_for_text$ $food_with_icon$ production."
+ oxr_mdlc_zone_pc_ringworld_machine_auto_food_desc: "$oxr_mdlc_zone_configure_for_text$ $food_with_icon$ production.$oxr_mdlc_zone_unique_to_ring$"
  oxr_mdlc_zone_pc_ringworld_machine_auto_energy: "$oxr_gear$ Energy Generation Module"
- oxr_mdlc_zone_pc_ringworld_machine_auto_energy_desc: "$oxr_mdlc_zone_configure_for_text$ $energy_with_icon$ generation."
+ oxr_mdlc_zone_pc_ringworld_machine_auto_energy_desc: "$oxr_mdlc_zone_configure_for_text$ $energy_with_icon$ generation.$oxr_mdlc_zone_unique_to_ring$"
  oxr_mdlc_zone_pc_virtual_research: "$oxr_gear$ Virtualized Research plug-in"
- oxr_mdlc_zone_pc_virtual_research_desc: "$PLACEHOLDER$"
+ oxr_mdlc_zone_pc_virtual_research_desc: "$PLACEHOLDER$$oxr_mdlc_zone_unique_to_virtual$"
  oxr_mdlc_zone_pc_virtual_admin: "$oxr_gear$ Virtualized Admin plug-in"
- oxr_mdlc_zone_pc_virtual_admin_desc: "$PLACEHOLDER$"
+ oxr_mdlc_zone_pc_virtual_admin_desc: "$PLACEHOLDER$$oxr_mdlc_zone_unique_to_virtual$"
  oxr_mdlc_zone_pc_virtual_amenity: "$oxr_gear$ Entertainment plug-in"
- oxr_mdlc_zone_pc_virtual_amenity_desc: "$PLACEHOLDER$"
+ oxr_mdlc_zone_pc_virtual_amenity_desc: "$PLACEHOLDER$$oxr_mdlc_zone_unique_to_virtual$"
+ oxr_mdlc_zone_wm_logging_research: "Auto-Logging Analysis"
+ oxr_mdlc_zone_wm_logging_research_desc: "This ['concept_oxr_mdlc_wm_district_submodule_rack'] dedicates processing power to analyzing data logs collected planetside.$oxr_mdlc_zone_common_to_primary$"
 
 
 
@@ -1789,6 +1801,16 @@
 #endregion
 
 #region triggered_names_0x038
+
+
+#endregion
+
+
+#region scripted_modifiers_0x039
+
+ mod_oxr_mdlc_planet_abstract_research_produces_add: "['concept_oxr_mdlc_wm_tertiary_production'] £physics£ £society£ £engineering£"
+ mod_oxr_mdlc_planet_abstract_unity_produces_add: "['concept_oxr_mdlc_wm_tertiary_production'] £unity£"
+ mod_oxr_mdlc_planet_abstract_trade_produces_add: "['concept_oxr_mdlc_wm_tertiary_production'] £trade£"
 
 
 #endregion
