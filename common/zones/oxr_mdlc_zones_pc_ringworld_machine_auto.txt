@@ -11,17 +11,21 @@ oxr_mdlc_zone_pc_ringworld_machine_auto_research = {
 		xvcv_mdlc_world_machines_rnd_districts_physics_research_produces_add = @[ 12 * oxr_mdlc_wm_base_calculator_output ]
 		xvcv_mdlc_world_machines_rnd_districts_engineering_research_produces_add = @[ 12 * oxr_mdlc_wm_base_calculator_output ]
 		xvcv_mdlc_world_machines_rnd_districts_society_research_produces_add = @[ 12 * oxr_mdlc_wm_base_calculator_output ]
-		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
-	}
-	planet_modifier = {
 		xvcv_mdlc_world_machines_rnd_districts_energy_upkeep_add = @[ 12 * oxr_mdlc_wm_base_calculator_upkeep ]
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
 	}
 
 	included_building_sets = {
 		research
 		oxr_mdlc_building_set_wm_research
 	}
-	excluded_building_sets = { }
+	excluded_building_sets = { 
+		knights
+		generator_automation
+		mining_automation
+		farming_automation
+		urban_automation
+	}
 	zone_sets = {
 		oxr_mdlc_zone_set_wm_research
 		oxr_mdlc_zone_set_wm_rnd
@@ -37,17 +41,21 @@ oxr_mdlc_zone_pc_ringworld_machine_auto_unity = {
 	triggered_planet_modifier = {
 		potential = { always = yes }
 		xvcv_mdlc_world_machines_rnd_districts_unity_produces_add = @[ 12 * oxr_mdlc_wm_base_coordinator_output ]
-		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
-	}
-	planet_modifier = {
 		xvcv_mdlc_world_machines_rnd_districts_energy_upkeep_add = @[ 12 * oxr_mdlc_wm_base_coordinator_upkeep ]
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
 	}
 
 	included_building_sets = {
 		unity
 		oxr_mdlc_building_set_wm_unity
 	}
-	excluded_building_sets = { }
+	excluded_building_sets = { 
+		knights
+		generator_automation
+		mining_automation
+		farming_automation
+		urban_automation
+	}
 	zone_sets = {
 		oxr_mdlc_zone_set_wm_unity
 		oxr_mdlc_zone_set_wm_rnd
@@ -63,17 +71,21 @@ oxr_mdlc_zone_pc_ringworld_machine_auto_trade = {
 	triggered_planet_modifier = {
 		potential = { always = yes }
 		xvcv_mdlc_world_machines_rnd_districts_trade_produces_add = @[ 12 * oxr_mdlc_wm_base_logistics_drone_output ]
-		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
-	}
-	planet_modifier = {
 		xvcv_mdlc_world_machines_rnd_districts_energy_upkeep_add = @[ 12 * oxr_mdlc_wm_base_logistics_drone_upkeep ]
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
 	}
 
 	included_building_sets = {
 		trade
 		oxr_mdlc_building_set_wm_trade
 	}
-	excluded_building_sets = { }
+	excluded_building_sets = { 
+		knights
+		generator_automation
+		mining_automation
+		farming_automation
+		urban_automation
+	}
 	zone_sets = {
 		oxr_mdlc_zone_set_wm_trade
 		oxr_mdlc_zone_set_wm_rnd
@@ -102,7 +114,13 @@ oxr_mdlc_zone_pc_ringworld_machine_auto_alloys = {
 		oxr_mdlc_building_set_wm_production
 		oxr_mdlc_building_set_wm_foundry
 	}
-	excluded_building_sets = { }
+	excluded_building_sets = { 
+		knights
+		generator_automation
+		mining_automation
+		farming_automation
+		urban_automation
+	}
 	zone_sets = {
 		oxr_mdlc_zone_set_wm_production
 	}
@@ -124,7 +142,13 @@ oxr_mdlc_zone_pc_ringworld_machine_auto_consumer_goods = {
 		oxr_mdlc_building_set_wm_production
 		oxr_mdlc_building_set_wm_factory
 	}
-	excluded_building_sets = { }
+	excluded_building_sets = { 
+		knights
+		generator_automation
+		mining_automation
+		farming_automation
+		urban_automation
+	}
 	zone_sets = {
 		oxr_mdlc_zone_set_wm_production
 	}
@@ -140,7 +164,7 @@ oxr_mdlc_zone_pc_ringworld_machine_auto_food = {
 
 	## FARM ##
 	triggered_planet_modifier = {
-		potential = { exists = owner }
+		potential = { always = yes }
 		xvcv_mdlc_world_machines_raw_resources_districts_food_produces_add = @[ 12 * oxr_mdlc_wm_base_farmer_output ]
 		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
 	}
@@ -158,7 +182,13 @@ oxr_mdlc_zone_pc_ringworld_machine_auto_food = {
 		farming
 		oxr_mdlc_building_set_wm_raw_resource
 	}
-	excluded_building_sets = { }
+	excluded_building_sets = { 
+		knights
+		generator_automation
+		mining_automation
+		farming_automation
+		urban_automation
+	}
 	zone_sets = {
 		oxr_mdlc_zone_set_wm_raw_resources
 	}
@@ -171,17 +201,6 @@ oxr_mdlc_zone_pc_ringworld_machine_auto_energy = {
 	swap_type = xvcv_mdlc_pc_ringworld_machine_auto_district_generator
 	swap_type_weight = 5
 
-	# district_planet_modifier = {
-	# 	xvcv_mdlc_world_machines_raw_resources_districts_energy_upkeep_add = 12  # one per 'drone'
-	# 	xvcv_mdlc_world_machines_raw_resources_districts_rare_crystals_upkeep_add = @rw_maintenance_sr
-	# }
-
-	# triggered_district_planet_modifier = {
-	# 	# What was once in the district's 'produces' block
-	# 	xvcv_mdlc_world_machines_raw_resources_districts_food_produces_add =  @[ 12 * oxr_mdlc_wm_base_technician_output ]
-	# 	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
-	# 	# district's old 'upkeep' block
-	# }
 	# PRODUCTION
 	triggered_planet_modifier = {
 		potential = { exists = owner }
@@ -195,12 +214,14 @@ oxr_mdlc_zone_pc_ringworld_machine_auto_energy = {
 		}
 		xvcv_mdlc_world_machines_raw_resources_districts_minerals_upkeep_add = 2  # 2 for auto-machine world, 5 for ringworld
 		xvcv_mdlc_world_machines_raw_resources_districts_energy_upkeep_add = 2
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
 	}
 	triggered_planet_modifier = {
 		potential = {
 			has_active_building = oxr_mdlc_world_machines_biofuel_refit_1
 		}
 		xvcv_mdlc_world_machines_raw_resources_districts_food_upkeep_add = @[ 12 * ( oxr_mdlc_wm_base_technician_output / 4 ) ]
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
 	}
 
 	included_building_sets = {
@@ -208,7 +229,13 @@ oxr_mdlc_zone_pc_ringworld_machine_auto_energy = {
 		oxr_mdlc_building_set_wm_raw_resource
 	}
 
-	excluded_building_sets = { }
+	excluded_building_sets = { 
+		knights
+		generator_automation
+		mining_automation
+		farming_automation
+		urban_automation
+	}
 	zone_sets = {
 		oxr_mdlc_zone_set_wm_raw_resources
 	}
