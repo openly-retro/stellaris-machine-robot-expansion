@@ -344,7 +344,7 @@ planet_event = {
 		owner = {
 			OR = {
 				xvcv_mdlc_country_has_synthetic_origin = yes
-				has_origin = xvcv_mdlc_origin_start_with_colony
+				# has_origin = xvcv_mdlc_origin_start_with_colony
 			}
 		}
 	}
@@ -384,153 +384,153 @@ planet_event = {
 				# }
 				xvcv_mdlc_dominant_species_changing_effect = yes
 			}
-			if = {
-				limit = { has_origin = xvcv_mdlc_origin_start_with_colony }
-				add_resource = {
-					energy = 1000
-					minerals = 1000
-					alloys = 100
-				}
-			}
+			# if = {
+			# 	limit = { has_origin = xvcv_mdlc_origin_start_with_colony }
+			# 	add_resource = {
+			# 		energy = 1000
+			# 		minerals = 1000
+			# 		alloys = 100
+			# 	}
+			# }
 		}
-		if = {
-			limit = {
-				owner = {
-					has_origin = xvcv_mdlc_origin_start_with_colony
-				}
-			}
-			planet = {
-				generate_start_deposits_and_blockers = yes
-				every_deposit = {
-					limit = { is_blocker = yes }
-					remove_deposit = yes #don't clear, just remove them completely #so they won't execute the on_cleared effect
-				}
-				add_deposit = xvcv_mdlc_d_origin_start_with_colony_arkship
-				add_deposit = xvcv_mdlc_d_origin_start_with_colony_pop_factory_incomplete
-				add_deposit = xvcv_mdlc_d_origin_start_with_colony_lab_incomplete
-				add_deposit = xvcv_mdlc_d_origin_start_with_colony_inactive_drones
+		# if = {
+		# 	limit = {
+		# 		owner = {
+		# 			has_origin = xvcv_mdlc_origin_start_with_colony
+		# 		}
+		# 	}
+		# 	planet = {
+		# 		generate_start_deposits_and_blockers = yes
+		# 		every_deposit = {
+		# 			limit = { is_blocker = yes }
+		# 			remove_deposit = yes #don't clear, just remove them completely #so they won't execute the on_cleared effect
+		# 		}
+		# 		add_deposit = xvcv_mdlc_d_origin_start_with_colony_arkship
+		# 		add_deposit = xvcv_mdlc_d_origin_start_with_colony_pop_factory_incomplete
+		# 		add_deposit = xvcv_mdlc_d_origin_start_with_colony_lab_incomplete
+		# 		add_deposit = xvcv_mdlc_d_origin_start_with_colony_inactive_drones
 		
-				add_building = building_deployment_post
-				add_district = district_nexus
-			}
-			if = {
-				limit = {
-					owner = {
-						OR = {
-							has_valid_civic = civic_machine_assimilator
-							has_valid_civic = civic_machine_servitor
-						}
-					}
-				}
-				solar_system = {
-					random_system_planet = {
-						limit = { has_planet_flag = xvcv_mdlc_origin_start_with_colony_old_home }
-						add_deposit = d_food_10
-					}
-				}
-				# Add servitor building
-				if = {
-					limit = {
-						owner = {
-							has_valid_civic = civic_machine_servitor
-						}
-					}
-					planet = {
-						remove_building = building_deployment_post
-						add_building = building_machine_capital
-						add_building = building_organic_sanctuary
-					}
-				}
+		# 		add_building = building_deployment_post
+		# 		add_district = district_nexus
+		# 	}
+		# 	if = {
+		# 		limit = {
+		# 			owner = {
+		# 				OR = {
+		# 					has_valid_civic = civic_machine_assimilator
+		# 					has_valid_civic = civic_machine_servitor
+		# 				}
+		# 			}
+		# 		}
+		# 		solar_system = {
+		# 			random_system_planet = {
+		# 				limit = { has_planet_flag = xvcv_mdlc_origin_start_with_colony_old_home }
+		# 				add_deposit = d_food_10
+		# 			}
+		# 		}
+		# 		# Add servitor building
+		# 		if = {
+		# 			limit = {
+		# 				owner = {
+		# 					has_valid_civic = civic_machine_servitor
+		# 				}
+		# 			}
+		# 			planet = {
+		# 				remove_building = building_deployment_post
+		# 				add_building = building_machine_capital
+		# 				add_building = building_organic_sanctuary
+		# 			}
+		# 		}
 
-				# while = {
-				# 	create_pop_group = { species = last_created_species }
-				# 	count = 5
-				# }
-				# 4.0: Pops are 100 "each", so create 5 x 100 = 500
-				create_pop_group = {
-					species = last_created_species
-					size = 500
-					effect = { save_event_target_as = last_created_pop_group }
-				}
-				owner = { add_resource = { food = 100 } }
-			}
-			while = {
-				limit = { free_jobs > 0 }
-				create_pop_group = {
-					species = owner.species
-					effect = { save_event_target_as = last_created_pop_group }
-				}
-			}
-			while = {
-				limit = { num_unemployed > 0 }
-				random_owned_pop_group = {
-					limit = {
-						is_unemployed = yes
-					}
-					oxr_kill_pop_from_group = yes
-					log = "xvcv_mdlc.2 - removed an unemployed pop"
-				}
-			}
+		# 		# while = {
+		# 		# 	create_pop_group = { species = last_created_species }
+		# 		# 	count = 5
+		# 		# }
+		# 		# 4.0: Pops are 100 "each", so create 5 x 100 = 500
+		# 		create_pop_group = {
+		# 			species = last_created_species
+		# 			size = 500
+		# 			effect = { save_event_target_as = last_created_pop_group }
+		# 		}
+		# 		owner = { add_resource = { food = 100 } }
+		# 	}
+		# 	while = {
+		# 		limit = { free_jobs > 0 }
+		# 		create_pop_group = {
+		# 			species = owner.species
+		# 			effect = { save_event_target_as = last_created_pop_group }
+		# 		}
+		# 	}
+		# 	# while = {
+		# 	# 	limit = { num_unemployed > 0 }
+		# 	# 	random_owned_pop_group = {
+		# 	# 		limit = {
+		# 	# 			is_unemployed = yes
+		# 	# 		}
+		# 	# 		oxr_kill_pop_from_group = yes
+		# 	# 		log = "xvcv_mdlc.2 - removed an unemployed pop"
+		# 	# 	}
+		# 	# }
 			
-			solar_system = {
-				every_system_planet = {
-					limit = {
-						OR = {
-							has_planet_flag = xvcv_mdlc_origin_start_with_colony_1st_settlement
-							has_planet_flag = xvcv_mdlc_origin_start_with_colony_2nd_settlement
-						}
-					}
-					set_owner = prevprev.owner
+		# 	solar_system = {
+		# 		every_system_planet = {
+		# 			limit = {
+		# 				OR = {
+		# 					has_planet_flag = xvcv_mdlc_origin_start_with_colony_1st_settlement
+		# 					has_planet_flag = xvcv_mdlc_origin_start_with_colony_2nd_settlement
+		# 				}
+		# 			}
+		# 			set_owner = prevprev.owner
 				
-					add_deposit = xvcv_mdlc_d_origin_start_with_colony_arkship
-					add_deposit = xvcv_mdlc_d_origin_start_with_colony_pop_factory_incomplete
-					add_deposit = xvcv_mdlc_d_origin_start_with_colony_lab_incomplete
-					add_deposit = xvcv_mdlc_d_origin_start_with_colony_inactive_drones
+		# 			add_deposit = xvcv_mdlc_d_origin_start_with_colony_arkship
+		# 			add_deposit = xvcv_mdlc_d_origin_start_with_colony_pop_factory_incomplete
+		# 			add_deposit = xvcv_mdlc_d_origin_start_with_colony_lab_incomplete
+		# 			add_deposit = xvcv_mdlc_d_origin_start_with_colony_inactive_drones
 				
-					add_building = building_deployment_post
-					add_district = district_nexus
-					while = {
-						limit = {
-							free_jobs > 0
-						}
-						create_pop_group = {
-							species = owner.species
-							size = 100
-							effect = { save_event_target_as = last_created_pop_group }
-						}
-					}
-					while = {
-						limit = {
-							num_unemployed > 0
-						}
+		# 			add_building = building_deployment_post
+		# 			add_district = district_nexus
+		# 			while = {
+		# 				limit = {
+		# 					free_jobs > 0
+		# 				}
+		# 				create_pop_group = {
+		# 					species = owner.species
+		# 					size = 100
+		# 					effect = { save_event_target_as = last_created_pop_group }
+		# 				}
+		# 			}
+		# 			# while = {
+		# 			# 	limit = {
+		# 			# 		num_unemployed > 0
+		# 			# 	}
 
-						random_owned_pop_group = {
-							limit = {
-								is_unemployed = yes
-							}
-							oxr_kill_pop_from_group = yes
-							log = "xvcv_mdlc.2 - removed an unemployed pop"
-						}
-					}
-				}
-				random_system_planet = {
-					limit = { has_planet_flag = xvcv_mdlc_origin_start_with_colony_1st_settlement }
-					#6 more generator districts
-					add_deposit = d_tempestous_mountain
-					add_deposit = d_tempestous_mountain
-				}
-				random_system_planet = {
-					limit = { has_planet_flag = xvcv_mdlc_origin_start_with_colony_2nd_settlement }
-					#6 more mining districts
-					add_deposit = d_rich_mountain
-					add_deposit = d_rich_mountain
-				}
-				random_system_planet = {
-					limit = { has_planet_flag = mining_planet }
-					create_mining_station = { owner = prevprev.owner }
-				}
-			}
-		}
+		# 			# 	random_owned_pop_group = {
+		# 			# 		limit = {
+		# 			# 			is_unemployed = yes
+		# 			# 		}
+		# 			# 		oxr_kill_pop_from_group = yes
+		# 			# 		log = "xvcv_mdlc.2 - removed an unemployed pop"
+		# 			# 	}
+		# 			# }
+		# 		}
+		# 		random_system_planet = {
+		# 			limit = { has_planet_flag = xvcv_mdlc_origin_start_with_colony_1st_settlement }
+		# 			#6 more generator districts
+		# 			add_deposit = d_tempestous_mountain
+		# 			add_deposit = d_tempestous_mountain
+		# 		}
+		# 		random_system_planet = {
+		# 			limit = { has_planet_flag = xvcv_mdlc_origin_start_with_colony_2nd_settlement }
+		# 			#6 more mining districts
+		# 			add_deposit = d_rich_mountain
+		# 			add_deposit = d_rich_mountain
+		# 		}
+		# 		random_system_planet = {
+		# 			limit = { has_planet_flag = mining_planet }
+		# 			create_mining_station = { owner = prevprev.owner }
+		# 		}
+		# 	}
+		# }
 	}
 }
 
@@ -1186,502 +1186,11 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		has_completed_special_project_in_log = XVCV_MDLC_AP_MIND_INTEGRATION_PROJECT
+		has_country_flag = xvcv_mdlc_ap_mind_integration_project_completed
 	}
 
 	immediate = {
-		export_trigger_value_to_variable = {
-			trigger = empire_size
-			variable = xvcv_mdlc_gov_reform_cost_var
-		}
-		add_resource = {
-			unity = 10
-			mult = xvcv_mdlc_gov_reform_cost_var
-		}
-		clear_variable = xvcv_mdlc_gov_reform_cost_var
-	
-		if = {
-			limit = {
-				OR = {
-					#jeez, PDX, you are too harsh to Gestalts!
-					has_origin = origin_mechanists
-					has_origin = origin_syncretic_evolution
-					has_origin = origin_life_seeded
-					has_origin = origin_post_apocalyptic
-					has_origin = origin_void_dwellers
-					has_origin = origin_scion
-					has_origin = origin_tree_of_life
-					has_origin = origin_shoulders_of_giants
-					has_origin = origin_lithoid
-					has_origin = origin_common_ground
-					has_origin = origin_hegemon
-					has_origin = origin_necrophage
-					has_origin = origin_clone_army
-					has_origin = origin_ocean_paradise
-					has_origin = origin_progenitor_hive
-					has_origin = origin_subterranean
-					has_origin = origin_shroudwalker_apprentice
-					#origins from this mod
-					has_origin = xvcv_mdlc_origin_synth_ascend
-					has_origin = xvcv_mdlc_origin_mechanical_heritage
-				}
-			}
-			set_origin = origin_default
-		}
-	
-		clear_ethos = yes
-		country_add_ethic = ethic_gestalt_consciousness
-		change_government = {
-			authority = auth_machine_intelligence
-			civics = {}
-			cooldown = no
-			remove_invalid_civics = yes
-		}
-		reset_policy_cooldowns = yes
-	
-		if = {
-			limit = { has_country_flag = flesh_weakened }
-			remove_country_flag = flesh_weakened
-		}
-		remove_country_flag = synthetic_empire
-		remove_country_flag = synth_assimilation
-	
-		if = {
-			limit = { NOT = { has_technology = tech_bio_reactor } }
-			give_technology = { tech = tech_bio_reactor message = no }
-		}
-		if = {
-			limit = { has_technology = tech_robomodding }
-			give_technology = { tech = tech_robomodding_m message = no }
-		}
-		if = {
-			limit = { has_technology = tech_robomodding_points_1 }
-			give_technology = { tech = tech_binary_motivators message = no }
-		}
-		if = {
-			limit = { has_technology = tech_robomodding_points_2 }
-			give_technology = { tech = tech_nanite_assemblers message = no }
-		}
-	
-		every_owned_pop_group = {
-			limit = { has_trait = xvcv_mdlc_trait_bio_robot }
-			species = {
-				change_species_characteristics = {
-					add_trait = trait_machine_unit
-					remove_trait = trait_mechanical
-				}
-			}
-		}
-		this.species = {
-			if = {
-				# limit = { NOT = { has_trait = xvcv_mdlc_trait_bio_robot } }
-				create_species = {
-					adjective = this
-					name = this
-					namelist = prev
-					plural = this
-					class = "MACHINE"
-					portrait = this
-					traits = { trait = trait_machine_unit }
-					traits = this
-					homeworld = prev.capital_scope
-					effect = {
-						modify_species = {
-							remove_trait = trait_mechanical
-							ideal_planet_class = this
-							change_scoped_species = no
-						}
-					}
-				}
-			}
-		}
-		xvcv_mdlc_dominant_species_changing_effect = yes
-		every_owned_pop_group = {
-			limit = { has_trait = trait_mechanical }
-			change_species = last_created_species
-		}
-		random_owned_pop_group = {
-			limit = { is_same_species = prev.species }
-			xvcv_mdlc_machine_species_rights_adjustments_effect = yes
-		}
-		every_owned_army = {
-			limit = { is_defensive_army = no }
-			modify_army = {
-				name = random
-				type = "machine_assault_1"
-				species = this
-			}
-		}
-		every_owned_army = {
-			limit = { is_defensive_army = yes }
-			modify_army = {
-				name = random
-				type = "machine_defense"
-				species = this
-			}
-		}
-		every_owned_leader = {
-			limit = {
-				is_event_leader = no
-				has_ethic_gestalt_consciousness = no
-			}
-			change_background_ethic = ethic_gestalt_consciousness
-			if = {
-				limit = {
-					prev = { NOT = { has_active_tradition = tr_synthetics_finish_machine } } #also see: tr_synthetics_finish_machine_desc
-					has_trait = leader_trait_synthetic
-				}
-				remove_trait = leader_trait_synthetic
-			}
-		}
-		every_envoy = {
-			limit = {
-				is_event_leader = no
-				has_ethic_gestalt_consciousness = no
-			}
-			change_background_ethic = ethic_gestalt_consciousness
-		}
-		every_pool_leader = {
-			limit = {
-				is_event_leader = no
-				has_ethic_gestalt_consciousness = no
-			}
-			change_background_ethic = ethic_gestalt_consciousness
-			if = {
-				limit = {
-					prev = { NOT = { has_active_tradition = tr_synthetics_finish_machine } }
-					has_trait = leader_trait_synthetic
-				}
-				remove_trait = leader_trait_synthetic
-			}
-		}
-	
-		ruler = {
-			remove_all_traits = yes
-			add_trait = { show_message = no trait  = leader_trait_ruler_machine_intelligence }
-		}
-	
-		if = {
-			limit = { has_auth_machine_intelligence = no }
-			set_origin = origin_default
-			change_government = {
-				authority = auth_machine_intelligence
-				civics = {}
-				cooldown = no
-				remove_invalid_civics = yes
-			}
-		}
-	
-		country_create_gestalt_councilor = {
-			CLASS = official
-			COUNCIL_POS = councilor_gestalt_regulatory
-			DESC = councilor_gestalt_regulatory_desc
-		}
-		country_create_gestalt_councilor = {
-			CLASS = scientist
-			COUNCIL_POS = councilor_gestalt_cognitive
-			DESC = councilor_gestalt_cognitive_desc
-		}
-		country_create_gestalt_councilor = {
-			CLASS = commander
-			COUNCIL_POS = councilor_gestalt_legion
-			DESC = councilor_gestalt_legion_desc
-		}
-		country_create_gestalt_councilor = {
-			CLASS = official
-			COUNCIL_POS = councilor_gestalt_growth
-			DESC = councilor_gestalt_growth_desc
-		}
-		every_owned_planet = {
-			while = {
-				limit = { has_district = district_city }
-				remove_district = district_city
-				add_district = district_nexus
-			}
-			while = {
-				limit = { has_district = district_rw_city }
-				remove_district = district_rw_city
-				add_district = district_rw_nexus
-			}
-			# while = {
-			# 	limit = { has_district = xvcv_mdlc_pc_mechanical_district_city }
-			# 	remove_district = xvcv_mdlc_pc_mechanical_district_city
-			# 	add_district = xvcv_mdlc_pc_mechanical_district_nexus
-			# }
-			# while = {
-			# 	limit = { has_district = xvcv_mdlc_pc_machine_auto_district_city }
-			# 	remove_district = xvcv_mdlc_pc_machine_auto_district_city
-			# 	add_district = xvcv_mdlc_pc_machine_auto_district_nexus
-			# }
-	
-			if = {
-				limit = { has_modifier = slave_colony }
-				remove_modifier = slave_colony
-			}
-			if = {
-				limit = { has_modifier = resort_colony }
-				remove_modifier = resort_colony
-			}
-			if = {
-				limit = { has_modifier = penal_colony }
-				remove_modifier = penal_colony
-			}
-	
-			if = {
-				limit = { has_building = building_colony_shelter }
-				remove_building = building_colony_shelter
-				add_building = building_deployment_post
-			}
-			if = {
-				limit = { has_building = building_capital }
-				remove_building = building_capital
-				add_building = building_machine_capital
-			}			
-			if = {
-				limit = { has_building = building_major_capital }
-				remove_building = building_major_capital
-				add_building = building_machine_major_capital
-			}
-			if = {
-				limit = { has_building = building_system_capital }
-				remove_building = building_system_capital
-				add_building = building_machine_system_capital
-			}
-	
-			if = {
-				limit = { has_building = building_resort_capital }
-				remove_building = building_resort_capital
-				add_building = building_machine_capital
-			}
-			if = {
-				limit = { has_building = building_resort_major_capital }
-				remove_building = building_resort_major_capital
-				add_building = building_machine_system_capital
-			}
-			if = {
-				limit = { has_building = building_slave_capital }
-				remove_building = building_slave_capital
-				add_building = building_machine_capital
-			}
-			if = {
-				limit = { has_building = building_slave_major_capital }
-				remove_building = building_slave_major_capital
-				add_building = building_machine_system_capital
-			}
-	
-			if = {
-				limit = { has_building = building_robot_assembly_plant }
-				remove_building = building_robot_assembly_plant
-				add_building = building_machine_assembly_plant
-			}
-			if = {
-				limit = { has_building = building_robot_assembly_complex }
-				remove_building = building_robot_assembly_complex
-				add_building = building_machine_assembly_complex
-			}
-	
-			if = {
-				limit = { has_building = building_ministry_production }
-				remove_building = building_ministry_production
-				add_building = building_production_center
-			}
-			if = {
-				limit = { has_building = building_institute }
-				remove_building = building_institute
-				add_building = building_supercomputer
-			}
-	
-			if = {
-				limit = { has_building = building_medical_1 }
-				remove_building = building_medical_1
-				add_building = building_uplink_node
-			}
-			# if = {
-			# 	limit = { has_building = building_hospital }
-			# 	remove_building = building_hospital
-			# 	add_building = building_network_junction
-			# }
-	
-			while = {
-				limit = { has_building = building_factory_1 }
-				remove_building = building_factory_1
-				add_building = building_foundry_1
-			}
-			while = {
-				limit = { has_building = building_factory_2 }
-				remove_building = building_factory_2
-				add_building = building_foundry_2
-			}
-			while = {
-				limit = { has_building = building_factory_3 }
-				remove_building = building_factory_3
-				add_building = building_foundry_3
-			}
-	
-			if = {
-				limit = { has_building = building_noble_estates }
-				remove_building = building_noble_estates
-				add_building = xvcv_mdlc_building_uplink_node_facility
-			}
-			if = {
-				limit = { has_building = building_galactic_stock_exchange }
-				remove_building = building_galactic_stock_exchange
-				add_building = building_foundry_1
-			}
-	
-			if = {
-				limit = { has_building = building_psi_corps }
-				remove_building = building_psi_corps
-				add_building = building_sentinel_posts
-			}
-			while = {
-				limit = { has_building = building_precinct_house }
-				remove_building = building_precinct_house
-				add_building = building_sentinel_posts
-			}
-			while = {
-				limit = { has_building = building_hall_judgment }
-				remove_building = building_hall_judgment
-				add_building = building_sentinel_posts
-			}
-			while = {
-				limit = { has_building = building_overseer_homes }
-				remove_building = building_overseer_homes
-				add_building = building_sentinel_posts
-			}
-	
-			while = {
-				limit = { has_building = building_holo_theatres }
-				remove_building = building_holo_theatres
-				add_building = building_simulation_1
-			}
-			while = {
-				limit = { has_building = building_hyper_entertainment_forum }
-				remove_building = building_hyper_entertainment_forum
-				add_building = building_simulation_2
-			}
-	
-			while = {
-				limit = { has_building = building_commercial_zone }
-				remove_building = building_commercial_zone
-				add_building = building_foundry_2
-			}
-			while = {
-				limit = { has_building = building_commercial_megaplex }
-				remove_building = building_commercial_megaplex
-				add_building = building_foundry_3
-			}
-	
-			while = {
-				limit = { has_building = building_luxury_residence }
-				remove_building = building_luxury_residence
-				add_building = building_drone_storage
-			}
-			while = {
-				limit = { has_building = building_paradise_dome }
-				remove_building = building_paradise_dome
-				add_building = building_drone_megastorage
-			}
-			while = {
-				limit = { has_building = building_communal_housing }
-				remove_building = building_communal_housing
-				add_building = building_drone_storage
-			}
-			while = {
-				limit = { has_building = building_communal_housing_large }
-				remove_building = building_communal_housing_large
-				add_building = building_drone_megastorage
-			}
-			if = {
-				limit = { has_building = building_clone_vats }
-				remove_building = building_clone_vats
-			}
-			while = {
-				limit = { has_building = building_xeno_zoo }
-				remove_building = building_xeno_zoo
-				add_building = building_simulation_1
-			}
-	
-			while = {
-				limit = { has_building = building_bureaucratic_1 }
-				remove_building = building_bureaucratic_1
-				add_building = building_uplink_node
-			}
-			while = {
-				limit = { has_building = building_bureaucratic_2 }
-				remove_building = building_bureaucratic_2
-				add_building = building_network_junction
-			}
-			while = {
-				limit = { has_building = building_bureaucratic_3 }
-				remove_building = building_bureaucratic_3
-				add_building = building_system_conflux
-			}
-	
-			while = {
-				limit = { has_building = building_autochthon_monument }
-				remove_building = building_autochthon_monument
-				add_building = building_simulation_1
-			}
-			while = {
-				limit = { has_building = building_heritage_site }
-				remove_building = building_heritage_site
-				add_building = building_simulation_2
-			}
-			while = {
-				limit = { has_building = building_hypercomms_forum }
-				remove_building = building_hypercomms_forum
-				add_building = building_simulation_3
-			}
-			if = {
-				limit = { has_building = building_autocurating_vault }
-				remove_building = building_autocurating_vault
-				add_building = building_alpha_hub
-			}
-	
-			while = {
-				limit = { has_building = building_temple }
-				remove_building = building_temple
-				add_building = building_simulation_1
-			}
-			while = {
-				limit = { has_building = building_holotemple }
-				remove_building = building_holotemple
-				add_building = building_simulation_2
-			}
-			while = {
-				limit = { has_building = building_sacred_nexus }
-				remove_building = building_sacred_nexus
-				add_building = building_simulation_3
-			}
-			if = {
-				limit = { has_building = building_citadel_of_faith }
-				remove_building = building_citadel_of_faith
-				add_building = building_alpha_hub
-			}
-	
-			while = {
-				limit = { has_building = building_corporate_monument }
-				remove_building = building_corporate_monument
-				add_building = building_simulation_1
-			}
-			while = {
-				limit = { has_building = building_corporate_site }
-				remove_building = building_corporate_site
-				add_building = building_simulation_2
-			}
-			while = {
-				limit = { has_building = building_corporate_forum }
-				remove_building = building_corporate_forum
-				add_building = building_simulation_3
-			}
-			if = {
-				limit = { has_building = building_corporate_vault }
-				remove_building = building_corporate_vault
-				add_building = building_alpha_hub
-			}
-		}
-		country_event = { id = xvcv_mdlc.34 }
+		xvcv_mdlc_project_mind_integration_effect = yes
 	}
 
 	option = {
@@ -2244,7 +1753,8 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		has_completed_special_project_in_log = XVCV_MDLC_AP_BIO_ROBOT_PROJECT
+		# has_completed_special_project_in_log = XVCV_MDLC_AP_BIO_ROBOT_PROJECT
+		has_country_flag = xvcv_mdlc_bio_robot_research_complete
 	}
 
 	immediate = {
@@ -2409,7 +1919,8 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		has_completed_special_project_in_log = XVCV_MDLC_AP_BIO_ROBOT_PROJECT
+		# has_completed_special_project_in_log = XVCV_MDLC_AP_BIO_ROBOT_PROJECT
+		oxr_mdlc_country_is_finished_bio_mech = yes
 	}
 
 	trigger = {
@@ -2420,15 +1931,31 @@ country_event = {
 
 	immediate = {
 		every_owned_planet = {
-			limit = { xvcv_mdlc_bio_robot_auto_growth_possible_planet_trigger = yes }
+			limit = {
+				xvcv_mdlc_bio_robot_auto_growth_possible_planet_trigger = yes
+				NOT = { has_modifier = planet_robot_assembly_control }
+				NOT = { has_modifier = planet_population_control_gestalt }
+			}
 			planet = {
 				# xvcv_mdlc_planet_calc_bio_mech_growth_rate = yes
 				# new Phoenix 4.0 calc
 				oxr_mdlc_planet_calc_monthly_bio_mech_pops_add = yes
 				oxr_mdlc_planet_increment_bio_pop_groups_each_month = yes
 			}
-			
-		} # close every_owned_planet
+		}
+		# Remove the modifier info from the planet UI, but don't clear any vars
+		# every_owned_planet = {
+		# 	limit = {
+		# 		xvcv_mdlc_bio_robot_auto_growth_possible_planet_trigger = yes
+		# 		OR = {
+		# 			has_modifier = planet_robot_assembly_control
+		# 			has_modifier = planet_population_control_gestalt
+		# 		}
+		# 	}
+		# 	planet = {
+		# 		remove_modifier = xvcv_mdlc_bio_robot_growth_progress_percent
+		# 	}
+		# }
 	}
 }
 #variables for bio robot auto growth reset effect event
@@ -2968,7 +2495,7 @@ country_event = {
 	}
 }
 
-### 'xvcv_mdlc_civic_goods_distributor_pop_bonus_on' Edict Events ###
+### 'xvcv_mdlc_civic_goods_distributor_edict' Edict Events ###
 #'xvcv_mdlc_goods_for_pop_unity_bonus' modifier add effect event
 country_event = {
 	id = xvcv_mdlc.60
@@ -2976,7 +2503,7 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		has_country_flag = xvcv_mdlc_civic_goods_distributor_pop_bonus_on
+		has_country_flag = xvcv_mdlc_country_flag_civic_goods_distributor_pop_bonus_on
 		resource_income_compare = { resource = consumer_goods value > 0 }
 	}
 
@@ -2985,6 +2512,7 @@ country_event = {
 			limit = { has_modifier = xvcv_mdlc_goods_for_pop_unity_bonus_none }
 			remove_modifier = xvcv_mdlc_goods_for_pop_unity_bonus_none
 		}
+		log = "triggered monthly goods distributor check"
 		xvcv_mdlc_civic_goods_distributor_pop_bonus_effect = yes
 	}
 }
@@ -3026,6 +2554,7 @@ planet_event = {
 		# Any time a T3-world district is built, cooling must be recalculated,
 		# as well as deposits must be re-checked to create offsets in case cooling is unbalanced
 		xvcv_mdlc_planet_wm_calc_output_value = yes
+
 		if = {
 			limit = { xvcv_mdlc_planet_wm_has_non_resource_district = yes }
 			#log = "Going into xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all"
@@ -3513,19 +3042,49 @@ planet_event = {
 	trigger = {
 		exists = owner
 		owner = { has_ascension_perk = xvcv_mdlc_ap_robotic_age }
-		check_modifier_value = { modifier = job_roboticist_add value != 0 } #when the value is not 0 #which means this event won't consider the case where the value equals 0
+		check_modifier_value = {
+			modifier = job_roboticist_add
+			value != 0
+		} #when the value is not 0 #which means this event won't consider the case where the value equals 0
 	}
 
 	immediate = {
-		export_modifier_to_variable = { modifier = job_roboticist_add variable = xvcv_mdlc_job_roboticist_count_var }
+		export_modifier_to_variable = {
+			modifier = job_roboticist_add
+			variable = xvcv_mdlc_job_roboticist_count_var
+		}
+		# Account for the x100 increase in pop numbers in Phoenix 4.0
+		divide_variable = {
+			which = xvcv_mdlc_job_roboticist_count_var
+			value = 100
+		}
 		if = {
-			limit = { check_variable = { which = xvcv_mdlc_job_roboticist_count_var value > 0 } }
-			while = { add_deposit = xvcv_mdlc_d_ap_robotic_age count = xvcv_mdlc_job_roboticist_count_var }
+			limit = {
+				check_variable = {
+					which = xvcv_mdlc_job_roboticist_count_var
+					value > 0
+				}
+			}
+			while = {
+				add_deposit = xvcv_mdlc_d_ap_robotic_age
+				count = xvcv_mdlc_job_roboticist_count_var
+			}
 		}
 		else_if = {
-			limit = { check_variable = { which = xvcv_mdlc_job_roboticist_count_var value < 0 } }
-			multiply_variable = { which = xvcv_mdlc_job_roboticist_count_var value = -1 } #change minus value to plus one
-			while = { remove_deposit = xvcv_mdlc_d_ap_robotic_age count = xvcv_mdlc_job_roboticist_count_var }
+			limit = {
+				check_variable = {
+					which = xvcv_mdlc_job_roboticist_count_var
+					value < 0
+				}
+			}
+			multiply_variable = {
+				which = xvcv_mdlc_job_roboticist_count_var
+				value = -1
+			} #change minus value to plus one
+			while = {
+				remove_deposit = xvcv_mdlc_d_ap_robotic_age
+				count = xvcv_mdlc_job_roboticist_count_var
+			}
 		}
 	}
 }
@@ -3750,15 +3309,37 @@ planet_event = {
 	}
 
 	immediate = {
-		remove_building = building_deployment_post
-		add_building = building_machine_capital
+		save_event_target_as = oxr_last_colonized_planet
+		if = {
+			limit = {
+				has_building = building_deployment_post
+			}
+			event_target:oxr_last_colonized_planet = {
+				add_building = building_machine_capital
+				remove_building = building_deployment_post
+				log = "In xvcv_mdlc.1004, supposed to remove deployment post ..?"
+			}
+		}
+		# switch = {
+		# 	trigger = has_building
+		# 	building_deployment_post = {
+		# 		event_target:oxr_last_colonized_planet = {
+		# 			add_building = building_machine_capital
+		# 			remove_building = building_deployment_post
+		# 			log = "In xvcv_mdlc.1004, supposed to remove deployment post ..?"
+		# 		}
+		# 	}
+		# }
+
 		# Replace the old colony_start_num_pops_add effect
 		create_pop = {
 			species = owner.species
 			ethos = owner
 		}
+
 	}
 }
+
 
 ## Synthetic Origin setup - no TMA
 country_event = {

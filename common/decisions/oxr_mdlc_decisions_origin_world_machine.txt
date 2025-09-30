@@ -57,6 +57,16 @@ oxr_mdlc_decisions_origin_wm_reboot_ruined_world = {
 		exists = space_owner
 		space_owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
 		is_planet_class = xvcv_mdlc_pc_machine_auto_ruined
+		hidden_trigger = {
+			NOR = {
+				has_modifier = oxr_mdlc_origin_world_machine_world_rebooting_stage_1
+				has_modifier = oxr_mdlc_origin_world_machine_world_rebooting_stage_2
+				has_modifier = oxr_mdlc_origin_world_machine_world_rebooting_stage_3
+				has_modifier = oxr_mdlc_origin_world_machine_world_rebooting_stage_4
+				has_modifier = oxr_mdlc_origin_world_machine_world_rebooting_stage_5
+			}
+		}
+		
 	}
 	allow = {
 		# always = yes
@@ -64,11 +74,14 @@ oxr_mdlc_decisions_origin_wm_reboot_ruined_world = {
 		has_anomaly = no
 		space_owner = {
 			has_resource = {
-				type = energy amount >= 5000
+				type = energy amount >= 2500
 			}
-			NOT = {
-				any_situation = {
-					is_situation_type = oxr_mdlc_origin_wm_situation_restore_ruined_world_machine
+			custom_tooltip = {
+				fail_text = oxr_mdlc_decisions_origin_wm_reboot_ruined_world.fail.limit
+				NOT = {
+					any_situation = {
+						is_situation_type = oxr_mdlc_origin_wm_situation_restore_ruined_world_machine
+					}
 				}
 			}
 		}
@@ -76,11 +89,11 @@ oxr_mdlc_decisions_origin_wm_reboot_ruined_world = {
 	resources = {
 		category = decisions
 		cost = {
-			energy = 5000
+			energy = 2500
 		}
 	}
 	effect = {
-		save_global_event_target_as = oxr_mdlc_ruined_world_machine
+		save_event_target_as = oxr_mdlc_ruined_world_machine
 		log = "Ruined WM target set to \\[event_target:oxr_mdlc_ruined_world_machine.GetName]"
 		space_owner = {
 			start_situation = {
@@ -385,7 +398,7 @@ oxr_mdlc_decision_ap_wm_automate_capital_remove = {
 		planet = { is_colony = yes }
 		owner = {
 			OR = {
-				# has_ascension_perk = xvcv_mdlc_ap_world_machines
+				has_ascension_perk = xvcv_mdlc_ap_world_machines
 				has_oxr_mdlc_origin_world_machine_awakened = yes
 			}
 		}
@@ -479,14 +492,19 @@ oxr_mdlc_decision_origin_wm_reactivate_colony = {
 		space_owner = {
 			has_resource = {
 				type = energy
-				amount >= 2500
+				amount >= 500
+			}
+			has_resource = {
+				type = alloys
+				amount >= 200
 			}
 		}
 	}
 	resources = {
 		category = decisions
 		cost = {
-			energy = 2500
+			energy = 500
+			alloys = 200
 		}
 	}
 	effect = {

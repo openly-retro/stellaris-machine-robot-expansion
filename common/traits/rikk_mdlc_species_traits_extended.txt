@@ -267,20 +267,16 @@ rikk_mdlc_trait_robotic_mesh_network = {
 	triggered_pop_group_modifier = {
 		potential = {
 			exists = planet
-			planet = {
-				any_owned_pop_group = {
-					has_trait = rikk_mdlc_trait_robotic_mesh_network
-				}
+			owner = {
+				# Already checked at the country level whether this planet has meshnet pops
+				is_variable_set = rikk_mdlc_country_pop_meshnet_bonus_var
 			}
 		}
-		# planet_jobs_unity_produces_mult = 0.000025
-		bureaucrat_jobs_bonus_workforce_mult = 0.000025
-		researcher_jobs_bonus_workforce_mult = 0.000025
-		trader_jobs_bonus_workforce_mult = 0.000025  # added by Retro
-		# planet_jobs_society_research_produces_mult = 0.000025
-		# planet_jobs_engineering_research_produces_mult = 0.000025
+		bureaucrat_jobs_bonus_workforce_mult = 1
+		researcher_jobs_bonus_workforce_mult = 1
+		trader_jobs_bonus_workforce_mult = 1  # added by Retro
 
-		mult = planet.owner.rikk_mdlc_count_mesh_net_pops_in_empire_var
+		mult = planet.owner.rikk_mdlc_country_pop_meshnet_bonus_var
 	}
 	custom_tooltip_with_modifiers = rikk_mdlc_trait_robotic_mesh_network_effect
 }
@@ -294,14 +290,46 @@ rikk_mdlc_trait_robotic_mesh_network = {
 # originally it provided a bonus for a low amount and negatives for a high amount but that didn't make sense?
 rikk_mdlc_trait_robotic_constant_growth = {
 	cost = 3
-	inline_script = trait/rikk_extended_origin
+	initial = yes
+	allowed_archetypes = { MACHINE ROBOT XVCV_MDLC_BIO_ROBOT }
+	species_possible_add = {
+		hidden_trigger = {
+            exists = from
+            has_mute_extended_machines = no
+        }
+        custom_tooltip = {
+            fail_text = oxr_mdlc_species_add_nanomachines_fail.missing_tradition
+            from = { oxr_mdlc_country_finished_nanotech = yes }
+        }
+	}
+	sorting_priority = 128
 
-	species_possible_remove = { always = no }
-	species_possible_merge_add = { always = no }
-	species_possible_merge_remove = { always = no }
+	species_possible_remove = {
+        hidden_trigger = {
+            exists = from
+        }
+        custom_tooltip = {
+            fail_text = oxr_mdlc_species_add_nanomachines_fail.missing_tradition
+            from = { oxr_mdlc_country_finished_nanotech = yes }
+        }
+    }
+	species_possible_merge_add = {
+        hidden_trigger = { exists = from }
+        custom_tooltip = {
+            fail_text = oxr_mdlc_species_add_nanomachines_fail.missing_tradition
+            from = { oxr_mdlc_country_finished_nanotech = yes }
+        }
+    }
+	species_possible_merge_remove = {
+        hidden_trigger = { exists = from }
+        custom_tooltip = {
+            fail_text = oxr_mdlc_species_add_nanomachines_fail.missing_tradition
+            from = { oxr_mdlc_country_finished_nanotech = yes }
+        }
+    }
 
 	modifier = {
-		pop_housing_usage_add = -0.5
+		pop_housing_usage_add = -0.75
 	}
 
 	triggered_pop_group_modifier = {
@@ -313,13 +341,17 @@ rikk_mdlc_trait_robotic_constant_growth = {
                 }
             }
         }
-		species_empire_size_mult = 0.00002
-		pop_amenities_usage_add = 0.00005
-		planet_pops_robotics_upkeep_mult = 0.00004
-        mult = planet.rikk_mdlc_count_nanomachine_pops_on_planet_var
+		# species_empire_size_mult = 0.00002
+		# pop_amenities_usage_add = 0.00005
+		# planet_pops_robotics_upkeep_mult = 0.00004
+        # mult = planet.rikk_mdlc_count_nanomachine_pops_on_planet_var
+		species_empire_size_mult = -1
+		pop_amenities_usage_add = -1
+		planet_pops_robotics_upkeep_mult = -1
+		mult = planet.rikk_mdlc_planet_nanomachines_bonus_mult_percent
     }
 
-	custom_tooltip_with_modifiers = rikk_mdlc_trait_robotic_constant_growth_effect
+	custom_tooltip = rikk_mdlc_trait_robotic_constant_growth_effect
 }
 
 rikk_mdlc_trait_robotic_ai_splitting = {

@@ -47,7 +47,7 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 				add_district = xvcv_mdlc_pc_machine_auto_district_generator
 			}
 			while = {
-				count = 6
+				count = 7
 				add_district = xvcv_mdlc_pc_machine_auto_district_farming
 			}
 			
@@ -259,6 +259,15 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 		### Free up slots
 		remove_if_has_building = { WHICH = building_machine_assembly_plant }
 		remove_if_has_building = { WHICH = building_drone_storage }
+		# Add a unity building
+		if = {
+			limit = {
+				NOT = { has_building = oxr_mdlc_world_machines_building_auto_unity_1 }
+			}
+			oxr_mdlc_planet_add_building_to_primary_wm_district = {
+				BUILDING = oxr_mdlc_world_machines_building_auto_unity_1
+			}
+		}
 	}
 
 	# Add armies! there should be a few districts already
@@ -1340,6 +1349,7 @@ oxr_mdlc_planet_create_world_machine_colony = {
 	# oxr_mdlc_decision_origin_wm_reactivate_colony
 
 	planet = {
+		save_event_target_as = oxr_mdlc_new_wm_planet
 		create_colony = {
 			owner = from
 			species = from.owner_species
@@ -1415,6 +1425,7 @@ oxr_mdlc_planet_create_world_machine_colony = {
 		days = -1
 	}
 	# Balance pops. Always have 3(00)
+	# log = "There are \\[This.oxr_mdlc_planet_starting_pops] pops on \\[This.GetName] at colony creation"
 
 	if = {
 		limit = {
@@ -1439,26 +1450,67 @@ oxr_mdlc_planet_create_world_machine_colony = {
 				save_event_target_as = last_created_pop_group
 			}
 		}
+		log = "Added \\[This.oxr_mdlc_planet_population_target_tmp] pops on start to \\[This.GetName]"
 		clear_variable = oxr_mdlc_current_population_tmp
 		clear_variable = oxr_mdlc_planet_population_target_tmp
 	}
-
-	if = {
+	else_if = {
 		limit = {
-			pop_amount = 200
-			from = {
-				has_origin = oxr_mdlc_origin_world_machine_awakened
+			pop_amount > 300
+		}
+		set_variable = {
+			which = oxr_mdlc_current_population_tmp
+			value = trigger:pop_amount
+		}
+		set_variable = {
+			which = oxr_mdlc_planet_current_pops
+			value = oxr_mdlc_current_population_tmp
+		}
+		set_variable = {
+			which = oxr_mdlc_planet_target_pops
+			value = 300
+		}
+		set_variable = {
+			which = oxr_mdlc_planet_num_pops_to_remove
+			value = oxr_mdlc_planet_current_pops
+		}
+		subtract_variable = {
+			which = oxr_mdlc_planet_num_pops_to_remove
+			value = oxr_mdlc_planet_target_pops
+		}
+		random_owned_pop_group = {
+			limit = {
+				pop_group_size >= prev.oxr_mdlc_planet_num_pops_to_remove
+			}
+			kill_pop_group = {
+				pop_group = this
+				amount = prev.oxr_mdlc_planet_num_pops_to_remove
 			}
 		}
-		create_pop_group = {
-			species = from.founder_species
-			size = 100
-			effect = {
-				save_event_target_as = last_created_pop_group
-			}
-		}
-		log = "Created one extra Automation species"
+		log = "Auto-balanced pops on \\[This.GetName] to remove \\[This.oxr_mdlc_planet_num_pops_to_remove]"
+
+		clear_variable = oxr_mdlc_current_population_tmp
+		clear_variable = oxr_mdlc_planet_current_pops
+		clear_variable = oxr_mdlc_planet_target_pops
+		clear_variable = oxr_mdlc_planet_num_pops_to_remove
 	}
+
+	# if = {
+	# 	limit = {
+	# 		pop_amount = 200
+	# 		from = {
+	# 			has_origin = oxr_mdlc_origin_world_machine_awakened
+	# 		}
+	# 	}
+	# 	create_pop_group = {
+	# 		species = from.founder_species
+	# 		size = 100
+	# 		effect = {
+	# 			save_event_target_as = last_created_pop_group
+	# 		}
+	# 	}
+	# 	log = "Created one extra Automation species"
+	# }
 	# Set these vars
 	oxr_mdlc_origin_world_machine_calc_max_district_armies = yes
 
@@ -1489,6 +1541,29 @@ oxr_mdlc_planet_create_world_machine_colony = {
 			on_action = on_world_machine_core_terraforming_complete
 		}
 	}
+
+	# Settle the issue of what to do with the planet capital
+	# If the empire has the self assembling AP, go upgrade the capital
+	# Otherwise, remove the default deployment post and add the automated version
+	if = {
+		limit = {
+			owner = {
+				has_xvcv_mdlc_ap_self_assembling_colony_ship = yes
+			}
+		}
+		# upgrade the capital
+		planet_event = {
+			id = xvcv_mdlc.1004
+		}
+	}
+	else = {
+		save_event_target_as = oxr_mdlc_new_wm
+		event_target:oxr_mdlc_new_wm = {
+			remove_building = building_deployment_post
+			add_building = oxr_mdlc_world_machines_building_auto_capital
+		}
+	}
+
 }
 
 
@@ -1497,8 +1572,17 @@ oxr_mdlc_planet_do_wm_origin_things_after_project = {
 
 	if = {
 		limit = {
+			owner = {
+				has_xvcv_mdlc_ap_self_assembling_colony_ship = yes
+			}
 			oxr_mdlc_planet_has_any_auto_capital = no
 		}
+		# upgrade the capital
+		planet_event = {
+			id = xvcv_mdlc.1004
+		}
+	}
+	else = {
 		oxr_mdlc_planet_wm_automate_capital = yes
 	}
 
@@ -1754,53 +1838,67 @@ oxr_mdlc_planet_add_wmc_core_deposit_if_missing = {
 oxr_mdlc_planet_fix_things_after_restoring_ownership = {
 	# We reclaimed a world-machine after war, but it's a little borked
 	repair_all_buildings = yes
-	remove_building_if_exists = {
-		WHICH = building_hive_capital
-	}
-	remove_building_if_exists = {
-		WHICH = building_colony_shelter
-	}
-	remove_building_if_exists = {
-		WHICH = building_ancient_control_center
-	}
-	remove_building_if_exists = {
-		WHICH = building_ancient_palace
-	}
-	remove_building_if_exists = {
-		WHICH = building_deployment_post
-	}
-
-	if = { limit = { has_building = building_machine_capital } remove_building = building_machine_capital }
-	if = { limit = { has_building = building_machine_major_capital } remove_building = building_machine_major_capital }
-	if = { limit = { has_building = building_machine_system_capital } remove_building = building_machine_system_capital }
-
 	if = {
 		limit = {
-			NOR = {
-				has_building = oxr_mdlc_world_machines_building_auto_capital
-				oxr_mdlc_has_upgraded_capital = yes
+			owner = {
+				has_xvcv_mdlc_ap_self_assembling_colony_ship = yes
 			}
 		}
-		if = {
-			limit = {
-				owner = {
-					has_oxr_mdlc_origin_world_machine_awakened = yes
-				}
-			}
-			add_building = {
-				district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
-				zone = oxr_mdlc_origin_wm_zone_default
-				building = oxr_mdlc_world_machines_building_auto_capital
-			}
-		}
-		else = {
-			add_building = {
-				district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
-				zone = zone_default
-				building = oxr_mdlc_world_machines_building_auto_capital
-			}
+		planet_event = {
+			id = xvcv_mdlc.1004
 		}
 	}
+	else = {
+		oxr_mdlc_planet_wm_automate_capital = yes
+	}
+
+	# remove_building_if_exists = {
+	# 	WHICH = building_hive_capital
+	# }
+	# remove_building_if_exists = {
+	# 	WHICH = building_colony_shelter
+	# }
+	# remove_building_if_exists = {
+	# 	WHICH = building_ancient_control_center
+	# }
+	# remove_building_if_exists = {
+	# 	WHICH = building_ancient_palace
+	# }
+	# remove_building_if_exists = {
+	# 	WHICH = building_deployment_post
+	# }
+
+	# if = { limit = { has_building = building_machine_capital } remove_building = building_machine_capital }
+	# if = { limit = { has_building = building_machine_major_capital } remove_building = building_machine_major_capital }
+	# if = { limit = { has_building = building_machine_system_capital } remove_building = building_machine_system_capital }
+
+	# if = {
+	# 	limit = {
+	# 		NOR = {
+	# 			has_building = oxr_mdlc_world_machines_building_auto_capital
+	# 			oxr_mdlc_has_upgraded_capital = yes
+	# 		}
+	# 	}
+	# 	if = {
+	# 		limit = {
+	# 			owner = {
+	# 				has_oxr_mdlc_origin_world_machine_awakened = yes
+	# 			}
+	# 		}
+	# 		add_building = {
+	# 			district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
+	# 			zone = oxr_mdlc_origin_wm_zone_default
+	# 			building = oxr_mdlc_world_machines_building_auto_capital
+	# 		}
+	# 	}
+	# 	else = {
+	# 		add_building = {
+	# 			district = xvcv_mdlc_pc_machine_auto_district_city
+	# 			zone = zone_default
+	# 			building = oxr_mdlc_world_machines_building_auto_capital
+	# 		}
+	# 	}
+	# }
 }
 
 
@@ -2180,11 +2278,15 @@ oxr_mdlc_planet_wm_automate_capital = {
 				BUILDING = oxr_mdlc_world_machines_building_auto_capital_fully_upgraded
 			}
 		}
+		else_if = {
+			limit = { has_building = building_imperial_machine_capital }
+			remove_building = building_imperial_machine_capital
+			oxr_mdlc_planet_add_building_to_primary_wm_district = {
+				BUILDING = oxr_mdlc_world_machines_building_auto_imperial_capital
+			}
+		}
 	}
-	# Seriously.. remove this building already!
-	planet = {
-		remove_building = building_deployment_post
-	}
+
 }
 
 oxr_mdlc_planet_wm_remove_capital_automation = {
@@ -2215,6 +2317,13 @@ oxr_mdlc_planet_wm_remove_capital_automation = {
 			remove_building = oxr_mdlc_world_machines_building_auto_capital_fully_upgraded
 			oxr_mdlc_planet_add_building_to_primary_wm_district = {
 				BUILDING = building_machine_system_capital
+			}
+		}
+		else_if = {
+			limit = { has_building = oxr_mdlc_world_machines_building_auto_imperial_capital }
+			remove_building = oxr_mdlc_world_machines_building_auto_imperial_capital
+			oxr_mdlc_planet_add_building_to_primary_wm_district = {
+				BUILDING = building_imperial_machine_capital
 			}
 		}
 	}

@@ -414,6 +414,28 @@ TRAITS_TO_EXCLUDE = {
     "leader_trait_sanitary_drone": 1,  # Astral planes event trait
     "leader_trait_spacebender": 1,  # Astral planes event trait
     "leader_trait_blorg_insight": 1,  # Astral planes event trait
+    "leader_trait_adaptable": 1,
+    "leader_trait_eager": 1,
+    "leader_trait_eager_machine": 1,
+    "leader_trait_resilient": 1,
+    "leader_trait_collective_wisdom": 1,
+    "leader_trait_society_focus": 1,  # for governor
+    "leader_trait_buccaneer": 1,  # for admirals
+    "leader_trait_treasure_hoarder": 1  # should be restricted via origin
+
+}
+
+""" These traits should not be allowed in the Core Modifying GUI """
+CORE_MODIFYING_TRAITS_TO_EXCLUDE = {
+    "leader_trait_adaptable": 1,
+    "leader_trait_eager": 1,
+    "leader_trait_eager_machine": 1,
+    "leader_trait_resilient": 1,
+    "leader_trait_collective_wisdom": 1,
+    "leader_trait_society_focus": 1,  # for governor
+    "leader_trait_buccaneer": 1,  # for admirals
+    "leader_trait_treasure_hoarder": 1  # should be restricted via origin
+
 }
 
 """ Our trick to prepend mre_ to modifier names doesn't always work automatically.

@@ -1,0 +1,163 @@
+# Tweak these to permit pop controls while synthetic or bio mech
+# Decision overrides are LIOS
+
+# Override for functionality
+# Stop Robot/Droid Assembly
+decision_enact_robot_assembly_control = {
+	owned_planets_only = yes
+	sound = event_administrative_work
+	# icon = GFX_oxr_mdlc_decision_enact_robot_assembly_control
+
+	resources = {
+		category = decisions
+		cost = {
+			unity = 250
+		}
+	}
+
+	potential = {
+		planet = {
+			any_owned_species = {
+				OR = {
+					has_trait = trait_mechanical
+					is_archetype = XVCV_MDLC_BIO_ROBOT
+				}
+			}
+		}
+		owner = {
+			OR = {
+				# Machine & Robot Expansion: Continued
+				oxr_mldc_is_mechanical_empire = yes
+				AND = {
+					is_regular_empire = yes
+					NOT = { has_policy_flag = robots_outlawed }
+					has_technology = tech_robotic_workers
+					OR = {
+						AND = {
+							has_policy_flag = ai_full_rights
+							has_policy_flag = population_controls_allowed
+						}
+						NOT = {
+							has_policy_flag = ai_full_rights
+						}
+					}
+				}
+				is_individual_machine = yes
+			}
+		}
+		NOT = { has_modifier = planet_robot_assembly_control }
+	}
+
+	effect = {
+		add_modifier = { modifier = "planet_robot_assembly_control" days = -1 }
+	}
+
+	ai_weight = {
+		weight = 5
+		modifier = { # don't enable if you have free housing and no city districts left to build
+			factor = 0
+			OR = {
+				free_housing > 0
+				num_free_districts = {
+					type = any
+					value > 0
+				}
+				has_building_construction = yes #Added since they're probably building housing
+			}
+		}
+	}
+}
+
+decision_end_robot_assembly_control = {
+	owned_planets_only = yes
+	sound = event_administrative_work
+	# icon = "gfx/interface/icons/decisions/decision_end_robot_assembly_control.dds"
+
+	resources = {
+		category = decisions
+	}
+
+	potential = {
+		has_modifier = planet_robot_assembly_control
+	}
+
+	effect = {
+		remove_modifier = "planet_robot_assembly_control"
+	}
+
+	ai_weight = {
+		weight = 20
+
+		modifier = { # don't end if less than 100 housing
+			factor = 0
+			free_housing < 100
+		}
+	}
+}
+
+# Override just for the icon
+# decision_enact_population_control_gestalt = {
+# 	owned_planets_only = yes
+# 	sound = event_administrative_work
+# 	icon = decision_enact_robot_assembly_control
+
+# 	resources = {
+# 		category = decisions
+# 		cost = {
+# 			unity = 250
+# 		}
+# 	}
+
+# 	potential = {
+# 		owner = {
+# 			is_gestalt = yes
+# 			is_wilderness_empire = no
+# 		}
+# 		NOT = { has_modifier = planet_population_control_gestalt }
+# 	}
+
+# 	effect = {
+# 		add_modifier = { modifier = "planet_population_control_gestalt" days = -1 } # if name changes, change in jobs too
+# 	}
+
+# 	ai_weight = {
+# 		weight = 5
+# 		modifier = { # don't enable if you have free housing and no city districts left to build
+# 			factor = 0
+# 			OR = {
+# 				free_housing > 0
+# 				num_free_districts = {
+# 					type = any
+# 					value > 0
+# 				}
+# 				has_building_construction = yes #Added since they're probably building housing
+# 			}
+# 		}
+# 	}
+# }
+
+# decision_end_population_control_gestalt = {
+# 	owned_planets_only = yes
+# 	sound = event_administrative_work
+# 	icon = decision_end_robot_assembly_control
+
+# 	resources = {
+# 		category = decisions
+# 	}
+
+# 	potential = {
+# 		has_modifier = planet_population_control_gestalt
+# 	}
+
+# 	effect = {
+# 		remove_modifier = "planet_population_control_gestalt"
+# 	}
+
+# 	ai_weight = {
+# 		weight = 20
+# 		modifier = { # don't end if less than 100 housing
+# 			factor = 0
+# 			free_housing < 100
+# 		}
+# 	}
+# }

@@ -1,0 +1,66 @@
+namespace = oxr_mdlc_civics
+
+
+# Start the xvcv_mdlc_civic_goods_distributor monitoring task
+# When edict is triggered, fire this event. Do some things.
+# Then, fire another 'watcher' event that turns off the goods modifier if
+# the edict is inactive
+country_event = {
+	id = oxr_mdlc_civics.100
+	is_triggered_only = yes
+	hide_window = yes
+
+	trigger = {
+		has_civic = xvcv_mdlc_civic_goods_distributor
+		has_edict = xvcv_mdlc_civic_goods_distributor_edict
+	}
+
+	immediate = {
+		log = "Starting oxr_mdlc_civics.100"
+		set_country_flag = xvcv_mdlc_country_flag_civic_goods_distributor_pop_bonus_on
+		xvcv_mdlc_civic_goods_distributor_pop_bonus_effect = yes
+		country_event = {
+			id = oxr_mdlc_civics.101
+		}
+		# Recalculate bonus every 30 days
+		# taken care of by xvcv_mdlc.60
+	}
+}
+
+# Check daily if the edict got toggled off, in which case, remove modifier
+country_event = {
+	id = oxr_mdlc_civics.101
+	is_triggered_only = yes
+	hide_window = yes
+
+	trigger = {
+		OR = {
+			has_edict = xvcv_mdlc_civic_goods_distributor_edict
+			has_country_flag = xvcv_mdlc_country_flag_civic_goods_distributor_pop_bonus_on
+		}
+	}
+
+	immediate = {
+		log = "Starting oxr_mdlc_civics.101"
+		if = {
+			limit = {
+				NOT = { has_edict = xvcv_mdlc_civic_goods_distributor_edict }
+				has_country_flag = xvcv_mdlc_country_flag_civic_goods_distributor_pop_bonus_on
+			}
+			log = "Aborting oxr_mdlc_civics.101"
+			remove_country_flag = xvcv_mdlc_country_flag_civic_goods_distributor_pop_bonus_on
+			remove_modifier = xvcv_mdlc_goods_for_pop_unity_bonus
+			# Set cooldown
+			add_modifier = {
+				modifier = xvcv_mdlc_country_civic_goods_distributor_cooldown
+				days = 30
+			}
+		}
+		else = {
+			# Loop
+			country_event = {
+				id = oxr_mdlc_civics.101 days = 1
+			}
+		}
+	}
+}

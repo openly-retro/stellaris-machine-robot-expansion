@@ -37,25 +37,24 @@ xvcv_mdlc_civic_trading_machine_control = {
 		weight = 0
 	}
 }
-xvcv_mdlc_civic_goods_distributor_pop_bonus_on = {
-	length = 1
+
+xvcv_mdlc_civic_goods_distributor_edict = {
+	length = -1
 	icon = "GFX_edict_type_policy"
 
 	effect = {
-		custom_tooltip = edict_xvcv_mdlc_civic_goods_distributor_pop_bonus_on_tooltip
-		hidden_effect = {
-			set_country_flag = xvcv_mdlc_civic_goods_distributor_pop_bonus_on
-			xvcv_mdlc_civic_goods_distributor_pop_bonus_effect = yes
-		}
+		custom_tooltip = edict_xvcv_mdlc_civic_goods_distributor_edict_tooltip
+		log = "entry effect for xvcv_mdlc_civic_goods_distributor_edict"
+		hidden_effect = { country_event = { id = oxr_mdlc_civics.100 days = 1 } }
 	}
 
 	allow = {
 		resource_income_compare = { resource = consumer_goods value > 0 }
+		NOT = { has_country_flag = xvcv_mdlc_civic_goods_distributor_edict }
 	}
 
 	potential = {
 		has_valid_civic = xvcv_mdlc_civic_goods_distributor
-		NOT = { has_country_flag = xvcv_mdlc_civic_goods_distributor_pop_bonus_on }
 	}
 
 	ai_weight = {
@@ -63,26 +62,27 @@ xvcv_mdlc_civic_goods_distributor_pop_bonus_on = {
 	}
 }
 #ok, there is no effect block for when the player toggles off an edict manually... damn #stellaris v3.3.1
-xvcv_mdlc_civic_goods_distributor_pop_bonus_off = {
-	length = 1
-	icon = "GFX_edict_type_policy"
+# xvcv_mdlc_civic_goods_distributor_pop_bonus_off = {
+# 	length = 1
+# 	icon = "GFX_edict_type_policy"
 
-	effect = {
-		custom_tooltip = edict_xvcv_mdlc_civic_goods_distributor_pop_bonus_off_tooltip
-		hidden_effect = {
-			remove_country_flag = xvcv_mdlc_civic_goods_distributor_pop_bonus_on
-			remove_modifier = xvcv_mdlc_goods_for_pop_unity_bonus
-		}
-	}
+# 	effect = {
+# 		custom_tooltip = edict_xvcv_mdlc_civic_goods_distributor_pop_bonus_off_tooltip
+# 		hidden_effect = {
+# 			remove_country_flag = xvcv_mdlc_civic_goods_distributor_pop_bonus_on
+# 			remove_modifier = xvcv_mdlc_goods_for_pop_unity_bonus
+# 		}
+# 	}
 
-	potential = {
-		has_country_flag = xvcv_mdlc_civic_goods_distributor_pop_bonus_on
-	}
+# 	potential = {
+# 		has_country_flag = xvcv_mdlc_civic_goods_distributor_pop_bonus_on
+# 	}
 
-	ai_weight = {
-		weight = 0
-	}
-}
+# 	ai_weight = {
+# 		weight = 0
+# 	}
+# }
+
 xvcv_mdlc_ap_genetics_mastery_species_new_template = {
 	length = 1
 	icon = "GFX_edict_type_policy"

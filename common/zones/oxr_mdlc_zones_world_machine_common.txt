@@ -1,0 +1,84 @@
+# Zones that can be shared across WM types
+
+# Placeholder zone
+oxr_mdlc_zone_none = {
+	icon = GFX_diplomatic_weight_large
+	base_buildtime = 1
+	potential = {
+		# hidden_trigger = { exists = owner }
+		# is_xvcv_mdlc_pc_ringworld_machine_auto = yes
+		always = no
+	}
+	unlock = { always = no }
+	resources = {
+		category = oxr_mdlc_world_machines_zones
+		cost = {
+			energy = 1
+		}
+	}
+	max_buildings = 0
+
+	included_building_sets = {
+		research
+		oxr_mdlc_building_set_wm_research
+	}
+
+	excluded_building_sets = { }
+	zone_sets = {
+		oxr_mdlc_zone_set_none
+	}
+}
+
+oxr_mdlc_origin_wm_zone_any = {
+	icon = GFX_colony_type_urban
+	inline_script = planet/zones/oxr_wm_zone_base
+
+	country_modifier = { country_resource_max_add = 2500 }
+
+	include = { all }
+	excluded_building_sets = {
+		knights
+	}
+	zone_sets = { oxr_mdlc_zone_set_wm }
+}
+
+oxr_mdlc_origin_wm_zone_any_wm = {
+	icon = GFX_colony_type_urban
+	inline_script = planet/zones/oxr_wm_zone_base
+
+	country_modifier = { country_resource_max_add = 2500 }
+	included_building_sets = {
+		oxr_mdlc_building_set_wm_all
+	}
+	excluded_building_sets = { }
+	zone_sets = {
+		oxr_mdlc_zone_set_wm
+	}
+}
+
+# oxr_mdlc_zone_wm_foundry_overclock = {
+# 	potential = { # planet scope
+# 		hidden_trigger = { exists = owner }
+# 		is_planet_world_machine = yes
+# 	}
+
+# 	unlock = {
+# 		is_planet_world_machine = yes
+# 	}
+
+# 	resources = {
+# 		category = planet_zones
+# 		cost = {
+# 			minerals = @zone_cost
+# 		}
+# 	}
+
+# 	triggered_district_planet_modifier = {
+# 		potential = {
+# 			always = yes
+# 		}
+# 		# TODO: Make this boost phyiscs output of buildings, but also incrase energy updkeep
+# 		# xvcv_mdlc_world_machines_generator_districts_produces_mult = 0.1
+# 		# oxr_mdlc_world_machines_generator_buildings_upkeep_mult = 0.25
+# 	}
+# }

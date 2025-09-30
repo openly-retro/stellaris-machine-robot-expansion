@@ -1,9 +1,14 @@
 # Remove default SR cost and swap in with rare crystals
-district_planet_modifier = {
+planet_modifier = {
+	$DISTRICT_CATEGORY$_rare_crystals_cost_add = @oxr_rw_cost_sr
+	$DISTRICT_CATEGORY$_rare_crystals_upkeep_add = @rw_maintenance_sr
+}
+
+planet_modifier = {
 	$DISTRICT_CATEGORY$_minerals_upkeep_add = @[ $JOBS$ * oxr_mdlc_wm_base_artisan_upkeep ]
 }
 
-triggered_district_planet_modifier = {
+triggered_planet_modifier = {
 	potential = { exists = owner }
 	$DISTRICT_CATEGORY$_consumer_goods_produces_add = @[ $JOBS$ * oxr_mdlc_wm_base_artisan_output ]
 	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|

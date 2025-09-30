@@ -16,14 +16,6 @@ rikk_mdlc_world_machine_dyson_deflector = {
 		exists = owner
 		owner = {
 			has_technology = rikk_mdlc_tech_world_machine_dyson
-			has_monthly_income = {
-				resource = engineering_research
-				value > @oxr_mdlc_origin_wm_rikk_dyson_deflector_research_upkeep
-			}
-			has_monthly_income = {
-				resource = physics_research
-				value > @oxr_mdlc_origin_wm_rikk_dyson_deflector_research_upkeep
-			}
 		}
 		is_normal_starbase = yes
 	}
@@ -49,6 +41,16 @@ rikk_mdlc_world_machine_dyson_deflector = {
 						toggle = @has_gigastructures
 					}
 				}
+			}
+		}
+		owner = {
+			has_monthly_income = {
+				resource = engineering_research
+				value > @oxr_mdlc_origin_wm_rikk_dyson_deflector_research_upkeep
+			}
+			has_monthly_income = {
+				resource = physics_research
+				value > @oxr_mdlc_origin_wm_rikk_dyson_deflector_research_upkeep
 			}
 		}
 	}
@@ -102,15 +104,6 @@ rikk_mdlc_world_machine_dyson_deflector_O = {
 				"
 				toggle = @has_gigastructures
 			}
-			
-			has_monthly_income = {
-				resource = engineering_research
-				value > @oxr_mdlc_origin_wm_rikk_dyson_deflector_research_upkeep
-			}
-			has_monthly_income = {
-				resource = physics_research
-				value = @oxr_mdlc_origin_wm_rikk_dyson_deflector_research_upkeep
-			}
 		}
 	}
 
@@ -121,8 +114,18 @@ rikk_mdlc_world_machine_dyson_deflector_O = {
 				has_megastructure = dyson_sphere_5_o_star
 			}
 		}
+		owner = {
+			has_monthly_income = {
+				resource = engineering_research
+				value > @oxr_mdlc_origin_wm_rikk_dyson_deflector_research_upkeep
+			}
+			has_monthly_income = {
+				resource = physics_research
+				value > @oxr_mdlc_origin_wm_rikk_dyson_deflector_research_upkeep
+			}
+		}
 	}
-	
+
 	country_modifier = { rikk_mdlc_world_machine_dyson_sphere_receiver_max = 20 }
 	
 	resources = {
@@ -179,7 +182,10 @@ rikk_mdlc_world_machine_dyson_receiver = {
 		owner = {
 			custom_tooltip = {
 				fail_text = "rikk_mdlc_requires_additional_pylons"
-				check_modifier_value = { modifier = rikk_mdlc_world_machine_dyson_sphere_receiver_max value > 0 }
+				check_modifier_value = {
+					modifier = rikk_mdlc_world_machine_dyson_sphere_receiver_max
+					value > 0
+				}
 			}
 		}
 	}
@@ -193,7 +199,10 @@ rikk_mdlc_world_machine_dyson_receiver = {
 			trigger = {
 				exists = owner
 				owner = {
-					check_modifier_value = { modifier = rikk_mdlc_world_machine_dyson_sphere_receiver_max value < 0 } 
+					check_modifier_value = {
+						modifier = rikk_mdlc_world_machine_dyson_sphere_receiver_max
+						value < 0
+					} 
 				}
 			}
 			energy = 2000
@@ -214,5 +223,63 @@ rikk_mdlc_world_machine_dyson_receiver = {
 
 	ai_weight = {
 		weight = 100
+	}
+
+	on_finished = {
+		planet = {
+			# Do easy calculations here to show static variables in the planet modifier text
+			set_or_increment_variable = {
+				VAR = rikk_mdlc_planet_dyson_receiver_count
+				AMOUNT = 1
+			}
+			set_variable = {
+				which = rikk_mdlc_planet_dyson_receiver_boost_effect_var
+				value = rikk_mdlc_planet_dyson_receiver_count
+			}
+			multiply_variable = {
+				which = rikk_mdlc_planet_dyson_receiver_boost_effect_var
+				value = @oxr_mdlc_planet_base_production_per_orbital_dyson_receiver
+			}
+			if = {
+				limit = {
+					NOT = { has_planet_modifier = rikk_mdlc_planet_dyson_receiver_active }
+				}
+				add_modifier = {
+					modifier = rikk_mdlc_planet_dyson_receiver_active
+					days = -1
+				}
+			}
+		}
+	}
+
+	on_destroyed = {
+		planet = {
+			# First step, reduce the total count of these things
+			# THEN check if we need to remove modifier
+			dec_var_by_one = { which = rikk_mdlc_planet_dyson_receiver_count }
+			if = {
+				limit = {
+					check_modifier_value = {
+						modifier = rikk_mdlc_planet_dyson_receiver_count
+						value < 1
+					}
+				}
+				remove_modifier = rikk_mdlc_planet_dyson_receiver_active
+				clear_variable = rikk_mdlc_planet_dyson_receiver_count
+			}
+			else = {
+				# There's still another receiver active..
+				# Re-calculate these amounts for the planet modifier
+				set_variable = {
+					which = rikk_mdlc_planet_dyson_receiver_boost_effect_var
+					value = rikk_mdlc_planet_dyson_receiver_count
+				}
+				multiply_variable = {
+					which = rikk_mdlc_planet_dyson_receiver_boost_effect_var
+					value = @oxr_mdlc_planet_base_production_per_orbital_dyson_receiver
+				}
+			}
+			
+		}
 	}
 }

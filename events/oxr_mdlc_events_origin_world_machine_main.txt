@@ -250,7 +250,7 @@ planet_event = {
 	immediate = {
 		planet = {
 			oxr_mdlc_planet_create_world_machine_colony = yes
-			# Snipe the deployment post
+			# Create message that the planet is ready
 			planet_event = {
 				id = oxr_mdlc_origin_wm_main.509
 				days = 2
@@ -445,12 +445,10 @@ planet_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		is_planet_world_machine = yes
+		# is_planet_world_machine = yes
 	}
 
 	immediate = {
-		oxr_mdlc_planet_wm_automate_capital = yes
-
 		if = {
 			limit = {
 				planet = {
@@ -564,15 +562,16 @@ country_event = {
 	immediate = { log = "Do nothing" }
 }
 
-country_event = {
+situation_event = {
 	# enter stage 2, power on self test
 	id = oxr_mdlc_origin_wm_main.1005
 	title = oxr_mdlc_origin_wm_main.1005.title
 	desc = oxr_mdlc_origin_wm_main.1005.desc
 	picture = GFX_evt_engineering_cache
 	is_triggered_only = yes
+	location = target
+	situation = this
 	
-
 	option = {
 		name = oxr_mdlc_origin_wm_main.1005.a
 	}
@@ -583,13 +582,15 @@ country_event = {
 	}
 }
 
-country_event = {
+situation_event = {
 	# enter stage 3, boot loader
 	id = oxr_mdlc_origin_wm_main.1010
 	title = oxr_mdlc_origin_wm_main.1010.title
 	desc = oxr_mdlc_origin_wm_main.1010.desc
 	picture = GFX_evt_engineering_cache
 	is_triggered_only = yes
+	location = target
+	situation = this
 
 	option = {
 		name = oxr_mdlc_origin_wm_main.1010.a
@@ -600,13 +601,15 @@ country_event = {
 		}
 	}
 }
-country_event = {
+situation_event = {
 	# enter stage 4, booting
 	id = oxr_mdlc_origin_wm_main.1015
 	title = oxr_mdlc_origin_wm_main.1015.title
 	desc = oxr_mdlc_origin_wm_main.1015.desc
 	picture = GFX_evt_engineering_cache
 	is_triggered_only = yes
+	location = target
+	situation = this
 
 	option = {
 		name = oxr_mdlc_origin_wm_main.1015.a
@@ -617,13 +620,15 @@ country_event = {
 		}
 	}
 }
-country_event = {
+situation_event = {
 	# enter stage 5, continue installation
 	id = oxr_mdlc_origin_wm_main.1020
 	title = oxr_mdlc_origin_wm_main.1020.title
 	desc = oxr_mdlc_origin_wm_main.1020.desc
 	picture = GFX_evt_engineering_cache
 	is_triggered_only = yes
+	location = target
+	situation = this
 
 	option = {
 		name = oxr_mdlc_origin_wm_main.1020.a
@@ -635,40 +640,41 @@ country_event = {
 	}
 }
 # ALL DONE WITH RESTORATION
-country_event = {
+situation_event = {
 	id = oxr_mdlc_origin_wm_main.1025
 	title = oxr_mdlc_origin_wm_main.1025.title
 	desc = oxr_mdlc_origin_wm_main.1025.desc
 	picture = GFX_evt_colony_settlement
 	is_triggered_only = yes
-
-	immediate = {
-		event_target:oxr_mdlc_ruined_world_machine = {
-			change_pc = xvcv_mdlc_pc_machine_auto
-			fire_on_action = {
-				on_action = on_world_machine_pc_machine_auto_terraforming_complete
-			}
-		}
-	}
+	location = this
 
 	option = {
 		name = oxr_mdlc_origin_wm_main.1025.a
-		add_resource = {
-			physics_research = 750
-			society_research = 750
-			engineering_research = 750
-			unity = 500
+		owner = {
+			add_resource = {
+				physics_research = 750
+				society_research = 750
+				engineering_research = 750
+				unity = 500
+			}
 		}
+
 		hidden_effect = {
 			if = {
 				limit = {
-					has_event_chain = "oxr_mdlc_origin_wm_chain_deploy_world_cores"
-					NOT = { has_completed_event_chain = oxr_mdlc_origin_wm_chain_deploy_world_cores }
+					owner = {
+						has_event_chain = "oxr_mdlc_origin_wm_chain_deploy_world_cores"
+						NOT = { has_completed_event_chain = oxr_mdlc_origin_wm_chain_deploy_world_cores }
+
+					}
 				}
 				# bump up the event chain tracker
-				country_event = {
-					id = oxr_mdlc_origin_wm_main.1100
+				owner = {
+					country_event = {
+						id = oxr_mdlc_origin_wm_main.1100
+					}
 				}
+				
 			}
 		}
 	}
@@ -1291,39 +1297,64 @@ planet_event = {
 			modifier = oxr_mdlc_planet_origin_world_machine_automaton_pop_timer
 			days = 180
 		}
-		while = {
-			count = @oxr_mdlc_world_machine_decision_temp_automaton_amount_1
+		# while = {
+			# count = @oxr_mdlc_world_machine_decision_temp_automaton_amount_1
 			create_pop_group = {
 				species = owner.species
+				size = @oxr_mdlc_world_machine_decision_temp_automaton_amount_1
+				# size = 400
 				effect = {
 					save_event_target_as = last_created_pop_group
 				}
 			}
+			# Self-decommission .. bye bye
+			planet_event = {
+				id = oxr_mdlc_origin_wm_main.2110
+				days = 180
+			}
 			event_target:last_created_pop_group = {
+				# Modifiers don't stick because the game shuffles pops around groups constantly
 				add_modifier = {
 					modifier = oxr_mdlc_pop_origin_world_machine_automaton_timer
 					days = 180
 				}
-				# Self-decommission .. bye bye
-				pop_group_event = {
-					id = oxr_mdlc_origin_wm_main.2110
-					days = 180
-				}
+				
 			}
-		}
+		# }
 	}
 }
 
 pop_group_event = {
+	id = oxr_mdlc_origin_wm_main.9999
+	title = OK
+	desc = OK
+	is_triggered_only = yes
+
+	immediate = {
+		log = "Hello, this is event: oxr_mdlc_origin_wm_main.9999"
+	}
+}
+
+planet_event = {
 	id = oxr_mdlc_origin_wm_main.2110
 	is_triggered_only = yes
 	hide_window = yes
 
-	trigger = {
-		has_modifier = oxr_mdlc_pop_origin_world_machine_automaton_timer
-	}
 	immediate = {
-		oxr_kill_pop_from_group = yes
+		# oxr_kill_pop_from_group = yes
+		while = {
+			count = 40  # 40 x 10 pops removed per loop = 400 removed
+			random_owned_pop_group = {
+				limit = {
+					has_trait = oxr_mdlc_trait_world_machine_automaton
+				}
+				kill_pop_group = {
+					pop_group = this
+					amount = 10
+				}
+			}
+		}
+		log = "oxr_mdlc_origin_wm_main.2110 was called, should have removed 400 pops now .."
 	}
 }
 
