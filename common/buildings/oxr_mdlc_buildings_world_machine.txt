@@ -1709,12 +1709,23 @@ oxr_mdlc_world_machines_auto_farm_1 = {
 	# POTENTIAL
 	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 	# RESOURCES & THE REST
-	inline_script = {
-		script = planet/buildings/auto/oxr_mdlc_auto_farm
-		#rikk: removed science cost for tier 1 buildings (tier 0 so 0*whatever equals nothing)
-		TIER = 0 #actually 1
-		BASE_JOB_OUTPUT = @oxr_mdlc_wm_base_farmer_output
+	# Don't use oxr_mdlc_auto_farm inline script for tier 1 buildings
+	base_buildtime = 180
+	category = resource
+	resources = {
+		category = oxr_mdlc_world_machines_food_buildings
+		cost = { minerals = 200 }
+		produces = { food = @[ 2 * oxr_mdlc_wm_base_farmer_output ] }
+		produces = {
+			trigger = {
+				exists = owner
+				owner = { has_tradition = tr_nanotech_1 }
+			}
+			nanites = @[ 2 * oxr_mdlc_wm_base_drone_nanite_output ]
+		}
+		upkeep = { energy = 2.5 }
 	}
+
 	prerequisites = {
 		"tech_hydroponics"
 		# "oxr_mdlc_tech_world_machines_unlocked"
@@ -1722,13 +1733,7 @@ oxr_mdlc_world_machines_auto_farm_1 = {
 	upgrades = {
 		oxr_mdlc_world_machines_auto_farm_2
 	}
-	# allow = {
-	# 	inline_script = {
-	# 		script = country/resource_income_compare_gt
-	# 		RESOURCE = society_research
-	# 		TIER = 1
-	# 	}
-	# }
+
 	building_sets = {
 		oxr_mdlc_building_set_wm_all
 		oxr_mdlc_building_set_wm_raw_resource
@@ -1912,12 +1917,26 @@ oxr_mdlc_world_machines_auto_mine_1 = {
 	# POTENTIAL
 	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 	# RESOURCES & THE REST
-	inline_script = {
-		script = planet/buildings/auto/oxr_mdlc_mining
-		#rikk: removed science cost for tier 1 buildings (tier 0 so 0*whatever equals nothing)
-		TIER = 0 #actually 1
-		BASE_JOB_OUTPUT = @oxr_mdlc_wm_base_miner_output
+	base_buildtime = 180
+	resources = {
+		category = oxr_mdlc_world_machines_mining_buildings
+		produces = { minerals = @[ 2 * oxr_mdlc_wm_base_miner_output ] }
+		cost = { minerals = 200 }
+		upkeep = { energy = 2.5 }
+		produces = {
+			trigger = {
+				exists = owner
+				owner = { has_tradition = tr_nanotech_1 }
+			}
+			nanites = @[ $TIER$ * 2 * oxr_mdlc_wm_base_drone_nanite_output ]
+		}
 	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_raw_resource
+		oxr_mdlc_minerals
+	}
+
 	inline_script = planet/buildings/auto/oxr_destroy
 	prerequisites = {
 		"tech_basic_industry"
@@ -2098,16 +2117,35 @@ oxr_mdlc_world_machines_auto_generator_1 = {
 	# POTENTIAL
 	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 	# RESOURCES & THE REST
-	inline_script = {
-		script = planet/buildings/auto/oxr_mdlc_generator
-		#rikk: removed science cost for tier 1 buildings (tier 0 so 0*whatever equals nothing)
-		TIER = 0 #actually 1
-		PRODUCES = energy
-		BASE_JOB_OUTPUT = @oxr_mdlc_wm_base_technician_output
-		RS_BUILD = minerals
-		RS_RARE = physics_research
-		RS_UPKEEP = minerals
+
+	base_buildtime = 180
+	category = resource
+	resources = {
+		category = oxr_mdlc_world_machines_generator_buildings
+		cost = { minerals = 200 }
+		produces = { energy = @[ 2 * oxr_mdlc_wm_base_technician_output ] }
+		upkeep = {
+			trigger = {
+				NOT = { has_active_building = oxr_mdlc_world_machines_biofuel_refit_1 }
+			}
+
+			minerals = 2
+		}
+		upkeep = {
+			trigger = {
+				has_active_building = oxr_mdlc_world_machines_biofuel_refit_1
+			}
+			food = 4
+		}
 	}
+	inline_script = planet/buildings/auto/oxr_auto_biofuel
+
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_raw_resource
+		oxr_mdlc_building_set_wm_energy
+	}
+
 	inline_script = planet/buildings/auto/oxr_destroy
 	prerequisites = {
 		"tech_power_plant_1"
@@ -2116,13 +2154,6 @@ oxr_mdlc_world_machines_auto_generator_1 = {
 	upgrades = {
 		oxr_mdlc_world_machines_auto_generator_2
 	}
-	# allow = {
-	# 	inline_script = {
-	# 		script = country/resource_income_compare_gt
-	# 		RESOURCE = physics_research
-	# 		TIER = 1
-	# 	}
-	# }
 
 }
 oxr_mdlc_world_machines_auto_generator_2 = {
