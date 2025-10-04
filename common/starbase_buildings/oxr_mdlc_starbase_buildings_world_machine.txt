@@ -12,8 +12,8 @@ oxr_mdlc_starbase_auto_ring_minerals_hub = {
 	}
 
 	planet_modifier = {
-		xvcv_mdlc_world_machines_mining_districts_minerals_produces_mult = 0.5
-		oxr_mdlc_world_machines_mining_buildings_minerals_produces_mult = 0.5
+		xvcv_mdlc_world_machines_mining_districts_minerals_produces_mult = 0.25
+		oxr_mdlc_world_machines_mining_buildings_minerals_produces_mult = 0.25
 		# planet_miners_minerals_produces_add = 2
 	}
 
@@ -89,8 +89,8 @@ oxr_mdlc_starbase_auto_ring_food_hub = {
 
 	planet_modifier = {
 		# planet_farmers_food_produces_add = 2
-		xvcv_mdlc_world_machines_food_districts_food_produces_mult = 0.3
-		oxr_mdlc_world_machines_food_buildings_food_produces_mult = 0.3
+		xvcv_mdlc_world_machines_food_districts_food_produces_mult = 0.25
+		oxr_mdlc_world_machines_food_buildings_food_produces_mult = 0.25
 	}
 
 	resources = {
@@ -123,8 +123,8 @@ oxr_mdlc_starbase_auto_ring_bureaucracy_hub = {
 	}
 
 	planet_modifier = {
-		xvcv_mdlc_world_machines_unity_districts_unity_produces_mult = 0.2
-		oxr_mdlc_world_machines_unity_buildings_unity_produces_mult = 0.2
+		xvcv_mdlc_world_machines_unity_districts_unity_produces_mult = 0.25
+		oxr_mdlc_world_machines_unity_buildings_unity_produces_mult = 0.25
 	}
 
 	resources = {
@@ -206,17 +206,17 @@ oxr_mdlc_starbase_auto_ring_consumer_goods_hub = {
 
 	planet_modifier = {
 		# planet_artisans_consumer_goods_produces_add = 1
-		xvcv_mdlc_world_machines_industrial_districts_consumer_goods_produces_mult = 0.1
-		xvcv_mdlc_world_machines_industrial_districts_minerals_upkeep_mult = 0.15
+		xvcv_mdlc_world_machines_production_districts_consumer_goods_produces_mult = 0.25
+		xvcv_mdlc_world_machines_production_districts_minerals_upkeep_mult = 0.25
 		# planet_artisans_minerals_upkeep_add = 1
 	}
-	triggered_planet_modifier = {
-		potential = {
-			this.planet = { is_xvcv_mdlc_pc_machine_ecu = yes }
-		}
-		xvcv_mdlc_world_machines_factory_districts_produces_mult = 0.1
-		xvcv_mdlc_world_machines_factory_districts_upkeep_mult = 0.1
-	}
+	#triggered_planet_modifier = {
+	#	potential = {
+	#		this.planet = { is_xvcv_mdlc_pc_machine_ecu = yes }
+	#	}
+	#	xvcv_mdlc_world_machines_production_districts_consumer_goods_produces_mult = 0.25
+	#	xvcv_mdlc_world_machines_production_districts_minerals_upkeep_mult = 0.25
+	#}
 
 	resources = {
 		category = starbase_buildings
@@ -232,6 +232,43 @@ oxr_mdlc_starbase_auto_ring_consumer_goods_hub = {
 	}
 
 	show_in_tech = "tech_luxuries_2"
+
+	ai_weight = {
+		weight = 100
+	}
+}
+
+oxr_mdlc_starbase_auto_ring_trade_hub = {
+	icon = "GFX_orbitalring_trade_hub"
+	construction_days = 360
+	starbase_type = orbital_ring
+
+	potential = {
+		exists = owner
+		is_orbital_ring = yes
+		inline_script = megas/orbital_ring/buildings/oxr_auto_starbase_possible
+	}
+	possible = {
+		this.planet = { is_xvcv_mdlc_pc_machine_ser = yes }
+	}
+
+	planet_modifier = {
+		xvcv_mdlc_world_machines_trade_districts_trade_produces_mult = 0.25
+		xvcv_mdlc_world_machines_trade_districts_upkeep_mult = 0.25
+	}
+
+	resources = {
+		category = starbase_buildings
+		cost = {
+			alloys = 200
+			rare_crystals = 300
+		}
+
+		upkeep = {
+			energy = 5
+			rare_crystals = 2
+		}
+	}
 
 	ai_weight = {
 		weight = 100
@@ -265,8 +302,8 @@ oxr_mdlc_starbase_auto_ring_alloys_hub = {
 		modifier = {
 			# planet_metallurgists_alloys_produces_add = 1
 			# planet_metallurgists_minerals_upkeep_add = 2
-			xvcv_mdlc_world_machines_foundry_districts_alloys_produces_mult = 0.2
-			xvcv_mdlc_world_machines_foundry_districts_minerals_upkeep_mult = 0.25
+			xvcv_mdlc_world_machines_production_districts_alloys_produces_mult = 0.25
+			xvcv_mdlc_world_machines_production_districts_minerals_upkeep_mult = 0.25
 		}
 	}
 
@@ -280,8 +317,8 @@ oxr_mdlc_starbase_auto_ring_alloys_hub = {
 		modifier = {
 			# planet_metallurgists_alloys_produces_add = 1.25
 			# planet_metallurgists_food_upkeep_add = 3
-			xvcv_mdlc_world_machines_foundry_districts_alloys_produces_mult = 0.25
-			xvcv_mdlc_world_machines_foundry_districts_food_upkeep_mult = 0.3
+			xvcv_mdlc_world_machines_production_districts_alloys_produces_mult = 0.25
+			xvcv_mdlc_world_machines_production_districts_food_upkeep_mult = 0.25
 		}
 	}
 

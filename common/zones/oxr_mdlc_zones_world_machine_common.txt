@@ -23,7 +23,13 @@ oxr_mdlc_zone_none = {
 		oxr_mdlc_building_set_wm_research
 	}
 
-	excluded_building_sets = { }
+	excluded_building_sets = { 
+		knights
+		generator_automation
+		mining_automation
+		farming_automation
+		urban_automation
+	}
 	zone_sets = {
 		oxr_mdlc_zone_set_none
 	}
@@ -82,3 +88,28 @@ oxr_mdlc_origin_wm_zone_any_wm = {
 # 		# oxr_mdlc_world_machines_generator_buildings_upkeep_mult = 0.25
 # 	}
 # }
+
+# Archive
+oxr_mdlc_zone_wm_logging_research = {
+	icon = GFX_district_specialization_bureaucrat
+	# inline_script = planet/zones/oxr_wm_zone_base
+	potential = { always = no }
+	unlock = { always = no }
+
+	# this is meant to be additive per level of district
+	triggered_district_planet_modifier = {
+		potential = {
+			is_xvcv_mdlc_pc_machine_auto = yes
+		}
+		oxr_mdlc_planet_abstract_research_produces_add = @[ 0.2 * oxr_mdlc_wm_base_calculator_single_output ]
+	}
+
+	included_building_sets = {
+		oxr_mdlc_building_set_wm_all
+	}
+	excluded_building_sets = { }
+	zone_sets = {
+		oxr_mdlc_zone_set_wm
+	}
+
+}
