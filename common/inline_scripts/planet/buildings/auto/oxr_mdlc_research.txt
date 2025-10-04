@@ -5,14 +5,20 @@ resources = {
 		minerals = $COST$
 	}
 	upkeep = {
-		# energy = $UPKEEP$  # base 2 + 2 researcher jobs @ 4 each #@b1_upkeep
-		energy = @[ $TIER$ * 2 * oxr_mdlc_wm_base_calculator_upkeep ]
+		energy = @[ $TIER$ * oxr_mdlc_wm_base_calculator_single_upkeep ]
 		exotic_gases = $RARE$
 	}
+	# In Phoenix 4.0, the research building adds 60 of each job,
+	# thats 60% of (6) which is the research output of 100 researchers
+	# which comes out to 3.5
+	# Tier 1 adds 60 jobs, tier 2 adds 120 jobs, tier 3 adds 180, which is ( TIER * 60 jobs ) 
+	# or TIER * 0.6 * 6, which for tier 3 would be ( 3 * 0.6 * 6 ) = 10.8 .. abysmally low tbh
+	# Pre-phoenix 4.0 it was +2, +4, +6 researchers who would each generate 3 base research each
+	# Settling on equivalent of 100 jobs for each research type, per tier
 	produces = {
-		engineering_research = @[ $TIER$ * 2 * oxr_mdlc_wm_base_calculator_output ] # base 4 jobs at 3 each = 12
-		physics_research = @[ $TIER$ * 2 * oxr_mdlc_wm_base_calculator_output ]
-		society_research = @[ $TIER$ * 2 * oxr_mdlc_wm_base_calculator_output ]
+		engineering_research = @[ $TIER$ * oxr_mdlc_wm_base_calculator_single_output ] # 100 jobs at tier 1 = 6 output
+		physics_research = @[ $TIER$ * oxr_mdlc_wm_base_calculator_single_output ]
+		society_research = @[ $TIER$ * oxr_mdlc_wm_base_calculator_single_output ]
 	}
 	inline_script = {
 		script = planet/buildings/auto/oxr_organoid_upkeep
