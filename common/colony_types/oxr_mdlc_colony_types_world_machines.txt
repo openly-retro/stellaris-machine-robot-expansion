@@ -957,3 +957,62 @@ oxr_mdlc_wm_col_capital_factory = {
 		base = 0
 	}
 }
+
+oxr_mdlc_wm_col_nexus = {
+	icon = GFX_colony_type_urban
+
+	potential = {
+		is_planet_world_machine = yes
+		is_capital = no
+	}
+
+	planet_modifier = {
+		planet_structures_upkeep_mult = -0.10
+		# planet_jobs_trade_produces_mult = 0.20
+		xvcv_mdlc_world_machines_districts_trade_produces_mult = 0.2
+		oxr_mdlc_world_machines_buildings_trade_produces_mult = 0.2
+	}
+
+	# District build speed modifier
+	triggered_planet_modifier = {
+		potential = {
+			is_xvcv_mdlc_pc_machine_auto = yes
+			exists = owner
+			owner = { has_oxr_mdlc_origin_world_machine_awakened = yes }
+		}
+		planet_xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm_build_speed_mult = 0.25
+	}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			is_xvcv_mdlc_pc_machine_auto = yes
+			owner = { has_oxr_mdlc_origin_world_machine_awakened = no }
+		}
+		planet_xvcv_mdlc_pc_machine_auto_district_city_build_speed_mult = 0.25
+	}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			is_xvcv_mdlc_pc_machine_ser = yes
+		}
+		planet_xvcv_mdlc_pc_machine_ser_district_logistics_build_speed_mult = 0.25
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner_or_space_owner
+			owner_or_space_owner = { has_tradition = tr_adaptability_finish }
+		}
+		modifier = {
+			xvcv_mdlc_world_machines_districts_trade_produces_mult = 0.05
+			oxr_mdlc_world_machines_buildings_trade_produces_mult = 0.05
+		}
+	}
+
+	weight_modifier = {
+		modifier = {
+			add = @stickiness
+			has_designation = oxr_mdlc_wm_col_nexus
+		}
+	}
+}
