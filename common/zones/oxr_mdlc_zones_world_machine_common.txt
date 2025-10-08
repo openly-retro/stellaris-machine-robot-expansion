@@ -1,4 +1,34 @@
 # Zones that can be shared across WM types
+oxr_mdlc_origin_wm_zone_default = {
+	icon = GFX_diplomatic_weight_large
+	base_buildtime = @zone_buildtime
+	potential = {
+		hidden_trigger = { exists = owner }
+		is_planet_world_machine = yes
+	}
+
+	unlock = { is_planet_world_machine = yes }
+
+	resources = {
+		category = planet_zones
+		cost = {
+			minerals = @zone_cost
+		}
+	}
+	max_buildings = 6
+	include = { all }
+	excluded_building_sets = { 
+		knights
+		generator_automation
+		mining_automation
+		farming_automation
+		urban_automation
+	}
+	zone_sets = {
+		oxr_mdlc_zone_set_wm_default
+	}
+
+}
 
 # Placeholder zone
 oxr_mdlc_zone_none = {
@@ -35,81 +65,414 @@ oxr_mdlc_zone_none = {
 	}
 }
 
+# Any building from any set
 oxr_mdlc_origin_wm_zone_any = {
 	icon = GFX_colony_type_urban
 	inline_script = planet/zones/oxr_wm_zone_base
 
-	country_modifier = { country_resource_max_add = 2500 }
+	country_modifier = { country_resource_max_add = 1500 }
 
+	max_buildings = 3
 	include = { all }
-	excluded_building_sets = {
+	excluded_building_sets = { 
 		knights
+		generator_automation
+		mining_automation
+		farming_automation
+		urban_automation
 	}
 	zone_sets = { oxr_mdlc_zone_set_wm }
 }
 
+# Any building in the world-machine set
 oxr_mdlc_origin_wm_zone_any_wm = {
 	icon = GFX_colony_type_urban
 	inline_script = planet/zones/oxr_wm_zone_base
 
-	country_modifier = { country_resource_max_add = 2500 }
+	country_modifier = { country_resource_max_add = 3000 }
 	included_building_sets = {
 		oxr_mdlc_building_set_wm_all
 	}
-	excluded_building_sets = { }
+	excluded_building_sets = { 
+		knights
+		generator_automation
+		mining_automation
+		farming_automation
+		urban_automation
+	}
 	zone_sets = {
 		oxr_mdlc_zone_set_wm
 	}
 }
 
-# oxr_mdlc_zone_wm_foundry_overclock = {
-# 	potential = { # planet scope
-# 		hidden_trigger = { exists = owner }
-# 		is_planet_world_machine = yes
-# 	}
-
-# 	unlock = {
-# 		is_planet_world_machine = yes
-# 	}
-
-# 	resources = {
-# 		category = planet_zones
-# 		cost = {
-# 			minerals = @zone_cost
-# 		}
-# 	}
-
-# 	triggered_district_planet_modifier = {
-# 		potential = {
-# 			always = yes
-# 		}
-# 		# TODO: Make this boost phyiscs output of buildings, but also incrase energy updkeep
-# 		# xvcv_mdlc_world_machines_generator_districts_produces_mult = 0.1
-# 		# oxr_mdlc_world_machines_generator_buildings_upkeep_mult = 0.25
-# 	}
-# }
-
 # Archive
-oxr_mdlc_zone_wm_logging_research = {
+oxr_mdlc_zone_wm_research_unity = {
 	icon = GFX_district_specialization_bureaucrat
-	# inline_script = planet/zones/oxr_wm_zone_base
-	potential = { always = no }
-	unlock = { always = no }
-
-	# this is meant to be additive per level of district
+	inline_script = planet/zones/oxr_wm_zone_base
+	
 	triggered_district_planet_modifier = {
-		potential = {
-			is_xvcv_mdlc_pc_machine_auto = yes
-		}
-		oxr_mdlc_planet_abstract_research_produces_add = @[ 0.2 * oxr_mdlc_wm_base_calculator_single_output ]
+		potential = { always = yes }
+		# If base game adds 20 jobs but 100 jobs produces the base/full job amount, then
+		# adding 20 jobs is really 20% of the full amount of 100 pops
+		oxr_mdlc_world_machines_auto_capital_research_produces_add = @[ 0.2 * oxr_mdlc_wm_base_calculator_single_output ]
+		oxr_mdlc_world_machines_auto_capital_unity_produces_add = @[ 0.4 * oxr_mdlc_wm_base_coordinator_output ]
 	}
 
 	included_building_sets = {
-		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_research
+		oxr_mdlc_building_set_wm_unity
 	}
-	excluded_building_sets = { }
+	excluded_building_sets = {
+		inline_script = planet/zones/oxr_exclude_automation_buildings
+	}
 	zone_sets = {
-		oxr_mdlc_zone_set_wm
+		oxr_mdlc_zone_set_wm_research
+		oxr_mdlc_zone_set_wm_primary
+	}
+}
+
+oxr_mdlc_zone_wm_food_biology = {
+	icon = GFX_district_specialization_society
+	inline_script = planet/zones/oxr_wm_zone_base
+
+	# swap_type = district_farming_society
+	# swap_type_weight = 5
+
+	unlock = {
+		hidden_trigger = { exists = owner }
+		owner = {
+			oxr_mdlc_planet_owner_can_build_wm_districts = yes
+			has_technology = tech_society_2
+		}
+	}
+	zone_sets = {
+		# oxr_mdlc_zone_set_wm_research
+		oxr_mdlc_zone_set_wm_food
 	}
 
+	included_building_sets = {
+		farming
+		hydroponics
+		society
+		# farming_automation
+		oxr_mdlc_building_set_wm_food
+		oxr_mdlc_building_set_wm_research
+	}
+	excluded_building_sets = {
+		inline_script = planet/zones/oxr_exclude_automation_buildings
+	}
+	
+	# This is my equivalent of adding 'jobs'
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_ringworld_machine_auto = no }
+		# zone_farmers_add
+		oxr_mdlc_world_machines_auto_capital_food_produces_add = @[ 0.5 * oxr_mdlc_wm_base_farmer_output ]
+		# zone_biologists_add
+		oxr_mdlc_world_machines_auto_capital_society_research_produces_add = @[ 0.5 * oxr_mdlc_wm_base_calculator_single_output ]
+	}
+	# base game "LARGE AMOUNT" modifier goes up to x5, let's see how this pans out
+	triggered_district_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_ringworld_machine_auto = yes }
+		oxr_mdlc_world_machines_auto_capital_food_produces_add = @[ 2.5 * oxr_mdlc_wm_base_farmer_output ]
+		oxr_mdlc_world_machines_auto_capital_society_research_produces_add = @[ 2.5 * oxr_mdlc_wm_base_calculator_single_output ]
+		# mult = 5
+	}
+
+	planet_modifier = {
+		# Food production malus
+		oxr_mdlc_world_machines_food_structures_produces_mult = -0.33
+	}
+
+	triggered_district_planet_modifier = {
+		potential = {
+			always = yes
+		}
+		xvcv_mdlc_world_machines_science_districts_society_research_produces_mult = 0.1
+		oxr_mdlc_world_machines_science_buildings_society_research_produces_mult = 0.1
+		oxr_mdlc_world_machines_science_buildings_food_upkeep_add = 2.5
+		oxr_mdlc_world_machines_science_buildings_food_upkeep_add = 2.5
+	}
+
+	triggered_desc = {
+		trigger = {
+			always = yes
+		}
+		text = zone_food_triggered_desc
+	}
+
+	# show_in_tech = tech_society_2
+
+	ai_priority = 13
+	
+}
+
+
+oxr_mdlc_zone_wm_energy_physics = {
+	icon = GFX_district_specialization_physics
+	inline_script = planet/zones/oxr_wm_zone_base
+
+	# swap_type = district_generator_physics
+	# swap_type_weight = 5
+
+	unlock = { # planet scope
+		hidden_trigger = { exists = owner }
+		owner = {
+			oxr_mdlc_planet_owner_can_build_wm_districts = yes
+			has_technology = tech_physics_2
+		}
+	}
+
+	zone_sets = {
+		oxr_mdlc_zone_set_wm_energy
+	}
+
+	included_building_sets = {
+		generator
+		physics
+		fallen_empire_generator
+		# generator_automation
+		oxr_mdlc_building_set_wm_research
+		oxr_mdlc_building_set_wm_energy
+	}
+	excluded_building_sets = {
+		inline_script = planet/zones/oxr_exclude_automation_buildings
+	}
+
+	triggered_district_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_machine_auto = yes }
+		oxr_mdlc_world_machines_auto_capital_energy_produces_add = @[ 0.5 * oxr_mdlc_wm_base_technician_output ]
+		oxr_mdlc_world_machines_auto_capital_physics_research_produces_add = @[ 0.5 * oxr_mdlc_wm_base_calculator_single_output ]
+	}
+	# base game "LARGE AMOUNT" modifier goes up to x5, let's see how this pans out
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_ringworld_machine_auto = yes }
+		oxr_mdlc_world_machines_auto_capital_energy_produces_add = @[ 0.5 * oxr_mdlc_wm_base_technician_output ]
+		oxr_mdlc_world_machines_auto_capital_physics_research_produces_add = @[ 0.5 * oxr_mdlc_wm_base_calculator_single_output ]
+		mult = 5
+	}
+
+	planet_modifier = {
+		custom_tooltip = oxr_mdlc_world_machines_generator_structures_produces_mult_tt
+		oxr_mdlc_world_machines_energy_structures_produces_mult = -0.33
+	}
+
+	triggered_district_planet_modifier = {
+		potential = {
+			always = yes
+		}
+		xvcv_mdlc_world_machines_science_districts_physics_research_produces_mult = 0.1
+		oxr_mdlc_world_machines_science_buildings_physics_research_produces_mult = 0.1
+		xvcv_mdlc_world_machines_science_districts_energy_upkeep_add = 2.5
+		oxr_mdlc_world_machines_science_buildings_energy_upkeep_add = 2.5
+	}
+
+	# convert_to = {
+	# 	zone_energy_ring_world
+	# }
+
+	show_in_tech = tech_physics_2
+
+	ai_priority = 13
+}
+
+oxr_mdlc_zone_wm_primary_urban_energy = {
+	icon = GFX_district_specialization_energy
+	inline_script = planet/zones/oxr_wm_zone_base
+
+	resources = {
+		category = planet_zones
+		cost = {
+			minerals = @zone_cost
+		}
+	}
+
+	inline_script = {
+		script = jobs/zone_trader_add
+		AMOUNT = @scaling_district_2_jobs
+	}
+
+	max_buildings = 0
+
+	zone_sets = {
+		oxr_mdlc_zone_set_wm_primary
+	}
+
+	included_building_sets = {
+		generator
+		physics
+		fallen_empire_generator
+		# generator_automation
+		oxr_mdlc_building_set_wm_research
+		oxr_mdlc_building_set_wm_energy
+	}
+	excluded_building_sets = {
+		inline_script = planet/zones/oxr_exclude_automation_buildings
+	}
+
+	triggered_district_planet_modifier = {
+		potential = {
+			is_xvcv_mdlc_pc_ringworld_machine_auto = no
+		}
+		# planet_technician_produces_mult = @zone_urban_rural_worker_produces_mult
+		oxr_mdlc_world_machines_generator_structures_produces_mult = @zone_urban_rural_worker_produces_mult
+		oxr_mdlc_world_machines_generator_buildings_trade_upkeep_add = @zone_urban_rural_worker_trade_upkeep_add
+		xvcv_mdlc_world_machines_generator_districts_trade_upkeep_add = @zone_urban_rural_worker_trade_upkeep_add
+		# inline_script = {
+		# 	script = resources/oxr_wm_category_upkeep_add
+		# 	class = generator resource = trade amount = @zone_urban_rural_worker_trade_upkeep_add
+		# }
+		# planet_technician_trade_upkeep_add = @zone_urban_rural_worker_trade_upkeep_add
+	}
+
+	triggered_district_planet_modifier = {
+		potential = {
+			is_planet_class = pc_ringworld_habitable
+		}
+		oxr_mdlc_world_machines_generator_structures_produces_mult = @zone_urban_rural_worker_produces_mult
+		oxr_mdlc_world_machines_generator_buildings_trade_upkeep_add = @zone_urban_rural_worker_trade_upkeep_add
+		xvcv_mdlc_world_machines_generator_districts_trade_upkeep_add = @zone_urban_rural_worker_trade_upkeep_add
+		mult = 5
+	}
+
+	# triggered_desc = {
+	# 	trigger = {
+	# 		always = yes
+	# 	}
+	# 	text = zone_urban_triggered_desc
+	# }
+
+	ai_priority = 13
+}
+
+oxr_mdlc_zone_wm_primary_urban_minerals = {
+	icon = GFX_district_specialization_minerals
+	base_buildtime = @zone_buildtime
+	potential = { # planet scope
+		hidden_trigger = { exists = owner }
+		owner = {
+			is_wilderness_empire = no
+			is_ai = no						# AI isn't great at handling these
+		}
+		NOR = {
+			is_planet_class = pc_ringworld_habitable
+			is_planet_class = pc_city
+		}
+	}
+
+	unlock = { # planet scope
+		hidden_trigger = { exists = owner }
+		owner = {
+			is_wilderness_empire = no
+		}
+	}
+
+	resources = {
+		category = planet_zones
+		cost = {
+			minerals = @zone_cost
+		}
+	}
+
+	zone_sets = {
+		oxr_mdlc_zone_set_wm_primary
+	}
+
+	inline_script = {
+		script = jobs/zone_trader_add
+		AMOUNT = @scaling_district_2_jobs
+	}
+
+	max_buildings = 0
+
+	included_building_sets = {
+		mining
+		urban
+		fallen_empire_mining
+	}
+
+	triggered_district_planet_modifier = {
+		potential = {
+			NOT = {
+				is_planet_class = pc_ringworld_habitable
+			}
+		}
+		planet_miners_produces_mult = @zone_urban_rural_worker_produces_mult
+		planet_miners_trade_upkeep_add = @zone_urban_rural_worker_trade_upkeep_add
+	}
+
+	triggered_district_planet_modifier = {
+		potential = {
+			is_planet_class = pc_ringworld_habitable
+		}
+		planet_miners_produces_mult = @zone_urban_rural_worker_produces_mult
+		planet_miners_trade_upkeep_add = @zone_urban_rural_worker_trade_upkeep_add
+		mult = 5
+	}
+
+	triggered_desc = {
+		trigger = {
+			always = yes
+		}
+		text = zone_urban_triggered_desc
+	}
+
+	ai_priority = 13
+}
+
+oxr_mdlc_zone_wm_primary_urban_food = {
+	inline_script = planet/zones/oxr_wm_zone_base
+	icon = GFX_district_specialization_food
+
+	triggered_district_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_ringworld_machine_auto = no }
+		oxr_mdlc_world_machines_auto_capital_trade_produces_add = @[ 0.5 * oxr_mdlc_wm_base_logistics_drone_output ]
+	}
+	# base game "LARGE AMOUNT" modifier goes up to x5, let's see how this pans out
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_ringworld_machine_auto = yes }
+		oxr_mdlc_world_machines_auto_capital_trade_produces_add = @[ 0.5 * oxr_mdlc_wm_base_logistics_drone_output ]
+		mult = 5
+	}
+
+	max_buildings = 0
+
+	zone_sets = {
+		oxr_mdlc_zone_set_wm_primary
+	}
+
+	included_building_sets = {
+		farming
+		hydroponics
+		urban
+		oxr_mdlc_building_set_wm_food
+	}
+	# 20% bonus to food
+
+	triggered_district_planet_modifier = {
+		potential = {
+			is_xvcv_mdlc_pc_ringworld_machine_auto = no
+		}
+		oxr_mdlc_world_machines_food_structures_produces_mult = @zone_urban_rural_worker_produces_mult
+		xvcv_mdlc_world_machines_food_districts_trade_upkeep_add = @zone_urban_rural_worker_trade_upkeep_add
+	}
+
+	triggered_district_planet_modifier = {
+		potential = {
+			is_xvcv_mdlc_pc_ringworld_machine_auto = yes
+		}
+		oxr_mdlc_world_machines_food_buildings_produces_mult = @zone_urban_rural_worker_produces_mult
+		xvcv_mdlc_world_machines_raw_resources_districts_produces_mult = @zone_urban_rural_worker_produces_mult
+		oxr_mdlc_world_machines_food_buildings_trade_upkeep_add = @zone_urban_rural_worker_trade_upkeep_add
+		xvcv_mdlc_world_machines_raw_resources_districts_trade_upkeep_add = @zone_urban_rural_worker_trade_upkeep_add
+		mult = 5
+	}
+
+	# triggered_desc = {
+	# 	trigger = {
+	# 		always = yes
+	# 	}
+	# 	text = zone_urban_triggered_desc
+	# }
+
+	ai_priority = 13
 }

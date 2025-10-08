@@ -1,3 +1,168 @@
+# Common slots, mainly for primary district
+oxr_mdlc_origin_wm_slot_city_government = {
+	start = oxr_mdlc_origin_wm_zone_default
+
+	include = {
+		oxr_mdlc_origin_wm_zone_default
+	}
+
+	exclude = {
+		# zone_default
+	}
+
+    potential = { # planet scope
+        always = yes
+    }
+
+	unlock = { # planet scope
+		always = yes
+	}
+}
+
+oxr_mdlc_origin_wm_slot_city_01 = {
+	include = {
+		oxr_mdlc_origin_wm_zone_any
+		oxr_mdlc_origin_wm_zone_any_wm
+		zone_machine_replication
+		zone_urban
+		zone_industrial
+		zone_foundry
+		zone_factory
+		zone_unity
+		zone_unity_spiritualist
+		zone_research
+		zone_research_physics
+		zone_research_engineering
+		zone_research_society
+		zone_research_unity
+		zone_trade
+		zone_fortress
+		# zone_urban_food
+		# zone_urban_minerals
+		# zone_urban_energy
+		# zone_foundry_wilderness
+		# zone_unity_wilderness
+		# zone_research_wilderness
+		# zone_research_unity_wilderness
+		# zone_fortress_wilderness
+		# zone_trade_wilderness
+	}
+	
+	included_zone_sets = {
+		rikk_mdlc_zone_set_modifier
+		oxr_mdlc_zone_set_wm_primary
+	}
+
+	# included_zone_sets = {
+	# 	oxr_mdlc_zone_set_wm
+	# }
+
+	exclude = {
+		zone_default
+		zone_minerals
+		zone_food
+		zone_energy
+		oxr_mdlc_origin_wm_zone_default
+	}
+
+
+	unlock = { # planet scope
+		always = yes
+	}
+}
+
+oxr_mdlc_origin_wm_slot_city_02 = {
+	include = {
+		oxr_mdlc_origin_wm_zone_any
+		oxr_mdlc_origin_wm_zone_any_wm
+		zone_machine_replication
+		zone_urban
+		zone_industrial
+		zone_foundry
+		zone_factory
+		zone_unity
+		zone_unity_spiritualist
+		zone_research
+		zone_research_physics
+		zone_research_engineering
+		zone_research_society
+		zone_research_unity
+		zone_trade
+		zone_fortress
+		# zone_urban_food
+		# zone_urban_minerals
+		# zone_urban_energy
+		# zone_foundry_wilderness
+		# zone_unity_wilderness
+		# zone_research_wilderness
+		# zone_research_unity_wilderness
+		# zone_fortress_wilderness
+		# zone_trade_wilderness
+	}
+
+	exclude = {
+		zone_default
+		zone_minerals
+		zone_food
+		zone_energy
+		oxr_mdlc_origin_wm_zone_default
+	}
+
+	included_zone_sets = {
+		rikk_mdlc_zone_set_modifier
+		oxr_mdlc_zone_set_wm_primary
+	}
+
+	unlock = { # planet scope
+		custom_tooltip = {
+			fail_text = zone_city_02_prereq
+			OR = {
+				is_capital = yes
+				AND = {
+					is_capital = no
+					exists = owner
+					owner = {
+						has_tech_or_functional_civic = {
+							TECH = tech_colonial_centralization
+						}
+					}
+					OR = {
+						has_upgraded_capital = yes
+						oxr_mdlc_has_upgraded_capital = yes
+					}
+					
+				}
+			}
+		}
+	}
+}
+
+oxr_mdlc_origin_wm_slot_any = {
+
+	include = {
+		oxr_mdlc_origin_wm_zone_any
+		oxr_mdlc_origin_wm_zone_any_wm
+	}
+
+	exclude = {
+		oxr_mdlc_origin_wm_zone_default
+		zone_default
+		# zone_foundry_wilderness
+		# zone_unity_wilderness
+		# zone_research_wilderness
+		# zone_research_unity_wilderness
+		# zone_fortress_wilderness
+		# zone_trade_wilderness
+	}
+
+	included_zone_sets = {
+		rikk_mdlc_zone_set_modifier
+	}
+	
+	unlock = { is_planet_world_machine = yes }
+}
+
+# Placeholder slot for features in development
 oxr_mdlc_slot_none = {
 	include = {
 		oxr_mdlc_zone_none
