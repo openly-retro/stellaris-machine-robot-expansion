@@ -47,8 +47,7 @@ oxr_mdlc_zone_pc_machine_ecu_alloys = {
 }
 
 oxr_mdlc_zone_pc_machine_ecu_consumer_goods = {
-	icon = GFX_colony_type_factory
-	# Build time, potential, unlock, etc
+	icon = GFX_district_specialization_factory
 	inline_script = planet/zones/oxr_wm_zone_base_ecu
 	
 	swap_type = xvcv_mdlc_pc_machine_ecu_district_goods
@@ -95,5 +94,56 @@ oxr_mdlc_zone_pc_machine_ecu_consumer_goods = {
 	
 	zone_sets = {
 		rikk_mdlc_slot_pc_machine_ecu_forge_zone
+	}
+}
+
+oxr_mdlc_zone_pc_machine_ecu_star_command = {
+	icon = GFX_oxr_mdlc_wm_district_specialization_military_space
+	inline_script = planet/zones/oxr_wm_zone_base_ecu
+
+	included_building_sets = {
+		military_theory
+		oxr_mdlc_building_set_wm_military
+	}
+	triggered_district_country_modifier = {
+		potential = { always = yes }
+		country_naval_cap_add = 24
+		mult = planet.oxr_mdlc_world_machines_districts_output_var
+	}
+}
+
+oxr_mdlc_zone_pc_machine_ecu_ground_command = {
+	icon = GFX_oxr_mdlc_wm_district_specialization_military_ground
+	inline_script = planet/zones/oxr_wm_zone_base_ecu
+
+	included_building_sets = {
+		military_theory
+		oxr_mdlc_building_set_wm_military
+	}
+
+	triggered_district_planet_modifier = {
+		potential = { always = yes }
+		planet_army_build_speed_mult = 0.1
+		army_defense_health_mult = 0.1
+		army_collateral_damage_mult = -0.1
+		mult = planet.oxr_mdlc_world_machines_districts_output_var
+	}
+}
+
+oxr_mdlc_zone_pc_machine_ecu_military_supply_chain = {
+	icon = GFX_oxr_mdlc_wm_district_specialization_military_trade
+	inline_script = planet/zones/oxr_wm_zone_base_ecu
+
+	included_building_sets = {
+		military_theory
+		oxr_mdlc_building_set_wm_military
+	}
+	triggered_district_planet_modifier = {
+		xvcv_mdlc_world_machines_military_districts_trade_produces_add = @[ oxr_t3_planet_district_jobs * oxr_mdlc_wm_base_logistics_drone_output ]
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+	}
+	triggered_district_country_modifier = {
+		ship_speed_mult = 0.01
+		mult = planet.oxr_mdlc_world_machines_districts_output_var
 	}
 }
