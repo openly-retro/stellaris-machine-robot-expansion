@@ -346,8 +346,14 @@ oxr_mdlc_zone_wm_primary_urban_energy = {
 	inline_script = planet/zones/oxr_wm_zone_base
 
 	triggered_district_planet_modifier = {
-		potential = { always = yes }
+		potential = { is_xvcv_mdlc_pc_ringworld_machine_auto = no }
 		oxr_mdlc_world_machines_auto_capital_trade_produces_add = @[ 0.5 * oxr_mdlc_wm_base_logistics_drone_output ]
+	}
+	# base game "LARGE AMOUNT" modifier goes up to x5, let's see how this pans out
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_ringworld_machine_auto = yes }
+		oxr_mdlc_world_machines_auto_capital_trade_produces_add = @[ 0.5 * oxr_mdlc_wm_base_logistics_drone_output ]
+		mult = 5
 	}
 
 	max_buildings = 0
@@ -372,7 +378,7 @@ oxr_mdlc_zone_wm_primary_urban_energy = {
 		potential = {
 			is_xvcv_mdlc_pc_ringworld_machine_auto = no
 		}
-		# planet_technician_produces_mult = @oxr_mdlc_zone_urban_rural_worker_produces_mult
+		# Make trade upkeep roughly equal to 25% of production
 		oxr_mdlc_world_machines_energy_structures_produces_mult = @oxr_mdlc_zone_urban_rural_worker_produces_mult
 		oxr_mdlc_world_machines_generator_buildings_trade_upkeep_add = @oxr_mdlc_zone_urban_rural_worker_trade_upkeep_add
 		xvcv_mdlc_world_machines_generator_districts_trade_upkeep_add = @oxr_mdlc_zone_urban_rural_worker_trade_upkeep_add
