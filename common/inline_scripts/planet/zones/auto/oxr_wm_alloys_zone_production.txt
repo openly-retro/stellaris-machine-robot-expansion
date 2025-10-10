@@ -23,8 +23,20 @@ triggered_planet_modifier = {
 
 # SR upkeep only on ECU, RING
 triggered_planet_modifier = {
-	potential = { exists = owner is_xvcv_mdlc_pc_machine_auto = no }
-	$DISTRICT_CATEGORY$_volatile_motes_upkeep_add = @rw_maintenance_sr
+	potential = {
+		exists = owner
+		is_xvcv_mdlc_pc_machine_ecu = yes
+	}
+	$DISTRICT_CATEGORY$_volatile_motes_upkeep_add = 1
+	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+}
+
+triggered_planet_modifier = {
+	potential = {
+		exists = owner
+		is_xvcv_mdlc_pc_ringworld_machine_auto = yes
+	}
+	$DISTRICT_CATEGORY$_volatile_motes_upkeep_add = 2
 	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 }
 

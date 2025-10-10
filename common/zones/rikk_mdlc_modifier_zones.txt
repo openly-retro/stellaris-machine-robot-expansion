@@ -1,5 +1,5 @@
 rikk_mdlc_zone_crystal_conductor = {
-	icon = GFX_rare_crystals
+	icon = GFX_oxr_mdlc_wm_district_specialization_resource_energy_add
 	base_buildtime = @zone_buildtime
 	potential = {
 		exists = owner
@@ -16,7 +16,9 @@ rikk_mdlc_zone_crystal_conductor = {
 	
 	triggered_planet_modifier = {
 		xvcv_mdlc_world_machines_generator_districts_energy_produces_add = @oxr_mdlc_wm_base_technician_output
+		oxr_mdlc_world_machines_generator_buildings_energy_produces_add = @oxr_mdlc_wm_base_technician_output
 		xvcv_mdlc_world_machines_generator_districts_rare_crystals_upkeep_add = 0.5
+		oxr_mdlc_world_machines_generator_buildings_rare_crystals_upkeep_add = 0.5
 		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 	}
 	
@@ -37,7 +39,8 @@ rikk_mdlc_zone_crystal_conductor = {
 }
 
 rikk_mdlc_zone_mote_carving = {
-	icon = GFX_volatile_motes
+	icon = GFX_oxr_mdlc_wm_district_specialization_resource_minerals_add
+	inline_script = planet/zones/oxr_wm_zone_base
 	base_buildtime = @zone_buildtime
 	potential = {
 		always = yes
@@ -55,12 +58,17 @@ rikk_mdlc_zone_mote_carving = {
 	
 	triggered_planet_modifier = {
 		xvcv_mdlc_world_machines_mining_districts_minerals_produces_add = @oxr_mdlc_wm_base_miner_output
+		oxr_mdlc_world_machines_mining_buildings_minerals_produces_add = @oxr_mdlc_wm_base_miner_output
 		xvcv_mdlc_world_machines_mining_districts_volatile_motes_upkeep_add = 0.5
+		oxr_mdlc_world_machines_mining_buildings_volatile_motes_upkeep_add = 0.5
 		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 	}
 	
 	max_buildings = 3
-	included_building_sets = { mining }
+	included_building_sets = {
+		mining
+		oxr_mdlc_building_set_wm_minerals
+	}
 	excluded_building_sets = { 
 		knights
 		generator_automation
@@ -76,7 +84,7 @@ rikk_mdlc_zone_mote_carving = {
 }
 
 rikk_mdlc_zone_gas_fertilizing = {
-	icon = GFX_exotic_gases
+	icon = GFX_oxr_mdlc_wm_district_specialization_resource_food_add
 	base_buildtime = @zone_buildtime
 	potential = {
 		exists = owner
@@ -93,12 +101,17 @@ rikk_mdlc_zone_gas_fertilizing = {
 	
 	triggered_planet_modifier = {
 		xvcv_mdlc_world_machines_food_districts_food_produces_add = @oxr_mdlc_wm_base_farmer_output
+		oxr_mdlc_world_machines_food_buildings_food_produces_add = @oxr_mdlc_wm_base_farmer_output
 		xvcv_mdlc_world_machines_food_districts_exotic_gases_upkeep_add = 0.5
+		oxr_mdlc_world_machines_food_buildings_exotic_gases_upkeep_add = 0.5
 		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 	}
 	
 	max_buildings = 3
-	included_building_sets = { farming }
+	included_building_sets = {
+		farming
+		oxr_mdlc_building_set_wm_food
+	}
 	excluded_building_sets = { 
 		knights
 		generator_automation

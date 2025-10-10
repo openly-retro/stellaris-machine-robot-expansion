@@ -1,6 +1,6 @@
 #ECU zones
 oxr_mdlc_zone_pc_machine_ecu_alloys = {
-	icon = GFX_colony_type_foundry
+	icon = GFX_district_specialization_foundry
 	# Build time, potential, unlock, etc
 	inline_script = planet/zones/oxr_wm_zone_base_ecu
 
@@ -33,16 +33,8 @@ oxr_mdlc_zone_pc_machine_ecu_alloys = {
 		oxr_mdlc_building_set_wm_strategic
 	}
 
-	excluded_building_sets = { 
-		knights
-		generator_automation
-		mining_automation
-		farming_automation
-		urban_automation
-	}
-
 	zone_sets = {
-		rikk_mdlc_slot_pc_machine_ecu_forge_zone
+		oxr_mdlc_zone_set_wm_production
 	}
 }
 
@@ -79,21 +71,13 @@ oxr_mdlc_zone_pc_machine_ecu_consumer_goods = {
 		oxr_mdlc_building_set_wm_strategic
 	}
 
-	excluded_building_sets = { 
-		knights
-		generator_automation
-		mining_automation
-		farming_automation
-		urban_automation
-	}
-
 	ai_resource_production = {
 		consumer_goods = 10
 		trigger = { always = yes }
 	}
 	
 	zone_sets = {
-		rikk_mdlc_slot_pc_machine_ecu_forge_zone
+		oxr_mdlc_zone_set_wm_production
 	}
 }
 
@@ -109,6 +93,9 @@ oxr_mdlc_zone_pc_machine_ecu_star_command = {
 		potential = { always = yes }
 		country_naval_cap_add = 24
 		mult = planet.oxr_mdlc_world_machines_districts_output_var
+	}
+	zone_sets = {
+		oxr_mdlc_zone_set_wm_military
 	}
 }
 
@@ -128,6 +115,9 @@ oxr_mdlc_zone_pc_machine_ecu_ground_command = {
 		army_collateral_damage_mult = -0.1
 		mult = planet.oxr_mdlc_world_machines_districts_output_var
 	}
+	zone_sets = {
+		oxr_mdlc_zone_set_wm_military
+	}
 }
 
 oxr_mdlc_zone_pc_machine_ecu_military_supply_chain = {
@@ -145,5 +135,8 @@ oxr_mdlc_zone_pc_machine_ecu_military_supply_chain = {
 	triggered_district_country_modifier = {
 		ship_speed_mult = 0.01
 		mult = planet.oxr_mdlc_world_machines_districts_output_var
+	}
+	zone_sets = {
+		oxr_mdlc_zone_set_wm_military
 	}
 }

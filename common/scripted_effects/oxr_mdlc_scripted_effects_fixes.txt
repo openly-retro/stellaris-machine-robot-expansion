@@ -1,0 +1,32 @@
+# Fix stuff
+oxr_mdlc_country_remove_old_ecu_deposits = {
+	every_owned_planet = {
+		limit = {
+			is_xvcv_mdlc_pc_machine_ecu = yes
+			OR = {
+				has_deposit = xvcv_mdlc_d_pc_machine_ecu_naval_cap_offset
+				has_deposit = xvcv_mdlc_d_pc_machine_ecu_naval_cap
+			}
+		}
+		# Offsets
+		export_trigger_value_to_variable = {
+			trigger = num_deposits
+			parameters = { type = xvcv_mdlc_d_pc_machine_ecu_naval_cap_offset }
+			variable = oxr_mdlc_num_naval_offsets
+		}
+		while = {
+			count = oxr_mdlc_num_naval_offsets
+			remove_deposit = xvcv_mdlc_d_pc_machine_ecu_naval_cap_offset
+		}
+		# regular naval cap
+		export_trigger_value_to_variable = {
+			trigger = num_deposits
+			parameters = { type = xvcv_mdlc_d_pc_machine_ecu_naval_cap }
+			variable = oxr_mdlc_num_naval_offsets
+		}
+		while = {
+			count = oxr_mdlc_num_naval_offsets
+			remove_deposit = xvcv_mdlc_d_pc_machine_ecu_naval_cap
+		}
+	}
+}
