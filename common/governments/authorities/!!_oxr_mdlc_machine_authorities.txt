@@ -1,0 +1,191 @@
+# This won't cause compatibility issues at all! /s
+
+auth_machine_intelligence = {
+	has_heir = no
+	election_type = none
+	has_factions = no
+	can_reform = no
+	localization_postfix = machine_intelligence
+	trait_localization_postfix = _machine
+
+	color = { 0 165 155 255 }
+
+	valid_for_released_vassal = no
+
+	ruler_council_position = councilor_ruler_machine_intelligence
+
+	playable = {
+		OR = {
+			has_synthetic_dawn = yes
+			has_machine_age_dlc = yes
+			has_shroud_dlc = yes
+		}
+	}
+	possible = {
+		AND = {
+			limit = {
+				OR = {
+					has_synthetic_dawn = yes
+					has_machine_age_dlc = yes
+				}
+			}
+			always = yes
+		}
+		AND = {
+			limit = {
+				has_synthetic_dawn = no
+				has_machine_age_dlc = no
+				has_shroud_dlc = yes
+			}
+			origin = {
+				value = origin_shroud_forged
+			}
+		}
+		ethics = {
+			value = ethic_gestalt_consciousness
+		}
+		species_archetype = { value = MACHINE }
+	}
+	random_weight = {
+		base = 2
+	}
+
+	traits = {
+		trait = trait_machine_unit
+	}
+
+	country_modifier = {
+		colony_start_urban_districts_add = 1
+		planet_colony_development_speed_mult = 0.25
+		planet_pop_assembly_add = 1
+		station_gatherers_produces_mult = 0.1
+	}
+
+	tags = {
+		AUTH_MACHINE_NATIVE_POPS
+		AUTH_MACHINE_FOREIGN_POP_SURVIVAL
+		AUTH_MACHINE_TECH_ADDITIONS
+		AUTH_MACHINE_TECH_RESTRICTIONS
+		AUTH_MACHINE_ASCENSION_RESTRICTIONS
+		NEW_LINE
+		AUTHORITY_SUCCESSION_TYPE
+		AUTH_GESTALT_IMMORTAL_LEADERS
+	}
+
+	#Memory Aggregator
+	advanced_authority_swap	= {
+		name = "auth_memory_aggregator"
+		description = "auth_memory_aggregator_desc"
+		inherit_icon = no
+		inherit_effects = no
+		trigger = {
+			is_scope_valid = yes
+			has_country_flag = driven_memory_aggregator
+		}
+		modifier = {
+			custom_tooltip = auth_memory_aggregator_tt
+			show_only_custom_tooltip = no
+			colony_start_urban_districts_add = 1
+			planet_colony_development_speed_mult = 0.25
+			planet_pop_assembly_add = 1
+			empire_size_pops_mult = -0.1
+			MACHINE_species_trait_picks_add = 1
+		}
+		tags = {
+			AUTH_MACHINE_NATIVE_POPS
+			AUTH_MACHINE_FOREIGN_POP_SURVIVAL
+			AUTH_MACHINE_TECH_ADDITIONS
+			AUTH_MACHINE_TECH_RESTRICTIONS
+			AUTH_ASSIMILATOR_ASCENSION_RESTRICTIONS
+			NEW_LINE
+			AUTHORITY_SUCCESSION_TYPE
+			AUTH_GESTALT_IMMORTAL_LEADERS
+		}
+	}
+	#Neural Chorus
+	advanced_authority_swap	= {
+		name = "auth_neural_chorus"
+		description = "auth_neural_chorus_desc"
+		inherit_icon = no
+		inherit_effects = no
+		trigger = {
+			is_scope_valid = yes
+			has_country_flag = driven_neural_chorus
+		}
+		modifier = {
+			custom_tooltip = auth_driven_neural_chorus_tt
+			show_only_custom_tooltip = no
+			colony_start_urban_districts_add = 1
+			planet_colony_development_speed_mult = 0.25
+			logistic_growth_mult = 0.25
+			planet_pops_cyborgs_upkeep_mult = 0.1
+		}
+		tags = {
+			AUTH_MACHINE_NATIVE_POPS
+			AUTH_MACHINE_FOREIGN_POP_SURVIVAL
+			AUTH_MACHINE_TECH_ADDITIONS
+			AUTH_MACHINE_TECH_RESTRICTIONS
+			AUTH_ASSIMILATOR_ASCENSION_RESTRICTIONS
+			NEW_LINE
+			AUTHORITY_SUCCESSION_TYPE
+			AUTH_GESTALT_IMMORTAL_LEADERS
+		}
+	}
+
+	advanced_authority_swap	= {
+		name = "auth_shroud_machine_transcendent"
+		description = "auth_shroud_machine_transcendent_desc"
+		inherit_icon = no
+		inherit_effects = no
+		trigger = {
+			is_scope_valid = yes
+			is_transcendent_authority = yes
+		}
+		tags = {
+			AUTH_MACHINE_NATIVE_POPS
+			AUTH_MACHINE_FOREIGN_POP_SURVIVAL
+			AUTH_MACHINE_TECH_ADDITIONS
+			AUTH_MACHINE_TECH_RESTRICTIONS
+			NEW_LINE
+			AUTHORITY_SUCCESSION_TYPE
+			AUTH_GESTALT_IMMORTAL_LEADERS
+		}
+		modifier = {
+			custom_tooltip = transcendent_machine_tt
+			psionic_aura_hyperlane_range_add = 2
+			council_agenda_progress_speed = 0.25
+			station_researchers_produces_mult = -0.2
+		}
+	}
+
+	advanced_authority_swap	= {
+		name = "auth_shroud_machine_corporeal"
+		description = "auth_shroud_machine_corporeal_desc"
+		inherit_icon = no
+		inherit_effects = no
+		trigger = {
+			is_scope_valid = yes
+			is_corporeal_authority = yes
+		}
+		tags = {
+			AUTH_MACHINE_NATIVE_POPS
+			AUTH_MACHINE_FOREIGN_POP_SURVIVAL
+			AUTH_MACHINE_TECH_ADDITIONS
+			AUTH_MACHINE_TECH_RESTRICTIONS
+			NEW_LINE
+			AUTHORITY_SUCCESSION_TYPE
+			AUTH_GESTALT_IMMORTAL_LEADERS
+		}
+		modifier = {
+			custom_tooltip = corporeal_machine_tt
+			psionic_aura_effectiveness_mult = 0.25
+			council_agenda_progress_speed = 0.25
+			pop_cat_complex_drone_bonus_workforce_mult = 0.1
+			leaders_upkeep_mult = -0.5
+			planet_bureaucrats_upkeep_mult = 0.3
+		}
+	}
+
+	inline_script = country/authorities/oxr_mdlc_machine_wm_authority
+	
+}

@@ -1,0 +1,159 @@
+# Duplicates of vanilla civics, for World-Machines
+
+oxr_mdlc_civic_wm_machine_builder = {
+	icon = civic_machine_builder
+	potential = { oxr_mdlc_is_machine_empire = yes }
+	possible = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+	random_weight = { base = @civic_default_random_weight }
+	ai_weight = {
+		base = @ai_civic_default_base_weight
+	}
+	modifier = {
+		councilor_gestalt_growth_exp_gain = @gestalt_civic_node_xp_rate
+		planet_structures_cost_mult = -0.15
+		planet_building_build_speed_mult = 0.15
+		add_attunement_the_composer_of_strands = @civic_attunement1
+	}
+	description = "civic_functional_architecture_effects"
+}
+
+oxr_mdlc_civic_wm_machine_rockbreakers = {
+	potential = {
+		authority = { value = auth_machine_intelligence }
+	}
+	random_weight = { base = @civic_default_random_weight }
+	ai_weight = {
+		base = @ai_civic_default_base_weight
+	}
+	modifier = {
+		councilor_gestalt_cognitive_exp_gain = @gestalt_civic_node_xp_rate
+		planet_miners_minerals_produces_add = 1
+		add_attunement_the_instrument_of_desire = @civic_attunement1
+	}
+}
+
+# Make this reduce district empire size
+oxr_mdlc_civic_wm_machine_ota_updates = {
+	potential = {
+		authority = { value = auth_machine_intelligence }
+	}
+	random_weight = { base = @civic_default_random_weight }
+	ai_weight = {
+		base = @ai_civic_default_base_weight
+	}
+	description = civic_machine_ota_updates_effect
+	modifier = {
+		councilor_gestalt_legion_exp_gain = @gestalt_civic_node_xp_rate
+		empire_size_pops_mult = -0.15
+		planet_resettlement_unemployed_mult = 0.5
+		country_edict_fund_add = 25
+		add_attunement_the_composer_of_strands = @civic_attunement1
+	}
+}
+
+# change for wm stuff
+oxr_mdlc_civic_wm_machine_maintenance_protocols = {
+	potential = {
+		authority = { value = auth_machine_intelligence }
+	}
+	random_weight = { base = @civic_default_random_weight }
+	ai_weight = {
+		base = @ai_civic_default_base_weight
+	}
+#	description = civic_tooltip_machine_maintenance_protocols_effects
+	modifier = {
+		planet_maintenance_drones_unity_produces_add = 1
+		planet_jobs_simple_drone_produces_mult = 0.05
+		councilor_gestalt_growth_exp_gain = @gestalt_civic_node_xp_rate
+	}
+}
+
+# changing this might be complicated
+# yea .. how do I coerce the mining starbase module, I have to chop up
+# a ton of vanilla code
+# or .. add a mining module? then add a starbase energy production malus?
+# oxr_mdlc_civic_wm_machine_astromining_drones = {
+# 	playable = {
+# 		has_megacorp = yes
+# 	}
+# 	ai_playable = {
+# 		has_megacorp = yes
+# 	}
+# 	potential = {
+# 		authority = { value = auth_machine_intelligence }
+# 	}
+
+# 	possible = {
+# 		origin = {
+# 			NOT = {
+# 				value = origin_machine
+# 			}
+# 		}
+# 	}
+
+# 	random_weight = {
+# 		base = @civic_rare_random_weight
+# 	}
+
+# 	description = civic_tooltip_machine_astromining_drones_effects
+# 	modifier = {
+# 		# planet_miners_minerals_produces_add = -2
+# 		oxr_mdlc_world_machines_minerals_structures_produces_mult = -0.5
+# 		# planet_technician_energy_produces_add = -1
+# 		oxr_mdlc_world_machines_energy_structures_produces_mult = -0.1
+# 		station_gatherers_produces_mult = 0.5
+# 		country_starbase_capacity_mult = 0.50
+# 		stations_cost_mult = -0.50
+# 		# planet_jobs_simple_drone_produces_mult = -0.50
+# 		oxr_mdlc_world_machines_minerals_structures_produces_mult = -0.5
+# 		oxr_mdlc_world_machines_energy_structures_produces_mult = -0.5
+# 		oxr_mdlc_world_machines_food_structures_produces_mult = -0.5
+
+# 		councilor_gestalt_growth_exp_gain = @gestalt_civic_node_xp_rate
+# 		add_attunement_the_composer_of_strands = @civic_attunement1
+# 	}
+# 	ai_weight = {
+# 		base = @ai_civic_uncommon_base_weight
+# 	}
+# }
+
+# civic_police_state
+oxr_mdlc_civic_wm_police_state = {
+	modifier = {
+		planet_stability_add = 5
+		planet_enforcers_unity_produces_add = 1
+		add_attunement_the_instrument_of_desire = @civic_attunement1
+	}
+}
+
+
+
+### NEW ONES I/WE AM/ARE INVENTING
+
+# encryption+, trust gain is slower
+oxr_mdlc_civic_wm_security_hardened = { }
+
+# defensive army strength boost, ship damage malus, 25% orbital bombardment bonus, combat width of planets is like 3
+# or just subterranean with ship malus
+oxr_mdlc_civic_wm_reinforced_worlds = {}
+
+# boost empire construction speed
+oxr_mdlc_civic_wm_executive_function = {
+	potential = {
+		authority = { value = auth_machine_intelligence }
+	}
+	random_weight = { base = @civic_default_random_weight }
+	ai_weight = {
+		base = @ai_civic_default_base_weight
+	}
+	modifier = {
+		councilor_gestalt_growth_exp_gain = @gestalt_civic_node_xp_rate
+
+		# agenda speed
+		council_agenda_progress_speed = 0.1
+		# decision speed
+		planet_decision_enact_speed_mult = 0.1
+		# edict cost reduction
+		edicts_cost_mult = -0.1
+	}
+}
