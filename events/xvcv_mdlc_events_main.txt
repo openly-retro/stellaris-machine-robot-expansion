@@ -145,139 +145,7 @@ country_event = {
 				add_district = district_generator
 				log = "\\[prev.GetName] SYNTH SETUP (Mechanical) | Catalytic | organic skin | synth ascended | added generator"
 			}
-			if = {
-				limit = { prev = { has_valid_civic = xvcv_mdlc_civic_planet_cracker } }
-				solar_system = {
-					#search an eligible planet first
-					random_system_planet = {
-						limit = {
-							is_star = no
-							is_colony = no
-							is_colonizable = no
-							# asteroids are deleted in generate_home_planet_final_pass for "Resource Consolidation" origin
-							is_asteroid = no
-							NOR = {
-								is_planet_class = pc_shattered
-								is_planet_class = pc_ringworld_habitable_damaged
-								is_planet_class = pc_ringworld_tech
-								is_planet_class = pc_ringworld_tech_damaged
-								is_planet_class = pc_ringworld_seam
-								is_planet_class = pc_ringworld_seam_damaged
-							}
-						}
-						save_event_target_as = xvcv_mdlc_civic_planet_cracker_target
-					}
-					#search an eligible planet again with more wide conditions
-					random_system_planet = {
-						limit = {
-							NOT = { exists = event_target:xvcv_mdlc_civic_planet_cracker_target }
-							is_star = no
-							is_colony = no
-							is_colonizable = no
-							is_asteroid = no
-						}
-						save_event_target_as = xvcv_mdlc_civic_planet_cracker_target
-					}
-					#search an eligible planet for the last time with 'far more' wide conditions #there must be one in this case
-					random_system_planet = {
-						limit = {
-							NOT = { exists = event_target:xvcv_mdlc_civic_planet_cracker_target }
-							is_star = no
-							is_colony = no
-							is_asteroid = no
-						}
-						save_event_target_as = xvcv_mdlc_civic_planet_cracker_target
-					}
-					if = {
-						limit = { exists = event_target:xvcv_mdlc_civic_planet_cracker_target }
-						event_target:xvcv_mdlc_civic_planet_cracker_target = {
-							set_planet_flag = xvcv_mdlc_planet_cracker_placed
-							prev = {
-								spawn_megastructure = {
-									type = xvcv_mdlc_planet_cracker
-									planet = prev
-									orbit_distance = 0
-									owner = space_owner
-								}
-							}
-							clear_deposits = yes
-							if = {
-								limit = { exists = orbital_station }
-								orbital_station = { dismantle = yes }
-							}
-							if = {
-								limit = { planet_size > 10 }
-								set_planet_size = 10
-							}
-							if = {
-								limit = {
-									NOR = {
-										is_planet_class = pc_shattered
-										is_planet_class = pc_habitat
-										is_planet_class = pc_ringworld_habitable
-										is_planet_class = pc_ringworld_habitable_damaged
-										is_planet_class = pc_ringworld_tech
-										is_planet_class = pc_ringworld_tech_damaged
-										is_planet_class = pc_ringworld_seam
-										is_planet_class = pc_ringworld_seam_damaged
-									}
-								}
-								change_pc = pc_shattered
-							}
-							else_if = {
-								limit = { is_planet_class = pc_habitat }
-								remove_planet = yes
-								spawn_habitat_cracker_effect = yes
-							}
-							# else_if = {
-							# 	limit = { is_planet_class = pc_ringworld_habitable }
-							# 	change_pc = pc_ringworld_habitable_damaged
-							# 	spawn_ringworld_cracker_effect = yes
-							# }
-							# else_if = {
-							# 	limit = { is_planet_class = pc_ringworld_tech }
-							# 	change_pc = pc_ringworld_tech_damaged
-							# 	spawn_ringworld_cracker_effect = yes
-							# }
-							# else_if = {
-							# 	limit = { is_planet_class = pc_ringworld_seam }
-							# 	change_pc = pc_ringworld_seam_damaged
-							# 	spawn_ringworld_cracker_effect = yes
-							# }
-						
-							# print_scope_effect = yes 
-							if = {
-								limit = { root = { has_technology = xvcv_mdlc_tech_orbital_cracker_upgrade_1 } }
-								add_deposit = d_minerals_4
-							}
-							if = {
-								limit = { root = { has_technology = xvcv_mdlc_tech_orbital_cracker_upgrade_2 } }
-								add_deposit = d_minerals_6
-							}
-							add_deposit = d_minerals_10
-						}
-					}
-				}
-				if = {
-					limit = { has_district = district_mining }
-					remove_district = district_mining
-				}
-				else_if = {
-					limit = { has_district = district_mining_uncapped }
-					remove_district = district_mining_uncapped
-				}
-				add_district = district_city
-				while = {
-					limit = { has_district = district_mining }
-					remove_district = district_mining
-					add_district = district_generator
-				}
-				while = {
-					limit = { has_district = district_mining_uncapped }
-					remove_district = district_mining_uncapped
-					add_district = district_generator_uncapped
-				}
-			}
+			inline_script = "country/game_start/WML_planet_cracker_setup"
 			if = {
 				limit = { prev = { has_xvcv_mdlc_origin_synth_ascend = yes } }
 				# dont alter previous district balancing
@@ -300,11 +168,11 @@ country_event = {
 						add_district = district_generator
 					}
 				}
-				#rikk: planet_max_buildings_add no longer works
-				#if = {
-				#	limit = { free_building_slots = 0 }
-				#	add_deposit = xvcv_mdlc_d_building_slot_plus_1
-				#}
+
+				if = {
+					limit = { free_building_slots = 0 }
+					add_deposit = xvcv_mdlc_d_building_slot_plus_1
+				}
 				add_building = building_robot_assembly_plant
 			}
 
