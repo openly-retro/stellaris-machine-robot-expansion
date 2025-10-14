@@ -11,6 +11,11 @@ oxr_mdlc_planet_calc_monthly_bio_mech_pops_add = {
 		which = xvcv_mdlc_bio_robot_growth_rate_per_month_var
 		value = 3
 	}
+	# Reset this variable each month, so its value doesn't skyrocket
+	set_variable = {
+		which = xvcv_mdlc_bio_robot_growth_progress_var_from_organics
+		value = 0
+	}
 	# 3 + whatever amount of modifier has been added
 	change_variable = {
 		which = xvcv_mdlc_bio_robot_growth_rate_per_month_var 
@@ -107,7 +112,72 @@ oxr_mdlc_planet_calc_monthly_bio_mech_pops_add = {
 			which = xvcv_mdlc_bio_robot_growth_rate_per_month_var 
 			value = bonus_pop_growth_mult_var
 		}
+		# remove the 1 that was added before
+		change_variable = {
+			which = bonus_pop_growth_mult_var
+			value = -1
+		}
+		set_or_increment_variable = {
+			VAR = xvcv_mdlc_bio_robot_growth_progress_var_from_organics
+			AMOUNT = bonus_pop_growth_mult_var
+		}
 		clear_variable = bonus_pop_growth_mult_var
+	}
+
+	# logistic_growth_mult provided by mutagenic spas
+	if = {
+		limit = {
+			check_modifier_value = {
+				modifier = logistic_growth_mult
+				value > 0
+			}
+		}
+		export_modifier_to_variable = {
+			modifier = logistic_growth_mult
+			variable = logistic_growth_mult_var
+		}
+		divide_variable = {
+			which = logistic_growth_mult_var
+			value = 4
+		}
+		# This value is generally a small decimal number like 0.1, 0.25
+		# For math purposes, add 1 so we multiply the growth valye by 1.25
+		# in order not to accidentally quarter it
+		change_variable = {
+			which = logistic_growth_mult_var
+			value = 1
+		}
+		# Update the var tracking the total amount of growth
+		multiply_variable = {
+			which = xvcv_mdlc_bio_robot_growth_progress_var 
+			value = logistic_growth_mult_var
+		}
+		# Update the var tracking the amount of growth added to base, in UI
+		multiply_variable = {
+			which = xvcv_mdlc_bio_robot_growth_rate_per_month_var 
+			value = logistic_growth_mult_var
+		}
+		# remove the 1 earlier added, for display purposes
+		change_variable = {
+			which = logistic_growth_mult_var
+			value = -1
+		}
+		set_or_increment_variable = {
+			VAR = xvcv_mdlc_bio_robot_growth_progress_var_from_organics
+			AMOUNT = logistic_growth_mult_var
+		}
+		clear_variable = logistic_growth_mult_var
+	}
+
+	# Make the xvcv_mdlc_bio_robot_growth_progress_var_from_organics var ready for UI
+	if = {
+		limit = {
+			is_variable_set = xvcv_mdlc_bio_robot_growth_progress_var_from_organics
+		}
+		multiply_variable = {
+			which = xvcv_mdlc_bio_robot_growth_progress_var_from_organics
+			value = 100
+		}
 	}
 
 	# Apply -75% growth if planet_growth_discouraged is active
@@ -127,6 +197,8 @@ oxr_mdlc_planet_calc_monthly_bio_mech_pops_add = {
 			value = 0.25
 		}
 	}
+	# Update the displayed var for showing bonus percent from organic pop jobs
+	
 
 	# Show modifier in planet
 	if = {
