@@ -27,6 +27,37 @@ oxr_mdlc_planet_calc_monthly_bio_mech_pops_add = {
 		modifier = xvcv_mdlc_bio_robot_growth_add      # modifier used in code to boost biomech growth
 		variable = xvcv_mdlc_bio_robot_growth_add_var
 	}
+	if = {
+		limit = {
+			check_modifier_value = {
+				modifier = xvcv_mdlc_bio_robot_growth_mult
+				value > 0
+			}
+		}
+		export_modifier_to_variable = {
+			modifier = xvcv_mdlc_bio_robot_growth_mult
+			variable = xvcv_mdlc_bio_robot_growth_mult_var_display
+		}
+		multiply_variable = {
+			which = xvcv_mdlc_bio_robot_growth_mult_var_display
+			value = 100
+		}
+		# Do maths on the xvcv_mdlc_bio_robot_growth_add
+		export_modifier_to_variable = {
+			modifier = xvcv_mdlc_bio_robot_growth_mult
+			variable = xvcv_mdlc_bio_robot_growth_mult_percent
+		}
+		change_variable = {
+			which = xvcv_mdlc_bio_robot_growth_mult_percent
+			value = 1
+		}
+		multiply_variable = {
+			which = xvcv_mdlc_bio_robot_growth_rate_per_month_var
+			value = xvcv_mdlc_bio_robot_growth_mult_percent
+		}
+		clear_variable = xvcv_mdlc_bio_robot_growth_mult_percent
+	}
+	
 
 	# Give a 25% bonus from mechanical / machine assembly
 	# planet_pop_assembly_add starts at value of 1, for machine empires
