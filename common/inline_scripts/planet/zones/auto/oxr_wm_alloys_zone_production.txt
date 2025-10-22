@@ -1,41 +1,43 @@
-## PRODUCTION
-planet_modifier = {
+# COST & UPKEEP
+# For ECU and RING only
+triggered_planet_modifier = {
+	potential = { exists = owner is_xvcv_mdlc_pc_machine_auto = no }
 	$DISTRICT_CATEGORY$_volatile_motes_cost_add = @oxr_rw_cost_sr
-	$DISTRICT_CATEGORY$_volatile_motes_upkeep_add = @rw_maintenance_sr
 }
 
-# Not catalytic
+# ALLOYS - NOT CATALYTIC
 triggered_planet_modifier = {
-	potential = {
-		exists = owner
-		owner = { is_catalytic_empire = no }
-	}
+	potential = { exists = owner oxr_planet_owner_is_catalytic = no }
 	$DISTRICT_CATEGORY$_alloys_produces_add = @[ $JOBS$ * oxr_mdlc_wm_base_fabricator_output ]
-	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
-}
-# Catalytic
-triggered_planet_modifier = {
-	potential = {
-		exists = owner
-		owner = { is_catalytic_empire = yes }
-	}
-	$DISTRICT_CATEGORY$_alloys_produces_add = @[ $JOBS$ * oxr_mdlc_wm_base_catalytic_output ]
-	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
-}
-## UPKEEP
-# Not catalytic
-triggered_planet_modifier = {
-	potential = {
-		exists = owner
-		owner = { is_catalytic_empire = no }
-	}
 	$DISTRICT_CATEGORY$_minerals_upkeep_add = @[ $JOBS$ * oxr_mdlc_wm_base_fabricator_upkeep ]
+	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 }
-# Catalytic
+
+# ALLOYS - CATALYTIC
+triggered_planet_modifier = {
+	potential = { exists = owner oxr_planet_owner_is_catalytic = yes }
+	$DISTRICT_CATEGORY$_alloys_produces_add = @[ $JOBS$ * oxr_mdlc_wm_base_fabricator_catalytic_output ]
+	$DISTRICT_CATEGORY$_food_upkeep_add = @[ $JOBS$ * oxr_mdlc_wm_base_fabricator_catalytic_upkeep ]
+	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+}
+
+# SR upkeep only on ECU, RING
 triggered_planet_modifier = {
 	potential = {
 		exists = owner
-		owner = { is_catalytic_empire = yes }
+		is_xvcv_mdlc_pc_machine_ecu = yes
 	}
-	$DISTRICT_CATEGORY$_food_upkeep_add = @[ $JOBS$ * oxr_mdlc_wm_base_catalytic_upkeep_food ]
+	$DISTRICT_CATEGORY$_volatile_motes_upkeep_add = 1
+	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 }
+
+triggered_planet_modifier = {
+	potential = {
+		exists = owner
+		is_xvcv_mdlc_pc_ringworld_machine_auto = yes
+	}
+	$DISTRICT_CATEGORY$_volatile_motes_upkeep_add = 2
+	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+}
+
+# EOF

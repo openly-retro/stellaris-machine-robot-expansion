@@ -1,27 +1,4 @@
 # origin wm zones
-oxr_mdlc_origin_wm_zone_default = {
-	icon = GFX_diplomatic_weight_large
-	base_buildtime = @zone_buildtime
-	potential = {
-		hidden_trigger = { exists = owner }
-		is_planet_world_machine = yes
-	}
-
-	unlock = { is_planet_world_machine = yes }
-
-	resources = {
-		category = planet_zones
-		cost = {
-			minerals = @zone_cost
-		}
-	}
-	max_buildings = 6
-	include = { all }
-	zone_sets = {
-		oxr_mdlc_zone_set_wm_default
-	}
-
-}
 
 # oxr_mdlc_origin_wm_zone_default_industrial = {
 # 	icon = GFX_diplomatic_weight_large
@@ -40,6 +17,13 @@ oxr_mdlc_origin_wm_zone_default = {
 # 	}
 # 	max_buildings = 6
 # 	include = { all }
+# 	excluded_building_sets = { 
+# 		knights
+# 		generator_automation
+# 		mining_automation
+# 		farming_automation
+# 		urban_automation
+# 	}
 # 	zone_sets = {
 # 		oxr_mdlc_zone_set_wm_industrial
 # 	}
@@ -48,8 +32,8 @@ oxr_mdlc_origin_wm_zone_default = {
 # Production zones
 
 oxr_mdlc_zone_pc_machine_auto_alloys = {
-	icon = GFX_colony_type_foundry
-	inline_script = planet/zones/oxr_wm_zone_base
+	icon = GFX_district_specialization_foundry
+	inline_script = planet/zones/oxr_wm_zone_base_auto
 
 	included_building_sets = {
 		foundry
@@ -59,11 +43,15 @@ oxr_mdlc_zone_pc_machine_auto_alloys = {
 		oxr_mdlc_building_set_wm_foundry
 	}
 
-	# inline_script = {
-	# 	script = planet/zones/auto/oxr_wm_alloys_zone_production
-	# 	DISTRICT_CATEGORY = xvcv_mdlc_world_machines_production_districts
-	# 	JOBS = 2
-	# }
+	inline_script = {
+		script = planet/zones/auto/oxr_wm_alloys_zone_production
+		DISTRICT_CATEGORY = xvcv_mdlc_world_machines_production_districts
+		JOBS = 2
+	}
+
+	planet_modifier = {
+		zone_building_slots_add = 3
+	}
 
 	zone_sets = {
 		oxr_mdlc_zone_set_wm_production
@@ -71,8 +59,8 @@ oxr_mdlc_zone_pc_machine_auto_alloys = {
 }
 
 oxr_mdlc_zone_pc_machine_auto_consumer_goods = {
-		icon = GFX_colony_type_factory
-	inline_script = planet/zones/oxr_wm_zone_base
+	icon = GFX_district_specialization_factory
+	inline_script = planet/zones/oxr_wm_zone_base_auto
 
 	included_building_sets = {
 		factory
@@ -81,64 +69,23 @@ oxr_mdlc_zone_pc_machine_auto_consumer_goods = {
 		oxr_mdlc_building_set_wm_all
 	}
 
-	# inline_script = {
-	# 	script = planet/zones/auto/oxr_wm_consumer_goods_zone_production
-	# 	DISTRICT_CATEGORY = xvcv_mdlc_world_machines_production_districts
-	# 	JOBS = 2
-	# }
+	inline_script = {
+		script = planet/zones/auto/oxr_wm_consumer_goods_zone_production
+		DISTRICT_CATEGORY = xvcv_mdlc_world_machines_production_districts
+		JOBS = 2
+	}
+	planet_modifier = {
+		zone_building_slots_add = 3
+	}
 
 	ai_resource_production = {
 		consumer_goods = 10
 		trigger = { always = yes }
 	}
+
 	zone_sets = {
 		oxr_mdlc_zone_set_wm_production
 	}
 }
 
-# Raw resource zones
-# These won't produce resources as they are still being produced
-# in the district itself
-oxr_mdlc_zone_pc_machine_auto_energy = {
-	icon = GFX_resource_energy_large
-	inline_script = planet/zones/oxr_wm_zone_base
-
-	included_building_sets = {
-		generator
-		fallen_empire_generator
-		automation
-		oxr_mdlc_building_set_wm_energy
-	}
-
-	# inline_script = {
-	# 	script = planet/zones/auto/oxr_wm_energy_zone_production
-	# 	DISTRICT_CATEGORY = xvcv_mdlc_world_machines_production_districts
-	# 	JOBS = 2
-	# }
-	zone_sets = {
-		oxr_mdlc_zone_set_wm_energy
-	}
-}
-
-oxr_mdlc_zone_pc_machine_auto_food = {
-	icon = GFX_resource_food_large
-	inline_script = planet/zones/oxr_wm_zone_base
-
-	included_building_sets = {
-		farming
-		hydroponics
-		automation
-		fallen_empire_farming
-	}
-
-	# inline_script = {
-	# 	script = planet/zones/auto/oxr_wm_food_zone_production
-	# 	DISTRICT_CATEGORY = xvcv_mdlc_world_machines_production_districts
-	# 	JOBS = 2
-	# }
-
-	show_in_tech = tech_food_processing_1
-	zone_sets = {
-		oxr_mdlc_zone_set_wm_food
-	}
-}
+# Raw Resource boost is given by primary district's 2nd or 3rd slot zone

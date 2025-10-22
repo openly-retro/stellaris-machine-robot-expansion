@@ -1,0 +1,30 @@
+# Via Exasperation, thank you!
+# Retro TODO: check researchers don't get double mult value because the parent
+# econ category eventually resolves to planet_jobs
+triggered_modifier = {
+	potential = {
+		exists = owner
+		owner = {
+			NOT = {
+				has_origin = oxr_mdlc_origin_world_machine_awakened
+			}
+		}
+	}
+	planet_jobs_produces_mult = $MULT_VAL$
+	# planet_jobs includes planet_researchers, thus doubling the malus or bonus
+	# planet_researchers_produces_mult = $MULT_VAL$
+}
+triggered_modifier = {
+	potential = {
+		exists = owner
+		owner = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+		}
+	}
+	custom_tooltip = oxr_mdlc_world_machines_all_structures_produces_mult
+	oxr_mdlc_world_machines_all_structures_produces_mult = $MULT_VAL$
+	# xvcv_mdlc_world_machines_districts_produces_mult = $MULT_VAL$
+	# oxr_mdlc_category_world_machines_buildings_produces_mult = $MULT_VAL$
+	# xvcv_mdlc_world_machines_science_districts_produces_mult = $MULT_VAL$
+	# oxr_mdlc_world_machines_science_buildings_produces_mult = $MULT_VAL$
+}

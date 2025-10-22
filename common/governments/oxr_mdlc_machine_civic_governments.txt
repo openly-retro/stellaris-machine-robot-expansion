@@ -1,0 +1,207 @@
+
+
+# Research
+gov_oxr_mdlc_world_machine_research = {
+	ruler_title = RT_LINK
+
+	use_regnal_names = yes
+
+	should_force_rename = yes
+
+	possible = {
+		# is_machine_empire = yes
+		has_oxr_mdlc_origin_world_machine_awakened = yes
+		OR = {
+			has_valid_civic = civic_machine_introspective
+			has_valid_civic = civic_machine_delegated_functions
+			has_valid_civic = civic_machine_predictive_analysis
+			has_valid_civic = civic_machine_guided_sapience
+			has_valid_civic = civic_machine_spybots
+
+		}
+		NOR = {
+			has_valid_civic = civic_machine_rockbreakers
+			has_valid_civic = civic_machine_builder
+			has_valid_civic = civic_machine_replication
+			has_valid_civic = civic_machine_astromining_drones
+		}
+	}
+
+	weight = {
+		base = @oxr_mldc_wm_gov_civic_weight
+	}
+}
+
+# Industrial
+gov_oxr_mdlc_world_machine_industrial = {
+	ruler_title = RT_HUB
+
+	use_regnal_names = yes
+
+	should_force_rename = yes
+
+	possible = {
+		# is_machine_empire = yes
+		has_oxr_mdlc_origin_world_machine_awakened = yes
+		OR = {
+			has_valid_civic = civic_machine_rockbreakers
+			has_valid_civic = civic_machine_builder
+			has_valid_civic = civic_machine_replication
+			has_valid_civic = civic_machine_astromining_drones
+		}
+		NOR = {
+			has_valid_civic = civic_machine_introspective
+			has_valid_civic = civic_machine_delegated_functions
+			has_valid_civic = civic_machine_predictive_analysis
+			has_valid_civic = civic_machine_guided_sapience
+			has_valid_civic = civic_machine_spybots
+		}
+	}
+
+	weight = {
+		base = @oxr_mldc_wm_gov_civic_weight
+	}
+}
+
+# Servitor
+gov_oxr_mdlc_world_machine_servitor = {
+	ruler_title = RT_SUPERVISORY
+
+	use_regnal_names = yes
+
+	should_force_rename = yes
+
+	possible = {
+		# is_machine_empire = yes
+		has_oxr_mdlc_origin_world_machine_awakened = yes
+		has_valid_civic = civic_machine_servitor
+	}
+
+	weight = {
+		base = @oxr_mdlc_wm_gov_civic_prio_weight
+	}
+}
+
+# Assimilator
+gov_oxr_mdlc_world_machine_assimilator = {
+	ruler_title = RT_CONDUIT
+
+	use_regnal_names = yes
+
+	should_force_rename = yes
+
+	possible = {
+		# is_machine_empire = yes
+		has_oxr_mdlc_origin_world_machine_awakened = yes
+		has_valid_civic = civic_machine_assimilator
+		NOT = { has_country_flag = unplugged_assimilator_empire }
+	}
+
+	weight = {
+		base = @oxr_mdlc_wm_gov_civic_prio_weight
+	}
+}
+
+# Terminator
+gov_oxr_mdlc_world_machine_terminator = {
+	ruler_title = RT_CORE
+
+	use_regnal_names = yes
+
+	should_force_rename = yes
+
+	possible = {
+		# is_machine_empire = yes
+		has_oxr_mdlc_origin_world_machine_awakened = yes
+		has_valid_civic = civic_machine_terminator
+	}
+
+	weight = {
+		base = @oxr_mdlc_wm_gov_civic_override_weight
+	}
+}
+
+# Machine learning civic in progress
+gov_oxr_mdlc_world_machine_ml_civic_started = {
+	ruler_title = RT_CORE
+
+	use_regnal_names = yes
+
+	should_force_rename = yes
+
+	possible = {
+		# is_machine_empire = yes
+		has_oxr_mdlc_origin_world_machine_awakened = yes
+		has_valid_civic = xvcv_mdlc_civic_machine_learning
+		NOT = { has_country_flag = xvcv_mdlc_country_flag_civic_machine_learning_complete }
+	}
+
+	weight = {
+		base = @oxr_mdlc_wm_gov_civic_override_with_civics
+	}
+}
+
+# Machine learning civic done
+gov_oxr_mdlc_world_machine_ml_civic_complete = {
+	ruler_title = RT_CORE
+
+	use_regnal_names = yes
+
+	should_force_rename = yes
+
+	possible = {
+		# is_machine_empire = yes
+		has_oxr_mdlc_origin_world_machine_awakened = yes
+		has_valid_civic = xvcv_mdlc_civic_machine_learning
+		has_country_flag = xvcv_mdlc_country_flag_civic_machine_learning_complete
+	}
+
+	weight = {
+		base = @oxr_mdlc_wm_gov_civic_override_with_civics
+	}
+}
+
+# Orbital cracker
+gov_oxr_mdlc_world_machine_orbital_cracker = {
+	ruler_title = RT_CORE
+
+	use_regnal_names = yes
+
+	should_force_rename = yes
+
+	possible = {
+		# is_machine_empire = yes
+		has_oxr_mdlc_origin_world_machine_awakened = yes
+		has_valid_civic = xvcv_mdlc_civic_planet_cracker
+	}
+
+	weight = {
+		base = @oxr_mdlc_wm_gov_civic_override_with_civics
+	}
+}
+
+# I guess sort this last?
+gov_oxr_mdlc_world_machine_empire = {
+	ruler_title = RT_CPU
+
+	use_regnal_names = yes
+
+	should_force_rename = yes
+
+	possible = {
+		is_machine_empire = yes
+		has_oxr_mdlc_origin_world_machine_awakened = yes
+		NOR = {
+			# Exclude other civics that have custom empire names
+			has_valid_civic = xvcv_mdlc_civic_machine_learning
+			has_valid_civic = civic_machine_servitor
+			has_valid_civic = civic_machine_assimilator
+			has_valid_civic = civic_machine_terminator
+			has_valid_civic = xvcv_mdlc_civic_planet_cracker
+		}
+	}
+
+	weight = {
+		base = @oxr_mdlc_wm_gov_authority_weight
+	}
+}

@@ -7,93 +7,107 @@ xvcv_mdlc_situation_machine_learning = {
 			icon = GFX_xvcv_mdlc_situation_stage_1
 			icon_background = GFX_situation_stage_frame_green
 			end = 100
-			modifier = {
-				planet_jobs_produces_mult = -0.25
-				planet_researchers_produces_mult = -0.25
+			inline_script = {
+				script = country/situations/WML_machine_learning_output_modifier
+				MULT_VAL = -0.25
 			}
 		}
 		xvcv_mdlc_situation_machine_learning_stage_2 = {
 			icon = GFX_xvcv_mdlc_situation_stage_2
 			icon_background = GFX_situation_stage_frame_green
 			end = 200
-			modifier = {
-				planet_jobs_produces_mult = -0.20
-				planet_researchers_produces_mult = -0.20
+			inline_script = {
+				script = country/situations/WML_machine_learning_output_modifier
+				MULT_VAL = -0.20
 			}
 		}
 		xvcv_mdlc_situation_machine_learning_stage_3 = {
 			icon = GFX_xvcv_mdlc_situation_stage_3
 			icon_background = GFX_situation_stage_frame_green
 			end = 300
-			modifier = {
-				planet_jobs_produces_mult = -0.15
-				planet_researchers_produces_mult = -0.15
+			inline_script = {
+				script = country/situations/WML_machine_learning_output_modifier
+				MULT_VAL = -0.15
 			}
 		}
 		xvcv_mdlc_situation_machine_learning_stage_4 = {
 			icon = GFX_xvcv_mdlc_situation_stage_4
 			icon_background = GFX_situation_stage_frame_green
 			end = 400
-			modifier = {
-				planet_jobs_produces_mult = -0.10
-				planet_researchers_produces_mult = -0.10
+			inline_script = {
+				script = country/situations/WML_machine_learning_output_modifier
+				MULT_VAL = -0.10
 			}
 		}
 		xvcv_mdlc_situation_machine_learning_stage_5 = {
 			icon = GFX_xvcv_mdlc_situation_stage_5
 			icon_background = GFX_situation_stage_frame_green
 			end = 500
-			modifier = {
-				planet_jobs_produces_mult = -0.05
-				planet_researchers_produces_mult = -0.05
+			inline_script = {
+				script = country/situations/WML_machine_learning_output_modifier
+				MULT_VAL = -0.05
 			}
 		}
 		xvcv_mdlc_situation_machine_learning_stage_6 = {
 			icon = GFX_xvcv_mdlc_situation_stage_6
 			icon_background = GFX_situation_stage_frame_green
+			# 500 to 600
 			end = 600
 		}
 		xvcv_mdlc_situation_machine_learning_stage_7 = {
 			icon = GFX_xvcv_mdlc_situation_stage_7
 			icon_background = GFX_situation_stage_frame_green
-			end = 700
-			modifier = {
-				planet_jobs_produces_mult = 0.05
-				planet_researchers_produces_mult = 0.05
+			# + 125
+			end = 725
+			inline_script = {
+				script = country/situations/WML_machine_learning_output_modifier
+				MULT_VAL = 0.05
 			}
 		}
 		xvcv_mdlc_situation_machine_learning_stage_8 = {
 			icon = GFX_xvcv_mdlc_situation_stage_8
 			icon_background = GFX_situation_stage_frame_green
-			end = 800
-			modifier = {
-				planet_jobs_produces_mult = 0.10
-				planet_researchers_produces_mult = 0.10
+			# +150
+			end = 875
+			inline_script = {
+				script = country/situations/WML_machine_learning_output_modifier
+				MULT_VAL = 0.10
 			}
 		}
 		xvcv_mdlc_situation_machine_learning_stage_9 = {
 			icon = GFX_xvcv_mdlc_situation_stage_9
 			icon_background = GFX_situation_stage_frame_green
-			end = 900
-			modifier = {
-				planet_jobs_produces_mult = 0.15
-				planet_researchers_produces_mult = 0.15
+			# +175
+			end = 1050
+			inline_script = {
+				script = country/situations/WML_machine_learning_output_modifier
+				MULT_VAL = 0.15
 			}
 		}
 		xvcv_mdlc_situation_machine_learning_stage_10 = {
 			icon = GFX_xvcv_mdlc_situation_stage_10
 			icon_background = GFX_situation_stage_frame_green
-			end = 1000
-			modifier = {
-				planet_jobs_produces_mult = 0.20
-				planet_researchers_produces_mult = 0.20
+			# +200
+			end = 1250
+			inline_script = {
+				script = country/situations/WML_machine_learning_output_modifier
+				MULT_VAL = 0.20
 			}
 		}
 	}
 	on_progress_complete = {
-		custom_tooltip = xvcv_mdlc_situation_machine_learning_outcome_tooltip
+		if = {
+			limit = {
+				exists = owner
+				owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+			}
+			custom_tooltip = xvcv_mdlc_situation_world_machine_learning_outcome_tooltip
+		}
+		else = {
+			custom_tooltip = xvcv_mdlc_situation_machine_learning_outcome_tooltip
+		}
 		hidden_effect = {
-			owner = { set_country_flag = xvcv_mdlc_civic_machine_learning_complete }
+			owner = { set_country_flag = xvcv_mdlc_country_flag_civic_machine_learning_complete }
 			situation_event = { id = xvcv_mdlc_situation.2 }
 		}
 	}

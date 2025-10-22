@@ -3,30 +3,55 @@
 # 2 - planet is FACTORY designation
 
 # When in factory designation, produce 2 artisan drone output
-# 20 good production, 20 minerals upkeep
 
-# NOthing to add for catalytic empires here bc factory mode means goods
 produces = {
 	trigger = {
 		exists = owner
 		oxr_mdlc_col_is_factory = yes
+		oxr_planet_owner_is_catalytic = no
 		owner = {
 			NOT = { has_valid_civic = civic_machine_servitor }
 		}
 	}
 	consumer_goods = @[ $JOBS$ * oxr_mdlc_wm_base_artisan_output ]
-	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
+	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 }
 # When on factory designation, minerals are used
 upkeep = {
 	trigger = {
 		exists = owner
 		oxr_mdlc_col_is_factory = yes
+		oxr_planet_owner_is_catalytic = no
 		owner = {
 			NOT = { has_valid_civic = civic_machine_servitor }
 		}
 	}
 	minerals = @[ $JOBS$ * oxr_mdlc_wm_base_artisan_upkeep ]
 	volatile_motes = $RARE$
-	multiplier = $UPKEEP_multiplier$
+}
+# CATALYTIC
+produces = {
+	trigger = {
+		exists = owner
+		oxr_mdlc_col_is_factory = yes
+		oxr_planet_owner_is_catalytic = yes
+		owner = {
+			NOT = { has_valid_civic = civic_machine_servitor }
+		}
+	}
+	consumer_goods = @[ $JOBS$ * oxr_mdlc_wm_base_artisan_catalytic_output ]
+	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+}
+# When on factory designation, minerals are used
+upkeep = {
+	trigger = {
+		exists = owner
+		oxr_mdlc_col_is_factory = yes
+		oxr_planet_owner_is_catalytic = yes
+		owner = {
+			NOT = { has_valid_civic = civic_machine_servitor }
+		}
+	}
+	food = @[ $JOBS$ * oxr_mdlc_wm_base_artisan_catalytic_upkeep ]
+	volatile_motes = $RARE$
 }

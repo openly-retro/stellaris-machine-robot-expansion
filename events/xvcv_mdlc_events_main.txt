@@ -145,139 +145,7 @@ country_event = {
 				add_district = district_generator
 				log = "\\[prev.GetName] SYNTH SETUP (Mechanical) | Catalytic | organic skin | synth ascended | added generator"
 			}
-			if = {
-				limit = { prev = { has_valid_civic = xvcv_mdlc_civic_planet_cracker } }
-				solar_system = {
-					#search an eligible planet first
-					random_system_planet = {
-						limit = {
-							is_star = no
-							is_colony = no
-							is_colonizable = no
-							# asteroids are deleted in generate_home_planet_final_pass for "Resource Consolidation" origin
-							is_asteroid = no
-							NOR = {
-								is_planet_class = pc_shattered
-								is_planet_class = pc_ringworld_habitable_damaged
-								is_planet_class = pc_ringworld_tech
-								is_planet_class = pc_ringworld_tech_damaged
-								is_planet_class = pc_ringworld_seam
-								is_planet_class = pc_ringworld_seam_damaged
-							}
-						}
-						save_event_target_as = xvcv_mdlc_civic_planet_cracker_target
-					}
-					#search an eligible planet again with more wide conditions
-					random_system_planet = {
-						limit = {
-							NOT = { exists = event_target:xvcv_mdlc_civic_planet_cracker_target }
-							is_star = no
-							is_colony = no
-							is_colonizable = no
-							is_asteroid = no
-						}
-						save_event_target_as = xvcv_mdlc_civic_planet_cracker_target
-					}
-					#search an eligible planet for the last time with 'far more' wide conditions #there must be one in this case
-					random_system_planet = {
-						limit = {
-							NOT = { exists = event_target:xvcv_mdlc_civic_planet_cracker_target }
-							is_star = no
-							is_colony = no
-							is_asteroid = no
-						}
-						save_event_target_as = xvcv_mdlc_civic_planet_cracker_target
-					}
-					if = {
-						limit = { exists = event_target:xvcv_mdlc_civic_planet_cracker_target }
-						event_target:xvcv_mdlc_civic_planet_cracker_target = {
-							set_planet_flag = xvcv_mdlc_planet_cracker_placed
-							prev = {
-								spawn_megastructure = {
-									type = xvcv_mdlc_planet_cracker
-									planet = prev
-									orbit_distance = 0
-									owner = space_owner
-								}
-							}
-							clear_deposits = yes
-							if = {
-								limit = { exists = orbital_station }
-								orbital_station = { dismantle = yes }
-							}
-							if = {
-								limit = { planet_size > 10 }
-								set_planet_size = 10
-							}
-							if = {
-								limit = {
-									NOR = {
-										is_planet_class = pc_shattered
-										is_planet_class = pc_habitat
-										is_planet_class = pc_ringworld_habitable
-										is_planet_class = pc_ringworld_habitable_damaged
-										is_planet_class = pc_ringworld_tech
-										is_planet_class = pc_ringworld_tech_damaged
-										is_planet_class = pc_ringworld_seam
-										is_planet_class = pc_ringworld_seam_damaged
-									}
-								}
-								change_pc = pc_shattered
-							}
-							else_if = {
-								limit = { is_planet_class = pc_habitat }
-								remove_planet = yes
-								spawn_habitat_cracker_effect = yes
-							}
-							# else_if = {
-							# 	limit = { is_planet_class = pc_ringworld_habitable }
-							# 	change_pc = pc_ringworld_habitable_damaged
-							# 	spawn_ringworld_cracker_effect = yes
-							# }
-							# else_if = {
-							# 	limit = { is_planet_class = pc_ringworld_tech }
-							# 	change_pc = pc_ringworld_tech_damaged
-							# 	spawn_ringworld_cracker_effect = yes
-							# }
-							# else_if = {
-							# 	limit = { is_planet_class = pc_ringworld_seam }
-							# 	change_pc = pc_ringworld_seam_damaged
-							# 	spawn_ringworld_cracker_effect = yes
-							# }
-						
-							# print_scope_effect = yes 
-							if = {
-								limit = { root = { has_technology = xvcv_mdlc_tech_orbital_cracker_upgrade_1 } }
-								add_deposit = d_minerals_4
-							}
-							if = {
-								limit = { root = { has_technology = xvcv_mdlc_tech_orbital_cracker_upgrade_2 } }
-								add_deposit = d_minerals_6
-							}
-							add_deposit = d_minerals_10
-						}
-					}
-				}
-				if = {
-					limit = { has_district = district_mining }
-					remove_district = district_mining
-				}
-				else_if = {
-					limit = { has_district = district_mining_uncapped }
-					remove_district = district_mining_uncapped
-				}
-				add_district = district_city
-				while = {
-					limit = { has_district = district_mining }
-					remove_district = district_mining
-					add_district = district_generator
-				}
-				while = {
-					limit = { has_district = district_mining_uncapped }
-					remove_district = district_mining_uncapped
-					add_district = district_generator_uncapped
-				}
-			}
+			inline_script = "country/game_start/WML_planet_cracker_setup"
 			if = {
 				limit = { prev = { has_xvcv_mdlc_origin_synth_ascend = yes } }
 				# dont alter previous district balancing
@@ -1295,7 +1163,7 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		has_completed_special_project_in_log = XVCV_MDLC_AP_BASE_CODE_RECOMPOSITIONS_PROJECT
+		has_ascension_perk = xvcv_mdlc_ap_base_code_recompositions
 	}
 
 	option = {
@@ -1517,10 +1385,11 @@ country_event = {
 					size = 500
 					effect = { save_event_target_as = last_created_pop_group }
 				}
-				if = { #if the planet has not enough free building slots
-					limit = { free_building_slots = 0 }
-					add_deposit = xvcv_mdlc_d_building_slot_plus_1
-				}
+				#rikk: planet_max_buildings_add no longer works
+				#if = { #if the planet has not enough free building slots
+				#	limit = { free_building_slots = 0 }
+				#	add_deposit = xvcv_mdlc_d_building_slot_plus_1
+				#}
 				add_building = building_organic_sanctuary
 			}
 			every_owned_pop_group = {
@@ -3301,7 +3170,7 @@ planet_event = {
 
 	trigger = {
 		NOT = { is_planet_class = pc_habitat }
-		has_building = building_deployment_post
+		# has_building = building_deployment_post
 		owner = {
 			has_ascension_perk = xvcv_mdlc_ap_self_assembling_colony_ship
 			has_authority = auth_machine_intelligence
@@ -3312,34 +3181,98 @@ planet_event = {
 		save_event_target_as = oxr_last_colonized_planet
 		if = {
 			limit = {
-				has_building = building_deployment_post
+				# Compatibility with Ancient Empire
+				oxr_has_ancient_empire_mod = yes
+				NOT = { has_planet_flag = oxr_mdlc_wait_for_ag_ancient_82 }
 			}
+			
+			log = "Waited 1 day to call the on_colonized event"
+			# Let their event finish and then come back to this
+			set_planet_flag = oxr_mdlc_wait_for_ag_ancient_82
 			event_target:oxr_last_colonized_planet = {
-				add_building = building_machine_capital
-				remove_building = building_deployment_post
-				log = "In xvcv_mdlc.1004, supposed to remove deployment post ..?"
+				planet_event = {
+					id = xvcv_mdlc.1004 days = 3
+				}
 			}
 		}
-		# switch = {
-		# 	trigger = has_building
-		# 	building_deployment_post = {
-		# 		event_target:oxr_last_colonized_planet = {
-		# 			add_building = building_machine_capital
-		# 			remove_building = building_deployment_post
-		# 			log = "In xvcv_mdlc.1004, supposed to remove deployment post ..?"
-		# 		}
-		# 	}
-		# }
-
-		# Replace the old colony_start_num_pops_add effect
-		create_pop = {
-			species = owner.species
-			ethos = owner
+		else = {
+			clear_planet_flag = oxr_mdlc_wait_for_ag_ancient_82
+			# Cleanup
+			if = {
+				limit = {
+					has_building = building_deployment_post
+					NOT = { has_building = building_machine_capital }
+				}
+				# event_target:oxr_last_colonized_planet = {
+					add_building = building_machine_capital
+					remove_building = building_deployment_post
+					remove_building = building_deployment_post
+				# }
+				log = "Expected to remove building_deployment_post and add machine capital"
+			}
+			else_if = {
+				# Ancient Empire wants to upgrade the planet capital one level
+				# Since the self-assembling AP starts with a machine_capital, give players 1 more level
+				# because why not
+				limit = {
+					has_building = building_deployment_post
+					has_building = building_machine_capital
+				}
+				# event_target:oxr_last_colonized_planet = {
+					add_building = building_machine_major_capital
+					remove_building = building_deployment_post
+					remove_building = building_deployment_post
+				# }
+				log = "Expected to remove building_deployment_post and machine capital, and add t3 capital"
+			}
+			else_if = {
+				limit = {
+					has_building = building_machine_capital
+					NOT = { has_building = building_deployment_post }
+				}
+				add_building = building_machine_major_capital
+				remove_building = building_machine_capital
+				remove_building = building_machine_capital
+				log = "expected to remove building_machine_capital and add t3 capital"
+			}
+				# Replace the old colony_start_num_pops_add effect
+			create_pop = {
+				species = owner.species
+				ethos = owner
+			}
 		}
+
+		
 
 	}
 }
 
+# Entry event for modifying the capital of any planet for a Machine emire
+planet_event = {
+	id = xvcv_mdlc.1004
+	hide_window = yes
+	is_triggered_only = yes
+
+	pre_triggers = {
+		has_owner = yes
+	}
+
+	trigger = {
+		NOT = { is_planet_class = pc_habitat }
+		# has_building = building_deployment_post
+		owner = {
+			OR = {
+				has_ascension_perk = xvcv_mdlc_ap_self_assembling_colony_ship
+				has_oxr_mdlc_origin_world_machine_awakened = yes
+			}
+		}
+	}
+
+	immediate = {
+		# Look out for compatibility with Ancient Empire
+	}
+
+}
 
 ## Synthetic Origin setup - no TMA
 country_event = {

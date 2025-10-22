@@ -185,9 +185,15 @@ defined_text = {
 	text = {
 		localization_key = xvcv_mdlc_bio_robot_growth_from_organics
 		trigger = {
-			check_modifier_value = {
-				modifier = fake_pop_growth_mod
-				value > 0
+			OR = {
+				check_modifier_value = {
+					modifier = bonus_pop_growth_mult
+					value > 0
+				}
+				check_modifier_value = {
+					modifier = logistic_growth_mult
+					value > 0
+				}
 			}
 		}
 	}

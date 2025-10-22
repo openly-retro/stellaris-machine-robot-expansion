@@ -129,16 +129,35 @@ oxr_mdlc_can_add_genetic_traits = {
 			OR = {
 				has_technology = tech_gene_tailoring
 				has_ascension_perk = xvcv_mdlc_ap_genetics_mastery
+				oxr_mdlc_country_is_finished_bio_mech = yes
 			}
 		}
 	}
 }
+
 oxr_mdlc_can_remove_beneficial_genetic_traits = {
 	hidden_trigger = { exists = from }
 	from = {
 		OR = {
-			has_tradition = tr_genetics_resequencing
 			has_ascension_perk = xvcv_mdlc_ap_genetics_mastery
+			oxr_mdlc_country_is_finished_bio_mech = yes
+			# Break down base game 'if/ese' block
+			AND = {
+				has_biogenesis_dlc = no
+				has_tradition = tr_genetics_resequencing
+			}
+			AND = {
+				has_tradition = tr_genetics_adopt
+				has_tradition = tr_genetics_resequencing
+			}
+			AND = {
+				has_biogenesis_dlc = yes
+				has_tradition = tr_purity_genotype_regeneration
+			}
+			AND = {
+				NOT = { has_tradition = tr_genetics_adopt }
+				has_tradition = tr_purity_genotype_regeneration
+			}
 		}
 	}
 }
@@ -154,6 +173,13 @@ oxr_mdlc_is_machine_empire = {
 oxr_mdlc_machine_is_gestalt = {
 	# has_authority = auth_machine_intelligence
 	has_ethic = ethic_gestalt_consciousness
+}
+
+oxr_mdlc_is_world_machine_empire = {
+	OR = {
+		has_authority = oxr_mdlc_auth_machine_planetary_intelligence
+		has_ascension_perk = xvcv_mdlc_ap_world_machines
+	}
 }
 
 # Is the empire ANY kind of robot / machine / synth (but not cyborg or virtual)
@@ -198,6 +224,7 @@ oxr_mdlc_has_upgraded_capital = {
 			has_building = oxr_mdlc_world_machines_building_auto_capital_upgraded
 			has_building = oxr_mdlc_world_machines_building_auto_capital_major_upgraded
 			has_building = oxr_mdlc_world_machines_building_auto_capital_fully_upgraded
+			has_building = oxr_mdlc_world_machines_building_auto_imperial_capital
 		}
 	}
 }
@@ -209,6 +236,7 @@ oxr_mdlc_has_major_upgraded_capital = {
 		OR = {
 			has_building = oxr_mdlc_world_machines_building_auto_capital_major_upgraded
 			has_building = oxr_mdlc_world_machines_building_auto_capital_fully_upgraded
+			has_building = oxr_mdlc_world_machines_building_auto_imperial_capital
 		}
 	}
 }
@@ -218,6 +246,7 @@ oxr_mdlc_has_fully_upgraded_capital = {
 		fail_text = "oxr_mdlc_has_fully_upgraded_capital.fail"
 		# owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
 		has_building = oxr_mdlc_world_machines_building_auto_capital_fully_upgraded
+		has_building = oxr_mdlc_world_machines_building_auto_imperial_capital
 	}
 }
 
@@ -260,6 +289,10 @@ oxr_mdlc_country_can_control_machines = {
 		oxr_mdlc_is_any_machine_empire = yes
 	}
 }
+
+#######################
+# Other mods
+oxr_has_ancient_empire_mod = { has_global_flag = has_ancient_empire_mod }
 
 
 #######################
@@ -451,6 +484,7 @@ has_xvcv_mdlc_pc_machine_ecu_district_cooling_primary = { has_district = xvcv_md
 has_xvcv_mdlc_pc_machine_ecu_district_production = { has_district = xvcv_mdlc_pc_machine_ecu_district_production }
 has_xvcv_mdlc_pc_machine_ecu_district_rare_resources = { has_district = xvcv_mdlc_pc_machine_ecu_district_rare_resources }
 has_xvcv_mdlc_pc_machine_ecu_district_naval_cap = { has_district = xvcv_mdlc_pc_machine_ecu_district_naval_cap }
+
 ## Server world districts
 has_xvcv_mdlc_pc_machine_ser_district_cooling_primary = { has_district = xvcv_mdlc_pc_machine_ser_district_cooling_primary }
 has_xvcv_mdlc_pc_machine_ser_district_unity = { has_district = xvcv_mdlc_pc_machine_ser_district_unity }
@@ -474,6 +508,7 @@ has_xvcv_mdlc_pc_ringworld_machine_auto_district_industrial = { has_district = x
 has_xvcv_mdlc_pc_ringworld_machine_auto_district_raw_resource = { has_district = xvcv_mdlc_pc_ringworld_machine_auto_district_raw_resource }
 has_xvcv_mdlc_pc_ringworld_machine_auto_district_farming = { has_district = xvcv_mdlc_pc_ringworld_machine_auto_district_farming }
 
+
 # ZONES
 ## AUTO-RINGWORLD
 has_oxr_mdlc_zone_pc_ringworld_machine_auto_research = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_research value > 0 } }
@@ -483,13 +518,43 @@ has_oxr_mdlc_zone_pc_ringworld_machine_auto_consumer_goods = { num_zones = { typ
 has_oxr_mdlc_zone_pc_ringworld_machine_auto_alloys = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_alloys value > 0 } }
 has_oxr_mdlc_zone_pc_ringworld_machine_auto_food = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_food value > 0 } }
 has_oxr_mdlc_zone_pc_ringworld_machine_auto_energy = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_energy value > 0 } }
+ # specialized
+has_oxr_mdlc_zone_pc_ringworld_machine_auto_research_physics = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_research_physics value > 0 } }
+has_oxr_mdlc_zone_pc_ringworld_machine_auto_research_society = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_research_society value > 0 } }
+has_oxr_mdlc_zone_pc_ringworld_machine_auto_research_engineering = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_research_engineering value > 0 } }
+has_oxr_mdlc_zone_pc_ringworld_machine_auto_energy_physics = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_energy_physics value > 0 } }
+has_oxr_mdlc_zone_pc_ringworld_machine_auto_food_biology = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_food_biology value > 0 } }
+
+oxr_mdlc_auto_ringworld_has_any_rnd_zones = {
+	OR = {
+		has_oxr_mdlc_zone_pc_ringworld_machine_auto_research = yes
+		has_oxr_mdlc_zone_pc_ringworld_machine_auto_unity = yes
+		has_oxr_mdlc_zone_pc_ringworld_machine_auto_trade = yes
+		has_oxr_mdlc_zone_pc_ringworld_machine_auto_research_physics = yes
+		has_oxr_mdlc_zone_pc_ringworld_machine_auto_research_society = yes
+		has_oxr_mdlc_zone_pc_ringworld_machine_auto_research_engineering = yes
+	}
+}
 
 # ECU zones
 has_oxr_mdlc_zone_pc_machine_ecu_alloys = { num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_alloys value > 0 } }
 has_oxr_mdlc_zone_pc_machine_ecu_consumer_goods = { num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_consumer_goods value > 0 } }
+has_oxr_mdlc_zone_pc_machine_ecu_star_command = { num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_star_command value > 0 } }
+has_oxr_mdlc_zone_pc_machine_ecu_ground_command = { num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_ground_command value > 0 } }
+has_oxr_mdlc_zone_pc_machine_ecu_military_supply_chain = { num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_military_supply_chain value > 0 } }
 
+# STANDARD
+has_oxr_mdlc_zone_wm_research_unity = { num_zones = { type = oxr_mdlc_zone_wm_research_unity value > 0 } }
+has_oxr_mdlc_zone_wm_food_biology = { num_zones = { type = oxr_mdlc_zone_wm_food_biology value > 0 } }
+has_oxr_mdlc_zone_wm_minerals_engineering = { num_zones = { type = oxr_mdlc_zone_wm_minerals_engineering value > 0 } }
+has_oxr_mdlc_zone_wm_energy_physics = { num_zones = { type = oxr_mdlc_zone_wm_energy_physics value > 0 } }
+has_oxr_mdlc_zone_wm_primary_urban_energy = { num_zones = { type = oxr_mdlc_zone_wm_primary_urban_energy value > 0 } }
+has_oxr_mdlc_zone_wm_primary_urban_minerals = { num_zones = { type = oxr_mdlc_zone_wm_primary_urban_minerals value > 0 } }
+has_oxr_mdlc_zone_wm_primary_urban_food = { num_zones = { type = oxr_mdlc_zone_wm_primary_urban_food value > 0 } }
 
-
+has_rikk_mdlc_zone_crystal_conductor = { num_zones = { type = rikk_mdlc_zone_crystal_conductor value > 0 } }
+has_rikk_mdlc_zone_mote_carving = { num_zones = { type = rikk_mdlc_zone_mote_carving value > 0 } }
+has_rikk_mdlc_zone_gas_fertilizing = { num_zones = { type = rikk_mdlc_zone_gas_fertilizing value > 0 } }
 
 # ASCENSION PERKS
 has_xvcv_mdlc_ap_self_assembling_colony_ship = { has_ascension_perk = xvcv_mdlc_ap_self_assembling_colony_ship }

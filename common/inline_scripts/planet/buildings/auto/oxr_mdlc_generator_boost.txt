@@ -6,13 +6,13 @@ resources = {
 	cost = {
 		minerals = $MINERALS_COST$
 		alloys = $ALLOYS_COST$
-		exotic_gases = $COST_GASES$
+		rare_crystals = $COST_CRYSTALS$
 	}
 	upkeep = {
 		trigger = {
 			NOT = { has_active_building = oxr_mdlc_world_machines_biofuel_refit_1 }
 		}
-		energy = $UPKEEP$
+		minerals = $UPKEEP$
 	}
 	upkeep = {
 		trigger = {
@@ -20,8 +20,12 @@ resources = {
 		}
 		food = $BIOFUEL_UPKEEP$
 	}
+	upkeep = {
+		rare_crystals = $UPKEEP_CRYSTALS$
+		energy = @[ $NUM_TECHNICIANS$ * oxr_mdlc_wm_base_technician_upkeep ]
+	}
 	produces = {
-		energy = $PRODUCES$
+		energy = @[ $NUM_TECHNICIANS$ * oxr_mdlc_wm_base_technician_output ]
 	}
 }
 planet_modifier = {
@@ -42,7 +46,7 @@ triggered_planet_modifier = {
 building_sets = {
 	oxr_mdlc_building_set_wm_all
 	oxr_mdlc_building_set_wm_raw_resource
-	oxr_mdlc_building_set_wm_food
+	oxr_mdlc_building_set_wm_energy
 }
 
 # EOF

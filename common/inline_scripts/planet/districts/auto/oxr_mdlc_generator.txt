@@ -19,7 +19,7 @@ cost = {
 }
 produces = {
 	energy = @[ $JOBS$ * oxr_mdlc_wm_base_technician_output ]
-	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
+	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 }
 # JOBS * 1 base energy upkeep per drone + 1 base district upkeep
 upkeep = {
@@ -27,8 +27,10 @@ upkeep = {
 		doesnt_have_active_building = { WHICH = oxr_mdlc_world_machines_biofuel_refit_1 }
 		is_xvcv_mdlc_pc_machine_auto = yes
 	}
-	minerals = 2  # 2 for auto-machine world, 5 for ringworld
+	# executive decision; no mineral upkeep ^_o
+	# minerals = 2  # 2 for auto-machine world, 5 for ringworld 
 	energy = 2
+	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 }
 
 upkeep = {
@@ -39,6 +41,7 @@ upkeep = {
 	rare_crystals = 1  # static 1 per district
 	minerals = 5  # base vanilla value
 	energy = 5
+	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 }
 
 ##
@@ -48,6 +51,7 @@ upkeep = {
 	trigger = { has_active_building = oxr_mdlc_world_machines_biofuel_refit_1 }
 	# It's both double the num of jobs, and also 1/4 the output
 	food = @[ $JOBS$ * ( oxr_mdlc_wm_base_technician_output / 4 ) ]  # instead of 1 energy upkeep per simulated drone, 2 food upkeep
+	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 }
 upkeep = {
 	trigger = {
@@ -55,4 +59,5 @@ upkeep = {
 		is_xvcv_mdlc_pc_ringworld_machine_auto = yes
 	}
 	rare_crystals = 1
+	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 }
