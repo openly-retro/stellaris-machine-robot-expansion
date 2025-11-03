@@ -6,7 +6,7 @@ Think of each feature as a very tiny sub-mod of the main mod.
 
 Each has its own common, events, gfx, localistion, etc, folders.
 
-The code pertaining to that feature, whether small or large, stays in once place.
+The code pertaining to that feature, whether small or large, is developed in once place.
 
 Make changes to the code in features/your_awesome_feature/, then run the command to sync the feature files into the main mod.
 
@@ -14,36 +14,52 @@ It adds a little bit of overhead, because for each tweak to a feature, a modder 
 
 # Setting up a feature
 
-1. Create a new sub folder, using underscores for spaces (snake case), name it whatever you like
-2. Add an empty `__init__.py` file
-3. Add a `feature.yml` file with an `author tag:` like
-    author tag: oxr
+1. Create a new sub folder in `features`, using underscores for spaces (snake case), name it whatever you like
+2. Add an entry in `features_list.yml` file with some info about the thing you're working on
 4. Add a `common` subfolder and work there; add other sub-folders as needed
-    
+
+# File naming standards
+
+    <author tag>_mdlc_<name of the folder it's in>_<feature name>_<some sort of identifier>
+
+Leading to good filenames like
+
+    scripted_effects/oxr_mdlc_scripted_effects_mamp_main.txt
+    traits/rikk_mdlc_species_traits_extended.txt
+
+Some files that are already in the code base are named slightly differently, they all get a free pass and also free Zro ice cream on Saturdays.
+
 # How to sync
 
-Use rsync:
+You will need **rsync** on your system for this. https://rsync.samba.org/ 
 
-    rsync -rvuz mrec_tools/features/<your_feature_folder>/ ./
+The below Python script will call rsync, which is ultra fast and reliable.
 
-This syncs any folders found in your sub-folder, like ones named `common`, `events`, etc, to the main mod.
+Sync all features:
 
+    python mrec_tools/features/sync.py
 
-<!-- # Synced files are automatically renamed
+Sync one feature (in this example, `mamp`):
+ 
+    python mrec_tools/features/sync.py --features mamp
 
-The files will be synced from the feature folder into the main mod, using the following naming strategy:
+Sync multiple:
 
-    <author_tag>_mdlc_<feature_folder_name>_(destination folder with filename)
+    python mrec_tools/features/sync.py --features mamp bio_mech_worlds
 
-For example:
+No prompt will be given, it will sync automatically. If you didn't want to sync, use `git restore` to clean up the synced files (don't accidentally restore the files in your features folder!)
 
-    features/bio_mech_worlds/common/scripted_effects/main_scripted_effects.txt
+# Cleanup
 
-gets synced to the main folder like
+If you are testing a feature that isn't ready for prime time yet, **after you commit your code in your feature folder** clean up the working tree like so:
 
-    common/scripted_effects/oxr_mdlc_f_bio_mech_worlds_main_scripted_effects.txt
+    git clean -d
 
-- Author tag is auto-inserted at the beginning, followed by `mdlc`
-- The `f` is inserted to say, "this file was compiled from the features folder"
-- The name of the feature folder was added into the filename
- -->
+It will tell you to use the `-f` parameter (force). Make sure you committed your code changes in your features folder.
+
+# Remember ..!
+
+1. Have fun!!
+2. Name your files consistently
+3. Save and commit files often
+4. Remember it's modding, we are doing this for making awesome Machine and Robots related content, it's not a day job and perfectly fine to take a break, or work on something else that's more enticing, literally at any time .. 
