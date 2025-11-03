@@ -90,6 +90,10 @@ oxr_mdlc_is_gestalt_machine = {
 	oxr_mdlc_is_any_machine_empire = yes
 	is_gestalt = yes
 }
+oxr_mdlc_is_machine_terminator = {
+	has_civic = civic_machine_terminator
+}
+
 
 oxr_mdlc_pop_group_has_robots = {
 	AND = {
@@ -267,6 +271,18 @@ oxr_mdlc_country_finished_nanotech = {
 	has_tradition = tr_nanotech_finish
 }
 
+oxr_mdlc_can_colonize_planet = {
+	# oxr_mdlc_planet_world_machine_is_rebooting = no
+	oxr_mdlc_planet_is_being_harvested_by_null_mega = no
+	doesnt_have_modifier = { WHICH = oxr_mdlc_habitat_dismantle_effect }  # habitat being dismantled
+}
+
+oxr_mdlc_planet_is_being_harvested_by_null_mega = {
+	planet = {
+		has_planet_flag = { FLAG = oxr_mdlc_origin_null_stellar_formatter_placed }
+	}
+}
+
 # oxr_mdlc_can_be_leader = {
 # 	# Block leaders made from MAMP species
 # 	# Return 'yes' if the species doesn't have the mamp base trait
@@ -409,6 +425,7 @@ has_xvcv_mdlc_civic_malware_machine = { has_civic = xvcv_mdlc_civic_malware_mach
 has_xvcv_mdlc_civic_friendship_protocol = { has_civic = xvcv_mdlc_civic_friendship_protocol }
 has_xvcv_mdlc_civic_machine_learning = { has_civic = xvcv_mdlc_civic_machine_learning }
 has_oxr_mdlc_civic_bio_robot_directive = { has_civic = oxr_mdlc_civic_bio_robot_directive }
+has_oxr_mdlc_civic_planet_eaters = { has_civic = oxr_mdlc_civic_planet_eaters }
 
 
 # MAMP

@@ -1,0 +1,623 @@
+# oxr_mdlc_origin_null_planet_energy_produces_tmp
+# oxr_mdlc_origin_null_planet_minerals_produces_tmp
+# oxr_mdlc_origin_null_planet_food_produces_tmp
+# oxr_mdlc_origin_null_planet_alloys_produces_tmp
+
+oxr_mdlc_planet_origin_null_formatter_entry_effect = {
+	# The effect to call all effects
+	# Scope is PLANET scope (fromfrom.planet)
+	# FIRST LEVEL IN STACK
+	log = "Hello, this is the oxr_mdlc_origin_null_formatter_entry_effect."
+	if = {
+		limit = {
+			planet = {
+				uninhabitable_regular_planet = yes
+			}
+		}
+		oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_uninhabitable_regular_planets = yes
+	}
+	# HABITABLE PLANETS
+	else_if = {
+		limit = {
+			planet = {
+				habitable_planet = yes
+			}
+		}
+		oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_habitable_planets = yes
+		oxr_mdlc_planet_calculate_decomposer_stage_values = yes
+	}
+	# BLACK HOLE
+	else_if = {
+		limit = {
+			planet = {
+				is_planet_class = pc_black_hole
+			}
+		}
+		planet = {
+			oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_black_holes = yes
+		}
+	}
+	# PULSAR
+	else_if = {
+		limit = {
+			planet = {
+				OR = {
+					is_planet_class = pc_pulsar
+					is_planet_class = pc_neutron_star
+				}
+			}
+		}
+		planet = {
+			# oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_pulsars = yes
+			log = "oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_pulsars"
+		}
+	}
+	# STARS
+	else_if = {
+		limit = {
+			planet = {
+				is_star = yes
+			}
+		}
+		oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_stars = yes
+	}
+	# ASTEROIDS
+	else_if = {
+		limit = {
+			planet = {
+				is_asteroid = yes
+			}
+		}
+		oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_asteroids = yes
+	}
+	# ARTIFICIAL PLANETS
+	else_if = {
+		limit = {
+			planet = {
+				habitable_structure = yes
+			}
+		}
+		oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_artificial_planets = yes
+	}
+	# SPECIAL PLANETS
+	else_if = {
+		limit = {
+			planet = {
+				OR = {
+					is_planet_class = pc_shielded
+					is_planet_class = pc_infested
+					is_planet_class = pc_shrouded
+					is_planet_class = pc_broken
+					is_planet_class = pc_shattered
+				}
+			}
+		}
+		oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_special_planets = yes
+	}
+	##
+	# GIGA / PD / ETC
+	##
+	else = {
+		# Don't know what this planet class is
+		# export_trigger_value_to_variable = {
+		# 	trigger = is_planet_class
+		# 	variable = oxr_mdlc_origin_null_unknown_pc
+		# }
+		log = "Encountered unsupported planet class in Formatter mega setup effect \\[This.oxr_mdlc_origin_null_unknown_pc]"
+		oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_unknown = yes
+	}
+}
+
+# Planet consumption effect, called from PLANET scope
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_habitable_planets = {
+	# This effect looks at what deposits are on the planet, and exports the total district modifiers
+	# so that the mega can access the vars and produce resources based on the planet's deposits
+	# SECOND LEVEL IN EFFECT STACK
+
+		export_trigger_value_to_variable = {
+			trigger = planet_size
+			variable = oxr_mdlc_origin_null_starting_planet_size
+		}
+		## DEFINE STAGES
+		# This will be used later like 
+		# oxr_mdlc_origin_null_planet_formatting_stage_$STAGE$
+
+		set_variable = {
+			which = oxr_mdlc_origin_null_planet_formatting_stage
+			value = 0
+		}
+		set_variable = {
+			which = oxr_mdlc_origin_null_planet_formatting_stage_0
+			value = oxr_mdlc_origin_null_starting_planet_size
+		}
+		# Set what 2/3 the size is, so we don't have to use triggers/script vars to figure it out later
+		set_variable = {
+			which = oxr_mdlc_origin_null_planet_formatting_stage_1
+			value = oxr_mdlc_origin_null_starting_planet_size
+		}
+		multiply_variable = {
+			which = oxr_mdlc_origin_null_planet_formatting_stage_1
+			value = 0.66
+		}
+		round_variable = oxr_mdlc_origin_null_planet_formatting_stage_1
+	
+		# Set 1/3 size - At 1/3 size, produce "full amount" of alloys
+		# Larger planets will produce more alloys, naturally, and for more years
+		# But you get to alloys faster with smaller planets
+		set_variable = {
+			which = oxr_mdlc_origin_null_planet_formatting_stage_2
+			value = oxr_mdlc_origin_null_starting_planet_size
+		}
+		multiply_variable = {
+			which = oxr_mdlc_origin_null_planet_formatting_stage_2
+			value = 0.33
+		}
+		round_variable = oxr_mdlc_origin_null_planet_formatting_stage_2
+
+		## RESOURCES
+		# The number of how many of each resource the formatting process generates
+		export_modifier_to_variable = {
+			modifier = district_generator_max_add
+			variable = oxr_mdlc_origin_null_planet_energy_produces_tmp
+		}
+		export_modifier_to_variable = {
+			modifier = district_mining_max_add
+			variable = oxr_mdlc_origin_null_planet_minerals_produces_tmp
+		}
+		export_modifier_to_variable = {
+			modifier = district_farming_max_add
+			variable = oxr_mdlc_origin_null_planet_food_produces_tmp
+		}
+	
+		## DEBRIS
+		# Debris is the "useless" matter of the planet that's mostly rock
+		# It is the consequence of consuming the planet. matter just doesn't vanish .. (or does it !??!?)
+		# oxr_mdlc_origin_null_num_nonresource_districts will be the 'debris' factor
+		set_variable = {
+			which = oxr_mdlc_origin_null_num_nonresource_districts
+			value = oxr_mdlc_origin_null_starting_planet_size
+		}
+		subtract_variable = {
+			which = oxr_mdlc_origin_null_num_nonresource_districts
+			value = oxr_mdlc_origin_null_planet_energy_produces_tmp
+		}
+		subtract_variable = {
+			which = oxr_mdlc_origin_null_num_nonresource_districts
+			value = oxr_mdlc_origin_null_planet_minerals_produces_tmp
+		}
+		subtract_variable = {
+			which = oxr_mdlc_origin_null_num_nonresource_districts
+			value = oxr_mdlc_origin_null_planet_food_produces_tmp
+		}
+		# Final check, must be 0 or positive
+		if = {
+			limit = {
+				check_variable = {
+					which = oxr_mdlc_origin_null_num_nonresource_districts
+					value < 0
+				}
+			}
+			set_variable = {
+				which = oxr_mdlc_origin_null_num_nonresource_districts
+				value = 0
+			}
+		}
+		## DETERMINE ALLOY PRODUCTION
+		# Alloy jobs have 2 upkeep:1 production
+		# A mineral-poor planet probably won't have many natural alloy deposits,
+		# until the core gets processed
+		# Let Alloy production be 1/2 of mineral production
+		set_variable = {
+			which = oxr_mdlc_origin_null_planet_alloys_produces_tmp
+			value = oxr_mdlc_origin_null_planet_minerals_produces_tmp
+		}
+		divide_variable = {
+			which = oxr_mdlc_origin_null_planet_alloys_produces_tmp
+			value = 2
+		}
+		round_variable = oxr_mdlc_origin_null_planet_alloys_produces_tmp
+
+		### CAPTURE RARE RESOURCE PRODUCTION
+		set_variable = {
+			which = oxr_mdlc_origin_null_planet_volatile_motes_produces_tmp
+			value = 0
+		}
+		set_variable = {
+			which = oxr_mdlc_origin_null_planet_exotic_gases_produces_tmp
+			value = 0
+		}
+		set_variable = {
+			which = oxr_mdlc_origin_null_planet_rare_crystals_produces_tmp
+			value = 0
+		}
+		export_modifier_to_variable = {
+			modifier = planet_technician_volatile_motes_produces_add
+			variable = oxr_mdlc_origin_null_planet_volatile_motes_produces_tmp
+		}
+		export_modifier_to_variable = {
+			modifier = planet_farmers_exotic_gases_produces_add
+			variable = oxr_mdlc_origin_null_planet_exotic_gases_produces_tmp
+		}
+		export_modifier_to_variable = {
+			modifier = planet_miners_rare_crystals_produces_add
+			variable = oxr_mdlc_origin_null_planet_rare_crystals_produces_tmp
+		}
+		## INITIALIZE EXOTIC RESOURCES
+		set_variable = {
+			which = oxr_mdlc_origin_null_planet_zro_produces_tmp
+			value = 0
+		}
+		set_variable = {
+			which = oxr_mdlc_origin_null_planet_dark_matter_produces_tmp
+			value = 0
+		}
+		set_variable = {
+			which = oxr_mdlc_origin_null_planet_living_metal_produces_tmp
+			value = 0
+		}
+
+		## Capture rare resource production from orbital deposits
+		if = {
+			limit = {
+				has_deposit_for = shipclass_mining_station
+			}
+			switch = {
+				trigger = has_deposit
+				d_exotic_gases_1 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_exotic_gases_produces_tmp
+						value = 1
+					}
+				}
+				d_exotic_gases_2 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_exotic_gases_produces_tmp
+						value = 2
+					}
+				}
+				d_exotic_gases_3 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_exotic_gases_produces_tmp
+						value = 3
+					}
+				}
+				d_exotic_gases_4 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_exotic_gases_produces_tmp
+						value = 4
+					}
+				}
+				d_exotic_gases_5 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_exotic_gases_produces_tmp
+						value = 5
+					}
+				}
+				d_rare_crystals_1 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_rare_crystals_produces_tmp
+						value = 1
+					}
+				}
+				d_rare_crystals_2 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_rare_crystals_produces_tmp
+						value = 2
+					}
+				}
+				d_rare_crystals_3 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_rare_crystals_produces_tmp
+						value = 3
+					}
+				}
+				d_rare_crystals_4 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_rare_crystals_produces_tmp
+						value = 4
+					}
+				}
+				d_rare_crystals_5 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_rare_crystals_produces_tmp
+						value = 5
+					}
+				}
+				d_volatile_motes_1 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_volatile_motes_produces_tmp
+						value = 1
+					}
+				}
+				d_volatile_motes_2 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_volatile_motes_produces_tmp
+						value = 2
+					}
+				}
+				d_volatile_motes_3 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_volatile_motes_produces_tmp
+						value = 3
+					}
+				}
+				d_volatile_motes_4 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_volatile_motes_produces_tmp
+						value = 4
+					}
+				}
+				d_volatile_motes_5 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_volatile_motes_produces_tmp
+						value = 5
+					}
+				}
+				d_zro_deposit_1 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_zro_produces_tmp
+						value = 1
+					}
+				}
+				d_zro_deposit_2 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_zro_produces_tmp
+						value = 2
+					}
+				}
+				d_zro_deposit_3 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_zro_produces_tmp
+						value = 3
+					}
+				}
+				d_zro_deposit_4 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_zro_produces_tmp
+						value = 4
+					}
+				}
+				d_zro_deposit_5 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_zro_produces_tmp
+						value = 5
+					}
+				}
+				d_dark_matter_deposit_1 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_dark_matter_produces_tmp
+						value = 1
+					}
+				}
+				d_dark_matter_deposit_2 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_dark_matter_produces_tmp
+						value = 2
+					}
+				}
+				d_dark_matter_deposit_3 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_dark_matter_produces_tmp
+						value = 3
+					}
+				}
+				d_dark_matter_deposit_10 = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_dark_matter_produces_tmp
+						value = 10
+					}
+				}
+				d_living_metal_deposit = {
+					change_variable = {
+						which = oxr_mdlc_origin_null_planet_living_metal_produces_tmp
+						value = 1
+					}
+				}
+			}
+		}
+
+
+		# Mult by 10 so we dont have to do this in the mega/resources block
+		# The representative deposit 'resources' block will read these vars to produce resources
+		multiply_variable = {
+			which = oxr_mdlc_origin_null_planet_energy_produces_tmp
+			value = @oxr_mdlc_origin_null_base_deposit_mult_value
+		}
+		multiply_variable = {
+			which = oxr_mdlc_origin_null_planet_minerals_produces_tmp
+			value = @oxr_mdlc_origin_null_base_deposit_mult_value
+		}
+		multiply_variable = {
+			which = oxr_mdlc_origin_null_planet_food_produces_tmp
+			value = @oxr_mdlc_origin_null_base_deposit_mult_value
+		}
+		multiply_variable = {
+			which = oxr_mdlc_origin_null_planet_alloys_produces_tmp
+			value = @oxr_mdlc_origin_null_base_deposit_mult_value
+		}
+		# The deposit will reference these planet vars in its 'produces' block
+
+		# How much debris shall decomposing it generate?
+		set_variable = {
+			which = oxr_mdlc_origin_null_planet_oxr_mdlc_resource_null_mega_debris_produces_tmp
+			value = oxr_mdlc_origin_null_starting_planet_size
+		}
+		# A size 30 world, each year its ( planet size - 1 ) * 1000 in debris would be 465000 -- too much
+		# size 30 world each year producing (planet size - 1 ) * 100 in debris would produce 46500
+		# Also, this var will be updated yearly
+		# TODO: make this multiplication based on the type of mega doing the deconstructing ?
+		multiply_variable = {
+			which = oxr_mdlc_origin_null_planet_oxr_mdlc_resource_null_mega_debris_produces_tmp
+			value = 100
+		}
+
+}
+
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_uninhabitable_regular_planets = {
+	# Barren, frozen, toxic, molten
+	# switch = {
+	# 	trigger = is_planet_class
+	# 	pc_molten = { }
+	# 	pc_barren = { }
+	# 	pc_barren_cold = { }
+	# 	pc_toxic = { }
+	# 	pc_frozen = { }
+	# }
+	log = "noop"
+}
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_stars = {
+	# Scale effects based on star size
+	log = "noop"
+}
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_asteroids = {
+	# Produce minerals, but also SR if there is a deposit
+	log = "noop"
+}
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_artificial_planets = {
+	# Machine, habitat, ringworld, lathe, nanite
+}
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_black_holes = {
+	log = "noop"
+}
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_special_stars = {
+	# pulsar, neutron star
+	log = "noop"
+}
+
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_special_planets = {
+	# shrouded, shielded, broken, shattered
+	log = "noop"
+}
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_unknown = {
+	# if we can't detect the planet class ... maybe rely on merger triggers for this
+	log = "noop"
+}
+
+# Major mod compatibility
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_gigastructural_classes = {
+	# Need special tech to consume alderson disk, birch world
+	log = "noop"
+}
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_planetary_diversity_classes = { log = "noop" }
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_forgotten_queens_classes = { log = "noop" }
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_cellaris_classes = { log = "noop" }
+oxr_mdlc_origin_null_mega_set_up_planet_consumption_for_acot_habitats = { log = "noop" }
+
+
+###########################################################
+
+oxr_mdlc_origin_null_mega_iterate_values_create_deposits_for_consumption = {
+	while = {
+		count = oxr_mdlc_origin_null_planet_$RESOURCE$_produces_tmp
+		add_deposit = oxr_mdlc_d_origin_null_decompose_resources_$RESOURCE$
+	}
+}
+
+oxr_mdlc_planet_calculate_decomposer_stage_values = {
+	## STACK LEVEL @
+	# Create 7 variables, which will be the size of the situation stages
+	# Stage as function of percent of duration
+	# 1    2     3     4     5     6     7
+	# 5% / 10% / 15% / 25% / 25% / 15% / 5%
+	export_trigger_value_to_variable = {
+		trigger = planet_size
+		variable = oxr_mdlc_planet_decomposer_planet_starting_size
+	}
+	# Planet size is 1:1 how many years it takes to decompose
+	set_variable = {
+		which = oxr_mdlc_planet_decomposer_total_days
+		value = this.oxr_mdlc_planet_decomposer_planet_starting_size
+	}
+	# Size * 1 year = total days to decompose the planet
+	multiply_variable = {
+		which = oxr_mdlc_planet_decomposer_total_days
+		value = 360
+	}
+	
+	# multiply each stage now by its fraction of time, in relation to the whole
+	# in order to make each stage the appropriate length of time
+	# stage 1 takes 5% of the total time, so mult by 0.05
+	# 1    2     3     4     5     6     7
+	# 5% / 10% / 15% / 25% / 25% / 15% / 5%
+
+	oxr_mdlc_planet_calculate_decomposer_single_stage_value = {
+		VAR = oxr_mdlc_planet_decomposer_situation_stage_1_progress
+		STAGE_LENGTH_DECIMAL = 0.05
+		SIZE_100_DAYS_FOR_STAGE = 1800
+	}
+
+	oxr_mdlc_planet_calculate_decomposer_single_stage_value = {
+		VAR = oxr_mdlc_planet_decomposer_situation_stage_2_progress
+		STAGE_LENGTH_DECIMAL = 0.1
+		SIZE_100_DAYS_FOR_STAGE = 3600
+	}
+
+	oxr_mdlc_planet_calculate_decomposer_single_stage_value = {
+		VAR = oxr_mdlc_planet_decomposer_situation_stage_3_progress
+		STAGE_LENGTH_DECIMAL = 0.15
+		SIZE_100_DAYS_FOR_STAGE = 5400
+	}
+
+	oxr_mdlc_planet_calculate_decomposer_single_stage_value = {
+		VAR = oxr_mdlc_planet_decomposer_situation_stage_4_progress
+		STAGE_LENGTH_DECIMAL = 0.25
+		SIZE_100_DAYS_FOR_STAGE = 9000
+	}
+
+	oxr_mdlc_planet_calculate_decomposer_single_stage_value = {
+		VAR = oxr_mdlc_planet_decomposer_situation_stage_5_progress
+		STAGE_LENGTH_DECIMAL = 0.25
+		SIZE_100_DAYS_FOR_STAGE = 9000
+	}
+
+	oxr_mdlc_planet_calculate_decomposer_single_stage_value = {
+		VAR = oxr_mdlc_planet_decomposer_situation_stage_6_progress
+		STAGE_LENGTH_DECIMAL = 0.15
+		SIZE_100_DAYS_FOR_STAGE = 5400
+	}
+
+	oxr_mdlc_planet_calculate_decomposer_single_stage_value = {
+		VAR = oxr_mdlc_planet_decomposer_situation_stage_7_progress
+		STAGE_LENGTH_DECIMAL = 0.05
+		SIZE_100_DAYS_FOR_STAGE = 1800
+	}
+
+
+}
+
+oxr_mdlc_planet_calculate_decomposer_single_stage_value = {
+	# $VAR$ - name of var to store this value in
+	# $STAGE_LENGTH_DECIMAL$ - percent value represented in decimal form
+	# $SIZE_100_DAYS_FOR_STAGE$ - How many days would stage 1 be for a size 100 planet
+	# Sets a new var, $VAR$_monthly_progress
+
+	## STACK LEVEL 3
+
+	# Take total number of days, and multiply by what percent of the total is this stage
+	set_variable = {
+		which = $VAR$
+		value = this.oxr_mdlc_planet_decomposer_total_days
+	}
+	multiply_variable = {
+		which = $VAR$
+		value = $STAGE_LENGTH_DECIMAL$
+	}
+	# Now that we have the number of days .. let's say that's 540 days
+	# divide the known base amount of stage 1 days for a size 100 planet
+	set_variable = {
+		which = $VAR$_stage_multiplier
+		value = $SIZE_100_DAYS_FOR_STAGE$
+	}
+	divide_variable = {
+		which = $VAR$_stage_multiplier
+		value = $VAR$
+	}
+	# $VAR$_stage_multiplier will be compounded to the monthly progress for the given stage
+
+
+}
+oxr_mdlc_planet_calculate_decomposer_stage_monthly_progress_amount = {
+	# $VAR$ - source var of stage, holds number of days the stage should last
+}
+
+# EOF
