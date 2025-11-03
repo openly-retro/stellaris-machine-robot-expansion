@@ -381,7 +381,7 @@ def write_sorted_filtered_data_to_json_files(input_data: dict):
 def qa_pipeline_files(sorted_files):
     # if not os.path.exists(BUILD_FOLDER):
     #     sys.exit(
-    #         'Couldnt find the build folder. Run this from within the mre_code_tools folder, '
+    #         'Couldnt find the build folder. Run this from within the mrec_tools folder, '
     #         'and make sure that "run_mre_trait_pipeline" was run.'
     #     )
     for filename in sorted_files:

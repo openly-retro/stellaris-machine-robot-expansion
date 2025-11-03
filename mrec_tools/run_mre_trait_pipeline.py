@@ -103,7 +103,7 @@ if __name__=="__main__":
         )
     ):
         sys.exit(
-            "!Whoops! Run this script from the mod root folder, not in the mre_code_tools folder,"
+            "!Whoops! Run this script from the mod root folder, not in the mrec_tools folder,"
             "because it will write to some of the mod files directly."
         )
     print(horiz)

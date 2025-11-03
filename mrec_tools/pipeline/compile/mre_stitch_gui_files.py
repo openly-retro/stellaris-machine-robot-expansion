@@ -11,7 +11,7 @@ from pipeline.mre_common_vars import (
 )
 HERE = os.getcwd()
 CODE_TOOLS_PATH = os.path.join(
-    HERE, 'mre_code_tools'
+    HERE, 'mrec_tools'
 )
 TEMPLATE_FOLDER = os.path.join(
     HERE,CODE_TOOLS_PATH,

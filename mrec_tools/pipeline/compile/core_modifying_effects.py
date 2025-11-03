@@ -142,7 +142,7 @@ def gen_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines(input_files_li
         " {{ xvcv_mdlc_core_modifying_refund_trait_resources_cost_{rarity} = yes }} }}"
     )
     for trait_json_data_path in input_files_list:
-        # Iterate through mre_code_tools/compile/20_mre_<leader_class>_traits_for_codegen.json
+        # Iterate through mrec_tools/compile/20_mre_<leader_class>_traits_for_codegen.json
         # On opening each file we know what leader class it is
         with open(trait_json_data_path, "r") as codegen_stream:
             _tmp = json_load(codegen_stream)

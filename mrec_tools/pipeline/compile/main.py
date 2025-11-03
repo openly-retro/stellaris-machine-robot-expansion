@@ -154,7 +154,7 @@ def pipeline_stitch_xvcv_mdlc_leader_making_start_button_effect():
     # official, scientist, commander
     # 85_leader_making_start_button_effect_
     templates_src_folder = os.path.join(
-        os.getcwd(),'mre_code_tools','templates', 'button_effects'
+        os.getcwd(),'mrec_tools','templates', 'button_effects'
     )
 
     template_files_to_be_stitched = [
@@ -286,7 +286,7 @@ def run_codegen_process_for_ingame_feature(
     write_directly_to_mod_files=False
 ):
     """ Do all code gen for core_modifying and leader_making
-    This assumes it is being called from the mod root, not mre_code_tools
+    This assumes it is being called from the mod root, not mrec_tools
     so it can find the common and localisation folders
     """
     buffer = ''
