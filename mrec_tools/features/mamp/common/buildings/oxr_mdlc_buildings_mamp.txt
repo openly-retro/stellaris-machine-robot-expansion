@@ -1,0 +1,226 @@
+oxr_mdlc_mamp_frame_factory_1 = {
+	# icon = "gfx/interface/icons/buildings/oxr_mdlc_mamp_frame_factory_1.dds"
+	base_buildtime = @b1_time
+	base_cap_amount = 1
+
+	category = pop_assembly
+
+	potential = {
+		exists = owner
+		owner = {
+			is_machine_empire = yes
+			has_ascension_perk = oxr_mdlc_ap_mamp
+			has_technology = oxr_mdlc_tech_mamp_1
+		}
+	}
+
+	allow = {
+		OR = {
+			has_active_building = building_machine_assembly_plant
+			has_active_building = building_machine_assembly_complex
+		}
+		hidden_trigger = {
+			OR = {
+				owner = { is_ai = no }
+				NAND = {
+					free_district_slots = 0
+					free_building_slots <= 1
+					free_housing <= 0
+					free_jobs <= 0
+				}
+			}
+		}
+	}
+
+	destroy_trigger = {
+		exists = owner
+		OR = {
+			owner = { is_robot_empire = no }
+			AND = {
+				owner = { is_ai = yes }
+				free_district_slots = 0
+				free_building_slots = 0
+				free_housing <= 0
+				free_jobs <= 0
+			}
+		}
+		owner = {
+			has_oxr_mdlc_ap_mamp = no
+		}
+	}
+
+	planet_modifier = {}
+	resources = {
+		category = planet_buildings
+		cost = {
+			minerals = 100
+			energy = 800
+			alloys = 600
+			exotic_gases = 300
+			volatile_motes = 150
+		}
+		upkeep = {
+			energy = 20
+			alloys = 2
+		}
+	}
+	upgrades = { oxr_mdlc_mamp_frame_factory_2 }
+	prerequisites = { "oxr_mdlc_tech_mamp_1" }
+	building_sets = {
+		government
+		urban
+		industrial
+		foundry
+		pop_assembly
+	}
+}
+oxr_mdlc_mamp_frame_factory_2 = {
+	# icon = "gfx/interface/icons/buildings/oxr_mdlc_mamp_frame_factory_1.dds"
+	base_buildtime = @b1_time
+	base_cap_amount = 1
+
+	category = pop_assembly
+
+	potential = {
+		exists = owner
+		owner = {
+			is_machine_empire = yes
+			has_ascension_perk = oxr_mdlc_ap_mamp
+		}
+	}
+
+	allow = {
+		has_active_building = oxr_mdlc_mamp_frame_factory_1
+		hidden_trigger = {
+			OR = {
+				owner = { is_ai = no }
+				NAND = {
+					free_district_slots = 0
+					free_building_slots <= 1
+					free_housing <= 0
+					free_jobs <= 0
+				}
+			}
+		}
+	}
+
+	destroy_trigger = {
+		exists = owner
+		OR = {
+			owner = { is_robot_empire = no }
+			AND = {
+				owner = { is_ai = yes }
+				free_district_slots = 0
+				free_building_slots = 0
+				free_housing <= 0
+				free_jobs <= 0
+			}
+		}
+		owner = {
+			has_oxr_mdlc_ap_mamp = no
+		}
+	}
+	planet_modifier = { }
+	resources = {
+		category = planet_buildings
+		cost = {
+			minerals = 500
+			energy = 4000
+			alloys = 3000
+			exotic_gases = 600
+			volatile_motes = 450
+		}
+		upkeep = {
+			energy = 40
+			alloys = 5
+		}
+	}
+	upgrades = { oxr_mdlc_mamp_frame_factory_3 }
+	prerequisites = { "oxr_mdlc_tech_mamp_2" }
+	building_sets = {
+		government
+		urban
+		industrial
+		foundry
+		pop_assembly
+	}
+}
+oxr_mdlc_mamp_frame_factory_3 = {
+	# icon = "gfx/interface/icons/buildings/oxr_mdlc_mamp_frame_factory_1.dds"
+	base_buildtime = @b1_time
+	base_cap_amount = 1
+
+	category = pop_assembly
+
+	potential = {
+		exists = owner
+		owner = {
+			is_machine_empire = yes
+			has_ascension_perk = oxr_mdlc_ap_mamp
+		}
+		has_active_building = oxr_mdlc_mamp_frame_factory_2
+	}
+
+	allow = {
+		# OR = {
+		# 	has_active_building = building_machine_assembly_plant
+		# 	has_active_building = building_machine_assembly_complex
+		# }
+		
+		hidden_trigger = {
+			OR = {
+				owner = { is_ai = no }
+				NAND = {
+					free_district_slots = 0
+					free_building_slots <= 1
+					free_housing <= 0
+					free_jobs <= 0
+				}
+			}
+		}
+	}
+
+	destroy_trigger = {
+		exists = owner
+		OR = {
+			owner = { is_robot_empire = no }
+			AND = {
+				owner = { is_ai = yes }
+				free_district_slots = 0
+				free_building_slots = 0
+				free_housing <= 0
+				free_jobs <= 0
+			}
+		}
+		owner = {
+			has_oxr_mdlc_ap_mamp = no
+		}
+	}
+
+	planet_modifier = {
+		
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			minerals = 500
+			energy = 8000
+			alloys = 6000
+			exotic_gases = 900
+			volatile_motes = 900
+		}
+		upkeep = {
+			energy = 80
+			alloys = 10
+		}
+	}
+	prerequisites = { "oxr_mdlc_tech_mamp_3" }
+	building_sets = {
+		government
+		urban
+		industrial
+		foundry
+		pop_assembly
+	}
+}
