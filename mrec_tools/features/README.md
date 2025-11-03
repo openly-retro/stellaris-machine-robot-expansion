@@ -29,6 +29,15 @@ Leading to good filenames like
 
 Some files that are already in the code base are named slightly differently, they all get a free pass and also free Zro ice cream on Saturdays.
 
+# Development workflow
+
+1. Make some changes to the files in features/your_awesome_feature
+2. Commit the changes
+3. Sync the files from your feature to the main mod
+4. Test out the changes
+5. If this is for a fix or update to something that's live, you can commit the changes to both your feature folder and the main mod
+5.1. If this is for something brand new and it's not ready for prime time, remove the files in the main mod that were synced there
+
 # How to sync
 
 You will need **rsync** on your system for this. https://rsync.samba.org/ 
