@@ -1,0 +1,258 @@
+@battery_cost = 500
+@battery_cost_sr = 50
+@battery_maintenance = 5
+@battery_maintenance_high = 8
+@battery_maintenance_sr = 1
+@battery_district_buildtime = 150
+
+rikk_mdlc_district_battery_quarters = {
+	base_buildtime = @battery_district_buildtime
+	is_capped_by_modifier = no
+	exempt_from_ai_planet_specialization = yes
+	#default_starting_district = yes
+
+	zone_slots = {
+		rikk_mdlc_slot_battery_quarters
+		rikk_mdlc_slot_battery_01
+		rikk_mdlc_slot_battery_02
+	}
+	
+	show_on_uncolonized = {
+		exists = from
+		uses_district_set = rikk_mdlc_battery_world
+	}
+
+	potential = {
+		exists = owner
+		uses_district_set = rikk_mdlc_battery_world
+	}
+	
+	allow = {
+		owner = { is_machine_empire = yes }
+	}
+
+	conversion_ratio = 1
+	convert_to = {
+		district_crashed_slaver_ship
+		district_arcology_housing
+		district_rw_city
+		district_city
+		district_nexus
+		district_hive
+		district_prison
+		district_craglands
+		district_mindlink
+		district_crashed_slaver_ship
+		district_resort
+		district_slave
+	}
+
+	resources = {
+		category = planet_districts
+		cost = {
+			minerals = @battery_cost
+		}
+		upkeep = {
+			minerals = @battery_maintenance_high
+		}
+	}
+
+	planet_modifier = {
+		planet_housing_add = 2000
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_tradition = tr_prosperity_public_works }
+		}
+		modifier = {
+			planet_housing_add = 200
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				has_technology = tech_housing_1
+			}
+		}
+		modifier = {
+			planet_housing_add = 200
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				has_technology = tech_housing_2
+			}
+		}
+		modifier = {
+			planet_housing_add = 200
+		}
+	}
+}
+
+rikk_mdlc_district_battery_crime = {
+	base_buildtime = @battery_district_buildtime
+	is_capped_by_modifier = no
+
+	zone_slots = {
+		rikk_mdlc_slot_battery_crime
+	}
+	
+	show_on_uncolonized = {
+		exists = from
+		uses_district_set = rikk_mdlc_battery_world
+	}
+
+	potential = {
+		exists = owner
+		uses_district_set = rikk_mdlc_battery_world
+	}
+	
+	allow = {
+		owner = { is_machine_empire = yes }
+	}
+
+	resources = {
+		category = planet_districts
+		cost = {
+			minerals = @battery_cost
+			volatile_motes = @battery_cost_sr
+		}
+		upkeep = {
+			minerals = @battery_maintenance
+			volatile_motes = @battery_maintenance_sr
+		}
+		upkeep = {
+			trigger = { owner = { has_origin = oxr_mdlc_origin_world_machine_awakened } }
+			energy = 5
+		}
+	}
+	
+	#planet_modifier = {
+	#	planet_stability_add = 1
+	#}
+	
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			NOT = { owner = { has_origin = oxr_mdlc_origin_world_machine_awakened } }
+		} 
+		modifier = {
+			planet_housing_add = 200
+			job_patrol_drone_add = 300
+		}
+	}
+	
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+		} 
+		planet_crime_add = -60
+		defense_armies_add = 6
+	}
+}
+
+rikk_mdlc_district_battery_amenities = {
+	base_buildtime = @battery_district_buildtime
+	is_capped_by_modifier = no
+
+	zone_slots = {
+		rikk_mdlc_slot_battery_amenities
+	}
+	
+	show_on_uncolonized = {
+		exists = from
+		uses_district_set = rikk_mdlc_battery_world
+	}
+
+	potential = {
+		exists = owner
+		uses_district_set = rikk_mdlc_battery_world
+	}
+	
+	allow = {
+		owner = { is_machine_empire = yes }
+	}
+
+	resources = {
+		category = planet_districts
+		cost = {
+			minerals = @battery_cost
+			rare_crystals = @battery_maintenance_sr
+		}
+		upkeep = {
+			minerals = @battery_maintenance
+			rare_crystals = @battery_maintenance_sr
+		}
+		upkeep = {
+			trigger = { owner = { has_origin = oxr_mdlc_origin_world_machine_awakened } }
+			energy = 4
+		}
+	}
+
+	planet_modifier = {
+		planet_amenities_add = 1500
+	}
+	
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { 
+				AND = {
+					has_tradition = tr_versatility_finish
+				}
+			}
+		}
+		planet_amenities_add = 500
+	}
+	
+	triggered_desc = {
+		text = rikk_mdlc_battery_wmo_amenity_district_versatility_desc
+	}
+}
+
+rikk_mdlc_district_battery_processing = {
+	base_buildtime = @battery_district_buildtime
+	is_capped_by_modifier = no
+
+	zone_slots = {
+		rikk_mdlc_slot_battery_processing
+	}
+	
+	show_on_uncolonized = {
+		exists = from
+		uses_district_set = rikk_mdlc_battery_world
+	}
+
+	potential = {
+		exists = owner
+		uses_district_set = rikk_mdlc_battery_world
+	}
+	
+	allow = {
+		owner = { is_machine_empire = yes }
+	}
+
+	resources = {
+		category = planet_districts
+		cost = {
+			minerals = @battery_cost
+			exotic_gases = @battery_cost_sr
+		}
+		upkeep = {
+			minerals = @battery_maintenance
+			exotic_gases = @battery_maintenance_sr
+		}
+	}
+
+	planet_modifier = {
+		planet_technician_energy_produces_add = 0.10
+	}
+}

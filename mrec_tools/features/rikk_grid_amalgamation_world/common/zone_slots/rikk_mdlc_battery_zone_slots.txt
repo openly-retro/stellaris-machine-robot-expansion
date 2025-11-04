@@ -1,0 +1,96 @@
+# Planet District Zones
+#
+# Documentation: ./99_HOW_TO_ZONE.txt
+
+# TODO_CD: change to real slots
+
+rikk_mdlc_slot_battery_quarters = {
+	start = zone_default
+
+	include = {
+		zone_default
+	}
+
+	exclude = {
+	}
+
+    potential = { # planet scope
+        always = yes
+    }
+
+	unlock = { # planet scope
+		always = yes
+	}
+}
+
+rikk_mdlc_slot_battery_01 = {
+	include = {
+		zone_fortress
+		zone_urban
+		zone_trade
+		zone_urban_energy
+	}
+	exclude = {
+		zone_default
+		zone_minerals
+		zone_food
+		zone_energy
+	}
+
+	unlock = { # planet scope
+		always = yes
+	}
+}
+
+rikk_mdlc_slot_battery_02 = {
+	include = {
+		zone_fortress
+		zone_urban
+		zone_trade
+		zone_urban_energy
+	}
+	exclude = {
+		zone_default
+		zone_minerals
+		zone_food
+		zone_energy
+	}
+
+	unlock = { # planet scope
+		custom_tooltip = {
+			fail_text = zone_city_02_prereq
+			OR = {
+				is_capital = yes
+				AND = {
+					is_capital = no
+					exists = owner
+					owner = {
+						has_tech_or_functional_civic = {
+							TECH = tech_colonial_centralization
+						}
+					}
+					has_upgraded_capital = yes
+				}
+			}
+		}
+	}
+}
+
+rikk_mdlc_slot_battery_crime = {
+	include = {
+		rikk_mdlc_zone_suppression_unit
+		rikk_mdlc_zone_cooperation_unit
+	}
+}
+rikk_mdlc_slot_battery_amenities = {
+	include = {
+		rikk_mdlc_zone_amenity_support
+		rikk_mdlc_zone_abundancy_protocols
+	}
+}
+rikk_mdlc_slot_battery_processing = {
+	include = {
+		rikk_mdlc_zone_increased_processing
+		rikk_mdlc_zone_moderated_processing
+	}
+}
