@@ -1,0 +1,59 @@
+# This = owner of fleet
+# From = fleet
+# FromFrom = planet (if any)
+on_fleet_auto_move_arrival = {
+	events = {
+		xvcv_mdlc_civic_trading.12 #when a trading ship arrives at the opponent empire's capital world
+		xvcv_mdlc_civic_trading.13 #when a trading ship arrives at the player empire's capital world
+	}
+}
+# This = owner of ship 1 (destroyed)
+# From = owner of ship 2 (combatant)
+# FromFrom = ship 1
+# FromFromFrom = ship 2
+on_ship_destroyed_victim = {
+	events = {
+		xvcv_mdlc_civic_trading.14 #the effect event for a trading ship destroyed while transit
+	}
+}
+# Executes after a policy has been changed
+# use last_changed_policy to identify which policy it was
+# This = Country
+on_policy_changed = {
+	events = {
+		xvcv_mdlc_civic_trading.16 #'xvcv_mdlc_civic_trading_machine_trade' policy change effect event
+	}
+}
+#You have changed the location of your capital. Also called when a country's capital is first set e.g. during galaxy creation (but then FROM is not set)
+#this/root = new capital
+#from = old capital
+on_capital_changed = {
+	events = {
+		xvcv_mdlc_civic_trading.17 #when the trade ship owner's capital is lost or sold somehow
+	}
+}
+#This = destroyed country
+#From = optional, destroyer (country)
+on_country_destroyed = {
+	events = {
+		xvcv_mdlc_civic_trading.18 #abort special projects when the trade ship owner's opponent is destroyed
+		xvcv_mdlc_civic_trading.19 #destroy the trading ship and remove country flags when the trade ship owner's opponent is destroyed
+	}
+}
+# Executed just as country is changing its government, after the new one is applied
+# THIS = country
+on_post_government_changed = {
+	events = {
+		xvcv_mdlc_civic_trading.21 #clear variables and country flags for 'xvcv_mdlc_civic_trading_machine' civic when an empire doesn't have it
+	}
+}
+#'on_operation_cancelled' on_action trigger doesn't seem to work so I use this instead #don't know why #stellaris v3.4.3
+# A war is beginning, executed for every country in the war.
+# Root = Country
+# From = War
+on_war_beginning = {
+	events = {
+		xvcv_mdlc_civic_trading.22 #suspend trade when the trade ship owner enters a war against the trade opponent
+		xvcv_mdlc_civic_trading.23 #abort trade ship build special projects when the trade ship owner enters a war against the trade opponent
+	}
+}
