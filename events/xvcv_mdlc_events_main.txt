@@ -169,10 +169,6 @@ country_event = {
 					}
 				}
 
-				if = {
-					limit = { free_building_slots = 0 }
-					add_deposit = xvcv_mdlc_d_building_slot_plus_1
-				}
 				add_building = building_robot_assembly_plant
 			}
 
@@ -3245,33 +3241,6 @@ planet_event = {
 		
 
 	}
-}
-
-# Entry event for modifying the capital of any planet for a Machine emire
-planet_event = {
-	id = xvcv_mdlc.1004
-	hide_window = yes
-	is_triggered_only = yes
-
-	pre_triggers = {
-		has_owner = yes
-	}
-
-	trigger = {
-		NOT = { is_planet_class = pc_habitat }
-		# has_building = building_deployment_post
-		owner = {
-			OR = {
-				has_ascension_perk = xvcv_mdlc_ap_self_assembling_colony_ship
-				has_oxr_mdlc_origin_world_machine_awakened = yes
-			}
-		}
-	}
-
-	immediate = {
-		# Look out for compatibility with Ancient Empire
-	}
-
 }
 
 ## Synthetic Origin setup - no TMA
