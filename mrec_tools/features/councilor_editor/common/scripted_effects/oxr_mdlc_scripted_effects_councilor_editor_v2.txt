@@ -1,0 +1,123 @@
+## Version 2 of the councilor editor
+
+## Vars in the leader scope:
+# oxr_mdlc_councilor_editor_max_trait_points - a value that only ever increases
+# oxr_mdlc_councilor_editor_trait_points - goes up and down when adding/removing traits
+# oxr_mdlc_councilor_editor_max_trait_picks - a value that only ever increases
+# oxr_mdlc_councilor_editor_trait_picks - goes up and down with changes
+
+oxr_mdlc_councilor_editor_set_maximum_trait_points_for_leader = {
+	# call in leader scope
+	# Set base points based on councilor level
+	log = "welcome to set max trait points for leader \\[This.GetName] "
+	export_trigger_value_to_variable = {
+		trigger = has_base_skill
+		variable = oxr_mdlc_councilor_editor_max_trait_points
+	}
+	# Add one, because Machine species start with 1 point
+	change_variable = {
+		which = oxr_mdlc_councilor_editor_max_trait_points
+		value = 1
+	}
+
+	# Gestalt Machine councilors don't inherit species traits,
+	# So give them points for picking traits, from various tech
+	export_modifier_to_variable = {
+		modifier = owner.MACHINE_species_trait_points_add
+		variable = oxr_mdlc_councilor_editor_species_trait_points
+	}
+	change_variable = {
+		which = oxr_mdlc_councilor_editor_max_trait_points
+		value = oxr_mdlc_councilor_editor_species_trait_points
+	}
+	clear_variable = oxr_mdlc_councilor_editor_species_trait_points
+
+	## TECH
+	# Add bonus points from modifier, which is increased via tech
+	export_modifier_to_variable = {
+		modifier = owner.oxr_mdlc_councilor_editor_bonus_trait_points_add
+		variable = oxr_mdlc_councilor_editor_bonus_trait_points_add_var
+	}
+	change_variable = {
+		which = oxr_mdlc_councilor_editor_max_trait_points
+		value = oxr_mdlc_councilor_editor_bonus_trait_points_add_var
+	}
+	clear_variable = oxr_mdlc_councilor_editor_bonus_trait_points_add_var
+
+	# Janky stuff we have to do because custom GUIs are always stuck in country scope
+	owner = {
+		set_variable = {
+			which = oxr_mdlc_councilor_editor_max_trait_points
+			value = prev.oxr_mdlc_councilor_editor_max_trait_points
+		}
+	}
+}
+
+oxr_mdlc_councilor_editor_set_maximum_trait_picks_for_leader = {
+	# Game default number of picks according to Machine species archetype
+	# @machine_max_traits = 5
+	set_variable = {
+		which = oxr_mdlc_councilor_editor_max_trait_picks
+		value = 5
+	}
+	log = "welcome to set max trait picks for leader \\[This.GetName] "
+
+	# Gestalt Machine councilors don't inherit species traits,
+	# So give them picks
+	export_modifier_to_variable = {
+		modifier = owner.MACHINE_species_trait_picks_add
+		variable = oxr_mdlc_councilor_editor_species_trait_picks_var
+	}
+	change_variable = {
+		which = oxr_mdlc_councilor_editor_max_trait_picks
+		value = oxr_mdlc_councilor_editor_species_trait_picks_var
+	}
+	clear_variable = oxr_mdlc_councilor_editor_species_trait_picks_var
+
+	## TECH
+	# Add bonus points from modifier, which is increased via tech
+	export_modifier_to_variable = {
+		modifier = owner.oxr_mdlc_councilor_editor_bonus_trait_picks_add
+		variable = oxr_mdlc_councilor_editor_bonus_trait_picks_add_var
+	}
+	change_variable = {
+		which = oxr_mdlc_councilor_editor_max_trait_picks
+		value = oxr_mdlc_councilor_editor_bonus_trait_picks_add_var
+	}
+	clear_variable = oxr_mdlc_councilor_editor_bonus_trait_picks_add_var	
+
+	# Janky stuff we have to do because custom GUIs are always stuck in country scope
+	owner = {
+		set_variable = {
+			which = oxr_mdlc_councilor_editor_max_trait_picks
+			value = prev.oxr_mdlc_councilor_editor_max_trait_picks
+		}
+		log = "Value of councilor max trait picks is \\[This.oxr_mdlc_councilor_editor_max_trait_picks] "
+	}
+	
+}
+
+oxr_mdlc_councilor_editor_run_effects_at_gui_launch = {
+	# Currently at effects stack level 2 ?
+	oxr_mdlc_councilor_editor_set_maximum_trait_points_for_leader = yes
+	oxr_mdlc_councilor_editor_set_maximum_trait_picks_for_leader = yes
+	# These next 2 are also used by the reset button in the GUI
+	oxr_mdlc_councilor_editor_reset_trait_picks_default = yes
+	oxr_mdlc_councilor_editor_reset_trait_points_default = yes
+
+	# Does not distinguish by class, just check all
+	oxr_mdlc_councilor_editor_deduct_points_picks_for_existing_traits = yes
+
+	# now, after leader stuff has been calculated, set vars on the country
+	# because spaghetti
+	owner = {
+		set_variable = {
+			which = oxr_mdlc_councilor_editor_trait_points
+			value = prev.oxr_mdlc_councilor_editor_trait_points
+		}
+		set_variable = {
+			which = oxr_mdlc_councilor_editor_trait_picks
+			value = prev.oxr_mdlc_councilor_editor_trait_picks
+		}
+	}
+}

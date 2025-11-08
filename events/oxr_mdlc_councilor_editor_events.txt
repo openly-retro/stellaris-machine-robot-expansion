@@ -1,0 +1,182 @@
+namespace = oxr_mdlc_councilor_editor
+
+country_event = {
+	id = oxr_mdlc_councilor_editor.10
+	title = oxr_mdlc_councilor_editor.10.name
+	desc = oxr_mdlc_councilor_editor.10.desc
+	picture = GFX_evt_source_code_reprogramming_red
+	is_triggered_only = yes
+
+	option = {
+		name = "oxr_mdlc_councilor_editor.10.1.name"
+		allow = {
+			NOT = { has_country_flag = oxr_mdlc_councilor_editor_in_progress }
+			is_machine_empire = yes
+		}
+		hidden_effect = {
+			every_owned_leader = {
+				limit = {
+					exists = owner
+					is_councilor_type = councilor_gestalt_regulatory
+				}
+				# One target for locs
+				save_global_event_target_as = oxr_mdlc_councilor_editor_target_@root
+				# One target for code ... ?
+				save_global_event_target_as = oxr_mdlc_councilor_editor_target_@owner
+				log = "regulatory Event target: [event_target:oxr_mdlc_councilor_editor_target_@root.GetName]"
+			}
+			event_target:oxr_mdlc_councilor_editor_target_@owner = {
+				leader_event = { id = oxr_mdlc_councilor_editor.20 }
+			}
+			set_country_flag = oxr_mdlc_councilor_editor_in_progress
+		}
+	}
+	option = {
+		name = "oxr_mdlc_councilor_editor.10.2.name"
+		allow = {
+			NOT = { has_country_flag = oxr_mdlc_councilor_editor_in_progress }
+			is_machine_empire = yes
+		}
+		hidden_effect = {
+			every_owned_leader = {
+				limit = {
+					exists = owner
+					is_councilor_type = councilor_gestalt_cognitive
+				}
+				save_global_event_target_as = oxr_mdlc_councilor_editor_target_@root
+				log = "Event target: [event_target:oxr_mdlc_councilor_editor_target_@root.GetName]"
+				leader_event = { id = oxr_mdlc_councilor_editor.21 }
+			}
+			set_country_flag = oxr_mdlc_councilor_editor_in_progress
+		}
+	}
+	option = {
+		name = "oxr_mdlc_councilor_editor.10.3.name"
+		allow = {
+			NOT = { has_country_flag = oxr_mdlc_councilor_editor_in_progress }
+			is_machine_empire = yes
+		}
+		hidden_effect = {
+			every_owned_leader = {
+				limit = {
+					exists = owner
+					is_councilor_type = councilor_gestalt_growth
+				}
+				save_global_event_target_as = oxr_mdlc_councilor_editor_target_@root
+				log = "Event target: [event_target:oxr_mdlc_councilor_editor_target_@root.GetName]"
+				leader_event = { id = oxr_mdlc_councilor_editor.22 }
+			}
+			set_country_flag = oxr_mdlc_councilor_editor_in_progress
+		}
+	}
+	option = {
+		name = "oxr_mdlc_councilor_editor.10.4.name"
+		allow = {
+			NOT = { has_country_flag = oxr_mdlc_councilor_editor_in_progress }
+			is_machine_empire = yes
+		}
+		hidden_effect = {
+			every_owned_leader = {
+				limit = {
+					exists = owner
+					is_councilor_type = councilor_gestalt_legion
+				}
+				save_global_event_target_as = oxr_mdlc_councilor_editor_target_@root
+				log = "Event target: [event_target:oxr_mdlc_councilor_editor_target_@root.GetName]"
+				leader_event = { id = oxr_mdlc_councilor_editor.23 }
+			}
+			set_country_flag = oxr_mdlc_councilor_editor_in_progress
+		}
+	}
+	option = {
+		name = "oxr_mdlc_councilor_editor.10.5.name"
+		allow = { always = yes }
+		default_hide_option = yes
+		hidden_effect = { }
+	}
+}
+
+# REGULATORY
+leader_event = {
+	id = oxr_mdlc_councilor_editor.20
+	title = "oxr_mdlc_councilor_editor_window_gui_title"
+	desc = "oxr_mdlc_councilor_editor_compound_info"
+	is_triggered_only = yes
+	diplomatic = yes
+
+	immediate = {
+		# event_target:oxr_mdlc_councilor_editor_target_@root = {
+			log = "We are in the regulatory node editor start event!"
+			log = "node is \\[This.GetName] "
+			oxr_mdlc_councilor_editor_run_effects_at_gui_launch = yes
+		# }
+	}
+	picture_event_data = {
+		graphical_culture = root.owner
+		portrait = this
+	}
+	custom_gui = oxr_mdlc_councilor_editor_regulatory
+	option = { name = xvcv_mdlc_customgui.1.a }
+}
+
+# COGNITIVE
+leader_event = {
+	id = oxr_mdlc_councilor_editor.21
+	title = "oxr_mdlc_councilor_editor_window_gui_title"
+	desc = "oxr_mdlc_councilor_editor_compound_info"
+	is_triggered_only = yes
+	diplomatic = yes
+
+	immediate = {
+		# event_target:oxr_mdlc_councilor_editor_target_@root = {
+			oxr_mdlc_councilor_editor_run_effects_at_gui_launch = yes
+		# }
+	}
+
+	picture_event_data = {
+		graphical_culture = root.owner
+		portrait = event_target:oxr_mdlc_councilor_editor_target_@root
+	}
+	custom_gui = oxr_mdlc_councilor_editor_cognitive
+	option = { name = xvcv_mdlc_customgui.1.a }
+}
+
+# GROWTH
+leader_event = {
+	id = oxr_mdlc_councilor_editor.22
+	title = "oxr_mdlc_councilor_editor_window_gui_title"
+	desc = "oxr_mdlc_councilor_editor_compound_info"
+	is_triggered_only = yes
+	diplomatic = yes
+	immediate = {
+		# event_target:oxr_mdlc_councilor_editor_target_@root = {
+			oxr_mdlc_councilor_editor_run_effects_at_gui_launch = yes
+		# }
+	}
+	picture_event_data = {
+		graphical_culture = root.owner
+		portrait = event_target:oxr_mdlc_councilor_editor_target_@root
+	}
+	custom_gui = oxr_mdlc_councilor_editor_growth
+	option = { name = xvcv_mdlc_customgui.1.a }
+}
+
+# LEGION
+leader_event = {
+	id = oxr_mdlc_councilor_editor.23
+	title = "oxr_mdlc_councilor_editor_window_gui_title"
+	desc = "oxr_mdlc_councilor_editor_compound_info"
+	is_triggered_only = yes
+	diplomatic = yes
+	immediate = {
+		# event_target:oxr_mdlc_councilor_editor_target_@root = {
+			oxr_mdlc_councilor_editor_run_effects_at_gui_launch = yes
+		# }
+	}
+	picture_event_data = {
+		graphical_culture = root.owner
+		portrait = event_target:oxr_mdlc_councilor_editor_target_@root
+	}
+	custom_gui = oxr_mdlc_councilor_editor_legion
+	option = { name = xvcv_mdlc_customgui.1.a }
+}

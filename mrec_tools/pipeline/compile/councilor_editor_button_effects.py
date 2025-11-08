@@ -70,7 +70,7 @@ oxr_mdlc_councilor_editor_reset_traits_button_effect = {
         custom_tooltip = oxr_mdlc_councilor_editor_reset_button_tooltip_1
 		custom_tooltip = oxr_mdlc_councilor_editor_reset_button_tooltip_2
         hidden_effect = {
-            event_target:oxr_mdlc_councilor_editor_target_@root_0 = {
+            event_target:oxr_mdlc_councilor_editor_target_@root = {
 """
     scripted_trigger_footer = """
             	oxr_mdlc_councilor_editor_reset_trait_picks_default = yes
@@ -194,12 +194,12 @@ def gen_councilor_editor_traits_button_effects_code(
 #{councilor_type} #{trait_name} #{rarity}
 oxr_mdlc_councilor_editor_{councilor_type}_{trait_name}_add_button_effect = {{
 	potential = {{
-		event_target:oxr_mdlc_councilor_editor_target_@root_0 = {{ NOT = {{ has_trait = {trait_name} }} }}
+		event_target:oxr_mdlc_councilor_editor_target_@root = {{ NOT = {{ has_trait = {trait_name} }} }}
 	}}
 	allow = {{
 		custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_{leader_class}_{trait_name}
 		oxr_mdlc_councilor_editor_check_trait_resources_cost_{rarity} = yes
-		event_target:oxr_mdlc_councilor_editor_target_@root_0 = {{
+		event_target:oxr_mdlc_councilor_editor_target_@root = {{
 			oxr_mdlc_councilor_editor_check_trait_points_cost_{rarity} = yes
 			oxr_mdlc_councilor_editor_check_trait_picks = yes
 			oxr_mdlc_leader_{leader_class}_can_add_{trait_name_no_tier} = yes
@@ -209,13 +209,13 @@ oxr_mdlc_councilor_editor_{councilor_type}_{trait_name}_add_button_effect = {{
 	}}
 	effect = {{
 		custom_tooltip = oxr_mdlc_councilor_editor_show_trait_total_cost_{rarity}
-		event_target:oxr_mdlc_councilor_editor_target_@root_0 = {{
+		event_target:oxr_mdlc_councilor_editor_target_@root = {{
 			oxr_mdlc_councilor_editor_remove_tier_1_or_2_traits_effect = {{ TRAIT_NAME = {trait_name_no_tier} }}
 			add_trait = {{ trait = {trait_name} show_message = no }}
 		}}
 		hidden_effect = {{
 			oxr_mdlc_councilor_editor_deduct_trait_resources_cost_{rarity} = yes
-			event_target:oxr_mdlc_councilor_editor_target_@root_0 = {{
+			event_target:oxr_mdlc_councilor_editor_target_@root = {{
 				oxr_mdlc_councilor_editor_deduct_trait_points_cost_{rarity} = yes
 				oxr_mdlc_councilor_editor_deduct_trait_pick = yes
 			}}
@@ -224,13 +224,13 @@ oxr_mdlc_councilor_editor_{councilor_type}_{trait_name}_add_button_effect = {{
 }}
 oxr_mdlc_councilor_editor_{councilor_type}_{trait_name}_remove_button_effect = {{
 	potential = {{
-		event_target:oxr_mdlc_councilor_editor_target_@root_0 = {{ has_trait = {trait_name} }}
+		event_target:oxr_mdlc_councilor_editor_target_@root = {{ has_trait = {trait_name} }}
 	}}
 	allow = {{ always = yes }}
 	effect = {{
 		custom_tooltip = xvcv_mdlc_core_modifying_tooltip_remove_{leader_class}_{trait_name}
 		hidden_effect = {{
-			event_target:oxr_mdlc_councilor_editor_target_@root_0 = {{
+			event_target:oxr_mdlc_councilor_editor_target_@root = {{
 				remove_trait = {trait_name}
 				oxr_mdlc_councilor_editor_refund_trait_points_cost_{rarity} = yes
 				oxr_mdlc_councilor_editor_refund_trait_pick = yes
