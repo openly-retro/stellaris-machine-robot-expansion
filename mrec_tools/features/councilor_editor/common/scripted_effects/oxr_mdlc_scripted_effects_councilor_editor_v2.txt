@@ -21,11 +21,33 @@ oxr_mdlc_councilor_editor_set_maximum_trait_points_for_leader = {
 	}
 
 	# Gestalt Machine councilors don't inherit species traits,
-	# So give them points for picking traits, from various tech
-	export_modifier_to_variable = {
-		modifier = owner.MACHINE_species_trait_points_add
-		variable = oxr_mdlc_councilor_editor_species_trait_points
+	# So give them points for picking traits, from various tech\
+	owner = {
+		export_modifier_to_variable = {
+			modifier = MACHINE_species_trait_points_add
+			variable = oxr_mdlc_councilor_editor_species_trait_points_modifier_var
+		}
 	}
+	set_variable = {
+		which = oxr_mdlc_councilor_editor_species_trait_points
+		value = owner.oxr_mdlc_councilor_editor_species_trait_points_modifier_var
+	}
+	# owner = {
+	# 	clear_variable = oxr_mdlc_councilor_editor_species_trait_points_modifier_var
+	# }
+	# Cut species bonus in half.. this can blow up quite a lot
+	divide_variable = {
+		which = oxr_mdlc_councilor_editor_species_trait_points
+		value = 2
+	}
+	ceiling_variable = oxr_mdlc_councilor_editor_species_trait_points
+	owner = {
+		set_variable = {
+			which = oxr_mdlc_councilor_editor_species_trait_points_modifier_var
+			value = prev.oxr_mdlc_councilor_editor_species_trait_points
+		}
+	}
+	
 	change_variable = {
 		which = oxr_mdlc_councilor_editor_max_trait_points
 		value = oxr_mdlc_councilor_editor_species_trait_points
@@ -34,16 +56,20 @@ oxr_mdlc_councilor_editor_set_maximum_trait_points_for_leader = {
 
 	## TECH
 	# Add bonus points from modifier, which is increased via tech
-	export_modifier_to_variable = {
-		modifier = owner.oxr_mdlc_councilor_editor_bonus_trait_points_add
-		variable = oxr_mdlc_councilor_editor_bonus_trait_points_add_var
+	owner = {
+		export_modifier_to_variable = {
+			modifier = oxr_mdlc_councilor_editor_bonus_trait_points_add
+			variable = oxr_mdlc_councilor_editor_bonus_trait_points_add_var
+		}
 	}
 	change_variable = {
 		which = oxr_mdlc_councilor_editor_max_trait_points
-		value = oxr_mdlc_councilor_editor_bonus_trait_points_add_var
+		value = owner.oxr_mdlc_councilor_editor_bonus_trait_points_add_var
 	}
-	clear_variable = oxr_mdlc_councilor_editor_bonus_trait_points_add_var
-
+	# owner = {
+	# 	clear_variable = oxr_mdlc_councilor_editor_bonus_trait_points_add_var
+	# }
+	
 	# Janky stuff we have to do because custom GUIs are always stuck in country scope
 	owner = {
 		set_variable = {
@@ -64,27 +90,38 @@ oxr_mdlc_councilor_editor_set_maximum_trait_picks_for_leader = {
 
 	# Gestalt Machine councilors don't inherit species traits,
 	# So give them picks
-	export_modifier_to_variable = {
-		modifier = owner.MACHINE_species_trait_picks_add
-		variable = oxr_mdlc_councilor_editor_species_trait_picks_var
+	owner = {
+		export_modifier_to_variable = {
+			modifier = MACHINE_species_trait_picks_add
+			variable = oxr_mdlc_councilor_editor_species_trait_picks_var_modifier
+		}
 	}
+	
 	change_variable = {
 		which = oxr_mdlc_councilor_editor_max_trait_picks
-		value = oxr_mdlc_councilor_editor_species_trait_picks_var
+		value = owner.oxr_mdlc_councilor_editor_species_trait_picks_var_modifier
 	}
-	clear_variable = oxr_mdlc_councilor_editor_species_trait_picks_var
-
+	# owner = {
+	# 	clear_variable = oxr_mdlc_councilor_editor_species_trait_picks_var_modifier
+	# }
+	
 	## TECH
 	# Add bonus points from modifier, which is increased via tech
-	export_modifier_to_variable = {
-		modifier = owner.oxr_mdlc_councilor_editor_bonus_trait_picks_add
-		variable = oxr_mdlc_councilor_editor_bonus_trait_picks_add_var
+	owner = {
+		export_modifier_to_variable = {
+			modifier = oxr_mdlc_councilor_editor_bonus_trait_picks_add
+			variable = oxr_mdlc_councilor_editor_bonus_trait_picks_add_var_modifier
+		}
 	}
+	
 	change_variable = {
 		which = oxr_mdlc_councilor_editor_max_trait_picks
-		value = oxr_mdlc_councilor_editor_bonus_trait_picks_add_var
+		value = owner.oxr_mdlc_councilor_editor_bonus_trait_picks_add_var_modifier
 	}
-	clear_variable = oxr_mdlc_councilor_editor_bonus_trait_picks_add_var	
+	# owner = {
+	# 	clear_variable = oxr_mdlc_councilor_editor_bonus_trait_picks_add_var_modifier
+	# }
+	
 
 	# Janky stuff we have to do because custom GUIs are always stuck in country scope
 	owner = {
