@@ -130,3 +130,83 @@ oxr_mdlc_tech_organoid_3 = {
 		show_only_custom_tooltip = yes
 	}
 }
+
+# repeatables
+oxr_mdlc_tech_machine_species_points_picks_repeatable = {
+	area = engineering
+	cost = @[ repeatableTechBaseCost * 5 ]
+	cost_per_level = @[ repeatableTechLevelCost * 5 ]
+	tier = @repeatableTechTier
+	category = { industry }
+	levels = -1 #5% x 10 = 50% #use '-1' value for infinite researching
+	weight = @repeatableTechWeight
+
+	potential = {
+		has_authority = auth_machine_intelligence
+		has_paragon_dlc = yes
+	}
+	prerequisites = {
+		"tech_self_assembling_components"  # T3 Eng
+		"tech_micro_replicators"		   # T2 Eng
+		"tech_mega_assembly"		   	   # T4 Eng
+	}
+
+	weight_modifier = {
+		factor = @repatableTechFactor
+	}
+	
+	ai_weight = {
+		factor = 1.0
+	}
+
+	weight_groups = {
+		repeatable
+	}
+	mod_weight_if_group_picked = {
+		repeatable = 0.01
+	}
+
+	modifier = {
+		MACHINE_species_trait_picks_add = 1
+		MACHINE_species_trait_points_add = 2
+	}
+}
+
+oxr_mdlc_tech_mechanical_species_points_picks_repeatable = {
+	area = engineering
+	cost = @[ repeatableTechBaseCost * 5 ]
+	cost_per_level = @[ repeatableTechLevelCost * 5 ]
+	tier = @repeatableTechTier
+	category = { industry }
+	levels = -1 #5% x 10 = 50% #use '-1' value for infinite researching
+	weight = @repeatableTechWeight
+
+	potential = {
+		oxr_mldc_is_mechanical_empire = yes
+		has_paragon_dlc = yes
+	}
+	prerequisites = {
+		"tech_robot_assembly_complex"  # T4 eng
+		"tech_construction_templates"  # T3 eng
+	}
+
+	weight_modifier = {
+		factor = @repatableTechFactor
+	}
+	
+	ai_weight = {
+		factor = 1.0
+	}
+
+	weight_groups = {
+		repeatable
+	}
+	mod_weight_if_group_picked = {
+		repeatable = 0.01
+	}
+
+	modifier = {
+		ROBOT_species_trait_picks_add = 1
+		ROBOT_species_trait_points_add = 2
+	}
+}
