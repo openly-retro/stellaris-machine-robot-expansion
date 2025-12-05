@@ -1,0 +1,113 @@
+oxr_mdlc_leader_making_find_maximum_trait_points_for_leader = {
+	# call in country scope, because leader does not exist yet
+	# This will be called frequently, whenever a player changes the desired leader level
+
+	log = "welcome to leader builder, woo \\[This.GetName] "
+	set_variable = {
+		which = oxr_mdlc_leader_making_max_trait_points
+		value = 1
+	}
+	# Add points equivalent to the selected leader level
+	# set LEADER_LEVEL to 0 during gui reset effect
+	change_variable = {
+		which = oxr_mdlc_leader_making_max_trait_points
+		# value = root.xvcv_mdlc_leader_making_skill_level
+		value = $LEVEL$
+	}
+
+	## TECH
+	# Bonuses from species trait point add
+	change_variable = {
+		which = oxr_mdlc_leader_making_max_trait_points
+		value = modifier:MACHINE_species_trait_points_add
+	}
+
+	# Add bonus points from techs from this mod
+	change_variable = {
+		which = oxr_mdlc_leader_making_max_trait_points
+		value = modifier:oxr_mdlc_leader_making_bonus_trait_points_add_var
+	}
+
+}
+
+oxr_mdlc_leader_making_find_maximum_trait_picks_for_leader = {
+	# Game default number of picks according to Machine species archetype
+	# base game defines @machine_max_traits = 5, sorry other mods
+	set_variable = {
+		which = oxr_mdlc_leader_making_max_trait_picks
+		value = 5
+	}
+	log = "welcome to set max trait picks for leader \\[This.GetName] "
+
+	
+	## TECH
+	# Bonuses from species trait picks add
+	change_variable = {
+		which = oxr_mdlc_leader_making_max_trait_picks
+		value = modifier:MACHINE_species_trait_picks_add
+	}
+
+	# Add bonus points from tech from this mod
+	change_variable = {
+		which = oxr_mdlc_leader_making_max_trait_picks
+		value = modifier:oxr_mdlc_leader_making_bonus_trait_picks_add
+	}
+}
+
+oxr_mdlc_leader_making_create_leaders = {
+	event_target:xvcv_mdlc_leader_making_target = {
+		log = "Going to make leader at level \\[root.xvcv_mdlc_leader_making_skill_level]"
+		set_skill = root.xvcv_mdlc_leader_making_skill_level
+		set_leader_flag = xvcv_mdlc_leader_making_target_leader
+	}
+	count = $COUNT$
+}
+
+
+oxr_mdlc_leader_making_effects_on_gui_start = {
+	# country scope
+
+	xvcv_mdlc_leader_making_clear_traits_variables_effect = yes
+	# xvcv_mdlc_leader_making_start_number is the num of leaders to make
+	set_variable = { which = xvcv_mdlc_leader_making_start_number value = 1 } #one-time only
+	# Reset the maximum allowed leader level each time the GUI opens,
+	# and re-evaluate it.
+	oxr_mdlc_leader_making_set_maximum_allowed_leader_level = { LEVEL = 1 }
+	oxr_mdlc_leader_making_set_leader_skill_level = { LEVEL = 1 }
+	if = {
+		limit = { any_owned_leader = { has_base_skill >= 2 } }
+		oxr_mdlc_leader_making_set_maximum_allowed_leader_level = { LEVEL = 2 }
+	}
+	if = {
+		limit = { any_owned_leader = { has_base_skill >= 3 } }
+		oxr_mdlc_leader_making_set_maximum_allowed_leader_level = { LEVEL = 3 }
+	}
+	if = {
+		limit = { any_owned_leader = { has_base_skill >= 4 } }
+		oxr_mdlc_leader_making_set_maximum_allowed_leader_level = { LEVEL = 4 }
+	}
+	if = {
+		limit = { any_owned_leader = { has_base_skill >= 5 } }
+		oxr_mdlc_leader_making_set_maximum_allowed_leader_level = { LEVEL = 5 }
+	}
+	if = {
+		limit = { any_owned_leader = { has_base_skill >= 6 } }
+		oxr_mdlc_leader_making_set_maximum_allowed_leader_level = { LEVEL = 6 }
+	}
+	if = {
+		limit = { any_owned_leader = { has_base_skill >= 7 } }
+		oxr_mdlc_leader_making_set_maximum_allowed_leader_level = { LEVEL = 7 }
+	}
+	if = {
+		limit = { any_owned_leader = { has_base_skill >= 8 } }
+		oxr_mdlc_leader_making_set_maximum_allowed_leader_level = { LEVEL = 8 }
+	}
+	if = {
+		limit = { any_owned_leader = { has_base_skill >= 9 } }
+		oxr_mdlc_leader_making_set_maximum_allowed_leader_level = { LEVEL = 9 }
+	}
+	if = {
+		limit = { any_owned_leader = { has_base_skill >= 10 } }
+		oxr_mdlc_leader_making_set_maximum_allowed_leader_level = { LEVEL = 10 }
+	}
+}

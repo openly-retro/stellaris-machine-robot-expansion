@@ -6,7 +6,7 @@ xvcv_mdlc_leader_making_start_button_effect = {
     potential = { always = yes }
     allow = {
         custom_tooltip = tooltip_xvcv_mdlc_leader_making_trait_points_left
-        custom_tooltip = tooltip_xvcv_mdlc_leader_making_max_traits_number_left
+        custom_tooltip = tooltip_xvcv_mdlc_leader_making_trait_picks_left
         custom_tooltip = tooltip_xvcv_mdlc_leader_making_total_cost
         custom_tooltip_fail = {
             text = xvcv_mdlc_leader_making_should_pick_any_trait.fail
@@ -30,7 +30,7 @@ xvcv_mdlc_leader_making_start_button_effect = {
     }
     effect = {
         custom_tooltip = tooltip_xvcv_mdlc_leader_making_trait_points_left
-        custom_tooltip = tooltip_xvcv_mdlc_leader_making_max_traits_number_left
+        custom_tooltip = tooltip_xvcv_mdlc_leader_making_trait_picks_left
         custom_tooltip = tooltip_xvcv_mdlc_leader_making_total_cost
         custom_tooltip = tooltip_xvcv_mdlc_leader_making_start_number
         hidden_effect = {
@@ -273,12 +273,15 @@ event_target:xvcv_mdlc_leader_making_target = {
 }
                 }
                 #then the skill level and other things at last
-                event_target:xvcv_mdlc_leader_making_target = {
-                    log = "Going to make leader at level \\[root.xvcv_mdlc_leader_making_skill_level]"
-                    set_skill = root.xvcv_mdlc_leader_making_skill_level
-                    set_leader_flag = xvcv_mdlc_leader_making_target_leader
+                # event_target:xvcv_mdlc_leader_making_target = {
+                #     log = "Going to make leader at level \\[root.xvcv_mdlc_leader_making_skill_level]"
+                #     set_skill = root.xvcv_mdlc_leader_making_skill_level
+                #     set_leader_flag = xvcv_mdlc_leader_making_target_leader
+                # }
+                # count = xvcv_mdlc_leader_making_start_number
+                oxr_mdlc_leader_making_create_leaders = {
+                    count = xvcv_mdlc_leader_making_start_number
                 }
-                count = xvcv_mdlc_leader_making_start_number
             }
             xvcv_mdlc_leader_making_clear_values_effect = yes
             xvcv_mdlc_leader_tied_traits_add_effect = yes
