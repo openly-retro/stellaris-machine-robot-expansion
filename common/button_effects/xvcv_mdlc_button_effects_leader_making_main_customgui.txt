@@ -200,19 +200,46 @@ oxr_mdlc_leader_making_level_up_button_effect = {
             oxr_mdlc_leader_making_find_maximum_trait_points_for_leader = {
                 LEVEL = oxr_mdlc_leader_making_skill_increment_target_level_tmp
             }
+            # Make current trait points incremented by the same amount the level went up
+            # change by 1 because the button only goes up 1 
+            change_variable = {
+                which = xvcv_mdlc_leader_making_trait_points
+                value = 1
+            }
+            # One extra pick per two levels
+            change_variable = {
+                which = xvcv_mdlc_leader_making_trait_picks
+                value = 0.5
+            }
+            change_variable = {
+                which = oxr_mdlc_leader_making_max_trait_picks
+                value = 0.5
+            }
             # dare to reset the var?
             # clear_variable = oxr_mdlc_leader_making_skill_increment_target_level_tmp
         }
     }
-   
 }
 
 oxr_mdlc_leader_making_level_down_button_effect = {
     potential = { always = yes }
     allow = {
-        # TODO: Can't reduce below the number of used trait points,
-        # if lowering the level would reduce max trait points
-        
+        # Check that if we lowered the level, points will not go below 0
+        custom_tooltip_fail = {
+            check_variable = {
+                which = xvcv_mdlc_leader_making_trait_points
+                value > 1
+            }
+            text = oxr_mdlc_leader_making_change_level.fail_points_negative
+        }
+         custom_tooltip_fail = {
+            check_variable = {
+                which = xvcv_mdlc_leader_making_trait_picks
+                value > 0.5
+            }
+            text = oxr_mdlc_leader_making_change_level.fail_points_negative
+        }
+
         # can't reduce below 8 if paragon trait selected
         custom_tooltip_fail = {
             if = {
@@ -276,6 +303,19 @@ oxr_mdlc_leader_making_level_down_button_effect = {
             }
             oxr_mdlc_leader_making_find_maximum_trait_points_for_leader = {
                 LEVEL = oxr_mdlc_leader_making_skill_decrement_target_level_tmp
+            }
+            change_variable = {
+                which = xvcv_mdlc_leader_making_trait_points
+                value = -1
+            }
+            # One extra pick per two levels
+            change_variable = {
+                which = xvcv_mdlc_leader_making_trait_picks
+                value = -0.5
+            }
+            change_variable = {
+                which = oxr_mdlc_leader_making_max_trait_picks
+                value = -0.5
             }
             # dare to reset the var?
             # clear_variable = oxr_mdlc_leader_making_skill_decrement_target_level_tmp
