@@ -243,35 +243,3 @@ can_generate_leader_from_species = {
 		has_citizenship_type = { type = citizenship_full country = root }
 	}
 }
-
-can_be_leader = {
-	OR = {
-		has_citizenship_rights = yes
-		has_citizenship_type = { type = citizenship_shroud_touched country = root }
-	}
-	# Rule out Traits for servitude & lack of free will
-	can_think = yes
-	OR = {
-		is_robot_pop_group = no
-		root = {
-			OR = {
-				has_technology = tech_synthetic_leaders
-				is_machine_empire = yes
-				is_mechanical_empire = yes
-				is_individual_machine = yes
-				has_country_flag = synthetic_fertility_no_bodies_left
-			}
-			# MRE:C
-			oxr_mdlc_root_can_be_leader = yes
-		}
-	}
-	OR = {
-		is_same_species = root
-		root = {
-			NAND = {
-				has_origin = origin_necrophage
-				has_trait = trait_necrophage
-			}
-		}
-	}
-}
