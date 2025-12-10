@@ -59,10 +59,11 @@ country_event = {
 		#and check the leader class again
 		ruler = {
 			# Start setting vars scoped to ruler
-			save_global_event_target_as = xvcv_mdlc_core_modifying_empire_ruler
-			event_target:xvcv_mdlc_core_modifying_empire_ruler = {
-				xvcv_mdlc_core_modifying_clear_trait_variables_effect = yes
-			}
+			# save_global_event_target_as = xvcv_mdlc_core_modifying_empire_ruler
+			# event_target:xvcv_mdlc_core_modifying_empire_ruler = {
+			# 	xvcv_mdlc_core_modifying_reset_ruler_points_picks_effect = yes
+			# }
+			xvcv_mdlc_core_modifying_reset_ruler_points_picks_effect = yes
 			switch = {
 				trigger = leader_class
 				#sadly, this won't support modded leader classes
@@ -71,11 +72,14 @@ country_event = {
 				commander = { prev = { set_country_flag = xvcv_mdlc_core_modifying_ruler_leader_class_commander } }
 			}
 		}
-		if = {
-			limit = { NOT = { has_country_flag = xvcv_mdlc_core_modifying_trait_points_set } }
-			set_country_flag = xvcv_mdlc_core_modifying_trait_points_set #one-time only
-			xvcv_mdlc_core_modifying_clear_trait_variables_effect = yes
-		}
+		# if = {
+		# 	limit = { NOT = { has_country_flag = xvcv_mdlc_core_modifying_trait_points_set } }
+		# 	set_country_flag = xvcv_mdlc_core_modifying_trait_points_set #one-time only
+		# 	ruler = {
+		# 		xvcv_mdlc_core_modifying_reset_ruler_points_picks_effect = yes
+		# 	}
+		# }
+		# Below has ruler scope included in all the effects
 		oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = yes
 	}
 	custom_gui = xvcv_mdlc_core_modifying
@@ -113,7 +117,9 @@ country_event = {
 	}
 
 	immediate = {
-		xvcv_mdlc_core_modifying_clear_trait_variables_effect = yes
+		ruler = {
+			xvcv_mdlc_core_modifying_reset_ruler_points_picks_effect = yes
+		}
 	}
 }
 

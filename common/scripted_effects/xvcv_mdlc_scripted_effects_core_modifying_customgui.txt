@@ -86,37 +86,22 @@ xvcv_mdlc_core_modifying_remove_tier_1_or_2_traits_effect = {
 		}
 	}
 }
-xvcv_mdlc_core_modifying_clear_trait_variables_effect = {
-	optimize_memory
-	#max trait points
+xvcv_mdlc_core_modifying_reset_ruler_points_picks_effect = {
+	# First, find max points and picks values.
+	# Tech and other bonuses are already factored in
+	oxr_mdlc_core_modifying_ruler_find_maximum_trait_points = yes
+	oxr_mdlc_core_modifying_ruler_find_maximum_trait_picks = yes
+
+	# simply copy over the values
 	set_variable = {
 		which = xvcv_mdlc_core_modifying_trait_points
-		value = @xvcv_mdlc_core_modifying_base_num_trait_points
+		value = oxr_mdlc_core_modifying_max_trait_points
 	}
-	#max traits number 
 	set_variable = {
 		which = xvcv_mdlc_core_modifying_trait_picks
-		value = @xvcv_mdlc_core_modifying_base_num_trait_picks
+		value = oxr_mdlc_core_modifying_max_trait_picks
 	}
-	# Increase the number of trait points available, for T1 of this tech
-	if = {
-		limit = { root = { has_technology = xvcv_mdlc_tech_core_modifying_improvement } }
-		change_variable = {
-			which = xvcv_mdlc_core_modifying_trait_points
-			value = 1
-		}
-		change_variable = {
-			which = xvcv_mdlc_core_modifying_trait_picks
-			value = 1
-		}
-	}
-	# Give additional points for having T2, so it's a compound effect
-	# Having T1 and T2 of this tech awards +2 trait points total
-	if = {
-		limit = { root = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 } }
-		change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = 1 }
-		change_variable = { which = xvcv_mdlc_core_modifying_trait_picks value = 1 }
-	}
+	# save_global_event_target_as = oxr_mdlc_core_modifying_target_@root
 }
 ######################
 # Adding and refunding
@@ -128,11 +113,13 @@ xvcv_mdlc_core_modifying_deduct_cost_points_picks_common = {
 	optimize_memory
 	add_resource = { energy = -1 mult = @xvcv_mdlc_core_modifying_common_trait_cost }
 	add_resource = { alloys = -1 mult = @xvcv_mdlc_core_modifying_common_trait_cost }
-	change_variable = {
-		which = xvcv_mdlc_core_modifying_trait_points
-		value = -1  # Not significant enough to use @xvcv_mdlc_core_modifying_common_trait_points_cost
+	ruler = {
+		change_variable = {
+			which = xvcv_mdlc_core_modifying_trait_points
+			value = -1  # Not significant enough to use @xvcv_mdlc_core_modifying_common_trait_points_cost
+		}
+		change_variable = { which = xvcv_mdlc_core_modifying_trait_picks value = -1 }
 	}
-	change_variable = { which = xvcv_mdlc_core_modifying_trait_picks value = -1 }
 }
 xvcv_mdlc_core_modifying_trait_return_cost_effect = {
 	optimize_memory
@@ -152,29 +139,31 @@ xvcv_mdlc_core_modifying_refund_cost_common = {
 xvcv_mdlc_core_modifying_refund_trait_points_picks_common = {
 	optimize_memory
 	xvcv_mdlc_core_modifying_trait_return_cost_effect = yes
-	#xvcv_mdlc_core_modifying_trait_return_points_effect
+	# Don't refund points or picks beyond the max..
+	# how would that happen though?
 	if = {
-		# Refund trait points and picks up to a certain level
-		# Ex: with T2 of the core modifying improvement, refund up to 6 points
 		limit = {
-			OR = {
-				check_variable = { which = xvcv_mdlc_core_modifying_trait_points value > 6 }
-				AND = {
-					NOT = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 }
-					check_variable = { which = xvcv_mdlc_core_modifying_trait_points value > 5 }
+				check_variable = {
+					which = xvcv_mdlc_core_modifying_trait_points
+					value < oxr_mdlc_core_modifying_max_trait_points
 				}
-				AND = {
-					NOT = { has_technology = xvcv_mdlc_tech_core_modifying_improvement }
-					check_variable = { which = xvcv_mdlc_core_modifying_trait_points value > 4 }
-				}
+		}
+		change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = 1 }
+	}
+	else = {
+		log = "Was going to refund a common trait, but ruler trait points are at max"
+	}
+	if = {
+		limit = {
+			check_variable = {
+				which = xvcv_mdlc_core_modifying_trait_picks
+				value < oxr_mdlc_core_modifying_max_trait_picks
 			}
 		}
-		xvcv_mdlc_core_modifying_clear_trait_variables_effect = yes
-		# For each trait removed, increment points and picks by 1
-		else = {
-			change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = 1 }
-			change_variable = { which = xvcv_mdlc_core_modifying_trait_picks value = 1 }
-		}
+		change_variable = { which = xvcv_mdlc_core_modifying_trait_picks value = 1 }
+	}
+	else = {
+		log = "Was going to refund a common trait, but ruler trait picks are at max"
 	}
 }
 
@@ -193,26 +182,31 @@ xvcv_mdlc_core_modifying_refund_trait_points_picks_veteran = {
 	xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = yes
 	#xvcv_mdlc_core_modifying_trait_return_points_alt_effect
 	if = {
-		# Same as above, Refund trait points and picks up to a certain level
-		# Ex: with T2 of the core modifying improvement, refund up to 6 points
 		limit = {
-			OR = {
-				check_variable = { which = xvcv_mdlc_core_modifying_trait_points value > 6 }
-				AND = {
-					NOT = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 }
-					check_variable = { which = xvcv_mdlc_core_modifying_trait_points value > 5 }
+				check_variable = {
+					which = xvcv_mdlc_core_modifying_trait_points
+					value <= @[ this.oxr_mdlc_core_modifying_max_trait_points - xvcv_mdlc_core_modifying_veteran_trait_points_cost ]
 				}
-				AND = {
-					NOT = { has_technology = xvcv_mdlc_tech_core_modifying_improvement }
-					check_variable = { which = xvcv_mdlc_core_modifying_trait_points value > 4 }
-				}
+		}
+		change_variable = {
+			which = xvcv_mdlc_core_modifying_trait_points
+			value = @xvcv_mdlc_core_modifying_veteran_trait_points_cost
+		}
+	}
+	else = {
+		log = "Was going to refund a veteran trait, but ruler trait points are at max"
+	}
+	if = {
+		limit = {
+			check_variable = {
+				which = xvcv_mdlc_core_modifying_trait_picks
+				value < oxr_mdlc_core_modifying_max_trait_picks
 			}
 		}
-		xvcv_mdlc_core_modifying_clear_trait_variables_effect = yes
-		else = {
-			change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = 2 }
-			change_variable = { which = xvcv_mdlc_core_modifying_trait_picks value = 1 }
-		}
+		change_variable = { which = xvcv_mdlc_core_modifying_trait_picks value = 1 }
+	}
+	else = {
+		log = "Was going to refund a veteran trait, but ruler trait picks are at max"
 	}
 }
 xvcv_mdlc_core_modifying_trait_return_cost_alt_effect = {
@@ -245,43 +239,36 @@ xvcv_mdlc_core_modifying_deduct_cost_points_picks_paragon = {
 xvcv_mdlc_core_modifying_refund_trait_points_picks_paragon = {
 	optimize_memory
 	xvcv_mdlc_core_modifying_trait_refund_cost_paragon = yes
-	#xvcv_mdlc_core_modifying_trait_return_points_alt_2_effect
+	
 	if = {
 		limit = {
-			OR = {
 				check_variable = {
 					which = xvcv_mdlc_core_modifying_trait_points
-					value > 6
+					value <= @[ this.oxr_mdlc_core_modifying_max_trait_points - xvcv_mdlc_core_modifying_destiny_trait_points_cost ]
 				}
-				AND = {
-					NOT = {has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 }
-					check_variable = {
-						which = xvcv_mdlc_core_modifying_trait_points
-						value > 5
-					}
-				}
-				AND = {
-					NOT = { has_technology = xvcv_mdlc_tech_core_modifying_improvement }
-					check_variable = {
-						which = xvcv_mdlc_core_modifying_trait_points
-						value > @xvcv_mdlc_core_modifying_base_num_trait_points
-					}
-				}
-			}
 		}
-		xvcv_mdlc_core_modifying_clear_trait_variables_effect = yes
-		else = {
-			change_variable = {
-				which = xvcv_mdlc_core_modifying_trait_points
-				value = 3
-			}
-			change_variable = {
-				which = xvcv_mdlc_core_modifying_trait_picks
-				value = 1
-			}
+		change_variable = {
+			which = xvcv_mdlc_core_modifying_trait_points
+			value = @xvcv_mdlc_core_modifying_destiny_trait_points_cost
 		}
 	}
+	else = {
+		log = "Was going to refund a paragon trait, but ruler trait points are at max"
+	}
+	if = {
+		limit = {
+			check_variable = {
+				which = xvcv_mdlc_core_modifying_trait_picks
+				value < oxr_mdlc_core_modifying_max_trait_picks
+			}
+		}
+		change_variable = { which = xvcv_mdlc_core_modifying_trait_picks value = 1 }
+	}
+	else = {
+		log = "Was going to refund a paragon trait, but ruler trait picks are at max"
+	}
 }
+
 xvcv_mdlc_core_modifying_trait_refund_cost_paragon = {
 	optimize_memory
 	add_resource = {
@@ -440,29 +427,6 @@ oxr_mdlc_core_modifying_deduct_trait_points_cost_paragon = {
 		value = -3
 	}
 }
-xvcv_mdlc_core_modifying_reset_trait_points_default = {
-	# Used on GUI reset button, game start
-	optimize_memory
-	# must be called with ruler scope
-	set_variable = {
-		which = xvcv_mdlc_core_modifying_trait_points
-		value = @xvcv_mdlc_core_modifying_base_num_trait_points
-	}
-	# Increase the number of trait points available, for T1 of this tech
-	if = {
-		limit = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement } }
-		change_variable = {
-			which = xvcv_mdlc_core_modifying_trait_points
-			value = 1
-		}
-	}
-	# Give additional points for having T2, so it's a compound effect
-	# Having T1 and T2 of this tech awards +2 trait points total
-	if = {
-		limit = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 } }
-		change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = 1 }
-	}
-}
 xvcv_mdlc_core_modifying_refund_trait_points_cost_common = {
 	optimize_memory
 	if = {
@@ -618,29 +582,6 @@ xvcv_mdlc_core_modifying_refund_trait_pick = {
 		}
 	}
 }
-xvcv_mdlc_core_modifying_reset_trait_picks_default = {
-	# Used on GUI reset button, game start
-	optimize_memory
-	# must be called with councilor leader scope
-	set_variable = {
-		which = xvcv_mdlc_core_modifying_trait_picks
-		value = @xvcv_mdlc_core_modifying_base_num_trait_picks
-	}
-	# Increase the number of trait points available, for T1 of this tech
-	if = {
-		limit = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement } }
-		change_variable = {
-			which = xvcv_mdlc_core_modifying_trait_picks
-			value = 1
-		}
-	}
-	# Give additional points for having T2, so it's a compound effect
-	# Having T1 and T2 of this tech awards +2 trait points total
-	if = {
-		limit = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 } }
-		change_variable = { which = xvcv_mdlc_core_modifying_trait_picks value = 1 }
-	}
-}
 oxr_mdlc_core_modifying_remove_tier_1_or_2_traits_effect = {
 	# Edited from core-modifying effect as it was hardcoded to ruler
 	# Adding the T2 version of a T1 replaces the T1; same for T3 which replaces T2 and T1
@@ -657,60 +598,110 @@ oxr_mdlc_core_modifying_remove_tier_1_or_2_traits_effect = {
 	}
 }
 
-### COUNTER
-xvcv_mdlc_core_modifying_set_max_trait_points_for_display = {
-	# Used on GUI reset button, game start
-	optimize_memory
-	# must be called with councilor leader scope
-	set_variable = {
-		which = xvcv_mdlc_core_modifying_max_trait_points
-		value = @xvcv_mdlc_core_modifying_base_num_trait_points
-	}
-	# Increase the number of trait points available, for T1 of this tech
-	if = {
-		limit = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement } }
-		change_variable = {
-			which = xvcv_mdlc_core_modifying_max_trait_points
-			value = 1
-		}
-	}
-	# Give additional points for having T2, so it's a compound effect
-	# Having T1 and T2 of this tech awards +2 trait points total
-	if = {
-		limit = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 } }
-		change_variable = { which = xvcv_mdlc_core_modifying_max_trait_points value = 1 }
-	}
-	log = "Set max trait points to \\[This.xvcv_mdlc_core_modifying_max_trait_points]"
-}
-xvcv_mdlc_core_modifying_set_max_trait_picks_for_display = {
-	# Used on GUI reset button, game start
-	optimize_memory
-	# must be called with councilor leader scope
-	set_variable = {
-		which = xvcv_mdlc_core_modifying_max_trait_picks
-		value = @xvcv_mdlc_core_modifying_base_num_trait_picks
-	}
-	# Increase the number of trait points available, for T1 of this tech
-	if = {
-		limit = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement } }
-		change_variable = {
-			which = xvcv_mdlc_core_modifying_max_trait_picks
-			value = 1
-		}
-	}
-	# Give additional points for having T2, so it's a compound effect
-	# Having T1 and T2 of this tech awards +2 trait points total
-	if = {
-		limit = { from = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 } }
-		change_variable = { which = xvcv_mdlc_core_modifying_max_trait_picks value = 1 }
-	}
-	log = "Set max trait picks to \\[This.xvcv_mdlc_core_modifying_max_trait_picks]"
-}
-
-
 # Check what traits are already on the ruler, and deduct from total available trait picks + points
 # oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect moved to its own file
 # since it's autogenerated now
 
 #and that ends here
 #or does it? (:
+
+### NEW STUFF, V3
+# Factor tech upgrades into ruler editor points and picks
+
+oxr_mdlc_core_modifying_ruler_find_maximum_trait_points = {
+	# call in ruler scope
+
+	set_variable = {
+		which = oxr_mdlc_core_modifying_max_trait_points
+		value = 1
+	}
+	# Add points equivalent to the selected leader level
+	export_trigger_value_to_variable = {
+		trigger = has_base_skill
+		variable = oxr_mdlc_core_modifying_ruler_skill_level_var
+	}
+	change_variable = {
+		which = oxr_mdlc_core_modifying_max_trait_points
+		value = oxr_mdlc_core_modifying_ruler_skill_level_var
+	}
+
+	## TECH
+	# Bonuses from species trait point add
+	# var for display
+	set_variable = {
+		which = oxr_mdlc_core_modifying_species_trait_points_modifier_var
+		value = owner.modifier:MACHINE_species_trait_points_add
+	}
+	# Half bonus
+	divide_variable = {
+		which = oxr_mdlc_core_modifying_species_trait_points_modifier_var
+		value = 2
+	}
+	ceiling_variable = oxr_mdlc_core_modifying_species_trait_points_modifier_var
+	change_variable = {
+		which = oxr_mdlc_core_modifying_max_trait_points
+		# value = owner.modifier:MACHINE_species_trait_points_add
+		value = oxr_mdlc_core_modifying_species_trait_points_modifier_var
+	}
+	# var for display
+	set_variable = {
+		which = oxr_mdlc_core_modifying_species_trait_points_modifier_var
+		value = owner.modifier:MACHINE_species_trait_points_add
+	}
+
+	# Add bonus points from techs from this mod
+	change_variable = {
+		which = oxr_mdlc_core_modifying_max_trait_points
+		value = owner.modifier:oxr_mdlc_core_modifying_bonus_trait_points_add
+	}
+	# var for display
+	set_variable = {
+		which = oxr_mdlc_core_modifying_bonus_trait_points_add_var
+		value = owner.modifier:oxr_mdlc_core_modifying_bonus_trait_points_add
+	}
+
+}
+
+oxr_mdlc_core_modifying_ruler_find_maximum_trait_picks = {
+	# Game default number of picks according to Machine species archetype
+	# base game defines @machine_max_traits = 5, sorry other mods
+	set_variable = {
+		which = oxr_mdlc_core_modifying_max_trait_picks
+		value = 1
+	}
+
+	# Ruler gets 1 pick per level, base. I should probably update the others
+	# Add points equivalent to the selected leader level
+	export_trigger_value_to_variable = {
+		trigger = has_base_skill
+		variable = oxr_mdlc_core_modifying_ruler_skill_level_var
+	}
+	change_variable = {
+		which = oxr_mdlc_core_modifying_max_trait_picks
+		value = oxr_mdlc_core_modifying_ruler_skill_level_var
+	}
+
+	## TECH
+	# Bonuses from species trait picks add
+	change_variable = {
+		which = oxr_mdlc_core_modifying_max_trait_picks
+		value = owner.modifier:MACHINE_species_trait_picks_add
+	}
+	# Put this in a var for the info tooltip
+	set_variable = {
+		which = oxr_mdlc_core_modifying_species_trait_picks_var_modifier
+		value = owner.modifier:MACHINE_species_trait_picks_add
+	}
+
+
+	# Add bonus points from tech from this mod
+	change_variable = {
+		which = oxr_mdlc_core_modifying_max_trait_picks
+		value = owner.modifier:oxr_mdlc_core_modifying_bonus_trait_picks_add
+	}
+	# Var for display purposes
+	set_variable = {
+		which = oxr_mdlc_core_modifying_bonus_trait_picks_add_var_modifier
+		value = owner.modifier:oxr_mdlc_core_modifying_bonus_trait_picks_add
+	}
+}

@@ -9,6 +9,31 @@
 
  ### Custom GUI: Core Modifying ###
  XVCV_MDLC_CORE_MODIFYING_HEADER_TEXT: "$xvcv_mdlc_tech_core_modifying$"
+ OXR_MDLC_CORE_MODIFYING_HEADER_TEXT: "Modifying"
+ OXR_MDLC_CORE_MODIFYING_RULER_NAME: "Modifying §M[ruler.GetTitledName]§!"
+ oxr_mdlc_core_modifying_ruler_info_title: "§CDevice Information§!"
+ oxr_mdlc_core_modifying_ruler_info_species: "Chassis type: §H[ruler.species.GetName]§!"
+ oxr_mdlc_core_modifying_ruler_info_class: "Kernel class: §H[ruler.GetClass]§!"
+ oxr_mdlc_core_modifying_ruler_info_uptime: "Uptime: [ruler.GetYearsOfService]"
+ oxr_mdlc_core_modifying_ruler_info_level: "Cores online: §Y[ruler.GetSkill]/10§!"
+ oxr_mdlc_core_modifying_ruler_info_ethic: "BIOS type: §H[ruler.GetBackgroundEthic]§!"
+ oxr_mdlc_core_modifying_ruler_info_gender: "ROM [OxrGetRulerGender]"
+ oxr_mdlc_core_modifying_ruler_info_energy_usage: "FX: [ruler.GetCouncilorPerSkillModifierDesc]"
+ oxr_mdlc_core_modifying_ruler_info_cost: "Market value: [ruler.GetCost]"
+ # bg job doesnt work for gestalts
+ oxr_mdlc_core_modifying_ruler_info_bg_job: "Core promoted from [ruler.GetBackgroundJob]"
+ oxr_mdlc_core_modifying_ruler_info_planet: "Assembled on §H[ruler.GetBackgroundPlanet]§!"
+ oxr_mdlc_core_modifying_ruler_trait_info_header: "§CDevice Traits§!"
+ oxr_mdlc_core_modifying_ruler_trait_info_points_readout: "Ruler Trait Points: £xvcv_mdlc_core_modifying_trait_point_icon£§Y[ruler.xvcv_mdlc_core_modifying_trait_points]/[ruler.oxr_mdlc_core_modifying_max_trait_points]§!"
+ oxr_mdlc_core_modifying_ruler_trait_info_picks_readout: "Ruler Trait Picks: £xvcv_mdlc_core_modifying_trait_point_icon£§Y[ruler.xvcv_mdlc_core_modifying_trait_picks]/[ruler.oxr_mdlc_core_modifying_max_trait_picks]§!"
+
+ oxr_mdlc_core_modifying_max_points_tooltip: "1 point per leader level: §G+[This.oxr_mdlc_core_modifying_ruler_skill_level_var]§!\nBase points bonus: §G+1§!\nPartial species points bonus: §G+[this.oxr_mdlc_core_modifying_species_trait_points_modifier_var]§!\nBonus from technology: §G+[this.oxr_mdlc_core_modifying_bonus_trait_points_add_var]§!"
+
+ oxr_mdlc_core_modifying_max_picks_tooltip: "1 pick per ruler level: §G+[This.oxr_mdlc_core_modifying_ruler_skill_level_var]§!\nBase picks bonus: §G+1§!\nSpecies picks bonus: §G+[this.oxr_mdlc_core_modifying_species_trait_picks_var_modifier]§!\nBonus from technology: §G+[this.oxr_mdlc_core_modifying_bonus_trait_picks_add_var_modifier]§!"
+
+
+
+#  OXR_MDLC_CORE_MODIFYING_RULER_NAME_ICON: ""
  XVCV_MDLC_CORE_MODIFYING_CUSTOMGUI_STOPPED_WORKING_DESC: "§RClose any other UIs to use this Customgui.§!"
 
  xvcv_mdlc_core_modifying_trait_cost.fail: "£trigger_no£ §RNeed £energy£200 £alloys£200 to pick this Trait.§!"
@@ -19,7 +44,7 @@
  xvcv_mdlc_core_modifying_trait_skill_level.fail_paragon: "£trigger_no£ §RNeed at least 8 Ruler Skill Level.§!"
  xvcv_mdlc_core_modifying_trait_picks.fail: "£trigger_no£ §RReached maximum trait picks.§!"
 
- xvcv_mdlc_core_modifying_reset_traits_tooltip: "$xvcv_mdlc_core_modifying_reset_traits_button_effect_tooltip$\n\nMax Ruler Modification Points: £xvcv_mdlc_core_modifying_trait_point_icon£§Y[This.xvcv_mdlc_core_modifying_trait_points]§!\nMax Pickable Trait Number: §Y[This.xvcv_mdlc_core_modifying_trait_picks]§!"
+ xvcv_mdlc_core_modifying_reset_traits_tooltip: "$xvcv_mdlc_core_modifying_reset_traits_button_effect_tooltip$\n\nMax Ruler Modification Points: £xvcv_mdlc_core_modifying_trait_point_icon£§Y[ruler.xvcv_mdlc_core_modifying_trait_points]§!\nMax Pickable Trait Number: §Y[ruler.xvcv_mdlc_core_modifying_trait_picks]§!"
  xvcv_mdlc_core_modifying_reset_traits.fail: "£trigger_no£ §RTrait is NOT selected.§!"
 
  xvcv_mdlc_core_modifying_requires_scientist_leader_trait_physics_focus_3_tooltip.fail: "£trigger_no£ §RNeed $leader_trait_physics_focus$ III Trait.§!"
@@ -43,7 +68,7 @@
  trigger_xvcv_mdlc_core_modifying_must_remove_subclass_trait_notice: "£trigger_no£ §RYou must remove all traits specific to this subclass before removing/changing subclass.§!"
 
  # GUI tooltips to show trait points / picks and all that
- xvcv_mdlc_core_modifying_ruler_points_used: "[event_target:xvcv_mdlc_core_modifying_empire_ruler.oxr_mdlc_core_modifying_deduct_trait_points_cost_paragon]"
+ xvcv_mdlc_core_modifying_ruler_points_used: "[ruler.oxr_mdlc_core_modifying_deduct_trait_points_cost_paragon]"
 
  ########################################
  # OFFICIAL SUBCLASS TRAITS AND HELPERS #
@@ -117,6 +142,10 @@
  ########################################
  # COMMANDER SUBCLASS TRAITS AND HELPERS #
  ########################################
+
+ oxr_mdlc_core_modifying_commander_traits_header_text: "§RCommander§! Ruler Traits"
+ oxr_mdlc_core_modifying_scientist_traits_header_text: "§BScientist§! Ruler Traits"
+ oxr_mdlc_core_modifying_official_traits_header_text: "§YOfficial§! Ruler Traits"
 
  #Traits Box 3: Admiral Traits
  #subclass_commander_general

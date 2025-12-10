@@ -123,7 +123,7 @@ xvcv_mdlc_core_modifying_reset_traits_button_effect = {
 
 CORE_MODIFYING_RESET_TRAITS_BUTTON_EFFECT_FOOTER = """
             }
-            xvcv_mdlc_core_modifying_clear_trait_variables_effect = yes
+            xvcv_mdlc_core_modifying_reset_ruler_points_picks_effect = yes
         }
     }
 }

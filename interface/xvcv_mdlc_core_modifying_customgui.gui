@@ -4,6 +4,8 @@ guiTypes = {
 	#a rework of the original machine_central_core_customizing ui
     #xvcv_mdlc_core_modifying edict
 	@hidden_ui_elements_position = -10000
+    @oxr_mdlc_core_modifying_gui_width = 548
+    @oxr_mdlc_core_modifying_gui_height = 582
 
 	containerWindowType = {
 		####################### Hidden UI #########################
@@ -41,13 +43,24 @@ guiTypes = {
 		containerWindowType = {
 			name = "portrait"
 			position = { x = @hidden_ui_elements_position y = @hidden_ui_elements_position }
-			size = { width = 964 height = 350 }
+			size = { width = 0 height = 0 }
 			clipping = yes
 			iconType = { name = "portrait" spriteType = "GFX_portrait_gamesetup_mask" alwaysTransparent = yes }
 			iconType = { name = "black_frame" spriteType = "GFX_diplomacy_portrait_shadow_frame" position = { x = -4 y = -5 } alwaysTransparent = yes }
 			iconType = { name = "stripes_1" spriteType = "GFX_diplomacy_stripes_2" alwaysTransparent = yes }
 			iconType = { name = "city_frame" spriteType = "GFX_diplomacy_portrait_frame_caravaneer" position = { x = -6 y = -5 } alwaysTransparent = yes }
 		}
+        # containerWindowType = {
+		# 	name = "portrait"
+		# 	position = { x = -200 y = -80 }
+		# 	size = { width = 0 height = 0 }
+		# 	clipping = no
+		# 	iconType = { name = "portrait" spriteType = "GFX_portrait_character" alwaysTransparent = yes }
+		# 	iconType = { name = "black_frame" spriteType = "GFX_diplomacy_portrait_shadow_frame" position = { x = @hidden_ui_elements_position y = @hidden_ui_elements_position } alwaysTransparent = yes }
+		# 	# Take this subtle animation and show it on the bottom half of the GUI
+		# 	iconType = { name = "stripes_1" spriteType = "GFX_diplomacy_stripes_2" alwaysTransparent = yes position = { x = 0 y = 270 } }
+		# 	iconType = { name = "city_frame" spriteType = "GFX_diplomacy_portrait_frame_caravaneer" position = { x = @hidden_ui_elements_position y = @hidden_ui_elements_position } alwaysTransparent = yes }
+		# }
 		### EMPIRE INFO ###
 		iconType = { name = "empire_info_bg" spriteType = "GFX_diplomacy_dark_fade_bg" position = { x = @hidden_ui_elements_position y = @hidden_ui_elements_position } alwaysTransparent = yes }
 		instantTextBoxType={
@@ -125,21 +138,239 @@ guiTypes = {
 			clicksound = "back_click"
 			effect = "close_xvcv_mdlc_core_modifying_button_effect"
 		}
-		instantTextBoxType = {
-			name = "xvcv_mdlc_core_modifying_header"
-			font = "malgun_goth_24"
-			text = "XVCV_MDLC_CORE_MODIFYING_HEADER_TEXT"
-			position = { x = 15 y = 5 }
-			maxWidth = 300
-			maxHeight = 10
-			alwaysTransparent = yes
-		}
+        effectButtonType = {
+            name = "leader_name"
+            size = { x = 750 y = 40 }
+            quadTextureSprite = "GFX_oxr_mdlc_councilor_editor_empty"
+            position = { x = 20 y = -17 }
+            buttonText = "OXR_MDLC_CORE_MODIFYING_RULER_NAME"
+            buttonFont = "malgun_goth_24"
+            # effect = oxr_mdlc_councilor_editor_always_visible_effect
+            # text = "OXR_MDLC_CORE_MODIFYING_HEADER_TEXT"
+            alwaysTransparent = yes
+            format = left
+            # maxWidth = 250
+            # maxHeight = 50
+        }
+
+
         # Information
-        # containerWindowType = {
-		# 	name = "oxr_mdlc_core_modifying_information_box"
-		# 	size = { width = 400 height = 400 }
-		# 	position = { x = 0 y = 175 }
-        # }
+        containerWindowType = {
+			name = "oxr_mdlc_core_modifying_information_box"
+			size = { width = 400 height = 400 }
+			position = { x = 170 y = 280 }
+            
+            # TITLE
+            effectButtonType = {
+				name = "oxr_mdlc_core_modifying_ruler_info_title_display"
+				size = { x = 200 y = 20 }
+				quadTextureSprite = "GFX_oxr_mdlc_councilor_editor_empty"
+				position = { x = 0 y = 0 }
+				buttonText = "oxr_mdlc_core_modifying_ruler_info_title"
+				buttonFont = "cg_16b"
+				effect = oxr_mdlc_councilor_editor_always_visible_effect
+				text = "oxr_mdlc_core_modifying_ruler_info_title"
+				alwaysTransparent = yes
+				format = right
+			}
+            # species
+            effectButtonType = {
+				name = "oxr_mdlc_core_modifying_ruler_info_species_display"
+				size = { x = 200 y = 20 }
+				quadTextureSprite = "GFX_oxr_mdlc_councilor_editor_empty"
+				position = { x = 0 y = 20 }
+				buttonText = "oxr_mdlc_core_modifying_ruler_info_species"
+				buttonFont = "cg_16b"
+				effect = oxr_mdlc_councilor_editor_always_visible_effect
+				text = "oxr_mdlc_core_modifying_ruler_info_species"
+				alwaysTransparent = yes
+				format = right
+			}
+            # class
+            effectButtonType = {
+				name = "oxr_mdlc_core_modifying_ruler_info_class_display"
+				size = { x = 200 y = 20 }
+				quadTextureSprite = "GFX_oxr_mdlc_councilor_editor_empty"
+				position = { x = 0 y = 40 }
+				buttonText = "oxr_mdlc_core_modifying_ruler_info_class"
+				buttonFont = "cg_16b"
+				effect = oxr_mdlc_councilor_editor_always_visible_effect
+				text = "oxr_mdlc_core_modifying_ruler_info_class"
+				alwaysTransparent = yes
+				format = right
+			}
+            # uptime
+            effectButtonType = {
+				name = "oxr_mdlc_core_modifying_ruler_info_uptime_display"
+				size = { x = 200 y = 20 }
+				quadTextureSprite = "GFX_oxr_mdlc_councilor_editor_empty"
+				position = { x = 0 y = 60 }
+				buttonText = "oxr_mdlc_core_modifying_ruler_info_uptime"
+				buttonFont = "cg_16b"
+				effect = oxr_mdlc_councilor_editor_always_visible_effect
+				text = "oxr_mdlc_core_modifying_ruler_info_uptime"
+				alwaysTransparent = yes
+				format = right
+			}
+            # level
+            effectButtonType = {
+				name = "oxr_mdlc_core_modifying_ruler_info_level_display"
+				size = { x = 200 y = 20 }
+				quadTextureSprite = "GFX_oxr_mdlc_councilor_editor_empty"
+				position = { x = 0 y = 80 }
+				buttonText = "oxr_mdlc_core_modifying_ruler_info_level"
+				buttonFont = "cg_16b"
+				effect = oxr_mdlc_councilor_editor_always_visible_effect
+				text = "oxr_mdlc_core_modifying_ruler_info_level"
+				alwaysTransparent = yes
+				format = right
+			}
+            # ethic
+            effectButtonType = {
+				name = "oxr_mdlc_core_modifying_ruler_info_ethic_display"
+				size = { x = 200 y = 20 }
+				quadTextureSprite = "GFX_oxr_mdlc_councilor_editor_empty"
+				position = { x = 0 y = 100 }
+				buttonText = "oxr_mdlc_core_modifying_ruler_info_ethic"
+				buttonFont = "cg_16b"
+				effect = oxr_mdlc_councilor_editor_always_visible_effect
+				text = "oxr_mdlc_core_modifying_ruler_info_ethic"
+				alwaysTransparent = yes
+				format = right
+			}
+            # gender .. the defined text is invalid. wacky.
+            # effectButtonType = {
+			# 	name = "oxr_mdlc_core_modifying_ruler_info_gender_display"
+			# 	size = { x = 200 y = 20 }
+			# 	quadTextureSprite = "GFX_oxr_mdlc_councilor_editor_empty"
+			# 	position = { x = 0 y = 120 }
+			# 	buttonText = "oxr_mdlc_core_modifying_ruler_info_gender"
+			# 	buttonFont = "cg_16b"
+			# 	effect = oxr_mdlc_councilor_editor_always_visible_effect
+			# 	text = "oxr_mdlc_core_modifying_ruler_info_gender"
+			# 	alwaysTransparent = yes
+			# 	format = right
+			# }
+            # cost
+            effectButtonType = {
+				name = "oxr_mdlc_core_modifying_ruler_info_cost_display"
+				size = { x = 200 y = 20 }
+				quadTextureSprite = "GFX_oxr_mdlc_councilor_editor_empty"
+				position = { x = 0 y = 120 }
+				buttonText = "oxr_mdlc_core_modifying_ruler_info_cost"
+				buttonFont = "cg_16b"
+				effect = oxr_mdlc_councilor_editor_always_visible_effect
+				text = "oxr_mdlc_core_modifying_ruler_info_cost"
+				alwaysTransparent = yes
+				format = right
+			}
+            # planet
+            effectButtonType = {
+				name = "oxr_mdlc_core_modifying_ruler_info_planet_display"
+				size = { x = 200 y = 20 }
+				quadTextureSprite = "GFX_oxr_mdlc_councilor_editor_empty"
+				position = { x = 0 y = 140 }
+				buttonText = "oxr_mdlc_core_modifying_ruler_info_planet"
+				buttonFont = "cg_16b"
+				effect = oxr_mdlc_councilor_editor_always_visible_effect
+				text = "oxr_mdlc_core_modifying_ruler_info_planet"
+				alwaysTransparent = yes
+				format = right
+			}
+            ## TRAIT INFO
+            # header
+            effectButtonType = {
+				name = "oxr_mdlc_core_modifying_ruler_trait_info_header_display"
+				size = { x = 200 y = 20 }
+				quadTextureSprite = "GFX_oxr_mdlc_councilor_editor_empty"
+				position = { x = 0 y = 170 }
+				buttonText = "oxr_mdlc_core_modifying_ruler_trait_info_header"
+				buttonFont = "cg_16b"
+				effect = oxr_mdlc_councilor_editor_always_visible_effect
+				text = "oxr_mdlc_core_modifying_ruler_trait_info_header"
+				alwaysTransparent = yes
+				format = right
+			}
+            # points
+            effectButtonType = {
+				name = "oxr_mdlc_core_modifying_ruler_trait_info_points_readout_display"
+				size = { x = 200 y = 20 }
+				quadTextureSprite = "GFX_oxr_mdlc_councilor_editor_empty"
+				position = { x = 0 y = 190 }
+				buttonText = "oxr_mdlc_core_modifying_ruler_trait_info_points_readout"
+				buttonFont = "cg_16b"
+				effect = oxr_mdlc_councilor_editor_always_visible_effect
+				text = "oxr_mdlc_core_modifying_ruler_trait_info_points_readout"
+				alwaysTransparent = yes
+				format = right
+			}
+            # points info 
+            effectButtonType = {
+                name = "oxr_mdlc_core_modifying_trait_points_breakdown"
+                size = { x = 20 y = 20 }
+                position = { x = 355 y = 213 }
+                spriteType = GFX_text_oxr_info
+                buttonFont = "cg_16b"
+                effect = oxr_mdlc_core_modifying_trait_points_info_effect
+                # format = right
+            }
+            # picks
+            effectButtonType = {
+				name = "oxr_mdlc_core_modifying_ruler_trait_info_picks_readout_display"
+				size = { x = 200 y = 20 }
+				quadTextureSprite = "GFX_oxr_mdlc_councilor_editor_empty"
+				position = { x = 0 y = 210 }
+				buttonText = "oxr_mdlc_core_modifying_ruler_trait_info_picks_readout"
+				buttonFont = "cg_16b"
+				effect = oxr_mdlc_councilor_editor_always_visible_effect
+				text = "oxr_mdlc_core_modifying_ruler_trait_info_picks_readout"
+				alwaysTransparent = yes
+				format = right
+			}
+            # Info about trait picks
+            effectButtonType = {
+                name = "oxr_mdlc_core_modifying_trait_picks_breakdown"
+                size = { x = 20 y = 20 }
+                position = { x = 355 y = 233 }
+                spriteType = GFX_text_oxr_info
+                buttonFont = "cg_16b"
+                effect = oxr_mdlc_core_modifying_trait_picks_info_effect
+                # format = right
+            }
+        }
+        # Leader class headers
+        effectbuttonType = {
+			name = "oxr_mdlc_core_modifying_commander_traits_header_display"
+			size = { x = 340 y = 20 }
+			position = { x = -30 y = 560 }
+			quadTextureSprite = "GFX_invisible"
+			text = "oxr_mdlc_core_modifying_commander_traits_header_text"
+			font = "cg_16b"
+			no_clicksound = yes
+			effect = "xvcv_mdlc_leader_making_dummy_button_effect"
+		}
+        effectbuttonType = {
+			name = "oxr_mdlc_core_modifying_scientist_traits_header_display"
+			size = { x = 340 y = 20 }
+			position = { x = 230 y = 35 }
+			quadTextureSprite = "GFX_invisible"
+			text = "oxr_mdlc_core_modifying_scientist_traits_header_text"
+			font = "cg_16b"
+			no_clicksound = yes
+			effect = "xvcv_mdlc_leader_making_dummy_button_effect"
+		}
+        effectbuttonType = {
+			name = "oxr_mdlc_core_modifying_official_traits_header_display"
+			size = { x = 340 y = 20 }
+			position = { x = -30 y = 35 }
+			quadTextureSprite = "GFX_invisible"
+			text = "oxr_mdlc_core_modifying_official_traits_header_text"
+			font = "cg_16b"
+			no_clicksound = yes
+			effect = "xvcv_mdlc_leader_making_dummy_button_effect"
+		}
+
+
 		@xvcv_mdlc_core_modifying_traits_box_size_width = 243
 		@xvcv_mdlc_core_modifying_traits_box_size_height = 243
 
