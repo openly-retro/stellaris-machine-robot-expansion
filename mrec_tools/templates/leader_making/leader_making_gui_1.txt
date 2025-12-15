@@ -192,7 +192,7 @@ guiTypes = {
 		iconType = {
 			name = "xvcv_mdlc_leader_making_pic"
 			spriteType = "GFX_evt_robot_assembly_plant"
-			position = { x = 0 y = 125 }
+			position = { x = -190 y = 125 }
 			orientation = center_up
 			centerPosition = yes
 			alwaystransparent = yes
@@ -200,20 +200,23 @@ guiTypes = {
 		iconType = {
 			name = "xvcv_mdlc_event_pic_frame"
 			spriteType = "GFX_event_frame"
-			position = { x = 0 y = 125 }
+			position = { x = -190 y = 125 }
 			orientation = center_up
 			centerPosition = yes
 			alwaystransparent = yes
 		}
+        instantTextBoxType = {
+            name = "oxr_mdlc_leader_making_editor_text_instructions_display"
+            font = "cg_16b"
+            text = "oxr_mdlc_leader_making_editor_text_instructions"
+            maxWidth = 360
+            position = { x = 484 y = 40 }
+            alwaysTransparent = yes
+        }
 		containerWindowType = {
 			name = "xvcv_mdlc_leader_making_skill_level"
-			position = { x = 219 y = 616 }
-			instantTextBoxType = {
-				name = "xvcv_mdlc_leader_skill_level_header"
-				position = { x = -121 y = 5 }
-				font = "cg_16b"
-				text = "XVCV_MDLC_LEADER_SKILL_LEVEL_HEADER"
-			}
+			position = { x = 219 y = 636 }
+
 			effectbuttonType = {
 				name = "xvcv_mdlc_reset_leader_trait_skill_level"
 				position = { x = 347 y = -4 }
@@ -227,67 +230,163 @@ guiTypes = {
 				font = "cg_16b"
 				text = "TEXT_RESET_XVCV_MDLC_LEADER_MAKING_TRAIT_SKILL_LEVEL"
 			}
-			effectbuttonType = {
-				name = "xvcv_mdlc_leader_making_skill_level_1"
-				position = { x = 0 y = 0 }
-				quadTextureSprite = "GFX_xvcv_mdlc_leader_making_skill_level_1"
-				effect = "xvcv_mdlc_set_skill_level_1_button_effect"
+
+		}
+        # LEADER MANUFACTURING INFORMATION - each element is 25 px lower than the previous
+        # header text
+        effectbuttonType = {
+			name = "oxr_mdlc_leader_making_informational_text_headline_display"
+			size = { x = 300 y = 30 }
+			position = {
+                x = 537
+                y = 410
+            }
+			quadTextureSprite = "GFX_invisible"
+			text = "oxr_mdlc_leader_making_information_headline"
+			font = "cg_16b"
+			no_clicksound = yes
+            format = left
+			effect = "xvcv_mdlc_leader_making_dummy_button_effect"
+		}
+        effectbuttonType = {
+			name = "oxr_mdlc_leader_making_informational_text_class"
+			size = { x = 300 y = 30 }
+			position = {
+                x = 437
+                y = 445
+            }
+			quadTextureSprite = "GFX_invisible"
+			text = "oxr_mdlc_leader_making_information_selected_class_text"
+			font = "cg_16b"
+			no_clicksound = yes
+            format = left
+			effect = "xvcv_mdlc_leader_making_dummy_button_effect"
+		}
+        # remaining points and max points
+        effectbuttonType = {
+			name = "oxr_mdlc_leader_making_informational_text_points_display"
+			size = { x = 300 y = 30 }
+			position = {
+                x = 437
+                y = 470
+            }
+			quadTextureSprite = "GFX_invisible"
+			text = "oxr_mdlc_leader_making_information_trait_points_text"
+			font = "cg_16b"
+			no_clicksound = yes
+            format = left
+			effect = "xvcv_mdlc_leader_making_dummy_button_effect"
+		}
+        # remaining picks and max picks
+        effectbuttonType = {
+			name = "oxr_mdlc_leader_making_informational_text_picks_display"
+			size = { x = 300 y = 30 }
+			position = {
+                x = 437
+                y = 495
+            }
+			quadTextureSprite = "GFX_invisible"
+			text = "oxr_mdlc_leader_making_information_trait_picks_text"
+			font = "cg_16b"
+			no_clicksound = yes
+            format = left
+			effect = "xvcv_mdlc_leader_making_dummy_button_effect"
+		}
+        # leader level
+        effectbuttonType = {
+			name = "oxr_mdlc_leader_making_informational_text_level_display"
+			size = { x = 300 y = 30 }
+			position = {
+                x = 437
+                y = 520
+            }
+			quadTextureSprite = "GFX_invisible"
+			text = "oxr_mdlc_leader_making_information_selected_leader_level_text"
+			font = "cg_16b"
+			no_clicksound = yes
+            format = left
+			effect = "xvcv_mdlc_leader_making_dummy_button_effect"
+		}
+        # BUTTONS TO UP/DOWN LEADER LEVEL
+        containerWindowType = {
+            name = "xvcv_mdlc_leader_making_level_updown_widgets"
+            position = { x = 417 y = 517 }
+            effectbuttonType = {
+				name = "xvcv_mdlc_leader_making_level_number_up"
+				position = { x = 286 y = 3 }
+				spriteType = "GFX_button_up"
+				effect = "oxr_mdlc_leader_making_level_up_button_effect"
 			}
 			effectbuttonType = {
-				name = "xvcv_mdlc_leader_making_skill_level_2"
-				position = { x = 35 y = 0 } #+35 x pixels from 'xvcv_mdlc_leader_making_skill_level_1'
-				quadTextureSprite = "GFX_xvcv_mdlc_leader_making_skill_level_2"
-				effect = "xvcv_mdlc_set_skill_level_2_button_effect"
+				name = "xvcv_mdlc_leader_making_level_number_down"
+				position = { x = 316 y = 3 }
+				spriteType = "GFX_button_down"
+				effect = "oxr_mdlc_leader_making_level_down_button_effect"
+			}
+        }
+        # how many to make
+        effectbuttonType = {
+			name = "oxr_mdlc_leader_making_informational_text_num_to_print_display"
+			size = { x = 300 y = 30 }
+			position = {
+                x = 437
+                y = 545
+            }
+            format = left
+			quadTextureSprite = "GFX_invisible"
+			text = "oxr_mdlc_leader_making_information_number_of_leaders_to_make_text"
+			font = "cg_16b"
+			no_clicksound = yes
+			effect = "xvcv_mdlc_leader_making_dummy_button_effect"
+		}
+        # BUTTONS FOR MORE/FEWER LEADERS
+        containerWindowType = {
+            name = "xvcv_mdlc_leader_making_quantity_updown_widgets"
+            position = { x = 417 y = 544 }
+            effectbuttonType = {
+				name = "xvcv_mdlc_leader_making_start_number_up"
+				position = { x = 286 y = 3 }
+				spriteType = "GFX_button_up"
+				effect = "xvcv_mdlc_leader_making_start_number_up_button_effect"
 			}
 			effectbuttonType = {
-				name = "xvcv_mdlc_leader_making_skill_level_3"
-				position = { x = 70 y = 0 }
-				quadTextureSprite = "GFX_xvcv_mdlc_leader_making_skill_level_3"
-				effect = "xvcv_mdlc_set_skill_level_3_button_effect"
+				name = "xvcv_mdlc_leader_making_start_number_down"
+				position = { x = 316 y = 3 }
+				spriteType = "GFX_button_down"
+				effect = "xvcv_mdlc_leader_making_start_number_down_button_effect"
 			}
+        }
+        # how much it all costs
+        effectbuttonType = {
+			name = "oxr_mdlc_leader_making_informational_text_cost_display"
+			size = { x = 300 y = 30 }
+			position = {
+                x = 437
+                y = 570
+            }
+            format = left
+			quadTextureSprite = "GFX_invisible"
+			text = "tooltip_xvcv_mdlc_leader_making_total_cost"
+			font = "cg_16b"
+			no_clicksound = yes
+			effect = "xvcv_mdlc_leader_making_dummy_button_effect"
+		}
+         # YE OLD START BUTTON
+        containerWindowType = {
+			name = "xvcv_mdlc_leader_making_start_box"
+			position = { x = 251 y = 634 }
 			effectbuttonType = {
-				name = "xvcv_mdlc_leader_making_skill_level_4"
-				position = { x = 105 y = 0 }
-				quadTextureSprite = "GFX_xvcv_mdlc_leader_making_skill_level_4"
-				effect = "xvcv_mdlc_set_skill_level_4_button_effect"
-			}
-			effectbuttonType = {
-				name = "xvcv_mdlc_leader_making_skill_level_5"
-				position = { x = 140 y = 0 }
-				quadTextureSprite = "GFX_xvcv_mdlc_leader_making_skill_level_5"
-				effect = "xvcv_mdlc_set_skill_level_5_button_effect"
-			}
-			effectbuttonType = {
-				name = "xvcv_mdlc_leader_making_skill_level_6"
-				position = { x = 175 y = 0 }
-				quadTextureSprite = "GFX_xvcv_mdlc_leader_making_skill_level_6"
-				effect = "xvcv_mdlc_set_skill_level_6_button_effect"
-			}
-			effectbuttonType = {
-				name = "xvcv_mdlc_leader_making_skill_level_7"
-				position = { x = 210 y = 0 }
-				quadTextureSprite = "GFX_xvcv_mdlc_leader_making_skill_level_7"
-				effect = "xvcv_mdlc_set_skill_level_7_button_effect"
-			}
-			effectbuttonType = {
-				name = "xvcv_mdlc_leader_making_skill_level_8"
-				position = { x = 245 y = 0 }
-				quadTextureSprite = "GFX_xvcv_mdlc_leader_making_skill_level_8"
-				effect = "xvcv_mdlc_set_skill_level_8_button_effect"
-			}
-			effectbuttonType = {
-				name = "xvcv_mdlc_leader_making_skill_level_9"
-				position = { x = 280 y = 0 }
-				quadTextureSprite = "GFX_xvcv_mdlc_leader_making_skill_level_9"
-				effect = "xvcv_mdlc_set_skill_level_9_button_effect"
-			}
-			effectbuttonType = {
-				name = "xvcv_mdlc_leader_making_skill_level_10"
-				position = { x = 315 y = 0 }
-				quadTextureSprite = "GFX_xvcv_mdlc_leader_making_skill_level_10"
-				effect = "xvcv_mdlc_set_skill_level_10_button_effect"
+                size = { x = 300 y = 200 }
+				name = "xvcv_mdlc_leader_making_start"
+				quadTextureSprite = "GFX_galactic_object_button"
+				buttonText = "xvcv_mdlc_leader_making_start_text"
+				buttonFont = "malgun_goth_24"
+				effect = "xvcv_mdlc_leader_making_start_button_effect"
 			}
 		}
+        
+
+        #### CLASS-SPECIFIC STUFF
 
 		#Leader Traits: Official
 		effectbuttonType = {

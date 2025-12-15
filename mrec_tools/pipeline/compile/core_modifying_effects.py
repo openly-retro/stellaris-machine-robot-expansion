@@ -77,10 +77,14 @@ xvcv_mdlc_core_modifying_traits_{leader_class}_{trait_name}_add_button_effect = 
         ruler = {{ NOT = {{ has_trait = {trait_name} }} }}
     }}
     allow = {{
-        {"\n        ".join(allowances)}
+        ruler = {{
+            {"\n        ".join(allowances)}
+        }}
     }}
     effect = {{
-        {"\n        ".join(effects)}
+        ruler = {{
+            {"\n        ".join(effects)}
+        }}
     }}
 }}
 xvcv_mdlc_core_modifying_traits_{leader_class}_{trait_name}_remove_button_effect = {{
@@ -89,10 +93,12 @@ xvcv_mdlc_core_modifying_traits_{leader_class}_{trait_name}_remove_button_effect
     }}
     allow = {{ always = yes }}
     effect = {{
+        ruler = {{ remove_trait = {trait_name} }}
         custom_tooltip = xvcv_mdlc_core_modifying_tooltip_remove_{leader_class}_{trait_name}
         hidden_effect = {{
-            ruler = {{ remove_trait = {trait_name} }}
-            xvcv_mdlc_core_modifying_refund_trait_points_picks_{rarity} = yes
+            ruler = {{
+                xvcv_mdlc_core_modifying_refund_trait_points_picks_{rarity} = yes
+            }}
         }}
     }}
 }}
