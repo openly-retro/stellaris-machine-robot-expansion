@@ -24,13 +24,13 @@ xvcv_mdlc_core_modifying_traits_official_trait_ruler_feedback_loop_2_add_button_
     allow = {
         custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_official_trait_ruler_feedback_loop_2
         xvcv_mdlc_core_modifying_check_trait_resources_cost_common = yes
-        xvcv_mdlc_core_modifying_check_trait_points_cost_common = yes
-        xvcv_mdlc_core_modifying_check_trait_picks = yes
+        xvcv_mdlc_core_modifying_ruler_check_trait_points_cost_common = yes
+        xvcv_mdlc_core_modifying_ruler_check_trait_picks = yes
     }
     effect = {
         xvcv_mdlc_core_modifying_remove_tier_1_or_2_traits_effect = { ID = trait_ruler_feedback_loop }
-        xvcv_mdlc_core_modifying_change_class_add_trait = { CLASS = official ID = trait_ruler_feedback_loop_2 }
-        hidden_effect = { xvcv_mdlc_core_modifying_deduct_cost_points_picks_common = yes }
+        xvcv_mdlc_core_modifying_ruler_change_class_add_trait = { CLASS = official ID = trait_ruler_feedback_loop_2 }
+        hidden_effect = { xvcv_mdlc_core_modifying_country_deduct_trait_costs_common = yes }
     }
 }
 xvcv_mdlc_core_modifying_traits_official_trait_ruler_feedback_loop_2_remove_button_effect = {
@@ -42,7 +42,7 @@ xvcv_mdlc_core_modifying_traits_official_trait_ruler_feedback_loop_2_remove_butt
         custom_tooltip = xvcv_mdlc_core_modifying_tooltip_remove_official_trait_ruler_feedback_loop_2
         hidden_effect = {
             ruler = { remove_trait = trait_ruler_feedback_loop_2 }
-            xvcv_mdlc_core_modifying_refund_trait_points_picks_common = yes
+            xvcv_mdlc_core_modifying_ruler_refund_trait_points_picks_common = yes
         }
     }
 }
@@ -66,13 +66,13 @@ xvcv_mdlc_core_modifying_traits_official_leader_trait_frontier_spirit_3_add_butt
         custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_official_leader_trait_frontier_spirit_3
         xvcv_mdlc_core_modifying_requires_ruler_subclass_or_focus_trigger = { CLASS = official ID = subclass_official_diplomacy_councilor }
         xvcv_mdlc_core_modifying_check_trait_resources_cost_veteran = yes
-        xvcv_mdlc_core_modifying_check_trait_points_cost_veteran = yes
+        xvcv_mdlc_core_modifying_ruler_check_trait_points_cost_veteran = yes
         xvcv_mdlc_core_modifying_trait_skill_level_veteran_trigger = yes
-        xvcv_mdlc_core_modifying_check_trait_picks = yes
+        xvcv_mdlc_core_modifying_ruler_check_trait_picks = yes
     }
     effect = {
         xvcv_mdlc_core_modifying_remove_tier_1_or_2_traits_effect = { ID = leader_trait_frontier_spirit }
-        xvcv_mdlc_core_modifying_change_class_add_trait = { CLASS = official ID = leader_trait_frontier_spirit_3 }
+        xvcv_mdlc_core_modifying_ruler_change_class_add_trait = { CLASS = official ID = leader_trait_frontier_spirit_3 }
         hidden_effect = { xvcv_mdlc_core_modifying_deduct_cost_points_picks_veteran = yes }
     }
 }
@@ -85,7 +85,7 @@ xvcv_mdlc_core_modifying_traits_official_leader_trait_frontier_spirit_3_remove_b
         custom_tooltip = xvcv_mdlc_core_modifying_tooltip_remove_official_leader_trait_frontier_spirit_3
         hidden_effect = {
             ruler = { remove_trait = leader_trait_frontier_spirit_3 }
-            xvcv_mdlc_core_modifying_refund_trait_points_picks_veteran = yes
+            xvcv_mdlc_core_modifying_ruler_refund_trait_points_picks_veteran = yes
         }
     }
 }
@@ -110,13 +110,13 @@ xvcv_mdlc_core_modifying_traits_commander_leader_trait_bellicose_add_button_effe
         custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_commander_leader_trait_bellicose
         xvcv_mdlc_core_modifying_requires_ruler_subclass_or_focus_trigger = { CLASS = commander ID = subclass_commander_general }
         xvcv_mdlc_core_modifying_check_trait_resources_cost_paragon = yes
-        xvcv_mdlc_core_modifying_check_trait_points_cost_paragon = yes
+        xvcv_mdlc_core_modifying_ruler_check_trait_points_cost_paragon = yes
         xvcv_mdlc_core_modifying_trait_skill_level_paragon_trigger = yes
-        xvcv_mdlc_core_modifying_check_trait_picks = yes
+        xvcv_mdlc_core_modifying_ruler_check_trait_picks = yes
         has_paragon_dlc = yes
     }
     effect = {
-        xvcv_mdlc_core_modifying_change_class_add_trait = { CLASS = commander ID = leader_trait_bellicose }
+        xvcv_mdlc_core_modifying_ruler_change_class_add_trait = { CLASS = commander ID = leader_trait_bellicose }
         hidden_effect = { xvcv_mdlc_core_modifying_deduct_cost_points_picks_paragon = yes }
     }
 }
@@ -129,7 +129,7 @@ xvcv_mdlc_core_modifying_traits_commander_leader_trait_bellicose_remove_button_e
         custom_tooltip = xvcv_mdlc_core_modifying_tooltip_remove_commander_leader_trait_bellicose
         hidden_effect = {
             ruler = { remove_trait = leader_trait_bellicose }
-            xvcv_mdlc_core_modifying_refund_trait_points_picks_paragon = yes
+            xvcv_mdlc_core_modifying_ruler_refund_trait_points_picks_paragon = yes
         }
     }
 }
@@ -366,14 +366,14 @@ xvcv_mdlc_core_modifying_traits_official_leader_trait_efficient_add_button_effec
         custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_official_leader_trait_efficient
         xvcv_mdlc_core_modifying_requires_ruler_subclass_or_focus_trigger = { CLASS = official ID = subclass_official_governor }
         xvcv_mdlc_core_modifying_check_trait_resources_cost_paragon = yes
-        xvcv_mdlc_core_modifying_check_trait_points_cost_paragon = yes
+        xvcv_mdlc_core_modifying_ruler_check_trait_points_cost_paragon = yes
         xvcv_mdlc_core_modifying_trait_skill_level_paragon_trigger = yes
-        xvcv_mdlc_core_modifying_check_trait_picks = yes
+        xvcv_mdlc_core_modifying_ruler_check_trait_picks = yes
         has_paragon_dlc = yes
         has_technology = pew_pew_beams_6
     }
     effect = {
-        xvcv_mdlc_core_modifying_change_class_add_trait = { CLASS = official ID = leader_trait_efficient }
+        xvcv_mdlc_core_modifying_ruler_change_class_add_trait = { CLASS = official ID = leader_trait_efficient }
         hidden_effect = { xvcv_mdlc_core_modifying_deduct_cost_points_picks_paragon = yes }
     }
 }
@@ -386,7 +386,7 @@ xvcv_mdlc_core_modifying_traits_official_leader_trait_efficient_remove_button_ef
         custom_tooltip = xvcv_mdlc_core_modifying_tooltip_remove_official_leader_trait_efficient
         hidden_effect = {
             ruler = { remove_trait = leader_trait_efficient }
-            xvcv_mdlc_core_modifying_refund_trait_points_picks_paragon = yes
+            xvcv_mdlc_core_modifying_ruler_refund_trait_points_picks_paragon = yes
         }
     }
 }

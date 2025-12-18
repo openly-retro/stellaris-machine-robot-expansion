@@ -30,45 +30,48 @@ def gen_core_modifying_button_effects_code(
     # commend out skill level trigger if it's not a veteran trait
     trait_comment = f"#{"destiny" if rarity == "paragon" else rarity} trait"
 
-    allowances = []
-    allowances.append(f"custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_{leader_class}_{trait_name}")
+    country_checks = [] # tech, if ever applicable ??
+    ruler_checks = []   # leader-specific checks (lvl, points)
+    global_checks = []  # DLCs, mainly
     if required_subclass := trait_data.get('required_subclass'):
-        allowances.append(
+        ruler_checks.append(
             "xvcv_mdlc_core_modifying_requires_ruler_subclass_or_focus_trigger = "
             f"{{ CLASS = {leader_class} ID = {required_subclass} }}"
         )
-    allowances.append(f"xvcv_mdlc_core_modifying_check_trait_resources_cost_{rarity} = yes")
-    allowances.append(f"xvcv_mdlc_core_modifying_check_trait_points_cost_{rarity} = yes")
+
     # requires skill level trigger
     if rarity in ['veteran', 'paragon']:
-        allowances.append(f"xvcv_mdlc_core_modifying_trait_skill_level_{rarity}_trigger = yes")
-    allowances.append("xvcv_mdlc_core_modifying_check_trait_picks = yes")
+        ruler_checks.append(f"xvcv_mdlc_core_modifying_trait_skill_level_{rarity}_trigger = yes")
     if requires_paragon_dlc:
-        allowances.append("has_paragon_dlc = yes")
+        global_checks.append("has_paragon_dlc = yes")
     # Get fancy about picking up DLC requirements per trait
     if dlc_dependecy := TRAITS_REQUIRING_DLC.get(trait_name):
-        allowances.append(f"{dlc_dependecy} = yes")
-    # Assuming that prerequisites will always be tech *fingers crossed*
-    # Sorry to ruin your assumption, me-from-the-past ...
+        global_checks.append(f"{dlc_dependecy} = yes")
 
     if tech_prereqs := trait_data.get('prerequisites'):
+        # This can have leader-specific checks, and tech checks in the form of:
+        # owner = { trigger ... }
         ruler_trigger_block = create_requirements_triggers_for_leader_traits(
             trait=trait_data, generate_for_ruler=True
         )
-        allowances.append(ruler_trigger_block)
+        ruler_checks.append(ruler_trigger_block)
 
-
-    effects = []
+    hidden_ruler_effects = []
     if needs_remove_tier_num_trait_effect:
-        effects.append(
+        hidden_ruler_effects.append(
             f"xvcv_mdlc_core_modifying_remove_tier_1_or_2_traits_effect = {{ ID = {trait_name_no_tier} }}"
         )
-    effects.append(
-        f"xvcv_mdlc_core_modifying_change_class_add_trait = {{ CLASS = {leader_class} ID = {trait_name} }}"
-    )
-    effects.append(
-        f"hidden_effect = {{ xvcv_mdlc_core_modifying_deduct_cost_points_picks_{rarity} = yes }}"
-    )
+
+    # Select the correct tooltip for showing costs for this trait
+    trait_costs_level = ""
+    if rarity == 'veteran':
+        trait_costs_level = "_alt"
+    elif rarity == 'paragon':
+        trait_costs_level = "_alt_2"
+    
+    rendered_country_checks = "\n            ".join(country_checks) if len(country_checks) else ''
+    rendered_ruler_checks = "\n            ".join(ruler_checks) if len(ruler_checks) else ''
+    rendered_global_checks = "\n        ".join(global_checks) if len(global_checks) else ''
 
     return f"""
 #{trait_name} {trait_comment}
@@ -77,13 +80,33 @@ xvcv_mdlc_core_modifying_traits_{leader_class}_{trait_name}_add_button_effect = 
         ruler = {{ NOT = {{ has_trait = {trait_name} }} }}
     }}
     allow = {{
-        ruler = {{
-            {"\n        ".join(allowances)}
+        root = {{
+            xvcv_mdlc_core_modifying_check_trait_resources_cost_{rarity} = yes
+            {rendered_country_checks}
         }}
+        ruler = {{
+            xvcv_mdlc_core_modifying_ruler_check_trait_points_cost_{rarity} = yes
+            xvcv_mdlc_core_modifying_ruler_check_trait_picks = yes
+            {rendered_ruler_checks}
+        }}
+        {rendered_global_checks}
+        custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_{leader_class}_{trait_name}
     }}
     effect = {{
+        custom_tooltip = add_xvcv_mdlc_core_modifying_traits_costs_desc{trait_costs_level}
         ruler = {{
-            {"\n        ".join(effects)}
+            xvcv_mdlc_core_modifying_ruler_change_class_add_trait = {{
+                CLASS = {leader_class} ID = {trait_name}
+            }}            
+        }}
+        hidden_effect = {{
+            ruler = {{
+                xvcv_mdlc_core_modifying_ruler_deduct_trait_points_{rarity} = yes
+                {"\n                ".join(hidden_ruler_effects)}
+            }}
+            root = {{
+                xvcv_mdlc_core_modifying_country_deduct_trait_costs_{rarity} = yes
+            }}
         }}
     }}
 }}
@@ -93,11 +116,16 @@ xvcv_mdlc_core_modifying_traits_{leader_class}_{trait_name}_remove_button_effect
     }}
     allow = {{ always = yes }}
     effect = {{
-        ruler = {{ remove_trait = {trait_name} }}
-        custom_tooltip = xvcv_mdlc_core_modifying_tooltip_remove_{leader_class}_{trait_name}
+        custom_tooltip = remove_xvcv_mdlc_core_modifying_traits_costs_desc{trait_costs_level}
+        ruler = {{
+            remove_trait = {trait_name}
+        }}
         hidden_effect = {{
             ruler = {{
-                xvcv_mdlc_core_modifying_refund_trait_points_picks_{rarity} = yes
+                xvcv_mdlc_core_modifying_ruler_refund_trait_points_picks_{rarity} = yes
+            }}
+            root = {{
+                xvcv_mdlc_core_modifying_country_refund_trait_cost_{rarity} = yes
             }}
         }}
     }}
@@ -111,14 +139,20 @@ xvcv_mdlc_core_modifying_reset_traits_button_effect = {
     effect = {
         custom_tooltip = xvcv_mdlc_core_modifying_reset_traits_button_effect_tooltip
         if = {
-            limit = { check_variable = { which = xvcv_mdlc_core_modifying_trait_points value = 0 } }
+            limit = {
+                ruler = {
+                    check_variable = { which = xvcv_mdlc_core_modifying_trait_points value = 0 } }
+                }
             custom_tooltip = effect_xvcv_mdlc_core_modifying_trait_points_tooltip
-            else = { custom_tooltip = effect_xvcv_mdlc_core_modifying_trait_points_tooltip_alt }
+            # else = { custom_tooltip = effect_xvcv_mdlc_core_modifying_trait_points_tooltip_alt }
         }
         if = {
-            limit = { check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value = 0 } }
+            limit = {
+                ruler = {
+                    check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value = 0 } }
+                }
             custom_tooltip = effect_xvcv_mdlc_core_modifying_trait_picks_tooltip
-            else = { custom_tooltip = effect_xvcv_mdlc_core_modifying_trait_picks_tooltip_alt }
+            # else = { custom_tooltip = effect_xvcv_mdlc_core_modifying_trait_picks_tooltip_alt }
         }
         custom_tooltip = xvcv_mdlc_core_modifying_reset_traits_button_effect_tooltip_2
         hidden_effect = {
@@ -128,8 +162,8 @@ xvcv_mdlc_core_modifying_reset_traits_button_effect = {
 # output goes here
 
 CORE_MODIFYING_RESET_TRAITS_BUTTON_EFFECT_FOOTER = """
+                xvcv_mdlc_core_modifying_reset_ruler_points_picks_effect = yes
             }
-            xvcv_mdlc_core_modifying_reset_ruler_points_picks_effect = yes
         }
     }
 }
@@ -171,7 +205,7 @@ def gen_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines(input_files_li
                     )
     subclass_effect_line = (
         "if = {{ limit = {{ has_trait = {trait_name} }} remove_trait = {trait_name} prev ="
-        " {{ xvcv_mdlc_core_modifying_trait_return_cost_effect = yes }} }}"
+        " {{ xvcv_mdlc_core_modifying_country_refund_trait_cost_effect = yes }} }}"
     )
     for subclass in LEADER_SUBCLASSES:
         alt_modifier = ""

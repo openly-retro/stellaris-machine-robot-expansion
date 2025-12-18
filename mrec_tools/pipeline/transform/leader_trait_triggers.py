@@ -165,7 +165,12 @@ def create_requirements_triggers_for_leader_traits(
             # aHAhahAHahhAHAHA let's see what happens with this t(@_o)t
             abomination = str(value).replace(':',' =').replace("'",' ').replace(',','').replace('True','yes').replace('False','no').replace('}',' }')
             requirements.append(f"""owner = {abomination} """)
-                
+        
+        elif type(value) is dict and trigger.lower() == "or":
+            # Mash it all into one line
+            acceptable_abomination = str(value).replace('\n','').strip().replace('    ',' ')
+            requirements.append(acceptable_abomination)
+
         # if it's a standard assignment, put in the list
         elif type(value) not in [dict, list]:
             if type(value) != bool:
