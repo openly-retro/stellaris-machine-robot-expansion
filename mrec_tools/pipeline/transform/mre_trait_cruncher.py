@@ -4,6 +4,7 @@ from copy import copy
 from dataclasses import dataclass
 from enum import Enum
 from pprint import pprint
+import re
 import sys
 # from yaml import safe_load, safe_dump, load as load_yaml, dump as dump_yaml
 # from yaml import CLoader as Loader, CDumper as Dumper
@@ -86,29 +87,23 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
     # 1) We concatenated multiple "has_trait = subclass*" into "has_subclass_trait"
     # 2) It's a single key under leader_potential_add
     # 3) Something else we didnt account for
-    if root.get("leader_potential_add", None) is not None: # sad kluge
-        if root["leader_potential_add"].get("OR",{}).get("has_subclass_trait"):
-            potential_subclass_data = root['leader_potential_add']['OR']['has_subclass_trait']
-            if type(potential_subclass_data) is list:
-                auto_picked_subclass = pick_correct_subclass_from_potential(
-                    slim_trait['leader_class'], potential_subclass_data
-                )
-                slim_trait["required_subclass"] = auto_picked_subclass
-            if type(potential_subclass_data) is str:
-                slim_trait["required_subclass"] = potential_subclass_data
-        # Destiny traits have a required subclass outside an OR
-        # elif "subclass" in root["leader_potential_add"].get("has_trait", ""):
-        #     slim_trait["required_subclass"] = root["leader_potential_add"]["has_trait"]
-        elif root['leader_potential_add'].get('has_subclass_trait'):
-            subclasses_list = root['leader_potential_add']['has_subclass_trait']
-            this_trait_req_subclass = pick_correct_subclass_from_potential(
-                slim_trait['leader_class'], subclasses_list
+
+    # V4 - just do a classic regex search for the trait name, forget traversing objects
+    # when stringified, the obj keys and values will be single-quoted
+    subclass_trait_re = r'\'has_trait\':\s{1,}\'(\w*)\''
+    subclass_trait_rx = re.compile(subclass_trait_re)
+    if leader_potential_reqs := root.get("leader_potential_add", None):
+        if 'subclass_' in str(leader_potential_reqs):
+            
+            subclass_trait_match = re.search(
+                subclass_trait_rx,
+                str(leader_potential_reqs)
             )
-            slim_trait["required_subclass"] = this_trait_req_subclass
-        elif "subclass" in root['leader_potential_add'].get("has_trait", ""):
-            potential_subclass = root["leader_potential_add"]["has_trait"]
-            if for_class in potential_subclass:
-                slim_trait['required_subclass'] = potential_subclass
+            if not subclass_trait_match:
+                breakpoint()
+            # expect 'subclass_commander_councilor' from 'has_trait = subclass_commander_councilor'
+            subclass_trait_text = subclass_trait_match.group(1)
+            slim_trait['required_subclass'] = subclass_trait_text
 
         # Look for a rule that says the trait shouldnt be permitted to be added to rulers
         if root["leader_potential_add"].get('is_ruler', None) is not None:
@@ -164,18 +159,18 @@ def qa_trait(slim_trait: dict) -> bool:
     return True
 
 
-def pick_correct_subclass_from_potential(leader_class, subclass_list):
-    """ Select the subclass corresponding to the leader class """
-    # Really this isn't 'correct' it just picks 'first'
-    matching_subclass = "PLACEHOLDER_VALUE"
-    for subclass_option in subclass_list:
-        if leader_class in subclass_option:
-            matching_subclass = subclass_option
-            break
-        else:
-            1
-            # Raise an exception?
-    return matching_subclass
+# def pick_correct_subclass_from_potential(leader_class, subclass_list):
+#     """ Select the subclass corresponding to the leader class """
+#     # Really this isn't 'correct' it just picks 'first'
+#     matching_subclass = "PLACEHOLDER_VALUE"
+#     for subclass_option in subclass_list:
+#         if leader_class in subclass_option:
+#             matching_subclass = subclass_option
+#             break
+#         else:
+#             1
+#             # Raise an exception?
+#     return matching_subclass
 
 def guess_gfx_icon_from_trait_name(trait_name):
     base = trait_name

@@ -168,8 +168,28 @@ def create_requirements_triggers_for_leader_traits(
         
         elif type(value) is dict and trigger.lower() == "or":
             # Mash it all into one line
-            acceptable_abomination = str(value).replace('\n','').strip().replace('    ',' ')
-            requirements.append(acceptable_abomination)
+            abomination = str(value).replace('\n','').strip().replace(
+                '    ',' '
+            ).replace(
+                '\':',' ='
+            ).replace(
+                'False', 'no'
+            ).replace(
+                'True','yes'
+            ).replace(
+                '}',''
+            ).replace(
+                '{',''
+            ).replace(
+                ',','\n    '
+            ).replace(
+                '\'',''
+            )
+            formatted_abom = f"""
+    OR = {{
+        { abomination}
+    }}"""
+            requirements.append(formatted_abom)
 
         # if it's a standard assignment, put in the list
         elif type(value) not in [dict, list]:
@@ -181,6 +201,9 @@ def create_requirements_triggers_for_leader_traits(
                 requirements.append(
                     f"{trigger} = {'yes' if value else 'no'}"
                 )
+    # QA check - we dont want stringified objects in the trigger
+    if ':' in str(requirements) and not 'event_target:' in str(requirements):
+        breakpoint()
     
     # Shroud help us
     if generate_for_ruler:
