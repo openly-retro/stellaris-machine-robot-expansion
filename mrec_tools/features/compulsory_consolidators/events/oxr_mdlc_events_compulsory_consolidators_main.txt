@@ -1,0 +1,19 @@
+namespace = oxr_mdlc_civic_consolidators
+
+country_event = {
+	# on game start
+	id = oxr_mdlc_civic_consolidators.1
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			NOT = {
+				exists = event_target:oxr_mdlc_civic_consolidation_target_@root
+			}
+			capital_scope = {
+				save_global_event_target_as = oxr_mdlc_civic_consolidation_target_@root
+			}
+		}
+	}
+}
