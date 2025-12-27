@@ -26,45 +26,6 @@ country_event = {
 	#don't add sound here #players will constantly hear it while changing the settings
 	is_triggered_only = yes
 
-	immediate = {
-		if = {
-			limit = { NOT = { has_country_flag = xvcv_mdlc_config_value_counts_locked } } #prevent counting until the player reopens the window
-			#xvcv_mdlc_config_free_jobs_count_effect
-			if = {
-				limit = { is_variable_set = xvcv_mdlc_empire_all_free_jobs_count_var }
-				clear_variable = xvcv_mdlc_empire_all_free_jobs_count_var
-			}
-			every_owned_planet = {
-				limit = { free_jobs > 0 }
-				export_trigger_value_to_variable = { trigger = free_jobs variable = xvcv_mdlc_planet_free_jobs_count_var }
-				root = { change_variable = { which = xvcv_mdlc_empire_all_free_jobs_count_var value = prev.xvcv_mdlc_planet_free_jobs_count_var } }
-			}
-			if = {
-				limit = { NOT = { is_variable_set = xvcv_mdlc_empire_all_free_jobs_count_var } }
-				set_variable = { which = xvcv_mdlc_empire_all_free_jobs_count_var value = 0 } #to show the player that the value is 0 #better than displaying an empty space
-			}
-			#xvcv_mdlc_config_free_housing_count_effect
-			if = {
-				limit = { is_variable_set = xvcv_mdlc_empire_all_free_housing_count_var }
-				clear_variable = xvcv_mdlc_empire_all_free_housing_count_var
-			}
-			every_owned_planet = {
-				limit = { free_housing > 0 }
-				export_trigger_value_to_variable = { trigger = free_housing variable = xvcv_mdlc_planet_free_housing_count_var }
-				root = { change_variable = { which = xvcv_mdlc_empire_all_free_housing_count_var value = prev.xvcv_mdlc_planet_free_housing_count_var } }
-			}
-			if = {
-				limit = { NOT = { is_variable_set = xvcv_mdlc_empire_all_free_housing_count_var } }
-				set_variable = { which = xvcv_mdlc_empire_all_free_housing_count_var value = 0 }
-			}
-			export_trigger_value_to_variable = {
-				trigger = num_unemployed
-				variable = xvcv_mdlc_empire_all_unemployed_pops_count_var
-			}
-			set_country_flag = xvcv_mdlc_config_value_counts_locked
-		}
-	}
-
 	#from robot to machine species conversion
 	option = {
 		name = xvcv_mdlc_config.1.1.on #click this to turn off
@@ -156,13 +117,17 @@ country_event = {
 			country_event = { id = xvcv_mdlc_config.1 }
 		}
 	}
-
+	### NAVIGATION
 	option = {
-		name = xvcv_mdlc_config.1.to_2nd_page
+		name = xvcv_mdlc_config.to_page_2
 		hidden_effect = { country_event = { id = xvcv_mdlc_config.2 } }
 	}
 	option = {
-		name = xvcv_mdlc_config.1.to_credits_page
+		name = xvcv_mdlc_config.to_page_3
+		hidden_effect = { country_event = { id = xvcv_mdlc_config.3 } }
+	}
+	option = {
+		name = xvcv_mdlc_config.to_credits_page
 		hidden_effect = { country_event = { id = xvcv_mdlc_config.99 } }
 	}
 	option = {
@@ -332,18 +297,59 @@ country_event = {
 			country_event = { id = xvcv_mdlc_config.2 }
 		}
 	}
+	### Navigation
 	option = {
-		name = xvcv_mdlc_config.any_to_1st_page
+		name = xvcv_mdlc_config.to_page_1
 		hidden_effect = { country_event = { id = xvcv_mdlc_config.1 } }
 	}
-	# option = {
-	# 	name = xvcv_mdlc_config.2.to_3_page
-	# 	hidden_effect = { country_event = { id = xvcv_mdlc_config.3 } }
-	# }
+	option = {
+	 	name = xvcv_mdlc_config.to_page_3
+	 	hidden_effect = { country_event = { id = xvcv_mdlc_config.3 } }
+	}
+	option = {
+		name = xvcv_mdlc_config.to_credits_page
+		hidden_effect = { country_event = { id = xvcv_mdlc_config.99 } }
+	}
 	option = {
 		name = xvcv_mdlc_close_evt_window
+		default_hide_option = yes
 	}
 }
+# Page 3 : Effects to help fix things
+country_event = {
+	id = xvcv_mdlc_config.3
+	title = "xvcv_mdlc_config.3.name"
+	desc = "xvcv_mdlc_config.3.desc"
+	picture = GFX_evt_xvcv_mdlc
+	#no sound here as well
+	is_triggered_only = yes
+
+	option = {
+		name = oxr_mdlc_mod_config_remove_old_ecu_deposits.name
+		custom_tooltip = oxr_mdlc_mod_config_remove_old_ecu_deposits.tooltip
+		hidden_effect = {
+			oxr_mdlc_country_remove_all_old_ecu_deposits = yes
+		}
+	}
+	### Navigation
+	option = {
+		name = xvcv_mdlc_config.to_page_1
+		hidden_effect = { country_event = { id = xvcv_mdlc_config.1 } }
+	}
+	option = {
+	 	name = xvcv_mdlc_config.to_page_2
+	 	hidden_effect = { country_event = { id = xvcv_mdlc_config.2 } }
+	}
+	option = {
+		name = xvcv_mdlc_config.to_credits_page
+		hidden_effect = { country_event = { id = xvcv_mdlc_config.99 } }
+	}
+	option = {
+		name = xvcv_mdlc_close_evt_window
+		default_hide_option = yes
+	}
+}
+
 
 # Mod credits
 country_event = {
@@ -354,14 +360,23 @@ country_event = {
 	#no sound here as well
 	is_triggered_only = yes
 
+
+	### Navigation
 	option = {
-		name = xvcv_mdlc_config.any_to_1st_page
+		name = xvcv_mdlc_config.to_page_1
 		hidden_effect = { country_event = { id = xvcv_mdlc_config.1 } }
-		default_hide_option = yes
+	}
+	option = {
+	 	name = xvcv_mdlc_config.to_page_2
+	 	hidden_effect = { country_event = { id = xvcv_mdlc_config.2 } }
+	}
+	option = {
+	 	name = xvcv_mdlc_config.to_page_3
+	 	hidden_effect = { country_event = { id = xvcv_mdlc_config.3 } }
 	}
 	option = {
 		name = xvcv_mdlc_close_evt_window
-		# hidden_effect = { remove_country_flag = xvcv_mdlc_config_value_counts_locked }
+		default_hide_option = yes
 	}
 }
 
@@ -421,12 +436,11 @@ country_event = {
 	option = {
 		name = xvcv_mdlc_config.any_to_1st_page
 		hidden_effect = { country_event = { id = xvcv_mdlc_config.1 } }
-		default_hide_option = yes
 	}
 
 	option = {
 		name = xvcv_mdlc_close_evt_window
-		# hidden_effect = { remove_country_flag = xvcv_mdlc_config_value_counts_locked }
+		default_hide_option = yes
 	}
 }
 
