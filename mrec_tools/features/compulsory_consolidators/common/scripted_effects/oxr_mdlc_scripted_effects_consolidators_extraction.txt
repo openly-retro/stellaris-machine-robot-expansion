@@ -1,0 +1,134 @@
+#
+oxr_mdlc_planet_extract_orbital_energy_deposits = {
+	switch = {
+		trigger = has_deposit
+		d_energy_1 = {
+			remove_deposit = d_energy_1
+			prev = {
+				oxr_mdlc_planet_move_orbital_deposit_to_target = {
+					DEPOSIT = d_energy_1
+				}
+			}
+		}
+		d_energy_2 = {
+			remove_deposit = d_energy_2
+			prev = {
+				oxr_mdlc_planet_move_orbital_deposit_to_target = {
+					DEPOSIT = d_energy_2
+				}
+			}
+		}
+		d_energy_3 = {
+			remove_deposit = d_energy_3
+			prev = {
+				oxr_mdlc_planet_move_orbital_deposit_to_target = {
+					DEPOSIT = d_energy_3
+				}
+			}
+		}
+		d_energy_4 = {
+			remove_deposit = d_energy_4
+			prev = {
+				oxr_mdlc_planet_move_orbital_deposit_to_target = {
+					DEPOSIT = d_energy_4
+				}
+			}
+		}
+		d_energy_5 = {
+			remove_deposit = d_energy_5
+			prev = {
+				oxr_mdlc_planet_move_orbital_deposit_to_target = {
+					DEPOSIT = d_energy_5
+				}
+			}
+		}
+		d_energy_6 = {
+			remove_deposit = d_energy_6
+			oxr_mdlc_civic_orbital_target@root = {
+				add_deposit = d_energy_6
+			}
+		}
+		d_energy_7 = {
+			remove_deposit = d_energy_7
+			oxr_mdlc_civic_orbital_target@root = {
+				add_deposit = d_energy_7
+			}
+		}
+		d_energy_8 = {
+			remove_deposit = d_energy_8
+			oxr_mdlc_civic_orbital_target@root = {
+				add_deposit = d_energy_8
+			}
+		}
+		d_energy_9 = {
+			remove_deposit = d_energy_9
+			oxr_mdlc_civic_orbital_target@root = {
+				add_deposit = d_energy_9
+			}
+		}
+		d_energy_10 = {
+			remove_deposit = d_energy_10
+			oxr_mdlc_civic_orbital_target@root = {
+				add_deposit = d_energy_10
+			}
+		}
+	}
+}
+
+oxr_mdlc_planet_move_orbital_deposit_to_target = {
+	fromfrom = {
+		random_system_within_border = {
+			limit = {
+				any_system_planet = {
+					has_planet_flag = oxr_mdlc_civic_orbital_target@root
+				}
+			}
+			random_system_planet = {
+				limit = {
+					has_planet_flag = oxr_mdlc_civic_orbital_target@root
+				}
+				add_deposit = $DEPOSIT$
+			}
+		}
+	}
+}
+
+oxr_mdlc_planet_create_extraction_mover_fleet = {
+	# Called at planet where decision was enacted
+	create_fleet = {
+		settings = {
+			spawn_debris = no
+			uses_naval_capacity = no
+		}
+		effect = {
+			set_owner = fromfrom
+			create_ship = {
+				name = "NAME_oxr_mdlc_civic_consolidators_ship"
+				design = "NAME_oxr_mdlc_civic_consolidators_ship_DESIGN"
+			}
+			set_location = root.capital_scope.starbase
+			#below codes are to create different flags based on an internal id of a country or a fleet, avoiding conflicts of multiple players having this civic at the same time
+			if = {
+				limit = { root = { has_country_flag = xvcv_mdlc_civic_trading_machine_ship_build_project_1_done } }
+				set_name = "NAME_XVCV_MDLC_CIVIC_TRADING_MACHINE_SHIP_FLEET_1"
+				set_fleet_flag = xvcv_mdlc_civic_trading_machine_fleet_1_owner_id_@root #assign the fleet owner's id
+				random_country = {
+					limit = { has_country_flag = xvcv_mdlc_civic_trading_machine_saved_target_1_@root }
+					set_country_flag = xvcv_mdlc_civic_trading_machine_target_country_@prev #assign the new fleet's id
+					save_event_target_as = xvcv_mdlc_civic_trading_machine_evt_10_desc_target #this is temporary event target for "xvcv_mdlc.11.desc" event descriptions
+					prev = {
+						auto_move_to_planet = {
+							target = prev.capital_scope
+							clear_auto_move_on_arrival = yes
+						}
+					}
+				}
+				root = {
+					set_country_flag = xvcv_mdlc_civic_trading_machine_owner_country_@prev #assign the new fleet's id
+					remove_country_flag = xvcv_mdlc_civic_trading_machine_ship_build_project_1_done
+				}
+			}
+		}
+	}
+		
+}
