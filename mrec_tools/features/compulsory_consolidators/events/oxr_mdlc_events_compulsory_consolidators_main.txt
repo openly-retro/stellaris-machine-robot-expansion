@@ -15,5 +15,54 @@ country_event = {
 				save_global_event_target_as = oxr_mdlc_civic_consolidation_target_@root
 			}
 		}
+		capital_scope = {
+			solar_system = {
+				spawn_planet = {
+					class = pc_barren
+					name = "oxr_mdlc_civic_consolidators_capital_moon"
+					orbit_angle = 180
+					orbit_distance = 110
+					size = 2
+					location = prev
+					orbit_location = yes
+					orbit_angle_offset = 45
+					orbit_distance_offset = 9.899
+					has_ring = no
+					init_effect = {
+						add_deposit = d_minerals_3
+						set_planet_flag = oxr_mdlc_civic_orbital_target@root
+					}
+				}
+			}
+		}
+
+	}
+}
+
+
+
+
+# extract orbital
+planet_event = {
+	id = oxr_mdlc_civic_consolidators.1000
+	title = "oxr_mdlc_civic_consolidators.1000.name"
+	desc = "oxr_mdlc_civic_consolidators.1000.desc"
+	is_triggered_only = yes
+
+	immediate = {
+
+	}
+
+	option = {
+		name = "oxr_mdlc_civic_consolidators.1000.energy"
+		# custom_tooltip = full_tutorial
+		trigger = {
+			oxr_mdlc_consolidators_planet_has_orbital_energy_deposits = yes
+		}
+		hidden_effect = {
+			country_event = { id = advisor.2 }
+			set_tutorial_level = full
+			set_country_flag = tutorial_level_picked
+		}
 	}
 }
