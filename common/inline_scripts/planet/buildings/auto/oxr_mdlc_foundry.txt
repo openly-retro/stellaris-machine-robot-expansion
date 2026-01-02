@@ -30,34 +30,26 @@ resources = {
 	}
 }
 
-planet_modifier = {
-	# oxr_mdlc_world_machines_foundry_buildings_produces_mult = $PRODUCTION_MULT$
-	# oxr_mdlc_world_machines_foundry_buildings_upkeep_mult = $PRODUCTION_MULT$
+triggered_planet_modifier = {
+	potential = {
+		exists = owner
+		is_xvcv_mdlc_pc_machine_auto = yes
+	}
+	modifier = {
+		xvcv_mdlc_world_machines_primary_districts_alloys_produces_mult = $PRODUCTION_MULT$
+		xvcv_mdlc_world_machines_primary_districts_upkeep_mult = $PRODUCTION_MULT$
+	}
 }
-
 triggered_planet_modifier = {
 	potential = {
 		exists = owner
 		OR = {
-			is_xvcv_mdlc_pc_machine_auto = yes
-			is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
-		}
-		owner = {
-			has_origin = oxr_mdlc_origin_world_machine_awakened
+			is_xvcv_mdlc_pc_machine_ecu = yes
+			is_xvcv_mdlc_pc_ringworld_machine_auto = yes
 		}
 	}
-	modifier = {
-		xvcv_mdlc_world_machines_industrial_districts_alloys_produces_mult = $PRODUCTION_MULT$
-		xvcv_mdlc_world_machines_industrial_districts_upkeep_mult = $PRODUCTION_MULT$
-	}
-}
-triggered_planet_modifier = {
-	potential = {
-		exists = owner
-		oxr_mdlc_planet_is_t3_world_machine = yes
-	}
-	xvcv_mdlc_world_machines_foundry_districts_produces_mult = $PRODUCTION_MULT$
-	xvcv_mdlc_world_machines_foundry_districts_upkeep_mult = $PRODUCTION_MULT$
+	xvcv_mdlc_world_machines_production_districts_produces_mult = $PRODUCTION_MULT$
+	xvcv_mdlc_world_machines_production_districts_upkeep_mult = $PRODUCTION_MULT$
 }
 
 building_sets = {
