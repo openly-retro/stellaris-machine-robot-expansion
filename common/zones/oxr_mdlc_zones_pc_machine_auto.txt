@@ -10,8 +10,8 @@ oxr_mdlc_zone_pc_machine_auto_alloys = {
 	
 
 	included_building_sets = {
+		urban_automation
 		foundry
-		automation
 		origin
 		oxr_mdlc_building_set_wm_production
 		oxr_mdlc_building_set_wm_foundry
@@ -30,7 +30,18 @@ oxr_mdlc_zone_pc_machine_auto_alloys = {
 
 oxr_mdlc_zone_pc_machine_auto_consumer_goods = {
 	icon = GFX_district_specialization_factory
-	inline_script = planet/zones/oxr_wm_zone_base_auto
+	inline_script = planet/zones/oxr_wm_zone_base_auto_no_potential
+	potential = {
+		hidden_trigger = { exists = owner }
+		owner = { 
+			oxr_mdlc_planet_owner_can_build_wm_districts = yes
+			OR = {
+				country_uses_consumer_goods = yes
+				has_valid_civic = xvcv_mdlc_civic_goods_distributor
+			}
+		}
+		is_xvcv_mdlc_pc_machine_auto = yes
+	}
 
 	swap_type = xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_factory
 	swap_type_weight = 5
@@ -38,9 +49,10 @@ oxr_mdlc_zone_pc_machine_auto_consumer_goods = {
 
 	included_building_sets = {
 		factory
-		automation
+		urban_automation
 		origin
-		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_production
+		oxr_mdlc_building_set_wm_factory
 	}
 
 	inline_script = {
@@ -81,6 +93,10 @@ oxr_mdlc_zone_pc_machine_auto_archive = {
 	}
 	
 	included_building_sets = {
+		research
+		unity
+		urban_automation
+		origin
 		oxr_mdlc_building_set_wm_research
 		oxr_mdlc_building_set_wm_unity
 	}
@@ -103,10 +119,10 @@ oxr_mdlc_zone_pc_machine_auto_science = {
 	
 
 	included_building_sets = {
-		factory
-		automation
+		research
+		urban_automation
 		origin
-		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_research
 	}
 
 	inline_script = {
@@ -135,10 +151,10 @@ oxr_mdlc_zone_pc_machine_auto_physics = {
 	
 
 	included_building_sets = {
-		factory
-		automation
+		research
+		urban_automation
 		origin
-		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_research
 	}
 
 	inline_script = {
@@ -166,10 +182,10 @@ oxr_mdlc_zone_pc_machine_auto_society = {
 	swap_type_weight = 5
 	
 	included_building_sets = {
-		factory
-		automation
+		research
+		urban_automation
 		origin
-		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_research
 	}
 
 	inline_script = {
@@ -197,10 +213,10 @@ oxr_mdlc_zone_pc_machine_auto_engineering = {
 	swap_type_weight = 5
 	
 	included_building_sets = {
-		factory
-		automation
+		research
+		urban_automation
 		origin
-		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_research
 	}
 
 	inline_script = {
@@ -228,10 +244,10 @@ oxr_mdlc_zone_pc_machine_auto_unity = {
 	swap_type_weight = 5
 	
 	included_building_sets = {
-		factory
-		automation
+		unity
+		urban_automation
 		origin
-		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_unity
 	}
 
 	inline_script = {
@@ -259,10 +275,10 @@ oxr_mdlc_zone_pc_machine_auto_trade = {
 	swap_type_weight = 5
 	
 	included_building_sets = {
-		factory
-		automation
+		trade
+		urban_automation
 		origin
-		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_trade
 	}
 
 	inline_script = {
@@ -290,10 +306,11 @@ oxr_mdlc_zone_pc_machine_auto_army = {
 	swap_type_weight = 7
 	
 	included_building_sets = {
-		factory
-		automation
+		fortress
+		urban_automation
 		origin
-		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_military
+		oxr_mdlc_building_set_wm_security
 	}
 	
 	inline_script = {
@@ -327,21 +344,20 @@ oxr_mdlc_zone_wm_primary_urban_energy = {
 	}
 
 	triggered_district_planet_modifier = {
-		potential = {
-			is_xvcv_mdlc_pc_ringworld_machine_auto = no
-		}
 		# Make trade upkeep roughly equal to 25% of production
 		oxr_mdlc_world_machines_energy_structures_produces_mult = @oxr_mdlc_zone_urban_rural_worker_produces_mult
 		oxr_mdlc_world_machines_generator_buildings_trade_upkeep_add = @oxr_mdlc_zone_urban_rural_worker_trade_upkeep_add
 		xvcv_mdlc_world_machines_generator_districts_trade_upkeep_add = @oxr_mdlc_zone_urban_rural_worker_trade_upkeep_add
 	}
-
-	included_building_sets = {
-		generator
-		urban
-		fallen_empire_generator
-		oxr_mdlc_building_set_wm_energy
-	}
+	
+	# no buildings
+	# included_building_sets = {
+	# 	generator
+	# 	betharian
+	#	fallen_empire_generator
+	# 	generator_automation
+	# 	oxr_mdlc_building_set_wm_energy
+	# }
 
 	ai_priority = 13
 }
@@ -369,13 +385,14 @@ oxr_mdlc_zone_wm_primary_urban_food = {
 		oxr_mdlc_world_machines_food_buildings_trade_upkeep_add = @oxr_mdlc_zone_urban_rural_worker_trade_upkeep_add
 	}
 
-	included_building_sets = {
-		farming
-		hydroponics
-		urban
-		fallen_empire_farming
-		oxr_mdlc_building_set_wm_food
-	}
+	# no buildings
+	# included_building_sets = {
+	#	farming
+	#	hydroponics
+	#	fallen_empire_farming
+	#	farming_automation
+	# 	oxr_mdlc_building_set_wm_food
+	# }
 
 	ai_priority = 13
 }
@@ -401,12 +418,14 @@ oxr_mdlc_zone_wm_primary_urban_minerals = {
 		oxr_mdlc_world_machines_mining_buildings_trade_upkeep_add = @oxr_mdlc_zone_urban_rural_worker_trade_upkeep_add
 	}
 
-	included_building_sets = {
-		mining
-		urban
-		fallen_empire_mining
-		oxr_mdlc_building_set_wm_minerals
-	}
+	# no buildings
+	# included_building_sets = {
+	# 	mining
+	# 	urban
+	# 	fallen_empire_mining
+	# 	mining_automation
+	# 	oxr_mdlc_building_set_wm_minerals
+	# }
 
 	ai_priority = 13
 }
@@ -424,8 +443,9 @@ oxr_mdlc_zone_pc_machine_auto_energy = {
 	
 	included_building_sets = {
 		generator
+	 	betharian
 		fallen_empire_generator
-		automation
+		generator_automation
 		oxr_mdlc_building_set_wm_energy
 	}
 
@@ -457,7 +477,7 @@ oxr_mdlc_zone_pc_machine_auto_mining = {
 }
 
 oxr_mdlc_zone_pc_machine_auto_food = {
-	icon = GFX_district_specialization_food_market
+	icon = GFX_district_specialization_food
 	inline_script = planet/zones/oxr_wm_zone_base
 	
 	inline_script = {
@@ -469,7 +489,7 @@ oxr_mdlc_zone_pc_machine_auto_food = {
 	included_building_sets = {
 		farming
 		hydroponics
-		automation
+		farming_automation
 		fallen_empire_farming
 	}
 
@@ -502,7 +522,7 @@ oxr_mdlc_zone_wm_food_biology = {
 		farming
 		hydroponics
 		society
-		# farming_automation
+		farming_automation
 		oxr_mdlc_building_set_wm_food
 		oxr_mdlc_building_set_wm_research
 	}
@@ -575,16 +595,16 @@ oxr_mdlc_zone_wm_minerals_engineering = {
 	}
 
 	zone_sets = {
-		# minerals
+		minerals
 		# habitat_urban
 		oxr_mdlc_zone_set_wm_minerals
+		oxr_mdlc_building_set_wm_research
 	}
 
 	included_building_sets = {
 		mining
 		engineering
-		fallen_empire_mining
-		# mining_automation
+		mining_automation
 		oxr_mdlc_building_set_wm_minerals
 		oxr_mdlc_building_set_wm_research
 	}
@@ -626,8 +646,7 @@ oxr_mdlc_zone_wm_energy_physics = {
 	included_building_sets = {
 		generator
 		physics
-		fallen_empire_generator
-		# generator_automation
+		generator_automation
 		oxr_mdlc_building_set_wm_research
 		oxr_mdlc_building_set_wm_energy
 	}
