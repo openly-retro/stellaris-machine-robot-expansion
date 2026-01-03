@@ -1,0 +1,93 @@
+oxr_mdlc_country_create_mover_fleet_give_instructions = {
+	# PREV - country that called this effect
+	# params:
+	# $RESOURCE$ - what resource type to move
+	# $AMOUNT$ - how much resource to transport away
+
+	# save event targets for use in this event 
+	space_owner = {
+		random_system_within_border = {
+			limit = {
+				any_system_planet = {
+					has_planet_flag = oxr_mdlc_civic_orbital_target@space_owner
+				}
+			}
+			random_system_planet = {
+				limit = {
+					has_planet_flag = oxr_mdlc_civic_orbital_target@space_owner
+				}
+				save_event_target_as = oxr_mdlc_consolidator_ship_target_planet
+			}
+		}
+	}
+	space_owner = {
+		save_event_target_as = oxr_mdlc_consolidator_source_country
+	}
+	# prev should be planet
+	prev.from = {
+		save_event_target_as = oxr_mdlc_consolidator_ship_source_planet
+	}
+	print_scope_effect = yes
+
+	# create the fleet under the neutral country's control
+	random_country = {
+		limit = { is_country_type = oxr_mdlc_country_consolidators_movers_controller }
+		save_event_target_as = oxr_mdlc_country_consolidators_movers_controller_target
+
+		# establish comms
+		event_target:oxr_mdlc_consolidator_source_country = {
+			establish_communications_no_message = oxr_mdlc_country_consolidators_movers_controller_target
+		}
+
+		create_fleet = {
+			settings = {
+				spawn_debris = no
+				uses_naval_capacity = no
+			}
+			effect = {
+				set_owner = event_target:oxr_mdlc_country_consolidators_movers_controller_target
+				create_ship = {
+					name = "NAME_oxr_mdlc_civic_consolidators_ship"
+					design = "NAME_OXR_MDLC_CIVIC_CONSOLIDATORS_SHIP_DESIGN"
+				}
+				set_location = event_target:oxr_mdlc_consolidator_ship_source_planet
+				save_event_target_as = oxr_mdlc_consolidator_ships_last_created_fleet
+
+				# set_name = "NAME_oxr_mdlc_civic_consolidators_ship_FLEET_1"
+
+				# use this fleet flag to check if any such movers exist,
+				# before permitting player to move the flag marking the target planet
+				set_fleet_flag = oxr_mdlc_country_consolidators_movers@prevprev
+				auto_move_to_planet = {
+					target = event_target:oxr_mdlc_consolidator_ship_target_planet
+					clear_auto_move_on_arrival = yes
+				}
+
+				# copy vars from the planet decision on to the ship
+				# so the ship is 'transporting' vars
+				set_variable = {
+					which = oxr_mdlc_consolidator_ship_resource_type_$RESOURCE$
+					value = root.from.oxr_mdlc_consolidator_orbital_resource_type_$RESOURCE$
+				}
+
+			}
+		}
+		# Decrement the resource counter and remove the deposit .. scary stuff!
+		event_target:oxr_mdlc_consolidator_ship_source_planet = {
+			change_variable = {
+				which = oxr_mdlc_consolidator_orbital_resource_type_$RESOURCE$
+				value = oxr_mdlc_consolidator_orbital_resource_type_$RESOURCE$
+			}
+		}
+		set_faction_hostility = {
+			target = event_target:oxr_mdlc_consolidator_source_country
+			set_hostile = no
+			set_neutral = no
+			set_friendly = yes
+		}
+		
+	}
+
+
+}
+

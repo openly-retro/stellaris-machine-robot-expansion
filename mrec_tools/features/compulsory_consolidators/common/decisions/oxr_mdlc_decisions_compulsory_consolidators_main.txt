@@ -15,7 +15,7 @@ oxr_mdlc_decision_extract_orbital_resources = {
 		is_terraforming = no
 		has_anomaly = no
 		NOT = {
-			has_modifier = oxr_mdlc_civic_consolidators_extraction_in_progress
+			has_planet_flag = oxr_mdlc_civic_consolidators_extraction_in_progress
 		}
 		OR = {
 			oxr_mdlc_consolidators_planet_has_orbital_deposits = yes
@@ -26,5 +26,42 @@ oxr_mdlc_decision_extract_orbital_resources = {
 
 	effect = {
 		oxr_mdlc_planet_extract_orbital_energy_deposits = yes
+	}
+}
+
+oxr_mdlc_decision_trigger_orbital_extraction_project = {
+
+	enactment_time = 1
+	resources = {
+		category = decisions
+		cost = {
+			energy = 500
+		}
+	}
+	potential = {
+		exists = space_owner
+		space_owner = { has_civic = oxr_mdlc_civic_consolidators }
+	}
+	allow = {
+		# always = yes
+		is_terraforming = no
+		has_anomaly = no
+
+		NOT = {
+			has_planet_flag = oxr_mdlc_civic_consolidators_extraction_in_progress
+		}
+		oxr_mdlc_consolidators_planet_has_orbital_deposits = yes
+	}
+
+	effect = {
+		log = "effect of oxr_mdlc_decision_trigger_orbital_extraction_project was fired"
+		space_owner = {
+			country_event = {
+				id = oxr_mdlc_civic_consolidators.3000
+				scopes = {
+					from = prev
+				}
+			}
+		}
 	}
 }
