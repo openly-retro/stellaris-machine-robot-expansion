@@ -1,69 +1,162 @@
-#
+# we have to make copies of this effect for every resource type
+# because special projects cannot have variable names in them
+oxr_mdlc_consolidators_planet_make_orbital_energy_deposits_ready_for_extraction = {
+
+	set_planet_flag = oxr_mdlc_consolidators_planet_has_available_energy_consolidation
+
+	# Find the deposit of the associated type, and increment a var
+	set_or_increment_variable = {
+		VAR = oxr_mdlc_consolidator_orbital_resource_type_energy
+		AMOUNT = $DEPOSIT_SIZE$
+	}
+
+	# Now trigger a special project above the planet for a construction ship to come over
+	# and assemble a transport
+	enable_special_project = {
+		name = "OXR_MDLC_CONSOLIDATE_ENERGY"
+		location = this
+		owner = space_owner
+	}
+}
+# minerals
+oxr_mdlc_consolidators_planet_make_orbital_minerals_deposits_ready_for_extraction = {
+
+	set_planet_flag = oxr_mdlc_consolidators_planet_has_available_minerals_consolidation
+
+	# Find the deposit of the associated type, and increment a var
+	set_or_increment_variable = {
+		VAR = oxr_mdlc_consolidator_orbital_resource_type_minerals
+		AMOUNT = $DEPOSIT_SIZE$
+	}
+
+	# Now trigger a special project above the planet for a construction ship to come over
+	# and assemble a transport
+	space_owner = {
+		enable_special_project = {
+			name = "OXR_MDLC_CONSOLIDATE_MINERALS"
+			location = this
+		}
+	}
+}
+
 oxr_mdlc_planet_extract_orbital_energy_deposits = {
 	switch = {
 		trigger = has_deposit
 		d_energy_1 = {
 			remove_deposit = d_energy_1
-			oxr_mdlc_planet_move_orbital_deposit_to_target = {
-				DEPOSIT = d_energy_1
+			space_owner = {
+				oxr_mdlc_country_create_mover_fleet_give_instructions = {
+					RESOURCE = energy
+					AMOUNT = 1
+				}
 			}
 		}
 		d_energy_2 = {
 			remove_deposit = d_energy_2
-			oxr_mdlc_planet_move_orbital_deposit_to_target = {
-				DEPOSIT = d_energy_2
-			}
+
 		}
 		d_energy_3 = {
 			remove_deposit = d_energy_3
-			oxr_mdlc_planet_move_orbital_deposit_to_target = {
-				DEPOSIT = d_energy_3
-			}
+
 		}
 		d_energy_4 = {
 			remove_deposit = d_energy_4
-			oxr_mdlc_planet_move_orbital_deposit_to_target = {
-				DEPOSIT = d_energy_4
-			}
+
 		}
 		d_energy_5 = {
 			remove_deposit = d_energy_5
-			oxr_mdlc_planet_move_orbital_deposit_to_target = {
-				DEPOSIT = d_energy_5
-			}
+
 		}
 		d_energy_6 = {
 			remove_deposit = d_energy_6
-			oxr_mdlc_planet_move_orbital_deposit_to_target = {
-				DEPOSIT = d_energy_6
-			}
+
 		}
 		d_energy_7 = {
 			remove_deposit = d_energy_7
-			oxr_mdlc_planet_move_orbital_deposit_to_target = {
-				DEPOSIT = d_energy_7
-			}
+
 		}
 		d_energy_8 = {
 			remove_deposit = d_energy_8
-			oxr_mdlc_planet_move_orbital_deposit_to_target = {
-				DEPOSIT = d_energy_8
-			}
+
 		}
 		d_energy_9 = {
 			remove_deposit = d_energy_9
-			oxr_mdlc_planet_move_orbital_deposit_to_target = {
-				DEPOSIT = d_energy_9
-			}
+
 		}
 		d_energy_10 = {
 			remove_deposit = d_energy_10
-			oxr_mdlc_planet_move_orbital_deposit_to_target = {
-				DEPOSIT = d_energy_10
-			}
+
 		}
 	}
 }
+
+oxr_mdlc_planet_select_orbital_energy_deposits_for_processing = {
+	switch = {
+		trigger = has_deposit
+		d_energy_1 = {
+			oxr_mdlc_consolidators_planet_make_orbital_energy_deposits_ready_for_extraction = {
+				DEPOSIT_SIZE = 1
+			}
+			remove_deposit = d_energy_1
+			# Maybe add a modifier to the planet saying that resources are ready for extraction
+		}
+		d_energy_2 = {
+			oxr_mdlc_consolidators_planet_make_orbital_energy_deposits_ready_for_extraction = {
+				DEPOSIT_SIZE = 2
+			}
+			remove_deposit = d_energy_2
+		}
+	}
+}
+
+oxr_mdlc_planet_select_orbital_minerals_deposits_for_processing = {
+	switch = {
+		trigger = has_deposit
+		d_minerals_1 = {
+			oxr_mdlc_consolidators_planet_make_orbital_minerals_deposits_ready_for_extraction = {
+				DEPOSIT_SIZE = 1
+			}
+		}
+		d_minerals_2 = {
+			oxr_mdlc_consolidators_planet_make_orbital_minerals_deposits_ready_for_extraction = {
+				DEPOSIT_SIZE = 2
+			}
+		}
+		d_minerals_3 = {
+			remove_deposit = d_minerals_3
+
+		}
+		d_minerals_4 = {
+			remove_deposit = d_minerals_4
+
+		}
+		d_minerals_5 = {
+			remove_deposit = d_minerals_5
+
+		}
+		d_minerals_6 = {
+			remove_deposit = d_minerals_6
+
+		}
+		d_minerals_7 = {
+			remove_deposit = d_minerals_7
+
+		}
+		d_minerals_8 = {
+			remove_deposit = d_minerals_8
+
+		}
+		d_minerals_9 = {
+			remove_deposit = d_minerals_9
+
+		}
+		d_minerals_10 = {
+			remove_deposit = d_minerals_10
+
+		}
+	}
+}
+
 
 oxr_mdlc_planet_move_orbital_deposit_to_target = {
 	planet.space_owner = {

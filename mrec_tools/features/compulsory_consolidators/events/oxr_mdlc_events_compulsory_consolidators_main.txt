@@ -1,5 +1,6 @@
 namespace = oxr_mdlc_civic_consolidators
 
+# on game start, create consolidator event country and spawn planets
 country_event = {
 	# on game start
 	id = oxr_mdlc_civic_consolidators.1
@@ -8,8 +9,10 @@ country_event = {
 
 	immediate = {
 		if = {
-			NOT = {
-				exists = event_target:oxr_mdlc_civic_consolidation_target_@root
+			limit = {
+				NOT = {
+					exists = event_target:oxr_mdlc_civic_consolidation_target_@root
+				}
 			}
 			capital_scope = {
 				save_global_event_target_as = oxr_mdlc_civic_consolidation_target_@root
@@ -35,6 +38,35 @@ country_event = {
 				}
 			}
 		}
+		if = {
+			limit = {
+				NOT = {
+					any_country = {
+						is_country_type = oxr_mdlc_country_consolidators_movers_controller
+					}
+				}
+			}
+			create_country = {
+				name = "name_oxr_mdlc_country_consolidators_movers_controller"
+				type = oxr_mdlc_country_consolidators_movers_controller
+				flag = {
+					icon = {
+						category = "special"
+						file = "caravaneer_00.dds"
+					}
+					background = {
+						category = "backgrounds"
+						file = "triangle_split.dds"
+					}
+					colors = {
+						"green"
+						"dark_green"
+						"null"
+						"null"
+					}
+				}
+			}
+		}
 
 	}
 }
@@ -42,27 +74,139 @@ country_event = {
 
 
 
-# extract orbital
+# when consolidator mover ship arrives at target
+country_event = {
+	id = oxr_mdlc_civic_consolidators.2000
+	hide_window = yes
+	is_triggered_only = yes
+	# This = owner of fleet
+	# From = fleet
+	# FromFrom = planet (if any)
+
+	trigger = {
+		from = {
+			any_owned_ship = { is_ship_size = oxr_mdlc_civic_consolidators_ship }
+		}
+	}
+
+	immediate = {
+		from.solar_system = {
+			random_system_planet = {
+				limit = {
+					has_planet_flag = oxr_mdlc_civic_orbital_target@space_owner
+				}
+				save_event_target_as = oxr_mdlc_civic_consolidators_target_planet
+			}
+		}
+
+		## Check what resource is being transferred over
+		# energy
+		if = {
+			limit = {
+				from = {
+					is_variable_set = oxr_mdlc_consolidator_ship_resource_type_energy
+				}
+			}
+			# add 1 energy deposit per 1 value in variable
+			while = {
+				count = from.oxr_mdlc_consolidator_ship_resource_type_energy
+				event_target:oxr_mdlc_civic_consolidators_target_planet = {
+					add_deposit = d_energy_1
+					# Deposit the new amount as a variable also
+					set_or_increment_variable = {
+						VAR = oxr_mdlc_consolidator_total_energy_deposits
+						AMOUNT = 1
+					}
+				}
+			}
+			destroy_fleet = from
+		}
+	}
+}
+
+
+# planet dialogue to consolidate resources
+# 'from' is the source planet
+country_event = {
+	id = oxr_mdlc_civic_consolidators.3000
+	title = "oxr_mdlc_civic_consolidators.3000.title"
+	desc = "oxr_mdlc_civic_consolidators.3000.desc"
+	picture = GFX_evt_habitable_dig_site
+	is_triggered_only = yes
+
+	# energy
+	option = {
+		name = "oxr_mdlc_civic_consolidators.3000.option_energy"
+		# find any energy deposit and convert its size into a variable
+		# then set a flag on the planet saying that it is marked for consolidation
+		hidden_effect = {
+			log = "Planet menu picked energy deposits for processing"
+			from = {
+				oxr_mdlc_planet_select_orbital_energy_deposits_for_processing = yes
+			}
+		}
+	}
+	# minerals
+	option = {
+		name = "oxr_mdlc_civic_consolidators.3000.option_minerals"
+		allow = {
+			from = {
+				oxr_mdlc_consolidators_planet_has_orbital_minerals_deposits = yes
+				NOT = {
+					has_planet_flag = oxr_mdlc_consolidators_planet_consolidation_in_progress
+				}
+			}
+		}
+		# find any energy deposit and convert its size into a variable
+		# then set a flag on the planet saying that it is marked for consolidation
+		hidden_effect = {
+			log = "Planet menu picked energy deposits for processing"
+			from = {
+				oxr_mdlc_planet_select_orbital_minerals_deposits_for_processing = yes
+			}
+		}
+		
+	}
+	option = {
+		name = EXCELLENT
+		default_hide_option = yes
+	}
+}
+
+# call the mover
 planet_event = {
-	id = oxr_mdlc_civic_consolidators.1000
-	title = "oxr_mdlc_civic_consolidators.1000.name"
-	desc = "oxr_mdlc_civic_consolidators.1000.desc"
+	id = oxr_mdlc_civic_consolidators.3100
+	hide_window = yes
 	is_triggered_only = yes
 
 	immediate = {
+		oxr_mdlc_country_create_mover_fleet_give_instructions = {
+			RESOURCE = energy
+		}
+	}
+}
 
+
+# get the fucking event widnow to show.. wtf why is not appearing?
+
+country_event = {
+	id = oxr_mdlc_civic_consolidators.3200
+	title = "oxr_mdlc_civic_consolidators.3000.title"
+	desc = "oxr_mdlc_civic_consolidators.3000.desc"
+	picture = GFX_evt_habitable_dig_site
+	is_triggered_only = yes
+
+	trigger = {
+		space_owner = {
+			has_civic = oxr_mdlc_civic_consolidators
+		}
 	}
 
 	option = {
-		name = "oxr_mdlc_civic_consolidators.1000.energy"
-		# custom_tooltip = full_tutorial
-		trigger = {
-			oxr_mdlc_consolidators_planet_has_orbital_energy_deposits = yes
-		}
+		name = EXCELLENT
+		default_hide_option = yes
 		hidden_effect = {
-			country_event = { id = advisor.2 }
-			set_tutorial_level = full
-			set_country_flag = tutorial_level_picked
+			log = "finished event 3200"
 		}
 	}
 }
