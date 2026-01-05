@@ -7,10 +7,11 @@ xvcv_mdlc_world_machines_districts = {
 		upkeep
 		cost
 	}
+	# all add modifiers for this category are useless but good for hidden_effects where you just want it to look like all districts. I use it in the submods.
 	generate_add_modifiers = {
-		cost
-		produces # useless but good for hidden_effects where you just want it to look like all districts
-		upkeep # as above
+		cost	
+		produces 
+		upkeep
 	}
 }
 
@@ -67,6 +68,19 @@ xvcv_mdlc_world_machines_trade_districts = {
 		upkeep
 	}
 }
+
+xvcv_mdlc_world_machines_strategic_resource_districts = {
+	parent = xvcv_mdlc_world_machines_industrial_districts
+	modifier_category = planet
+	generate_mult_modifiers = {
+		produces
+	}
+	generate_add_modifiers = {
+	 	produces
+		upkeep
+	}
+}
+
 # To encompass Forge and Foundry as Zones in a single industrial district
 xvcv_mdlc_world_machines_production_districts = {
 	parent = xvcv_mdlc_world_machines_industrial_districts
@@ -104,18 +118,6 @@ xvcv_mdlc_world_machines_factory_districts = {
 	}
 	generate_mult_modifiers = {
 		produces
-		upkeep
-	}
-}
-
-xvcv_mdlc_world_machines_strategic_resource_districts = {
-	parent = xvcv_mdlc_world_machines_industrial_districts
-	modifier_category = planet
-	generate_mult_modifiers = {
-		produces
-	}
-	generate_add_modifiers = {
-	 	produces
 		upkeep
 	}
 }
@@ -183,6 +185,21 @@ xvcv_mdlc_world_machines_computer_districts = {
 	}
 	modifier_category = planet
 }
+
+# for auto ringworld
+xvcv_mdlc_world_machines_rnd_districts = {
+	parent = xvcv_mdlc_world_machines_computer_districts
+	modifier_category = planet
+	generate_add_modifiers = {
+		produces
+		upkeep
+		cost
+	}
+	generate_mult_modifiers = {
+		produces
+	}
+}
+
 # standard research, astral?, dark matter?
 xvcv_mdlc_world_machines_science_districts = {
 	parent = xvcv_mdlc_world_machines_computer_districts
@@ -246,18 +263,4 @@ xvcv_mdlc_world_machines_servitor_districts = {
 xvcv_mdlc_world_machines_assimilator_districts = {
 	parent = xvcv_mdlc_world_machines_districts
 	modifier_category = planet
-}
-
-# for auto ringworld
-xvcv_mdlc_world_machines_rnd_districts = {
-	parent = xvcv_mdlc_world_machines_computer_districts
-	modifier_category = planet
-	generate_add_modifiers = {
-		produces
-		upkeep
-		cost
-	}
-	generate_mult_modifiers = {
-		produces
-	}
 }
