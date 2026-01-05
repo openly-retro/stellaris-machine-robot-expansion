@@ -1,98 +1,5 @@
-rikk_mdlc_zone_crystal_conductor = {
-	icon = GFX_oxr_mdlc_wm_district_specialization_resource_energy_add
-	base_buildtime = @zone_buildtime
-	potential = {
-		exists = owner
-		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
-		is_xvcv_mdlc_pc_machine_auto = yes
-	}
-	unlock = { owner = { has_technology = tech_rare_crystals } }
-	resources = {
-		category = oxr_mdlc_world_machines_zones
-		cost = {
-			minerals = @zone_cost
-		}
-	}
-	
-	triggered_planet_modifier = {
-		xvcv_mdlc_world_machines_generator_districts_energy_produces_add = @[ 2 * oxr_mdlc_wm_base_technician_output ]
-		oxr_mdlc_world_machines_generator_buildings_energy_produces_add = @[ 2 * oxr_mdlc_wm_base_technician_output ]
-		xvcv_mdlc_world_machines_generator_districts_rare_crystals_upkeep_add = 0.5
-		oxr_mdlc_world_machines_generator_buildings_rare_crystals_upkeep_add = 0.5
-		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
-	}
-	
-	max_buildings = 3
-	included_building_sets = { 
-		generator
-	 	betharian
-		fallen_empire_generator
-		generator_automation
-		oxr_mdlc_building_set_wm_energy
-	}
-	excluded_building_sets = { 
-		knights
-		generator_automation
-		mining_automation
-		farming_automation
-		urban_automation
-	}
-	zone_sets = {
-		rikk_mdlc_zone_set_modifier_energy
-		energy
-		oxr_mdlc_zone_set_wm_energy
-	}
-}
-
-rikk_mdlc_zone_mote_carving = {
-	icon = GFX_oxr_mdlc_wm_district_specialization_resource_minerals_add
-	inline_script = planet/zones/oxr_wm_zone_base
-	base_buildtime = @zone_buildtime
-	potential = {
-		always = yes
-		exists = owner
-		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
-		is_xvcv_mdlc_pc_machine_auto = yes
-	}
-	unlock = { owner = { has_technology = tech_volatile_motes } }
-	resources = {
-		category = oxr_mdlc_world_machines_zones
-		cost = {
-			minerals = @zone_cost
-		}
-	}
-	
-	triggered_planet_modifier = {
-		xvcv_mdlc_world_machines_mining_districts_minerals_produces_add = @[ 2 * oxr_mdlc_wm_base_miner_output ]
-		oxr_mdlc_world_machines_mining_buildings_minerals_produces_add = @[ 2 * oxr_mdlc_wm_base_miner_output ]
-		xvcv_mdlc_world_machines_mining_districts_volatile_motes_upkeep_add = 0.5
-		oxr_mdlc_world_machines_mining_buildings_volatile_motes_upkeep_add = 0.5
-		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
-	}
-	
-	max_buildings = 3
-	included_building_sets = {
-		mining
-		mining_automation
-		fallen_empire_mining
-		oxr_mdlc_building_set_wm_minerals
-	}
-	excluded_building_sets = { 
-		knights
-		generator_automation
-		mining_automation
-		farming_automation
-		urban_automation
-	}
-	zone_sets = {
-		rikk_mdlc_zone_set_modifier_minerals
-		minerals
-		oxr_mdlc_zone_set_wm_minerals
-	}
-}
-
-rikk_mdlc_zone_gas_fertilizing = {
-	icon = GFX_oxr_mdlc_wm_district_specialization_resource_food_add
+rikk_mdlc_zone_gas_generator = {
+	icon = GFX_rikk_mdlc_wm_district_specialization_gas_generator
 	base_buildtime = @zone_buildtime
 	potential = {
 		exists = owner
@@ -108,10 +15,89 @@ rikk_mdlc_zone_gas_fertilizing = {
 	}
 	
 	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_generator_districts_energy_produces_add = @[ 2 * oxr_mdlc_wm_base_technician_output ]
+		oxr_mdlc_world_machines_generator_buildings_energy_produces_add = @[ 2 * oxr_mdlc_wm_base_technician_output ]
+		xvcv_mdlc_world_machines_generator_districts_exotic_gases_upkeep_add = 0.5
+		oxr_mdlc_world_machines_generator_buildings_exotic_gases_upkeep_add = 0.5
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+	}
+	
+	max_buildings = 3
+	included_building_sets = { 
+		generator
+	 	betharian
+		fallen_empire_generator
+		generator_automation
+		oxr_mdlc_building_set_wm_energy
+	}
+	zone_sets = {
+		rikk_mdlc_zone_set_modifier_energy
+		energy
+		oxr_mdlc_zone_set_wm_energy
+	}
+}
+
+rikk_mdlc_zone_crystalline_scanning = {
+	icon = GFX_rikk_mdlc_district_specialization_crystalline_scanning
+	inline_script = planet/zones/oxr_wm_zone_base
+	base_buildtime = @zone_buildtime
+	potential = {
+		always = yes
+		exists = owner
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		is_xvcv_mdlc_pc_machine_auto = yes
+	}
+	unlock = { owner = { has_technology = tech_rare_crystals } }
+	resources = {
+		category = oxr_mdlc_world_machines_zones
+		cost = {
+			minerals = @zone_cost
+		}
+	}
+	
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_mining_districts_minerals_produces_add = @[ 2 * oxr_mdlc_wm_base_miner_output ]
+		oxr_mdlc_world_machines_mining_buildings_minerals_produces_add = @[ 2 * oxr_mdlc_wm_base_miner_output ]
+		xvcv_mdlc_world_machines_mining_districts_rare_crystals_upkeep_add = 0.5
+		oxr_mdlc_world_machines_mining_buildings_rare_crystals_upkeep_add = 0.5
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+	}
+	
+	max_buildings = 3
+	included_building_sets = {
+		mining
+		mining_automation
+		fallen_empire_mining
+		oxr_mdlc_building_set_wm_minerals
+	}
+	zone_sets = {
+		rikk_mdlc_zone_set_modifier_minerals
+		minerals
+		oxr_mdlc_zone_set_wm_minerals
+	}
+}
+
+rikk_mdlc_zone_mote_fertilizing = {
+	icon = GFX_rikk_mdlc_wm_district_specialization_mote_fertilizing
+	base_buildtime = @zone_buildtime
+	potential = {
+		exists = owner
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		is_xvcv_mdlc_pc_machine_auto = yes
+	}
+	unlock = { owner = { has_technology = tech_volatile_motes } }
+	resources = {
+		category = oxr_mdlc_world_machines_zones
+		cost = {
+			minerals = @zone_cost
+		}
+	}
+	
+	triggered_planet_modifier = {
 		xvcv_mdlc_world_machines_food_districts_food_produces_add = @[ 2 * oxr_mdlc_wm_base_farmer_output ]
 		oxr_mdlc_world_machines_food_buildings_food_produces_add = @[ 2 * oxr_mdlc_wm_base_farmer_output ]
-		xvcv_mdlc_world_machines_food_districts_exotic_gases_upkeep_add = 0.5
-		oxr_mdlc_world_machines_food_buildings_exotic_gases_upkeep_add = 0.5
+		xvcv_mdlc_world_machines_food_districts_volatile_motes_upkeep_add = 0.5
+		oxr_mdlc_world_machines_food_buildings_volatile_motes_upkeep_add = 0.5
 		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 	}
 	
@@ -123,13 +109,6 @@ rikk_mdlc_zone_gas_fertilizing = {
 		fallen_empire_farming
 		oxr_mdlc_building_set_wm_food
 	}
-	excluded_building_sets = { 
-		knights
-		generator_automation
-		mining_automation
-		farming_automation
-		urban_automation
-	}
 	zone_sets = {
 		rikk_mdlc_zone_set_modifier_food
 		food
@@ -137,6 +116,198 @@ rikk_mdlc_zone_gas_fertilizing = {
 	}
 }
 
+rikk_mdlc_zone_mote_capacitors = {
+	icon = GFX_district_specialization_volatile_motes
+	base_buildtime = @zone_buildtime
+	resources = {
+		category = oxr_mdlc_world_machines_zones
+		cost = {
+			minerals = @zone_cost
+			volatile_motes = @b5_rare_cost
+		}
+	}
+	potential = {
+		exists = owner
+		OR = {
+			is_xvcv_mdlc_pc_machine_cpu = yes
+			is_xvcv_mdlc_pc_machine_ser = yes
+		}
+		owner = { 
+			oxr_mdlc_planet_owner_can_build_wm_districts = yes
+			has_technology = tech_volatile_motes
+		}
+	}
+	
+	planet_modifier = {
+		xvcv_mdlc_world_machines_computer_districts_energy_produces_mult = 0.25
+		xvcv_mdlc_world_machines_computer_districts_energy_upkeep_mult = 0.1
+		xvcv_mdlc_world_machines_cooling_districts_volatile_motes_upkeep_add = 1
+	}
+	
+	max_buildings = 0
+	zone_sets = {
+		rikk_mdlc_zone_set_modifier
+	}
+}
+rikk_mdlc_zone_gas_processes = {
+	icon = GFX_district_specialization_exotic_gases
+	base_buildtime = @zone_buildtime
+	resources = {
+		category = oxr_mdlc_world_machines_zones
+		cost = {
+			minerals = @zone_cost
+			exotic_gases = @b5_rare_cost
+		}
+	}
+	potential = {
+		exists = owner
+		OR = {
+			is_xvcv_mdlc_pc_machine_ecu = yes
+			is_xvcv_mdlc_pc_machine_ser = yes
+		}
+		owner = { 
+			oxr_mdlc_planet_owner_can_build_wm_districts = yes
+			has_technology = tech_exotic_gases
+		}
+	}
+	
+	planet_modifier = {
+		xvcv_mdlc_world_machines_foundry_districts_produces_mult = 0.25
+		xvcv_mdlc_world_machines_factory_districts_produces_mult = 0.25
+		xvcv_mdlc_world_machines_districts_trade_produces_mult = 1
+		xvcv_mdlc_world_machines_industrial_districts_upkeep_mult = 0.1
+		xvcv_mdlc_world_machines_cooling_districts_exotic_gases_upkeep_add = 1
+	}
+	
+	max_buildings = 0
+	zone_sets = {
+		rikk_mdlc_zone_set_modifier
+	}
+}
+rikk_mdlc_zone_crystal_construction = {
+	icon = GFX_district_specialization_rare_crystal
+	base_buildtime = @zone_buildtime
+	resources = {
+		category = oxr_mdlc_world_machines_zones
+		cost = {
+			minerals = @zone_cost
+			rare_crystals = @b5_rare_cost
+		}
+	}
+	potential = {
+		exists = owner
+		rikk_mdlc_is_wm_planet_trigger = yes
+		owner = { 
+			oxr_mdlc_planet_owner_can_build_wm_districts = yes
+			has_technology = tech_exotic_gases
+		}
+	}
+	
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_machine_auto = yes }
+		planet_building_build_speed_mult = 0.50
+		decision_enactment_speed = 0.25
+		xvcv_mdlc_world_machines_primary_districts_rare_crystals_upkeep_add = 0.2
+	}
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_ringworld_machine_auto = yes }
+		planet_building_build_speed_mult = 0.50
+		decision_enactment_speed = 0.25
+		xvcv_mdlc_pc_ringworld_machine_auto_district_primary_rare_crystals_upkeep_add = 2
+	}
+	triggered_planet_modifier = {
+		potential = { oxr_mdlc_planet_is_t3_world_machine = yes }
+		planet_building_build_speed_mult = 0.50
+		decision_enactment_speed = 0.25
+		xvcv_mdlc_world_machines_cooling_districts_rare_crystals_upkeep_add = 2
+	}
+	
+	max_buildings = 0
+	zone_sets = {
+		rikk_mdlc_zone_set_modifier
+	}
+}
+
+rikk_mdlc_zone_cooling_towers = {
+	icon = GFX_district_specialization_rare_crystal
+	base_buildtime = @zone_buildtime
+	resources = {
+		category = oxr_mdlc_world_machines_zones
+		cost = {
+			alloys = @zone_cost
+			exotic_gases = @b2_rare_cost
+			volatile_motes = @b2_rare_cost
+			rare_crystals = @b2_rare_cost
+		}
+	}
+	potential = {
+		exists = owner
+		oxr_mdlc_planet_is_t3_world_machine = yes
+		owner = { 
+			oxr_mdlc_planet_owner_can_build_wm_districts = yes
+			has_technology = tech_exotic_gases
+			has_technology = tech_volatile_motes
+			has_technology = tech_rare_crystals
+		}
+	}
+	
+	allow = {
+		custom_tooltip = {
+			fail_text = rikk_mdlc_fail_crust_roots_built
+			has_deposit = rikk_mdlc_d_world_machine_crust_roots
+		}
+	}
+	
+	planet_modifier = {
+		xvcv_mdlc_world_machines_cooling_districts_exotic_gases_upkeep_add = 1
+		xvcv_mdlc_world_machines_cooling_districts_volatile_motes_upkeep_add = 1
+		xvcv_mdlc_world_machines_cooling_districts_rare_crystals_upkeep_add = 1
+		rikk_mdlc_world_machine_cooling_district_effectiveness = 0.10
+	}
+	
+	max_buildings = 0
+	zone_sets = {
+		rikk_mdlc_zone_set_modifier
+	}
+	
+	on_built = {
+		hidden_effect = {
+			planet_event = { id = rikk_mdlc_wm_upgrade_events.70 days = 1 }
+		}
+	}
+}
+
+
+rikk_mdlc_zone_living_metal_structures = {
+	icon = GFX_rikk_mdlc_wm_district_specialization_living_metal_structure
+	base_buildtime = @zone_buildtime
+	potential = {
+		exists = owner
+		rikk_mdlc_is_wm_planet_trigger = yes
+		is_xvcv_mdlc_pc_ringworld_machine_auto = no
+		owner = { 
+			oxr_mdlc_planet_owner_can_build_wm_districts = yes
+			has_technology = tech_mine_living_metal
+		}
+	}
+	
+	planet_modifier = {
+		planet_max_districts_add = 5
+	}
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_machine_auto = yes }
+		xvcv_mdlc_world_machines_primary_districts_sr_living_metal_upkeep_add = 0.1
+	}
+	triggered_planet_modifier = {
+		potential = { oxr_mdlc_planet_is_t3_world_machine = yes }
+		xvcv_mdlc_world_machines_cooling_districts_sr_living_metal_upkeep_add = 0.25
+	}
+	
+	max_buildings = 0
+	zone_sets = {
+		rikk_mdlc_zone_set_modifier
+	}
+}
 rikk_mdlc_zone_dark_matter_reactor = {
 	icon = GFX_rikk_mdlc_district_specialization_dark_matter_reactor
 	base_buildtime = @zone_buildtime
@@ -149,21 +320,20 @@ rikk_mdlc_zone_dark_matter_reactor = {
 		}
 	}
 	
-	planet_modifier = {
-		rikk_mdlc_world_machine_districts_efficiency = 0.3
-	}
-	triggered_planet_modifier = {
+	triggered_district_planet_modifier = {
 		potential = { is_xvcv_mdlc_pc_machine_auto = yes }
-		xvcv_mdlc_world_machines_primary_districts_sr_dark_matter_upkeep_add = 2
+		rikk_mdlc_world_machine_districts_efficiency = 0.05
+		xvcv_mdlc_world_machines_primary_districts_sr_dark_matter_upkeep_add = 0.1
+	}
+	triggered_district_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_ringworld_machine_auto = yes }
+		xvcv_mdlc_pc_ringworld_machine_auto_district_primary_sr_dark_matter_upkeep_add = 0.2
+		rikk_mdlc_world_machine_districts_efficiency = 0.05
 	}
 	triggered_planet_modifier = {
-		potential = {
-			OR = {
-				oxr_mdlc_planet_is_t3_world_machine = yes 
-				is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
-			}
-		}
-		xvcv_mdlc_world_machines_primary_districts_sr_dark_matter_upkeep_add = 6
+		potential = { oxr_mdlc_planet_is_t3_world_machine = yes }
+		rikk_mdlc_world_machine_districts_efficiency = 0.30
+		xvcv_mdlc_world_machines_cooling_districts_sr_dark_matter_upkeep_add = 0.5
 	}
 	
 	max_buildings = 0
