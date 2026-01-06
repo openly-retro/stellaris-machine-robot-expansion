@@ -64,6 +64,12 @@ GENERAL_RESOURCE_NAMES_TO_GAME_RESOURCES = {
 	'physics': 'physics_research',
 }
 
+GENERAL_RESOURCE_NAMES_TO_DEPOSIT_NAME = {
+	'zro': 'zro_deposit',
+	'dark_matter': 'dark_matter_deposit',
+	'living_metal': 'living_metal_deposit',
+}
+
 # For a given game resource, look up how its name would appear in the deposit name
 GAME_RESOURCE_NAME_TO_DEPOSIT_NAME = {
 	'physics_research': 'physics',
@@ -73,6 +79,9 @@ GAME_RESOURCE_NAME_TO_DEPOSIT_NAME = {
 	'sr_dark_matter': 'dark_matter_deposit',
 	'sr_living_metal': 'living_metal_deposit'
 }
+
+
+
 
 def sanity_check():
     return f"Sanity levels at {randint(15,115)}% of normal."
