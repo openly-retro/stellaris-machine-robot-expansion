@@ -97,7 +97,7 @@ xvcv_mdlc_pc_machine_auto_district_city = {
 	}
 }
 
-xvcv_mdlc_pc_machine_auto_district_primary_origin_wm = {
+xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm = {
 	base_buildtime = @xvcv_mdlc_district_time_3
 	is_uncapped = {}
 	default_starting_district = yes
@@ -123,11 +123,45 @@ xvcv_mdlc_pc_machine_auto_district_primary_origin_wm = {
 	inline_script = planet/districts/convert_to/oxr_wm_district_primary
 
 	resources = {
-		category = xvcv_mdlc_world_machines_primary_districts
+		category = xvcv_mdlc_world_machines_production_districts
 		cost = {
 			minerals = @xvcv_mdlc_district_cost_3
 		}
 		upkeep = { energy = @xvcv_mdlc_pc_machine_auto_district_industrial_upkeep }
+		upkeep = {
+			trigger = {
+				exists = owner
+				owner = {
+					OR = {
+						has_edict = oxr_mdlc_edict_wm_forge_subsidies
+						has_edict = oxr_mdlc_edict_wm_industrial_subsidies
+					}
+				}
+			}
+			energy = 2
+		}
+		# Help out auto-machine world a bit for balancing
+		produces = {
+			trade = 8
+		}
+		# Ah look it's the ol' reliable scripts from 3.14 still kicking around :)
+		inline_script = {
+			script = planet/resources/produces/auto_industrial/oxr_mdlc_default
+			JOBS = 2
+			RARE = 0
+		}
+		# Factory designation
+		inline_script = {
+			script = planet/resources/produces/auto_industrial/oxr_mdlc_factory
+			JOBS = 2
+			RARE = 0
+		}
+		# Foundry designation
+		inline_script = {
+			script = planet/resources/produces/auto_industrial/oxr_mdlc_foundry
+			JOBS = 2
+			RARE = 0
+		}
 	}
 
 	ai_resource_production = {
@@ -182,10 +216,30 @@ xvcv_mdlc_pc_machine_auto_district_generator = {
 
 	# produces
 	resources = {
-		category = xvcv_mdlc_world_machines_generator_districts
 		inline_script = {
 			script = planet/districts/auto/oxr_mdlc_generator
 			JOBS = 2
+		}
+		produces = {
+			trigger = { has_active_building = rikk_mdlc_world_machine_SR_building }
+			volatile_motes = 0.20
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		upkeep = {
+			trigger = { 
+				has_active_building = rikk_mdlc_world_machine_SR_building
+				oxr_planet_owner_is_catalytic = no
+			}
+			minerals = 2
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		upkeep = {
+			trigger = { 
+				has_active_building = rikk_mdlc_world_machine_SR_building
+				oxr_planet_owner_is_catalytic = yes
+			}
+			food = 2
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 		}
 	}
 	triggered_desc = {
@@ -214,9 +268,9 @@ xvcv_mdlc_pc_machine_auto_district_generator = {
 	}
 	triggered_name = {
 		trigger = {
-			has_rikk_mdlc_zone_gas_generator = yes
+			has_rikk_mdlc_zone_crystal_conductor = yes
 		}
-		text = xvcv_mdlc_pc_machine_auto_district_generator_triggered_name_gas_generator
+		text = xvcv_mdlc_pc_machine_auto_district_generator_triggered_name_crystalline_conductor
 	}
 	triggered_name = {
 		text = xvcv_mdlc_pc_machine_auto_district_generator_triggered_name_none
@@ -257,6 +311,7 @@ xvcv_mdlc_pc_machine_auto_district_mining = {
 	inline_script = planet/districts/convert_to/oxr_wm_district_3
 
 	resources = {
+		# category = planet_miners
 		category = xvcv_mdlc_world_machines_mining_districts
 		cost = {
 			minerals = @xvcv_mdlc_district_cost_2
@@ -293,6 +348,28 @@ xvcv_mdlc_pc_machine_auto_district_mining = {
 			minerals = 2
 			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 		}
+		produces = {
+			trigger = { has_active_building = rikk_mdlc_world_machine_SR_building }
+			rare_crystals = 0.20
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+			
+		}
+		upkeep = {
+			trigger = { 
+				has_active_building = rikk_mdlc_world_machine_SR_building
+				oxr_planet_owner_is_catalytic = no
+			}
+			energy = 2
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		upkeep = {
+			trigger = { 
+				has_active_building = rikk_mdlc_world_machine_SR_building
+				oxr_planet_owner_is_catalytic = yes
+			}
+			food = 2
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
 	}
 	triggered_desc = {
 		trigger = {
@@ -319,9 +396,9 @@ xvcv_mdlc_pc_machine_auto_district_mining = {
 	}
 	triggered_name = {
 		trigger = {
-			has_rikk_mdlc_zone_crystalline_scanning = yes
+			has_rikk_mdlc_zone_mote_carving = yes
 		}
-		text = xvcv_mdlc_pc_machine_auto_district_mining_triggered_name_crystalline_scanning
+		text = xvcv_mdlc_pc_machine_auto_district_mining_triggered_name_mote_carving
 	}
 	triggered_name = {
 		text = xvcv_mdlc_pc_machine_auto_district_generator_triggered_name_none
@@ -375,6 +452,28 @@ xvcv_mdlc_pc_machine_auto_district_farming = {
 			energy = @xvcv_mdlc_pc_machine_auto_district_farming_upkeep
 			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 		}
+		produces = {
+			trigger = { has_active_building = rikk_mdlc_world_machine_SR_building }
+			exotic_gases = 0.20
+			# mult = value:collected_world_machine_bonuses
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		upkeep = {
+			trigger = { 
+				has_active_building = rikk_mdlc_world_machine_SR_building
+				oxr_planet_owner_is_catalytic = no
+			}
+			energy = 2
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		upkeep = {
+			trigger = { 
+				has_active_building = rikk_mdlc_world_machine_SR_building
+				oxr_planet_owner_is_catalytic = yes
+			}
+			food = 2
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
 	}
 	triggered_desc = {
 		trigger = {
@@ -401,83 +500,11 @@ xvcv_mdlc_pc_machine_auto_district_farming = {
 	}
 	triggered_name = {
 		trigger = {
-			has_rikk_mdlc_zone_mote_fertilizing = yes
+			has_rikk_mdlc_zone_gas_fertilizing = yes
 		}
-		text = xvcv_mdlc_pc_machine_auto_district_farming_triggered_name_mote_fertilizing
+		text = xvcv_mdlc_pc_machine_auto_district_farming_triggered_name_gas_fertilizing
 	}
 	triggered_name = {
 		text = xvcv_mdlc_pc_machine_auto_district_generator_triggered_name_none
 	}
-}
-
-### SWAPS ###
-xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_foundry = {
-	base_buildtime = @xvcv_mdlc_district_time_3
-	icon = xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_industrial
-	overlay_icon = GFX_district_alloys
-	gridbox = district_industrial
-	inline_script = { script = planet/districts/rikk_wm_swap_base }
-}
-xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_factory = {
-	base_buildtime = @xvcv_mdlc_district_time_3
-	icon = xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_industrial
-	overlay_icon = GFX_district_consumer_goods
-	gridbox = district_industrial
-	inline_script = { script = planet/districts/rikk_wm_swap_base }
-}
-xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_archive = {
-	base_buildtime = @xvcv_mdlc_district_time_3
-	icon = xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_unity
-	overlay_icon = GFX_rikk_mdlc_wm_district_archive
-	gridbox = rikk_mdlc_pc_machine_auto_district_unity
-	inline_script = { script = planet/districts/rikk_wm_swap_base }
-}
-xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_research = {
-	base_buildtime = @xvcv_mdlc_district_time_3
-	icon = xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_science
-	overlay_icon = GFX_district_research
-	gridbox = district_research
-	inline_script = { script = planet/districts/rikk_wm_swap_base }
-}
-xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_physics = {
-	base_buildtime = @xvcv_mdlc_district_time_3
-	icon = xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_science
-	overlay_icon = GFX_district_physics
-	gridbox = district_research
-	inline_script = { script = planet/districts/rikk_wm_swap_base }
-}
-xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_society = {
-	base_buildtime = @xvcv_mdlc_district_time_3
-	icon = xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_science
-	overlay_icon = GFX_district_society
-	gridbox = district_research
-	inline_script = { script = planet/districts/rikk_wm_swap_base }
-}
-xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_engineering = {
-	base_buildtime = @xvcv_mdlc_district_time_3
-	icon = xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_science
-	overlay_icon = GFX_district_engineering
-	gridbox = district_research
-	inline_script = { script = planet/districts/rikk_wm_swap_base }
-}
-xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_unity = {
-	base_buildtime = @xvcv_mdlc_district_time_3
-	icon = xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_unity
-	overlay_icon = GFX_district_unity
-	gridbox = rikk_mdlc_pc_machine_auto_district_unity
-	inline_script = { script = planet/districts/rikk_wm_swap_base }
-}
-xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_trade = {
-	base_buildtime = @xvcv_mdlc_district_time_3
-	icon = xvcv_mdlc_pc_machine_auto_district_primary_origin_wm
-	overlay_icon = GFX_district_trade
-	gridbox = district_arcology_trade
-	inline_script = { script = planet/districts/rikk_wm_swap_base }
-}
-xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_army = {
-	base_buildtime = @xvcv_mdlc_district_time_3
-	icon = xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_army
-	overlay_icon = GFX_district_fortress
-	gridbox = district_arcology_fortress
-	inline_script = { script = planet/districts/rikk_wm_swap_base }
 }

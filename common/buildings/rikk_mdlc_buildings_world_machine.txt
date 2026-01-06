@@ -1,5 +1,6 @@
 #### MANUFACTURING ###
 
+# Forge booster
 rikk_mdlc_world_machine_SR_building = {
 	base_buildtime = @b1_time
 	base_cap_amount = 1
@@ -12,7 +13,7 @@ rikk_mdlc_world_machine_SR_building = {
 		owner = {
 			OR = {
 				has_origin = oxr_mdlc_origin_world_machine_awakened
-				has_ascension_perk = xvcv_mdlc_ap_world_machines
+				# has_ascension_perk = xvcv_mdlc_ap_world_machines
 			}
 		}
 		is_xvcv_mdlc_pc_machine_auto = yes
@@ -20,7 +21,7 @@ rikk_mdlc_world_machine_SR_building = {
 	show_tech_unlock_if = {
 		OR = {
 			has_origin = oxr_mdlc_origin_world_machine_awakened
-			has_ascension_perk = xvcv_mdlc_ap_world_machines
+			# has_ascension_perk = xvcv_mdlc_ap_world_machines
 		}
 	}
 	on_built = {
@@ -40,33 +41,14 @@ rikk_mdlc_world_machine_SR_building = {
 		}
 	}
 	
-	triggered_planet_modifier = {
-		xvcv_mdlc_world_machines_generator_districts_volatile_motes_produces_add = 0.2
-		xvcv_mdlc_world_machines_mining_districts_exotic_gases_produces_add = 0.2
-		xvcv_mdlc_world_machines_food_districts_rare_crystals_produces_add = 0.2
-		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
-	}
-	triggered_planet_modifier = {
-		potential = { oxr_planet_owner_is_catalytic = no }
-		xvcv_mdlc_world_machines_generator_districts_minerals_upkeep_add = 2
-		xvcv_mdlc_world_machines_mining_districts_energy_upkeep_add = 2
-		xvcv_mdlc_world_machines_food_districts_minerals_upkeep_add = 2
-		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
-	}
-	triggered_planet_modifier = {
-		potential = { oxr_planet_owner_is_catalytic = yes }
-		xvcv_mdlc_world_machines_generator_districts_food_upkeep_add = 2
-		xvcv_mdlc_world_machines_mining_districts_food_upkeep_add = 2
-		xvcv_mdlc_world_machines_food_districts_minerals_upkeep_add = 2
-		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
-	}
-	
-	#triggered_desc = { text = rikk_mdlc_world_machine_SR_building_effect } 
+	triggered_desc = { text = rikk_mdlc_world_machine_SR_building_effect } 
 	
 	prerequisites = {
 		tech_volatile_motes
 		tech_exotic_gases
 		tech_rare_crystals
+		oxr_mdlc_tech_world_machine_wmc_core
+		oxr_mdlc_tech_geologic_world_expansion_theory
 	}
 
 	building_sets = {

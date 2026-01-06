@@ -374,6 +374,7 @@ oxr_mdlc_world_machines_building_auto_imperial_capital = {
 # Forge booster
 oxr_mdlc_world_machines_building_auto_forge_1 = {
 	base_buildtime = @b1_time
+	base_cap_amount = 1
 	can_build = yes
 
 	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
@@ -400,7 +401,7 @@ oxr_mdlc_world_machines_building_auto_forge_1 = {
 oxr_mdlc_world_machines_building_auto_forge_2 = {
 	base_buildtime = @b2_time
 	can_build = no
-	base_cap_amount = 1
+	#base_cap_amount = 1
 	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 	allow = {
 		# has_upgraded_capital = yes
@@ -456,15 +457,20 @@ oxr_mdlc_world_machines_building_auto_forge_3 = {
 oxr_mdlc_world_machines_building_auto_factory_boost_1 = {
 	base_buildtime = @b1_time
 	base_cap_amount = 1
+	can_build = no
 
 	potential = {
 		exists = owner
 		is_planet_world_machine = yes
-		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
 		# Either a CG country or using ECU
 		OR = {
-			owner = { country_uses_consumer_goods = yes }
+			owner = {
+				country_uses_consumer_goods = yes
+			}
 			is_planet_class = xvcv_mdlc_pc_machine_ecu
+		}
+		owner = {
+			oxr_mdlc_planet_owner_can_build_wm_districts = yes
 		}
 		oxr_mdlc_planet_has_vanilla_pop_colony_modifier = no
 	}
@@ -634,12 +640,12 @@ oxr_mdlc_world_machines_building_auto_nanite_transmuter = {
 					}
 				}
 			}
-			rare_crystals = 5
-			volatile_motes = 5
-			exotic_gases = 5
+			rare_crystals = 2
+			volatile_motes = 2
+			exotic_gases = 2
 		}
 		upkeep = {
-			nanites = 2
+			nanites = 1
 			energy = 5
 		}
 	}
@@ -1202,7 +1208,6 @@ oxr_mdlc_world_machines_building_circuit_physics_1 = {
 	planet_modifier = {
 		oxr_mdlc_world_machines_science_buildings_physics_research_produces_add = 1
 		xvcv_mdlc_world_machines_science_districts_physics_research_produces_add = 1
-		xvcv_mdlc_world_machines_primary_districts_physics_research_produces_mult = 0.1
 	}
 
 	upgrades = { "oxr_mdlc_world_machines_building_circuit_physics_2" }
@@ -1241,11 +1246,9 @@ oxr_mdlc_world_machines_building_circuit_physics_2 = {
 	planet_modifier = {
 		oxr_mdlc_world_machines_science_buildings_physics_research_produces_add = 2
 		xvcv_mdlc_world_machines_science_districts_physics_research_produces_add = 2
-		xvcv_mdlc_world_machines_primary_districts_physics_research_produces_mult = 0.2
 
 		oxr_mdlc_world_machines_science_buildings_volatile_motes_upkeep_add = 0.5
 		xvcv_mdlc_world_machines_science_districts_volatile_motes_upkeep_add = 0.5
-		xvcv_mdlc_world_machines_primary_districts_volatile_motes_upkeep_add = 0.1
 	}
 
 	upgrades = { "oxr_mdlc_world_machines_building_circuit_physics_3" }
@@ -1281,15 +1284,12 @@ oxr_mdlc_world_machines_building_circuit_physics_3 = {
 	planet_modifier = {
 		oxr_mdlc_world_machines_science_buildings_physics_research_produces_add = 2
 		xvcv_mdlc_world_machines_science_districts_physics_research_produces_add = 2
-		xvcv_mdlc_world_machines_primary_districts_physics_research_produces_add = 1
 
 		oxr_mdlc_world_machines_science_buildings_physics_research_produces_mult = 0.15
 		xvcv_mdlc_world_machines_science_districts_physics_research_produces_mult = 0.15
-		xvcv_mdlc_world_machines_primary_districts_physics_research_produces_mult = 0.2
 
 		oxr_mdlc_world_machines_science_buildings_volatile_motes_upkeep_add = 0.5
 		xvcv_mdlc_world_machines_science_districts_volatile_motes_upkeep_add = 0.5
-		xvcv_mdlc_world_machines_primary_districts_volatile_motes_upkeep_add = 0.1
 	}
 
 	prerequisites = { "tech_physics_3" }
@@ -1325,7 +1325,6 @@ oxr_mdlc_world_machines_building_circuit_society_1 = {
 	planet_modifier = {
 		oxr_mdlc_world_machines_science_buildings_society_research_produces_add = 1
 		xvcv_mdlc_world_machines_science_districts_society_research_produces_add = 1
-		xvcv_mdlc_world_machines_primary_districts_society_research_produces_mult = 0.1
 	}
 
 	upgrades = { "oxr_mdlc_world_machines_building_circuit_society_2" }
@@ -1360,11 +1359,9 @@ oxr_mdlc_world_machines_building_circuit_society_2 = {
 	planet_modifier = {
 		oxr_mdlc_world_machines_science_buildings_society_research_produces_add = 2
 		xvcv_mdlc_world_machines_science_districts_society_research_produces_add = 2
-		xvcv_mdlc_world_machines_primary_districts_society_research_produces_mult = 0.2
 
 		oxr_mdlc_world_machines_science_buildings_exotic_gases_upkeep_add = 0.5
 		xvcv_mdlc_world_machines_science_districts_exotic_gases_upkeep_add = 0.5
-		xvcv_mdlc_world_machines_primary_districts_exotic_gases_upkeep_add = 0.1
 	}
 
 	upgrades = { "oxr_mdlc_world_machines_building_circuit_society_3" }
@@ -1399,15 +1396,12 @@ oxr_mdlc_world_machines_building_circuit_society_3 = {
 	planet_modifier = {
 		oxr_mdlc_world_machines_science_buildings_society_research_produces_add = 2
 		xvcv_mdlc_world_machines_science_districts_society_research_produces_add = 2
-		xvcv_mdlc_world_machines_primary_districts_society_research_produces_add = 1
 
 		oxr_mdlc_world_machines_science_buildings_society_research_produces_mult = 0.15
 		xvcv_mdlc_world_machines_science_districts_society_research_produces_mult = 0.15
-		xvcv_mdlc_world_machines_primary_districts_society_research_produces_mult = 0.2
 
 		oxr_mdlc_world_machines_science_buildings_exotic_gases_upkeep_add = 0.5
 		xvcv_mdlc_world_machines_science_districts_exotic_gases_upkeep_add = 0.5
-		xvcv_mdlc_world_machines_primary_districts_exotic_gases_upkeep_add = 0.1
 	}
 
 	prerequisites = { "tech_society_3" }
@@ -1441,7 +1435,6 @@ oxr_mdlc_world_machines_building_circuit_engineering_1 = {
 	planet_modifier = {
 		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_add = 1
 		xvcv_mdlc_world_machines_science_districts_engineering_research_produces_add = 1
-		xvcv_mdlc_world_machines_primary_districts_engineering_research_produces_mult = 0.1
 	}
 
 	upgrades = { "oxr_mdlc_world_machines_building_circuit_engineering_2" }
@@ -1477,11 +1470,9 @@ oxr_mdlc_world_machines_building_circuit_engineering_2 = {
 	planet_modifier = {
 		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_add = 2
 		xvcv_mdlc_world_machines_science_districts_engineering_research_produces_add = 2
-		xvcv_mdlc_world_machines_primary_districts_engineering_research_produces_mult = 0.2
 
 		oxr_mdlc_world_machines_science_buildings_rare_crystals_upkeep_add = 0.5
 		xvcv_mdlc_world_machines_science_districts_rare_crystals_upkeep_add = 0.5
-		xvcv_mdlc_world_machines_primary_districts_rare_crystals_upkeep_add = 0.1
 	}
 
 	upgrades = { "oxr_mdlc_world_machines_building_circuit_engineering_3" }
@@ -1518,15 +1509,12 @@ oxr_mdlc_world_machines_building_circuit_engineering_3 = {
 	planet_modifier = {
 		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_add = 2
 		xvcv_mdlc_world_machines_science_districts_engineering_research_produces_add = 2
-		xvcv_mdlc_world_machines_primary_districts_engineering_research_produces_add = 1
 
 		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_mult = 0.15
 		xvcv_mdlc_world_machines_science_districts_engineering_research_produces_mult = 0.15
-		xvcv_mdlc_world_machines_primary_districts_engineering_research_produces_mult = 0.2
 
 		oxr_mdlc_world_machines_science_buildings_rare_crystals_upkeep_add = 0.5
 		xvcv_mdlc_world_machines_science_districts_rare_crystals_upkeep_add = 0.5
-		xvcv_mdlc_world_machines_primary_districts_rare_crystals_upkeep_add = 0.1
 	}
 
 	prerequisites = { "tech_engineering_3" }
@@ -1925,7 +1913,7 @@ oxr_mdlc_world_machines_auto_mine_1 = {
 	}
 	building_sets = {
 		oxr_mdlc_building_set_wm_all
-		oxr_mdlc_building_set_wm_minerals
+		oxr_mdlc_building_set_wm_raw_resource
 		oxr_mdlc_minerals
 	}
 

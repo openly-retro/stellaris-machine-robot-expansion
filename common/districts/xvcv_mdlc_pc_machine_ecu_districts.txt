@@ -26,14 +26,35 @@ xvcv_mdlc_pc_machine_ecu_district_production = {
 		oxr_mdlc_slot_pc_machine_ecu_production
 	}
 
-	# Resources are managed in oxr_mdlc_zones_pc_machine_ecu.txt
 	resources = {
 		category = xvcv_mdlc_world_machines_production_districts
 		cost = { minerals = @oxr_rw_cost }
 		upkeep = { energy = @rw_maintenance }
+		# If no zones have been built, incur a default build cost
+		cost = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_machine_ecu_alloys = no
+				has_oxr_mdlc_zone_pc_machine_ecu_consumer_goods = no
+			}
+			minerals = @oxr_rw_cost
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
 
 		upkeep = {
-			trigger = { owner = { has_edict = industrial_maintenance } }
+			trigger = {
+				has_oxr_mdlc_zone_pc_machine_ecu_alloys = no
+				has_oxr_mdlc_zone_pc_machine_ecu_consumer_goods = no
+			}
+			energy = @rw_maintenance
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+
+		upkeep = {
+			trigger = {
+				owner = {
+					has_edict = industrial_maintenance
+				}
+			}
 			energy = 4
 			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 		}
@@ -47,7 +68,7 @@ xvcv_mdlc_pc_machine_ecu_district_production = {
 		xvcv_mdlc_world_machines_districts_upkeep_mult = 0.1
 	}
 
-	triggered_name = { text = xvcv_mdlc_pc_machine_ecu_district_production_triggered_name_none }
+	# Resources are managed in oxr_mdlc_zones_pc_machine_ecu.txt
 
 	ai_resource_production = {
 		alloys = 10
@@ -92,27 +113,38 @@ xvcv_mdlc_pc_machine_ecu_district_rare_resources = {
 
 	resources = {
 		category = xvcv_mdlc_world_machines_strategic_resource_districts
-		cost = { minerals = @xvcv_mdlc_district_cost_5 }
-		upkeep = { energy = @rw_maintenance }
+		cost = {
+			minerals = @xvcv_mdlc_district_cost_5
+		}
+		produces = {
+			trigger = { oxr_planet_owner_is_catalytic = no }
+			volatile_motes = @[ 2 * oxr_mdlc_wm_base_chemist_drone_output ]
+			exotic_gases = @[ 2 * oxr_mdlc_wm_base_chemist_drone_output ]
+			rare_crystals = @[ 2 * oxr_mdlc_wm_base_chemist_drone_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		upkeep = {
+			trigger = { oxr_planet_owner_is_catalytic = no }
+			minerals = @[ 6 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		produces = {
+			trigger = { oxr_planet_owner_is_catalytic = yes }
+			volatile_motes = @[ 2 * oxr_mdlc_wm_base_chemist_drone_catalytic_output ]
+			exotic_gases = @[ 2 * oxr_mdlc_wm_base_chemist_drone_catalytic_output ]
+			rare_crystals = @[ 2 * oxr_mdlc_wm_base_chemist_drone_catalytic_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		upkeep = {
+			trigger = { oxr_planet_owner_is_catalytic = yes }
+			food = @[ 6 * oxr_mdlc_wm_base_chemist_drone_catalytic_upkeep ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		upkeep = {
+			energy = 6
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
 	}
-
-	triggered_name = {
-		trigger = { has_oxr_mdlc_zone_pc_machine_ecu_triple_strategic_resources = yes }
-		text = xvcv_mdlc_pc_machine_ecu_district_rare_resources_triggered_name_triple_strategic_resources
-	}
-	triggered_name = {
-		trigger = { has_oxr_mdlc_zone_pc_machine_ecu_rare_crystals = yes }
-		text = xvcv_mdlc_pc_machine_ecu_district_rare_resources_triggered_name_rare_crystals
-	}
-	triggered_name = {
-		trigger = { has_oxr_mdlc_zone_pc_machine_ecu_volatile_motes = yes }
-		text = xvcv_mdlc_pc_machine_ecu_district_rare_resources_triggered_name_volatile_motes
-	}
-	triggered_name = {
-		trigger = { has_oxr_mdlc_zone_pc_machine_ecu_exotic_gases = yes }
-		text = xvcv_mdlc_pc_machine_ecu_district_rare_resources_triggered_name_exotic_gases
-	}
-	triggered_name = { text = xvcv_mdlc_pc_machine_ecu_district_rare_resources_triggered_name_none }
 
 	ai_resource_production = {
 		volatile_motes = 2
@@ -215,13 +247,53 @@ xvcv_mdlc_pc_machine_ecu_district_naval_cap = {
 xvcv_mdlc_pc_machine_ecu_district_alloys = {
 	base_buildtime = @xvcv_mdlc_district_time_4
 	overlay_icon = GFX_district_alloys
-	inline_script = { script = planet/districts/rikk_wm_swap_base }
-	triggered_name = { text = xvcv_mdlc_pc_machine_ecu_district_production_triggered_name_alloy_forges }
+	is_uncapped = {}
+
+	zone_slots = {
+		slot_empty
+	}
+
+	show_on_uncolonized = {
+		always = no
+	}
+
+	potential = {
+		always = no
+	}
+
+	on_built = {
+		inline_script = planet/districts/on_action/on_wm_district_built
+		inline_script = planet/districts/on_action/on_wm_t3_district_change
+	}
+	on_destroy = {
+		inline_script = planet/districts/on_action/on_wm_district_destroy
+		inline_script = planet/districts/on_action/on_wm_t3_district_change
+	}
 }
 
 xvcv_mdlc_pc_machine_ecu_district_goods = {
 	base_buildtime = @xvcv_mdlc_district_time_4
 	overlay_icon = GFX_district_consumer_goods
-	inline_script = { script = planet/districts/rikk_wm_swap_base }
-	triggered_name = { text = xvcv_mdlc_pc_machine_ecu_district_production_triggered_name_consumer_goods_factory }
+	is_uncapped = {}
+
+	zone_slots = {
+		slot_empty
+	}
+
+	show_on_uncolonized = {
+		always = no
+	}
+
+	potential = {
+		always = no
+	}
+
+	on_built = {
+		inline_script = planet/districts/on_action/on_wm_district_built
+		inline_script = planet/districts/on_action/on_wm_t3_district_change
+	}
+	on_destroy = {
+		inline_script = planet/districts/on_action/on_wm_district_destroy
+		inline_script = planet/districts/on_action/on_wm_t3_district_change
+	}
 }

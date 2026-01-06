@@ -1,3 +1,13 @@
+# Auto-generator has 1 mineral upkeep (job-to-minerals: 2:1)
+# ringworld generator has 10 jobs so minerals should = 5 (10/2)
+
+# Auto-Ringworld district output and upkeep are affected by
+# world machine district output/upkeep modifiers
+
+# Auto-Machine World generator districts are NOT (affected by wm district output/mult)
+
+# Serving both auto-machine worlds and auto-ringworlds
+category = xvcv_mdlc_world_machines_generator_districts
 cost = {
 	trigger = { is_xvcv_mdlc_pc_machine_auto = yes }
 	minerals = @xvcv_mdlc_district_cost_2
@@ -15,9 +25,22 @@ produces = {
 upkeep = {
 	trigger = {
 		doesnt_have_active_building = { WHICH = oxr_mdlc_world_machines_biofuel_refit_1 }
+		is_xvcv_mdlc_pc_machine_auto = yes
 	}
-	minerals = @oxr_mdlc_wm_base_technician_upkeep  # is currently 0 in 4.2
+	# executive decision; no mineral upkeep ^_o
+	# minerals = 2  # 2 for auto-machine world, 5 for ringworld 
 	energy = 2
+	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+}
+
+upkeep = {
+	trigger = {
+		is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
+		doesnt_have_active_building = { WHICH = oxr_mdlc_world_machines_biofuel_refit_1 }
+	}
+	rare_crystals = 1  # static 1 per district
+	minerals = 5  # base vanilla value
+	energy = 5
 	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 }
 
@@ -27,7 +50,14 @@ upkeep = {
 upkeep = {
 	trigger = { has_active_building = oxr_mdlc_world_machines_biofuel_refit_1 }
 	# It's both double the num of jobs, and also 1/4 the output
-	food = @[ $JOBS$ * ( oxr_mdlc_wm_base_technician_output / 4 ) ] # is currently 0 in 4.2
-	# instead of 1 energy upkeep per simulated drone, 2 food upkeep
+	food = @[ $JOBS$ * ( oxr_mdlc_wm_base_technician_output / 4 ) ]  # instead of 1 energy upkeep per simulated drone, 2 food upkeep
+	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+}
+upkeep = {
+	trigger = {
+		has_active_building = oxr_mdlc_world_machines_biofuel_refit_1
+		is_xvcv_mdlc_pc_ringworld_machine_auto = yes
+	}
+	rare_crystals = 1
 	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 }

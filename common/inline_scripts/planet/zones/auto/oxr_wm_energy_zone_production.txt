@@ -1,10 +1,6 @@
-#base pop upkeep
-triggered_planet_modifier = { $DISTRICT_CATEGORY$_energy_upkeep_add = $JOBS$ }
-
-# production
 triggered_planet_modifier = {
 	potential = { exists = owner }
-	$DISTRICT_CATEGORY$_energy_produces_add = @[ $JOBS$ * oxr_mdlc_wm_base_technician_output ]
+	$DISTRICT_CATEGORY$_energy_produces_add = @[ $JOBS$ * oxr_mdlc_wm_base_farmer_output ]
 	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 }
 
@@ -13,15 +9,16 @@ triggered_planet_modifier = {
 	potential = {
 		NOT = { has_active_building = oxr_mdlc_world_machines_biofuel_refit_1 }
 	}
-	$DISTRICT_CATEGORY$_minerals_upkeep_add = @[ $JOBS$ * oxr_mdlc_wm_base_technician_upkeep ]
+	$DISTRICT_CATEGORY$_energy_upkeep_add = @[ 2 + $JOBS$ ]
+	$DISTRICT_CATEGORY$_minerals_upkeep_add = 2
 	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 }
 # with biofuel
 triggered_planet_modifier = {
 	potential = {
-		has_active_building = oxr_mdlc_world_machines_biofuel_refit_1
+		NOT = { has_active_building = oxr_mdlc_world_machines_biofuel_refit_1 }
 	}
-	$DISTRICT_CATEGORY$_food_upkeep_add = @[ $JOBS$ * ( oxr_mdlc_wm_base_technician_output / 4 ) * oxr_mdlc_wm_base_technician_upkeep ]
+	$DISTRICT_CATEGORY$_food_upkeep_add = @[ $JOBS$ * ( oxr_mdlc_wm_base_technician_output / 4 ) ]
 	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 }
 

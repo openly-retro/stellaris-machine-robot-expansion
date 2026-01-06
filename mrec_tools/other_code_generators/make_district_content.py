@@ -28,7 +28,7 @@ DISTRICTS = {
     # AUTO
     "xvcv_mdlc_pc_machine_auto_district_city": BLUE,
     "xvcv_mdlc_pc_machine_auto_district_nexus": BLUE,
-    "xvcv_mdlc_pc_machine_auto_district_primary_origin_wm": ORANGE,
+    "xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm": ORANGE,
     "xvcv_mdlc_pc_machine_auto_district_generator": YELLOW,
     "xvcv_mdlc_pc_machine_auto_district_mining": RED,
     "xvcv_mdlc_pc_machine_auto_district_farming": GREEN,
