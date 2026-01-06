@@ -297,47 +297,47 @@ rikk_mdlc_decision_world_machine_crust_roots = {
 	}
 }
 
-rikk_mdlc_decision_world_machine_cooling_towers = {
-	owned_planets_only = yes
-	enactment_time = @wmupgradelength2
-	
-	resources = {
-		category = decisions
-		cost = {
-			alloys = 1000
-		}
-	}	
-	potential = {
-		exists = owner
-		rikk_mdlc_is_wm_planet_trigger = yes
-		owner = {
-			oxr_mdlc_planet_owner_can_build_wm_districts = yes
-			has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
-		}
-		NOR = {
-			is_xvcv_mdlc_pc_machine_auto = yes
-			is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
-		}
-		NOT = { has_deposit = rikk_mdlc_d_world_machine_cooling_towers }
-	}
-	
-	allow = {
-		custom_tooltip = {
-			fail_text = rikk_mdlc_fail_crust_roots_queued
-			OR = { 
-				has_deposit = rikk_mdlc_d_world_machine_crust_roots
-				has_planet_flag = crust_roots_queued
-			}
-		}
-	}
-	
-	effect = {
-		add_deposit = rikk_mdlc_d_world_machine_cooling_towers
-		hidden_effect = {
-			planet_event = { id = rikk_mdlc_wm_upgrade_events.70 days = 1 }
-		}
-	}
-}
+#rikk_mdlc_decision_world_machine_cooling_towers = {
+#	owned_planets_only = yes
+#	enactment_time = @wmupgradelength2
+#	
+#	resources = {
+#		category = decisions
+#		cost = {
+#			alloys = 1000
+#		}
+#	}	
+#	potential = {
+#		exists = owner
+#		rikk_mdlc_is_wm_planet_trigger = yes
+#		owner = {
+#			oxr_mdlc_planet_owner_can_build_wm_districts = yes
+#			has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
+#		}
+#		NOR = {
+#			is_xvcv_mdlc_pc_machine_auto = yes
+#			is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
+#		}
+#		NOT = { has_deposit = rikk_mdlc_d_world_machine_cooling_towers }
+#	}
+#	
+#	allow = {
+#		custom_tooltip = {
+#			fail_text = rikk_mdlc_fail_crust_roots_queued
+#			OR = { 
+#				has_deposit = rikk_mdlc_d_world_machine_crust_roots
+#				has_planet_flag = crust_roots_queued
+#			}
+#		}
+#	}
+#	
+#	effect = {
+#		add_deposit = rikk_mdlc_d_world_machine_cooling_towers
+#		hidden_effect = {
+#			planet_event = { id = rikk_mdlc_wm_upgrade_events.70 days = 1 }
+#		}
+#	}
+#}
 
 rikk_mdlc_decision_world_machine_synchronization_arrays = {
 	owned_planets_only = yes
@@ -735,6 +735,7 @@ rikk_mdlc_decision_world_machine_outer_core_cooling = {
 			has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
 		}
 		NOT = { has_deposit = rikk_mdlc_d_world_machine_outer_core_cooled }
+		NOT = { has_modifier = rikk_mdlc_world_machine_outer_core_cooling_mod }
 		OR = { 
 			has_deposit = rikk_mdlc_d_world_machine_outer_core_roots
 			has_planet_flag = outer_core_roots_queued

@@ -1,0 +1,23 @@
+#base pop upkeep
+triggered_planet_modifier = { $DISTRICT_CATEGORY$_energy_upkeep_add = $JOBS$ }
+
+triggered_planet_modifier = {
+	potential = { exists = owner }
+	$DISTRICT_CATEGORY$_society_research_produces_add = @[ $JOBS$ * oxr_mdlc_wm_base_calculator_single_output ]
+	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+}
+
+triggered_planet_modifier = {
+	$DISTRICT_CATEGORY$_energy_upkeep_add = @[ $JOBS$ * oxr_mdlc_wm_base_calculator_single_upkeep ]
+	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+}
+
+# 5 extra from virtuality tradition
+triggered_planet_modifier = {
+	potential = {
+		exists = owner
+		owner = { has_active_tradition = tr_virtuality_4 }
+	}
+	$DISTRICT_CATEGORY$_society_research_produces_add = @[ $JOBS$ * oxr_mdlc_wm_base_calculator_single_output ]
+	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+}
