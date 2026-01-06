@@ -1,34 +1,4 @@
 #
-oxr_mdlc_decision_extract_orbital_resources = {
-
-	potential = {
-		exists = space_owner
-		space_owner = {
-			has_civic = oxr_mdlc_civic_consolidators
-		}
-		is_planet_world_machine = no
-
-		is_colony = no  # use xvcv's original decision for that one
-	}
-	allow = {
-		# always = yes
-		is_terraforming = no
-		has_anomaly = no
-		NOT = {
-			has_planet_flag = oxr_mdlc_civic_consolidators_extraction_in_progress
-		}
-		OR = {
-			oxr_mdlc_consolidators_planet_has_orbital_deposits = yes
-			oxr_mdlc_consolidators_planet_has_natural_deposits = yes
-		}
-		
-	}
-
-	effect = {
-		oxr_mdlc_planet_extract_orbital_energy_deposits = yes
-	}
-}
-
 oxr_mdlc_decision_trigger_orbital_extraction_project = {
 
 	enactment_time = 1
@@ -49,6 +19,9 @@ oxr_mdlc_decision_trigger_orbital_extraction_project = {
 
 		NOT = {
 			has_planet_flag = oxr_mdlc_civic_consolidators_extraction_in_progress
+			# Can't extract off the target planet
+			has_planet_flag = oxr_mdlc_civic_orbital_target@root
+			has_planet_flag = oxr_mdlc_civic_orbital_research_target@root
 		}
 		oxr_mdlc_consolidators_planet_has_orbital_deposits = yes
 	}

@@ -28,6 +28,8 @@ Find research dropoff with planet flag: `oxr_mdlc_civic_orbital_research_target@
 Global event targets:
 
 - Mover controller: `oxr_mdlc_country_consolidators_movers_controller_target`
+- orbital research consolidation target: `oxr_mdlc_civic_orbital_research_target@root`
+- orbital mining target: `oxr_mdlc_civic_orbital_target@root`
 
 
 Mover is doing things: 

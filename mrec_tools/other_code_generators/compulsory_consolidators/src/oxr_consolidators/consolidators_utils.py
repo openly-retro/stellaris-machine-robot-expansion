@@ -42,15 +42,22 @@ ORBITAL_DEPOSIT_SHIPCLASS_TYPES = {
 	'energy': MINING_STATION,
 	'minerals': MINING_STATION,
 	'society_research': RESEARCH_STATION,
+	'society': RESEARCH_STATION,
 	'physics_research': RESEARCH_STATION,
+	'physics': RESEARCH_STATION,
 	'engineering_research': RESEARCH_STATION,
+	'engineering': RESEARCH_STATION,
 	'alloys': MINING_STATION,
 	'living_metal': MINING_STATION,
 	'rare_crystals': MINING_STATION,
 	'exotic_gases': MINING_STATION,
 	'volatile_motes': MINING_STATION,
 	'sr_zro': RESEARCH_STATION,
+	'zro': RESEARCH_STATION,
 	'sr_dark_matter': RESEARCH_STATION,
+	'dark_matter': RESEARCH_STATION,
+	'trade_value': MINING_STATION,
+	'trade': MINING_STATION
 }
 
 # The deposits are named 'd_zro_deposit_1' but the resource key is 'sr_zro'
@@ -80,7 +87,10 @@ GAME_RESOURCE_NAME_TO_DEPOSIT_NAME = {
 	'sr_living_metal': 'living_metal_deposit'
 }
 
-
+ORBITAL_TARGET_PLANET_FLAGS = {
+	'mining': 'oxr_mdlc_civic_orbital_target',
+	'research': 'oxr_mdlc_civic_orbital_research_target',
+}
 
 
 def sanity_check():
