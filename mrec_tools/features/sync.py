@@ -74,13 +74,13 @@ if __name__== "__main__":
     start_time = perf_counter()
     parser = argparse.ArgumentParser(
         prog="0xRetro MRE:C Feature Sync Tool",
-        description="Sync a game feature from its separate code folder to the main mod. Sync all (default, optional) or a specific folder"
+        description="Sync a game feature from its separate code folder to the main mod, by specifying one or more feature folder names."
     )
     parser.add_argument(
         "--features",
         nargs="+",
         dest="features_to_sync",
-        help="Any feature folders you want to sync to the main mod, separated by spaces. (Optional)",
+        help="Any feature folders you want to sync to the main mod, separated by spaces.",
         default=[]
     )
     args = parser.parse_args()
@@ -91,17 +91,25 @@ if __name__== "__main__":
         "Because we like to stay organized here.\n"
     )
     if not len(args.features_to_sync):
-        """ Sync all to the main mod """
+        """ Show a list of available features"""
         feature_folders_to_sync = [
-            f.path for f in os.scandir(features_folder)
+            f.path.split(os.path.sep)[-1] for f in os.scandir(features_folder)
             if f.is_dir()
         ]
-        for folder_path in feature_folders_to_sync:
-            sync_feature_folder_to_main_mod(folder_path)
+        parser.print_help()
         print(
-            "Done syncing all feature folders to the main mod. "
-            "Remember to check for errors.."
+            "\nCurrent feature folders: \n"
+            f"{", ".join(feature_folders_to_sync)}"
         )
+
+        # """ Sync all to the main mod """
+        
+        # for folder_path in feature_folders_to_sync:
+        #     sync_feature_folder_to_main_mod(folder_path)
+        # print(
+        #     "Done syncing all feature folders to the main mod. "
+        #     "Remember to check for errors.."
+        # )
     else:
         """ Modder has specified one or more folders to sync .. check if any are mistyped """
         for desired_feature_folder in args.features_to_sync:
