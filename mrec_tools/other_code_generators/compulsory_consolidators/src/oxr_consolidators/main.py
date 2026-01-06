@@ -1,6 +1,7 @@
 from make_extractor_effects import do_all_work as make_scripted_effects
 from make_extractor_special_projects import do_all_work as make_special_projects
 from make_filler_deposits import do_all_work as make_deposits
+from make_extraction_event_3000 import do_all_work as make_events_code
 
 import argparse
 import os
@@ -28,3 +29,4 @@ if __name__ == "__main__":
     make_scripted_effects(args.feature_folder)
     make_special_projects(args.feature_folder)
     make_deposits(args.feature_folder)
+    make_events_code(args.feature_folder)

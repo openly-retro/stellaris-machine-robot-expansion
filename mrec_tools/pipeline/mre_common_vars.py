@@ -220,6 +220,7 @@ FILE_NUM_PREFIXES = {
     "projects": "57",
     "localisation": "60",
     "maps": "70",  # traits w machine localisation, uppercase map
+    "events": "75",
 
 }
 """ Map of file number prefixes, corresponding to the contents """

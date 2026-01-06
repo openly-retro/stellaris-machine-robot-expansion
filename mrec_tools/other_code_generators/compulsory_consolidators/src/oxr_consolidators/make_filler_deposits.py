@@ -76,7 +76,7 @@ def iterate_resources_ranges_make_deposits():
 			for deposit_size in range(
 				missing_range_tuple[0], missing_range_tuple[1]
 			):
-				deposit_icon_statement = f"icon = {ORBITAL_DEPOSIT_ICONS.get(game_resource)}" if ORBITAL_DEPOSIT_ICONS.get(game_resource) else ""
+				deposit_icon_statement = f"icon = \"{ORBITAL_DEPOSIT_ICONS.get(game_resource)}\"" if ORBITAL_DEPOSIT_ICONS.get(game_resource) else ""
 				deposit_code = orbital_deposit_template.format(
 					# If the deposit name is different, look it up, otherwise use the resource name
 					deposit_resource_name=GAME_RESOURCE_NAMES_TO_DEPOSIT_NAMES.get(
