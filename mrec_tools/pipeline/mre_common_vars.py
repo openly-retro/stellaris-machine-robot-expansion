@@ -216,8 +216,11 @@ FILE_NUM_PREFIXES = {
     "gui": "30",
     "triggers": "40",
     "effects": "50",
+    "deposits": "55",
+    "projects": "57",
     "localisation": "60",
     "maps": "70",  # traits w machine localisation, uppercase map
+
 }
 """ Map of file number prefixes, corresponding to the contents """
 

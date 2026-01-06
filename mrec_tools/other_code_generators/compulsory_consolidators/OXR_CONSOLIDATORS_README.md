@@ -20,6 +20,16 @@ When a resource has been marked for extraction, planet flag is set:
 Resources are tracked on the mover fleet with:
 - `oxr_mdlc_consolidator_ship_resource_type_$RESOURCE$`
 
+Find resource dropoff with planet flag: `oxr_mdlc_civic_orbital_target@root`
+
+Find research dropoff with planet flag: `oxr_mdlc_civic_orbital_research_target@root`
+
+
+Global event targets:
+
+- Mover controller: `oxr_mdlc_country_consolidators_movers_controller_target`
+
+
 Mover is doing things: 
 planet flag: oxr_mdlc_consolidators_planet_consolidation_in_progress
 
@@ -37,3 +47,7 @@ planet flag: oxr_mdlc_consolidators_planet_consolidation_in_progress
 Other stuff:
 
 - planet event dialogues won't appear for planets not owned by the initiating country
+
+
+TODO:
+- create mover controller inside of event `xvcv_mdlc.3`

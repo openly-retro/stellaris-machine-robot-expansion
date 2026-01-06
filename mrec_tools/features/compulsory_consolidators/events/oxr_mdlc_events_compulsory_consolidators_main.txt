@@ -1,43 +1,12 @@
 namespace = oxr_mdlc_civic_consolidators
 
-# on game start, create consolidator event country and spawn planets
-country_event = {
-	# on game start
+# Create the invisible country that controls the movers
+event = {
 	id = oxr_mdlc_civic_consolidators.1
 	hide_window = yes
 	is_triggered_only = yes
 
 	immediate = {
-		if = {
-			limit = {
-				NOT = {
-					exists = event_target:oxr_mdlc_civic_consolidation_target_@root
-				}
-			}
-			capital_scope = {
-				save_global_event_target_as = oxr_mdlc_civic_consolidation_target_@root
-			}
-		}
-		capital_scope = {
-			solar_system = {
-				spawn_planet = {
-					class = pc_barren
-					name = "oxr_mdlc_civic_consolidators_capital_moon"
-					orbit_angle = 180
-					orbit_distance = 110
-					size = 2
-					location = prev
-					orbit_location = yes
-					orbit_angle_offset = 45
-					orbit_distance_offset = 9.899
-					has_ring = no
-					init_effect = {
-						add_deposit = d_minerals_3
-						set_planet_flag = oxr_mdlc_civic_orbital_target@root
-					}
-				}
-			}
-		}
 		if = {
 			limit = {
 				NOT = {
@@ -65,9 +34,168 @@ country_event = {
 						"null"
 					}
 				}
+				effect = {
+					save_global_event_target_as = oxr_mdlc_country_consolidators_movers_controller_target
+				}
 			}
 		}
+	}
+	
+}
 
+# on game start, flag/create consolidator dropoff points and establish comms with invisible country 
+country_event = {
+	# on game start
+	id = oxr_mdlc_civic_consolidators.2
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		has_civic = oxr_mdlc_civic_consolidators
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				NOT = {
+					exists = event_target:oxr_mdlc_civic_consolidation_target_@root
+				}
+			}
+			capital_scope = {
+				save_global_event_target_as = oxr_mdlc_civic_consolidation_target_@root
+			}
+		}
+		capital_scope = {
+			solar_system = {
+				# Make moon for depositing resources
+				# First, use an existing planetary body, if available
+				if = {
+					limit = {
+						any_system_planet = {
+							has_deposit_for = shipclass_mining_station
+							is_star = no
+						}
+					}
+					random_system_planet = {
+						limit = {
+							has_deposit_for = shipclass_mining_station
+							is_star = no
+						}
+						set_planet_flag = oxr_mdlc_civic_orbital_target@root
+					}
+				}
+				# We didn't find one with any mining deposits..
+				# Look again
+				else_if = {
+					limit = {
+						any_system_planet = {
+							NOT = { has_deposit_for = shipclass_mining_station }
+							NOT = { has_deposit_for = shipclass_research_station }
+							is_star = no
+							is_colony = no
+						}
+					}
+					random_system_planet = {
+						limit = {
+							NOT = { has_deposit_for = shipclass_mining_station }
+							NOT = { has_deposit_for = shipclass_research_station }
+							is_star = no
+							is_colony = no
+						}
+						set_planet_flag = oxr_mdlc_civic_orbital_target@root
+					}
+				}
+				# No suitable targets .. snap our robo-digits and make one appear
+				else = {
+					spawn_planet = {
+						class = pc_barren
+						name = "oxr_mdlc_civic_consolidators_capital_resource_moon"
+						orbit_angle = 180
+						orbit_distance = 110
+						size = 1
+						location = prev
+						orbit_location = yes
+						orbit_angle_offset = 45
+						orbit_distance_offset = 9.899
+						has_ring = no
+						init_effect = {
+							add_deposit = d_minerals_1
+							set_planet_flag = oxr_mdlc_civic_orbital_target@root
+						}
+					}
+				}
+
+				# Set up a target for research deposit dropoffs
+				# First, look for a planet that has a research deposit,
+				# and mark that as the dropoff for consolidated research deposits
+				if = {
+					limit = {
+						any_system_planet = {
+							has_deposit_for = shipclass_research_station
+							is_star = no
+						}
+					}
+					random_system_planet = {
+						limit = {
+							has_deposit_for = shipclass_research_station
+							is_star = no
+						}
+						set_planet_flag = oxr_mdlc_civic_orbital_research_target@root
+						log = "Set orbital research dropoff target to [This.GetName] (1st attempt)"
+					}
+
+				}
+				# We didn't find any planets that already have a research deposit.
+				# Look for one that is suitable:
+				# 1 - no orbital deposits of any kind
+				else_if = {
+					limit = {
+						any_system_planet = {
+							NOT = { has_deposit_for = shipclass_mining_station }
+							NOT = { has_deposit_for = shipclass_research_station }
+							is_star = no
+							is_colony = no
+						}
+					}
+					random_system_planet = {
+						limit = {
+							NOT = { has_deposit_for = shipclass_mining_station }
+							NOT = { has_deposit_for = shipclass_research_station }
+							is_star = no
+							is_colony = no
+						}
+						set_planet_flag = oxr_mdlc_civic_orbital_research_target@root
+						log = "Set orbital research dropoff target to [This.GetName] (2nd attempt)"
+					}
+				}
+				# We didn't find a suitable one .. so create one from nothing
+				spawn_planet = {
+					class = pc_barren
+					name = "oxr_mdlc_civic_consolidators_capital_research_moon"
+					orbit_angle = 180
+					orbit_distance = 140
+					size = 1
+					location = prev
+					orbit_location = yes
+					orbit_angle_offset = 45
+					orbit_distance_offset = 12.899
+					has_ring = no
+					init_effect = {
+						add_deposit = d_physics_1
+						set_planet_flag = oxr_mdlc_civic_orbital_research_target@root
+						log = "Created orbital research dropoff target [This.GetName] (final attempt)"
+					}
+				}
+			}
+		}
+		
+		random_country = {
+			limit = {
+				is_country_type = oxr_mdlc_country_consolidators_movers_controller
+				NOT = { has_communications = root }
+			}
+			establish_communications_no_message = root
+		}
 	}
 }
 
