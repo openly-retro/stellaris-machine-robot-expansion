@@ -1,0 +1,300 @@
+
+rikk_mdlc_building_battery_processing = {
+	base_buildtime = @b1_time
+	base_cap_amount = 1
+	icon = building_slave_processing
+
+	category = government
+	
+	building_sets = {
+		government
+		urban
+	}
+
+	potential = {
+		uses_district_set = rikk_mdlc_battery_world
+		owner = { is_machine_empire = yes }
+	}
+
+	destroy_trigger = { # destroys if true
+		exists = owner
+		OR = {
+			owner = { is_machine_empire = no }
+			NOT = { uses_district_set = rikk_mdlc_battery_world }
+		}
+	}
+
+	planet_modifier = {
+		pop_cat_slave_happiness = -0.10
+		pop_category_slave_upkeep_mult = -0.15
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			minerals = @b3_minerals
+		}
+		upkeep = {
+			minerals = b3_upkeep
+		}
+	}
+
+	triggered_desc = {
+		text = rikk_mdlc_building_battery_descriptor
+	}
+
+	show_tech_unlock_if = {
+		is_machine_empire = yes
+	}
+	
+	prerequisites = {
+		"tech_galactic_administration"
+	}
+}
+
+rikk_mdlc_building_battery_habitability_1 = {
+	base_buildtime = @b1_time
+	base_cap_amount = 1
+	icon = building_sensorium_1
+	
+	category = government
+	building_sets = {
+		government
+		urban
+	}
+
+	potential = {
+		uses_district_set = rikk_mdlc_battery_world
+		owner = { is_machine_empire = yes }
+	}
+
+	destroy_trigger = { # destroys if true
+		exists = owner
+		OR = {
+			owner = { is_machine_empire = no }
+			NOT = { uses_district_set = rikk_mdlc_battery_world }
+		}
+	}
+
+	planet_modifier = {
+		habitability_floor_add = 0.20
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			minerals = @b4_minerals
+			exotic_gases = @b4_rare_cost
+		}
+		upkeep = {
+			minerals = @b4_upkeep
+			exotic_gases = @b4_rare_upkeep
+		}
+	}
+
+	triggered_desc = {
+		text = rikk_mdlc_building_battery_descriptor
+	}
+
+	show_tech_unlock_if = {
+		is_machine_empire = yes
+	}
+
+	prerequisites = {
+		"tech_colonization_3"
+	}
+	
+	upgrades = {
+		rikk_mdlc_building_battery_habitability_2
+	}
+}
+
+rikk_mdlc_building_battery_habitability_2 = {
+	base_buildtime = @b2_time
+	#base_cap_amount = 1
+	icon = building_sensorium_2
+	
+	category = government
+	building_sets = {
+		government
+		urban
+	}
+	can_build = no
+
+	potential = {
+		owner = { is_machine_empire = yes }
+	}
+	
+	allow = {
+		uses_district_set = rikk_mdlc_battery_world
+	}
+
+	destroy_trigger = { # destroys if true
+		exists = owner
+		OR = {
+			owner = { is_machine_empire = no }
+			NOT = { uses_district_set = rikk_mdlc_battery_world }
+		}
+	}
+
+	planet_modifier = {
+		habitability_floor_add = 0.40
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			minerals = @b4_minerals
+			exotic_gases = @b4_rare_cost
+			mult = 3
+		}
+		upkeep = {
+			minerals = @b4_upkeep
+			exotic_gases = @b4_rare_upkeep
+			mult = 2.5
+		}
+	}
+
+	triggered_desc = {
+		text = rikk_mdlc_building_battery_descriptor
+	}
+	
+	show_tech_unlock_if = {
+		is_machine_empire = yes
+	}
+
+	prerequisites = {
+		"tech_tomb_world_adaption"
+	}
+}
+
+#rikk_mdlc_building_battery_happiness = {
+#	base_buildtime = @b4_time
+#	category = government
+#	icon = building_augmentation_bazaars
+#	base_cap_amount = 5
+#
+#	potential = {
+#		uses_district_set = rikk_mdlc_battery_world
+#		owner = { is_machine_empire = yes }
+#	}
+#
+#	destroy_trigger = { # destroys if true
+#		exists = owner
+#		OR = {
+#			owner = { is_machine_empire = no }
+#			NOT = { uses_district_set = rikk_mdlc_battery_world }
+#		}
+#	}
+#
+#	resources = {
+#		category = planet_buildings
+#		cost = {
+#			minerals = @b2_minerals
+#			rare_crystals = @b2_rare_cost
+#		}
+#		upkeep = {
+#			energy = @b2_upkeep
+#			rare_crystals = @b2_rare_upkeep
+#		}
+#	}
+#
+#	planet_modifier = {
+#		pop_cat_slave_happiness = 0.10
+#		pop_category_slave_consumer_goods_upkeep_add = 0.20
+#	}
+#	
+#	triggered_desc = {
+#		text = rikk_mdlc_building_battery_descriptor
+#	}
+#	
+#	prerequisites = {
+#		"tech_unity_of_purpose"
+#	}
+#
+#	show_tech_unlock_if = {
+#		is_machine_empire = yes
+#	}
+#}
+
+rikk_mdlc_building_battery_specialty = {
+	base_buildtime = @b4_time
+	category = government
+	building_sets = {
+		government
+	}
+	icon = building_ancient_relics
+	empire_limit = {
+		base = 1
+	}
+
+	potential = {
+		uses_district_set = rikk_mdlc_battery_world
+		owner = { is_machine_empire = yes }
+	}
+
+	destroy_trigger = { # destroys if true
+		exists = owner
+		OR = {
+			owner = { is_machine_empire = no }
+			NOT = { uses_district_set = rikk_mdlc_battery_world }
+		}
+	}
+
+	resources = {
+		category = planet_buildings
+		cost = {
+			minerals = @b4_minerals
+			rare_crystals = @b4_rare_cost
+		}
+		upkeep = {
+			trigger = {
+				OR = {
+					has_designation = rikk_mdlc_col_battery_science
+					has_designation = rikk_mdlc_col_battery_unity
+					has_designation = rikk_mdlc_col_battery_navy
+					has_designation = rikk_mdlc_col_battery_empire_size
+				}
+			}
+			energy = 100
+			mult = value:planet_pops_in_matrix_squared
+		}
+	}
+	
+	triggered_country_modifier = {
+		potential = { has_designation = rikk_mdlc_col_battery_science }
+		all_technology_research_speed = 0.01
+		mult = value:planet_pops_in_matrix_squared
+	}
+	triggered_country_modifier = {
+		potential = { has_designation = rikk_mdlc_col_battery_unity }
+		country_unity_produces_mult = 0.015
+		mult = value:planet_pops_in_matrix_squared
+	}
+	triggered_country_modifier = {
+		potential = { has_designation = rikk_mdlc_col_battery_navy }
+		country_naval_cap_mult = 0.02
+		mult = value:planet_pops_in_matrix_squared
+	}
+	triggered_country_modifier = {
+		potential = { has_designation = rikk_mdlc_col_battery_empire_size }
+		empire_size_mult = -0.01
+		mult = value:planet_pops_in_matrix_capped
+	}
+	
+	triggered_desc = {
+		text = rikk_mdlc_building_battery_specialty_effects
+	}
+	
+	triggered_desc = {
+		text = rikk_mdlc_building_battery_descriptor
+	}
+	
+	prerequisites = {
+		"tech_unity_of_purpose"
+	}
+
+	show_tech_unlock_if = {
+		is_machine_empire = yes
+	}
+}

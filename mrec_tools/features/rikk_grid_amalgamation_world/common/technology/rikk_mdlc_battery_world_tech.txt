@@ -1,0 +1,75 @@
+rikk_mdlc_tech_battery_world = {
+	cost = @tier2cost3
+	area = society
+	tier = 2
+	category = { statecraft }
+	prerequisites = { "tech_colonial_centralization" }
+	weight = @tier2weight3
+	is_rare = yes
+	icon = tech_penal_colonies
+
+	potential = {
+		is_machine_empire = yes
+		allows_slavery = yes
+	}
+
+	weight_modifier = {
+		factor = 1
+		inline_script = {
+			script = technologies/rare_technologies_weight_modifiers
+			TECHNOLOGY = rikk_mdlc_tech_battery_world
+		}
+		modifier = {
+			factor = 0
+			num_owned_planets < 2
+		}
+		modifier = {
+			factor = 4
+			count_owned_pop_amount = {
+				limit = {
+					OR = {
+						is_enslaved = yes
+						has_disconnected_drone_citizenship_type = yes
+					}
+				}
+				count > 900
+			}
+		}
+		modifier = {
+			factor = 6
+			count_owned_pop_amount = {
+				limit = {
+					OR = {
+						is_enslaved = yes
+						has_disconnected_drone_citizenship_type = yes
+					}
+				}
+				count > 1900
+			}
+		}
+		modifier = {
+			factor = 10
+			count_owned_pop_amount = {
+				limit = {
+					OR = {
+						is_enslaved = yes
+						has_disconnected_drone_citizenship_type = yes
+					}
+				}
+				count > 2900
+			}
+		}
+		modifier = {
+			factor = 100
+			count_owned_pop_amount = {
+				limit = {
+					OR = {
+						is_enslaved = yes
+						has_disconnected_drone_citizenship_type = yes
+					}
+				}
+				count > 10000
+			}
+		}
+	}
+}
