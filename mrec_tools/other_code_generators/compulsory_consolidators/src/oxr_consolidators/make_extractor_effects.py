@@ -6,6 +6,7 @@ from consolidators_utils import (
 	FEATURE_NAME,
 	GAME_RESOURCES_NAMES,
 	ORBITAL_RESOURCES_MAXIMUM_DEPOSIT_SIZES,
+	GENERAL_RESOURCE_NAMES_TO_DEPOSIT_NAME,
 	sanity_check,
 )
 
@@ -47,7 +48,7 @@ oxr_mdlc_planet_select_orbital_{game_resource}_deposits_for_processing = {{
 			oxr_mdlc_consolidators_planet_make_orbital_{game_resource}_deposits_ready_for_extraction = {{
 				DEPOSIT_SIZE = {series}
 			}}
-			remove_deposit = yes
+			remove_deposit = d_{converted_resource_name}_{series}
 		}}"""
 
 	select_orbital_effects_list = []
@@ -59,10 +60,15 @@ oxr_mdlc_planet_select_orbital_{game_resource}_deposits_for_processing = {{
 
 		max_deposit_size = ORBITAL_RESOURCES_MAXIMUM_DEPOSIT_SIZES[game_resource]
 		for deposit_size in range(0,max_deposit_size):
+			converted_resource_name = GENERAL_RESOURCE_NAMES_TO_DEPOSIT_NAME.get(
+				game_resource, game_resource
+			)
+
 			single_deposit_switch_effect = orbital_deposit_select_effect_wrapper.format(
 				game_resource=game_resource,
 				# Add 1 to the deposit_size var because d_energy_0 isn't valid
-				series=deposit_size+1
+				series=deposit_size+1,
+				converted_resource_name=converted_resource_name
 			)
 			deposit_switch_effects.append(single_deposit_switch_effect)
 
