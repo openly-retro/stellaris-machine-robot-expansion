@@ -33,13 +33,21 @@ rikk_mdlc_nano_drone = {
 		planet_jobs_upkeep_mult = 0.001
 	}
 
+    # copy from vanilla maintenance drone
+    # slightly lower weight than maintenance drone
     weight = {
-        weight = 10
-		# mult = value:scripted_modifier_job_weight_mult|MODIFIER|pop_job_amenities_mult|
-        modifier = {
-            factor = 0
-            NOT = { has_trait = rikk_mdlc_trait_robotic_constant_growth }
-        }
-    }
+		weight = 2  # @maintenance_drone_job
+		mult = value:scripted_modifier_job_weight_mult|MODIFIER|planet_pop_assembly_mult|
+		modifier = {
+			mult = value:job_weights_modifier|JOB|maintenance_drone|RESOURCE|unity|FACTOR|0.25|
+			exists = owner
+			owner = {
+				OR = {
+					has_valid_civic = civic_machine_maintenance_protocols
+					has_active_tradition = tr_versatility_operational_proxies
+				}
+			}
+		}
+	}
 
 }

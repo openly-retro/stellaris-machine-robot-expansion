@@ -58,9 +58,9 @@ def make_subject_mod_loc_with_resource(
     """
     first_half = f"mod_{subject_key}_{game_resource}_{modification}_{operation}: "
 
-    resource_upkeep = f"\"${subject_key}$ £{game_resource}£ ${game_resource}$ $UPKEEP$\""
-    resource_produces = f"\"${subject_key}$ £{game_resource}£ ${game_resource}$ $OUTPUT$\""
-    resource_cost = f"\"${subject_key}$ £{game_resource}£ ${game_resource}$ $COST$\""
+    resource_upkeep = f"\"${subject_key}$ £{game_resource}£ $UPKEEP$\""
+    resource_produces = f"\"${subject_key}$ £{game_resource}£ $OUTPUT$\""
+    resource_cost = f"\"${subject_key}$ £{game_resource}£ $COST$\""
     
     if modification == 'upkeep':
         second_half = resource_upkeep

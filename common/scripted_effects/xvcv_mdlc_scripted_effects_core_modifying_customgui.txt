@@ -32,23 +32,26 @@ xvcv_mdlc_core_modifying_ruler_change_class_add_trait = {
 		change_leader_class = $CLASS$
 		log = "Changed [This.GetName] class to [This.GetClass]"
 	}
+	prev = {
+		set_country_flag = xvcv_mdlc_core_modifying_ruler_leader_class_$CLASS$
+	}
 
 	add_trait = { trait = $ID$ show_message = no }
-	hidden_effect = {
-		#revert the ruler's leader class
-		prev = {
-			switch = {
-				trigger = has_country_flag
-				xvcv_mdlc_core_modifying_ruler_leader_class_official = { prev = { change_leader_class = official } }
-				xvcv_mdlc_core_modifying_ruler_leader_class_scientist = { prev = { change_leader_class = scientist } }
-				xvcv_mdlc_core_modifying_ruler_leader_class_commander = { prev = { change_leader_class = commander } }
-			}
-		}
-	}
+
 }
 xvcv_mdlc_core_modifying_set_subclass_effect = {
-	optimize_memory
+	# optimize_memory
 	custom_tooltip = xvcv_mdlc_core_modifying_tooltip_add_$CLASS$_$ID$
+	ruler = {
+		if = {
+			limit = {
+				NOT = { leader_class = $CLASS$ }
+			}
+			change_leader_class = $CLASS$
+		}
+		add_trait = { trait = $ID$ show_message = no }
+	}
+
 	hidden_effect = {
 		#clear the previous flag
 		switch = {
@@ -58,13 +61,6 @@ xvcv_mdlc_core_modifying_set_subclass_effect = {
 			xvcv_mdlc_core_modifying_ruler_leader_class_commander = { remove_country_flag = xvcv_mdlc_core_modifying_ruler_leader_class_commander }
 		}
 		#change the leader class
-		ruler = {
-			if = {
-				limit = { NOT = { leader_class = $CLASS$ } }
-				change_leader_class = $CLASS$
-			}
-			add_trait = { trait = $ID$ show_message = no }
-		}
 		#and set the country flag
 		set_country_flag = xvcv_mdlc_core_modifying_ruler_leader_class_$CLASS$
 		log = "XVCV_MDLC set ruler class to  $CLASS$  and subclass to  $ID$ "
@@ -72,19 +68,17 @@ xvcv_mdlc_core_modifying_set_subclass_effect = {
 }
 xvcv_mdlc_core_modifying_remove_tier_1_or_2_traits_effect = {
 	# Adding the T2 version of a T1 replaces the T1; same for T3 which replaces T2 and T1
-	optimize_memory
-	hidden_effect = {
-		ruler = {
-			if = {
-				limit = { has_trait = $ID$ }
-				remove_trait = $ID$
-			}
-			if = { #don't use 'else_if' here #a ruler can have both tier 1 and tier 2 traits at the same time #it's rare but not impossible
-				limit = { has_trait = $ID$_2 }
-				remove_trait = $ID$_2
-			}
+	# optimize_memory
+	#ruler = {
+		if = {
+			limit = { has_trait = $ID$ }
+			remove_trait = $ID$
 		}
-	}
+		if = { #don't use 'else_if' here #a ruler can have both tier 1 and tier 2 traits at the same time #it's rare but not impossible
+			limit = { has_trait = $ID$_2 }
+			remove_trait = $ID$_2
+		}
+	#}
 }
 xvcv_mdlc_core_modifying_reset_ruler_points_picks_effect = {
 	# First, find max points and picks values.
@@ -135,30 +129,8 @@ xvcv_mdlc_core_modifying_ruler_refund_trait_points_picks_common = {
 	optimize_memory
 	# Don't refund points or picks beyond the max..
 	# how would that happen though?
-	if = {
-		limit = {
-			check_variable = {
-				which = xvcv_mdlc_core_modifying_trait_points
-				value < oxr_mdlc_core_modifying_max_trait_points
-			}
-		}
-		change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = 1 }
-	}
-	else = {
-		log = "Was going to refund a common trait, but ruler trait points are at max"
-	}
-	if = {
-		limit = {
-			check_variable = {
-				which = xvcv_mdlc_core_modifying_trait_picks
-				value < oxr_mdlc_core_modifying_max_trait_picks
-			}
-		}
-		change_variable = { which = xvcv_mdlc_core_modifying_trait_picks value = 1 }
-	}
-	else = {
-		log = "Was going to refund a common trait, but ruler trait picks are at max"
-	}
+	change_variable = { which = xvcv_mdlc_core_modifying_trait_points value = 1 }
+	change_variable = { which = xvcv_mdlc_core_modifying_trait_picks value = 1 }
 }
 
 #VETERAN # Add/Remove points and picks
@@ -177,33 +149,12 @@ xvcv_mdlc_core_modifying_ruler_deduct_trait_points_veteran = {
 xvcv_mdlc_core_modifying_ruler_refund_trait_points_picks_veteran = {
 	optimize_memory
 	#xvcv_mdlc_core_modifying_trait_return_points_alt_effect
-	if = {
-		limit = {
-			check_variable = {
-				which = xvcv_mdlc_core_modifying_trait_points
-				value <= @[ this.oxr_mdlc_core_modifying_max_trait_points - xvcv_mdlc_core_modifying_veteran_trait_points_cost ]
-			}
-		}
-		change_variable = {
-			which = xvcv_mdlc_core_modifying_trait_points
-			value = @xvcv_mdlc_core_modifying_veteran_trait_points_cost
-		}
+	change_variable = {
+		which = xvcv_mdlc_core_modifying_trait_points
+		value = @xvcv_mdlc_core_modifying_veteran_trait_points_cost
 	}
-	else = {
-		log = "Was going to refund a veteran trait, but ruler trait points are at max"
-	}
-	if = {
-		limit = {
-			check_variable = {
-				which = xvcv_mdlc_core_modifying_trait_picks
-				value < oxr_mdlc_core_modifying_max_trait_picks
-			}
-		}
-		change_variable = { which = xvcv_mdlc_core_modifying_trait_picks value = 1 }
-	}
-	else = {
-		log = "Was going to refund a veteran trait, but ruler trait picks are at max (2)"
-	}
+	change_variable = { which = xvcv_mdlc_core_modifying_trait_picks value = 1 }
+
 }
 xvcv_mdlc_core_modifying_country_refund_trait_cost_veteran = {
 	optimize_memory
@@ -231,33 +182,11 @@ xvcv_mdlc_core_modifying_ruler_deduct_trait_points_paragon = {
 
 xvcv_mdlc_core_modifying_ruler_refund_trait_points_picks_paragon = {
 	optimize_memory
-	if = {
-		limit = {
-			check_variable = {
-				which = xvcv_mdlc_core_modifying_trait_points
-				value <= @[ this.oxr_mdlc_core_modifying_max_trait_points - xvcv_mdlc_core_modifying_destiny_trait_points_cost ]
-			}
-		}
-		change_variable = {
-			which = xvcv_mdlc_core_modifying_trait_points
-			value = @xvcv_mdlc_core_modifying_destiny_trait_points_cost
-		}
+	change_variable = {
+		which = xvcv_mdlc_core_modifying_trait_points
+		value = @xvcv_mdlc_core_modifying_destiny_trait_points_cost
 	}
-	else = {
-		log = "Was going to refund a paragon trait, but ruler trait points are at max"
-	}
-	if = {
-		limit = {
-			check_variable = {
-				which = xvcv_mdlc_core_modifying_trait_picks
-				value < oxr_mdlc_core_modifying_max_trait_picks
-			}
-		}
-		change_variable = { which = xvcv_mdlc_core_modifying_trait_picks value = 1 }
-	}
-	else = {
-		log = "Was going to refund a paragon trait, but ruler trait picks are at max"
-	}
+	change_variable = { which = xvcv_mdlc_core_modifying_trait_picks value = 1 }
 }
 
 xvcv_mdlc_core_modifying_country_refund_trait_cost_paragon = {

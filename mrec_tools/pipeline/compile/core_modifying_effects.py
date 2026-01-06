@@ -80,7 +80,7 @@ xvcv_mdlc_core_modifying_traits_{leader_class}_{trait_name}_add_button_effect = 
         ruler = {{ NOT = {{ has_trait = {trait_name} }} }}
     }}
     allow = {{
-        root = {{
+        root.owner = {{
             xvcv_mdlc_core_modifying_check_trait_resources_cost_{rarity} = yes
             {rendered_country_checks}
         }}
@@ -94,19 +94,17 @@ xvcv_mdlc_core_modifying_traits_{leader_class}_{trait_name}_add_button_effect = 
     }}
     effect = {{
         custom_tooltip = add_xvcv_mdlc_core_modifying_traits_costs_desc{trait_costs_level}
-        ruler = {{
-            xvcv_mdlc_core_modifying_ruler_change_class_add_trait = {{
-                CLASS = {leader_class} ID = {trait_name}
-            }}            
-        }}
         hidden_effect = {{
             ruler = {{
                 xvcv_mdlc_core_modifying_ruler_deduct_trait_points_{rarity} = yes
                 {"\n                ".join(hidden_ruler_effects)}
             }}
-            root = {{
+            root.owner = {{
                 xvcv_mdlc_core_modifying_country_deduct_trait_costs_{rarity} = yes
             }}
+        }}
+        ruler = {{
+            add_trait = {trait_name}       
         }}
     }}
 }}
@@ -124,7 +122,7 @@ xvcv_mdlc_core_modifying_traits_{leader_class}_{trait_name}_remove_button_effect
             ruler = {{
                 xvcv_mdlc_core_modifying_ruler_refund_trait_points_picks_{rarity} = yes
             }}
-            root = {{
+            root.owner = {{
                 xvcv_mdlc_core_modifying_country_refund_trait_cost_{rarity} = yes
             }}
         }}

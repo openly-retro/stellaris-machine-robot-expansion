@@ -9,10 +9,19 @@ content
 
 expr
     : assignment+
+    | listitem
     ;
 
 assignment
-    : key ('=' | '>' | '<')+ val
+    : key '=' val
+    ;
+
+comparison
+    : key ('>' | '<=' | '<' | '>=') val
+    ;
+
+listitem
+    : key
     ;
 
 key
