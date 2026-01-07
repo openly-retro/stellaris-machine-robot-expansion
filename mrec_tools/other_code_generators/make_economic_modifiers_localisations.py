@@ -24,21 +24,23 @@ ECONOMIC_CATEGORY_CONFIG_FILES = [
 
 GAME_RESOURCES = [
     "alloys",
-    "astral_threads",
     "consumer_goods",
     "energy",
     "engineering_research",
     "exotic_gases",
     "food",
+    "influence",
     "minerals",
     "nanites",
     "physics_research",
     "rare_crystals",
     "society_research",
+    "sr_dark_matter",
+    "sr_living_metal",
+    "sr_zro",
     "trade",
     "unity",
     "volatile_motes",
-    "zro"
 ]
 MISSING = 'missing'
 
