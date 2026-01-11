@@ -65,6 +65,7 @@ xvcv_mdlc_pc_machine_ecu_district_production = {
 
 xvcv_mdlc_pc_machine_ecu_district_rare_resources = {
 	base_buildtime = @xvcv_mdlc_district_time_4
+	overlay_icon = GFX_rikk_mdlc_ecu_synthesizer_icon
 	is_uncapped = {}
 
 	show_on_uncolonized = {
@@ -112,20 +113,31 @@ xvcv_mdlc_pc_machine_ecu_district_rare_resources = {
 		trigger = { has_oxr_mdlc_zone_pc_machine_ecu_exotic_gases = yes }
 		text = xvcv_mdlc_pc_machine_ecu_district_rare_resources_triggered_name_exotic_gases
 	}
+	triggered_name = {
+		trigger = { has_oxr_mdlc_zone_pc_machine_ecu_dark_matter_drawing = yes }
+		text = xvcv_mdlc_pc_machine_ecu_district_rare_resources_triggered_name_dark_matter
+	}
+	triggered_name = {
+		trigger = { has_oxr_mdlc_zone_pc_machine_ecu_living_metal_breeding = yes }
+		text = xvcv_mdlc_pc_machine_ecu_district_rare_resources_triggered_name_living_metal
+	}
+	triggered_name = {
+		trigger = { has_oxr_mdlc_zone_pc_machine_ecu_nanite_feeding = yes }
+		text = xvcv_mdlc_pc_machine_ecu_district_rare_resources_triggered_name_nanite
+	}
+	triggered_name = {
+		trigger = { has_oxr_mdlc_zone_pc_machine_ecu_zro_summoning = yes }
+		text = xvcv_mdlc_pc_machine_ecu_district_rare_resources_triggered_name_zro
+	}
 	triggered_name = { text = xvcv_mdlc_pc_machine_ecu_district_rare_resources_triggered_name_none }
 
 	ai_resource_production = {
 		volatile_motes = 2
-		trigger = { always = yes }
-	}
-	ai_resource_production = {
 		exotic_gases = 2
-		trigger = { always = yes }
-	}
-	ai_resource_production = {
 		rare_crystals = 2
 		trigger = { always = yes }
 	}
+	
 	on_built = {
 		inline_script = planet/districts/on_action/on_wm_district_built
 		inline_script = planet/districts/on_action/on_wm_t3_district_change
@@ -136,7 +148,7 @@ xvcv_mdlc_pc_machine_ecu_district_rare_resources = {
 	}
 }
 
-xvcv_mdlc_pc_machine_ecu_district_naval_cap = {
+xvcv_mdlc_pc_machine_ecu_district_military = {
 	base_buildtime = @xvcv_mdlc_district_time_4
 	is_uncapped = {}
 
@@ -164,7 +176,7 @@ xvcv_mdlc_pc_machine_ecu_district_naval_cap = {
 
 	#see 'xvcv_mdlc_d_pc_machine_ecu_naval_cap' deposit for the actual effect
 	# triggered_desc = {
-	# 	text = xvcv_mdlc_pc_machine_ecu_district_naval_cap_effect_desc
+	# 	text = xvcv_mdlc_pc_machine_ecu_district_military_effect_desc
 	# }
 
 	resources = {
@@ -188,40 +200,41 @@ xvcv_mdlc_pc_machine_ecu_district_naval_cap = {
 		inline_script = planet/districts/on_action/on_wm_district_destroy
 		inline_script = planet/districts/on_action/on_wm_t3_district_change
 	}
-	triggered_name = {
-		trigger = {
-			has_oxr_mdlc_zone_pc_machine_ecu_star_command = yes
-		}
-		text = xvcv_mdlc_pc_machine_ecu_district_naval_cap_triggered_name_military_space
-	}
-	triggered_name = {
-		trigger = {
-			has_oxr_mdlc_zone_pc_machine_ecu_ground_command = yes
-		}
-		text = xvcv_mdlc_pc_machine_ecu_district_naval_cap_triggered_name_military_ground
-	}
-	triggered_name = {
-		trigger = {
-			has_oxr_mdlc_zone_pc_machine_ecu_military_supply_chain = yes
-		}
-		text = xvcv_mdlc_pc_machine_ecu_district_naval_cap_triggered_name_military_supply
-	}
-	triggered_name = {
-		text = xvcv_mdlc_pc_machine_ecu_district_naval_cap_triggered_name_none
-	}
+	
+	triggered_name = { text = xvcv_mdlc_pc_machine_ecu_district_military_triggered_name_none }
 }
 
 ### SWAPS ###
 xvcv_mdlc_pc_machine_ecu_district_alloys = {
-	base_buildtime = @xvcv_mdlc_district_time_4
 	overlay_icon = GFX_district_alloys
 	inline_script = { script = planet/districts/rikk_wm_swap_base }
 	triggered_name = { text = xvcv_mdlc_pc_machine_ecu_district_production_triggered_name_alloy_forges }
 }
-
 xvcv_mdlc_pc_machine_ecu_district_goods = {
-	base_buildtime = @xvcv_mdlc_district_time_4
 	overlay_icon = GFX_district_consumer_goods
 	inline_script = { script = planet/districts/rikk_wm_swap_base }
 	triggered_name = { text = xvcv_mdlc_pc_machine_ecu_district_production_triggered_name_consumer_goods_factory }
 }
+
+xvcv_mdlc_pc_machine_ecu_district_military_space = {
+	icon = xvcv_mdlc_pc_machine_ecu_district_military
+	gridbox = xvcv_mdlc_pc_machine_ecu_district_military
+	overlay_icon = GFX_rikk_mdlc_ecu_military_space_icon
+	inline_script = { script = planet/districts/rikk_wm_swap_base }
+	triggered_name = { text = xvcv_mdlc_pc_machine_ecu_district_military_triggered_name_military_space }
+}
+xvcv_mdlc_pc_machine_ecu_district_military_ground = {
+	icon = xvcv_mdlc_pc_machine_ecu_district_military
+	gridbox = xvcv_mdlc_pc_machine_ecu_district_military
+	overlay_icon = GFX_district_fortress
+	inline_script = { script = planet/districts/rikk_wm_swap_base }
+	triggered_name = { text = xvcv_mdlc_pc_machine_ecu_district_military_triggered_name_military_ground }
+}
+xvcv_mdlc_pc_machine_ecu_district_military_supply = {
+	icon = xvcv_mdlc_pc_machine_ecu_district_military
+	gridbox = xvcv_mdlc_pc_machine_ecu_district_military
+	overlay_icon = GFX_district_trade
+	inline_script = { script = planet/districts/rikk_wm_swap_base }
+	triggered_name = { text = xvcv_mdlc_pc_machine_ecu_district_military_triggered_name_military_supply }
+}
+

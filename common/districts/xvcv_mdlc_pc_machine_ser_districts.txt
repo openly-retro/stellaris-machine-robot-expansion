@@ -49,7 +49,17 @@ xvcv_mdlc_pc_machine_ser_district_unity = {
 			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 		}
 	}
-
+	
+	triggered_name = {
+		trigger = { has_oxr_mdlc_zone_pc_machine_ser_zro_unity = yes }
+		text = xvcv_mdlc_pc_machine_ser_district_unity_triggered_name_zro_unity
+	}
+	triggered_name = {
+		trigger = { has_oxr_mdlc_zone_pc_machine_ser_unity = yes }
+		text = xvcv_mdlc_pc_machine_ser_district_unity_triggered_name_standard
+	}
+	triggered_name = { text = xvcv_mdlc_pc_machine_ser_district_triggered_name_none }
+	
 	ai_resource_production = {
 		unity = 10
 		trigger = { always = yes }
@@ -67,6 +77,7 @@ xvcv_mdlc_pc_machine_ser_district_unity = {
 
 xvcv_mdlc_pc_machine_ser_district_logistics = {
 	base_buildtime = @xvcv_mdlc_district_time_4
+	overlay_icon = GFX_district_trade
 	is_uncapped = {}
 
 	show_on_uncolonized = {
@@ -109,6 +120,12 @@ xvcv_mdlc_pc_machine_ser_district_logistics = {
 		}
 	}
 
+	triggered_name = {
+		trigger = { has_oxr_mdlc_zone_pc_machine_ser_trade = yes }
+		text = xvcv_mdlc_pc_machine_ser_district_logistics_triggered_name_standard
+	}
+	triggered_name = { text = xvcv_mdlc_pc_machine_ser_district_triggered_name_none }
+	
 	on_built = {
 		inline_script = planet/districts/on_action/on_wm_district_built
 		inline_script = planet/districts/on_action/on_wm_t3_district_change
@@ -162,16 +179,25 @@ xvcv_mdlc_pc_machine_ser_district_crime = {
 	triggered_desc = {
 		trigger = {
 			exists = owner
-			owner = { has_authority = auth_machine_intelligence }
+			owner = { has_auth_machine_intelligence = yes }
+			has_oxr_mdlc_zone_pc_machine_ser_anticrime = yes
 		}
-		text = xvcv_mdlc_pc_machine_ser_district_crime_effect_desc
+		text = xvcv_mdlc_pc_machine_ser_district_crime_effect
 	}
 	triggered_desc = {
 		trigger = {
 			exists = owner
 			owner = { has_auth_machine_intelligence = no }
+			has_oxr_mdlc_zone_pc_machine_ser_anticrime = yes
 		}
-		text = xvcv_mdlc_pc_machine_ser_district_crime_effect_desc_alt
+		text = xvcv_mdlc_pc_machine_ser_district_crime_effect_alt
+	}
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			has_oxr_mdlc_zone_pc_machine_ser_cryption = yes
+		}
+		text = xvcv_mdlc_pc_machine_ser_district_cryption_effect
 	}
 
 	resources = {
@@ -187,6 +213,16 @@ xvcv_mdlc_pc_machine_ser_district_crime = {
 		}
 	}
 
+	triggered_name = {
+		trigger = { has_oxr_mdlc_zone_pc_machine_ser_anticrime = yes }
+		text = xvcv_mdlc_pc_machine_ser_district_crime_triggered_name_anticrime
+	}
+	triggered_name = {
+		trigger = { has_oxr_mdlc_zone_pc_machine_ser_cryption = yes }
+		text = xvcv_mdlc_pc_machine_ser_district_crime_triggered_name_cryption
+	}
+	triggered_name = { text = xvcv_mdlc_pc_machine_ser_district_triggered_name_none }
+	
 	on_built = {
 		inline_script = planet/districts/on_action/on_wm_district_built
 		inline_script = planet/districts/on_action/on_wm_t3_district_change
