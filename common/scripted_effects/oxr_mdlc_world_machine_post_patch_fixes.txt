@@ -4,27 +4,27 @@ oxr_mdlc_country_remove_all_old_ecu_deposits = {
 	# Help players clean up their Auto-Server worlds
 	oxr_mdlc_country_remove_old_ecu_deposits = {
 		DEPOSIT = xvcv_mdlc_d_pc_machine_ecu_naval_cap
-		OFFSET_DEPOSIT = xvcv_mdlc_d_pc_machine_ecu_naval_cap_offset
+		OFFSET = xvcv_mdlc_d_pc_machine_ecu_naval_cap_offset
 	}
 	oxr_mdlc_country_remove_old_ecu_deposits = {
 		DEPOSIT = xvcv_mdlc_d_pc_machine_cpu_decryption
-		OFFSET_DEPOSIT = xvcv_mdlc_d_pc_machine_cpu_decryption_offset
+		OFFSET = xvcv_mdlc_d_pc_machine_cpu_decryption_offset
 	}
 	oxr_mdlc_country_remove_old_ecu_deposits = {
 		DEPOSIT = xvcv_mdlc_d_pc_machine_ser_admin_cap
-		OFFSET_DEPOSIT = xvcv_mdlc_d_pc_machine_ser_admin_cap_offset
+		OFFSET = xvcv_mdlc_d_pc_machine_ser_admin_cap_offset
 	}
 	oxr_mdlc_country_remove_old_ecu_deposits = {
 		DEPOSIT = xvcv_mdlc_d_pc_machine_ser_crime
-		OFFSET_DEPOSIT = xvcv_mdlc_d_pc_machine_ser_crime_offset
+		OFFSET = xvcv_mdlc_d_pc_machine_ser_crime_offset
 	}
 	oxr_mdlc_country_remove_old_ecu_deposits = {
 		DEPOSIT = xvcv_mdlc_d_pc_machine_ser_crime_alt
-		OFFSET_DEPOSIT = xvcv_mdlc_d_pc_machine_ser_crime_alt_offset
+		OFFSET = xvcv_mdlc_d_pc_machine_ser_crime_alt_offset
 	}
 	oxr_mdlc_country_remove_old_ecu_deposits = {
 		DEPOSIT = xvcv_mdlc_d_pc_machine_ser_encryption
-		OFFSET_DEPOSIT = xvcv_mdlc_d_pc_machine_ser_encryption_offset
+		OFFSET = xvcv_mdlc_d_pc_machine_ser_encryption_offset
 	}
 }
 
@@ -33,32 +33,40 @@ oxr_mdlc_country_remove_old_ecu_deposits = {
 		limit = {
 			is_xvcv_mdlc_pc_machine_ecu = yes
 			OR = {
-				has_deposit = $OFFSET_DEPOSIT$
+				has_deposit = $OFFSET$
 				has_deposit = $DEPOSIT$
 			}
 		}
-		# Offsets
-		export_trigger_value_to_variable = {
-			trigger = num_deposits
-			parameters = { type = $OFFSET_DEPOSIT$ }
-			variable = oxr_mdlc_num_deposits_to_clear
+
+		planet = {
+			print_scope_effect = yes
+			# Offsets
+			export_trigger_value_to_variable = {
+				trigger = count_deposits
+				parameters = {
+					type = $OFFSET$
+				}
+				variable = oxr_mdlc_num_deposits_to_clear
+			}
+			while = {
+				count = oxr_mdlc_num_deposits_to_clear
+				remove_deposit = $OFFSET$
+			}
+			clear_variable = oxr_mdlc_num_deposits_to_clear
+			# regular naval cap
+			export_trigger_value_to_variable = {
+				trigger = count_deposits
+				parameters = {
+					type = $DEPOSIT$
+				}
+				variable = oxr_mdlc_num_deposits_to_clear
+			}
+			while = {
+				count = oxr_mdlc_num_deposits_to_clear
+				remove_deposit = $DEPOSIT$
+			}
+			clear_variable = oxr_mdlc_num_deposits_to_clear
 		}
-		while = {
-			count = oxr_mdlc_num_deposits_to_clear
-			remove_deposit = $OFFSET_DEPOSIT$
-		}
-		clear_variable = oxr_mdlc_num_deposits_to_clear
-		# regular naval cap
-		export_trigger_value_to_variable = {
-			trigger = num_deposits
-			parameters = { type = $DEPOSIT$ }
-			variable = oxr_mdlc_num_deposits_to_clear
-		}
-		while = {
-			count = oxr_mdlc_num_deposits_to_clear
-			remove_deposit = $DEPOSIT$
-		}
-		clear_variable = oxr_mdlc_num_deposits_to_clear
 	}
 }
 

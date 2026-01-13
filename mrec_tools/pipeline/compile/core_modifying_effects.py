@@ -203,7 +203,7 @@ def gen_xvcv_mdlc_core_modifying_reset_traits_button_effect_lines(input_files_li
                     )
     subclass_effect_line = (
         "if = {{ limit = {{ has_trait = {trait_name} }} remove_trait = {trait_name} prev ="
-        " {{ xvcv_mdlc_core_modifying_country_refund_trait_cost_effect = yes }} }}"
+        " {{ xvcv_mdlc_core_modifying_country_refund_trait_cost_common = yes }} }}"
     )
     for subclass in LEADER_SUBCLASSES:
         alt_modifier = ""

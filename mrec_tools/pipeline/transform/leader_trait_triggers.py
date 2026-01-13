@@ -167,6 +167,16 @@ def create_requirements_triggers_for_leader_traits(
             requirements.append(f"""owner = {abomination} """)
         
         elif type(value) is dict and trigger.lower() == "or":
+
+            # The test case is where there's a value like
+            # {'is_gestalt': False, 'AND': {'is_gestalt': True, 'is_councilor': True}}
+
+            conditions_as_str = str(value)
+            if conditions_as_str.endswith('}}'):
+                # Drop that last pesky closing brace
+                conditions_as_str = conditions_as_str[:-1]
+            if conditions_as_str.startswith('{'):
+                conditions_as_str = conditions_as_str[1:]
             # Mash it all into one line
             abomination = str(value).replace('\n','').strip().replace(
                 '    ',' '
@@ -177,14 +187,14 @@ def create_requirements_triggers_for_leader_traits(
             ).replace(
                 'True','yes'
             ).replace(
-                '}',''
-            ).replace(
-                '{',''
-            ).replace(
                 ',','\n    '
             ).replace(
                 '\'',''
             )
+            if 'OR' in conditions_as_str:
+                breakpoint()
+
+
             formatted_abom = f"""
     OR = {{
         { abomination}
