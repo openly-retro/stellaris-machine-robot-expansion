@@ -5,16 +5,25 @@ xvcv_mdlc_pc_virtual_district_primary = {
 
 	base_buildtime = @xvcv_mdlc_district_time_4
 	default_starting_district = yes
-
+	
 	show_on_uncolonized = {
 		exists = from
 		from = { has_ascension_perk = xvcv_mdlc_ap_virtual_worlds }
 		is_xvcv_mdlc_pc_virtual = yes
+		uses_district_set = xvcv_mdlc_pc_virtual_district_set
 	}
 	potential = {
 		exists = owner
 		owner = { has_ascension_perk = xvcv_mdlc_ap_virtual_worlds }
 		is_xvcv_mdlc_pc_virtual = yes
+		uses_district_set = xvcv_mdlc_pc_virtual_district_set
+	}
+	destroy_trigger = {
+		NAND = {
+			owner = { has_ascension_perk = xvcv_mdlc_ap_virtual_worlds }
+			is_xvcv_mdlc_pc_virtual = yes
+			uses_district_set = xvcv_mdlc_pc_virtual_district_set
+		}
 	}
 
 	zone_slots = {
