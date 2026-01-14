@@ -88,22 +88,27 @@ def filter_trait_info(given_trait_dict: dict, for_class=None):
     # 2) It's a single key under leader_potential_add
     # 3) Something else we didnt account for
 
-    # V4 - just do a classic regex search for the trait name, forget traversing objects
-    # when stringified, the obj keys and values will be single-quoted
-    subclass_trait_re = r'\'has_trait\':\s{1,}\'(\w*)\''
-    subclass_trait_rx = re.compile(subclass_trait_re)
-    if leader_potential_reqs := root.get("leader_potential_add", None):
-        if 'subclass_' in str(leader_potential_reqs):
+    # V5: If there's one instance of "has_trait" that's not in an OR block,
+    # we can assume that the trait is restricted to that particular subclass
+    if leader_potential_reqs := root.get("leader_potential_add", ''):
+        if 'has_trait = subclass_' in str(leader_potential_reqs):
+            # we know there is at least one subclass requirement
             
-            subclass_trait_match = re.search(
-                subclass_trait_rx,
+            subclass_trait_match = re.findall(
+                r'subclass_\w*',
                 str(leader_potential_reqs)
             )
-            if not subclass_trait_match:
-                breakpoint()
-            # expect 'subclass_commander_councilor' from 'has_trait = subclass_commander_councilor'
-            subclass_trait_text = subclass_trait_match.group(1)
-            slim_trait['required_subclass'] = subclass_trait_text
+            if len(subclass_trait_match) > 1:
+                # Multiple subclasses. Assume the one matching this leader's class
+                # is the subclass we want for this variant (official, etc)
+                for found_subclass in subclass_trait_match:
+                    if for_class in found_subclass:
+                        slim_trait['required_subclass'] = found_subclass
+                        # Don't collect any more. We'll get them later
+                        break
+            else:
+                # Just one, yay
+                slim_trait['required_subclass'] = subclass_trait_match[0]
 
         # Look for a rule that says the trait shouldnt be permitted to be added to rulers
         if root["leader_potential_add"].get('is_ruler', None) is not None:

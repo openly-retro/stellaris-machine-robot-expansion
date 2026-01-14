@@ -33,11 +33,6 @@ def gen_core_modifying_button_effects_code(
     country_checks = [] # tech, if ever applicable ??
     ruler_checks = []   # leader-specific checks (lvl, points)
     global_checks = []  # DLCs, mainly
-    if required_subclass := trait_data.get('required_subclass'):
-        ruler_checks.append(
-            "xvcv_mdlc_core_modifying_requires_ruler_subclass_or_focus_trigger = "
-            f"{{ CLASS = {leader_class} ID = {required_subclass} }}"
-        )
 
     # requires skill level trigger
     if rarity in ['veteran', 'paragon']:

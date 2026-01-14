@@ -43,6 +43,15 @@ re_multiline_list = re.compile(
     r"(?P<blockname>\w{1,})\s{1,}=\s{1,}{(?P<words>((?:\n\s{0,})(\w{1,})){1,})\s{1,}}",
     re.MULTILINE
 )
+or_block_multiline = re.compile(
+    r"OR = \{\n(?P<technologies>(?P<techname>\s{1,}\w*\n))*\s{1,}\}\n",
+    re.MULTILINE
+)
+# Isn't this a doozy!
+prerequisites_block = re.compile(
+    r"(?:^\s{,1}prerequisites) = \{\n\s{1,}(?P<or_block>OR)\s{1,}=\s{1,}{(?P<cond_techs>((?:\n\s{0,})(?P<cond_tech>tech_\w*)){1,})\s{1,}\}(?P<req_techs>(?P<req_tech>\s{1,}tech_\w*\n)*)^\s\}",
+    flags=re.MULTILINE|re.DOTALL
+)
 # re_simple_word = re.compile(r"\b(([\@a-zA-Z_\/]{2,}))\b")
 re_simple_word = re.compile(r"([\@\/\._a-zA-Z0-9]+)")
 
@@ -130,6 +139,9 @@ def convert_block_open(line) -> str:
         ' = {',
         ': {'
     )
+
+def format_prerequisites_block(re_results: re.Match) -> str:
+    prerequisites_or_block = []
 
 def handle_single_block_assignment(line) -> str:
     # something like 'potential = { is_councilor = no }'

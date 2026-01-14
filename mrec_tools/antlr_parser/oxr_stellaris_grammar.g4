@@ -10,6 +10,7 @@ content
 expr
     : assignment+
     | listitem
+    | comparison+
     ;
 
 assignment
@@ -17,7 +18,7 @@ assignment
     ;
 
 comparison
-    : key ('>' | '<=' | '<' | '>=') val
+    : key ('>'|'<='|'<'|'>=') val
     ;
 
 listitem
@@ -27,15 +28,20 @@ listitem
 key
     : name
     | attrib
+    | INTEGER
     ;
 
 val
     : name
-    | attrib
+    | number
+    | FLOAT
+    | BOOLEAN
     | block
+    | INTEGER
     | STATICVAR
     | INLINESCRIPTREF
     | equation
+    | attrib
     ;
 
 attrib
@@ -53,36 +59,47 @@ block
     ;
 
 equation
-    : '@[' ( name | MATHSYMBOL )* ']' ;
+    : '@[' ( name | MATHSYMBOL )* ']'
+    ;
+
+number
+    : INTEGER
+    | FLOAT
+    ;
 
 name
-    : IDENTIFIER
-    | STRING
-    | INTEGER
+    : STRING
+    | IDENTIFIER
+    | EVENTTARGET
     ;
 
-IDENTIFIER
-    : IDENITIFIERHEAD IDENITIFIERBODY*
-    ;
 
 INTEGER
-    : [+-]? INTEGERFRAG
+    : [+-]? DIGIT+
+    ;
+
+FLOAT
+    : INTEGER+ '.' DIGIT*
+    | '.' DIGIT+
+    ;
+
+BOOLEAN
+    : ('yes'|'no')
     ;
 
 MATHSYMBOL
     : ('+'|'-'|'*'|'('|')') ;
 
-fragment INTEGERFRAG
-    : [0-9]+
+fragment DIGIT
+    : [0-9]
     ;
 
-fragment IDENITIFIERHEAD
-    : [a-zA-Z]
+IDENTIFIER
+    : [a-zA-Z_]+
     ;
 
-fragment IDENITIFIERBODY
-    : IDENITIFIERHEAD
-    | [0-9_]
+EVENTTARGET
+    : IDENTIFIER ':' IDENTIFIER
     ;
 
 STRING
