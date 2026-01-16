@@ -6,6 +6,10 @@ from typing import Union, List
 import os
 import argparse
 from shutil import rmtree
+import threading
+import time
+
+MAX_THREADS = 3
 
 # Find all leader classes allowed for the trait
 leader_class_re = r'leader_class\s=\s{\s(?P<classnames>(?:\w+\s)+?)}'
@@ -172,7 +176,9 @@ def reset_traits_build_files(build_folder):
     print("Traits subfolder in build folder was cleaned up.")
 
 
-def split_traits_files_into_chunks(traits_file_path: str, build_folder: str):
+def split_traits_files_into_chunks(
+    traits_file_path: str, build_folder: str, verbose: bool = False
+):
     """ Do the main work of splitting up the big traits files """
     file_name_to_source_leader_class = {
         "general": "commander",
@@ -196,26 +202,12 @@ def split_traits_files_into_chunks(traits_file_path: str, build_folder: str):
 
     with open(traits_file_path, 'r') as traits_file:
 
-        # Split up the file by double line ending
-        # We will take comments out later
-        # trait_chunks = re.finditer(
-        #     r'(?ms)\n\n{.*}', traits_file.read()
-        # )
-        def trim_newlines(re_match):
-            # breakpoint()
-            return re_match.group()[1:]
-
-        whole_damn_file = traits_file.read()
-        # re.sub(
-        #     unwanted_line_breaks_re,
-        #     trim_newlines,
-        #     whole_damn_file
-        # )
-        # breakpoint()
-        whole_damn_file = whole_damn_file.replace('\n\n ','\n ').replace('\n\n\t','\n\t')
+        entire_file = traits_file.read()
+        # Take out the unexpected line breaks inside of traits
+        entire_file = entire_file.replace('\n\n ','\n ').replace('\n\n\t','\n\t')
 
         trait_chunks = iter(
-            whole_damn_file.split('\n\n')
+            entire_file.split('\n\n')
         )
 
         for tmp_trait_chunk in trait_chunks:
@@ -225,18 +217,19 @@ def split_traits_files_into_chunks(traits_file_path: str, build_folder: str):
             trait_name = None
 
             # "quick" cleanup
-            if found_unwanted_line_breaks := unwanted_line_breaks_rx.search(tmp_chunk):
-                re.sub(
-                    unwanted_line_breaks_re,
-                    found_unwanted_line_breaks.group(1),
-                    tmp_chunk
-                )
-                breakpoint()
+            # if found_unwanted_line_breaks := unwanted_line_breaks_rx.search(tmp_chunk):
+            #     re.sub(
+            #         unwanted_line_breaks_re,
+            #         found_unwanted_line_breaks.group(1),
+            #         tmp_chunk
+            #     )
+            #     breakpoint()
 
             if script_var_match := script_var_decl_rx.search(tmp_chunk):
-                print(
-                    f"- Skipping what looks to be a scripted var: {tmp_chunk}"
-                )
+                if verbose:
+                    print(
+                        f"- Skipping what looks to be a scripted var: {tmp_chunk}"
+                    )
                 # breakpoint()
                 continue
 
@@ -252,17 +245,19 @@ def split_traits_files_into_chunks(traits_file_path: str, build_folder: str):
 
             if not trait_name:
                 if tmp_chunk.startswith('####') and tmp_chunk.endswith('####'):
-                    print(
-                        "- Skipping what looks to be a comment: "
-                        # f"{tmp_chunk}"
-                    )
+                    if verbose:
+                        print(
+                            "- Skipping what looks to be a comment: "
+                            # f"{tmp_chunk}"
+                        )
                     traits_skipped += 1
                     continue
 
             if 'leader_trait_type = negative' in tmp_chunk:
-                print(
-                    f"- Skipping negative trait: {trait_name}"
-                )
+                if verbose:
+                    print(
+                        f"- Skipping negative trait: {trait_name}"
+                    )
                 traits_skipped += 1
                 continue
 
@@ -277,15 +272,14 @@ def split_traits_files_into_chunks(traits_file_path: str, build_folder: str):
                 dest_raw_file_name
             )
 
-            # breakpoint()
-
             with open(dest_raw_file_path, 'w') as dest_file:
                 dest_file.write(tmp_chunk)
             bytes_written = os.path.getsize(dest_raw_file_path)
-            print(
-                f"+ Wrote {bytes_written} bytes of text to "
-                f"{dest_raw_file_name} in {leader_class} folder."
-            )
+            if verbose:
+                print(
+                    f"+ Wrote {bytes_written} bytes of text to "
+                    f"{dest_raw_file_name} in {leader_class} folder."
+                )
             traits_saved += 1
 
     traits_file_name = traits_file_path.split(os.path.sep)[-1]
@@ -295,7 +289,7 @@ def split_traits_files_into_chunks(traits_file_path: str, build_folder: str):
 
 if __name__ == "__main__":
 
-    # start_time = time.perf_counter()
+    start_time = time.perf_counter()
     parser = argparse.ArgumentParser(
         prog="0xRetro M&RE Trait File Splitter",
         description="Separate all individual traits to their own files, from a single traits file"
@@ -317,6 +311,12 @@ if __name__ == "__main__":
         '--build_folder',
         help="Location of mrec_tools/build, if it's not a subfolder of where this is being run"
     )
+    parser.add_argument(
+        '--verbose',
+        help="Print out extra information during processing",
+        action='store_true',
+        default=False
+    )
     args = parser.parse_args()
     if not os.path.exists(args.build_folder):
         sys.exit(
@@ -330,8 +330,34 @@ if __name__ == "__main__":
         reset_traits_build_files(args.build_folder)
     else:
         print("Skipping cleaning the build folder before starting.")
+    
+    threads = []
+
     for item in args.traits_file_paths:
-        split_traits_files_into_chunks(
-            traits_file_path=item,
-            build_folder=args.build_folder
+        t = threading.Thread(
+            target=split_traits_files_into_chunks,
+            kwargs={
+                "traits_file_path": item,
+                "build_folder": args.build_folder,
+                "verbose": args.verbose
+            }
         )
+        threads.append(t)
+        # split_traits_files_into_chunks(
+        #     traits_file_path=item,
+        #     build_folder=args.build_folder
+        # )
+
+    # Start each thread
+    for t in threads:
+        t.start()
+
+    # Wait for all threads to finish
+    for t in threads:
+        t.join()
+
+    end_time = time.perf_counter()
+    execution_time = end_time - start_time
+    print(
+        f"Done in {str(execution_time)[:5]} seconds"
+    )
