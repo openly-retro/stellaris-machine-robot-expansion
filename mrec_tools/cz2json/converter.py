@@ -59,6 +59,9 @@ re_simple_word = re.compile(r"([\@\/\._a-zA-Z0-9]+)")
 COMMA = ','
 EMPTY_LINE = ''
 
+is_in_tech_prerequisites_block = False
+prereqs_block_depth = 0
+
 """ Code """
 def clean_up_line(line: str) -> str:
     """ Handle a variety of line contents
@@ -139,9 +142,6 @@ def convert_block_open(line) -> str:
         ' = {',
         ': {'
     )
-
-def format_prerequisites_block(re_results: re.Match) -> str:
-    prerequisites_or_block = []
 
 def handle_single_block_assignment(line) -> str:
     # something like 'potential = { is_councilor = no }'
@@ -278,8 +278,6 @@ def iter_clean_up_lines(lines: list[str]) -> str:
     
     return " ".join(processed_lines)
 
-def turn_prereqs_into_lists() -> str:
-    1
 
 def convert_iter_lines_to_dict(json_as_str: str) -> dict:
     # Take output of iter_clean_up_lines into dict
