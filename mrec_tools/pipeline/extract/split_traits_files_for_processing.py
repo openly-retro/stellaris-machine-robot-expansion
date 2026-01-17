@@ -8,8 +8,7 @@ import argparse
 from shutil import rmtree
 import threading
 import time
-
-MAX_THREADS = 3
+from multiprocessing import Process, TimeoutError
 
 # Find all leader classes allowed for the trait
 leader_class_re = r'leader_class\s=\s{\s(?P<classnames>(?:\w+\s)+?)}'
@@ -141,6 +140,20 @@ class LeaderTrait:
     modifiers: dict
     force_councilor_trait: bool = False
 
+# ripped from https://stackoverflow.com/questions/287871/how-do-i-print-colored-text-to-the-terminal
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+RED_DASH = f"{bcolors.FAIL}-{bcolors.ENDC}"
+GREEN_PLUS = f"{bcolors.OKGREEN}+{bcolors.ENDC}"
 
 ######
 
@@ -216,19 +229,10 @@ def split_traits_files_into_chunks(
             trait_name_matches = trait_id_rx.search(tmp_chunk)
             trait_name = None
 
-            # "quick" cleanup
-            # if found_unwanted_line_breaks := unwanted_line_breaks_rx.search(tmp_chunk):
-            #     re.sub(
-            #         unwanted_line_breaks_re,
-            #         found_unwanted_line_breaks.group(1),
-            #         tmp_chunk
-            #     )
-            #     breakpoint()
-
             if script_var_match := script_var_decl_rx.search(tmp_chunk):
                 if verbose:
                     print(
-                        f"- Skipping what looks to be a scripted var: {tmp_chunk}"
+                        f"{RED_DASH} Skipping what looks to be a scripted var: {tmp_chunk}"
                     )
                 # breakpoint()
                 continue
@@ -247,16 +251,25 @@ def split_traits_files_into_chunks(
                 if tmp_chunk.startswith('####') and tmp_chunk.endswith('####'):
                     if verbose:
                         print(
-                            "- Skipping what looks to be a comment: "
+                            f"{RED_DASH} Skipping what looks to be a comment: "
                             # f"{tmp_chunk}"
                         )
                     traits_skipped += 1
                     continue
 
+            # Now we can do skips because we have the trait name
+            if 'is_machine_empire = no' in tmp_chunk:
+                if verbose:
+                    print(
+                        f"{RED_DASH} Skipping non-machine empire trait: {trait_name}"
+                    )
+                traits_skipped += 1
+                continue
+
             if 'leader_trait_type = negative' in tmp_chunk:
                 if verbose:
                     print(
-                        f"- Skipping negative trait: {trait_name}"
+                        f"{RED_DASH} Skipping negative trait: {trait_name}"
                     )
                 traits_skipped += 1
                 continue
@@ -277,7 +290,7 @@ def split_traits_files_into_chunks(
             bytes_written = os.path.getsize(dest_raw_file_path)
             if verbose:
                 print(
-                    f"+ Wrote {bytes_written} bytes of text to "
+                    f"{GREEN_PLUS} Wrote {bytes_written} bytes of text to "
                     f"{dest_raw_file_name} in {leader_class} folder."
                 )
             traits_saved += 1
@@ -332,9 +345,23 @@ if __name__ == "__main__":
         print("Skipping cleaning the build folder before starting.")
     
     threads = []
+    # file_q = Queue()
+    max_processes = 4 if len(args.traits_file_paths) > 4 else len(args.traits_file_paths)
+
+    # with Pool(processes=max_processes) as pool:
+    procs = []
 
     for item in args.traits_file_paths:
-        t = threading.Thread(
+        # t = threading.Thread(
+        #     target=split_traits_files_into_chunks,
+        #     kwargs={
+        #         "traits_file_path": item,
+        #         "build_folder": args.build_folder,
+        #         "verbose": args.verbose
+        #     }
+        # )
+        # threads.append(t)
+        proc = Process(
             target=split_traits_files_into_chunks,
             kwargs={
                 "traits_file_path": item,
@@ -342,19 +369,19 @@ if __name__ == "__main__":
                 "verbose": args.verbose
             }
         )
-        threads.append(t)
-        # split_traits_files_into_chunks(
-        #     traits_file_path=item,
-        #     build_folder=args.build_folder
-        # )
+        procs.append(proc)
+        proc.start()
 
     # Start each thread
-    for t in threads:
-        t.start()
+    # for t in threads:
+    #     t.start()
 
-    # Wait for all threads to finish
-    for t in threads:
-        t.join()
+    # # Wait for all threads to finish
+    # for t in threads:
+    #     t.join()
+
+    for proc in procs:
+        proc.join()
 
     end_time = time.perf_counter()
     execution_time = end_time - start_time
