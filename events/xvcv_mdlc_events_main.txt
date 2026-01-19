@@ -169,10 +169,6 @@ country_event = {
 					}
 				}
 
-				if = {
-					limit = { free_building_slots = 0 }
-					add_deposit = xvcv_mdlc_d_building_slot_plus_1
-				}
 				add_building = building_robot_assembly_plant
 			}
 
@@ -1552,11 +1548,11 @@ country_event = {
 		trigger = { has_civic = xvcv_mdlc_civic_malware_machine }
 		force_remove_civic = xvcv_mdlc_civic_malware_machine
 	}
-	option = {
-		name = xvcv_mdlc_400.option.16
-		trigger = { has_civic = xvcv_mdlc_civic_trading_machine }
-		force_remove_civic = xvcv_mdlc_civic_trading_machine
-	}
+	# option = {
+	# 	name = xvcv_mdlc_400.option.16
+	# 	trigger = { has_civic = xvcv_mdlc_civic_trading_machine }
+	# 	force_remove_civic = xvcv_mdlc_civic_trading_machine
+	# }
 	option = {
 		name = xvcv_mdlc_400.option.17
 		trigger = { has_civic = xvcv_mdlc_civic_nanobot_building }
@@ -2424,11 +2420,11 @@ planet_event = {
 		# as well as deposits must be re-checked to create offsets in case cooling is unbalanced
 		xvcv_mdlc_planet_wm_calc_output_value = yes
 
-		if = {
-			limit = { xvcv_mdlc_planet_wm_has_non_resource_district = yes }
-			#log = "Going into xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all"
-			xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all = yes
-		}
+		# if = {
+		# 	limit = { xvcv_mdlc_planet_wm_has_non_resource_district = yes }
+		# 	#log = "Going into xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all"
+		# 	xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all = yes
+		# }
 	}
 }
 
@@ -2444,11 +2440,11 @@ planet_event = {
 	immediate = {
 		log = "A district was removed from \\[This.GetName]."
 		xvcv_mdlc_planet_wm_calc_output_value = yes
-		if = {
-			limit = { xvcv_mdlc_planet_wm_has_non_resource_district = yes }
-			#log = "Going into xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all"
-			xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all = yes
-		}
+		# if = {
+		# 	limit = { xvcv_mdlc_planet_wm_has_non_resource_district = yes }
+		# 	#log = "Going into xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all"
+		# 	xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all = yes
+		# }
 	}
 }
 # xvcv_on_world_machine_t3_resource_district_demolished, or cooling district demolished
@@ -2473,11 +2469,11 @@ planet_event = {
 		}
 
 		# Check if non-resource districts need offsets (if output is below 0.0) and add them
-		if = {
-			limit = { xvcv_mdlc_planet_wm_has_non_resource_district = yes }
-			#log = "Going into xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all"
-			xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all = yes
-		}
+		# if = {
+		# 	limit = { xvcv_mdlc_planet_wm_has_non_resource_district = yes }
+		# 	#log = "Going into xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all"
+		# 	xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all = yes
+		# }
 	}
 }
 
@@ -3196,7 +3192,7 @@ planet_event = {
 			}
 		}
 		else = {
-			clear_planet_flag = oxr_mdlc_wait_for_ag_ancient_82
+			remove_planet_flag = oxr_mdlc_wait_for_ag_ancient_82
 			# Cleanup
 			if = {
 				limit = {
@@ -3245,33 +3241,6 @@ planet_event = {
 		
 
 	}
-}
-
-# Entry event for modifying the capital of any planet for a Machine emire
-planet_event = {
-	id = xvcv_mdlc.1004
-	hide_window = yes
-	is_triggered_only = yes
-
-	pre_triggers = {
-		has_owner = yes
-	}
-
-	trigger = {
-		NOT = { is_planet_class = pc_habitat }
-		# has_building = building_deployment_post
-		owner = {
-			OR = {
-				has_ascension_perk = xvcv_mdlc_ap_self_assembling_colony_ship
-				has_oxr_mdlc_origin_world_machine_awakened = yes
-			}
-		}
-	}
-
-	immediate = {
-		# Look out for compatibility with Ancient Empire
-	}
-
 }
 
 ## Synthetic Origin setup - no TMA

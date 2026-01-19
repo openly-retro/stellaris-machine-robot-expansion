@@ -35,5 +35,5 @@ Run:
 
 ### Copy localisation files
 
-    python .\mre_code_tools\mre_propagate_loc_files.py --source-language english
+    python .\mrec_tools\mre_propagate_loc_files.py --source-language english
 

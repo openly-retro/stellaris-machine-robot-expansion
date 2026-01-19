@@ -1,5 +1,5 @@
 oxr_mdlc_zone_pc_machine_ser_unity = {
-	icon = GFX_colony_type_bureaucratic
+	icon = GFX_district_specialization_unity
 	inline_script = planet/zones/oxr_wm_zone_base_ser
 
 	included_building_sets = {
@@ -9,17 +9,142 @@ oxr_mdlc_zone_pc_machine_ser_unity = {
 	}
 
 	triggered_planet_modifier = {
-		potential = { exists = owner }
-		xvcv_mdlc_world_machines_unity_districts_energy_upkeep_add = @[ oxr_t3_planet_district_jobs * oxr_mdlc_wm_base_coordinator_upkeep ]
-	}
-	triggered_planet_modifier = {
-		potential = { exists = owner }
-		xvcv_mdlc_world_machines_unity_districts_unity_produces_add = @[ oxr_t3_planet_district_jobs * oxr_mdlc_wm_base_coordinator_output ]
-		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_base_production|
+		xvcv_mdlc_world_machines_unity_districts_energy_upkeep_mult = 0.10
+		xvcv_mdlc_world_machines_unity_districts_unity_produces_mult = 0.10
 	}
 
 	zone_sets = {
 		oxr_mdlc_zone_set_wm_unity
 	}
+}
 
+oxr_mdlc_zone_pc_machine_ser_zro_unity = {
+	icon = GFX_rikk_mdlc_district_specialization_ser_zro_unity
+	base_buildtime = @zone_buildtime
+	
+	potential = {
+		hidden_trigger = { exists = owner }
+		planet = { is_xvcv_mdlc_pc_machine_ser = yes }
+	}
+	
+	unlock = { owner = { has_technology = tech_mine_zro } }
+	
+	resources = {
+		category = oxr_mdlc_world_machines_zones
+		cost = { minerals = @zone_cost }
+	}
+	
+	planet_modifier = {
+		zone_building_slots_add = 3
+	}
+
+	excluded_building_sets = { 
+		knights
+		generator_automation
+		mining_automation
+		farming_automation
+		urban_automation
+	}
+
+	included_building_sets = {
+		unity
+		origin
+		oxr_mdlc_building_set_wm_unity
+	}
+
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_unity_districts_upkeep_mult = 0.25
+	}
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_unity_districts_unity_produces_add = @[ 3 * oxr_mdlc_wm_base_coordinator_output ]
+		xvcv_mdlc_world_machines_unity_districts_sr_zro_upkeep_add = 0.25
+	}
+
+	zone_sets = {
+		oxr_mdlc_zone_set_wm_unity
+	}
+}
+
+oxr_mdlc_zone_pc_machine_ser_trade = {
+	icon = GFX_district_specialization_trade
+	inline_script = planet/zones/oxr_wm_zone_base_ser
+
+	included_building_sets = {
+		unity
+		origin
+		oxr_mdlc_building_set_wm_unity
+	}
+
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_trade_districts_energy_upkeep_mult = 0.10
+		xvcv_mdlc_world_machines_trade_districts_produces_mult = 0.10
+	}
+
+	zone_sets = {
+		oxr_mdlc_zone_set_wm_trade
+	}
+}
+
+oxr_mdlc_zone_pc_machine_ser_anticrime = {
+	icon = GFX_district_specialization_fortress
+	inline_script = planet/zones/oxr_wm_zone_base_ser
+
+	included_building_sets = {
+		government
+		oxr_mdlc_building_set_wm_security
+	}
+	
+	triggered_district_country_modifier = {
+		potential = {
+			exists = owner
+			owner = { is_gestalt = no }
+		}
+		planet_crime_add = -5
+		mult = planet.oxr_mdlc_world_machines_districts_output_var
+	}
+	triggered_district_country_modifier = {
+		potential = {
+			exists = owner
+			owner = { is_gestalt = yes }
+		}
+		planet_crime_no_happiness_add = -5
+		mult = planet.oxr_mdlc_world_machines_districts_output_var
+	}
+	
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = { is_gestalt = yes }
+		}
+		text = rikk_mdlc_zone_pc_machine_ser_anticrime_triggered_desc
+	}
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = { is_gestalt = no }
+		}
+		text = rikk_mdlc_zone_pc_machine_ser_anticrime_triggered_desc_alt
+	}
+	
+	zone_sets = {
+		oxr_mdlc_zone_set_wm_security
+	}
+}
+
+oxr_mdlc_zone_pc_machine_ser_cryption = {
+	icon = GFX_rikk_mdlc_district_specialization_ser_cryption
+	inline_script = planet/zones/oxr_wm_zone_base_ser
+
+	included_building_sets = {
+		government
+		oxr_mdlc_building_set_wm_security
+	}
+	triggered_district_country_modifier = {
+		intel_encryption_mult = 0.01
+		intel_decryption_mult = 0.01
+		mult = planet.oxr_mdlc_world_machines_districts_output_var
+	}
+	zone_sets = {
+		oxr_mdlc_zone_set_wm_security
+	}
 }

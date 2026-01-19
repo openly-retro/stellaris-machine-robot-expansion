@@ -1,42 +1,4 @@
-defined_text = {
-	name = Get_xvcv_mdlc_abyss_patron
-	text = {
-		localization_key = xvcv_mdlc_abyss_patron_name_whisperers
-		trigger = {
-			OR = {
-				has_modifier = xvcv_mdlc_abyss_patron_whisperers
-				has_modifier = xvcv_mdlc_abyss_patron_whisperers_alt
-			}
-		}
-	}
-	text = {
-		localization_key = xvcv_mdlc_abyss_patron_name_composer
-		trigger = {
-			OR = {
-				has_modifier = xvcv_mdlc_abyss_patron_composer
-				has_modifier = xvcv_mdlc_abyss_patron_composer_alt
-			}
-		}
-	}
-	text = {
-		localization_key = xvcv_mdlc_abyss_patron_name_instrument
-		trigger = {
-			OR = {
-				has_modifier = xvcv_mdlc_abyss_patron_instrument
-				has_modifier = xvcv_mdlc_abyss_patron_instrument_alt
-			}
-		}
-	}
-	text = {
-		localization_key = xvcv_mdlc_abyss_patron_name_eater
-		trigger = {
-			OR = {
-				has_modifier = xvcv_mdlc_abyss_patron_eater
-				has_modifier = xvcv_mdlc_abyss_patron_eater_alt
-			}
-		}
-	}
-}
+
 defined_text = {
 	name = Get_xvcv_mdlc_leader_making_trait_points_left
 	text = {
@@ -49,14 +11,14 @@ defined_text = {
 	}
 }
 defined_text = {
-	name = Get_xvcv_mdlc_leader_making_max_traits_number_left
+	name = Get_xvcv_mdlc_leader_making_trait_picks_left
 	text = {
-		localization_key = xvcv_mdlc_leader_making_max_traits_number_left_good
-		trigger = { check_variable = { which = xvcv_mdlc_leader_making_max_traits_number value != 0 } }
+		localization_key = xvcv_mdlc_leader_making_trait_picks_left_good
+		trigger = { check_variable = { which = xvcv_mdlc_leader_making_trait_picks value != 0 } }
 	}
 	text = {
-		localization_key = xvcv_mdlc_leader_making_max_traits_number_left_bad
-		trigger = { check_variable = { which = xvcv_mdlc_leader_making_max_traits_number value = 0 } }
+		localization_key = xvcv_mdlc_leader_making_trait_picks_left_bad
+		trigger = { check_variable = { which = xvcv_mdlc_leader_making_trait_picks value = 0 } }
 	}
 }
 defined_text = {
@@ -153,6 +115,23 @@ defined_text = {
 	}
 	default = xvcv_mdlc_leader_making_commander_subclass_commander
 }
+defined_text = {
+	name = Get_xvcv_mdlc_leader_making_selected_class
+	text = {
+		localization_key = scientist
+		trigger = { has_country_flag = xvcv_mdlc_leader_class_set_to_scientist }
+	}
+	text = {
+		localization_key = commander
+		trigger = { has_country_flag = xvcv_mdlc_leader_class_set_to_commander }
+	}
+	text = {
+		localization_key = official
+		trigger = { has_country_flag = xvcv_mdlc_leader_class_set_to_official }
+	}
+	default = oxr_mdlc_leader_making_none_selected
+}
+
 
 defined_text = {
 	name = GetPlanetBioMechCloningMultValue
@@ -247,6 +226,7 @@ defined_text = {
 	}
 	default = district_city_desc
 }
+
 defined_text = {
 	name = GetMechanicalPrimaryDistrictNamePlural
 	text = {
@@ -258,4 +238,30 @@ defined_text = {
 		}
 	}
 	default = district_city_plural
+}
+
+defined_text = {
+	name = OxrGetRulerGender
+	text = {
+		localization_key = female
+		trigger = {
+			exists = ruler
+			ruler = { gender = female }
+		}
+	}
+	text = {
+		localization_key = male
+		trigger = {
+			exists = ruler
+			ruler = { gender = male }
+		}
+	}
+	text = {
+		localization_key = indeterminable
+		trigger = {
+			exists = ruler
+			ruler = { gender = indeterminable }
+		}
+	}
+	default = indeterminable
 }

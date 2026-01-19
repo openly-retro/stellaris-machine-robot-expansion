@@ -1,0 +1,55 @@
+
+entity = {
+	name = "rikk_mdlc_battery_planet_01_entity"
+	pdxmesh = "planet_clouded_mesh"
+
+	#planet surface texture override
+	meshsettings = {
+	name = "planet_geosphereShape"
+	texture_diffuse = "rikk_mdlc_battery_01_diffuse.dds"
+	texture_normal = "rikk_mdlc_battery_01_normals.dds"
+	texture_specular = "rikk_mdlc_battery_01_specular.dds"
+	shader = "PdxMeshTerra"
+	}
+
+	##cloud texture override
+	meshsettings = {
+	name = "clouds_geosphereShape"
+		texture_diffuse = "clouds_smog_01_diffuse.dds"
+		texture_normal = "nonormal.dds"
+		texture_specular = "nospec.dds"
+	}
+
+	##cloud shadow texture override
+	meshsettings = {
+		name = "clouds_shadow_geosphereShape"
+		texture_diffuse = "clouds_smog_shadow_01_diffuse.dds"
+		texture_normal = "nonormal.dds"
+		texture_specular = "nospec.dds"
+	}
+	##pole texture override
+	meshsettings = {
+	name = "polesShape"
+	texture_diffuse = "poles_barren_1_diffuse.dds"
+	texture_normal = "poles_barren_1_normal.dds"
+	texture_specular = "poles_barren_1_specular.dds"
+	}
+
+	default_state = "idle"
+	state = {
+		name = "idle"
+		animation = "idle"
+		event = { time = 0 node = "flash_01" particle = "planet_lightning_particle" keep_particle = yes }
+		event = { time = 2 node = "flash_02" particle = "planet_lightning_particle" keep_particle = yes }
+		event = { time = 0.7 node = "flash_03" particle = "planet_lightning_particle" keep_particle = yes }
+		event = { time = 2.7 node = "flash_04" particle = "planet_lightning_particle" keep_particle = yes }
+		event = { time = 3 node = "flash_05" particle = "planet_lightning_particle" keep_particle = yes }
+		event = { time = 4.3 node = "flash_06" particle = "planet_lightning_particle" keep_particle = yes }
+		event = { time = 7 node = "flash_07" particle = "planet_lightning_particle" keep_particle = yes }
+		event = { time = 5 node = "flash_08" particle = "planet_lightning_particle" keep_particle = yes }
+		event = { time = 5.1 node = "flash_09" particle = "planet_lightning_particle" keep_particle = yes }
+		event = { time = 6.5 node = "flash_10" particle = "planet_lightning_particle" keep_particle = yes }
+		start_event = { trigger_once = yes sound = { soundeffect = "amb_toxic_world_a" } }
+		start_event = { trigger_once = yes sound = { soundeffect = "amb_toxic_world_b" } }
+	}
+}

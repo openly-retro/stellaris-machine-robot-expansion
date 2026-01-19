@@ -8,7 +8,6 @@ on_monthly_pulse_country = {
 		xvcv_mdlc.61 #remove the 'xvcv_mdlc_goods_for_pop_unity_bonus' modifier when its requirements are unfulfilled
 		xvcv_mdlc.80 #'xvcv_mdlc_trait_self_replicating_microbot' trait effect event
 		xvcv_mdlc.81 #clear 'xvcv_mdlc_d_trait_self_replicating_microbot' deposit when its requirement is not met
-		# oxr_mdlc_machine_pop_helper.10 #store fractional pop assembly and create pops when stored amt > 1
 	}
 }
 # this = country
@@ -36,7 +35,6 @@ on_game_start_country = {
 		xvcv_mdlc_situation.1 #start the 'xvcv_mdlc_situation_machine_learning' situation
 		xvcv_mdlc.1000 #'xvcv_mdlc_servitor_morale' empire modifiers calculations
 		xvcv_mdlc.80  # trigger xvcv_mdlc_trait_self_replicating_microbot event at start; thanks Legit-Rikk for catching this
-		# oxr_mdlc_machine_pop_helper.100  # set machine & robot assembly helper feature active
 	}
 }
 # Called during empire initialization when starting a new game if has_secondary_species game rule is true.
@@ -92,40 +90,7 @@ on_leader_death = {
 		xvcv_mdlc.52 #'xvcv_mdlc_leader_trait_memory_backup' trait effect event
 	}
 }
-# This = owner of fleet
-# From = fleet
-# FromFrom = planet (if any)
-on_fleet_auto_move_arrival = {
-	events = {
-		xvcv_mdlc_civic_trading.12 #when a trading ship arrives at the opponent empire's capital world
-		xvcv_mdlc_civic_trading.13 #when a trading ship arrives at the player empire's capital world
-	}
-}
-# This = owner of ship 1 (destroyed)
-# From = owner of ship 2 (combatant)
-# FromFrom = ship 1
-# FromFromFrom = ship 2
-on_ship_destroyed_victim = {
-	events = {
-		xvcv_mdlc_civic_trading.14 #the effect event for a trading ship destroyed while transit
-	}
-}
-# Executes after a policy has been changed
-# use last_changed_policy to identify which policy it was
-# This = Country
-on_policy_changed = {
-	events = {
-		xvcv_mdlc_civic_trading.16 #'xvcv_mdlc_civic_trading_machine_trade' policy change effect event
-	}
-}
-#You have changed the location of your capital. Also called when a country's capital is first set e.g. during galaxy creation (but then FROM is not set)
-#this/root = new capital
-#from = old capital
-on_capital_changed = {
-	events = {
-		xvcv_mdlc_civic_trading.17 #when the trade ship owner's capital is lost or sold somehow
-	}
-}
+
 # Triggers when a Special Project to apply a species modification template has completed.
 # Note that this will trigger once for each combination of planet & original species.
 # This = Country
@@ -166,7 +131,6 @@ on_terraforming_complete = {
 # on_district_complete = {
 # 	events = {
 # 		xvcv_mdlc.701 #'xvcv_mdlc_world_machines_districts' variable value count
-# 		xvcv_mdlc.720 #'xvcv_mdlc_d_pc_machine_ser_crime' or 'xvcv_mdlc_d_pc_machine_ser_admin_cap' deposits count
 # 	}
 # }
 # # A district construction has demolished.
@@ -174,7 +138,6 @@ on_terraforming_complete = {
 # on_district_demolished = {
 # 	events = {
 # 		xvcv_mdlc.710 #'xvcv_mdlc_world_machines_districts' variable value count
-# 		xvcv_mdlc.720 #'xvcv_mdlc_d_pc_machine_ser_crime' or 'xvcv_mdlc_d_pc_machine_ser_admin_cap' deposits count
 # 	}
 # }
 # A planet has been colonized.
@@ -189,8 +152,6 @@ on_colonized = {
 #From = optional, destroyer (country)
 on_country_destroyed = {
 	events = {
-		xvcv_mdlc_civic_trading.18 #abort special projects when the trade ship owner's opponent is destroyed
-		xvcv_mdlc_civic_trading.19 #destroy the trading ship and remove country flags when the trade ship owner's opponent is destroyed
 		xvcv_mdlc_espionage.26 #abort 'XVCV_MDLC_OPERATION_MACHINE_UPRISING_PROJECT' special project when its target is destroyed
 	}
 }
@@ -227,7 +188,6 @@ on_operation_cancelled = {
 # THIS = country
 on_post_government_changed = {
 	events = {
-		xvcv_mdlc_civic_trading.21 #clear variables and country flags for 'xvcv_mdlc_civic_trading_machine' civic when an empire doesn't have it
 		xvcv_mdlc.53 #add / remove a unique leader trait for gestalt nodes when the empire does have certain civics or does not
 		xvcv_mdlc_espionage.4 #add / remove 'xvcv_mdlc_asset_malware' asset when an empire does have the required civic or does not
 		xvcv_mdlc_espionage.5 #add / remove a unique leader trait for gestalt nodes when the empire does have 'xvcv_mdlc_civic_malware_machine' civic or does not
@@ -240,8 +200,6 @@ on_post_government_changed = {
 on_war_beginning = {
 	events = {
 		xvcv_mdlc_espionage.27 #abort the 'xvcv_mdlc_operation_machine_uprising' operation when machine uprising happens to the target
-		xvcv_mdlc_civic_trading.22 #suspend trade when the trade ship owner enters a war against the trade opponent
-		xvcv_mdlc_civic_trading.23 #abort trade ship build special projects when the trade ship owner enters a war against the trade opponent
 		xvcv_mdlc_abyss.140 #abyss patron eater buff at war
 	}
 }
@@ -376,13 +334,5 @@ on_released_as_vassal = {
 		game_start.71		# Set starting planet governors
 		game_start.72		# Council Generation
 		leader.110			# Additional traits from civics
-	}
-}
-
-# Executed when a country picks an ascension perk
-# THIS = country
-on_ascension_perk_picked = {
-	events = {
-		oxr_mdlc_mamp.1
 	}
 }

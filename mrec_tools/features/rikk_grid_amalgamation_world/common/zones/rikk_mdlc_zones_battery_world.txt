@@ -1,0 +1,298 @@
+# Planet District Zones
+
+# Planetary Defenses
+rikk_mdlc_zone_battery_military_primary = {
+	icon = GFX_district_specialization_fortress
+	
+	potential = {
+		exists = owner
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		uses_district_set = rikk_mdlc_battery_world
+	}
+	
+	included_building_sets = {
+		fortress
+		urban_automation
+		origin
+		oxr_mdlc_building_set_wm_military
+		oxr_mdlc_building_set_wm_security
+	}
+	
+	inline_script = {
+		script = planet/zones/auto/oxr_wm_soldier_zone_production
+		DISTRICT_CATEGORY = rikk_mdlc_district_battery_quarters
+		JOBS = 1
+	}
+	
+	planet_modifier = {
+		zone_building_slots_add = 3
+	}
+	
+	resources = {
+		category = planet_zones
+		cost = {
+			minerals = @zone_cost
+		}
+	}
+
+	ai_resource_production = {
+		consumer_goods = 10
+		trigger = { always = yes }
+	}
+}
+
+rikk_mdlc_zone_suppression_unit = {
+	icon = GFX_rikk_mdlc_zone_suppression_unit
+	base_buildtime = @zone_buildtime
+
+	potential = { # planet scope
+		exists = owner
+		owner = { is_machine_empire = yes }
+		uses_district_set = rikk_mdlc_battery_world
+	}
+
+	unlock = { always = yes }
+	
+	triggered_district_planet_modifier = {
+		planet_stability_add = 2
+	}
+	
+	triggered_district_planet_modifier = {
+		potential = {
+			exists = owner
+			NOT = { owner = { has_origin = oxr_mdlc_origin_world_machine_awakened } }
+		} 
+		modifier = {
+			job_patrol_drone_add = 200
+		}
+	}
+	
+	triggered_district_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+		} 
+		planet_crime_add = -40
+		defense_armies_add = 4
+	}
+	
+	planet_modifier = {
+		zone_building_slots_add = 3
+	}
+	
+	resources = {
+		category = planet_zones
+		cost = {
+			minerals = @zone_cost
+		}
+	}
+
+	included_building_sets = {
+		oxr_mdlc_building_set_wm_military
+		oxr_mdlc_building_set_wm_security
+		fortress
+		automation
+		origin
+		urban
+	}
+}
+
+rikk_mdlc_zone_cooperation_unit = {
+	icon = GFX_rikk_mdlc_zone_cooperation_unit
+	base_buildtime = @zone_buildtime
+
+	potential = { # planet scope
+		exists = owner
+		owner = { is_machine_empire = yes }
+		uses_district_set = rikk_mdlc_battery_world
+	}
+
+	unlock = { always = yes }
+
+	triggered_district_planet_modifier = {
+		pop_happiness = 0.01
+	}
+	
+	triggered_district_planet_modifier = {
+		potential = {
+			exists = owner
+			NOT = { owner = { has_origin = oxr_mdlc_origin_world_machine_awakened } }
+		} 
+		modifier = {
+			job_patrol_drone_add = 100
+		}
+	}
+	
+	triggered_district_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+		} 
+		planet_crime_add = -20
+		defense_armies_add = 2
+	}
+
+	planet_modifier = {
+		zone_building_slots_add = 3
+	}
+	
+	resources = {
+		category = planet_zones
+		cost = {
+			minerals = @zone_cost
+		}
+	}
+
+	included_building_sets = {
+		oxr_mdlc_building_set_wm_military
+		oxr_mdlc_building_set_wm_security
+		fortress
+		automation
+		origin
+		urban
+	}
+}
+
+rikk_mdlc_zone_abundancy_protocols = {
+	icon = GFX_rikk_mdlc_zone_abundancy_protocols
+	base_buildtime = @zone_buildtime
+
+	potential = { # planet scope
+		exists = owner
+		owner = { is_machine_empire = yes }
+		uses_district_set = rikk_mdlc_battery_world
+	}
+
+	unlock = { always = yes }
+
+	triggered_district_planet_modifier = {
+		pop_happiness = 0.05
+		pop_category_slave_consumer_goods_upkeep_add = 0.10
+	}
+
+	planet_modifier = {
+		zone_building_slots_add = 3
+	}
+	
+	resources = {
+		category = planet_zones
+		cost = {
+			minerals = @zone_cost
+		}
+	}
+
+	included_building_sets = {
+		oxr_mdlc_building_set_wm_factory
+		oxr_mdlc_building_set_wm_trade
+		oxr_mdlc_building_set_wm_security
+		entertainment
+		trade
+		urban
+		origin
+	}
+}
+
+rikk_mdlc_zone_amenity_support = {
+	icon = GFX_rikk_mdlc_zone_amenity_support
+	base_buildtime = @zone_buildtime
+
+	potential = { # planet scope
+		exists = owner
+		owner = { is_machine_empire = yes }
+		uses_district_set = rikk_mdlc_battery_world
+	}
+
+	unlock = { always = yes }
+
+	triggered_district_planet_modifier = {
+		planet_amenities_add = 1000
+	}
+
+	planet_modifier = {
+		zone_building_slots_add = 3
+	}
+	
+	resources = {
+		category = planet_zones
+		cost = {
+			minerals = @zone_cost
+		}
+	}
+
+	included_building_sets = {
+		oxr_mdlc_building_set_wm_trade
+		oxr_mdlc_building_set_wm_security
+		entertainment
+		trade
+		urban
+		origin
+	}
+}
+
+rikk_mdlc_zone_increased_processing = {
+	icon = GFX_rikk_mdlc_zone_increased_processing
+	base_buildtime = @zone_buildtime
+
+	potential = { # planet scope
+		exists = owner
+		owner = { is_machine_empire = yes }
+		uses_district_set = rikk_mdlc_battery_world
+	}
+
+	unlock = { always = yes }
+
+	triggered_district_planet_modifier = {
+		planet_technician_energy_produces_mult = 0.05
+		pop_happiness = -0.02
+	}
+
+	planet_modifier = {
+		zone_building_slots_add = 3
+	}
+	
+	resources = {
+		category = planet_zones
+		cost = {
+			minerals = @zone_cost
+		}
+	}
+
+	included_building_sets = {
+		generator
+		oxr_mdlc_building_set_wm_energy
+	}
+}
+
+rikk_mdlc_zone_moderated_processing = {
+	icon = GFX_rikk_mdlc_zone_moderated_processing
+	base_buildtime = @zone_buildtime
+
+	potential = { # planet scope
+		exists = owner
+		owner = { is_machine_empire = yes }
+		uses_district_set = rikk_mdlc_battery_world
+	}
+
+	unlock = { always = yes }
+
+	triggered_district_planet_modifier = {
+		planet_technician_energy_produces_mult = -0.05
+		pop_happiness = 0.02
+	}
+
+	planet_modifier = {
+		zone_building_slots_add = 3
+	}
+	
+	resources = {
+		category = planet_zones
+		cost = {
+			minerals = @zone_cost
+		}
+	}
+
+	included_building_sets = {
+		generator
+		oxr_mdlc_building_set_wm_energy
+	}
+}

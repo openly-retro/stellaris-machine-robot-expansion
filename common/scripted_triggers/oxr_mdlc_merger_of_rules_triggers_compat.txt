@@ -16,11 +16,13 @@ oxr_mdlc_can_release_vassal_from_species = {
 	}
 }
 
-oxr_mdlc_can_be_leader = {
-	# Inclusive of species from this mod
-	root = {
-		oxr_mdlc_is_non_organic_empire = yes
+oxr_mdlc_root_can_be_leader = {
+	# root scope
+	OR = {
+		has_origin = xvcv_mdlc_origin_mechanical_heritage
+		has_origin = xvcv_mdlc_origin_synth_ascend
 	}
+	oxr_mdlc_is_synthetic_empire = yes
 }
 
 oxr_mdlc_can_build_grand_archive = {
@@ -65,7 +67,12 @@ oxr_mdlc_is_non_organic_empire = {
 # IMO "Robot" empires don't exist .. yet! :) sorry PDX ... this is my logic now
 # IMO "Robots" are non-self-aware, assembled not-ascended mechanicals. They can't start empires.
 # Talking about actual country empires, those can only be led by synths or machines
-
+oxr_mdlc_has_mechanical_origin = {
+	OR = {
+		has_xvcv_mdlc_origin_mechanical_heritage = yes
+		has_xvcv_mdlc_origin_synth_ascend = yes
+	}
+}
 # Synths: self aware, assembled, ascended from organic bodies
 oxr_mdlc_is_synthetic_empire = {
 	OR = {
@@ -90,6 +97,10 @@ oxr_mdlc_is_gestalt_machine = {
 	oxr_mdlc_is_any_machine_empire = yes
 	is_gestalt = yes
 }
+oxr_mdlc_is_machine_terminator = {
+	has_civic = civic_machine_terminator
+}
+
 
 oxr_mdlc_pop_group_has_robots = {
 	AND = {
@@ -267,6 +278,18 @@ oxr_mdlc_country_finished_nanotech = {
 	has_tradition = tr_nanotech_finish
 }
 
+oxr_mdlc_can_colonize_planet = {
+	# oxr_mdlc_planet_world_machine_is_rebooting = no
+	oxr_mdlc_planet_is_being_harvested_by_null_mega = no
+	doesnt_have_modifier = { WHICH = oxr_mdlc_habitat_dismantle_effect }  # habitat being dismantled
+}
+
+oxr_mdlc_planet_is_being_harvested_by_null_mega = {
+	planet = {
+		has_planet_flag = { FLAG = oxr_mdlc_origin_null_stellar_formatter_placed }
+	}
+}
+
 # oxr_mdlc_can_be_leader = {
 # 	# Block leaders made from MAMP species
 # 	# Return 'yes' if the species doesn't have the mamp base trait
@@ -409,6 +432,7 @@ has_xvcv_mdlc_civic_malware_machine = { has_civic = xvcv_mdlc_civic_malware_mach
 has_xvcv_mdlc_civic_friendship_protocol = { has_civic = xvcv_mdlc_civic_friendship_protocol }
 has_xvcv_mdlc_civic_machine_learning = { has_civic = xvcv_mdlc_civic_machine_learning }
 has_oxr_mdlc_civic_bio_robot_directive = { has_civic = oxr_mdlc_civic_bio_robot_directive }
+has_oxr_mdlc_civic_planet_eaters = { has_civic = oxr_mdlc_civic_planet_eaters }
 
 
 # MAMP
@@ -463,9 +487,6 @@ is_xvcv_mdlc_pc_machine_cpu = { is_planet_class = xvcv_mdlc_pc_machine_cpu }
 is_xvcv_mdlc_pc_machine_ser = { is_planet_class = xvcv_mdlc_pc_machine_ser }
 is_xvcv_mdlc_pc_virtual = { is_planet_class = xvcv_mdlc_pc_virtual }
 is_xvcv_mdlc_pc_ringworld_machine_auto = { is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto }
-is_oxr_mdlc_pc_bio_mech = { is_planet_class = oxr_mdlc_pc_bio_mech }
-
-
 
 # DISTRICTS
 ## Auto-Machine World
@@ -473,7 +494,7 @@ has_xvcv_mdlc_pc_machine_auto_district_city = { has_district = xvcv_mdlc_pc_mach
 has_xvcv_mdlc_pc_machine_auto_district_generator = { has_district = xvcv_mdlc_pc_machine_auto_district_generator }
 has_xvcv_mdlc_pc_machine_auto_district_mining = { has_district = xvcv_mdlc_pc_machine_auto_district_mining }
 has_xvcv_mdlc_pc_machine_auto_district_farming = { has_district = xvcv_mdlc_pc_machine_auto_district_farming }
-has_xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm = { has_district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm }
+has_xvcv_mdlc_pc_machine_auto_district_primary_origin_wm = { has_district = xvcv_mdlc_pc_machine_auto_district_primary_origin_wm }
 ## Auto-CPU World districts
 has_xvcv_mdlc_pc_machine_cpu_district_cooling_primary = { has_district = xvcv_mdlc_pc_machine_cpu_district_cooling_primary }
 has_xvcv_mdlc_pc_machine_cpu_district_physics = { has_district = xvcv_mdlc_pc_machine_cpu_district_physics }
@@ -483,7 +504,7 @@ has_xvcv_mdlc_pc_machine_cpu_district_engineering = { has_district = xvcv_mdlc_p
 has_xvcv_mdlc_pc_machine_ecu_district_cooling_primary = { has_district = xvcv_mdlc_pc_machine_ecu_district_cooling_primary }
 has_xvcv_mdlc_pc_machine_ecu_district_production = { has_district = xvcv_mdlc_pc_machine_ecu_district_production }
 has_xvcv_mdlc_pc_machine_ecu_district_rare_resources = { has_district = xvcv_mdlc_pc_machine_ecu_district_rare_resources }
-has_xvcv_mdlc_pc_machine_ecu_district_naval_cap = { has_district = xvcv_mdlc_pc_machine_ecu_district_naval_cap }
+has_xvcv_mdlc_pc_machine_ecu_district_military = { has_district = xvcv_mdlc_pc_machine_ecu_district_military }
 
 ## Server world districts
 has_xvcv_mdlc_pc_machine_ser_district_cooling_primary = { has_district = xvcv_mdlc_pc_machine_ser_district_cooling_primary }
@@ -519,9 +540,9 @@ has_oxr_mdlc_zone_pc_ringworld_machine_auto_alloys = { num_zones = { type = oxr_
 has_oxr_mdlc_zone_pc_ringworld_machine_auto_food = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_food value > 0 } }
 has_oxr_mdlc_zone_pc_ringworld_machine_auto_energy = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_energy value > 0 } }
  # specialized
-has_oxr_mdlc_zone_pc_ringworld_machine_auto_research_physics = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_research_physics value > 0 } }
-has_oxr_mdlc_zone_pc_ringworld_machine_auto_research_society = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_research_society value > 0 } }
-has_oxr_mdlc_zone_pc_ringworld_machine_auto_research_engineering = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_research_engineering value > 0 } }
+# has_oxr_mdlc_zone_pc_ringworld_machine_auto_research_physics = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_research_physics value > 0 } }
+# has_oxr_mdlc_zone_pc_ringworld_machine_auto_research_society = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_research_society value > 0 } }
+# has_oxr_mdlc_zone_pc_ringworld_machine_auto_research_engineering = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_research_engineering value > 0 } }
 has_oxr_mdlc_zone_pc_ringworld_machine_auto_energy_physics = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_energy_physics value > 0 } }
 has_oxr_mdlc_zone_pc_ringworld_machine_auto_food_biology = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_food_biology value > 0 } }
 
@@ -530,21 +551,45 @@ oxr_mdlc_auto_ringworld_has_any_rnd_zones = {
 		has_oxr_mdlc_zone_pc_ringworld_machine_auto_research = yes
 		has_oxr_mdlc_zone_pc_ringworld_machine_auto_unity = yes
 		has_oxr_mdlc_zone_pc_ringworld_machine_auto_trade = yes
-		has_oxr_mdlc_zone_pc_ringworld_machine_auto_research_physics = yes
-		has_oxr_mdlc_zone_pc_ringworld_machine_auto_research_society = yes
-		has_oxr_mdlc_zone_pc_ringworld_machine_auto_research_engineering = yes
+		# has_oxr_mdlc_zone_pc_ringworld_machine_auto_research_physics = yes
+		# has_oxr_mdlc_zone_pc_ringworld_machine_auto_research_society = yes
+		# has_oxr_mdlc_zone_pc_ringworld_machine_auto_research_engineering = yes
 	}
 }
 
 # ECU zones
 has_oxr_mdlc_zone_pc_machine_ecu_alloys = { num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_alloys value > 0 } }
 has_oxr_mdlc_zone_pc_machine_ecu_consumer_goods = { num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_consumer_goods value > 0 } }
+has_oxr_mdlc_zone_pc_machine_ecu_triple_strategic_resources = { num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_triple_strategic_resources value > 0 } }
+has_oxr_mdlc_zone_pc_machine_ecu_rare_crystals = { num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_rare_crystals value > 0 } }
+has_oxr_mdlc_zone_pc_machine_ecu_volatile_motes = { num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_volatile_motes value > 0 } }
+has_oxr_mdlc_zone_pc_machine_ecu_exotic_gases = { num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_exotic_gases value > 0 } }
+#has_oxr_mdlc_zone_pc_machine_ecu_dark_matter_drawing = { num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_dark_matter_drawing value > 0 } }
+#has_oxr_mdlc_zone_pc_machine_ecu_living_metal_breeding = { num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_living_metal_breeding value > 0 } }
+#has_oxr_mdlc_zone_pc_machine_ecu_nanite_feeding = { num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_nanite_feeding value > 0 } }
+has_oxr_mdlc_zone_pc_machine_ecu_zro_summoning = { num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_zro_summoning value > 0 } }
 has_oxr_mdlc_zone_pc_machine_ecu_star_command = { num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_star_command value > 0 } }
 has_oxr_mdlc_zone_pc_machine_ecu_ground_command = { num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_ground_command value > 0 } }
 has_oxr_mdlc_zone_pc_machine_ecu_military_supply_chain = { num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_military_supply_chain value > 0 } }
 
+# CPU zones
+has_oxr_mdlc_zone_pc_machine_cpu_research = { num_zones = { type = oxr_mdlc_zone_pc_machine_cpu_research value > 0 } }
+has_oxr_mdlc_zone_pc_machine_cpu_physics_energy = { num_zones = { type = oxr_mdlc_zone_pc_machine_cpu_physics_energy value > 0 } }
+has_oxr_mdlc_zone_pc_machine_cpu_society_food = { num_zones = { type = oxr_mdlc_zone_pc_machine_cpu_society_food value > 0 } }
+has_oxr_mdlc_zone_pc_machine_cpu_engineering_minerals = { num_zones = { type = oxr_mdlc_zone_pc_machine_cpu_engineering_minerals value > 0 } }
+has_oxr_mdlc_zone_pc_machine_cpu_dark_matter_drawing = { num_zones = { type = oxr_mdlc_zone_pc_machine_cpu_dark_matter_drawing value > 0 } }
+has_oxr_mdlc_zone_pc_machine_cpu_living_metal_breeding = { num_zones = { type = oxr_mdlc_zone_pc_machine_cpu_living_metal_breeding value > 0 } }
+has_oxr_mdlc_zone_pc_machine_cpu_nanite_feeding = { num_zones = { type = oxr_mdlc_zone_pc_machine_cpu_nanite_feeding value > 0 } }
+
+# SER zones
+has_oxr_mdlc_zone_pc_machine_ser_unity = { num_zones = { type = oxr_mdlc_zone_pc_machine_ser_unity value > 0 } }
+has_oxr_mdlc_zone_pc_machine_ser_zro_unity = { num_zones = { type = oxr_mdlc_zone_pc_machine_ser_zro_unity value > 0 } }
+has_oxr_mdlc_zone_pc_machine_ser_trade = { num_zones = { type = oxr_mdlc_zone_pc_machine_ser_trade value > 0 } }
+has_oxr_mdlc_zone_pc_machine_ser_anticrime = { num_zones = { type = oxr_mdlc_zone_pc_machine_ser_anticrime value > 0 } }
+has_oxr_mdlc_zone_pc_machine_ser_cryption = { num_zones = { type = oxr_mdlc_zone_pc_machine_ser_cryption value > 0 } }
+
 # STANDARD
-has_oxr_mdlc_zone_wm_research_unity = { num_zones = { type = oxr_mdlc_zone_wm_research_unity value > 0 } }
+has_oxr_mdlc_zone_pc_machine_auto_archive = { num_zones = { type = oxr_mdlc_zone_pc_machine_auto_archive value > 0 } }
 has_oxr_mdlc_zone_wm_food_biology = { num_zones = { type = oxr_mdlc_zone_wm_food_biology value > 0 } }
 has_oxr_mdlc_zone_wm_minerals_engineering = { num_zones = { type = oxr_mdlc_zone_wm_minerals_engineering value > 0 } }
 has_oxr_mdlc_zone_wm_energy_physics = { num_zones = { type = oxr_mdlc_zone_wm_energy_physics value > 0 } }
@@ -552,9 +597,9 @@ has_oxr_mdlc_zone_wm_primary_urban_energy = { num_zones = { type = oxr_mdlc_zone
 has_oxr_mdlc_zone_wm_primary_urban_minerals = { num_zones = { type = oxr_mdlc_zone_wm_primary_urban_minerals value > 0 } }
 has_oxr_mdlc_zone_wm_primary_urban_food = { num_zones = { type = oxr_mdlc_zone_wm_primary_urban_food value > 0 } }
 
-has_rikk_mdlc_zone_crystal_conductor = { num_zones = { type = rikk_mdlc_zone_crystal_conductor value > 0 } }
-has_rikk_mdlc_zone_mote_carving = { num_zones = { type = rikk_mdlc_zone_mote_carving value > 0 } }
-has_rikk_mdlc_zone_gas_fertilizing = { num_zones = { type = rikk_mdlc_zone_gas_fertilizing value > 0 } }
+has_rikk_mdlc_zone_gas_generator = { num_zones = { type = rikk_mdlc_zone_gas_generator value > 0 } }
+has_rikk_mdlc_zone_crystalline_scanning = { num_zones = { type = rikk_mdlc_zone_crystalline_scanning value > 0 } }
+has_rikk_mdlc_zone_mote_fertilizing = { num_zones = { type = rikk_mdlc_zone_mote_fertilizing value > 0 } }
 
 # ASCENSION PERKS
 has_xvcv_mdlc_ap_self_assembling_colony_ship = { has_ascension_perk = xvcv_mdlc_ap_self_assembling_colony_ship }
@@ -588,12 +633,7 @@ has_xvcv_mdlc_tech_automated_goods_manufacturing_1 = {
 has_xvcv_mdlc_tech_automated_goods_manufacturing_2 = {
 	has_technology = xvcv_mdlc_tech_automated_goods_manufacturing_2
 }
-has_xvcv_mdlc_tech_mutual_cooperation = {
-	has_technology = xvcv_mdlc_tech_mutual_cooperation
-}
-has_xvcv_mdlc_tech_negotiation_algorithms = {
-	has_technology = xvcv_mdlc_tech_negotiation_algorithms
-}
+
 has_xvcv_mdlc_tech_orbital_cracker_upgrade_1 = {
 	has_technology = xvcv_mdlc_tech_orbital_cracker_upgrade_1
 }

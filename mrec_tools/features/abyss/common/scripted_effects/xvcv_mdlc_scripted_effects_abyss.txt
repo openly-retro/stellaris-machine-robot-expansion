@@ -1,0 +1,112 @@
+xvcv_mdlc_abyss_destroy_building_abyss_gateway_and_kill_pop_effect = {
+	optimize_memory
+	random_owned_planet = {
+		limit = {
+			has_building = xvcv_mdlc_building_abyss_gateway
+			count_owned_pop_amount = { count > 300 }
+		}
+		save_event_target_as = xvcv_mdlc_abyss_kill_pop_effect_planet
+	}
+	if = { #if the player destroy the building to avoid penalty #hey, don't do that :(
+		limit = { NOT = { exists = event_target:xvcv_mdlc_abyss_kill_pop_effect_planet } }
+		random_owned_planet = {
+			limit = { count_owned_pop_amount = { count > 300 } }
+			save_event_target_as = xvcv_mdlc_abyss_kill_pop_effect_planet
+		}
+	}
+	event_target:xvcv_mdlc_abyss_kill_pop_effect_planet = {
+		while = {
+			count = 3
+			random_owned_pop_group = {
+				oxr_kill_pop_from_group = yes
+			}
+		}
+		add_deposit = xvcv_mdlc_d_devastated_area
+	}
+}
+
+xvcv_mdlc_abyss_exit_effect = {
+	optimize_memory
+	random_list = {
+		30 = {}
+		40 = {
+			modifier = {
+				factor = 0
+				OR = {
+					has_special_project = XVCV_MDLC_ABYSS_DEEP_SPACE_PROJECT
+					has_country_flag = xvcv_mdlc_abyss_deep_space_access_possible
+				}
+			}
+			random_owned_planet = {
+				limit = { has_building = xvcv_mdlc_building_abyss_gateway }
+				enable_special_project = { name = XVCV_MDLC_ABYSS_DEEP_SPACE_PROJECT }
+			}
+		}
+		30 = {
+			modifier = { factor = 0 has_country_flag = xvcv_mdlc_trait_abyss_psi_emulator_possible }
+			country_event = { id = xvcv_mdlc_abyss.4 }
+		}
+	}
+	#clear all country flags before reuse
+	switch = {
+		trigger = has_country_flag
+		xvcv_mdlc_abyss_chose_shallow = { remove_country_flag = xvcv_mdlc_abyss_chose_shallow }
+		xvcv_mdlc_abyss_chose_deep = { remove_country_flag = xvcv_mdlc_abyss_chose_deep }
+	}
+	remove_country_flag = xvcv_mdlc_abyss_diplo_window_opened
+}
+xvcv_mdlc_abyss_random_modifier_shallow_effect = {
+	optimize_memory
+	random_list = {
+		50 = { #Good Effects (SUCCESS)
+			random_list = {
+				1 = { country_event = { id = xvcv_mdlc_abyss.210 } } #Happiness / Planet Stability (SUCCESS)
+				1 = { country_event = { id = xvcv_mdlc_abyss.211 } } #Ship Upkeep (SUCCESS)
+				1 = { country_event = { id = xvcv_mdlc_abyss.212 } } #Research Speed (SUCCESS)
+				1 = { country_event = { id = xvcv_mdlc_abyss.213 } } #Shield Boost (SUCCESS)
+				1 = { country_event = { id = xvcv_mdlc_abyss.214 } } #Weapon Boost (SUCCESS)
+				1 = { country_event = { id = xvcv_mdlc_abyss.215 } } #Firing Rate (SUCCESS)
+				1 = { country_event = { id = xvcv_mdlc_abyss.216 } } #Ethic Boost (SUCCESS)
+			}
+		}
+		50 = { country_event = { id = xvcv_mdlc_abyss.224 } } #No Effect (FAILURE)
+	}
+}
+xvcv_mdlc_abyss_random_modifier_deep_effect = {
+	optimize_memory
+	random_list = {
+		50 = { #Good Effects (SUCCESS)
+			random_list = {
+				1 = { country_event = { id = xvcv_mdlc_abyss.210 } } #Happiness / Planet Stability (SUCCESS)
+				1 = { country_event = { id = xvcv_mdlc_abyss.211 } } #Ship Upkeep (SUCCESS)
+				1 = { country_event = { id = xvcv_mdlc_abyss.212 } } #Research Speed (SUCCESS)
+				1 = { country_event = { id = xvcv_mdlc_abyss.213 } } #Shield Boost (SUCCESS)
+				1 = { country_event = { id = xvcv_mdlc_abyss.214 } } #Weapon Boost (SUCCESS)
+				1 = { country_event = { id = xvcv_mdlc_abyss.215 } } #Firing Rate (SUCCESS)
+				1 = { country_event = { id = xvcv_mdlc_abyss.216 } } #Ethic Boost (SUCCESS)
+				1 = { country_event = { id = xvcv_mdlc_abyss.217 } } #Influence Boost (SUCCESS)
+				1 = { country_event = { id = xvcv_mdlc_abyss.218 } } #Unity Boost (SUCCESS)
+				1 = { country_event = { id = xvcv_mdlc_abyss.219 } } #Evasion (SUCCESS)
+				1 = { country_event = { id = xvcv_mdlc_abyss.220 } } #Ship Repair (SUCCESS)
+				1 = { country_event = { id = xvcv_mdlc_abyss.221 } } #Ship Speed (SUCCESS)
+				1 = { country_event = { id = xvcv_mdlc_abyss.222 } } #Army Morale (SUCCESS)
+				1 = { country_event = { id = xvcv_mdlc_abyss.223 } } #Sensor Range (SUCCESS)
+			}
+		}
+		20 = { country_event = { id = xvcv_mdlc_abyss.224 } } #No Effect (FAILURE)
+		30 = { #Bad Effects (CRITICAL FAILURE)
+			random_list = {
+				1 = { country_event = { id = xvcv_mdlc_abyss.225 } } #Negative Happiness / Planet Stability (CRITICAL FAILURE)
+				1 = { country_event = { id = xvcv_mdlc_abyss.226 } } #Negative Ethics Attraction (CRITICAL FAILURE)
+				1 = { country_event = { id = xvcv_mdlc_abyss.227 } } #Negative Ship Armor (CRITICAL FAILURE)
+				1 = { country_event = { id = xvcv_mdlc_abyss.228 } } #Negative Population Growth (CRITICAL FAILURE)
+				1 = { country_event = { id = xvcv_mdlc_abyss.229 } } #Negative Research (CRITICAL FAILURE)
+				1 = { country_event = { id = xvcv_mdlc_abyss.230 } } #Negative Influence (CRITICAL FAILURE)
+				1 = { country_event = { id = xvcv_mdlc_abyss.231 } } #Negative Unity (CRITICAL FAILURE)
+				1 = { country_event = { id = xvcv_mdlc_abyss.232 } } #Negative Ship Speed (CRITICAL FAILURE)
+				1 = { country_event = { id = xvcv_mdlc_abyss.233 } } #Negative Army Morale (CRITICAL FAILURE)
+				1 = { country_event = { id = xvcv_mdlc_abyss.234 } } #Negative Sensor Range (CRITICAL FAILURE)
+			}
+		}
+	}
+}

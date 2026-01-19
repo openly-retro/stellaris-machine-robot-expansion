@@ -5,16 +5,25 @@ xvcv_mdlc_pc_virtual_district_primary = {
 
 	base_buildtime = @xvcv_mdlc_district_time_4
 	default_starting_district = yes
-
+	
 	show_on_uncolonized = {
 		exists = from
 		from = { has_ascension_perk = xvcv_mdlc_ap_virtual_worlds }
+		is_xvcv_mdlc_pc_virtual = yes
 		uses_district_set = xvcv_mdlc_pc_virtual_district_set
 	}
 	potential = {
 		exists = owner
 		owner = { has_ascension_perk = xvcv_mdlc_ap_virtual_worlds }
+		is_xvcv_mdlc_pc_virtual = yes
 		uses_district_set = xvcv_mdlc_pc_virtual_district_set
+	}
+	destroy_trigger = {
+		NAND = {
+			owner = { has_ascension_perk = xvcv_mdlc_ap_virtual_worlds }
+			is_xvcv_mdlc_pc_virtual = yes
+			uses_district_set = xvcv_mdlc_pc_virtual_district_set
+		}
 	}
 
 	zone_slots = {
@@ -23,20 +32,9 @@ xvcv_mdlc_pc_virtual_district_primary = {
 		slot_city_02
 	}
 
-	######
 	allow = {
 		has_building = xvcv_mdlc_building_matter_data_converter
 	}
-
-	planet_modifier = {
-		planet_housing_add = 1000
-		job_xvcv_mdlc_virtual_merchant_add = 700
-	}
-
-	triggered_desc = {
-		text = job_xvcv_mdlc_virtual_merchant_effect_desc
-	}
-
 	resources = {
 		category = planet_districts
 		cost = {
@@ -48,6 +46,57 @@ xvcv_mdlc_pc_virtual_district_primary = {
 			rare_crystals = 1
 		}
 	}
+
+	planet_modifier = {
+		planet_housing_add = @oxr_mdlc_pc_virtual_district_planet_housing_amount
+		job_xvcv_mdlc_virtual_merchant_add = @oxr_mdlc_pc_virtual_resource_jobs_amount
+	}
+	## Housing
+		triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_valid_civic = civic_agrarian_idyll }
+		}
+		modifier = { planet_housing_add = -100 }
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_active_tradition = tr_prosperity_public_works }
+		}
+		modifier = { planet_housing_add = 100 }
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_active_tradition = tr_prosperity_optimized_nexus }
+		}
+		modifier = { planet_housing_add = 100 }
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_technology = tech_housing_1 }
+		}
+		modifier = { planet_housing_add = 100 }
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_technology = tech_housing_2 }
+		}
+		modifier = { planet_housing_add = 100 }
+	}
+	# Desc
+
+	triggered_desc = {
+		text = job_xvcv_mdlc_virtual_merchant_effect_desc
+	}
+
 	######
 
 	conversion_ratio = 1
@@ -63,17 +112,17 @@ xvcv_mdlc_pc_virtual_district_primary = {
 
 xvcv_mdlc_pc_virtual_district_research = {
 	base_buildtime = @xvcv_mdlc_district_time_4
-	is_capped_by_modifier = no
+	is_uncapped = {}
 
 	show_on_uncolonized = {
 		exists = from
 		from = { has_ascension_perk = xvcv_mdlc_ap_virtual_worlds }
-		uses_district_set = xvcv_mdlc_pc_virtual_district_set
+		is_xvcv_mdlc_pc_virtual = yes
 	}
 	potential = {
 		exists = owner
 		owner = { has_ascension_perk = xvcv_mdlc_ap_virtual_worlds }
-		uses_district_set = xvcv_mdlc_pc_virtual_district_set
+		is_xvcv_mdlc_pc_virtual = yes
 	}
 	allow = {
 		has_building = xvcv_mdlc_building_matter_data_converter
@@ -91,7 +140,7 @@ xvcv_mdlc_pc_virtual_district_research = {
 			exists = owner
 			owner = { is_gestalt = no }
 		}
-		modifier = { job_xvcv_mdlc_virtual_researcher_add = 700 }
+		modifier = { job_xvcv_mdlc_virtual_researcher_add = @oxr_mdlc_pc_virtual_resource_jobs_amount }
 	}
 
 	triggered_planet_modifier = {
@@ -100,7 +149,7 @@ xvcv_mdlc_pc_virtual_district_research = {
 			owner = { is_gestalt = yes }
 		}
 		planet_housing_add = 1000
-		modifier = { job_xvcv_mdlc_virtual_calculator_add = 700 }
+		modifier = { job_xvcv_mdlc_virtual_calculator_add = @oxr_mdlc_pc_virtual_resource_jobs_amount }
 	}
 
 	triggered_desc = {
@@ -146,17 +195,17 @@ xvcv_mdlc_pc_virtual_district_research = {
 }
 xvcv_mdlc_pc_virtual_district_admin = {
 	base_buildtime = @xvcv_mdlc_district_time_4
-	is_capped_by_modifier = no
+	is_uncapped = {}
 
 	show_on_uncolonized = {
 		exists = from
 		from = { has_ascension_perk = xvcv_mdlc_ap_virtual_worlds }
-		uses_district_set = xvcv_mdlc_pc_virtual_district_set
+		is_xvcv_mdlc_pc_virtual = yes
 	}
 	potential = {
 		exists = owner
 		owner = { has_ascension_perk = xvcv_mdlc_ap_virtual_worlds }
-		uses_district_set = xvcv_mdlc_pc_virtual_district_set
+		is_xvcv_mdlc_pc_virtual = yes
 	}
 	allow = {
 		has_building = xvcv_mdlc_building_matter_data_converter
@@ -173,8 +222,8 @@ xvcv_mdlc_pc_virtual_district_admin = {
 			exists = owner
 			owner = { is_gestalt = no }
 		}
-		planet_housing_add = 1000
-		modifier = { job_xvcv_mdlc_virtual_bureaucrat_add = 700 }
+		planet_housing_add = @oxr_mdlc_pc_virtual_district_planet_housing_amount
+		modifier = { job_xvcv_mdlc_virtual_bureaucrat_add = @oxr_mdlc_pc_virtual_resource_jobs_amount }
 	}
 
 	triggered_planet_modifier = {
@@ -182,7 +231,7 @@ xvcv_mdlc_pc_virtual_district_admin = {
 			exists = owner
 			owner = { is_gestalt = yes }
 		}
-		modifier = { job_xvcv_mdlc_virtual_coordinator_add = 6 }
+		modifier = { job_xvcv_mdlc_virtual_coordinator_add = 600 }
 	}
 	
 	triggered_desc = {
@@ -216,21 +265,21 @@ xvcv_mdlc_pc_virtual_district_admin = {
 
 xvcv_mdlc_pc_virtual_district_amenity = {
 	base_buildtime = @xvcv_mdlc_district_time_4
-	is_capped_by_modifier = no
+	is_uncapped = {}
 
 	show_on_uncolonized = {
 		exists = from
 		from = {
 			has_ascension_perk = xvcv_mdlc_ap_virtual_worlds
 		}
-		uses_district_set = xvcv_mdlc_pc_virtual_district_set
+		is_xvcv_mdlc_pc_virtual = yes
 	}
 	potential = {
 		exists = owner
 		owner = {
 			has_ascension_perk = xvcv_mdlc_ap_virtual_worlds
 		}
-		uses_district_set = xvcv_mdlc_pc_virtual_district_set
+		is_xvcv_mdlc_pc_virtual = yes
 	}
 	allow = {
 		has_building = xvcv_mdlc_building_matter_data_converter
@@ -243,8 +292,8 @@ xvcv_mdlc_pc_virtual_district_amenity = {
 	inline_script = planet/districts/convert_to/oxr_wm_district_4
 
 	planet_modifier = {
-		planet_housing_add = 1000
-		job_xvcv_mdlc_virtual_entertainer_add = 700
+		planet_housing_add = @oxr_mdlc_pc_virtual_district_planet_housing_amount
+		job_xvcv_mdlc_virtual_entertainer_add = @oxr_mdlc_pc_virtual_resource_jobs_amount
 	}
 
 	triggered_desc = {

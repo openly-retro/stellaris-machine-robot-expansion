@@ -1,0 +1,3720 @@
+namespace = xvcv_mdlc_abyss
+
+#'XVCV_MDLC_AP_ABYSS_PROJECT' special project effect event
+country_event = {
+	id = xvcv_mdlc_abyss.1
+	title = "xvcv_mdlc_abyss.1.name"
+	desc = "xvcv_mdlc_abyss.1.desc"
+	picture = GFX_evt_xvcv_mdlc_the_abyss
+	show_sound = event_psionic
+	is_triggered_only = yes
+
+	option = {
+		name = xvcv_mdlc_abyss.1.a
+		hidden_effect = {
+			random_country = {
+				limit = { is_country_type = xvcv_mdlc_energy_dimension }
+				root = { establish_communications_no_message = prev }
+			}
+			set_country_flag = xvcv_mdlc_abyss_intro
+			country_event = { id = xvcv_mdlc_abyss.10 }
+		}
+	}
+}
+#abyss available notification effect event
+country_event = {
+	id = xvcv_mdlc_abyss.2
+	title = "xvcv_mdlc_abyss.2.name"
+	desc = "xvcv_mdlc_abyss.2.desc"
+	picture = GFX_evt_wormhole
+	show_sound = event_yellow_alert
+	is_triggered_only = yes
+
+	trigger = {
+		has_country_flag = xvcv_mdlc_abyss_access_possible_message_on
+	}
+
+	immediate = {
+		random_owned_planet = {
+			limit = { has_building = xvcv_mdlc_building_abyss_gateway }
+			prev = {
+				create_message = {
+					type = XVCV_MDLC_ABYSS_AVAILABLE_MESSAGE_TYPE
+					localization = XVCV_MDLC_ABYSS_ACCESSIBLE_MESSAGE
+					days = 10
+					target = prev
+				}
+			}
+		}
+	}
+
+	option = {
+		name = xvcv_mdlc_abyss.2.a
+		allow = { NOT = { has_modifier = xvcv_mdlc_abyss_cooldown } }
+		hidden_effect = {
+			set_country_flag = xvcv_mdlc_abyss_access
+			country_event = { id = xvcv_mdlc_abyss.10 }
+		}
+	}
+	option = {
+		name = xvcv_mdlc_abyss.2.b
+	}
+}
+#'XVCV_MDLC_AP_ABYSS_PROJECT' special project effect event
+country_event = {
+	id = xvcv_mdlc_abyss.3
+	title = "xvcv_mdlc_abyss.3.name"
+	desc = "xvcv_mdlc_abyss.3.desc"
+	picture = GFX_evt_unspeakable_horror
+	show_sound = event_whispering
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = xvcv_mdlc_abyss_deep_space_access_possible
+	}
+
+	option = {
+		name = xvcv_mdlc_abyss.3.a
+		custom_tooltip = xvcv_mdlc_abyss.3.a.tooltip
+	}
+}
+#'xvcv_mdlc_trait_abyss_psi_emulator' trait unlock effect event
+country_event = {
+	id = xvcv_mdlc_abyss.4
+	title = "xvcv_mdlc_abyss.4.name"
+	desc = "xvcv_mdlc_abyss.4.desc"
+	picture = GFX_evt_machine_sapience
+	show_sound = event_psionic
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = xvcv_mdlc_trait_abyss_psi_emulator_possible
+	}
+
+	option = {
+		name = xvcv_mdlc_abyss.4.a
+		custom_tooltip = xvcv_mdlc_abyss.4.a.tooltip
+	}
+}
+#add a new leader trait when their species have 'xvcv_mdlc_trait_abyss_psi_emulator' trait
+country_event = {
+	id = xvcv_mdlc_abyss.5
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		OR = {
+			any_owned_leader = {
+				OR = {
+					xvcv_mdlc_leader_tied_traits_add_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_abyss_psi_emulator LEADER_TRAIT = xvcv_mdlc_leader_trait_abyss_psi_emulator }
+					xvcv_mdlc_leader_tied_traits_remove_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_abyss_psi_emulator LEADER_TRAIT = xvcv_mdlc_leader_trait_abyss_psi_emulator }
+				}
+			}
+			any_pool_leader = {
+				OR = {
+					xvcv_mdlc_leader_tied_traits_add_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_abyss_psi_emulator LEADER_TRAIT = xvcv_mdlc_leader_trait_abyss_psi_emulator }
+					xvcv_mdlc_leader_tied_traits_remove_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_abyss_psi_emulator LEADER_TRAIT = xvcv_mdlc_leader_trait_abyss_psi_emulator }
+				}
+			}
+		}
+	}
+
+	immediate = {
+		#add trait
+		every_owned_leader = {
+			limit = { xvcv_mdlc_leader_tied_traits_add_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_abyss_psi_emulator LEADER_TRAIT = xvcv_mdlc_leader_trait_abyss_psi_emulator } }
+			add_trait = { show_message = no trait  = xvcv_mdlc_leader_trait_abyss_psi_emulator }
+		}
+		every_pool_leader = {
+			limit = { xvcv_mdlc_leader_tied_traits_add_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_abyss_psi_emulator LEADER_TRAIT = xvcv_mdlc_leader_trait_abyss_psi_emulator } }
+			add_trait = { show_message = no trait  = xvcv_mdlc_leader_trait_abyss_psi_emulator }
+		}
+		#remove trait
+		every_owned_leader = {
+			limit = { xvcv_mdlc_leader_tied_traits_remove_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_abyss_psi_emulator LEADER_TRAIT = xvcv_mdlc_leader_trait_abyss_psi_emulator } }
+			remove_trait = xvcv_mdlc_leader_trait_abyss_psi_emulator
+		}
+		every_pool_leader = {
+			limit = { xvcv_mdlc_leader_tied_traits_remove_trigger = { SPECIES_TRAIT = xvcv_mdlc_trait_abyss_psi_emulator LEADER_TRAIT = xvcv_mdlc_leader_trait_abyss_psi_emulator } }
+			remove_trait = xvcv_mdlc_leader_trait_abyss_psi_emulator
+		}
+	}
+}
+#abyss main lobby
+country_event = {
+	id = xvcv_mdlc_abyss.10
+	title = "xvcv_mdlc_title_abyss"
+	desc = { text = "xvcv_mdlc_abyss.10.desc.intro" trigger = { has_country_flag = xvcv_mdlc_abyss_intro } }
+	desc = { text = "xvcv_mdlc_abyss.10.desc.1" trigger = { NOT = { has_country_flag = xvcv_mdlc_abyss_intro } } }
+	desc = { text = "xvcv_mdlc_abyss.10.desc.2" trigger = { NOT = { has_country_flag = xvcv_mdlc_abyss_intro } } }
+	desc = { text = "xvcv_mdlc_abyss.10.desc.3" trigger = { NOT = { has_country_flag = xvcv_mdlc_abyss_intro } } }
+	desc = { text = "xvcv_mdlc_abyss.10.desc.4" trigger = { NOT = { has_country_flag = xvcv_mdlc_abyss_intro } } }
+	desc = { text = "xvcv_mdlc_abyss.10.desc.5" trigger = { NOT = { has_country_flag = xvcv_mdlc_abyss_intro } } }
+	desc = { text = "xvcv_mdlc_abyss.10.desc.6" trigger = { NOT = { has_country_flag = xvcv_mdlc_abyss_intro } } }
+	desc = { text = "xvcv_mdlc_abyss.10.desc.7" trigger = { NOT = { has_country_flag = xvcv_mdlc_abyss_intro } } }
+	desc = { text = "xvcv_mdlc_abyss.10.desc.8" trigger = { NOT = { has_country_flag = xvcv_mdlc_abyss_intro } } }
+	desc = { text = "xvcv_mdlc_abyss.10.desc.9" trigger = { NOT = { has_country_flag = xvcv_mdlc_abyss_intro } } }
+	desc = { text = "xvcv_mdlc_abyss.10.desc.10" trigger = { NOT = { has_country_flag = xvcv_mdlc_abyss_intro } } }
+	desc = { text = "xvcv_mdlc_abyss.10.desc.11" trigger = { NOT = { has_country_flag = xvcv_mdlc_abyss_intro } } }
+	desc = { text = "xvcv_mdlc_abyss.10.desc.12" trigger = { NOT = { has_country_flag = xvcv_mdlc_abyss_intro } } }
+	desc = { text = "xvcv_mdlc_abyss.10.desc.13" trigger = { NOT = { has_country_flag = xvcv_mdlc_abyss_intro } } }
+	desc = { text = "xvcv_mdlc_abyss.10.desc.14" trigger = { NOT = { has_country_flag = xvcv_mdlc_abyss_intro } } }
+	desc = { text = "xvcv_mdlc_abyss.10.desc.15" trigger = { NOT = { has_country_flag = xvcv_mdlc_abyss_intro } } }
+	desc = { text = "xvcv_mdlc_abyss.10.desc.16" trigger = { NOT = { has_country_flag = xvcv_mdlc_abyss_intro } } }
+	desc = { text = "xvcv_mdlc_abyss.10.desc.17" trigger = { NOT = { has_country_flag = xvcv_mdlc_abyss_intro } } }
+	desc = { text = "xvcv_mdlc_abyss.10.desc.18" trigger = { NOT = { has_country_flag = xvcv_mdlc_abyss_intro } } }
+	desc = { text = "xvcv_mdlc_abyss.10.desc.19" trigger = { NOT = { has_country_flag = xvcv_mdlc_abyss_intro } } }
+	desc = { text = "xvcv_mdlc_abyss.10.desc.20" trigger = { NOT = { has_country_flag = xvcv_mdlc_abyss_intro } } }
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	trigger = {
+		OR = {
+			from = { is_country_type = xvcv_mdlc_energy_dimension }
+			has_country_flag = xvcv_mdlc_abyss_intro
+			has_country_flag = xvcv_mdlc_abyss_access
+		}
+		NOR = {
+			has_country_flag = xvcv_mdlc_abyss_diplo_window_opened
+			has_modifier = xvcv_mdlc_abyss_cooldown
+		}
+	}
+
+	immediate = {
+		set_country_flag = xvcv_mdlc_abyss_diplo_window_opened
+	}
+
+	after = {
+		hidden_effect = {
+			switch = {
+				trigger = has_country_flag
+				xvcv_mdlc_abyss_intro = { remove_country_flag = xvcv_mdlc_abyss_intro }
+				xvcv_mdlc_abyss_access = { remove_country_flag = xvcv_mdlc_abyss_access }
+			}
+		}
+	}
+
+	option = {
+		name = xvcv_mdlc_abyss.10.a
+		trigger = { NOT = { has_country_flag = xvcv_mdlc_abyss_deep_space_access_possible } }
+		allow = {
+			custom_tooltip_fail = {
+				text = xvcv_mdlc_abyss.10.tooltip_fail
+				any_owned_planet = { has_building = xvcv_mdlc_building_abyss_gateway }
+			}
+			custom_tooltip_fail = {
+				text = xvcv_mdlc_abyss.10.a.tooltip_fail
+				resource_stockpile_compare = { resource = energy value >= 1000 }
+			}
+		}
+		add_resource = { energy = -1000 }
+		hidden_effect = {
+			set_country_flag = xvcv_mdlc_abyss_chose_shallow
+			random_list = {
+				#empire modifiers giving normal events
+				20 = {
+					if = {
+						limit = { NOT = { has_country_flag = xvcv_mdlc_abyss_vision_1 } }
+						country_event = { id = xvcv_mdlc_abyss.20 }
+						else = { country_event = { id = xvcv_mdlc_abyss.200 } }
+					}
+				}
+				20 = {
+					if = {
+						limit = { NOT = { has_country_flag = xvcv_mdlc_abyss_vision_2 } }
+						country_event = { id = xvcv_mdlc_abyss.30 }
+						else = { country_event = { id = xvcv_mdlc_abyss.200 } }
+					}
+				}
+				20 = {
+					if = {
+						limit = { NOT = { has_country_flag = xvcv_mdlc_abyss_vision_3 } }
+						country_event = { id = xvcv_mdlc_abyss.40 }
+						else = { country_event = { id = xvcv_mdlc_abyss.200 } }
+					}
+				}
+				20 = {
+					if = {
+						limit = { NOT = { has_country_flag = xvcv_mdlc_abyss_vision_4 } }
+						country_event = { id = xvcv_mdlc_abyss.50 }
+						else = { country_event = { id = xvcv_mdlc_abyss.200 } }
+					}
+				}
+				20 = {
+					if = {
+						limit = { NOT = { has_country_flag = xvcv_mdlc_abyss_vision_5 } }
+						country_event = { id = xvcv_mdlc_abyss.60 }
+						else = { country_event = { id = xvcv_mdlc_abyss.200 } }
+					}
+				}
+			}
+			add_modifier = { modifier = xvcv_mdlc_abyss_cooldown days = 1800 }
+			country_event = { id = xvcv_mdlc_abyss.2 days = 1800 }
+		}
+	}
+	option = {
+		name = xvcv_mdlc_abyss.10.b
+		trigger = { has_country_flag = xvcv_mdlc_abyss_deep_space_access_possible }
+		allow = {
+			custom_tooltip_fail = {
+				text = xvcv_mdlc_abyss.10.tooltip_fail
+				any_owned_planet = { has_building = xvcv_mdlc_building_abyss_gateway }
+			}
+			custom_tooltip_fail = {
+				text = xvcv_mdlc_abyss.10.b.tooltip_fail
+				resource_stockpile_compare = { resource = energy value >= 2000 }
+			}
+		}
+		add_resource = { energy = -2000 }
+		hidden_effect = {
+			set_country_flag = xvcv_mdlc_abyss_chose_deep
+			random_list = {
+				#empire modifiers giving normal events
+				10 = {
+					modifier = { factor = 0 has_country_flag = xvcv_mdlc_abyss_vision_1 }
+					country_event = { id = xvcv_mdlc_abyss.20 }
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							any_owned_ship = { is_ship_size = xvcv_mdlc_abyss_ship }
+							any_owned_army = { army_type = xvcv_mdlc_abyss_army }
+						}
+					}
+					country_event = { id = xvcv_mdlc_abyss.30 }
+				}
+				10 = {
+					modifier = { factor = 0 has_country_flag = xvcv_mdlc_abyss_vision_3 }
+					country_event = { id = xvcv_mdlc_abyss.40 }
+				}
+				10 = {
+					modifier = { factor = 0 has_country_flag = xvcv_mdlc_abyss_vision_4 }
+					country_event = { id = xvcv_mdlc_abyss.50 }
+				}
+				10 = {
+					modifier = { factor = 0 has_country_flag = xvcv_mdlc_abyss_vision_5 }
+					country_event = { id = xvcv_mdlc_abyss.60 }
+				}
+				#fallen empire's tech stealing event
+				10 = {
+					if = {
+						limit = {
+							any_country = {
+								is_country_type = fallen_empire
+								has_communications = root
+								NOR = {
+									has_ethic = ethic_gestalt_consciousness
+									is_at_war_with = root
+								}
+							}
+							NOT = { has_country_flag = xvcv_mdlc_abyss_stole_fallen_empire_before }
+						}
+						country_event = { id = xvcv_mdlc_abyss.70 }
+						else = { country_event = { id = xvcv_mdlc_abyss.200 } }
+					}
+				}
+				#tech giving events
+				10 = {
+					if = {
+						limit = {
+							NOR = {
+								has_technology = xvcv_mdlc_tech_psionic_shield
+								has_technology = xvcv_mdlc_tech_psionic_barrier
+							}
+						}
+						country_event = { id = xvcv_mdlc_abyss.80 }
+						else = { country_event = { id = xvcv_mdlc_abyss.200 } }
+					}
+				}
+				10 = {
+					if = {
+						limit = { NOT = { has_technology = xvcv_mdlc_tech_precognition_interface } }
+						country_event = { id = xvcv_mdlc_abyss.90 }
+						else = { country_event = { id = xvcv_mdlc_abyss.200 } }
+					}
+				}
+				10 = {
+					if = {
+						limit = { NOT = { has_technology = xvcv_mdlc_tech_psi_jump_drive_1 } }
+						country_event = { id = xvcv_mdlc_abyss.100 }
+						else = { country_event = { id = xvcv_mdlc_abyss.200 } }
+					}
+				}
+				#abyss patron events
+				10 = {
+					if = {
+						limit = {
+							NOR = {
+								has_country_flag = xvcv_mdlc_abyss_patron_whisperers_chosen
+								has_country_flag = xvcv_mdlc_abyss_patron_composer_chosen
+								has_country_flag = xvcv_mdlc_abyss_patron_instrument_chosen
+								has_country_flag = xvcv_mdlc_abyss_patron_eater_chosen
+							}
+						}
+						country_event = { id = xvcv_mdlc_abyss.110 }
+						else = { country_event = { id = xvcv_mdlc_abyss.200 } }
+					}
+				}
+			}
+			add_modifier = { modifier = xvcv_mdlc_abyss_cooldown days = 3600 }
+			country_event = { id = xvcv_mdlc_abyss.2 days = 3600 }
+		}
+	}
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		custom_tooltip = xvcv_mdlc_leave_abyss.tooltip
+		hidden_effect = { remove_country_flag = xvcv_mdlc_abyss_diplo_window_opened }
+		default_hide_option = yes #this makes pressing the ESC button choose this event option by default
+	}
+}
+#when the lobby is unavailable
+country_event = {
+	id = xvcv_mdlc_abyss.11
+	title = "xvcv_mdlc_title_abyss"
+	desc = "xvcv_mdlc_abyss.11.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	trigger = {
+		from = { is_country_type = xvcv_mdlc_energy_dimension }
+		NOT = { has_country_flag = xvcv_mdlc_abyss_diplo_window_opened }
+		has_modifier = xvcv_mdlc_abyss_cooldown
+	}
+
+	immediate = {
+		set_country_flag = xvcv_mdlc_abyss_diplo_window_opened
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		custom_tooltip = xvcv_mdlc_leave_abyss.tooltip
+		hidden_effect = { remove_country_flag = xvcv_mdlc_abyss_diplo_window_opened }
+	}
+}
+#vision 1
+country_event = {
+	id = xvcv_mdlc_abyss.20
+	title = "xvcv_mdlc_title_abyss"
+	desc = "xvcv_mdlc_abyss.20.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	immediate = {
+		set_country_flag = xvcv_mdlc_abyss_vision_1
+	}
+
+	option = {
+		name = xvcv_mdlc_abyss.20.a
+		custom_tooltip = xvcv_mdlc_abyss_reward_avatar_tooltip
+		hidden_effect = {
+			random_list = {
+				35 = { country_event = { id = xvcv_mdlc_abyss.21 } } #Summon Avatar (SUCCESS SHIP)
+				15 = { country_event = { id = xvcv_mdlc_abyss.22 } } #Summon Avatar (SUCCESS ARMY)
+				30 = { country_event = { id = xvcv_mdlc_abyss.23 } } #Summon Avatar (FAILURE)
+				20 = { country_event = { id = xvcv_mdlc_abyss.24 } } #Summon Avatar (CRITICAL FAILURE)
+			}
+		}
+	}
+}
+#Summon Avatar (SUCCESS SHIP)
+country_event = {
+	id = xvcv_mdlc_abyss.21
+	title = "xvcv_mdlc_title_abyss"
+	desc = "xvcv_mdlc_abyss.21.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+	location = event_target:xvcv_mdlc_abyss_avatar_ship_spawn_planet
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	immediate = {
+		random_owned_planet = {
+			limit = { has_building = xvcv_mdlc_building_abyss_gateway }
+			save_event_target_as = xvcv_mdlc_abyss_avatar_ship_spawn_planet
+		}
+		if = {
+			limit = { NOT = { exists = event_target:xvcv_mdlc_abyss_avatar_ship_spawn_planet } }
+			capital_scope = { save_event_target_as = xvcv_mdlc_abyss_avatar_ship_spawn_planet }
+		}
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		custom_tooltip = xvcv_mdlc_abyss.21.tooltip
+		create_fleet = {
+			name = "NAME_XVCV_MDLC_ABYSS_SHIP_FLEET"
+			settings = {
+				can_upgrade = no 
+				can_change_composition = no 
+				can_change_leader = no 
+				uses_naval_capacity = no
+				spawn_debris = no
+			}			
+			effect = {
+				set_owner = root
+				create_ship = {
+					name = "NAME_XVCV_MDLC_ABYSS_SHIP"
+					design = "NAME_XVCV_MDLC_ABYSS_SHIP_DESIGN"
+					prefix = no
+					upgradable = no
+				}
+				set_location = event_target:xvcv_mdlc_abyss_avatar_ship_spawn_planet
+			}
+		}
+	}
+}
+#Summon Avatar (SUCCESS ARMY)
+country_event = {
+	id = xvcv_mdlc_abyss.22
+	title = "xvcv_mdlc_title_abyss"
+	desc = "xvcv_mdlc_abyss.22.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+	location = event_target:xvcv_mdlc_abyss_avatar_army_spawn_planet
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	immediate = {
+		random_owned_planet = {
+			limit = { has_building = xvcv_mdlc_building_abyss_gateway }
+			save_event_target_as = xvcv_mdlc_abyss_avatar_army_spawn_planet
+		}
+		if = {
+			limit = { NOT = { exists = event_target:xvcv_mdlc_abyss_avatar_army_spawn_planet } }
+			capital_scope = { save_event_target_as = xvcv_mdlc_abyss_avatar_army_spawn_planet }
+		}
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		custom_tooltip = xvcv_mdlc_abyss.22.tooltip
+		event_target:xvcv_mdlc_abyss_avatar_army_spawn_planet = {
+			create_army = {
+				name = "NAME_XVCV_MDLC_ABYSS_ARMY"
+				owner = root
+				species = root
+				type = "xvcv_mdlc_abyss_army"
+			}
+		}
+	}
+}
+#Summon Avatar (FAILURE)
+country_event = {
+	id = xvcv_mdlc_abyss.23
+	title = "xvcv_mdlc_title_abyss"
+	desc = "xvcv_mdlc_abyss.23.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		custom_tooltip = xvcv_mdlc_leave_abyss.tooltip
+	}
+}
+#Summon Avatar (CRITICAL FAILURE)
+country_event = {
+	id = xvcv_mdlc_abyss.24
+	title = "xvcv_mdlc_title_abyss"
+	desc = "xvcv_mdlc_abyss.24.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+	location = event_target:xvcv_mdlc_abyss_kill_pop_effect_planet
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	immediate = {
+		xvcv_mdlc_abyss_destroy_building_abyss_gateway_and_kill_pop_effect = yes
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		custom_tooltip = xvcv_mdlc_abyss.24.a.tooltip
+	}
+}
+#vision 2
+country_event = {
+	id = xvcv_mdlc_abyss.30
+	title = "xvcv_mdlc_title_abyss"
+	desc = "xvcv_mdlc_abyss.30.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	immediate = {
+		set_country_flag = xvcv_mdlc_abyss_vision_2
+	}
+
+	option = {
+		name = xvcv_mdlc_abyss.20.a
+		custom_tooltip = xvcv_mdlc_abyss_reward_avatar_tooltip
+		hidden_effect = {
+			random_list = {
+				15 = { country_event = { id = xvcv_mdlc_abyss.21 } } #Summon Avatar (SUCCESS SHIP)
+				35 = { country_event = { id = xvcv_mdlc_abyss.22 } } #Summon Avatar (SUCCESS ARMY)
+				30 = { country_event = { id = xvcv_mdlc_abyss.23 } } #Summon Avatar (FAILURE)
+				20 = { country_event = { id = xvcv_mdlc_abyss.24 } } #Summon Avatar (CRITICAL FAILURE)
+			}
+		}
+	}
+	option = {
+		name = xvcv_mdlc_abyss.30.b
+		custom_tooltip = xvcv_mdlc_abyss_reward_modifier_tooltip
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_shallow }
+		hidden_effect = { xvcv_mdlc_abyss_random_modifier_shallow_effect = yes }
+	}
+	option = {
+		name = xvcv_mdlc_abyss.30.b
+		custom_tooltip = xvcv_mdlc_abyss_reward_modifier_tooltip
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_deep }
+		hidden_effect = { xvcv_mdlc_abyss_random_modifier_deep_effect = yes }
+	}
+}
+#vision 3
+country_event = {
+	id = xvcv_mdlc_abyss.40
+	title = "xvcv_mdlc_title_abyss"
+	desc = "xvcv_mdlc_abyss.40.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	immediate = {
+		set_country_flag = xvcv_mdlc_abyss_vision_3
+	}
+
+	option = {
+		name = xvcv_mdlc_abyss.40.a
+		custom_tooltip = xvcv_mdlc_abyss_reward_modifier_tooltip
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_shallow }
+		hidden_effect = { xvcv_mdlc_abyss_random_modifier_shallow_effect = yes }
+	}
+	option = {
+		name = xvcv_mdlc_abyss.40.a
+		custom_tooltip = xvcv_mdlc_abyss_reward_modifier_tooltip
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_deep }
+		hidden_effect = { xvcv_mdlc_abyss_random_modifier_deep_effect = yes }
+	}
+}
+#vision 4
+country_event = {
+	id = xvcv_mdlc_abyss.50
+	title = "xvcv_mdlc_title_abyss"
+	desc = "xvcv_mdlc_abyss.50.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	immediate = {
+		set_country_flag = xvcv_mdlc_abyss_vision_4
+	}
+
+	option = {
+		name = xvcv_mdlc_abyss.50.a
+		custom_tooltip = xvcv_mdlc_abyss_reward_modifier_tooltip
+		hidden_effect = { xvcv_mdlc_abyss_random_modifier_shallow_effect = yes }
+	}
+	option = {
+		name = xvcv_mdlc_abyss.50.b
+		custom_tooltip = xvcv_mdlc_abyss_reward_modifier_tooltip
+		hidden_effect = { xvcv_mdlc_abyss_random_modifier_deep_effect = yes }
+	}
+	option = {
+		name = xvcv_mdlc_abyss.50.c
+		custom_tooltip = xvcv_mdlc_abyss_reward_avatar_tooltip
+		hidden_effect = {
+			#xvcv_mdlc_abyss_random_avatar_spawn_effect
+			random_list = {
+				25 = { country_event = { id = xvcv_mdlc_abyss.21 } } #Summon Avatar (SUCCESS SHIP)
+				25 = { country_event = { id = xvcv_mdlc_abyss.22 } } #Summon Avatar (SUCCESS ARMY)
+				30 = { country_event = { id = xvcv_mdlc_abyss.23 } } #Summon Avatar (FAILURE)
+				20 = { country_event = { id = xvcv_mdlc_abyss.24 } } #Summon Avatar (CRITICAL FAILURE)
+			}
+		}
+	}
+}
+#vision 5
+country_event = {
+	id = xvcv_mdlc_abyss.60
+	title = "xvcv_mdlc_title_abyss"
+	desc = "xvcv_mdlc_abyss.60.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	immediate = {
+		set_country_flag = xvcv_mdlc_abyss_vision_5
+	}
+
+	option = {
+		name = xvcv_mdlc_abyss.60.a
+		custom_tooltip = xvcv_mdlc_abyss_reward_modifier_tooltip
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_shallow }
+		hidden_effect = { xvcv_mdlc_abyss_random_modifier_shallow_effect = yes }
+	}
+	option = {
+		name = xvcv_mdlc_abyss.60.a
+		custom_tooltip = xvcv_mdlc_abyss_reward_modifier_tooltip
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_deep }
+		hidden_effect = { xvcv_mdlc_abyss_random_modifier_deep_effect = yes }
+	}
+}
+#vision 6 #fallen empire's tech stealing event
+country_event = {
+	id = xvcv_mdlc_abyss.70
+	title = "xvcv_mdlc_title_abyss"
+	desc = "xvcv_mdlc_abyss.70.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	immediate = {
+		set_country_flag = xvcv_mdlc_abyss_stole_fallen_empire_before
+		random_country = {
+			limit = {
+				is_country_type = fallen_empire
+				has_communications = root
+				NOR = {
+					has_ethic = ethic_gestalt_consciousness
+					is_at_war_with = root
+				}
+			}
+			save_event_target_as = xvcv_mdlc_abyss_tech_steal_target_country
+		}
+	}
+
+	option = {
+		name = xvcv_mdlc_abyss.70.a
+		custom_tooltip = xvcv_mdlc_abyss_reward_unknown_tooltip
+		hidden_effect = {
+			random_list = {
+				60 = { country_event = { id = xvcv_mdlc_abyss.71 } }
+				40 = { country_event = { id = xvcv_mdlc_abyss.72 } }
+			}
+		}
+	}
+}
+#stealing success
+country_event = {
+	id = xvcv_mdlc_abyss.71
+	title = "xvcv_mdlc_title_abyss"
+	desc = "xvcv_mdlc_abyss.71.desc.1"
+	desc = "xvcv_mdlc_abyss.71.desc.2"
+	desc = "xvcv_mdlc_abyss.71.desc.3"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		custom_tooltip = xvcv_mdlc_abyss.71.tooltip
+		hidden_effect = {
+			random_list = {
+				1 = {
+					modifier = { factor = 0 has_technology = tech_mine_living_metal }
+					give_technology = { tech = tech_mine_living_metal message = yes }
+				}
+				1 = {
+					modifier = {
+						factor = 0
+						OR = {
+							has_technology = tech_mega_assembly
+							NOT = { can_research_technology = tech_mega_assembly }
+						}
+					}
+					give_technology = { tech = tech_mega_assembly message = yes }
+				}
+				1 = {
+					modifier = {
+						factor = 0
+						OR = {
+							has_technology = tech_robot_assembly_complex
+							NOT = { can_research_technology = tech_robot_assembly_complex }
+						}
+					}
+					give_technology = { tech = tech_robot_assembly_complex message = yes }
+				}
+				1 = {
+					modifier = { factor = 0 has_technology = tech_ascension_theory }
+					give_technology = { tech = tech_ascension_theory message = yes }
+				}
+				1 = {
+					modifier = { factor = 0 has_technology = tech_ship_armor_5 }
+					give_technology = { tech = tech_ship_armor_5 message = yes }
+				}
+				1 = {
+					modifier = { factor = 0 has_technology = tech_dark_matter_deflector }
+					give_technology = { tech = tech_dark_matter_deflector message = yes }
+					add_resource = { sr_dark_matter = 50 }
+				}
+				1 = {
+					modifier = { factor = 0 has_technology = tech_dark_matter_power_core }
+					give_technology = { tech = tech_dark_matter_power_core message = yes }
+					add_resource = { sr_dark_matter = 50 }
+				}
+				1 = {
+					modifier = { factor = 0 has_technology = tech_dark_matter_propulsion }
+					give_technology = { tech = tech_dark_matter_propulsion message = yes }
+					add_resource = { sr_dark_matter = 50 }
+				}
+				1 = {
+					modifier = { factor = 0 OR = { has_technology = tech_jump_drive_1 has_technology = tech_psi_jump_drive_1 has_technology = xvcv_mdlc_tech_psi_jump_drive_1 } }
+					give_technology = { tech = tech_jump_drive_1 message = yes }
+				}
+				1 = { give_technology = { tech = tech_repeatable_improved_tile_energy_output message = yes } }
+			}
+		}
+	}
+}
+#stealing failure
+country_event = {
+	id = xvcv_mdlc_abyss.72
+	title = "xvcv_mdlc_title_abyss"
+	desc = "xvcv_mdlc_abyss.72.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_abyss.72.a
+		custom_tooltip = xvcv_mdlc_leave_abyss.tooltip
+		hidden_effect = { country_event = { id = xvcv_mdlc_abyss.73 days = 20 random = 15 } }
+	}
+}
+#diplomatic result
+country_event = {
+	id = xvcv_mdlc_abyss.73
+	title = "TRANSMISSION"
+	desc = "xvcv_mdlc_abyss.73.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = event_target:xvcv_mdlc_abyss_tech_steal_target_country
+		room = event_target:xvcv_mdlc_abyss_tech_steal_target_country
+	}
+
+	option = {
+		name = xvcv_mdlc_abyss.73.a
+		event_target:xvcv_mdlc_abyss_tech_steal_target_country = { add_opinion_modifier = { who = root  modifier = opinion_invaded_mind } }
+	}
+}
+#vision 7 #'xvcv_mdlc_tech_psionic_shield' tech giving event
+country_event = {
+	id = xvcv_mdlc_abyss.80
+	title = "xvcv_mdlc_title_abyss"
+	desc = "xvcv_mdlc_abyss.80.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	option = {
+		name = xvcv_mdlc_abyss.80.a
+		custom_tooltip = xvcv_mdlc_abyss_reward_unknown_tooltip
+		hidden_effect = {
+			random_list = {
+				50 = { country_event = { id = xvcv_mdlc_abyss.81 } }
+				50 = { country_event = { id = xvcv_mdlc_abyss.82 } }
+			}
+		}
+	}
+}
+#'xvcv_mdlc_tech_psionic_shield' tech acquisition success
+country_event = {
+	id = xvcv_mdlc_abyss.81
+	title = "xvcv_mdlc_abyss.81.name"
+	desc = "xvcv_mdlc_abyss.81.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		add_research_option = xvcv_mdlc_tech_psionic_shield
+		add_research_option = xvcv_mdlc_tech_psionic_barrier
+	}
+}
+#'xvcv_mdlc_tech_psionic_shield' tech acquisition failure
+country_event = {
+	id = xvcv_mdlc_abyss.82
+	title = "xvcv_mdlc_title_abyss"
+	desc = "xvcv_mdlc_abyss.82.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+	location = event_target:xvcv_mdlc_abyss_kill_pop_effect_planet
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	immediate = {
+		xvcv_mdlc_abyss_destroy_building_abyss_gateway_and_kill_pop_effect = yes
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		custom_tooltip = xvcv_mdlc_abyss.24.a.tooltip
+		add_modifier = { modifier = xvcv_mdlc_abyss_neg_armor days = 1800 }
+	}
+}
+#vision 8 #'xvcv_mdlc_tech_precognition_interface' tech giving event
+country_event = {
+	id = xvcv_mdlc_abyss.90
+	title = "xvcv_mdlc_title_abyss"
+	desc = "xvcv_mdlc_abyss.90.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	option = {
+		name = xvcv_mdlc_abyss.90.a
+		custom_tooltip = xvcv_mdlc_abyss_reward_unknown_tooltip
+		hidden_effect = {
+			random_list = {
+				50 = { country_event = { id = xvcv_mdlc_abyss.91 } }
+				50 = { country_event = { id = xvcv_mdlc_abyss.92 } }
+			}
+		}
+	}
+}
+#'xvcv_mdlc_tech_precognition_interface' tech acquisition success
+country_event = {
+	id = xvcv_mdlc_abyss.91
+	title = "xvcv_mdlc_abyss.91.name"
+	desc = "xvcv_mdlc_abyss.91.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		add_research_option = xvcv_mdlc_tech_precognition_interface
+	}
+}
+#'xvcv_mdlc_tech_precognition_interface' tech acquisition failure
+country_event = {
+	id = xvcv_mdlc_abyss.92
+	title = "xvcv_mdlc_title_abyss"
+	desc = "xvcv_mdlc_abyss.92.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		add_modifier = { modifier = xvcv_mdlc_abyss_neg_sensors days = 1800 }
+	}
+}
+#vision 10 #'xvcv_mdlc_tech_psi_jump_drive_1' tech giving event
+country_event = {
+	id = xvcv_mdlc_abyss.100
+	title = "xvcv_mdlc_title_abyss"
+	desc = "xvcv_mdlc_abyss.100.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	option = {
+		name = xvcv_mdlc_abyss.100.a
+		custom_tooltip = xvcv_mdlc_abyss_reward_unknown_tooltip
+		hidden_effect = {
+			random_list = {
+				50 = { country_event = { id = xvcv_mdlc_abyss.101 } }
+				50 = { country_event = { id = xvcv_mdlc_abyss.102 } }
+			}
+		}
+	}
+}
+#'xvcv_mdlc_tech_psi_jump_drive_1' tech acquisition success
+country_event = {
+	id = xvcv_mdlc_abyss.101
+	title = "xvcv_mdlc_abyss.101.name"
+	desc = "xvcv_mdlc_abyss.101.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		add_research_option = xvcv_mdlc_tech_psi_jump_drive_1
+	}
+}
+#'xvcv_mdlc_tech_psi_jump_drive_1' tech acquisition failure
+country_event = {
+	id = xvcv_mdlc_abyss.102
+	title = "xvcv_mdlc_title_abyss"
+	desc = "xvcv_mdlc_abyss.102.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		add_modifier = { modifier = xvcv_mdlc_abyss_neg_speed days = 1800 }
+	}
+}
+#abyss patron events
+country_event = {
+	id = xvcv_mdlc_abyss.110
+	title = "xvcv_mdlc_title_abyss"
+	desc = "xvcv_mdlc_abyss.110.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	option = {
+		name = xvcv_mdlc_abyss.110.a
+		custom_tooltip = xvcv_mdlc_abyss_reward_unknown_tooltip
+		hidden_effect = {
+			random_list = {
+				25 = { country_event = { id = xvcv_mdlc_abyss.111 } }
+				15 = { country_event = { id = xvcv_mdlc_abyss.112 } }
+				60 = { country_event = { id = xvcv_mdlc_abyss.113 } }
+			}
+		}
+	}
+}
+#attempt to contact the patron failure
+country_event = {
+	id = xvcv_mdlc_abyss.111
+	title = "xvcv_mdlc_title_abyss"
+	desc = "xvcv_mdlc_abyss.111.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		custom_tooltip = xvcv_mdlc_leave_abyss.tooltip
+	}
+}
+#attempt to contact the patron critical failure
+country_event = {
+	id = xvcv_mdlc_abyss.112
+	title = "xvcv_mdlc_title_abyss"
+	desc = "xvcv_mdlc_abyss.112.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	immediate = {
+		random_owned_leader = { save_event_target_as = xvcv_mdlc_abyss_patron_contact_critical_failure_leader }
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		event_target:xvcv_mdlc_abyss_patron_contact_critical_failure_leader = { kill_leader = { show_notification = yes } }
+	}
+}
+#attempt to contact the patron success
+country_event = {
+	id = xvcv_mdlc_abyss.113
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		random_list = {
+			25 = { #patron: whisperers
+				modifier = {
+					factor = 1.5
+					OR = {
+						has_civic = civic_cutthroat_politics
+						has_civic = civic_technocracy
+						is_scavenger = yes
+						has_civic = civic_criminal_heritage
+						has_toxic_baths = yes
+						has_civic = civic_shadow_council
+					}
+				}
+				modifier = {
+					factor = 1.3
+					OR = {
+						has_tradition = tr_subterfuge_finish
+						has_tradition = tr_discovery_finish
+					}
+				}
+				modifier = {
+					factor = 1.3
+					OR = {
+						has_ascension_perk = ap_enigmatic_engineering
+						has_ascension_perk = ap_technological_ascendancy
+					}
+				}
+				modifier = {
+					factor = 1.3
+					has_ethic = ethic_materialist
+				}
+				modifier = {
+					factor = 1.5
+					has_ethic = ethic_fanatic_materialist
+				}
+				modifier = {
+					factor = 1.6
+					any_envoy = { has_envoy_task = { task = spy_network } }
+				}
+				modifier = {
+					factor = 0.7
+					has_civic = civic_inwards_perfection
+				}
+				modifier = {
+					factor = 0.3
+					has_ethic = ethic_spiritualist
+				}
+				modifier = {
+					factor = 0.1
+					has_ethic = ethic_fanatic_spiritualist
+				}
+				country_event = { id = xvcv_mdlc_abyss.114 }
+			}
+			25 = { #patron: composer
+				modifier = {
+					factor = 1.5
+					OR = {
+						has_civic = civic_environmentalist
+						is_catalytic_empire = yes
+						has_civic = civic_idyllic_bloom
+						has_toxic_baths = yes
+					}
+				}
+				modifier = {
+					factor = 1.3
+					has_tradition = tr_adaptability_finish
+				}
+				modifier = {
+					factor = 1.3
+					has_ascension_perk = ap_consecrated_worlds
+				}
+				modifier = {
+					factor = 1.3
+					has_ethic = ethic_xenophile
+				}
+				modifier = {
+					factor = 1.5
+					has_ethic = ethic_fanatic_xenophile
+				}
+				modifier = {
+					factor = 1.6
+					num_buildings = { type = building_medical_1 value = 0 }
+					num_buildings = { type = building_medical_2 value = 0 }
+					num_buildings = { type = building_medical_3 value = 0 }
+				}
+				modifier = {
+					factor = 0.7
+					is_relentless_industrialist_empire = yes
+				}
+				modifier = {
+					factor = 0.3
+					has_ethic = ethic_xenophobe
+				}
+				modifier = {
+					factor = 0.1
+					has_ethic = ethic_fanatic_xenophobe
+				}
+				country_event = { id = xvcv_mdlc_abyss.115 }
+			}
+			25 = { #patron: instrument
+				modifier = {
+					factor = 1.5
+					OR = {
+						has_civic = civic_aristocratic_elite
+						has_civic = civic_feudal_realm
+						has_civic = civic_slaver_guilds
+						has_civic = civic_pleasure_seekers
+						has_toxic_baths = yes
+						has_civic = civic_indentured_assets
+						has_civic = civic_corporate_hedonism
+					}
+				}
+				modifier = {
+					factor = 1.3
+					has_tradition = tr_domination_finish
+				}
+				modifier = {
+					factor = 1.3
+					OR = {
+						has_ascension_perk = ap_shared_destiny
+						has_ascension_perk = ap_imperial_prerogative
+					}
+				}
+				modifier = {
+					factor = 1.3
+					has_ethic = ethic_authoritarian
+				}
+				modifier = {
+					factor = 1.5
+					has_ethic = ethic_fanatic_authoritarian
+				}
+				modifier = {
+					factor = 1.6
+					OR = {
+						is_at_war = no
+						ruler = {
+							has_trait = leader_trait_substance_abuser
+						}
+						any_owned_planet = {
+							is_colony = yes
+							has_designation = col_resort
+						}
+					}
+				}
+				modifier = {
+					factor = 0.7
+					has_civic = civic_shared_burden
+				}
+				modifier = {
+					factor = 0.3
+					has_ethic = ethic_egalitarian
+				}
+				modifier = {
+					factor = 0.1
+					has_ethic = ethic_fanatic_egalitarian
+				}
+				country_event = { id = xvcv_mdlc_abyss.116 }
+			}
+			25 = { #patron: eater
+				modifier = {
+					factor = 1.5
+					OR = {
+						has_civic = civic_citizen_service
+						has_civic = civic_fanatic_purifiers
+						has_civic = civic_distinguished_admiralty
+						has_civic = civic_naval_contractors
+						has_civic = civic_barbaric_despoilers
+						has_civic = civic_private_military_companies
+					}
+				}
+				modifier = {
+					factor = 1.3
+					has_tradition = tr_supremacy_finish
+				}
+				modifier = {
+					factor = 1.3
+					OR = {
+						has_ascension_perk = ap_galactic_force_projection
+						has_ascension_perk = ap_interstellar_dominion
+					}
+				}
+				modifier = {
+					factor = 1.3
+					has_ethic = ethic_militarist
+				}
+				modifier = {
+					factor = 1.5
+					has_ethic = ethic_fanatic_militarist
+				}
+				modifier = {
+					factor = 1.6
+					is_at_war = yes
+				}
+				modifier = {
+					factor = 0.7
+					OR = {
+						has_civic = civic_inwards_perfection
+						has_civic = civic_agrarian_idyll
+					}
+				}
+				modifier = {
+					factor = 0.3
+					has_ethic = ethic_pacifist
+				}
+				modifier = {
+					factor = 0.1
+					has_ethic = ethic_fanatic_pacifist
+				}
+				country_event = { id = xvcv_mdlc_abyss.117 }
+			}
+		}
+	}
+}
+#chosen patron: whisperers
+country_event = {
+	id = xvcv_mdlc_abyss.114
+	title = "xvcv_mdlc_title_abyss"
+	desc = "xvcv_mdlc_abyss.114.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	option = {
+		name = xvcv_mdlc_abyss.114.a
+		custom_tooltip = xvcv_mdlc_abyss_choose_patron.tooltip
+		add_modifier = { modifier = xvcv_mdlc_abyss_patron_whisperers days = -1 }
+		hidden_effect = {
+			set_country_flag = xvcv_mdlc_abyss_patron_whisperers_chosen
+			set_variable = { which = xvcv_mdlc_abyss_patron_whisperers_rank value = 1 }
+			country_event = { id = xvcv_mdlc_abyss.118 }
+			country_event = { id = xvcv_mdlc_abyss.120 days = 5400 random = 1800 } #the event to pick random patron penalties #15 years + 0~1800 days (0~5 years) later
+		}
+	}
+	option = {
+		name = xvcv_mdlc_abyss.114.b
+		custom_tooltip = xvcv_mdlc_leave_abyss.tooltip
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+}
+#chosen patron: composer
+country_event = {
+	id = xvcv_mdlc_abyss.115
+	title = "xvcv_mdlc_title_abyss"
+	desc = "xvcv_mdlc_abyss.115.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	option = {
+		name = xvcv_mdlc_abyss.115.a
+		custom_tooltip = xvcv_mdlc_abyss_choose_patron.tooltip
+		add_modifier = { modifier = xvcv_mdlc_abyss_patron_composer days = -1 }
+		hidden_effect = {
+			set_country_flag = xvcv_mdlc_abyss_patron_composer_chosen
+			set_variable = { which = xvcv_mdlc_abyss_patron_composer_rank value = 1 }
+			country_event = { id = xvcv_mdlc_abyss.118 }
+			country_event = { id = xvcv_mdlc_abyss.120 days = 5400 random = 1800 }
+		}
+	}
+	option = {
+		name = xvcv_mdlc_abyss.114.b
+		custom_tooltip = xvcv_mdlc_leave_abyss.tooltip
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+}
+#chosen patron: instrument
+country_event = {
+	id = xvcv_mdlc_abyss.116
+	title = "xvcv_mdlc_title_abyss"
+	desc = "xvcv_mdlc_abyss.116.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	option = {
+		name = xvcv_mdlc_abyss.116.a
+		custom_tooltip = xvcv_mdlc_abyss_choose_patron.tooltip
+		add_modifier = { modifier = xvcv_mdlc_abyss_patron_instrument days = -1 }
+		hidden_effect = {
+			set_country_flag = xvcv_mdlc_abyss_patron_instrument_chosen
+			set_variable = { which = xvcv_mdlc_abyss_patron_instrument_rank value = 1 }
+			country_event = { id = xvcv_mdlc_abyss.118 }
+			country_event = { id = xvcv_mdlc_abyss.120 days = 5400 random = 1800 }
+		}
+	}
+	option = {
+		name = xvcv_mdlc_abyss.114.b
+		custom_tooltip = xvcv_mdlc_leave_abyss.tooltip
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+}
+#chosen patron: eater
+country_event = {
+	id = xvcv_mdlc_abyss.117
+	title = "xvcv_mdlc_title_abyss"
+	desc = "xvcv_mdlc_abyss.117.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	option = {
+		name = xvcv_mdlc_abyss.117.a
+		custom_tooltip = xvcv_mdlc_abyss_choose_patron.tooltip
+		add_modifier = { modifier = xvcv_mdlc_abyss_patron_eater days = -1 }
+		hidden_effect = {
+			set_country_flag = xvcv_mdlc_abyss_patron_eater_chosen
+			set_variable = { which = xvcv_mdlc_abyss_patron_eater_rank value = 1 }
+			country_event = { id = xvcv_mdlc_abyss.118 }
+			country_event = { id = xvcv_mdlc_abyss.120 days = 5400 random = 1800 }
+		}
+	}
+	option = {
+		name = xvcv_mdlc_abyss.114.b
+		custom_tooltip = xvcv_mdlc_leave_abyss.tooltip
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+}
+#patron selected notification event
+country_event = {
+	id = xvcv_mdlc_abyss.118
+	title = "xvcv_mdlc_abyss.118.name"
+	desc = { text = "xvcv_mdlc_abyss.118.desc.1" trigger = { has_modifier = xvcv_mdlc_abyss_patron_whisperers } }
+	desc = { text = "xvcv_mdlc_abyss.118.desc.2" trigger = { has_modifier = xvcv_mdlc_abyss_patron_composer } }
+	desc = { text = "xvcv_mdlc_abyss.118.desc.3" trigger = { has_modifier = xvcv_mdlc_abyss_patron_instrument } }
+	desc = { text = "xvcv_mdlc_abyss.118.desc.4" trigger = { has_modifier = xvcv_mdlc_abyss_patron_eater } }
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	after = {
+		hidden_effect = {
+			xvcv_mdlc_abyss_exit_effect = yes
+			country_event = { id = xvcv_mdlc_abyss.150 days = 30 } #patron rank increase
+		}
+	}
+
+	option = {
+		name = xvcv_mdlc_abyss.118.a
+		custom_tooltip = xvcv_mdlc_leave_abyss.tooltip
+		trigger = { has_modifier = xvcv_mdlc_abyss_patron_whisperers }
+		begin_event_chain = { event_chain = xvcv_mdlc_abyss_patron_whisperers_chain target = this }
+		hidden_effect = { set_variable = { which = xvcv_mdlc_abyss_patron_whisperers_rank value = 1 } }
+	}
+	option = {
+		name = xvcv_mdlc_abyss.118.b
+		custom_tooltip = xvcv_mdlc_leave_abyss.tooltip
+		trigger = { has_modifier = xvcv_mdlc_abyss_patron_composer }
+		begin_event_chain = { event_chain = xvcv_mdlc_abyss_patron_composer_chain target = this }
+		hidden_effect = { set_variable = { which = xvcv_mdlc_abyss_patron_composer_rank value = 1 } }
+	}
+	option = {
+		name = xvcv_mdlc_abyss.118.c
+		custom_tooltip = xvcv_mdlc_leave_abyss.tooltip
+		trigger = { has_modifier = xvcv_mdlc_abyss_patron_instrument }
+		begin_event_chain = { event_chain = xvcv_mdlc_abyss_patron_instrument_chain target = this }
+		hidden_effect = { set_variable = { which = xvcv_mdlc_abyss_patron_instrument_rank value = 1 } }
+	}
+	option = {
+		name = xvcv_mdlc_abyss.118.d
+		custom_tooltip = xvcv_mdlc_leave_abyss.tooltip
+		trigger = { has_modifier = xvcv_mdlc_abyss_patron_eater }
+		begin_event_chain = { event_chain = xvcv_mdlc_abyss_patron_eater_chain target = this }
+		hidden_effect = { set_variable = { which = xvcv_mdlc_abyss_patron_eater_rank value = 1 } }
+	}
+}
+#patron random penalties selecting event
+country_event = {
+	id = xvcv_mdlc_abyss.120
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = { has_modifier = xvcv_mdlc_abyss_patron_whisperers }
+			random_list = {
+				40 = { country_event = { id = xvcv_mdlc_abyss.121 } } #Leader gains bad traits
+				30 = { country_event = { id = xvcv_mdlc_abyss.122 } } #Suicide of a leader
+				20 = { country_event = { id = xvcv_mdlc_abyss.123 } } #Planet succumbs to madness
+				10 = { country_event = { id = xvcv_mdlc_abyss.124 } } #Planet collapses into anarchy
+			}
+		}
+		else_if = {
+			limit = { has_modifier = xvcv_mdlc_abyss_patron_composer }
+			country_event = { id = xvcv_mdlc_abyss.125 } #Composer turns few pops into unbidden pops
+		}
+		else_if = {
+			limit = { has_modifier = xvcv_mdlc_abyss_patron_instrument }
+			random_list = {
+				40 = { country_event = { id = xvcv_mdlc_abyss.126 } } #Planet gets deviant ethics / increased crime rates
+				20 = { country_event = { id = xvcv_mdlc_abyss.127 } } #Empire gets deviant ethics / increased crime rates
+				40 = { country_event = { id = xvcv_mdlc_abyss.128 } } #Planet gets increased upkeeps
+			}
+		}
+		else_if = {
+			limit = { has_modifier = xvcv_mdlc_abyss_patron_eater }
+			random_list = {
+				55 = { country_event = { id = xvcv_mdlc_abyss.129 } } #Pop devoured
+				40 = { country_event = { id = xvcv_mdlc_abyss.130 } } #Pops devoured
+				5 = {
+					modifier = {
+						factor = 0
+						num_owned_planets = 1
+					}
+					country_event = { id = xvcv_mdlc_abyss.131 } #Planet devoured
+				}
+			}
+		}
+		country_event = { id = xvcv_mdlc_abyss.120 days = 3600 random = 3600 } #10 years + 0~3600 days (0~10 years) later #self-repeating event
+	}
+}
+#parton 1 random penalty effect events
+#Leader gains bad traits
+country_event = {
+	id = xvcv_mdlc_abyss.121
+	title = "xvcv_mdlc_abyss.121.name"
+	desc = "xvcv_mdlc_abyss.121.desc"
+	picture = GFX_evt_unspeakable_horror
+	show_sound = event_whispering
+	is_triggered_only = yes
+
+	immediate = {
+		random_owned_leader = {
+			save_event_target_as = xvcv_mdlc_abyss_patron_whisperers_penalty_1_leader
+			add_trait = { show_message = no trait  = leader_trait_arrested_development }
+		}
+	}
+
+	option = {
+		name = xvcv_mdlc_abyss.121.a
+		custom_tooltip = xvcv_mdlc_abyss.121.a.tooltip
+	}
+}
+#Suicide of a leader
+country_event = {
+	id = xvcv_mdlc_abyss.122
+	title = "xvcv_mdlc_abyss.122.name"
+	desc = "xvcv_mdlc_abyss.122.desc"
+	picture = GFX_evt_unspeakable_horror
+	show_sound = event_whispering
+	is_triggered_only = yes
+
+	immediate = {
+		random_owned_leader = {
+			save_event_target_as = xvcv_mdlc_abyss_patron_whisperers_penalty_2_leader
+			kill_leader = { show_notification = yes }
+		}
+	}
+
+	option = {
+		name = xvcv_mdlc_abyss.122.a
+		custom_tooltip = xvcv_mdlc_abyss.122.a.tooltip
+	}
+}
+#Planet succumbs to madness
+country_event = {
+	id = xvcv_mdlc_abyss.123
+	title = "xvcv_mdlc_abyss.123.name"
+	desc = "xvcv_mdlc_abyss.123.desc"
+	picture = GFX_evt_unspeakable_horror
+	show_sound = event_whispering
+	is_triggered_only = yes
+	location = event_target:xvcv_mdlc_abyss_neg_patron_whisperers_planet
+
+	immediate = {
+		random_owned_planet = {
+			limit = {
+				has_building = xvcv_mdlc_building_abyss_gateway
+				count_owned_pop_amount = { count > 100 }
+			}
+			save_event_target_as = xvcv_mdlc_abyss_neg_patron_whisperers_planet
+		}
+		if = {
+			limit = { NOT = { exists = event_target:xvcv_mdlc_abyss_neg_patron_whisperers_planet } }
+			random_owned_planet = {
+				limit = { count_owned_pop_amount = { count > 100 } }
+				save_event_target_as = xvcv_mdlc_abyss_neg_patron_whisperers_planet
+			}
+		}
+		event_target:xvcv_mdlc_abyss_neg_patron_whisperers_planet = {
+			random_owned_pop_group = { oxr_kill_pop_from_group = yes }
+			add_modifier = { modifier = xvcv_mdlc_abyss_neg_patron_whisperers days = 3600 }
+		}
+	}
+
+	option = {
+		name = xvcv_mdlc_abyss.123.a
+		custom_tooltip = xvcv_mdlc_abyss.123.a.tooltip
+	}
+}
+#Planet collapses into anarchy
+country_event = {
+	id = xvcv_mdlc_abyss.124
+	title = "xvcv_mdlc_abyss.124.name"
+	desc = "xvcv_mdlc_abyss.124.desc"
+	picture = GFX_evt_unspeakable_horror
+	show_sound = event_whispering
+	is_triggered_only = yes
+	location = event_target:xvcv_mdlc_abyss_kill_pop_effect_planet
+
+	immediate = {
+		xvcv_mdlc_abyss_destroy_building_abyss_gateway_and_kill_pop_effect = yes
+		event_target:xvcv_mdlc_abyss_kill_pop_effect_planet = { add_modifier = { modifier = xvcv_mdlc_abyss_neg_patron_whisperers_alt days = 3600 } }
+	}
+
+	option = {
+		name = xvcv_mdlc_abyss.124.a
+		custom_tooltip = xvcv_mdlc_abyss.124.a.tooltip
+	}
+}
+#parton 2 random penalty effect events
+#Composer turns few pops into unbidden pops
+country_event = {
+	id = xvcv_mdlc_abyss.125
+	title = "xvcv_mdlc_abyss.125.name"
+	desc = "xvcv_mdlc_abyss.125.desc"
+	picture = GFX_evt_unspeakable_horror
+	show_sound = event_dangerous_animals
+	is_triggered_only = yes
+
+	immediate = {
+		create_species = {
+			adjective = this
+			name = this
+			namelist = root
+			plural = this
+			class = "EXD"
+			portrait = exd1
+			traits = {
+				trait = trait_rapid_breeders
+				trait = trait_nonadaptive
+				trait = trait_repugnant
+				trait = trait_wasteful
+			}
+			#homeworld = this.capital_scope #the homeworld of this abomination is unknown #somewhere in the Abyss?
+		}
+		while = {
+			random_owned_planet = {
+				random_owned_pop_group = {
+					limit = { NOT = { is_species_class = EXD } }
+					change_species = last_created_species
+				}
+			}
+			count = 5
+		}
+	}
+
+	option = {
+		name = xvcv_mdlc_abyss.125.a
+		custom_tooltip = xvcv_mdlc_abyss.125.a.tooltip
+	}
+}
+#parton 3 random penalty effect events
+#Planet gets deviant ethics / increased crime rates
+country_event = {
+	id = xvcv_mdlc_abyss.126
+	title = "xvcv_mdlc_abyss.126.name"
+	desc = "xvcv_mdlc_abyss.126.desc"
+	picture = GFX_evt_unspeakable_horror
+	show_sound = event_whispering
+	is_triggered_only = yes
+	location = event_target:xvcv_mdlc_abyss_neg_patron_instrument_planet
+
+	immediate = {
+		random_owned_planet = {
+			if = {
+				limit = { owner = { has_ethic_gestalt_consciousness = no } }
+				add_modifier = { modifier = xvcv_mdlc_abyss_neg_patron_instrument days = 3600 }
+				else = { add_modifier = { modifier = xvcv_mdlc_abyss_neg_patron_instrument_gestalt days = 3600 } }
+			}
+			save_event_target_as = xvcv_mdlc_abyss_neg_patron_instrument_planet
+		}
+	}
+
+	option = {
+		name = xvcv_mdlc_abyss.126.a
+		custom_tooltip = xvcv_mdlc_abyss.126.a.tooltip
+	}
+}
+#Empire gets deviant ethics / increased crime rates
+country_event = {
+	id = xvcv_mdlc_abyss.127
+	title = "xvcv_mdlc_abyss.127.name"
+	desc = "xvcv_mdlc_abyss.127.desc"
+	picture = GFX_evt_unspeakable_horror
+	show_sound = event_whispering
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = { has_ethic_gestalt_consciousness = no }
+			add_modifier = { modifier = xvcv_mdlc_abyss_neg_patron_instrument_empire days = 3600 }
+			else = { add_modifier = { modifier = xvcv_mdlc_abyss_neg_patron_instrument_empire_gestalt days = 3600 } }
+		}
+	}
+
+	option = {
+		name = xvcv_mdlc_abyss.127.a
+		custom_tooltip = xvcv_mdlc_abyss.127.a.tooltip
+	}
+}
+#Planet gets increased upkeeps
+country_event = {
+	id = xvcv_mdlc_abyss.128
+	title = "xvcv_mdlc_abyss.128.name"
+	desc = "xvcv_mdlc_abyss.128.desc"
+	picture = GFX_evt_unspeakable_horror
+	show_sound = event_whispering
+	is_triggered_only = yes
+	location = event_target:xvcv_mdlc_abyss_neg_patron_instrument_alt_planet
+
+	immediate = {
+		random_owned_planet = {
+			add_modifier = { modifier = xvcv_mdlc_abyss_neg_patron_instrument_alt days = 3600 }
+			save_event_target_as = xvcv_mdlc_abyss_neg_patron_instrument_alt_planet
+		}
+	}
+
+	option = {
+		name = xvcv_mdlc_abyss.128.a
+		custom_tooltip = xvcv_mdlc_abyss.128.a.tooltip
+	}
+}
+#parton 4 random penalty effect events
+#Pops devoured
+country_event = {
+	id = xvcv_mdlc_abyss.129
+	title = "xvcv_mdlc_abyss.129.name"
+	desc = "xvcv_mdlc_abyss.129.desc"
+	picture = GFX_evt_unspeakable_horror
+	show_sound = event_screams
+	is_triggered_only = yes
+	location = event_target:xvcv_mdlc_abyss_neg_patron_eater_planet
+
+	immediate = {
+		random_owned_planet = {
+			limit = {
+				has_building = xvcv_mdlc_building_abyss_gateway
+				count_owned_pop_amount = { count > 500 }
+			}
+			save_event_target_as = xvcv_mdlc_abyss_neg_patron_eater_planet
+		}
+		if = {
+			limit = { NOT = { exists = event_target:xvcv_mdlc_abyss_neg_patron_eater_planet } }
+			random_owned_planet = {
+				limit = { count_owned_pop_amount = { count > 500 } }
+				save_event_target_as = xvcv_mdlc_abyss_neg_patron_eater_planet
+			}
+		}
+		event_target:xvcv_mdlc_abyss_neg_patron_eater_planet = {
+			while = {
+				random_owned_pop_group = { oxr_kill_pop_from_group = yes }
+				count = 5
+			}
+			add_modifier = { modifier = xvcv_mdlc_abyss_neg_patron_eater days = 3600 }
+		}
+	}
+
+	option = {
+		name = xvcv_mdlc_abyss.129.a
+		custom_tooltip = xvcv_mdlc_abyss.129.a.tooltip
+	}
+}
+#Many Pops devoured
+country_event = {
+	id = xvcv_mdlc_abyss.130
+	title = "xvcv_mdlc_abyss.130.name"
+	desc = "xvcv_mdlc_abyss.130.desc"
+	picture = GFX_evt_unspeakable_horror
+	show_sound = event_screams
+	is_triggered_only = yes
+	location = event_target:xvcv_mdlc_abyss_neg_patron_eater_alt_planet
+
+	immediate = {
+		random_owned_planet = {
+			limit = {
+				has_building = xvcv_mdlc_building_abyss_gateway
+				count_owned_pop_amount = { count > 1000 }
+			}
+			save_event_target_as = xvcv_mdlc_abyss_neg_patron_eater_alt_planet
+		}
+		if = {
+			limit = { NOT = { exists = event_target:xvcv_mdlc_abyss_neg_patron_eater_alt_planet } }
+			random_owned_planet = {
+				limit = { count_owned_pop_amount = { count > 1000 } }
+				save_event_target_as = xvcv_mdlc_abyss_neg_patron_eater_alt_planet
+			}
+		}
+		event_target:xvcv_mdlc_abyss_neg_patron_eater_alt_planet = {
+			random_owned_pop_group = {
+				oxr_kill_pop_from_group = { count = 1000 }
+			}
+			add_modifier = { modifier = xvcv_mdlc_abyss_neg_patron_eater_alt days = 3600 }
+		}
+	}
+
+	option = {
+		name = xvcv_mdlc_abyss.130.a
+		custom_tooltip = xvcv_mdlc_abyss.130.a.tooltip
+	}
+}
+#Planet devoured
+country_event = {
+	id = xvcv_mdlc_abyss.131
+	title = "xvcv_mdlc_abyss.131.name"
+	desc = "xvcv_mdlc_abyss.131.desc"
+	picture = GFX_evt_unspeakable_horror
+	show_sound = event_super_explosion
+	is_triggered_only = yes
+	location = event_target:xvcv_mdlc_abyss_destroyed_by_patron_planet.solar_system
+
+	immediate = {
+		random_owned_planet = {
+			limit = {
+				has_building = xvcv_mdlc_building_abyss_gateway
+				is_capital = no
+			}
+			save_event_target_as = xvcv_mdlc_abyss_destroyed_by_patron_planet
+		}
+		if = {
+			limit = { NOT = { exists = event_target:xvcv_mdlc_abyss_destroyed_by_patron_planet } }
+			random_owned_planet = {
+				limit = { is_capital = no }
+				save_event_target_as = xvcv_mdlc_abyss_destroyed_by_patron_planet
+			}
+		}
+		event_target:xvcv_mdlc_abyss_destroyed_by_patron_planet = {
+			every_owned_pop_group = {
+				oxr_kill_all_pops_in_group = yes
+			}
+			destroy_colony = yes
+			clear_planet_modifiers = yes
+			clear_deposits = yes
+			if = {
+				limit = { habitable_structure = no }
+				change_pc = pc_shattered
+			}
+			else_if = {
+				limit = { is_planet_class = pc_habitat }
+				spawn_habitat_cracker_effect = yes
+				remove_planet = yes
+			}
+			else_if = {
+				limit = { is_planet_class = pc_ringworld_habitable }
+				spawn_ringworld_cracker_effect = yes
+				change_pc = pc_ringworld_habitable_damaged
+			}
+		}
+		add_modifier = { modifier = xvcv_mdlc_abyss_neg_patron_eater_alt_empire days = 3600 }
+	}
+
+	option = {
+		name = xvcv_mdlc_abyss.131.a
+		custom_tooltip = xvcv_mdlc_abyss.131.a.tooltip
+	}
+}
+#abyss patron eater buff at war
+country_event = {
+	id = xvcv_mdlc_abyss.140
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		from = {
+			any_war_participant = {
+				OR = {
+					has_modifier = xvcv_mdlc_abyss_patron_eater
+					has_modifier = xvcv_mdlc_abyss_patron_eater_alt
+				}
+			}
+		}
+	}
+
+	immediate = {
+		from = {
+			every_war_participant = {
+				limit = {
+					OR = {
+						has_modifier = xvcv_mdlc_abyss_patron_eater
+						has_modifier = xvcv_mdlc_abyss_patron_eater_alt
+					}
+				}
+				switch = {
+					trigger = has_modifier
+					xvcv_mdlc_abyss_patron_eater_at_peace = { remove_modifier = xvcv_mdlc_abyss_patron_eater_at_peace }
+					xvcv_mdlc_abyss_patron_eater_at_peace_alt = { remove_modifier = xvcv_mdlc_abyss_patron_eater_at_peace_alt }
+				}
+				if = {
+					limit = { has_modifier = xvcv_mdlc_abyss_patron_eater }
+					add_modifier = { modifier = xvcv_mdlc_abyss_patron_eater_at_war days = -1 }
+					else = { add_modifier = { modifier = xvcv_mdlc_abyss_patron_eater_at_war_alt days = -1 } }
+				}
+			}
+		}
+	}
+}
+#abyss patron eater debuff at peace
+country_event = {
+	id = xvcv_mdlc_abyss.141
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		if = {
+			limit = { fromfrom = { is_scope_type = war } } #for 'on_war_won' on_action
+			fromfrom = {
+				any_war_participant = {
+					OR = {
+						has_modifier = xvcv_mdlc_abyss_patron_eater
+						has_modifier = xvcv_mdlc_abyss_patron_eater_alt
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = { fromfromfromfrom = { is_scope_type = war } } #for 'on_status_quo' on_action
+			fromfromfromfrom = {
+				any_war_participant = {
+					OR = {
+						has_modifier = xvcv_mdlc_abyss_patron_eater
+						has_modifier = xvcv_mdlc_abyss_patron_eater_alt
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+		if = {
+			limit = { fromfrom = { is_scope_type = war } }
+			fromfrom = {
+				every_war_participant = {
+					limit = {
+						OR = {
+							has_modifier = xvcv_mdlc_abyss_patron_eater
+							has_modifier = xvcv_mdlc_abyss_patron_eater_alt
+						}
+					}
+					switch = {
+						trigger = has_modifier
+						xvcv_mdlc_abyss_patron_eater_at_war = { remove_modifier = xvcv_mdlc_abyss_patron_eater_at_war }
+						xvcv_mdlc_abyss_patron_eater_at_war_alt = { remove_modifier = xvcv_mdlc_abyss_patron_eater_at_war_alt }
+					}
+					if = {
+						limit = { has_modifier = xvcv_mdlc_abyss_patron_eater }
+						add_modifier = { modifier = xvcv_mdlc_abyss_patron_eater_at_peace days = -1 }
+						else = { add_modifier = { modifier = xvcv_mdlc_abyss_patron_eater_at_peace_alt days = -1 } }
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = { fromfromfromfrom = { is_scope_type = war } }
+			fromfromfromfrom = {
+				every_war_participant = {
+					limit = {
+						OR = {
+							has_modifier = xvcv_mdlc_abyss_patron_eater
+							has_modifier = xvcv_mdlc_abyss_patron_eater_alt
+						}
+					}
+					switch = {
+						trigger = has_modifier
+						xvcv_mdlc_abyss_patron_eater_at_war = { remove_modifier = xvcv_mdlc_abyss_patron_eater_at_war }
+						xvcv_mdlc_abyss_patron_eater_at_war_alt = { remove_modifier = xvcv_mdlc_abyss_patron_eater_at_war_alt }
+					}
+					if = {
+						limit = { has_modifier = xvcv_mdlc_abyss_patron_eater }
+						add_modifier = { modifier = xvcv_mdlc_abyss_patron_eater_at_peace days = -1 }
+						else = { add_modifier = { modifier = xvcv_mdlc_abyss_patron_eater_at_peace_alt days = -1 } }
+					}
+				}
+			}
+		}
+	}
+}
+#patron rank increase
+country_event = {
+	id = xvcv_mdlc_abyss.150
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		OR = {
+			has_country_flag = xvcv_mdlc_abyss_patron_whisperers_chosen
+			has_country_flag = xvcv_mdlc_abyss_patron_composer_chosen
+			has_country_flag = xvcv_mdlc_abyss_patron_instrument_chosen
+			has_country_flag = xvcv_mdlc_abyss_patron_eater_chosen
+		}
+		OR = {
+			check_variable = { which = xvcv_mdlc_abyss_patron_whisperers_rank value < @xvcv_mdlc_abyss_patron_rank_4 } #stop executing the event when it reaches the rank 4
+			check_variable = { which = xvcv_mdlc_abyss_patron_composer_rank value < @xvcv_mdlc_abyss_patron_rank_4 }
+			check_variable = { which = xvcv_mdlc_abyss_patron_instrument_rank value < @xvcv_mdlc_abyss_patron_rank_4 }
+			check_variable = { which = xvcv_mdlc_abyss_patron_eater_rank value < @xvcv_mdlc_abyss_patron_rank_4 }
+		}
+	}
+
+	immediate = {
+		if = { #Whisperers modifiers
+			limit = { check_variable = { which = xvcv_mdlc_abyss_patron_whisperers_rank value > 0 } }
+			change_variable = { which = xvcv_mdlc_abyss_patron_whisperers_rank value = 0.03 }
+			if = { #Civics liked
+				limit = {
+					OR = {
+						has_civic = civic_cutthroat_politics
+						has_civic = civic_technocracy
+						is_scavenger = yes
+						has_civic = civic_criminal_heritage
+						has_toxic_baths = yes
+						has_civic = civic_shadow_council
+					}
+				}
+				change_variable = { which = xvcv_mdlc_abyss_patron_whisperers_rank value = 0.04 }
+			}
+			if = { #Civics disliked
+				limit = {
+					has_civic = civic_inwards_perfection
+					check_variable = { which = xvcv_mdlc_abyss_patron_whisperers_rank value < 2 }
+				}
+				change_variable = { which = xvcv_mdlc_abyss_patron_whisperers_rank value = -0.02 }
+			}
+			if = { #Ethics liked
+				limit = { has_ethic = ethic_materialist }
+				change_variable = { which = xvcv_mdlc_abyss_patron_whisperers_rank value = 0.03 }
+			}
+			else_if = {
+				limit = { has_ethic = ethic_fanatic_materialist }
+				change_variable = { which = xvcv_mdlc_abyss_patron_whisperers_rank value = 0.07 }
+			}
+			if = { #Ethics disliked
+				limit = {
+					has_ethic = ethic_spiritualist
+					check_variable = { which = xvcv_mdlc_abyss_patron_whisperers_rank value < 2 }
+				}
+				change_variable = { which = xvcv_mdlc_abyss_patron_whisperers_rank value = -0.02 }
+			}
+			else_if = {
+				limit = {
+					has_ethic = ethic_fanatic_spiritualist
+					check_variable = { which = xvcv_mdlc_abyss_patron_whisperers_rank value < 2 }
+				}
+				change_variable = { which = xvcv_mdlc_abyss_patron_whisperers_rank value = -0.05 }
+			}
+			if = { #Tradition liked
+				limit = {
+					OR = {
+						has_tradition = tr_subterfuge_finish
+						has_tradition = tr_discovery_finish
+					}
+				}
+				change_variable = { which = xvcv_mdlc_abyss_patron_whisperers_rank value = 0.06 }
+			}
+			if = { #Acension Perks liked
+				limit = {
+					OR = {
+						has_ascension_perk = ap_enigmatic_engineering
+						has_ascension_perk = ap_technological_ascendancy
+					}
+				}
+				change_variable = { which = xvcv_mdlc_abyss_patron_whisperers_rank value = 0.04 }
+			}
+			if = { #Other things liked
+				limit = { any_envoy = { has_envoy_task = { task = spy_network } } }
+				change_variable = { which = xvcv_mdlc_abyss_patron_whisperers_rank value = 0.11 }
+			}
+		}
+		else_if = { #Composer modifiers
+			limit = { check_variable = { which = xvcv_mdlc_abyss_patron_composer_rank value > 0 } }
+			change_variable = { which = xvcv_mdlc_abyss_patron_composer_rank value = 0.03 }
+			if = { #Civics liked
+				limit = {
+					OR = {
+						has_civic = civic_environmentalist
+						is_catalytic_empire = yes
+						has_civic = civic_idyllic_bloom
+						has_toxic_baths = yes
+					}
+				}
+				change_variable = { which = xvcv_mdlc_abyss_patron_composer_rank value = 0.04 }
+			}
+			if = { #Civics disliked
+				limit = {
+					is_relentless_industrialist_empire = yes
+					check_variable = { which = xvcv_mdlc_abyss_patron_composer_rank value < 2 }
+				}
+				change_variable = { which = xvcv_mdlc_abyss_patron_composer_rank value = -0.02 }
+			}
+			if = { #Ethics liked
+				limit = { has_ethic = ethic_xenophile }
+				change_variable = { which = xvcv_mdlc_abyss_patron_composer_rank value = 0.03 }
+			}
+			else_if = {
+				limit = { has_ethic = ethic_fanatic_xenophile }
+				change_variable = { which = xvcv_mdlc_abyss_patron_composer_rank value = 0.07 }
+			}
+			if = { #Ethics disliked
+				limit = {
+					has_ethic = ethic_xenophobe
+					check_variable = { which = xvcv_mdlc_abyss_patron_composer_rank value < 2 }
+				}
+				change_variable = { which = xvcv_mdlc_abyss_patron_composer_rank value = -0.02 }
+			}
+			else_if = {
+				limit = {
+					has_ethic = ethic_fanatic_xenophobe
+					check_variable = { which = xvcv_mdlc_abyss_patron_composer_rank value < 2 }
+				}
+				change_variable = { which = xvcv_mdlc_abyss_patron_composer_rank value = -0.05 }
+			}
+			if = { #Tradition liked
+				limit = { has_tradition = tr_adaptability_finish }
+				change_variable = { which = xvcv_mdlc_abyss_patron_composer_rank value = 0.06 }
+			}
+			if = { #Acension Perks liked
+				limit = { has_ascension_perk = ap_consecrated_worlds }
+				change_variable = { which = xvcv_mdlc_abyss_patron_composer_rank value = 0.04 }
+			}
+			if = { #Other things liked
+				limit = {
+					OR = {
+						AND = {
+							num_buildings = { type = building_machine_assembly_plant value = 0 }
+							num_buildings = { type = building_machine_assembly_complex value = 0 }
+						}
+						AND = {
+							num_buildings = { type = building_robot_assembly_plant value = 0 }
+							num_buildings = { type = building_robot_assembly_complex value = 0 }
+						}
+					}
+				}
+				change_variable = { which = xvcv_mdlc_abyss_patron_composer_rank value = 0.11 }
+			}
+		}
+		else_if = { #Instrument modifiers
+			limit = { check_variable = { which = xvcv_mdlc_abyss_patron_instrument_rank value > 0 } }
+			change_variable = { which = xvcv_mdlc_abyss_patron_instrument_rank value = 0.03 }
+			if = { #Civics liked
+				limit = {
+					OR = {
+						has_civic = civic_aristocratic_elite
+						has_civic = civic_feudal_realm
+						has_civic = civic_slaver_guilds
+						has_civic = civic_pleasure_seekers
+						has_toxic_baths = yes
+						has_civic = civic_indentured_assets
+						has_civic = civic_corporate_hedonism
+					}
+				}
+				change_variable = { which = xvcv_mdlc_abyss_patron_instrument_rank value = 0.04 }
+			}
+			if = { #Civics disliked
+				limit = {
+					has_civic = civic_shared_burden
+					check_variable = { which = xvcv_mdlc_abyss_patron_instrument_rank value < 2 }
+				}
+				change_variable = { which = xvcv_mdlc_abyss_patron_instrument_rank value = -0.02 }
+			}
+			if = { #Ethics liked
+				limit = { has_ethic = ethic_authoritarian }
+				change_variable = { which = xvcv_mdlc_abyss_patron_instrument_rank value = 0.03 }
+			}
+			else_if = {
+				limit = { has_ethic = ethic_fanatic_authoritarian }
+				change_variable = { which = xvcv_mdlc_abyss_patron_instrument_rank value = 0.07 }
+			}
+			if = { #Ethics disliked
+				limit = {
+					has_ethic = ethic_egalitarian
+					check_variable = { which = xvcv_mdlc_abyss_patron_instrument_rank value < 2 }
+				}
+				change_variable = { which = xvcv_mdlc_abyss_patron_instrument_rank value = -0.02 }
+			}
+			else_if = {
+				limit = {
+					has_ethic = ethic_fanatic_egalitarian
+					check_variable = { which = xvcv_mdlc_abyss_patron_instrument_rank value < 2 }
+				}
+				change_variable = { which = xvcv_mdlc_abyss_patron_instrument_rank value = -0.05 }
+			}
+			if = { #Tradition liked
+				limit = { has_tradition = tr_domination_finish }
+				change_variable = { which = xvcv_mdlc_abyss_patron_instrument_rank value = 0.06 }
+			}
+			if = { #Acension Perks liked
+				limit = {
+					OR = {
+						has_ascension_perk = ap_shared_destiny
+						has_ascension_perk = ap_imperial_prerogative
+					}
+				}
+				change_variable = { which = xvcv_mdlc_abyss_patron_instrument_rank value = 0.04 }
+			}
+			if = { #Other things liked
+				limit = {
+					OR = {
+						is_at_war = no
+						ruler = { has_trait = leader_trait_substance_abuser }
+						any_owned_planet = {
+							is_colony = yes
+							has_designation = col_resort
+						}
+					}
+				}
+				change_variable = { which = xvcv_mdlc_abyss_patron_instrument_rank value = 0.11 }
+			}
+		}
+		else_if = { #Eater modifiers
+			limit = { check_variable = { which = xvcv_mdlc_abyss_patron_eater_rank value > 0 } }
+			change_variable = { which = xvcv_mdlc_abyss_patron_eater_rank value = 0.03 }
+			if = { #Civics liked
+				limit = {
+					OR = {
+						has_civic = civic_citizen_service
+						has_civic = civic_fanatic_purifiers
+						has_civic = civic_distinguished_admiralty
+						has_civic = civic_naval_contractors
+						has_civic = civic_barbaric_despoilers
+						has_civic = civic_private_military_companies
+					}
+				}
+				change_variable = { which = xvcv_mdlc_abyss_patron_eater_rank value = 0.04 }
+			}
+			if = { #Civics disliked
+				limit = {
+					OR = {
+						has_civic = civic_inwards_perfection
+						has_civic = civic_agrarian_idyll
+					}
+					check_variable = { which = xvcv_mdlc_abyss_patron_eater_rank value < 2 }
+				}
+				change_variable = { which = xvcv_mdlc_abyss_patron_eater_rank value = -0.02 }
+			}
+			if = { #Ethics liked
+				limit = { has_ethic = ethic_militarist }
+				change_variable = { which = xvcv_mdlc_abyss_patron_eater_rank value = 0.03 }
+			}
+			else_if = {
+				limit = { has_ethic = ethic_fanatic_militarist }
+				change_variable = { which = xvcv_mdlc_abyss_patron_eater_rank value = 0.07 }
+			}
+			if = { #Ethics disliked
+				limit = {
+					has_ethic = ethic_pacifist
+					check_variable = { which = xvcv_mdlc_abyss_patron_eater_rank value < 2 }
+				}
+				change_variable = { which = xvcv_mdlc_abyss_patron_eater_rank value = -0.02 }
+			}
+			else_if = {
+				limit = {
+					has_ethic = ethic_fanatic_pacifist
+					check_variable = { which = xvcv_mdlc_abyss_patron_eater_rank value < 2 }
+				}
+				change_variable = { which = xvcv_mdlc_abyss_patron_eater_rank value = -0.05 }
+			}
+			if = { #Tradition liked
+				limit = { has_tradition = tr_supremacy_finish }
+				change_variable = { which = xvcv_mdlc_abyss_patron_eater_rank value = 0.06 }
+			}
+			if = { #Acension Perks liked
+				limit = {
+					OR = {
+						has_ascension_perk = ap_galactic_force_projection
+						has_ascension_perk = ap_interstellar_dominion
+					}
+				}
+				change_variable = { which = xvcv_mdlc_abyss_patron_eater_rank value = 0.04 }
+			}
+			if = { #Other things liked
+				limit = { is_at_war = yes }
+				change_variable = { which = xvcv_mdlc_abyss_patron_eater_rank value = 0.11 }
+			}
+		}
+		if = {
+			limit = {
+				NOR = {
+					has_country_flag = xvcv_mdlc_abyss_patron_whisperers_rank_1
+					has_country_flag = xvcv_mdlc_abyss_patron_composer_rank_1
+					has_country_flag = xvcv_mdlc_abyss_patron_instrument_rank_1
+					has_country_flag = xvcv_mdlc_abyss_patron_eater_rank_1
+				}
+				OR = {
+					check_variable = { which = xvcv_mdlc_abyss_patron_whisperers_rank value > @xvcv_mdlc_abyss_patron_rank_1 }
+					check_variable = { which = xvcv_mdlc_abyss_patron_composer_rank value > @xvcv_mdlc_abyss_patron_rank_1 }
+					check_variable = { which = xvcv_mdlc_abyss_patron_instrument_rank value > @xvcv_mdlc_abyss_patron_rank_1 }
+					check_variable = { which = xvcv_mdlc_abyss_patron_eater_rank value > @xvcv_mdlc_abyss_patron_rank_1 }
+				}
+			}
+			country_event = { id = xvcv_mdlc_abyss.151 } #abyss patron rank 1 check
+		}
+		else_if = {
+			limit = {
+				NOR = {
+					has_country_flag = xvcv_mdlc_abyss_patron_whisperers_rank_2
+					has_country_flag = xvcv_mdlc_abyss_patron_composer_rank_2
+					has_country_flag = xvcv_mdlc_abyss_patron_instrument_rank_2
+					has_country_flag = xvcv_mdlc_abyss_patron_eater_rank_2
+				}
+				OR = {
+					check_variable = { which = xvcv_mdlc_abyss_patron_whisperers_rank value > @xvcv_mdlc_abyss_patron_rank_2 }
+					check_variable = { which = xvcv_mdlc_abyss_patron_composer_rank value > @xvcv_mdlc_abyss_patron_rank_2 }
+					check_variable = { which = xvcv_mdlc_abyss_patron_instrument_rank value > @xvcv_mdlc_abyss_patron_rank_2 }
+					check_variable = { which = xvcv_mdlc_abyss_patron_eater_rank value > @xvcv_mdlc_abyss_patron_rank_2 }
+				}
+			}
+			country_event = { id = xvcv_mdlc_abyss.152 } #abyss patron rank 2 check
+		}
+		else_if = {
+			limit = {
+				NOR = {
+					has_country_flag = xvcv_mdlc_abyss_patron_whisperers_rank_3
+					has_country_flag = xvcv_mdlc_abyss_patron_composer_rank_3
+					has_country_flag = xvcv_mdlc_abyss_patron_instrument_rank_3
+					has_country_flag = xvcv_mdlc_abyss_patron_eater_rank_3
+				}
+				OR = {
+					check_variable = { which = xvcv_mdlc_abyss_patron_whisperers_rank value > @xvcv_mdlc_abyss_patron_rank_3 }
+					check_variable = { which = xvcv_mdlc_abyss_patron_composer_rank value > @xvcv_mdlc_abyss_patron_rank_3 }
+					check_variable = { which = xvcv_mdlc_abyss_patron_instrument_rank value > @xvcv_mdlc_abyss_patron_rank_3 }
+					check_variable = { which = xvcv_mdlc_abyss_patron_eater_rank value > @xvcv_mdlc_abyss_patron_rank_3 }
+				}
+			}
+			country_event = { id = xvcv_mdlc_abyss.153 } #abyss patron rank 3 check
+		}
+		else_if = {
+			limit = {
+				NOR = {
+					has_country_flag = xvcv_mdlc_abyss_patron_whisperers_rank_4
+					has_country_flag = xvcv_mdlc_abyss_patron_composer_rank_4
+					has_country_flag = xvcv_mdlc_abyss_patron_instrument_rank_4
+					has_country_flag = xvcv_mdlc_abyss_patron_eater_rank_4
+				}
+				OR = {
+					check_variable = { which = xvcv_mdlc_abyss_patron_whisperers_rank value > @xvcv_mdlc_abyss_patron_rank_4 }
+					check_variable = { which = xvcv_mdlc_abyss_patron_composer_rank value > @xvcv_mdlc_abyss_patron_rank_4 }
+					check_variable = { which = xvcv_mdlc_abyss_patron_instrument_rank value > @xvcv_mdlc_abyss_patron_rank_4 }
+					check_variable = { which = xvcv_mdlc_abyss_patron_eater_rank value > @xvcv_mdlc_abyss_patron_rank_4 }
+				}
+			}
+			country_event = { id = xvcv_mdlc_abyss.155 } #abyss patron rank 4 check
+		}
+		country_event = { id = xvcv_mdlc_abyss.150 days = 20 random = 15 } #self-repeating event #per 20 (+15 random) days
+	}
+}
+#abyss patron rank 1 check
+country_event = {
+	id = xvcv_mdlc_abyss.151
+	title = "xvcv_mdlc_abyss.151.name"
+	desc = "xvcv_mdlc_abyss.151.desc"
+	picture = GFX_evt_shroudwalker_enclave
+	show_sound = event_psionic
+
+	is_triggered_only = yes
+
+	immediate = {
+		switch = {
+			trigger = is_variable_set
+			xvcv_mdlc_abyss_patron_whisperers_rank = { set_country_flag = xvcv_mdlc_abyss_patron_whisperers_rank_1 }
+			xvcv_mdlc_abyss_patron_composer_rank = { set_country_flag = xvcv_mdlc_abyss_patron_composer_rank_1 }
+			xvcv_mdlc_abyss_patron_instrument_rank = { set_country_flag = xvcv_mdlc_abyss_patron_instrument_rank_1 }
+			xvcv_mdlc_abyss_patron_eater_rank = { set_country_flag = xvcv_mdlc_abyss_patron_eater_rank_1 }
+		}
+	}
+
+	option = { #Whisperers in the Void
+		name = xvcv_mdlc_abyss.151.a
+		custom_tooltip = xvcv_mdlc_abyss_151_a.tooltip
+		trigger = { has_country_flag = xvcv_mdlc_abyss_patron_whisperers_rank_1 }
+		add_event_chain_counter = { event_chain = xvcv_mdlc_abyss_patron_whisperers_chain counter = xvcv_mdlc_abyss_patron_rank amount = 1 }
+	}
+	option = { #Composer of Strands
+		name = xvcv_mdlc_abyss.151.b
+		custom_tooltip = xvcv_mdlc_abyss_151_b.tooltip
+		trigger = { has_country_flag = xvcv_mdlc_abyss_patron_composer_rank_1 }
+		add_event_chain_counter = { event_chain = xvcv_mdlc_abyss_patron_composer_chain counter = xvcv_mdlc_abyss_patron_rank amount = 1 }
+	}
+	option = { #Instrument of Desire
+		name = xvcv_mdlc_abyss.151.c
+		custom_tooltip = xvcv_mdlc_abyss_151_c.tooltip
+		trigger = { has_country_flag = xvcv_mdlc_abyss_patron_instrument_rank_1 }
+		add_event_chain_counter = { event_chain = xvcv_mdlc_abyss_patron_instrument_chain counter = xvcv_mdlc_abyss_patron_rank amount = 1 }
+	}
+	option = { #Eater of Worlds
+		name = xvcv_mdlc_abyss.151.d
+		custom_tooltip = xvcv_mdlc_abyss_151_d.tooltip
+		trigger = { has_country_flag = xvcv_mdlc_abyss_patron_eater_rank_1 }
+		add_event_chain_counter = { event_chain = xvcv_mdlc_abyss_patron_eater_chain counter = xvcv_mdlc_abyss_patron_rank amount = 1 }
+	}
+}
+#abyss patron rank 2 check
+country_event = {
+	id = xvcv_mdlc_abyss.152
+	title = "xvcv_mdlc_abyss.152.name"
+	desc = "xvcv_mdlc_abyss.152.desc"
+	picture = GFX_evt_shroudwalker_enclave
+	show_sound = event_psionic
+
+	is_triggered_only = yes
+
+	immediate = {
+		switch = {
+			trigger = is_variable_set
+			xvcv_mdlc_abyss_patron_whisperers_rank = { set_country_flag = xvcv_mdlc_abyss_patron_whisperers_rank_2 }
+			xvcv_mdlc_abyss_patron_composer_rank = { set_country_flag = xvcv_mdlc_abyss_patron_composer_rank_2 }
+			xvcv_mdlc_abyss_patron_instrument_rank = { set_country_flag = xvcv_mdlc_abyss_patron_instrument_rank_2 }
+			xvcv_mdlc_abyss_patron_eater_rank = { set_country_flag = xvcv_mdlc_abyss_patron_eater_rank_2 }
+		}
+	}
+
+	option = { #Whisperers in the Void
+		name = xvcv_mdlc_abyss.152.a
+		custom_tooltip = xvcv_mdlc_abyss_152_a.tooltip
+		trigger = { has_country_flag = xvcv_mdlc_abyss_patron_whisperers_rank_2 }
+		add_event_chain_counter = { event_chain = xvcv_mdlc_abyss_patron_whisperers_chain counter = xvcv_mdlc_abyss_patron_rank amount = 1 }
+		hidden_effect = {
+			remove_modifier = xvcv_mdlc_abyss_patron_whisperers
+			add_modifier = { modifier = xvcv_mdlc_abyss_patron_whisperers_alt days = -1 }
+		}
+	}
+	option = { #Composer of Strands
+		name = xvcv_mdlc_abyss.152.b
+		custom_tooltip = xvcv_mdlc_abyss_152_a.tooltip
+		trigger = { has_country_flag = xvcv_mdlc_abyss_patron_composer_rank_2 }
+		add_event_chain_counter = { event_chain = xvcv_mdlc_abyss_patron_composer_chain counter = xvcv_mdlc_abyss_patron_rank amount = 1 }
+		hidden_effect = {
+			remove_modifier = xvcv_mdlc_abyss_patron_composer
+			add_modifier = { modifier = xvcv_mdlc_abyss_patron_composer_alt days = -1 }
+		}
+	}
+	option = { #Instrument of Desire
+		name = xvcv_mdlc_abyss.152.c
+		custom_tooltip = xvcv_mdlc_abyss_152_a.tooltip
+		trigger = { has_country_flag = xvcv_mdlc_abyss_patron_instrument_rank_2 }
+		add_event_chain_counter = { event_chain = xvcv_mdlc_abyss_patron_instrument_chain counter = xvcv_mdlc_abyss_patron_rank amount = 1 }
+		hidden_effect = {
+			remove_modifier = xvcv_mdlc_abyss_patron_instrument
+			add_modifier = { modifier = xvcv_mdlc_abyss_patron_instrument_alt days = -1 }
+		}
+	}
+	option = { #Eater of Worlds
+		name = xvcv_mdlc_abyss.152.d
+		custom_tooltip = xvcv_mdlc_abyss_152_a.tooltip
+		trigger = { has_country_flag = xvcv_mdlc_abyss_patron_eater_rank_2 }
+		add_event_chain_counter = { event_chain = xvcv_mdlc_abyss_patron_eater_chain counter = xvcv_mdlc_abyss_patron_rank amount = 1 }
+		hidden_effect = {
+			remove_modifier = xvcv_mdlc_abyss_patron_eater
+			add_modifier = { modifier = xvcv_mdlc_abyss_patron_eater_alt days = -1 }
+		}
+	}
+}
+#abyss patron rank 3 check
+country_event = {
+	id = xvcv_mdlc_abyss.153
+	title = "xvcv_mdlc_abyss.153.name"
+	desc = "xvcv_mdlc_abyss.153.desc"
+	picture = GFX_evt_shroudwalker_enclave
+	show_sound = event_psionic
+
+	is_triggered_only = yes
+
+	immediate = {
+		switch = {
+			trigger = is_variable_set
+			xvcv_mdlc_abyss_patron_whisperers_rank = { set_country_flag = xvcv_mdlc_abyss_patron_whisperers_rank_3 }
+			xvcv_mdlc_abyss_patron_composer_rank = { set_country_flag = xvcv_mdlc_abyss_patron_composer_rank_3 }
+			xvcv_mdlc_abyss_patron_instrument_rank = { set_country_flag = xvcv_mdlc_abyss_patron_instrument_rank_3 }
+			xvcv_mdlc_abyss_patron_eater_rank = { set_country_flag = xvcv_mdlc_abyss_patron_eater_rank_3 }
+		}
+		random_owned_leader = {
+			limit = { is_ruler = yes }
+			save_event_target_as = xvcv_mdlc_abyss_patron_temporally_selected_leader_1
+		}
+		random_owned_leader = {
+			limit = {
+				NOT = { is_same_value = event_target:xvcv_mdlc_abyss_patron_temporally_selected_leader_1 }
+				owner = { has_country_flag = xvcv_mdlc_abyss_patron_whisperers_rank_3 }
+				OR = {
+					leader_class = commander
+					leader_class = scientist
+				}
+			}
+			save_event_target_as = xvcv_mdlc_abyss_patron_temporally_selected_leader_2
+		}
+		random_owned_leader = {
+			limit = {
+				NOT = { is_same_value = event_target:xvcv_mdlc_abyss_patron_temporally_selected_leader_1 }
+				owner = { has_country_flag = xvcv_mdlc_abyss_patron_composer_rank_3 }
+				OR = {
+					leader_class = official
+					leader_class = scientist
+					leader_class = commander
+				}
+			}
+			save_event_target_as = xvcv_mdlc_abyss_patron_temporally_selected_leader_2
+		}
+		random_owned_leader = {
+			limit = {
+				NOT = { is_same_value = event_target:xvcv_mdlc_abyss_patron_temporally_selected_leader_1 }
+				owner = { has_country_flag = xvcv_mdlc_abyss_patron_instrument_rank_3 }
+				OR = {
+					leader_class = official
+					leader_class = scientist
+					leader_class = commander
+				}
+			}
+			save_event_target_as = xvcv_mdlc_abyss_patron_temporally_selected_leader_2
+		}
+		random_owned_leader = {
+			limit = {
+				NOT = { is_same_value = event_target:xvcv_mdlc_abyss_patron_temporally_selected_leader_1 }
+				owner = { has_country_flag = xvcv_mdlc_abyss_patron_eater_rank_3 }
+			}
+			if = {
+				limit = { leader_class = commander }
+				save_event_target_as = xvcv_mdlc_abyss_patron_temporally_selected_leader_2
+			}
+			else_if = {
+				limit = { leader_class = official }
+				save_event_target_as = xvcv_mdlc_abyss_patron_temporally_selected_leader_2
+			}
+		}
+		random_owned_leader = {
+			limit = {
+				NOR = {
+					is_same_value = event_target:xvcv_mdlc_abyss_patron_temporally_selected_leader_1
+					is_same_value = event_target:xvcv_mdlc_abyss_patron_temporally_selected_leader_2
+				}
+				owner = { has_country_flag = xvcv_mdlc_abyss_patron_whisperers_rank_3 }
+				OR = {
+					leader_class = official
+					leader_class = scientist
+					leader_class = commander
+				}
+			}
+			save_event_target_as = xvcv_mdlc_abyss_patron_temporally_selected_leader_3
+		}
+		random_owned_leader = {
+			limit = {
+				NOR = {
+					is_same_value = event_target:xvcv_mdlc_abyss_patron_temporally_selected_leader_1
+					is_same_value = event_target:xvcv_mdlc_abyss_patron_temporally_selected_leader_2
+				}
+				owner = { has_country_flag = xvcv_mdlc_abyss_patron_composer_rank_3 }
+				OR = {
+					leader_class = official
+					leader_class = scientist
+					leader_class = commander
+				}
+			}
+			save_event_target_as = xvcv_mdlc_abyss_patron_temporally_selected_leader_3
+		}
+		random_owned_leader = {
+			limit = {
+				NOR = {
+					is_same_value = event_target:xvcv_mdlc_abyss_patron_temporally_selected_leader_1
+					is_same_value = event_target:xvcv_mdlc_abyss_patron_temporally_selected_leader_2
+				}
+				owner = { has_country_flag = xvcv_mdlc_abyss_patron_instrument_rank_3 }
+				OR = {
+					leader_class = official
+					leader_class = scientist
+					leader_class = commander
+				}
+			}
+			save_event_target_as = xvcv_mdlc_abyss_patron_temporally_selected_leader_3
+		}
+		random_owned_leader = {
+			limit = {
+				NOR = {
+					is_same_value = event_target:xvcv_mdlc_abyss_patron_temporally_selected_leader_1
+					is_same_value = event_target:xvcv_mdlc_abyss_patron_temporally_selected_leader_2
+				}
+				owner = { has_country_flag = xvcv_mdlc_abyss_patron_eater_rank_3 }
+				OR = {
+					leader_class = official
+					leader_class = scientist
+					leader_class = commander
+					is_ruler = yes
+				}
+			}
+			save_event_target_as = xvcv_mdlc_abyss_patron_temporally_selected_leader_3
+		}
+		random_owned_leader = {
+			limit = {
+				NOR = {
+					is_same_value = event_target:xvcv_mdlc_abyss_patron_temporally_selected_leader_1
+					is_same_value = event_target:xvcv_mdlc_abyss_patron_temporally_selected_leader_2
+				}
+				has_trait = leader_trait_chosen
+			}
+			save_event_target_as = xvcv_mdlc_abyss_patron_temporally_selected_leader_3
+		}
+		random_owned_leader = {
+			limit = {
+				NOR = {
+					is_same_value = event_target:xvcv_mdlc_abyss_patron_temporally_selected_leader_1
+					is_same_value = event_target:xvcv_mdlc_abyss_patron_temporally_selected_leader_2
+					is_same_value = event_target:xvcv_mdlc_abyss_patron_temporally_selected_leader_3
+				}
+				owner = { has_country_flag = xvcv_mdlc_abyss_patron_whisperers_rank_3 }
+				leader_class = scientist
+			}
+			save_event_target_as = xvcv_mdlc_abyss_patron_temporally_selected_leader_4
+		}
+		random_owned_leader = {
+			limit = {
+				NOR = {
+					is_same_value = event_target:xvcv_mdlc_abyss_patron_temporally_selected_leader_1
+					is_same_value = event_target:xvcv_mdlc_abyss_patron_temporally_selected_leader_2
+					is_same_value = event_target:xvcv_mdlc_abyss_patron_temporally_selected_leader_3
+				}
+				owner = { has_country_flag = xvcv_mdlc_abyss_patron_composer_rank_3 }
+				leader_class = scientist
+			}
+			save_event_target_as = xvcv_mdlc_abyss_patron_temporally_selected_leader_4
+		}
+		random_owned_leader = {
+			limit = {
+				NOR = {
+					is_same_value = event_target:xvcv_mdlc_abyss_patron_temporally_selected_leader_1
+					is_same_value = event_target:xvcv_mdlc_abyss_patron_temporally_selected_leader_2
+					is_same_value = event_target:xvcv_mdlc_abyss_patron_temporally_selected_leader_3
+				}
+				owner = { has_country_flag = xvcv_mdlc_abyss_patron_instrument_rank_3 }
+				leader_class = official
+			}
+			save_event_target_as = xvcv_mdlc_abyss_patron_temporally_selected_leader_4
+		}
+		random_owned_leader = {
+			limit = {
+				NOR = {
+					is_same_value = event_target:xvcv_mdlc_abyss_patron_temporally_selected_leader_1
+					is_same_value = event_target:xvcv_mdlc_abyss_patron_temporally_selected_leader_2
+					is_same_value = event_target:xvcv_mdlc_abyss_patron_temporally_selected_leader_3
+				}
+				owner = { has_country_flag = xvcv_mdlc_abyss_patron_eater_rank_3 }
+				leader_class = commander
+			}
+			save_event_target_as = xvcv_mdlc_abyss_patron_temporally_selected_leader_4
+		}
+	}
+
+	after = {
+		hidden_effect = { country_event = { id = xvcv_mdlc_abyss.154 } }
+	}
+
+	option = { #Whisperers in the Void
+		name = xvcv_mdlc_abyss.153.a
+		custom_tooltip = xvcv_mdlc_abyss_153_a.tooltip
+		trigger = { has_country_flag = xvcv_mdlc_abyss_patron_whisperers_rank_3 }
+		add_event_chain_counter = { event_chain = xvcv_mdlc_abyss_patron_whisperers_chain counter = xvcv_mdlc_abyss_patron_rank amount = 1 }
+		hidden_effect = { event_target:xvcv_mdlc_abyss_patron_temporally_selected_leader_1 = { save_event_target_as = xvcv_mdlc_abyss_patron_chosen_leader } }
+	}
+	option = { #Composer of Strands
+		name = xvcv_mdlc_abyss.153.b
+		custom_tooltip = xvcv_mdlc_abyss_153_a.tooltip
+		trigger = { has_country_flag = xvcv_mdlc_abyss_patron_composer_rank_3 }
+		add_event_chain_counter = { event_chain = xvcv_mdlc_abyss_patron_composer_chain counter = xvcv_mdlc_abyss_patron_rank amount = 1 }
+		hidden_effect = { event_target:xvcv_mdlc_abyss_patron_temporally_selected_leader_2 = { save_event_target_as = xvcv_mdlc_abyss_patron_chosen_leader } }
+	}
+	option = { #Instrument of Desire
+		name = xvcv_mdlc_abyss.153.c
+		custom_tooltip = xvcv_mdlc_abyss_153_a.tooltip
+		trigger = { has_country_flag = xvcv_mdlc_abyss_patron_instrument_rank_3 }
+		add_event_chain_counter = { event_chain = xvcv_mdlc_abyss_patron_instrument_chain counter = xvcv_mdlc_abyss_patron_rank amount = 1 }
+		hidden_effect = { event_target:xvcv_mdlc_abyss_patron_temporally_selected_leader_3 = { save_event_target_as = xvcv_mdlc_abyss_patron_chosen_leader } }
+	}
+	option = { #Eater of Worlds
+		name = xvcv_mdlc_abyss.153.d
+		custom_tooltip = xvcv_mdlc_abyss_153_a.tooltip
+		trigger = { has_country_flag = xvcv_mdlc_abyss_patron_eater_rank_3 }
+		add_event_chain_counter = { event_chain = xvcv_mdlc_abyss_patron_eater_chain counter = xvcv_mdlc_abyss_patron_rank amount = 1 }
+		hidden_effect = { event_target:xvcv_mdlc_abyss_patron_temporally_selected_leader_4 = { save_event_target_as = xvcv_mdlc_abyss_patron_chosen_leader } }
+	}
+}
+#abyss patron rank 3 chosen leader event
+country_event = {
+	id = xvcv_mdlc_abyss.154
+	title = "xvcv_mdlc_abyss.154.name"
+	desc = "xvcv_mdlc_abyss.154.desc"
+	picture = GFX_evt_shroudwalker_enclave
+	show_sound = event_psionic
+
+	is_triggered_only = yes
+
+	option = {
+		name = xvcv_mdlc_abyss.154.a
+		event_target:xvcv_mdlc_abyss_patron_chosen_leader = { remove_all_negative_traits = yes }
+		switch = {
+			trigger = has_country_flag
+			xvcv_mdlc_abyss_patron_whisperers_rank_3 = { event_target:xvcv_mdlc_abyss_patron_chosen_leader = { add_trait = { trait = xvcv_mdlc_leader_trait_whisperers_chosen } } }
+			xvcv_mdlc_abyss_patron_composer_rank_3 = { event_target:xvcv_mdlc_abyss_patron_chosen_leader = { add_trait = { trait = xvcv_mdlc_leader_trait_composer_chosen } } }
+			xvcv_mdlc_abyss_patron_instrument_rank_3 = { event_target:xvcv_mdlc_abyss_patron_chosen_leader = { add_trait = { trait = xvcv_mdlc_leader_trait_instrument_chosen } } }
+			xvcv_mdlc_abyss_patron_eater_rank_3 = { event_target:xvcv_mdlc_abyss_patron_chosen_leader = { add_trait = { trait = xvcv_mdlc_leader_trait_eater_chosen } } }
+		}
+	}
+}
+#abyss patron rank 4 check
+country_event = {
+	id = xvcv_mdlc_abyss.155
+	title = "xvcv_mdlc_abyss.155.name"
+	desc = "xvcv_mdlc_abyss.155.desc"
+	picture = GFX_evt_shroudwalker_enclave
+	show_sound = event_psionic
+
+	is_triggered_only = yes
+
+	immediate = {
+		switch = {
+			trigger = is_variable_set
+			xvcv_mdlc_abyss_patron_whisperers_rank = { set_country_flag = xvcv_mdlc_abyss_patron_whisperers_rank_4 }
+			xvcv_mdlc_abyss_patron_composer_rank = { set_country_flag = xvcv_mdlc_abyss_patron_composer_rank_4 }
+			xvcv_mdlc_abyss_patron_instrument_rank = { set_country_flag = xvcv_mdlc_abyss_patron_instrument_rank_4 }
+			xvcv_mdlc_abyss_patron_eater_rank = { set_country_flag = xvcv_mdlc_abyss_patron_eater_rank_4 }
+		}
+	}
+
+	option = { #Whisperers in the Void
+		name = xvcv_mdlc_abyss.155.a
+		trigger = { has_country_flag = xvcv_mdlc_abyss_patron_whisperers_rank_4 }
+		add_event_chain_counter = { event_chain = xvcv_mdlc_abyss_patron_whisperers_chain counter = xvcv_mdlc_abyss_patron_rank amount = 1 }
+		give_technology = { tech = xvcv_mdlc_tech_abyss_patron_whisperers message = yes }
+	}
+	option = { #Composer of Strands
+		name = xvcv_mdlc_abyss.155.b
+		trigger = { has_country_flag = xvcv_mdlc_abyss_patron_composer_rank_4 }
+		add_event_chain_counter = { event_chain = xvcv_mdlc_abyss_patron_composer_chain counter = xvcv_mdlc_abyss_patron_rank amount = 1 }
+		give_technology = { tech = xvcv_mdlc_tech_abyss_patron_composer message = yes }
+	}
+	option = { #Instrument of Desire
+		name = xvcv_mdlc_abyss.155.c
+		trigger = { has_country_flag = xvcv_mdlc_abyss_patron_instrument_rank_4 }
+		add_event_chain_counter = { event_chain = xvcv_mdlc_abyss_patron_instrument_chain counter = xvcv_mdlc_abyss_patron_rank amount = 1 }
+		give_technology = { tech = xvcv_mdlc_tech_abyss_patron_instrument message = yes }
+	}
+	option = { #Eater of Worlds
+		name = xvcv_mdlc_abyss.155.d
+		trigger = { has_country_flag = xvcv_mdlc_abyss_patron_eater_rank_4 }
+		add_event_chain_counter = { event_chain = xvcv_mdlc_abyss_patron_eater_chain counter = xvcv_mdlc_abyss_patron_rank amount = 1 }
+		give_technology = { tech = xvcv_mdlc_tech_abyss_patron_eater message = yes }
+	}
+}
+#generic vision
+country_event = {
+	id = xvcv_mdlc_abyss.200
+	title = "xvcv_mdlc_title_abyss"
+	desc = "xvcv_mdlc_abyss.200.desc.1"
+	desc = "xvcv_mdlc_abyss.200.desc.2"
+	desc = "xvcv_mdlc_abyss.200.desc.3"
+	desc = "xvcv_mdlc_abyss.200.desc.4"
+	desc = "xvcv_mdlc_abyss.200.desc.5"
+	desc = "xvcv_mdlc_abyss.200.desc.6"
+	desc = "xvcv_mdlc_abyss.200.desc.7"
+	desc = "xvcv_mdlc_abyss.200.desc.8"
+	desc = "xvcv_mdlc_abyss.200.desc.9"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	option = {
+		name = xvcv_mdlc_abyss_random_effect
+		custom_tooltip = xvcv_mdlc_abyss_reward_modifier_tooltip
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_shallow }
+		hidden_effect = { xvcv_mdlc_abyss_random_modifier_shallow_effect = yes }
+	}
+	option = {
+		name = xvcv_mdlc_abyss_random_effect
+		custom_tooltip = xvcv_mdlc_abyss_reward_modifier_tooltip
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_deep }
+		hidden_effect = { xvcv_mdlc_abyss_random_modifier_deep_effect = yes }
+	}
+}
+#empire modifier adding events
+#Happiness / Planet Stability (SUCCESS)
+country_event = {
+	id = xvcv_mdlc_abyss.210
+	title = "xvcv_mdlc_abyss_happiness"
+	desc = "xvcv_mdlc_abyss.210.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_shallow }
+		if = {
+			limit = { has_ethic_gestalt_consciousness = no }
+			add_modifier = { modifier = xvcv_mdlc_abyss_happiness days = 1800 }
+			else = { add_modifier = { modifier = xvcv_mdlc_abyss_happiness_gestalt days = 1800 } }
+		}
+	}
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_deep }
+		if = {
+			limit = { has_ethic_gestalt_consciousness = no }
+			add_modifier = { modifier = xvcv_mdlc_abyss_happiness days = 3600 }
+			else = { add_modifier = { modifier = xvcv_mdlc_abyss_happiness_gestalt days = 3600 } }
+		}
+	}
+}
+#Ship Upkeep (SUCCESS)
+country_event = {
+	id = xvcv_mdlc_abyss.211
+	title = "xvcv_mdlc_abyss_happiness"
+	desc = "xvcv_mdlc_abyss.211.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_shallow }
+		add_modifier = { modifier = xvcv_mdlc_abyss_ship_upkeep days = 1800 }
+	}
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_deep }
+		add_modifier = { modifier = xvcv_mdlc_abyss_ship_upkeep days = 3600 }
+	}
+}
+#Research Speed (SUCCESS)
+country_event = {
+	id = xvcv_mdlc_abyss.212
+	title = "xvcv_mdlc_abyss_happiness"
+	desc = "xvcv_mdlc_abyss.212.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_shallow }
+		add_modifier = { modifier = xvcv_mdlc_abyss_research_speed days = 1800 }
+	}
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_deep }
+		add_modifier = { modifier = xvcv_mdlc_abyss_research_speed days = 3600 }
+	}
+}
+#Shield Boost (SUCCESS)
+country_event = {
+	id = xvcv_mdlc_abyss.213
+	title = "xvcv_mdlc_abyss_happiness"
+	desc = "xvcv_mdlc_abyss.213.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_shallow }
+		add_modifier = { modifier = xvcv_mdlc_abyss_shield_boost days = 1800 }
+	}
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_deep }
+		add_modifier = { modifier = xvcv_mdlc_abyss_shield_boost days = 3600 }
+	}
+}
+#Weapon Boost (SUCCESS)
+country_event = {
+	id = xvcv_mdlc_abyss.214
+	title = "xvcv_mdlc_abyss_happiness"
+	desc = "xvcv_mdlc_abyss.214.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_shallow }
+		add_modifier = { modifier = xvcv_mdlc_abyss_weapon_boost days = 1800 }
+	}
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_deep }
+		add_modifier = { modifier = xvcv_mdlc_abyss_weapon_boost days = 3600 }
+	}
+}
+#Firing Rate (SUCCESS)
+country_event = {
+	id = xvcv_mdlc_abyss.215
+	title = "xvcv_mdlc_abyss_happiness"
+	desc = "xvcv_mdlc_abyss.215.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_shallow }
+		add_modifier = { modifier = xvcv_mdlc_abyss_firing_rate days = 1800 }
+	}
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_deep }
+		add_modifier = { modifier = xvcv_mdlc_abyss_firing_rate days = 3600 }
+	}
+}
+#Ethic Boost (SUCCESS)
+country_event = {
+	id = xvcv_mdlc_abyss.216
+	title = "xvcv_mdlc_abyss_happiness"
+	desc = "xvcv_mdlc_abyss.216.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_shallow }
+		if = {
+			limit = { has_ethic_gestalt_consciousness = no }
+			add_modifier = { modifier = xvcv_mdlc_abyss_ethic_boost days = 1800 }
+			else = { add_modifier = { modifier = xvcv_mdlc_abyss_ethic_boost_gestalt days = 1800 } }
+		}
+	}
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_deep }
+		if = {
+			limit = { has_ethic_gestalt_consciousness = no }
+			add_modifier = { modifier = xvcv_mdlc_abyss_ethic_boost days = 3600 }
+			else = { add_modifier = { modifier = xvcv_mdlc_abyss_ethic_boost_gestalt days = 3600 } }
+		}
+	}
+}
+#Influence Boost (SUCCESS)
+country_event = {
+	id = xvcv_mdlc_abyss.217
+	title = "xvcv_mdlc_abyss_happiness"
+	desc = "xvcv_mdlc_abyss.217.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_shallow }
+		add_modifier = { modifier = xvcv_mdlc_abyss_influence_boost days = 1800 }
+	}
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_deep }
+		add_modifier = { modifier = xvcv_mdlc_abyss_influence_boost days = 3600 }
+	}
+}
+#Unity Boost (SUCCESS)
+country_event = {
+	id = xvcv_mdlc_abyss.218
+	title = "xvcv_mdlc_abyss_happiness"
+	desc = "xvcv_mdlc_abyss.218.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_shallow }
+		add_modifier = { modifier = xvcv_mdlc_abyss_unity_boost days = 1800 }
+	}
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_deep }
+		add_modifier = { modifier = xvcv_mdlc_abyss_unity_boost days = 3600 }
+	}
+}
+#Evasion (SUCCESS)
+country_event = {
+	id = xvcv_mdlc_abyss.219
+	title = "xvcv_mdlc_abyss_happiness"
+	desc = "xvcv_mdlc_abyss.219.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_shallow }
+		add_modifier = { modifier = xvcv_mdlc_abyss_evasion days = 1800 }
+	}
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_deep }
+		add_modifier = { modifier = xvcv_mdlc_abyss_evasion days = 3600 }
+	}
+}
+#Ship Repair (SUCCESS)
+country_event = {
+	id = xvcv_mdlc_abyss.220
+	title = "xvcv_mdlc_abyss_happiness"
+	desc = "xvcv_mdlc_abyss.220.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_shallow }
+		add_modifier = { modifier = xvcv_mdlc_abyss_repair days = 1800 }
+	}
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_deep }
+		add_modifier = { modifier = xvcv_mdlc_abyss_repair days = 3600 }
+	}
+}
+#Ship Speed (SUCCESS)
+country_event = {
+	id = xvcv_mdlc_abyss.221
+	title = "xvcv_mdlc_abyss_happiness"
+	desc = "xvcv_mdlc_abyss.221.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_shallow }
+		add_modifier = { modifier = xvcv_mdlc_abyss_speed days = 1800 }
+	}
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_deep }
+		add_modifier = { modifier = xvcv_mdlc_abyss_speed days = 3600 }
+	}
+}
+#Army Morale (SUCCESS)
+country_event = {
+	id = xvcv_mdlc_abyss.222
+	title = "xvcv_mdlc_abyss_happiness"
+	desc = "xvcv_mdlc_abyss.222.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_shallow }
+		if = {
+			limit = { has_ethic_gestalt_consciousness = no }
+			add_modifier = { modifier = xvcv_mdlc_abyss_morale days = 1800 }
+			else = { add_modifier = { modifier = xvcv_mdlc_abyss_morale_gestalt days = 1800 } }
+		}
+	}
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_deep }
+		if = {
+			limit = { has_ethic_gestalt_consciousness = no }
+			add_modifier = { modifier = xvcv_mdlc_abyss_morale days = 3600 }
+			else = { add_modifier = { modifier = xvcv_mdlc_abyss_morale_gestalt days = 3600 } }
+		}
+	}
+}
+#Sensor Range (SUCCESS)
+country_event = {
+	id = xvcv_mdlc_abyss.223
+	title = "xvcv_mdlc_abyss_happiness"
+	desc = "xvcv_mdlc_abyss.223.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_shallow }
+		add_modifier = { modifier = xvcv_mdlc_abyss_sensors days = 1800 }
+	}
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_deep }
+		add_modifier = { modifier = xvcv_mdlc_abyss_sensors days = 3600 }
+	}
+}
+#No Effect (FAILURE)
+country_event = {
+	id = xvcv_mdlc_abyss.224
+	title = "xvcv_mdlc_title_abyss"
+	desc = "xvcv_mdlc_abyss.224.desc.1"
+	desc = "xvcv_mdlc_abyss.224.desc.2"
+	desc = "xvcv_mdlc_abyss.224.desc.3"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		custom_tooltip = xvcv_mdlc_leave_abyss.tooltip
+	}
+}
+#Negative Happiness / Planet Stability (CRITICAL FAILURE)
+country_event = {
+	id = xvcv_mdlc_abyss.225
+	title = "xvcv_mdlc_abyss_neg_happiness"
+	desc = "xvcv_mdlc_abyss.225.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_shallow }
+		if = {
+			limit = { has_ethic_gestalt_consciousness = no }
+			add_modifier = { modifier = xvcv_mdlc_abyss_neg_happiness days = 1800 }
+			else = { add_modifier = { modifier = xvcv_mdlc_abyss_neg_happiness_gestalt days = 1800 } }
+		}
+	}
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_deep }
+		if = {
+			limit = { has_ethic_gestalt_consciousness = no }
+			add_modifier = { modifier = xvcv_mdlc_abyss_neg_happiness days = 3600 }
+			else = { add_modifier = { modifier = xvcv_mdlc_abyss_neg_happiness_gestalt days = 3600 } }
+		}
+	}
+}
+#Negative Ethics Attraction (CRITICAL FAILURE)
+country_event = {
+	id = xvcv_mdlc_abyss.226
+	title = "xvcv_mdlc_abyss_neg_happiness"
+	desc = "xvcv_mdlc_abyss.226.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_shallow }
+		if = {
+			limit = { has_ethic_gestalt_consciousness = no }
+			add_modifier = { modifier = xvcv_mdlc_abyss_neg_ethic days = 1800 }
+			else = { add_modifier = { modifier = xvcv_mdlc_abyss_neg_ethic_gestalt days = 1800 } }
+		}
+	}
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_deep }
+		if = {
+			limit = { has_ethic_gestalt_consciousness = no }
+			add_modifier = { modifier = xvcv_mdlc_abyss_neg_ethic days = 3600 }
+			else = { add_modifier = { modifier = xvcv_mdlc_abyss_neg_ethic_gestalt days = 3600 } }
+		}
+	}
+}
+#Negative Ship Armor (CRITICAL FAILURE)
+country_event = {
+	id = xvcv_mdlc_abyss.227
+	title = "xvcv_mdlc_abyss_neg_happiness"
+	desc = "xvcv_mdlc_abyss.227.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_shallow }
+		add_modifier = { modifier = xvcv_mdlc_abyss_neg_armor days = 1800 }
+	}
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_deep }
+		add_modifier = { modifier = xvcv_mdlc_abyss_neg_armor days = 3600 }
+	}
+}
+#Negative Population Growth (CRITICAL FAILURE)
+country_event = {
+	id = xvcv_mdlc_abyss.228
+	title = "xvcv_mdlc_abyss_neg_happiness"
+	desc = "xvcv_mdlc_abyss.228.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_shallow }
+		add_modifier = { modifier = xvcv_mdlc_abyss_neg_assembly days = 1800 }
+	}
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_deep }
+		add_modifier = { modifier = xvcv_mdlc_abyss_neg_assembly days = 3600 }
+	}
+}
+#Negative Research (CRITICAL FAILURE)
+country_event = {
+	id = xvcv_mdlc_abyss.229
+	title = "xvcv_mdlc_abyss_neg_happiness"
+	desc = "xvcv_mdlc_abyss.229.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_shallow }
+		add_modifier = { modifier = xvcv_mdlc_abyss_neg_research days = 1800 }
+	}
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_deep }
+		add_modifier = { modifier = xvcv_mdlc_abyss_neg_research days = 3600 }
+	}
+}
+#Negative Influence (CRITICAL FAILURE)
+country_event = {
+	id = xvcv_mdlc_abyss.230
+	title = "xvcv_mdlc_abyss_neg_happiness"
+	desc = "xvcv_mdlc_abyss.230.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_shallow }
+		add_modifier = { modifier = xvcv_mdlc_abyss_neg_influence days = 1800 }
+	}
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_deep }
+		add_modifier = { modifier = xvcv_mdlc_abyss_neg_influence days = 3600 }
+	}
+}
+#Negative Unity (CRITICAL FAILURE)
+country_event = {
+	id = xvcv_mdlc_abyss.231
+	title = "xvcv_mdlc_abyss_neg_happiness"
+	desc = "xvcv_mdlc_abyss.231.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_shallow }
+		add_modifier = { modifier = xvcv_mdlc_abyss_neg_unity days = 1800 }
+	}
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_deep }
+		add_modifier = { modifier = xvcv_mdlc_abyss_neg_unity days = 3600 }
+	}
+}
+#Negative Ship Speed (CRITICAL FAILURE)
+country_event = {
+	id = xvcv_mdlc_abyss.232
+	title = "xvcv_mdlc_abyss_neg_happiness"
+	desc = "xvcv_mdlc_abyss.232.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_shallow }
+		add_modifier = { modifier = xvcv_mdlc_abyss_neg_speed days = 1800 }
+	}
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_deep }
+		add_modifier = { modifier = xvcv_mdlc_abyss_neg_speed days = 3600 }
+	}
+}
+#Negative Army Morale (CRITICAL FAILURE)
+country_event = {
+	id = xvcv_mdlc_abyss.233
+	title = "xvcv_mdlc_abyss_neg_happiness"
+	desc = "xvcv_mdlc_abyss.233.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_shallow }
+		add_modifier = { modifier = xvcv_mdlc_abyss_neg_morale days = 1800 }
+	}
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_deep }
+		add_modifier = { modifier = xvcv_mdlc_abyss_neg_morale days = 3600 }
+	}
+}
+#Negative Sensor Range (CRITICAL FAILURE)
+country_event = {
+	id = xvcv_mdlc_abyss.234
+	title = "xvcv_mdlc_abyss_neg_happiness"
+	desc = "xvcv_mdlc_abyss.234.desc"
+	is_triggered_only = yes
+	diplomatic_title = BLANK_STRING
+	diplomatic = yes
+	force_open = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	after = {
+		hidden_effect = { xvcv_mdlc_abyss_exit_effect = yes }
+	}
+
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_shallow }
+		add_modifier = { modifier = xvcv_mdlc_abyss_neg_sensors days = 1800 }
+	}
+	option = {
+		name = xvcv_mdlc_leave_abyss
+		trigger = { has_country_flag = xvcv_mdlc_abyss_chose_deep }
+		add_modifier = { modifier = xvcv_mdlc_abyss_neg_sensors days = 3600 }
+	}
+}

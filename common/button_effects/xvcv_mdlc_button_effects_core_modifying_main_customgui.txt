@@ -25,8 +25,10 @@ xvcv_mdlc_core_modifying_remove_subclass_button_effect = {
     effect = {
         custom_tooltip = xvcv_mdlc_core_modifying_tooltip_remove_$CLASS$_$SUBCLASS$
 		hidden_effect = {
-            ruler = { remove_trait = $SUBCLASS$ }
-            xvcv_mdlc_core_modifying_refund_trait_points_picks_common = yes
+            ruler = {
+                remove_trait = $SUBCLASS$
+                xvcv_mdlc_core_modifying_ruler_refund_trait_points_picks_common = yes
+            }
 		}
         log = "Removed $SUBCLASS$ from ruler "
     }
@@ -51,26 +53,40 @@ xvcv_mdlc_core_modifying_traits_commander_subclass_commander_councilor_add_butto
         xvcv_mdlc_core_modifying_requires_no_ruler_subclass_or_focus_trigger = { CLASS = scientist ID = subclass_scientist_governor }
         xvcv_mdlc_core_modifying_requires_no_ruler_subclass_or_focus_trigger = { CLASS = scientist ID = subclass_scientist_scholar }
         xvcv_mdlc_core_modifying_check_trait_resources_cost_common = yes
-        xvcv_mdlc_core_modifying_check_trait_points_cost_common = yes
-        xvcv_mdlc_core_modifying_check_trait_picks = yes
+        xvcv_mdlc_core_modifying_ruler_check_trait_points_cost_common = yes
+        xvcv_mdlc_core_modifying_ruler_check_trait_picks = yes
         has_paragon_dlc = yes
     }
     effect = {
         xvcv_mdlc_core_modifying_set_subclass_effect = { CLASS = commander ID = subclass_commander_councilor }
-		hidden_effect = { xvcv_mdlc_core_modifying_deduct_cost_points_picks_common = yes }
+		hidden_effect = {
+            ruler = {
+                xvcv_mdlc_core_modifying_ruler_deduct_trait_points_common = yes
+            }
+            root.owner = {
+                xvcv_mdlc_core_modifying_country_deduct_trait_costs_common = yes
+            }
+        }
     }
 }
 xvcv_mdlc_core_modifying_traits_commander_subclass_commander_councilor_remove_button_effect = {
     potential = { ruler = { has_trait = subclass_commander_councilor } }
     # allow = { always = yes }
     allow = {
-        xvcv_mdlc_core_modifying_still_has_subclass_traits_picked = no
+        ruler = {
+            xvcv_mdlc_core_modifying_still_has_subclass_traits_picked = no
+        }
     }
     effect = {
         custom_tooltip = xvcv_mdlc_core_modifying_tooltip_remove_commander_subclass_commander_councilor
 		hidden_effect = {
-            ruler = { remove_trait = subclass_commander_councilor }
-            xvcv_mdlc_core_modifying_refund_trait_points_picks_common = yes
+            ruler = {
+                remove_trait = subclass_commander_councilor
+                xvcv_mdlc_core_modifying_ruler_refund_trait_points_picks_common = yes
+            }
+            root.owner = {
+                xvcv_mdlc_core_modifying_country_refund_trait_cost_common = yes
+            }
 		}
     }
 }
@@ -96,26 +112,41 @@ xvcv_mdlc_core_modifying_traits_official_subclass_official_economy_councilor_add
         xvcv_mdlc_core_modifying_requires_no_ruler_subclass_or_focus_trigger = { CLASS = commander ID = subclass_commander_admiral }
         xvcv_mdlc_core_modifying_requires_no_ruler_subclass_or_focus_trigger = { CLASS = commander ID = subclass_commander_general }
         xvcv_mdlc_core_modifying_check_trait_resources_cost_common = yes
-        xvcv_mdlc_core_modifying_check_trait_points_cost_common = yes
-        xvcv_mdlc_core_modifying_check_trait_picks = yes
+        xvcv_mdlc_core_modifying_ruler_check_trait_points_cost_common = yes
+        xvcv_mdlc_core_modifying_ruler_check_trait_picks = yes
         has_paragon_dlc = yes
     }
     effect = {
         xvcv_mdlc_core_modifying_set_subclass_effect = { CLASS = official ID = subclass_official_economy_councilor }
-		hidden_effect = { xvcv_mdlc_core_modifying_deduct_cost_points_picks_common = yes }
+		hidden_effect = {
+            ruler = {
+                xvcv_mdlc_core_modifying_ruler_deduct_trait_points_common = yes
+            }
+            root.owner = {
+                xvcv_mdlc_core_modifying_country_deduct_trait_costs_common = yes
+            }
+        }
     }
 }
 xvcv_mdlc_core_modifying_traits_official_subclass_official_economy_councilor_remove_button_effect = {
     potential = { ruler = { has_trait = subclass_official_economy_councilor } }
     # allow = { always = yes }
     allow = {
-        xvcv_mdlc_core_modifying_still_has_subclass_traits_picked = no
+        ruler = {
+            xvcv_mdlc_core_modifying_still_has_subclass_traits_picked = no
+        }
+        
     }
     effect = {
         custom_tooltip = xvcv_mdlc_core_modifying_tooltip_remove_official_subclass_official_economy_councilor
 		hidden_effect = {
-            ruler = { remove_trait = subclass_official_economy_councilor }
-            xvcv_mdlc_core_modifying_refund_trait_points_picks_common = yes
+            ruler = {
+                remove_trait = subclass_official_economy_councilor
+                xvcv_mdlc_core_modifying_ruler_refund_trait_points_picks_common = yes
+            }
+            root.owner = {
+                xvcv_mdlc_core_modifying_country_refund_trait_cost_common = yes
+            }
 		}
     }
 }
@@ -136,26 +167,41 @@ xvcv_mdlc_core_modifying_traits_official_subclass_official_diplomacy_councilor_a
         xvcv_mdlc_core_modifying_requires_no_ruler_subclass_or_focus_trigger = { CLASS = commander ID = subclass_commander_admiral }
         xvcv_mdlc_core_modifying_requires_no_ruler_subclass_or_focus_trigger = { CLASS = commander ID = subclass_commander_general }
         xvcv_mdlc_core_modifying_check_trait_resources_cost_common = yes
-        xvcv_mdlc_core_modifying_check_trait_points_cost_common = yes
-        xvcv_mdlc_core_modifying_check_trait_picks = yes
+        xvcv_mdlc_core_modifying_ruler_check_trait_points_cost_common = yes
+        xvcv_mdlc_core_modifying_ruler_check_trait_picks = yes
         has_paragon_dlc = yes
     }
     effect = {
         xvcv_mdlc_core_modifying_set_subclass_effect = { CLASS = official ID = subclass_official_diplomacy_councilor }
-		hidden_effect = { xvcv_mdlc_core_modifying_deduct_cost_points_picks_common = yes }
+		hidden_effect = {
+            ruler = {
+                xvcv_mdlc_core_modifying_ruler_deduct_trait_points_common = yes
+            }
+            root.owner = {
+                xvcv_mdlc_core_modifying_country_deduct_trait_costs_common = yes
+            }
+        }
     }
 }
 xvcv_mdlc_core_modifying_traits_official_subclass_official_diplomacy_councilor_remove_button_effect = {
     potential = { ruler = { has_trait = subclass_official_diplomacy_councilor } }
     # allow = { always = yes }
     allow = {
-        xvcv_mdlc_core_modifying_still_has_subclass_traits_picked = no
+        ruler = {
+            xvcv_mdlc_core_modifying_still_has_subclass_traits_picked = no
+        }
+        
     }
     effect = {
         custom_tooltip = xvcv_mdlc_core_modifying_tooltip_remove_official_subclass_official_diplomacy_councilor
 		hidden_effect = {
-            ruler = { remove_trait = subclass_official_diplomacy_councilor }
-            xvcv_mdlc_core_modifying_refund_trait_points_picks_common = yes
+            ruler = {
+                remove_trait = subclass_official_diplomacy_councilor
+                xvcv_mdlc_core_modifying_ruler_refund_trait_points_picks_common = yes
+            }
+            root.owner = {
+                xvcv_mdlc_core_modifying_country_refund_trait_cost_common = yes
+            }
 		}
     }
 }
@@ -181,26 +227,66 @@ xvcv_mdlc_core_modifying_traits_scientist_subclass_scientist_councilor_add_butto
         xvcv_mdlc_core_modifying_requires_no_ruler_subclass_or_focus_trigger = { CLASS = commander ID = subclass_commander_admiral }
         xvcv_mdlc_core_modifying_requires_no_ruler_subclass_or_focus_trigger = { CLASS = commander ID = subclass_commander_general }
         xvcv_mdlc_core_modifying_check_trait_resources_cost_common = yes
-        xvcv_mdlc_core_modifying_check_trait_points_cost_common = yes
-        xvcv_mdlc_core_modifying_check_trait_picks = yes
+        xvcv_mdlc_core_modifying_ruler_check_trait_points_cost_common = yes
+        xvcv_mdlc_core_modifying_ruler_check_trait_picks = yes
         has_paragon_dlc = yes
     }
     effect = {
         xvcv_mdlc_core_modifying_set_subclass_effect = { CLASS = scientist ID = subclass_scientist_councilor }
-		hidden_effect = { xvcv_mdlc_core_modifying_deduct_cost_points_picks_common = yes }
+		hidden_effect = {
+            ruler = {
+                xvcv_mdlc_core_modifying_ruler_deduct_trait_points_common = yes
+            }
+            root.owner = {
+                xvcv_mdlc_core_modifying_country_deduct_trait_costs_common = yes
+            }
+        }
     }
 }
 xvcv_mdlc_core_modifying_traits_scientist_subclass_scientist_councilor_remove_button_effect = {
     potential = { ruler = { has_trait = subclass_scientist_councilor } }
     # allow = { always = yes }
     allow = {
-        xvcv_mdlc_core_modifying_still_has_subclass_traits_picked = no
+        ruler = {
+            xvcv_mdlc_core_modifying_still_has_subclass_traits_picked = no
+        }
     }
     effect = {
         custom_tooltip = xvcv_mdlc_core_modifying_tooltip_remove_scientist_subclass_scientist_councilor
 		hidden_effect = {
-            ruler = { remove_trait = subclass_scientist_councilor }
-            xvcv_mdlc_core_modifying_refund_trait_points_picks_common = yes
+            ruler = {
+                remove_trait = subclass_scientist_councilor
+                xvcv_mdlc_core_modifying_ruler_refund_trait_points_picks_common = yes
+            }
+            root.owner = {
+                xvcv_mdlc_core_modifying_country_refund_trait_cost_common = yes
+            }
 		}
     }
+}
+
+oxr_mdlc_core_modifying_trait_points_info_effect = {
+	potential = { always = yes }
+	allow = { always = yes }
+	effect = {
+		ruler = {
+			custom_tooltip = oxr_mdlc_core_modifying_max_points_tooltip
+			hidden_effect = {
+				log = "helloooo from the core modifying gui"
+			}
+		}
+	}
+}
+
+oxr_mdlc_core_modifying_trait_picks_info_effect = {
+	potential = { always = yes }
+	allow = { always = yes }
+	effect = {
+		ruler = {
+			custom_tooltip = oxr_mdlc_core_modifying_max_picks_tooltip
+			hidden_effect = {
+				log = "helloooo from the core modifying gui"
+			}
+		}
+	}
 }

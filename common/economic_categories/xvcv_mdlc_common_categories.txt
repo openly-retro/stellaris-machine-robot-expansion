@@ -7,8 +7,11 @@ xvcv_mdlc_world_machines_districts = {
 		upkeep
 		cost
 	}
+	# all add modifiers for this category are useless but good for hidden_effects where you just want it to look like all districts. I use it in the submods.
 	generate_add_modifiers = {
-		cost
+		cost	
+		produces 
+		upkeep
 	}
 }
 
@@ -16,6 +19,17 @@ xvcv_mdlc_world_machines_cities_districts = {
 	parent = xvcv_mdlc_world_machines_districts
 }
 
+xvcv_mdlc_world_machines_primary_districts = {
+	parent = xvcv_mdlc_world_machines_districts
+	generate_mult_modifiers = {
+		produces
+		upkeep
+	}
+	generate_add_modifiers = {
+		produces
+		upkeep
+	}
+}
 
 ## Production districts: alloys, goods, SR
 xvcv_mdlc_world_machines_industrial_districts = {
@@ -29,18 +43,6 @@ xvcv_mdlc_world_machines_industrial_districts = {
 		upkeep
 	}
 }
-
-# xvcv_mdlc_world_machines_vanilla_industrial_districts = {
-# 	parent = xvcv_mdlc_world_machines_industrial_districts
-# 	generate_add_modifiers = {
-# 		produces
-# 		upkeep
-# 	}
-# 	generate_mult_modifiers = {
-# 		produces
-# 		upkeep
-# 	}
-# }
 
 # naval cap
 xvcv_mdlc_world_machines_military_districts = {
@@ -61,7 +63,24 @@ xvcv_mdlc_world_machines_trade_districts = {
 		produces
 		upkeep
 	}
+	generate_add_modifiers = {
+		produces
+		upkeep
+	}
 }
+
+xvcv_mdlc_world_machines_strategic_resource_districts = {
+	parent = xvcv_mdlc_world_machines_industrial_districts
+	modifier_category = planet
+	generate_mult_modifiers = {
+		produces
+	}
+	generate_add_modifiers = {
+	 	produces
+		upkeep
+	}
+}
+
 # To encompass Forge and Foundry as Zones in a single industrial district
 xvcv_mdlc_world_machines_production_districts = {
 	parent = xvcv_mdlc_world_machines_industrial_districts
@@ -100,17 +119,6 @@ xvcv_mdlc_world_machines_factory_districts = {
 	generate_mult_modifiers = {
 		produces
 		upkeep
-	}
-}
-
-xvcv_mdlc_world_machines_strategic_resource_districts = {
-	parent = xvcv_mdlc_world_machines_industrial_districts
-	modifier_category = planet
-	generate_mult_modifiers = {
-		produces
-	}
-	generate_add_modifiers = {
-	 	produces
 	}
 }
 
@@ -177,6 +185,21 @@ xvcv_mdlc_world_machines_computer_districts = {
 	}
 	modifier_category = planet
 }
+
+# for auto ringworld
+xvcv_mdlc_world_machines_rnd_districts = {
+	parent = xvcv_mdlc_world_machines_computer_districts
+	modifier_category = planet
+	generate_add_modifiers = {
+		produces
+		upkeep
+		cost
+	}
+	generate_mult_modifiers = {
+		produces
+	}
+}
+
 # standard research, astral?, dark matter?
 xvcv_mdlc_world_machines_science_districts = {
 	parent = xvcv_mdlc_world_machines_computer_districts
@@ -188,6 +211,78 @@ xvcv_mdlc_world_machines_science_districts = {
 	generate_mult_modifiers = {
 		produces
 		upkeep
+	}
+}
+xvcv_mdlc_world_machines_physics_districts = {
+	parent = xvcv_mdlc_world_machines_science_districts
+	modifier_category = planet
+	generate_add_modifiers = {
+		upkeep
+		produces
+	}
+	generate_mult_modifiers = {
+		produces
+		upkeep
+	}
+	triggered_produces_modifier = {
+		key = xvcv_mdlc_world_machines_science_districts
+		modifier_types = { add }
+		trigger = { always = yes }
+		use_parent_icon = yes
+	}
+	triggered_upkeep_modifier = {
+		key = xvcv_mdlc_world_machines_science_districts
+		modifier_types = { add }
+		trigger = { always = yes }
+		use_parent_icon = yes
+	}
+}
+xvcv_mdlc_world_machines_society_districts = {
+	parent = xvcv_mdlc_world_machines_science_districts
+	modifier_category = planet
+	generate_add_modifiers = {
+		upkeep
+		produces
+	}
+	generate_mult_modifiers = {
+		produces
+		upkeep
+	}
+	triggered_produces_modifier = {
+		key = xvcv_mdlc_world_machines_science_districts
+		modifier_types = { add }
+		trigger = { always = yes }
+		use_parent_icon = yes
+	}
+	triggered_upkeep_modifier = {
+		key = xvcv_mdlc_world_machines_science_districts
+		modifier_types = { add }
+		trigger = { always = yes }
+		use_parent_icon = yes
+	}
+}
+xvcv_mdlc_world_machines_engineering_districts = {
+	parent = xvcv_mdlc_world_machines_science_districts
+	modifier_category = planet
+	generate_add_modifiers = {
+		upkeep
+		produces
+	}
+	generate_mult_modifiers = {
+		produces
+		upkeep
+	}
+	triggered_produces_modifier = {
+		key = xvcv_mdlc_world_machines_science_districts
+		modifier_types = { add }
+		trigger = { always = yes }
+		use_parent_icon = yes
+	}
+	triggered_upkeep_modifier = {
+		key = xvcv_mdlc_world_machines_science_districts
+		modifier_types = { add }
+		trigger = { always = yes }
+		use_parent_icon = yes
 	}
 }
 xvcv_mdlc_world_machines_unity_districts = {
@@ -222,6 +317,7 @@ xvcv_mdlc_world_machines_cooling_districts = {
 	parent = xvcv_mdlc_world_machines_districts
 	modifier_category = planet
 	generate_add_modifiers = {
+		produces
 		upkeep
 	}
 	generate_mult_modifiers = {
@@ -239,18 +335,4 @@ xvcv_mdlc_world_machines_servitor_districts = {
 xvcv_mdlc_world_machines_assimilator_districts = {
 	parent = xvcv_mdlc_world_machines_districts
 	modifier_category = planet
-}
-
-# for auto ringworld
-xvcv_mdlc_world_machines_rnd_districts = {
-	parent = xvcv_mdlc_world_machines_computer_districts
-	modifier_category = planet
-	generate_add_modifiers = {
-		produces
-		upkeep
-		cost
-	}
-	generate_mult_modifiers = {
-		produces
-	}
 }

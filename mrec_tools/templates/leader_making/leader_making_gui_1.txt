@@ -1,0 +1,453 @@
+guiTypes = {
+
+    #xvcv_mdlc_leader_making edict
+	@hidden_ui_elements_position = -10000
+
+	containerWindowType = {
+		####################### Hidden UI #########################
+		iconType = { name = "empire_header_line" quadTextureSprite = "GFX_line_long_caravaneer" position = { x = @hidden_ui_elements_position y = @hidden_ui_elements_position } alwaysTransparent = yes }
+		buttonType = { name = "focus_button" position = { x = @hidden_ui_elements_position y = @hidden_ui_elements_position } orientation = "UPPER_RIGHT" spriteType = "GFX_fleetview_focus" buttonFont = "cg_16b" shortcut = "q" }
+		instantTextBoxType = {
+			name = "heading" font = "malgun_goth_24" text = "DIPLOMACY" position = { x = @hidden_ui_elements_position y = @hidden_ui_elements_position }
+			maxWidth = 543 maxHeight = 22 fixedSize = yes alwaysTransparent = yes
+		}
+		buttonType = {
+			name = "tts_button" position = { x= @hidden_ui_elements_position y = @hidden_ui_elements_position }
+			spriteType = "GFX_button_tts_start" buttonFont = "cg_16b" shortCut = "t"
+		}
+		buttonType = {
+			name = "alien_message_background" size = { x = 485 y = 240 } position = { x = @hidden_ui_elements_position y = @hidden_ui_elements_position }
+			spriteType = "GFX_tiles_dark_area_cut_8" alwaysTransparent = yes
+		}
+		instantTextBoxType = {
+			name = "alien_message" font = "cg_16b" position = { x = @hidden_ui_elements_position y = @hidden_ui_elements_position }
+			maxWidth = 465 maxHeight = 220 format = left scrollbartype = "standardtext_slider"
+		}
+		buttonType = {
+			name = "confirm_button" quadTextureSprite = "GFX_standard_button_142_34_button" position = { x= @hidden_ui_elements_position y = @hidden_ui_elements_position }
+			Orientation = "UPPER_RIGHT" font = "cg_16b" text = "MESSAGE_OK" clicksound = "confirmation"
+		}
+		### PORTRAIT ###
+		containerWindowType = {
+			name = "portrait_background"
+			position = { x = @hidden_ui_elements_position y = @hidden_ui_elements_position }
+			size = { width = 964 height = 350 }
+			clipping = yes
+			iconType = { name = "event_picture" spriteType = "GFX_diplomacy_portrait_frame" position = { x = -6 y = -5 } }
+			iconType = { name = "portrait" position = { x = 250 y = 0 } spriteType = "GFX_portrait_character" }	
+		}
+		containerWindowType = {
+			name = "portrait"
+			position = { x = @hidden_ui_elements_position y = @hidden_ui_elements_position }
+			size = { width = 964 height = 350 }
+			clipping = yes
+			iconType = { name = "portrait" spriteType = "GFX_portrait_gamesetup_mask" alwaysTransparent = yes }
+			iconType = { name = "black_frame" spriteType = "GFX_diplomacy_portrait_shadow_frame" position = { x = -4 y = -5 } alwaysTransparent = yes }
+			iconType = { name = "stripes_1" spriteType = "GFX_diplomacy_stripes_2" alwaysTransparent = yes }
+			iconType = { name = "city_frame" spriteType = "GFX_diplomacy_portrait_frame_caravaneer" position = { x = -6 y = -5 } alwaysTransparent = yes }
+		}
+		### EMPIRE INFO ###
+		iconType = { name = "empire_info_bg" spriteType = "GFX_diplomacy_dark_fade_bg" position = { x = @hidden_ui_elements_position y = @hidden_ui_elements_position } alwaysTransparent = yes }
+		instantTextBoxType={
+			name = "empire_name" font = "malgun_goth_24" text = "Kammarian Galactic Concordat" position = { x = @hidden_ui_elements_position y = @hidden_ui_elements_position }
+			maxWidth = 450 maxHeight = 16 format = LEFT text_color_code = "E" fixedsize = yes
+		}
+		instantTextBoxType={
+			name = "empire_government_type" font = "cg_16b" text = "Autocracy" position = { x = @hidden_ui_elements_position y = @hidden_ui_elements_position }
+			maxWidth = 250 maxHeight = 16 format = LEFT fixedsize = yes text_color_code = "Y"
+		}
+		instantTextBoxType={
+			name = "empire_personality_type" font = "cg_16b" text = "Despicable Neutrals" position = { x = @hidden_ui_elements_position y = @hidden_ui_elements_position }
+			maxWidth = 250 maxHeight = 16 format = LEFT fixedsize = yes
+		}
+		OverlappingElementsBoxType = { name = "empire_ethics_icons" position = { x = @hidden_ui_elements_position y = @hidden_ui_elements_position } size = { x = 240 y = 30 } spacing = 2.0 format = left }
+		buttonType = { name = "empire_flag" quadTextureSprite = "GFX_empire_flag_128_trader" position = { x = @hidden_ui_elements_position y = @hidden_ui_elements_position } orientation = UPPER_LEFT }
+		containerWindowType = {
+			name = "leader_details"
+			position = { x = @hidden_ui_elements_position y = @hidden_ui_elements_position }
+			containerWindowType = { name = "empire_traits_box" position = { x = 0 y = -5 } size = { width = 210 height = 75 } background = { name = "ethics_bg" spriteType = "GFX_tiles_dark_area_cut_8" } }
+			instantTextBoxType = { name = "empire_traits_label" position = { x = 214 y = 37 } font = "cg_16b" maxWidth = 230 maxHeight = 20 fixedSize = yes format = left text = "RULER_TRAITS" alwaysTransparent = yes }
+			overlappingElementsBoxType = { name = "leader_traits" position = { x = 215 y = 55 } size = { x = 125 y = 330 } }
+			instantTextBoxType = { name = "leader_name" position = { x = 10 y = 0 } font = "cg_16b" maxWidth = 330 maxHeight = 20 fixedSize = yes format = left text = "Leader Name" text_color_code = "E" }
+			instantTextBoxType = { name = "leader_species" position = { x = 10 y = 18 } font = "cg_16b" maxWidth = 330 maxHeight = 20 fixedSize = yes text = "Leader Species" format = left }
+		}
+		### OPINION
+		containerWindowType = {
+			name = "opinion_window"
+			position = { x = @hidden_ui_elements_position y = @hidden_ui_elements_position }
+			size = { width = 94 height = 30 }
+			background = { name = "opinion_bg" spriteType = "GFX_tiled_window_transparent" }
+			iconType = { name = "their_opinion_icon" spriteType = "GFX_diplomacy_opinion" position = { x = 7 y = 4 } alwaysTransparent = yes }
+			instantTextBoxType = { name = "their_opinion" font = "cg_16b" maxWidth = 40 position = { x = 40 y = 7 } format = left text = "100" alwaysTransparent = yes }
+		}
+		### EVENT DIPLO ###
+		containerWindowType = {
+			name = "EVENT_DIPLO"
+			position = { x = @hidden_ui_elements_position y = @hidden_ui_elements_position }
+			size = { width=563 height=280 }
+			moveable = no
+			instantTextBoxType={ name = "action_title" font = "malgun_goth_24" position = { x = 20 y = 0 } maxWidth = 520 alwaysTransparent = yes }
+			instantTextBoxType={ name = "action_desc" font = "malgun_goth_24" position = { x = 490 y = 0 } maxWidth = 500 maxHeight = 180 Orientation = "UPPER_LEFT" format = center alwaysTransparent = yes text_color_code = "H" }
+			listboxType = { name = "option_list" position = { x = 500 y = 20 } size = { x = 460 y = 240 } spacing = 1 scrollbartype = "standardlistbox_slider" borderSize = { x = 0 y = 0 } Orientation = "UPPER_LEFT" }
+		}
+
+		# Large containing window, primary window
+		@xvcv_mdlc_leader_making_width = 855
+		@xvcv_mdlc_leader_making_height = 698
+
+		@xvcv_mdlc_leader_making_traits_box_header_size_width = 340
+		@xvcv_mdlc_leader_making_traits_box_header_size_height = 20
+		@xvcv_mdlc_leader_making_traits_box_header_position_width_1 = 47
+		@xvcv_mdlc_leader_making_traits_box_header_position_width_middle = 257
+		@xvcv_mdlc_leader_making_traits_box_header_position_width_2 = 467
+		@xvcv_mdlc_leader_making_traits_box_header_position_height_1 = 209 #-26 y pixels from '@xvcv_mdlc_leader_making_traits_box_position_row_1'
+		@xvcv_mdlc_leader_making_traits_box_header_position_height_2 = 409 #+200 y pixels from '@xvcv_mdlc_leader_making_traits_box_header_position_height_1'
+
+		@xvcv_mdlc_leader_making_traits_box_size_width = 405
+		@xvcv_mdlc_leader_making_traits_box_size_height = 168
+		@xvcv_mdlc_leader_making_traits_box_position_column_1 = 15
+		@xvcv_mdlc_leader_making_traits_box_position_column_middle = 225
+		@xvcv_mdlc_leader_making_traits_box_position_column_2 = 435
+		@xvcv_mdlc_leader_making_traits_box_position_row_1 = 235
+		@xvcv_mdlc_leader_making_traits_box_position_row_2 = 435
+
+		@xvcv_mdlc_leader_making_choose_subclass_box_text_bordersize = 30
+		@xvcv_mdlc_leader_making_subclass_picker_width = 69
+		@xvcv_mdlc_leader_making_subclass_trait_column_1 = 30
+		@xvcv_mdlc_leader_making_subclass_trait_column_2 = 99
+		@xvcv_mdlc_leader_making_subclass_trait_column_3 = 168
+		@xvcv_mdlc_leader_making_subclass_trait_column_4 = 237
+		@xvcv_mdlc_leader_making_subclass_trait_column_5 = 306
+		@xvcv_mdlc_leader_making_subclass_trait_height = 53
+
+		@xvcv_mdlc_leader_making_traits_main_width = 500
+
+		@xvcv_mdlc_leader_making_trait_position_column_1 = 11
+		@xvcv_mdlc_leader_making_trait_position_column_2 = 50 #+39 x pixels from '@xvcv_mdlc_leader_making_trait_position_column_1'
+		@xvcv_mdlc_leader_making_trait_position_column_3 = 89
+		@xvcv_mdlc_leader_making_trait_position_column_4 = 128
+		@xvcv_mdlc_leader_making_trait_position_column_5 = 167
+		@xvcv_mdlc_leader_making_trait_position_column_6 = 206
+		@xvcv_mdlc_leader_making_trait_position_column_7 = 245
+		@xvcv_mdlc_leader_making_trait_position_column_8 = 284
+		@xvcv_mdlc_leader_making_trait_position_column_9 = 323
+		@xvcv_mdlc_leader_making_trait_position_column_10 = 362
+
+		@xvcv_mdlc_leader_making_trait_position_row_1 = 10
+		@xvcv_mdlc_leader_making_trait_position_row_2 = 49 #+39 x pixels from '@xvcv_mdlc_leader_making_trait_position_row_1'
+		@xvcv_mdlc_leader_making_trait_position_row_3 = 88
+		@xvcv_mdlc_leader_making_trait_position_row_4 = 127
+		@xvcv_mdlc_leader_making_trait_position_row_5 = 166
+		@xvcv_mdlc_leader_making_trait_position_row_6 = 203
+		@xvcv_mdlc_leader_making_trait_position_row_7 = 242
+		@xvcv_mdlc_leader_making_trait_position_row_8 = 281
+
+		@xvcv_mdlc_leader_making_traits_background_offset_width = -3
+		@xvcv_mdlc_leader_making_traits_background_offset_height = -3
+
+		@xvcv_mdlc_leader_making_traits_main_size_width = 410 #+5 x pixels from '@xvcv_mdlc_leader_making_traits_box_size_width'
+		@xvcv_mdlc_leader_making_traits_main_size_height = 166 #-2 y pixels from '@xvcv_mdlc_leader_making_traits_box_size_height'
+		@xvcv_mdlc_leader_making_traits_main_position_height = 1
+
+		################## Actually Displayed UI ##################
+		name = "xvcv_mdlc_leader_making"
+		moveable = yes
+		position = { x = 0 y = 0 }
+		size = { width = @xvcv_mdlc_leader_making_width height = @xvcv_mdlc_leader_making_height }
+		show_sound = "interface"
+		background = { name = "xvcv_mdlc_leader_making_background" quadTextureSprite = "GFX_tile_outliner_bg" }
+		animation_time = 300
+		animation_type = smoothstep
+		orientation = center
+		origo = center
+
+		iconType = {
+			name = "xvcv_mdlc_leader_making_header_line_bg"
+			spriteType = "GFX_hex_bg"
+			position = { x = -10 y = -14 }
+			alwaysTransparent = yes
+		}
+		iconType = {
+			name = "xvcv_mdlc_leader_making_header_line"
+			quadTextureSprite = "GFX_line_medium"
+			position = { x = 6 y = 22 }
+			alwaysTransparent = yes
+		}
+		effectButtonType = {
+			name = "close" #no, don't change its name #it will not function at all #which means the players won't be able to close the window
+			quadTextureSprite = "GFX_close"
+			position = { x = -42 y = 13 }
+			Orientation = "UPPER_RIGHT"
+			shortcut = "ESCAPE"
+			clicksound = "back_click"
+			effect = "xvcv_mdlc_leader_making_close_button_effect"
+		}
+		instantTextBoxType = {
+			name = "xvcv_mdlc_leader_making_header"
+			font = "malgun_goth_24"
+			text = "TEXT_XVCV_MDLC_LEADER_MAKING"
+			position = { x = 15 y = 5 }
+			alwaysTransparent = yes
+		}
+		iconType = {
+			name = "xvcv_mdlc_leader_making_pic"
+			spriteType = "GFX_evt_robot_assembly_plant"
+			position = { x = -190 y = 125 }
+			orientation = center_up
+			centerPosition = yes
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "xvcv_mdlc_event_pic_frame"
+			spriteType = "GFX_event_frame"
+			position = { x = -190 y = 125 }
+			orientation = center_up
+			centerPosition = yes
+			alwaystransparent = yes
+		}
+        instantTextBoxType = {
+            name = "oxr_mdlc_leader_making_editor_text_instructions_display"
+            font = "cg_16b"
+            text = "oxr_mdlc_leader_making_editor_text_instructions"
+            maxWidth = 360
+            position = { x = 484 y = 40 }
+            alwaysTransparent = yes
+        }
+		containerWindowType = {
+			name = "xvcv_mdlc_leader_making_skill_level"
+			position = { x = 219 y = 636 }
+
+			effectbuttonType = {
+				name = "xvcv_mdlc_reset_leader_trait_skill_level"
+				position = { x = 347 y = -4 }
+				size = { x = 50 y = 50 }
+				quadTextureSprite = "GFX_button_update"
+				effect = "xvcv_mdlc_leader_making_reset_button_effect"
+			}
+			instantTextBoxType = {
+				name = "xvcv_mdlc_reset_trait_skill_level_header"
+				position = { x = 390 y = 6 }
+				font = "cg_16b"
+				text = "TEXT_RESET_XVCV_MDLC_LEADER_MAKING_TRAIT_SKILL_LEVEL"
+			}
+
+		}
+        # LEADER MANUFACTURING INFORMATION - each element is 25 px lower than the previous
+        # header text
+        effectbuttonType = {
+			name = "oxr_mdlc_leader_making_informational_text_headline_display"
+			size = { x = 300 y = 30 }
+			position = {
+                x = 537
+                y = 410
+            }
+			quadTextureSprite = "GFX_invisible"
+			text = "oxr_mdlc_leader_making_information_headline"
+			font = "cg_16b"
+			no_clicksound = yes
+            format = left
+			effect = "xvcv_mdlc_leader_making_dummy_button_effect"
+		}
+        effectbuttonType = {
+			name = "oxr_mdlc_leader_making_informational_text_class"
+			size = { x = 300 y = 30 }
+			position = {
+                x = 437
+                y = 445
+            }
+			quadTextureSprite = "GFX_invisible"
+			text = "oxr_mdlc_leader_making_information_selected_class_text"
+			font = "cg_16b"
+			no_clicksound = yes
+            format = left
+			effect = "xvcv_mdlc_leader_making_dummy_button_effect"
+		}
+        # remaining points and max points
+        effectbuttonType = {
+			name = "oxr_mdlc_leader_making_informational_text_points_display"
+			size = { x = 300 y = 30 }
+			position = {
+                x = 437
+                y = 470
+            }
+			quadTextureSprite = "GFX_invisible"
+			text = "oxr_mdlc_leader_making_information_trait_points_text"
+			font = "cg_16b"
+			no_clicksound = yes
+            format = left
+			effect = "xvcv_mdlc_leader_making_dummy_button_effect"
+		}
+        # remaining picks and max picks
+        effectbuttonType = {
+			name = "oxr_mdlc_leader_making_informational_text_picks_display"
+			size = { x = 300 y = 30 }
+			position = {
+                x = 437
+                y = 495
+            }
+			quadTextureSprite = "GFX_invisible"
+			text = "oxr_mdlc_leader_making_information_trait_picks_text"
+			font = "cg_16b"
+			no_clicksound = yes
+            format = left
+			effect = "xvcv_mdlc_leader_making_dummy_button_effect"
+		}
+        # leader level
+        effectbuttonType = {
+			name = "oxr_mdlc_leader_making_informational_text_level_display"
+			size = { x = 300 y = 30 }
+			position = {
+                x = 437
+                y = 520
+            }
+			quadTextureSprite = "GFX_invisible"
+			text = "oxr_mdlc_leader_making_information_selected_leader_level_text"
+			font = "cg_16b"
+			no_clicksound = yes
+            format = left
+			effect = "xvcv_mdlc_leader_making_dummy_button_effect"
+		}
+        # BUTTONS TO UP/DOWN LEADER LEVEL
+        containerWindowType = {
+            name = "xvcv_mdlc_leader_making_level_updown_widgets"
+            position = { x = 417 y = 517 }
+            effectbuttonType = {
+				name = "xvcv_mdlc_leader_making_level_number_up"
+				position = { x = 286 y = 3 }
+				spriteType = "GFX_button_up"
+				effect = "oxr_mdlc_leader_making_level_up_button_effect"
+			}
+			effectbuttonType = {
+				name = "xvcv_mdlc_leader_making_level_number_down"
+				position = { x = 316 y = 3 }
+				spriteType = "GFX_button_down"
+				effect = "oxr_mdlc_leader_making_level_down_button_effect"
+			}
+        }
+        # how many to make
+        effectbuttonType = {
+			name = "oxr_mdlc_leader_making_informational_text_num_to_print_display"
+			size = { x = 300 y = 30 }
+			position = {
+                x = 437
+                y = 545
+            }
+            format = left
+			quadTextureSprite = "GFX_invisible"
+			text = "oxr_mdlc_leader_making_information_number_of_leaders_to_make_text"
+			font = "cg_16b"
+			no_clicksound = yes
+			effect = "xvcv_mdlc_leader_making_dummy_button_effect"
+		}
+        # BUTTONS FOR MORE/FEWER LEADERS
+        containerWindowType = {
+            name = "xvcv_mdlc_leader_making_quantity_updown_widgets"
+            position = { x = 417 y = 544 }
+            effectbuttonType = {
+				name = "xvcv_mdlc_leader_making_start_number_up"
+				position = { x = 286 y = 3 }
+				spriteType = "GFX_button_up"
+				effect = "xvcv_mdlc_leader_making_start_number_up_button_effect"
+			}
+			effectbuttonType = {
+				name = "xvcv_mdlc_leader_making_start_number_down"
+				position = { x = 316 y = 3 }
+				spriteType = "GFX_button_down"
+				effect = "xvcv_mdlc_leader_making_start_number_down_button_effect"
+			}
+        }
+        # how much it all costs
+        effectbuttonType = {
+			name = "oxr_mdlc_leader_making_informational_text_cost_display"
+			size = { x = 300 y = 30 }
+			position = {
+                x = 437
+                y = 570
+            }
+            format = left
+			quadTextureSprite = "GFX_invisible"
+			text = "tooltip_xvcv_mdlc_leader_making_total_cost"
+			font = "cg_16b"
+			no_clicksound = yes
+			effect = "xvcv_mdlc_leader_making_dummy_button_effect"
+		}
+         # YE OLD START BUTTON
+        containerWindowType = {
+			name = "xvcv_mdlc_leader_making_start_box"
+			position = { x = 251 y = 634 }
+			effectbuttonType = {
+                size = { x = 300 y = 200 }
+				name = "xvcv_mdlc_leader_making_start"
+				quadTextureSprite = "GFX_galactic_object_button"
+				buttonText = "xvcv_mdlc_leader_making_start_text"
+				buttonFont = "malgun_goth_24"
+				effect = "xvcv_mdlc_leader_making_start_button_effect"
+			}
+		}
+        
+
+        #### CLASS-SPECIFIC STUFF
+
+		#Leader Traits: Official
+		effectbuttonType = {
+			name = "xvcv_mdlc_leader_making_trait_official_header"
+			size = { x = @xvcv_mdlc_leader_making_traits_box_header_size_width y = @xvcv_mdlc_leader_making_traits_box_header_size_height }
+			position = { x = @xvcv_mdlc_leader_making_traits_box_header_position_width_1 y = @xvcv_mdlc_leader_making_traits_box_header_position_height_1 }
+			quadTextureSprite = "GFX_invisible"
+			text = "XVCV_MDLC_LEADER_GOVERNOR_TRAIT_HEADER"
+			font = "cg_16b"
+			no_clicksound = yes
+			effect = "xvcv_mdlc_leader_making_dummy_button_effect"
+		}
+
+		containerWindowType = {
+			name = "xvcv_mdlc_leader_making_traits_official_box"
+			size = { width = @xvcv_mdlc_leader_making_traits_box_size_width height = @xvcv_mdlc_leader_making_traits_box_size_height }
+			position = { x = @xvcv_mdlc_leader_making_traits_box_position_column_1 y = @xvcv_mdlc_leader_making_traits_box_position_row_1 }
+			background = { name = "xvcv_mdlc_leader_making_trait_official_box_frame" quadTextureSprite = "GFX_plain_green_frame_tile" }
+	
+			containerWindowType = {
+				name = "xvcv_mdlc_leader_making_traits_official_main"
+				size = { width = @xvcv_mdlc_leader_making_traits_main_size_width height = @xvcv_mdlc_leader_making_traits_main_size_height }
+				position = { x = 0 y = @xvcv_mdlc_leader_making_traits_main_position_height }
+				verticalScrollBar = "right_vertical_slider" #required for the scrollbar to function
+				clipping = yes #required for the scrollbar to function
+				background = { name = "xvcv_mdlc_leader_making_trait_official_main_bg" quadTextureSprite = "GFX_invisible" } #a completely transparent background #required for the scrollbar to function
+				gridBoxType = {
+					name = "xvcv_mdlc_leader_making_trait_official_main_grid"
+					size = { width = @xvcv_mdlc_leader_making_traits_main_width height = 500 }
+					slotSize = { width = @xvcv_mdlc_leader_making_traits_main_width height = 500 } #required for the scrollbar to function
+					format = UPPER_LEFT
+				}
+				#xvcv_mdlc_leader_trait_shared_memory
+				containerWindowType = {
+					name = "xvcv_mdlc_leader_making_trait_official_xvcv_mdlc_leader_trait_shared_memory"
+					position = { x = @xvcv_mdlc_leader_making_trait_position_column_1 y = @xvcv_mdlc_leader_making_trait_position_row_1 }
+					effectbuttonType = { #this button is also 'effectbuttonType' and it's intentional #do not change it
+						name = "xvcv_mdlc_leader_making_trait_official_xvcv_mdlc_leader_trait_shared_memory_add_bg"
+						position = { x = @xvcv_mdlc_leader_making_traits_background_offset_width y = @xvcv_mdlc_leader_making_traits_background_offset_height }
+						spriteType = "GFX_xvcv_mdlc_leader_trait_background_blue"
+						effect = "xvcv_mdlc_leader_making_trait_official_xvcv_mdlc_leader_trait_shared_memory_add_button_effect"
+					}
+					effectbuttonType = {
+						name = "xvcv_mdlc_leader_making_trait_official_xvcv_mdlc_leader_trait_shared_memory_add"
+						spriteType = "GFX_xvcv_mdlc_leader_trait_shared_memory"
+						effect = "xvcv_mdlc_leader_making_trait_official_xvcv_mdlc_leader_trait_shared_memory_add_button_effect"
+					}
+				}
+				#xvcv_mdlc_leader_trait_memory_backup
+				containerWindowType = {
+					name = "xvcv_mdlc_leader_making_trait_official_xvcv_mdlc_leader_trait_memory_backup"
+					position = { x = @xvcv_mdlc_leader_making_trait_position_column_2 y = @xvcv_mdlc_leader_making_trait_position_row_1 }
+					effectbuttonType = {
+						name = "xvcv_mdlc_leader_making_trait_official_xvcv_mdlc_leader_trait_memory_backup_add_bg"
+						position = { x = @xvcv_mdlc_leader_making_traits_background_offset_width y = @xvcv_mdlc_leader_making_traits_background_offset_height }
+						spriteType = "GFX_xvcv_mdlc_leader_trait_background_blue"
+						effect = "xvcv_mdlc_leader_making_trait_official_xvcv_mdlc_leader_trait_memory_backup_add_button_effect"
+					}
+					effectbuttonType = {
+						name = "xvcv_mdlc_leader_making_trait_official_xvcv_mdlc_leader_trait_memory_backup_add"
+						spriteType = "GFX_xvcv_mdlc_leader_trait_memory_backup"
+						effect = "xvcv_mdlc_leader_making_trait_official_xvcv_mdlc_leader_trait_memory_backup_add_button_effect"
+					}
+				}

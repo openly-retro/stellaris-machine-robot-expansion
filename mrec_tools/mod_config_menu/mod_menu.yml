@@ -1,0 +1,139 @@
+﻿menu:
+  - page:
+    name: 1
+    picture: GFX_evt_xvcv_mdlc
+    title: MRE:C Mod Configuration, Page 1
+    description: |
+      This mod has utility features to help the player's gameplay. You can turn on or off each of them on this page.
+
+      Robot -> Machine Species Conversion happens §Yannually§! only to §BMachine Intelligence§! Empire.
+      Machine -> Robot Species Conversion happens §Yannually§! only to §GSynthetic Ascended§! Empire.
+
+      Machine Assembly Helper Code will track and convert surplus pop assembly into new pops, so fractional amounts are not lost. It happens §Ymonthly§!
+
+      §RTotal Jobless Pops§! in the Empire: §R[This.xvcv_mdlc_empire_all_unemployed_pops_count_var]§!
+      §GTotal Jobs§! available in the Empire: §G[This.xvcv_mdlc_empire_all_free_jobs_count_var]§!
+      §BTotal Available Housing§! in the Empire: §B[This.xvcv_mdlc_empire_all_free_housing_count_var]§!
+
+    options:
+      - name: Species Conversion (Robot -> Machine)
+        short name: species_convergence_robot_to_machine
+        interaction type: toggle
+        country flag: xvcv_mdlc_config_1_on
+      - name: Species Conversion (Machine -> Robot)
+        short name: species_convergence_machine_to_robot
+        interaction type: toggle
+        country_flag: xvcv_mdlc_config_2_on
+      - name: Species Mergence
+        interaction type: toggle
+        country_flag: xvcv_mdlc_config_3_on
+        description: Species Mergence will make all of our Machine and Robot Species become a Subspecies of our Founder Species §Yannually§!
+      - name: Automatic Pop Migration
+        description: Automatic Pop Migration relocates unemployed pops of any kind to planets with open jobs. It happens §Ymonthly§! only to §BMachine Intelligence§! or §GSynthetic Ascended§! Empire, and does not consider the target pop's habitability.
+        interaction type: toggle
+        country_flag: xvcv_mdlc_config_4_on
+      - name: Go to Page 2
+        switch to page: 2
+      - name: Go to mod credits
+        switch to page: 999
+      - name: Close this window
+        switch to page: close
+  - page:
+    name: 2
+    title: "MRE:C Mod Config, Page 2: Toggle Notifications"
+    description: Under certain situations, this mod will show notification messages for the player. You can deactivate or activate those here.
+    options:
+    - name: "§Y$xvcv_mdlc_civic_assimilating_swarm$§! Civic Notification"
+      description: Show a message any time a pop has been assimilated due to the mechanics of this civic.
+      interaction type: toggle
+      country_flag: xvcv_mdlc_civic_assimilating_swarm_message_on
+    - name: "§Y$xvcv_mdlc_r_unknown_core$§! Relic Notification"
+      interaction type: toggle
+      country flag: xvcv_mdlc_r_unknown_core_message_on
+      # ecu
+    - name: "§Y$xvcv_mdlc_decision_machine_ecu_project$§! Completion Notice"
+      interaction type: toggle
+      country_flag: xvcv_mdlc_decision_machine_ecu_project_message_on
+      # ser
+    - name: "§Y$xvcv_mdlc_decision_machine_ser_project$§! Completion Notice"
+      interaction type: toggle
+      country_flag: xvcv_mdlc_decision_machine_ser_project_message_on
+      # cpu
+    - name: "§Y$xvcv_mdlc_decision_machine_cpu_project$§! Completion Notice"
+      interaction type: toggle
+      country_flag: xvcv_mdlc_decision_machine_cpu_project_message_on
+      # virtual world
+    - name: "§Y$xvcv_mdlc_decision_virtual_world_project$§! Completion Notice"
+      interaction type: toggle
+      country_flag: xvcv_mdlc_decision_virtual_world_project_message_on
+      # auto ring
+    - name: "§Y$xvcv_mdlc_pc_ringworld_automation_project$§! Completion Notice"
+      interaction type: toggle
+      country_flag: xvcv_mdlc_pc_ringworld_automation_project_message_on
+      # abyss
+    - name: "§YAbyss§! Available Notification"
+      interaction type: toggle
+      country_flag: xvcv_mdlc_abyss_access_possible_message_on
+    - name: Go to Page 1
+      switch to page: 1
+    - name: Go to Page 3
+      switch to page: 3
+    - name: Close this window
+      switch to page: close
+  - page:
+    name: 3
+    title: "MRE:C Mod Config, Page 3: Cleanup Commands"
+    description: These options fire events that do various cleanup and fixes, and are used in cases to help remove objects from mod features that have been removed.
+    options:
+    - name: Remove Auto-Server deposits from districts
+      description: |
+        Before district specializations, on World Machines, a system of planetary deposits was used in order to boost non-resource effects like encryption, empire anti-crime, etc. Deposits were the only way at the time we could get country modifiers like naval cap to increase from building a district. Since district specializations have appeared, we don't need to use the deposit system. However, there may be some old deposits on Auto-Server planets that need to be removed.
+
+        Use this option if you have loaded an old save that had an Auto-Server or you notice deposits on the planet that should not be there.
+      interaction type: effect
+      effect name: oxr_mdlc_country_remove_all_old_ecu_deposits
+    # - name: Bring back lost Bio-Mech pop from the void
+    #   description: If your empire is a Bio-Mech empire, it is possible to accidentally remove your initial Bio-Mech pops. This option will create 1 Bio-Mech pop from your founder species on your capital planet. You would use this option in an extreme case.
+    #   interaction type: effect
+    #   effect name: oxr_mdlc_country_restore_bio_mech_pops_from_void
+    - name: Go to Page 2, Notifications toggle
+      switch to page: 2
+    - name: Go to Page 999, Mod Credits
+      switch to page: credits
+    - name: Close this window
+      switch to page: close
+  # - page:
+  #   name: 4
+  #   title: "MRE:C Mod Config, Page 4: Experimental Features"
+  #   description: Toggle experimental features. These may or may not break your game. This page is mainly for the mod dev(s) and probably won't do anything if you are not a developer of this mod.
+  #   options:
+  #   - name: Bio-Mechanical Worlds feature
+  #     description: An advanced planet type for Bio-Mechanical empires, which is an expanded form of the Mechanical planet.
+  #     interaction type: toggle
+  #     country flag: oxr_mdlc_feature_bio_mech_buildings
+  #   - name: Go to Page 3, Cleanup Commands
+  #     switch to page: 4
+  #   - name: Close this window
+  #     switch to page: close
+  - page:
+    name: 999
+    title: "MRE:C Mod Credits, Page 999"
+    description: |
+      Credits and thanks to:
+      
+      - XVCV, original author of this mod
+      - Legit-Rikk for reworking mute's Extended Machines, for the World-Machine upgrades feature, and continued help with bugfixes and improvements
+      - FlantingCort, Krukal, and the Doves Localisation group for maintaining the Chinese translation of this mod
+
+      - Stellaris Modding Den members in #modding-help and #moddev-forum for help figuring things out
+      - Supporters in the 'machine-robots-xpac' channel of the Stellaris Modding Den, for your excitement and brainstorming, and helping reign me in when I brainstorm too hard
+      - Active commenters on the workshop page, thank you for your feedback and bug reports, I am doing my best with keeping up!
+
+      -- Openly Retro, mod maintainer
+    options:
+    - name: Go to Page 3, Cleanup Commands
+      switch to page: 3
+    - name: Close this window
+      switch to page: close
+
+# maybe a page with mod compatibility toggles

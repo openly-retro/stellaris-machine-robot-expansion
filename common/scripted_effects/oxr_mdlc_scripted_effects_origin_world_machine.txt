@@ -29,8 +29,10 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 		# Calculate how many to add
 		# Other empires seem to start with 12 districts generally
 
-		# 2 industrial (one primary already exists on colonization)
-		add_district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
+		# vanilla starts with 3 primary so we also get 3
+		# 3 primary (one primary already exists on colonization)
+		add_district = xvcv_mdlc_pc_machine_auto_district_primary_origin_wm
+		add_district = xvcv_mdlc_pc_machine_auto_district_primary_origin_wm
 
 		if = {
 			limit = {
@@ -47,10 +49,13 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 				add_district = xvcv_mdlc_pc_machine_auto_district_generator
 			}
 			while = {
-				count = 7
+				count = 3
 				add_district = xvcv_mdlc_pc_machine_auto_district_farming
 			}
-			
+			while = {
+				count = 3
+				add_district = xvcv_mdlc_pc_machine_auto_district_mining
+			}
 		}
 		else = {
 			# 6 mining
@@ -88,9 +93,14 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 	# Set the primary production zone
 	planet = {
 		add_zone = {
-			district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
-			zone = oxr_mdlc_zone_pc_machine_auto_alloys
+			district = xvcv_mdlc_pc_machine_auto_district_primary_origin_wm
+			zone = oxr_mdlc_zone_pc_machine_auto_archive
 			zone_slot = 1
+		}
+		add_zone = {
+			district = xvcv_mdlc_pc_machine_auto_district_primary_origin_wm
+			zone = oxr_mdlc_zone_pc_machine_auto_alloys
+			zone_slot = 2
 		}
 	}
 
@@ -259,13 +269,14 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 		### Free up slots
 		remove_if_has_building = { WHICH = building_machine_assembly_plant }
 		remove_if_has_building = { WHICH = building_drone_storage }
-		# Add a unity building
+		# ~~Add a unity building~~ Rikk: unity not needed as much anymore due to my addition of zones
+		# Rikk: Add a trade building because we start way behind on trade now instead
 		if = {
 			limit = {
-				NOT = { has_building = oxr_mdlc_world_machines_building_auto_unity_1 }
+				NOT = { has_building = oxr_mdlc_world_machines_auto_logistics_1 }
 			}
 			oxr_mdlc_planet_add_building_to_primary_wm_district = {
-				BUILDING = oxr_mdlc_world_machines_building_auto_unity_1
+				BUILDING = oxr_mdlc_world_machines_auto_logistics_1
 			}
 		}
 	}
@@ -1638,12 +1649,12 @@ oxr_mdlc_planet_create_deposit_upgrade_flags = {
 		}
 		set_planet_flag = has_rikk_mdlc_d_world_machine_crust_roots
 	}
-	if = {
-		limit = {
-			has_deposit = rikk_mdlc_d_world_machine_cooling_towers
-		}
-		set_planet_flag = has_rikk_mdlc_d_world_machine_cooling_towers
-	}
+	# if = {
+	# 	limit = {
+	# 		has_deposit = rikk_mdlc_d_world_machine_cooling_towers
+	# 	}
+	# 	set_planet_flag = has_rikk_mdlc_d_world_machine_cooling_towers
+	# }
 	if = {
 		limit = {
 			has_deposit = rikk_mdlc_d_world_machine_synchronization_arrays
@@ -1727,13 +1738,13 @@ oxr_mdlc_planet_restore_deposit_upgrades = {
 		add_deposit = rikk_mdlc_d_world_machine_crust_roots
 		remove_planet_flag = has_rikk_mdlc_d_world_machine_crust_roots
 	}
-	if = {
-		limit = {
-			has_planet_flag = has_rikk_mdlc_d_world_machine_cooling_towers
-		}
-		add_deposit = rikk_mdlc_d_world_machine_cooling_towers
-		remove_planet_flag = has_rikk_mdlc_d_world_machine_cooling_towers
-	}
+	# if = {
+	# 	limit = {
+	#		has_planet_flag = has_rikk_mdlc_d_world_machine_cooling_towers
+	#	}
+	#	add_deposit = rikk_mdlc_d_world_machine_cooling_towers
+	#	remove_planet_flag = has_rikk_mdlc_d_world_machine_cooling_towers
+	#}
 	if = {
 		limit = {
 			has_planet_flag = has_rikk_mdlc_d_world_machine_synchronization_arrays
@@ -1886,7 +1897,7 @@ oxr_mdlc_planet_fix_things_after_restoring_ownership = {
 	# 			}
 	# 		}
 	# 		add_building = {
-	# 			district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
+	# 			district = xvcv_mdlc_pc_machine_auto_district_primary_origin_wm
 	# 			zone = oxr_mdlc_origin_wm_zone_default
 	# 			building = oxr_mdlc_world_machines_building_auto_capital
 	# 		}
@@ -2133,7 +2144,7 @@ oxr_mdlc_unlock = {
 
 oxr_mdlc_origin_wm_add_building_to_auto_wm_main = {
 	add_building = {
-		district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
+		district = xvcv_mdlc_pc_machine_auto_district_primary_origin_wm
 		zone = oxr_mdlc_origin_wm_zone_default
 		building = $which$
 	}
@@ -2201,7 +2212,7 @@ oxr_mdlc_planet_add_building_to_primary_wm_district = {
 					}
 				}
 				add_building = {
-					district = xvcv_mdlc_pc_machine_auto_district_industrial_origin_wm
+					district = xvcv_mdlc_pc_machine_auto_district_primary_origin_wm
 					zone = oxr_mdlc_origin_wm_zone_default
 					building = $BUILDING$
 				}

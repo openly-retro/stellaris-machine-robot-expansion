@@ -9,41 +9,70 @@
 
  ### Custom GUI: Core Modifying ###
  XVCV_MDLC_CORE_MODIFYING_HEADER_TEXT: "$xvcv_mdlc_tech_core_modifying$"
+ OXR_MDLC_CORE_MODIFYING_HEADER_TEXT: "Modifying"
+ OXR_MDLC_CORE_MODIFYING_RULER_NAME: "Modifying §M[ruler.GetTitledName]§!"
+ oxr_mdlc_core_modifying_ruler_info_title: "§CDevice Information§!"
+ oxr_mdlc_core_modifying_ruler_info_species: "Chassis type: §H[ruler.species.GetName]§!"
+ oxr_mdlc_core_modifying_ruler_info_class: "Kernel class: §H[ruler.GetClass]§!"
+ oxr_mdlc_core_modifying_ruler_info_uptime: "Uptime: [ruler.GetYearsOfService]"
+ oxr_mdlc_core_modifying_ruler_info_level: "Cores online: §Y[ruler.GetSkill]/10§!"
+ oxr_mdlc_core_modifying_ruler_info_ethic: "BIOS type: §H[ruler.GetBackgroundEthic]§!"
+ oxr_mdlc_core_modifying_ruler_info_gender: "ROM [OxrGetRulerGender]"
+ oxr_mdlc_core_modifying_ruler_info_energy_usage: "FX: [ruler.GetCouncilorPerSkillModifierDesc]"
+ oxr_mdlc_core_modifying_ruler_info_cost: "Market value: [ruler.GetCost]"
+ # bg job doesnt work for gestalts
+ oxr_mdlc_core_modifying_ruler_info_bg_job: "Core promoted from [ruler.GetBackgroundJob]"
+ oxr_mdlc_core_modifying_ruler_info_planet: "Assembled on §H[ruler.GetBackgroundPlanet]§!"
+ oxr_mdlc_core_modifying_ruler_trait_info_header: "§CDevice Traits§!"
+ oxr_mdlc_core_modifying_ruler_trait_info_points_readout: "Ruler Trait Points: £xvcv_mdlc_core_modifying_trait_point_icon£§Y[ruler.xvcv_mdlc_core_modifying_trait_points]/[ruler.oxr_mdlc_core_modifying_max_trait_points]§!"
+ oxr_mdlc_core_modifying_ruler_trait_info_picks_readout: "Ruler Trait Picks: £leader£ §Y[ruler.xvcv_mdlc_core_modifying_trait_picks]/[ruler.oxr_mdlc_core_modifying_max_trait_picks]§!"
+
+ oxr_mdlc_core_modifying_max_points_tooltip: "1 point per leader level: §G+[This.oxr_mdlc_core_modifying_ruler_skill_level_var]§!\nBase points bonus: §G+1§!\nPartial species points bonus: §G+[this.oxr_mdlc_core_modifying_species_trait_points_modifier_var]§!\nBonus from technology: §G+[this.oxr_mdlc_core_modifying_bonus_trait_points_add_var]§!"
+
+ oxr_mdlc_core_modifying_max_picks_tooltip: "1 pick per ruler level: §G+[This.oxr_mdlc_core_modifying_ruler_skill_level_var]§!\nBase picks bonus: §G+1§!\nSpecies picks bonus: §G+[this.oxr_mdlc_core_modifying_species_trait_picks_var_modifier]§!\nBonus from technology: §G+[this.oxr_mdlc_core_modifying_bonus_trait_picks_add_var_modifier]§!"
+
+
+
+#  OXR_MDLC_CORE_MODIFYING_RULER_NAME_ICON: ""
  XVCV_MDLC_CORE_MODIFYING_CUSTOMGUI_STOPPED_WORKING_DESC: "§RClose any other UIs to use this Customgui.§!"
 
- xvcv_mdlc_core_modifying_trait_cost.fail: "£trigger_no£ §RNeed £energy£200 £alloys£200 to pick this Trait.§!"
- xvcv_mdlc_core_modifying_trait_cost.fail_veteran: "£trigger_no£ §RNeed £energy£500 £alloys£500 to pick this Trait.§!"
- xvcv_mdlc_core_modifying_trait_cost.fail_paragon: "£trigger_no£ §RNeed £energy£1000 £alloys£1000 to pick this Trait.§!"
- xvcv_mdlc_core_modifying_trait_points.fail: "£trigger_no£ §RRuler Modification Point is NOT enough to pick this Trait.§!"
- xvcv_mdlc_core_modifying_trait_skill_level.fail_veteran: "£trigger_no£ §RNeed at least 4 Ruler Skill Level.§!"
- xvcv_mdlc_core_modifying_trait_skill_level.fail_paragon: "£trigger_no£ §RNeed at least 8 Ruler Skill Level.§!"
- xvcv_mdlc_core_modifying_trait_picks.fail: "£trigger_no£ §RReached maximum trait picks.§!"
+ xvcv_mdlc_core_modifying_trait_cost.fail: "§RNeed £energy£200 £alloys£200 to pick this Trait.§!"
+ xvcv_mdlc_core_modifying_trait_cost.fail_veteran: "§RNeed £energy£500 £alloys£500 to pick this Trait.§!"
+ xvcv_mdlc_core_modifying_trait_cost.fail_paragon: "§RNeed £energy£1000 £alloys£1000 to pick this Trait.§!"
+ xvcv_mdlc_core_modifying_trait_points.fail: "§RRuler Modification Point is NOT enough to pick this Trait.§!"
+ xvcv_mdlc_core_modifying_trait_skill_level.fail_veteran: "§RNeed at least 4 Ruler Skill Level.§!"
+ xvcv_mdlc_core_modifying_trait_skill_level.fail_paragon: "§RNeed at least 8 Ruler Skill Level.§!"
+ xvcv_mdlc_core_modifying_trait_picks.fail: "§RReached maximum trait picks.§!"
 
- xvcv_mdlc_core_modifying_reset_traits_tooltip: "$xvcv_mdlc_core_modifying_reset_traits_button_effect_tooltip$\n\nMax Ruler Modification Points: £xvcv_mdlc_core_modifying_trait_point_icon£§Y[This.xvcv_mdlc_core_modifying_trait_points]§!\nMax Pickable Trait Number: §Y[This.xvcv_mdlc_core_modifying_trait_picks]§!"
- xvcv_mdlc_core_modifying_reset_traits.fail: "£trigger_no£ §RTrait is NOT selected.§!"
+ xvcv_mdlc_core_modifying_reset_traits_tooltip: "$xvcv_mdlc_core_modifying_reset_traits_button_effect_tooltip$"
+ xvcv_mdlc_core_modifying_reset_traits.fail: "£trigger_no£ §RNo traits selected yet.§!"
 
- xvcv_mdlc_core_modifying_requires_scientist_leader_trait_physics_focus_3_tooltip.fail: "£trigger_no£ §RNeed $leader_trait_physics_focus$ III Trait.§!"
- xvcv_mdlc_core_modifying_requires_scientist_leader_trait_society_focus_3_tooltip.fail: "£trigger_no£ §RNeed $leader_trait_society_focus$ III Trait.§!"
- xvcv_mdlc_core_modifying_requires_scientist_leader_trait_engineering_focus_3_tooltip.fail: "£trigger_no£ §RNeed $leader_trait_engineering_focus$ III Trait.§!"
+ xvcv_mdlc_core_modifying_requires_scientist_leader_trait_physics_focus_3_tooltip.fail: "§RNeed $leader_trait_physics_focus$ III Trait.§!"
+ xvcv_mdlc_core_modifying_requires_scientist_leader_trait_society_focus_3_tooltip.fail: "§RNeed $leader_trait_society_focus$ III Trait.§!"
+ xvcv_mdlc_core_modifying_requires_scientist_leader_trait_engineering_focus_3_tooltip.fail: "§RNeed $leader_trait_engineering_focus$ III Trait.§!"
 
- xvcv_mdlc_core_modifying_reset_traits_button_effect_tooltip: "Current Core Intelligence: §B[Root.GetRulerName]§!\nCore class: [Root.ruler.GetClass]\nCore Veteran Class: [Root.ruler.GetSubclass]\nOperational Uptime: [Root.ruler.GetAge] years"
+ xvcv_mdlc_core_modifying_reset_traits_button_effect_tooltip: "Current Core Intelligence: §B[Root.GetRulerName]§!"
  effect_xvcv_mdlc_core_modifying_trait_points_tooltip: "\nRemaining Ruler Modification Points: £xvcv_mdlc_core_modifying_trait_point_icon£§R0§!"
- effect_xvcv_mdlc_core_modifying_trait_points_tooltip_alt: "\nRemaining Ruler Modification Points: £xvcv_mdlc_core_modifying_trait_point_icon£§G[This.xvcv_mdlc_core_modifying_trait_points]§!"
+ effect_xvcv_mdlc_core_modifying_trait_points_tooltip_alt: "\nRemaining Ruler Modification Points: £xvcv_mdlc_core_modifying_trait_point_icon£§G[ruler.xvcv_mdlc_core_modifying_trait_points]§!"
  effect_xvcv_mdlc_core_modifying_trait_picks_tooltip: "Remaining Pickable Trait Number: §R0§!"
- effect_xvcv_mdlc_core_modifying_trait_picks_tooltip_alt: "Remaining Pickable Trait Number: §G[This.xvcv_mdlc_core_modifying_trait_picks]§!"
+ effect_xvcv_mdlc_core_modifying_trait_picks_tooltip_alt: "Remaining Pickable Trait Number: §G[ruler.xvcv_mdlc_core_modifying_trait_picks]§!"
  xvcv_mdlc_core_modifying_reset_traits_button_effect_tooltip_2: "\n§YClick to reset all Ruler Traits.§!"
 
- add_xvcv_mdlc_core_modifying_traits_costs_desc: "\nCost: £xvcv_mdlc_core_modifying_trait_point_icon£§Y1§! £energy£§Y200§! £alloys£§Y200§!"
- remove_xvcv_mdlc_core_modifying_traits_costs_desc: "\nRefund: £xvcv_mdlc_core_modifying_trait_point_icon£§Y1§! £energy£§Y100§! £alloys£§Y100§!"
- add_xvcv_mdlc_core_modifying_traits_costs_desc_alt: "\nCost: £xvcv_mdlc_core_modifying_trait_point_icon£§Y2§! £energy£§Y500§! £alloys£§Y500§!"
- remove_xvcv_mdlc_core_modifying_traits_costs_desc_alt: "\nRefund: £xvcv_mdlc_core_modifying_trait_point_icon£§Y2§! £energy£§Y250§! £alloys£§Y250§!"
- add_xvcv_mdlc_core_modifying_traits_costs_desc_alt_2: "\nCost: £xvcv_mdlc_core_modifying_trait_point_icon£§Y3§! £energy£§Y1000§! £alloys£§Y1000§!"
- remove_xvcv_mdlc_core_modifying_traits_costs_desc_alt_2: "\nRefund: £xvcv_mdlc_core_modifying_trait_point_icon£§Y3§! £energy£§Y500§! £alloys£§Y500§!"
+ add_xvcv_mdlc_core_modifying_traits_costs_desc: "\nCost: £xvcv_mdlc_core_modifying_trait_point_icon£§Y1§! £leader£§Y1§! £energy£§Y200§! £alloys£§Y200§!"
+ remove_xvcv_mdlc_core_modifying_traits_costs_desc: "\nRefund: £xvcv_mdlc_core_modifying_trait_point_icon£§Y1§! £leader£§Y1§! £energy£§Y100§! £alloys£§Y100§!"
+ add_xvcv_mdlc_core_modifying_traits_costs_desc_alt: "\nCost: £xvcv_mdlc_core_modifying_trait_point_icon£§Y2§! £leader£§Y1§! £energy£§Y500§! £alloys£§Y500§!"
+ remove_xvcv_mdlc_core_modifying_traits_costs_desc_alt: "\nRefund: £xvcv_mdlc_core_modifying_trait_point_icon£§Y2§! £leader£§Y1§! £energy£§Y250§! £alloys£§Y250§!"
+ add_xvcv_mdlc_core_modifying_traits_costs_desc_alt_2: "\nCost: £xvcv_mdlc_core_modifying_trait_point_icon£§Y3§! £leader£§Y1§! £energy£§Y1000§! £alloys£§Y1000§!"
+ remove_xvcv_mdlc_core_modifying_traits_costs_desc_alt_2: "\nRefund: £xvcv_mdlc_core_modifying_trait_point_icon£§Y3§! £leader£§Y1§! £energy£§Y500§! £alloys£§Y500§!"
 
  trigger_xvcv_mdlc_core_modifying_must_remove_subclass_trait_notice: "£trigger_no£ §RYou must remove all traits specific to this subclass before removing/changing subclass.§!"
 
+ xvcv_mdlc_core_modifying_deduct_trait_points_common_effect_tooltip: "Deduct £xvcv_mdlc_core_modifying_trait_point_icon£1 points and £leader£ 1 pick"
+ xvcv_mdlc_core_modifying_deduct_trait_points_veteran_effect_tooltip: "Deduct £xvcv_mdlc_core_modifying_trait_point_icon£2 points and £leader£ 1 pick"
+ xvcv_mdlc_core_modifying_deduct_trait_points_paragon_effect_tooltip: "Deduct £xvcv_mdlc_core_modifying_trait_point_icon£3 points and £leader£ 1 pick"
+
  # GUI tooltips to show trait points / picks and all that
- xvcv_mdlc_core_modifying_ruler_points_used: "[event_target:xvcv_mdlc_core_modifying_empire_ruler.oxr_mdlc_core_modifying_deduct_trait_points_cost_paragon]"
+ xvcv_mdlc_core_modifying_ruler_points_used: "[ruler.oxr_mdlc_core_modifying_deduct_trait_points_cost_paragon]"
 
  ########################################
  # OFFICIAL SUBCLASS TRAITS AND HELPERS #
@@ -67,16 +96,19 @@
  xvcv_mdlc_core_modifying_tooltip_remove_official_subclass_official_delegate: "§RUnset§! Veteran Class: §H$subclass_official_delegate$§!$remove_xvcv_mdlc_core_modifying_traits_costs_desc$\nChanges the Ruler's Leader Class to §YOfficial§!, unlocking more Ruler Traits.\n$delegate_subclass_tt$\n--------------\n§L$subclass_official_delegate_desc$§!"
 
  #fail
- xvcv_mdlc_core_modifying_requires_official_subclass_official_governor_tooltip.fail: "£trigger_no£ §RNeed $subclass_official_governor$ Veteran Class.§!"
- xvcv_mdlc_core_modifying_requires_official_subclass_official_diplomacy_councilor_tooltip.fail: "£trigger_no£ §RNeed $subclass_official_diplomacy_councilor$ Veteran Class.§!"
- xvcv_mdlc_core_modifying_requires_official_subclass_official_economy_councilor_tooltip.fail: "£trigger_no£ §RNeed $subclass_official_economy_councilor$ Veteran Class.§!"
- xvcv_mdlc_core_modifying_requires_official_subclass_official_governor_tooltip.fail: "£trigger_no£ §RNeed $subclass_official_governor$ Veteran Class.§!"
+ xvcv_mdlc_core_modifying_requires_official_subclass_official_governor_tooltip.fail: "§RPromote to $subclass_official_governor$ Veteran Class.§!"
+ xvcv_mdlc_core_modifying_requires_official_subclass_official_diplomacy_councilor_tooltip.fail: "§RPromote to $subclass_official_diplomacy_councilor$ Veteran Class.§!"
+ xvcv_mdlc_core_modifying_requires_official_subclass_official_economy_councilor_tooltip.fail: "§RPromote to $subclass_official_economy_councilor$ Veteran Class.§!"
+ xvcv_mdlc_core_modifying_requires_official_subclass_official_delegate_tooltip.fail: "§RPromote to $subclass_official_delegate$ Veteran Class.§!"
+ # wrong section
+ xvcv_mdlc_core_modifying_requires_official_subclass_commander_councilor_tooltip.fail: "§RPromote to $subclass_commander_councilor$ Veteran Class.§!"
+ xvcv_mdlc_core_modifying_requires_official_subclass_scientist_councilor_tooltip.fail: "§RPromote to $subclass_scientist_councilor$ Veteran Class.§!"
 
  #NOT
- xvcv_mdlc_core_modifying_requires_no_official_subclass_official_governor_tooltip.fail: "£trigger_no£ §RShould NOT have $subclass_official_governor$ Veteran Class.§!"
- xvcv_mdlc_core_modifying_requires_no_official_subclass_official_diplomacy_councilor_tooltip.fail: "£trigger_no£ §RShould NOT have $subclass_official_diplomacy_councilor$ Veteran Class.§!"
- xvcv_mdlc_core_modifying_requires_no_official_subclass_official_economy_councilor_tooltip.fail: "£trigger_no£ §RShould NOT have $subclass_official_economy_councilor$ Veteran Class.§!"
- xvcv_mdlc_core_modifying_requires_no_official_subclass_official_delegate_tooltip.fail: "£trigger_no£ §RShould NOT have $subclass_official_delegate$ Veteran Class.§!"
+ xvcv_mdlc_core_modifying_requires_no_official_subclass_official_governor_tooltip.fail: "§RShould NOT have $subclass_official_governor$ Veteran Class.§!"
+ xvcv_mdlc_core_modifying_requires_no_official_subclass_official_diplomacy_councilor_tooltip.fail: "§RShould NOT have $subclass_official_diplomacy_councilor$ Veteran Class.§!"
+ xvcv_mdlc_core_modifying_requires_no_official_subclass_official_economy_councilor_tooltip.fail: "§RShould NOT have $subclass_official_economy_councilor$ Veteran Class.§!"
+ xvcv_mdlc_core_modifying_requires_no_official_subclass_official_delegate_tooltip.fail: "§RShould NOT have $subclass_official_delegate$ Veteran Class.§!"
 
 
 
@@ -102,21 +134,25 @@
  xvcv_mdlc_core_modifying_tooltip_remove_scientist_subclass_scientist_scholar: "§RUnset§! Veteran Class: §H$subclass_scientist_scholar$§!$remove_xvcv_mdlc_core_modifying_traits_costs_desc$\nChanges the Ruler's Leader Class to §BScientist§!, unlocking more Ruler Traits.\n$scholar_subclass_tt$\n--------------\n§L$subclass_scientist_scholar_desc$§!"
 
  #fail
- xvcv_mdlc_core_modifying_requires_scientist_subclass_scientist_explorer_tooltip.fail: "£trigger_no£ §RNeed $subclass_scientist_explorer$ Veteran Class.§!"
- xvcv_mdlc_core_modifying_requires_scientist_subclass_scientist_councilor_tooltip.fail: "£trigger_no£ §RNeed $subclass_scientist_councilor$ Veteran Class.§!"
- xvcv_mdlc_core_modifying_requires_scientist_subclass_scientist_governor_tooltip.fail: "£trigger_no£ §RNeed $subclass_scientist_governor$ Veteran Class.§!"
- xvcv_mdlc_core_modifying_requires_scientist_subclass_scientist_scholar_tooltip.fail: "£trigger_no£ §RNeed $subclass_scientist_scholar$ Veteran Class.§!"
+ xvcv_mdlc_core_modifying_requires_scientist_subclass_scientist_explorer_tooltip.fail: "§RPromote to $subclass_scientist_explorer$ Veteran Class.§!"
+ xvcv_mdlc_core_modifying_requires_scientist_subclass_scientist_councilor_tooltip.fail: "§RPromote to $subclass_scientist_councilor$ Veteran Class.§!"
+ xvcv_mdlc_core_modifying_requires_scientist_subclass_scientist_governor_tooltip.fail: "§RPromote to $subclass_scientist_governor$ Veteran Class.§!"
+ xvcv_mdlc_core_modifying_requires_scientist_subclass_scientist_scholar_tooltip.fail: "§RPromote to $subclass_scientist_scholar$ Veteran Class.§!"
 
  #NOT
- xvcv_mdlc_core_modifying_requires_no_scientist_subclass_scientist_explorer_tooltip.fail: "£trigger_no£ §RShould NOT have $subclass_scientist_explorer$ Veteran Class.§!"
- xvcv_mdlc_core_modifying_requires_no_scientist_subclass_scientist_councilor_tooltip.fail: "£trigger_no£ §RShould NOT have $subclass_scientist_councilor$ Veteran Class.§!"
- xvcv_mdlc_core_modifying_requires_no_scientist_subclass_scientist_governor_tooltip.fail: "£trigger_no£ §RShould NOT have $subclass_scientist_governor$ Veteran Class.§!"
- xvcv_mdlc_core_modifying_requires_no_scientist_subclass_scientist_scholar_tooltip.fail: "£trigger_no£ §RShould NOT have $subclass_scientist_scholar$ Veteran Class.§!"
+ xvcv_mdlc_core_modifying_requires_no_scientist_subclass_scientist_explorer_tooltip.fail: "§RShould NOT have $subclass_scientist_explorer$ Veteran Class.§!"
+ xvcv_mdlc_core_modifying_requires_no_scientist_subclass_scientist_councilor_tooltip.fail: "§RShould NOT have $subclass_scientist_councilor$ Veteran Class.§!"
+ xvcv_mdlc_core_modifying_requires_no_scientist_subclass_scientist_governor_tooltip.fail: "§RShould NOT have $subclass_scientist_governor$ Veteran Class.§!"
+ xvcv_mdlc_core_modifying_requires_no_scientist_subclass_scientist_scholar_tooltip.fail: "§RShould NOT have $subclass_scientist_scholar$ Veteran Class.§!"
 
 
  ########################################
  # COMMANDER SUBCLASS TRAITS AND HELPERS #
  ########################################
+
+ oxr_mdlc_core_modifying_commander_traits_header_text: "§RCommander§! Ruler Traits"
+ oxr_mdlc_core_modifying_scientist_traits_header_text: "§BScientist§! Ruler Traits"
+ oxr_mdlc_core_modifying_official_traits_header_text: "§YOfficial§! Ruler Traits"
 
  #Traits Box 3: Admiral Traits
  #subclass_commander_general

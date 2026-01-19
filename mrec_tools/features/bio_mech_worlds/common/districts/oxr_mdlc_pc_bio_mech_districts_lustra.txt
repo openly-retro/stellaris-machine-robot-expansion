@@ -1,0 +1,236 @@
+# Bio-Mechanical World districts
+oxr_mdlc_pc_bio_mech_district_lustra_primary = {
+
+	default_starting_district = yes
+	zone_slots = {
+		slot_city_government
+		slot_city_01
+		slot_city_02
+	}
+}
+
+oxr_mdlc_pc_bio_mech_district_lustra_housing = {
+
+	inline_script = planet/districts/lustra/bio_mech_show
+
+	inline_script = planet/districts/lustra/bio_mech_show
+
+	conversion_ratio = 1
+	convert_to = {
+		district_arcology_housing
+		district_city
+		district_hive
+		district_nexus
+		oxr_mdlc_pc_bio_mech_district_nexus
+		xvcv_mdlc_pc_machine_auto_district_city
+	}
+
+	resources = {
+		category = planet_districts_cities
+		cost = { food = @xvcv_mdlc_district_cost_4 } # 480
+		upkeep = { energy = 2 }
+	}
+
+	resources = {
+		category = planet_districts_cities
+		cost = { food = @xvcv_mdlc_district_cost_4 } # 480
+		upkeep = { energy = 2 }
+	}
+
+	planet_modifier = {
+		planet_housing_add = 7
+		planet_max_buildings_add = 1
+		job_oxr_mdlc_bio_robot_lustra_residential_add = 2
+		job_culture_worker_add = 1
+	}
+
+	planet_modifier = {
+		planet_housing_add = 7
+		planet_max_buildings_add = 1
+		job_oxr_mdlc_bio_robot_lustra_residential_add = 2
+		job_culture_worker_add = 1
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_valid_civic = civic_agrarian_idyll }
+		}
+		modifier = { planet_housing_add = -1 }
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				has_active_tradition = tr_prosperity_public_works
+				has_auth_machine_intelligence = no
+			}
+		}
+		modifier = { planet_housing_add = 1 }
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_technology = tech_housing_1 }
+		}
+		modifier = { planet_housing_add = 1 }
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				has_technology = tech_housing_2
+				NOT = { has_valid_civic = civic_agrarian_idyll }
+			}
+		}
+		modifier = { planet_housing_add = 1 }
+	}
+
+	ai_resource_production = {
+		unity = 8
+		trigger = { always = yes }
+	}
+}
+
+oxr_mdlc_pc_bio_mech_district_lustra_food = {
+
+	inline_script = planet/districts/lustra/bio_mech_show
+
+	conversion_ratio = 1
+	convert_to = {
+		oxr_mdlc_pc_bio_mech_district_carna_cybersecurity
+		district_farming
+		district_farming_uncapped
+		# xvcv_mdlc_pc_machine_auto_district_industrial
+		# xvcv_mdlc_pc_mechanical_district_industrial
+	}
+
+	inline_script = planet/districts/lustra/bio_mech_resources
+
+	planet_modifier = {
+		job_oxr_mdlc_bio_robot_lustra_isc_add = 2
+		planet_farmer_food_produces_mult = 0.01
+	}
+
+	ai_resource_production = {
+		food = 20
+		trigger = { always = yes }
+	}
+}
+
+oxr_mdlc_pc_bio_mech_district_lustra_reactor = {
+
+	inline_script = planet/districts/lustra/bio_mech_show
+	inline_script = planet/districts/lustra/bio_mech_resources
+
+	conversion_ratio = 1
+	convert_to = {
+		district_generator
+		district_generator_uncapped
+		xvcv_mdlc_pc_machine_auto_district_generator
+	}
+
+	inline_script = planet/districts/lustra/bio_mech_resources
+
+	planet_modifier = {
+		planet_housing_add = 3
+		job_oxr_mdlc_bio_robot_lustra_reactor_tech_add = 2
+		planet_technician_energy_produces_mult = 0.01
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_valid_civic = civic_agrarian_idyll }
+		}
+		modifier = { planet_housing_add = 1 }
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { is_fallen_empire_spiritualist = yes }
+		}
+		modifier = { job_fe_acolyte_generator_add = 3 }
+	}
+
+	ai_resource_production = {
+		energy = 16
+		trigger = { always = yes }
+	}
+}
+
+# Research, not health
+oxr_mdlc_pc_bio_mech_district_lustra_research = {
+
+	inline_script = planet/districts/lustra/bio_mech_show
+
+	conversion_ratio = 1
+	convert_to = {
+		district_mining
+		district_mining_uncapped
+		xvcv_mdlc_pc_machine_auto_district_mining
+		oxr_mdlc_pc_bio_mech_district_carna_emergency
+		district_arcology_administrative
+	}
+
+	inline_script = planet/districts/lustra/bio_mech_resources
+
+	planet_modifier = {
+		planet_housing_add = 3
+		job_oxr_mdlc_bio_robot_lustra_integrated_researcher_add = 2
+	}
+
+	ai_resource_production = {
+		society_research = 16
+		trigger = { always = yes }
+	}
+}
+
+oxr_mdlc_pc_bio_mech_district_lustra_goods = {
+
+	inline_script = planet/districts/lustra/bio_mech_show
+
+	conversion_ratio = 1
+	convert_to = {
+		district_industrial
+		oxr_mdlc_pc_bio_mech_district_carna_fort
+		xvcv_mdlc_pc_machine_auto_district_industrial
+	}
+
+	inline_script = planet/districts/lustra/bio_mech_resources
+
+	planet_modifier = {
+		planet_housing_add = 3
+		job_oxr_mdlc_bio_robot_organic_goods_add = 2
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_valid_civic = civic_agrarian_idyll }
+		}
+		modifier = { planet_housing_add = 1 }
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				has_technology = tech_housing_agrarian_idyll
+				has_valid_civic = civic_agrarian_idyll
+			}
+		}
+		modifier = { planet_housing_add = 1 }
+	}
+
+	ai_resource_production = {
+		consumer_goods = 16
+		trigger = { always = yes }
+	}
+}
+
+# EOF

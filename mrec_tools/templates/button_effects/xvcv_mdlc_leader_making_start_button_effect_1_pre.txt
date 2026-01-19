@@ -1,0 +1,49 @@
+xvcv_mdlc_leader_making_start_button_effect = {
+    potential = { always = yes }
+    allow = {
+        custom_tooltip = tooltip_xvcv_mdlc_leader_making_trait_points_left
+        custom_tooltip = tooltip_xvcv_mdlc_leader_making_trait_picks_left
+        custom_tooltip = tooltip_xvcv_mdlc_leader_making_total_cost
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_making_should_pick_any_trait.fail
+            xvcv_mdlc_leader_making_picked_any_class_trigger = yes
+        }
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_making_should_pick_any_skill_level.fail
+            xvcv_mdlc_leader_making_picked_any_skill_level_trigger = yes
+        }
+        custom_tooltip_fail = {
+            text = xvcv_mdlc_leader_making_not_enough_resources_to_pay_cost.fail
+            resource_stockpile_compare = { 
+                resource = energy value >= 1 
+                mult = xvcv_mdlc_leader_making_trait_costs_count_energy
+            }
+            resource_stockpile_compare = { 
+                resource = alloys value >= 1
+                mult = xvcv_mdlc_leader_making_trait_costs_count_alloys
+            }
+        }
+    }
+    effect = {
+        custom_tooltip = tooltip_xvcv_mdlc_leader_making_trait_points_left
+        custom_tooltip = tooltip_xvcv_mdlc_leader_making_trait_picks_left
+        custom_tooltip = tooltip_xvcv_mdlc_leader_making_total_cost
+        custom_tooltip = tooltip_xvcv_mdlc_leader_making_start_number
+        hidden_effect = {
+            while = {
+                log = "Clicked Leader Assembly button. Want to deduct [This.xvcv_mdlc_leader_making_trait_costs_count_energy] energy."
+                log = "Clicked Leader Assembly button. Want to deduct [This.xvcv_mdlc_leader_making_trait_costs_count_alloys] alloys."
+                add_resource = { energy = -1 mult = xvcv_mdlc_leader_making_trait_costs_count_energy }
+                add_resource = { alloys = -1 mult = xvcv_mdlc_leader_making_trait_costs_count_alloys }
+                if = {
+                    limit = { has_country_flag = xvcv_mdlc_leader_class_set_to_official }
+                    create_leader = {
+                        class = official #set the leader's class first
+                        species = this.species
+                        set_age = 1
+                        randomize_traits = no #remove randomized traits of the newly created leader
+                        custom_description = xvcv_mdlc_leader_making_backstory
+                        effect = { save_event_target_as = xvcv_mdlc_leader_making_target }
+                    }
+                    #and add traits for the leader
+                    #official

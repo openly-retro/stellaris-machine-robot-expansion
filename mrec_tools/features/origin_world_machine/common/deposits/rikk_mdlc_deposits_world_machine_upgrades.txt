@@ -1,0 +1,158 @@
+#Crust
+rikk_mdlc_d_world_machine_crust_roots = {
+	category = oxr_mdlc_deposit_cat_world_machine_geo_improvements
+	inline_script = planet/deposits/oxr_mdlc_nospawn_deposits
+	planet_modifier = {
+		xvcv_mdlc_world_machines_districts_minerals_cost_add = 0.20
+		planet_max_districts_mult = @rikk_mdlc_upgrade_1_crust_roots_districts_mult
+	}
+}
+#rikk_mdlc_d_world_machine_cooling_towers = {
+#	category = oxr_mdlc_planet_world_machine_improvements
+#	#+10% cooling district cooling
+#	inline_script = planet/deposits/oxr_mdlc_nospawn_deposits
+#	use_for_min_max_adjustments = no
+#	planet_modifier = {
+#		rikk_mdlc_world_machine_cooling_district_effectiveness = 0.10
+#		xvcv_mdlc_world_machines_cooling_districts_exotic_gases_upkeep_add = 2
+#	}
+#}
+
+rikk_mdlc_d_world_machine_synchronization_arrays = {
+	category = oxr_mdlc_planet_world_machine_improvements
+	inline_script = planet/deposits/oxr_mdlc_nospawn_deposits
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_industrial_districts_produces_mult = 0.03
+		xvcv_mdlc_world_machines_industrial_districts_upkeep_mult = 0.03
+		mult = value:rikk_mdlc_world_machine_synchronization_arrays_total
+		# mult vs the value of a variable set on the country scope
+		# mult = this.space_owner.oxr_mdlc_num_rikk_mdlc_d_world_machine_synchronization_arrays
+	}
+	custom_tooltip = rikk_mdlc_decision_world_machine_synchronization_arrays_effect
+}
+
+#Mantle
+rikk_mdlc_d_world_machine_mantle_roots = {
+	category = oxr_mdlc_deposit_cat_world_machine_geo_improvements
+	inline_script = planet/deposits/oxr_mdlc_nospawn_deposits
+	planet_modifier = {
+		xvcv_mdlc_world_machines_districts_minerals_cost_add = 0.30
+		planet_max_districts_mult = @rikk_mdlc_upgrade_2_mantle_roots_districts_mult
+	}
+}
+
+rikk_mdlc_d_world_machine_mantle_engine = {
+	category = oxr_mdlc_deposit_cat_world_machine_geo_improvements
+	inline_script = planet/deposits/oxr_mdlc_nospawn_deposits
+	planet_modifier = {
+		planet_building_build_speed_mult = 0.75
+		planet_orbital_bombardment_damage = 0.5 #makes the planet vulnerable
+	}
+	triggered_planet_modifier = {
+		potential = { has_planet_flag = rikk_mdlc_planet_reinforced }
+		planet_orbital_bombardment_damage = -0.3
+		xvcv_mdlc_world_machines_districts_minerals_cost_mult = 0.20
+	}
+	
+	resources = {
+		category = planets
+		upkeep = {
+			energy = 25
+		}
+	}
+}
+# ECU
+rikk_mdlc_d_world_machine_mantle_transport_network = {
+	category = oxr_mdlc_planet_world_machine_improvements
+	inline_script = planet/deposits/oxr_mdlc_nospawn_deposits
+	custom_tooltip = rikk_mdlc_d_world_machine_mantle_transport_network_effect
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_industrial_districts_produces_mult = 0.01
+		xvcv_mdlc_world_machines_industrial_districts_upkeep_mult = 0.005
+		mult = value:count_world_machines_districts_not_cooling
+	}
+}
+
+# CPU
+rikk_mdlc_d_world_machine_mantle_buses = {
+	category = oxr_mdlc_planet_world_machine_improvements
+	inline_script = planet/deposits/oxr_mdlc_nospawn_deposits
+	custom_tooltip = rikk_mdlc_d_world_machine_mantle_buses_effect
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_computer_districts_produces_mult = 0.01
+		xvcv_mdlc_world_machines_computer_districts_upkeep_mult = 0.005
+		mult = value:count_world_machines_districts_not_cooling
+	}
+}
+
+#Outer Core
+rikk_mdlc_d_world_machine_outer_core_roots = {
+	category = oxr_mdlc_deposit_cat_world_machine_geo_improvements
+	inline_script = planet/deposits/oxr_mdlc_nospawn_deposits
+	planet_modifier = {
+		xvcv_mdlc_world_machines_districts_minerals_cost_add = 0.30
+		planet_max_districts_mult = @rikk_mdlc_upgrade_3_outer_core_roots_districts_mult
+	}
+}
+
+rikk_mdlc_d_world_machine_outer_core_tap = {
+	category = oxr_mdlc_deposit_cat_world_machine_geo_improvements
+	inline_script = planet/deposits/oxr_mdlc_nospawn_deposits
+	planet_modifier = {
+		xvcv_mdlc_world_machines_industrial_districts_produces_mult = 0.1
+		xvcv_mdlc_world_machines_industrial_districts_upkeep_mult = -0.1
+	}
+}
+
+rikk_mdlc_d_world_machine_outer_core_cooled = {
+	category = oxr_mdlc_deposit_cat_world_machine_geo_improvements
+	inline_script = planet/deposits/oxr_mdlc_nospawn_deposits
+	planet_modifier = {
+		xvcv_mdlc_world_machines_computer_districts_produces_mult = 0.1
+		xvcv_mdlc_world_machines_computer_districts_upkeep_mult = -0.1
+	}
+}
+
+#Inner Core
+rikk_mdlc_d_world_machine_inner_core_roots = {
+	category = oxr_mdlc_deposit_cat_world_machine_geo_improvements
+	inline_script = planet/deposits/oxr_mdlc_nospawn_deposits
+	planet_modifier = {
+		xvcv_mdlc_world_machines_districts_minerals_cost_add = 0.20
+		planet_max_districts_mult = @rikk_mdlc_upgrade_4_inner_core_roots_districts_mult
+	}
+}
+
+rikk_mdlc_d_world_machine_core_core = {
+	icon = oxr_mdlc_d_world_machine_core_deposit
+	inline_script = planet/deposits/oxr_mdlc_nospawn_deposits
+	resources = {
+		category = planets
+		upkeep = {
+			energy = 50
+		}
+	}
+	planet_modifier = {
+		rikk_mdlc_world_machine_districts_efficiency = 0.25
+	}
+}
+
+rikk_mdlc_d_world_machine_inner_core_tap = {
+	category = oxr_mdlc_deposit_cat_world_machine_geo_improvements
+	inline_script = planet/deposits/oxr_mdlc_nospawn_deposits
+	#custom_tooltip = rikk_mdlc_d_world_machine_inner_core_tap_tooltip
+	resources = {
+		category = planets
+		produces = {
+			#trigger = { rikk_mdlc_is_wm_computer_trigger = yes }
+			minerals = 200
+		}
+		upkeep = {
+			#trigger = { rikk_mdlc_is_wm_computer_trigger = yes }
+			energy = 40
+		}
+	}
+	planet_modifier = {
+		xvcv_mdlc_world_machines_industrial_districts_produces_mult = 0.40
+	}
+}

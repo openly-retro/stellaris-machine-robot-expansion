@@ -1,0 +1,2991 @@
+@buildings_t1 = 1
+@buildings_t2 = 2
+@buildings_t3 = 3
+@buildings_t4 = 4
+@buildings_t5 = 5
+
+@tier_2_capital_defense_armies = 4
+@tier_3_capital_defense_armies = 8
+@tier_4_capital_defense_armies = 16
+@tier_5_capital_defense_armies = 24
+
+@oxr_capital_upgrade_t2_districts_num = 10
+@oxr_capital_upgrade_t3_districts_num = 18
+@oxr_capital_upgrade_t4_districts_num = 25
+@oxr_capital_upgrade_t5_districts_num = 32
+
+#### AMENITY ####
+
+
+#### ASTRAL ####
+oxr_mdlc_world_machines_building_auto_astral_1 = {
+	base_cap_amount = 1
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_astral_siphon
+		ENERGY_UPKEEP = @b1_upkeep
+		TIER = 1
+	}
+
+	upgrades = {
+		oxr_mdlc_world_machines_building_auto_astral_2
+	}
+}
+
+oxr_mdlc_world_machines_building_auto_astral_2 = {
+	can_build = no
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_astral_siphon
+		ENERGY_UPKEEP = @b3_upkeep
+		TIER = 2
+	}
+
+	upgrades = {
+		oxr_mdlc_world_machines_building_auto_astral_3
+	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_research
+		oxr_mdlc_building_set_wm_strategic
+	}
+}
+
+oxr_mdlc_world_machines_building_auto_astral_3 = {
+	can_build = no
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_astral_siphon
+		ENERGY_UPKEEP = @b3_upkeep
+		TIER = 3
+	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_research
+		oxr_mdlc_building_set_wm_strategic
+	}
+}
+
+#### ARCHAEOSTUDIES ####
+oxr_mdlc_world_machines_building_archaeostudies_recombinator = {
+	inline_script = {
+		script = planet/buildings/calc_build_time
+		TIER = 2
+	}
+
+	category = research
+
+	empire_limit = {
+		base = 1
+	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_research
+		oxr_mdlc_building_set_wm_strategic
+	}
+
+	potential = {
+		oxr_mdlc_planet_has_vanilla_pop_colony_modifier = no
+		exists = owner
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+	}
+	show_tech_unlock_if = {
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+	}
+
+	destroy_trigger = {
+		exists = owner
+		oxr_mdlc_planet_has_vanilla_pop_colony_modifier = no
+		owner = {
+			has_oxr_mdlc_origin_world_machine_awakened = no
+		}
+	}
+
+	allow = {
+		oxr_mdlc_has_upgraded_capital = yes
+	}
+
+	resources = {
+		category = oxr_mdlc_world_machines_science_buildings
+		cost = {
+			minerals = @b2_minerals
+			minor_artifacts = @b2_rare_cost
+		}
+		upkeep = {
+			energy = @b4_upkeep
+		}
+		produces = {
+			physics_research = @[ 2 * 3 ]
+			engineering_research = @[ 2 * 3 ]
+			society_research = @[ 5 * 3 ]
+		}
+		produces = {
+			trigger = {
+				exists = owner
+				owner = {
+					has_ascension_perk = ap_archaeoengineers
+				}
+			}
+			physics_research = @[ 2 * 2 ]
+			engineering_research = @[ 2 * 2 ]
+			society_research = @[ 5 * 2 ]
+		}
+		produces = {
+			trigger = {
+				planet = {
+					has_planet_flag = oxr_mdlc_pc_was_relic
+				}
+			}
+			minor_artifacts = @[ 0.3 * 2 ]
+		}
+		produces = {
+			trigger = {
+				planet = {
+					has_deposit = oxr_mdlc_d_world_machine_artifact_deposit_1
+				}
+			}
+			unity = 1
+		}
+	}
+
+	country_modifier = {
+		category_archaeostudies_research_speed_mult = 0.5
+		country_resource_max_minor_artifacts_add = 1000
+	}
+
+	triggered_country_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				has_ascension_perk = ap_archaeoengineers
+			}
+		}
+		country_resource_max_minor_artifacts_add = 2000
+	}
+
+
+	prerequisites = {
+		"tech_archaeostudies"
+	}
+	custom_tooltip = oxr_mdlc_world_machines_building_archaeostudies_recombinator_tooltip
+
+	ai_resource_production = {
+		physics_research = 6
+		engineering_research = 6
+		society_research = 15
+		trigger = {
+			always = yes
+		}
+	}
+}
+
+
+#### GOVERNMENT ####
+oxr_mdlc_world_machines_building_auto_stabilizer_1 = {
+	base_buildtime = @[ 1 * 180 ]
+
+	category = government
+
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_stability
+		RARE_COST = 0
+		UPKEEP_ENERGY = 2
+		RARE_UPKEEP = 0
+		PRODUCES_UNITY = 2  # mult x 2
+		UPKEEP_ENERGY = 2  # mult x 2
+		REDUCE_CRIME = -50
+		REDUCE_CRIME_CAMPAIGN = -10
+		STABILITY_ADD = 5
+		TIER = 1
+	}
+
+	prerequisites = {
+		"tech_planetary_government"
+	}
+
+	upgrades = {
+		oxr_mdlc_world_machines_building_auto_stabilizer_2
+	}
+}
+
+oxr_mdlc_world_machines_building_auto_stabilizer_2 = {
+	base_buildtime = @[ 2 * 180 ]
+
+	category = government
+	can_build = no
+
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_stability
+		RARE_COST = @b2_rare_cost
+		UPKEEP_ENERGY = @b1_upkeep
+		RARE_UPKEEP = @b2_rare_upkeep
+		PRODUCES_UNITY = 5  # mult x 5
+		UPKEEP_ENERGY = 10  # mult x 15
+		REDUCE_CRIME = -125
+		REDUCE_CRIME_CAMPAIGN = -50
+		STABILITY_ADD = 5
+		TIER = 2
+	}
+
+	prerequisites = {
+		"tech_colonial_centralization"
+	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_security
+	}
+}
+
+### CAPITAL BUILDINGS ###
+
+# T1 (Post)
+oxr_mdlc_world_machines_building_auto_capital = {
+	# resources
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_capital
+		COST = @b2_minerals
+		UPKEEP = @b2_upkeep
+		BUILD_TIME = @b2_time
+		# allow upgrade if >= this many districts
+		# 0 in this instance
+		REQ_MIN_NUM_DISTRICTS = 0
+		TIER = 1
+	}
+
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+
+	inline_script = planet/buildings/convert_to/oxr_capital_convert_t1
+
+	prerequisites = { "tech_planetary_government" }
+
+	upgrades = {
+		oxr_mdlc_world_machines_building_auto_capital_upgraded
+	}
+}
+# T2 (Capital)
+oxr_mdlc_world_machines_building_auto_capital_upgraded = {
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_capital
+		COST = @b2_minerals
+		UPKEEP = @b2_upkeep
+		BUILD_TIME = @b2_time
+		# allow upgrade if >= this many districts
+		REQ_MIN_NUM_DISTRICTS = @oxr_capital_upgrade_t2_districts_num
+		TIER = 2
+	}
+
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+
+	inline_script = planet/buildings/convert_to/oxr_capital_convert_t2
+
+	prerequisites = {
+		"tech_planetary_government"
+	}
+
+	upgrades = {
+		oxr_mdlc_world_machines_building_auto_capital_major_upgraded
+	}
+
+}
+# T3 (Major)
+oxr_mdlc_world_machines_building_auto_capital_major_upgraded = {
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_capital
+		COST = @b3_minerals
+		UPKEEP = @b3_upkeep
+		BUILD_TIME = @b3_time
+		# allow upgrade if >= this many districts
+		REQ_MIN_NUM_DISTRICTS = @oxr_capital_upgrade_t3_districts_num
+		TIER = 3
+	}
+
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+
+	inline_script = planet/buildings/convert_to/oxr_capital_convert_t3
+
+	prerequisites = {
+		"tech_colonial_centralization"
+	}
+
+	upgrades = {
+		"oxr_mdlc_world_machines_building_auto_capital_fully_upgraded"
+	}
+
+}
+# T4 (System)
+oxr_mdlc_world_machines_building_auto_capital_fully_upgraded = {
+	# resources
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_capital
+		COST = @b4_minerals
+		UPKEEP = @b4_upkeep
+		BUILD_TIME = @b4_time
+		# allow upgrade if >= this many districts
+		REQ_MIN_NUM_DISTRICTS = @oxr_capital_upgrade_t4_districts_num
+		TIER = 4
+	}
+
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+
+	inline_script = planet/buildings/convert_to/oxr_capital_convert_t4
+
+	prerequisites = { "tech_galactic_administration" }
+
+	upgrades = {
+		"oxr_mdlc_world_machines_building_auto_imperial_capital"
+	}
+
+}
+
+# Imperial Capital - T5
+oxr_mdlc_world_machines_building_auto_imperial_capital = {
+	# not including this script bc potential is different
+	# inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+
+	# resources
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_capital
+		COST = @b4_minerals
+		UPKEEP = @b4_upkeep
+		BUILD_TIME = @b4_time
+		# allow upgrade if >= this many districts
+		REQ_MIN_NUM_DISTRICTS = @oxr_capital_upgrade_t5_districts_num
+		TIER = 5
+	}
+
+	potential = {
+		exists = owner
+		owner = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+			is_galactic_emperor = yes
+		}
+	}
+	show_tech_unlock_if = {
+		has_origin = oxr_mdlc_origin_world_machine_awakened
+	}
+
+	inline_script = planet/buildings/convert_to/oxr_capital_convert_t5
+
+}
+
+#### MANUFACTURING ###
+
+# Forge booster
+oxr_mdlc_world_machines_building_auto_forge_1 = {
+	base_buildtime = @b1_time
+	base_cap_amount = 1
+	can_build = yes
+
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_destroy
+
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_foundry
+		COST = @b1_minerals
+		UPKEEP = @b1_upkeep
+		RARE_COST = 0
+		RARE_UPKEEP = 0
+		PRODUCTION_MULT = 0
+	}
+
+	upgrades = {
+		oxr_mdlc_world_machines_building_auto_forge_2
+	}
+
+	prerequisites = {
+		tech_basic_industry
+	}
+}
+
+oxr_mdlc_world_machines_building_auto_forge_2 = {
+	base_buildtime = @b2_time
+	can_build = no
+	#base_cap_amount = 1
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	allow = {
+		# has_upgraded_capital = yes
+		oxr_mdlc_has_upgraded_capital = yes
+	}
+	inline_script = planet/buildings/auto/oxr_destroy
+
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_foundry
+		COST = @b2_minerals
+		RARE_COST = @b3_rare_cost
+		UPKEEP = @b2_upkeep
+		RARE_UPKEEP = @b3_rare_upkeep
+		PRODUCTION_MULT = 0.1
+	}
+
+	upgrades = {
+		oxr_mdlc_world_machines_building_auto_forge_3
+	}
+
+	prerequisites = {
+		tech_alloys_1
+	}
+}
+
+oxr_mdlc_world_machines_building_auto_forge_3 = {
+	base_buildtime = @b3_time
+	can_build = no
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_foundry
+		COST = @b3_minerals
+		RARE_COST = @b4_rare_cost
+		UPKEEP = @b3_upkeep
+		RARE_UPKEEP = @b4_rare_upkeep
+		PRODUCTION_MULT = 0.2
+	}
+
+	allow = {
+		oxr_mdlc_has_major_upgraded_capital = yes
+	}
+	# boom if no ap or wm origin
+	inline_script = planet/buildings/auto/oxr_destroy
+
+	prerequisites = {
+		tech_alloys_2
+	}
+}
+
+# New building - Forge w/ no boost
+
+# Factories
+oxr_mdlc_world_machines_building_auto_factory_boost_1 = {
+	base_buildtime = @b1_time
+	base_cap_amount = 1
+	can_build = no
+
+	potential = {
+		exists = owner
+		is_planet_world_machine = yes
+		# Either a CG country or using ECU
+		OR = {
+			owner = {
+				country_uses_consumer_goods = yes
+			}
+			is_planet_class = xvcv_mdlc_pc_machine_ecu
+		}
+		owner = {
+			oxr_mdlc_planet_owner_can_build_wm_districts = yes
+		}
+		oxr_mdlc_planet_has_vanilla_pop_colony_modifier = no
+	}
+	show_tech_unlock_if = {
+		has_origin = oxr_mdlc_origin_world_machine_awakened
+	}
+
+	inline_script = planet/buildings/auto/oxr_destroy
+
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_factory
+		MINERALS_COST = @b1_minerals
+		ENERGY_UPKEEP = @b1_upkeep
+		RARE_UPKEEP = 0
+		JOBS = 2
+	}
+
+	prerequisites = {
+		"tech_basic_industry"
+	}
+
+	upgrades = {
+		oxr_mdlc_world_machines_building_auto_factory_boost_2
+	}
+}
+# T2
+oxr_mdlc_world_machines_building_auto_factory_boost_2 = {
+	base_buildtime = @b2_time
+	can_build = no
+
+	allow = {
+		OR = {
+			has_upgraded_capital = yes
+			oxr_mdlc_has_upgraded_capital = yes
+		}
+	}
+
+	potential = {
+		exists = owner
+		owner = {
+			OR = {
+				has_origin = oxr_mdlc_origin_world_machine_awakened
+				has_ascension_perk = xvcv_mdlc_ap_world_machines
+			}
+			country_uses_consumer_goods = yes
+		}
+		is_planet_world_machine = yes
+	}
+	show_tech_unlock_if = {
+		OR = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+			has_ascension_perk = xvcv_mdlc_ap_world_machines
+		}
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_factory
+		MINERALS_COST = @b2_minerals
+		ENERGY_UPKEEP = @b2_upkeep
+		RARE_UPKEEP = @b3_rare_upkeep
+		JOBS = 4
+	}
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_factory_boost
+		PRODUCES_MULT = 0.1
+	}
+	prerequisites = {
+		"tech_luxuries_1"
+	}
+
+	upgrades = {
+		"oxr_mdlc_world_machines_building_auto_factory_boost_3"
+	}
+}
+# T3
+oxr_mdlc_world_machines_building_auto_factory_boost_3 = {
+	base_buildtime = @b3_time
+	can_build = no
+	icon = oxr_mdlc_world_machines_building_auto_factory_boost_2
+
+	allow = {
+		OR = {
+			has_major_upgraded_capital = yes
+			oxr_mdlc_has_upgraded_capital = yes
+		}
+	}
+	potential = {
+		exists = owner
+		owner = {
+			OR = {
+				has_origin = oxr_mdlc_origin_world_machine_awakened
+				has_ascension_perk = xvcv_mdlc_ap_world_machines
+			}
+			country_uses_consumer_goods = yes
+		}
+		is_planet_world_machine = yes
+	}
+	show_tech_unlock_if = {
+		OR = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+			has_ascension_perk = xvcv_mdlc_ap_world_machines
+		}
+	}
+	# DOCTOR! DOC-TOOOOR!
+	# MY BRAIN HURTS!
+	# ... IT WILL HAVE TO COME OUT ??
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_factory
+		MINERALS_COST = @b3_minerals
+		RARE_COST = @b4_rare_cost
+		ENERGY_UPKEEP = @b3_upkeep
+		RARE_UPKEEP = @b4_rare_upkeep
+		JOBS = 6
+	}
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_factory_boost
+		PRODUCES_MULT = 0.2
+	}
+	# ANAESTHETIC!
+	# ANAESTH-EEETIC!
+	prerequisites = {
+		"tech_luxuries_2"
+	}
+	# BONG
+}
+
+oxr_mdlc_world_machines_building_auto_nanite_transmuter = {
+	base_buildtime = @b3_time
+
+	category = manufacturing
+
+	potential = {
+		exists = owner
+		is_planet_world_machine = yes
+		OWNER = {
+			OR = {
+				has_monthly_income = {
+					resource = nanites
+					value > 0
+				}
+				AND = {
+					is_ai = no
+					has_resource = {
+						type = nanites
+						amount > 0
+					}
+				}
+			}
+		}
+		oxr_mdlc_planet_has_vanilla_pop_colony_modifier = no
+	}
+
+	allow = {
+		oxr_mdlc_has_upgraded_capital = yes
+	}
+
+	resources = {
+		category = oxr_mdlc_world_machines_strategic_resource_buildings
+		cost = {
+			minerals = 1000
+		}
+		produces = {
+			trigger = {
+				owner = {
+					NOT = {
+						has_deficit = nanites
+					}
+				}
+			}
+			rare_crystals = 2
+			volatile_motes = 2
+			exotic_gases = 2
+		}
+		upkeep = {
+			nanites = 1
+			energy = 5
+		}
+	}
+
+	prerequisites = {
+		"tech_nanite_transmutation"
+		"oxr_mdlc_tech_world_machine_wmc_core"
+	}
+
+	ai_resource_production = {
+		rare_crystals = @b3_rare_upkeep
+		volatile_motes = @b3_rare_upkeep
+		exotic_gases = @b3_rare_upkeep
+		trigger = {
+			owner = {
+				NOT = {
+					has_deficit = nanites
+				}
+			}
+		}
+	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_production
+		oxr_mdlc_building_set_wm_strategic
+	}
+}
+
+
+#### MILITARY ####
+# MILITARY T1
+oxr_mdlc_world_machines_building_maintenance_legion = {
+	category = army
+	can_be_ruined = no
+	exempt_from_ai_planet_specialization = no
+
+	potential = {
+		exists = owner
+		owner = {
+			OR = {
+				has_origin = oxr_mdlc_origin_world_machine_awakened
+				# has_ascension_perk = xvcv_mdlc_ap_world_machines
+			}
+		}
+		is_planet_world_machine = yes
+	}
+	show_tech_unlock_if = {
+		OR = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+			# has_ascension_perk = xvcv_mdlc_ap_world_machines
+		}
+	}
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_army
+		BUILD_TIME = @b1_time
+		MINERALS_COST = @b1_minerals
+		DEFENSE_ARMIES = 3
+		NAVAL_CAP_ADD = 4
+		RARE_COST = 0
+		ENERGY_UPKEEP = 1
+		RARE_UPKEEP = 0
+	}
+
+	prerequisites = {
+		"tech_planetary_defenses"
+		# "oxr_mdlc_tech_world_machines_unlocked"
+	}
+
+	upgrades = {
+		oxr_mdlc_world_machines_building_maintenance_legion_2
+	}
+	on_built = {
+		owner = {
+			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
+		}
+		fire_on_action = {
+			on_action = on_world_machine_district_completed_planet
+		}
+	}
+	on_destroy = {
+		fire_on_action = {
+			on_action = on_world_machine_district_completed_planet
+		}
+	}
+
+}
+# MILITARY T2
+oxr_mdlc_world_machines_building_maintenance_legion_2 = {
+	can_build = no
+	planetary_ftl_inhibitor = yes
+	can_be_ruined = yes
+	category = army
+
+	allow = { oxr_mdlc_has_upgraded_capital = yes }
+	potential = {
+		exists = owner
+		owner = {
+			OR = {
+				has_origin = oxr_mdlc_origin_world_machine_awakened
+				# has_ascension_perk = xvcv_mdlc_ap_world_machines
+			}
+		}
+		is_planet_world_machine = yes
+	}
+	show_tech_unlock_if = {
+		OR = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+			# has_ascension_perk = xvcv_mdlc_ap_world_machines
+		}
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_army
+		BUILD_TIME = @b1_time
+		MINERALS_COST = @b2_minerals
+		RARE_COST = @b2_rare_cost
+		ENERGY_UPKEEP = 1
+		RARE_UPKEEP = @b2_rare_upkeep
+		DEFENSE_ARMIES = 6
+		NAVAL_CAP_ADD = 8
+	}
+
+	prerequisites = {
+		"tech_global_defense_grid"
+	}
+	on_built = {
+		owner = {
+			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
+		}
+		fire_on_action = {
+			on_action = on_world_machine_district_completed_planet
+		}
+	}
+	on_destroy = {
+		fire_on_action = {
+			on_action = on_world_machine_district_completed_planet
+		}
+	}
+}
+# AUTO ACADEMY
+oxr_mdlc_world_machines_building_military_academy = {
+	base_buildtime = @b2_time
+	empire_limit = {
+		base = 1
+	}
+	can_be_ruined = no
+	category = army
+
+	potential = {
+		exists = owner
+		oxr_mdlc_planet_has_vanilla_pop_colony_modifier = no
+		owner = { has_oxr_mdlc_origin_world_machine_awakened = yes }
+		is_planet_world_machine = yes
+	}
+
+	allow = {
+		OR = {
+			oxr_mdlc_has_upgraded_capital = yes
+			AND = {
+				exists = owner
+				owner = {
+					has_valid_civic = civic_machine_tactical_algorithms
+				}
+			}
+		}
+	}
+
+	country_modifier = {
+		country_commander_cap_add = 1
+		country_naval_cap_mult = 0.05
+	}
+
+	triggered_country_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_valid_civic = civic_machine_tactical_algorithms }
+
+		}
+		ship_evasion_mult = 0.02
+		ship_tracking_mult = 0.01
+		ship_shield_penetration_add = 0.05
+		ship_armor_penetration_add = 0.05
+		mult = owner.value:tactical_algorithms_scaling_mult
+	}
+	triggered_country_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_valid_civic = civic_machine_tactical_algorithms }
+
+		}
+		ship_shield_hardening_add = 0.1
+		mult = owner.value:tactical_algorithms_enclave_scaling_mult
+	}
+
+	resources = {
+		category = oxr_mdlc_world_machines_military_buildings
+		cost = {
+			minerals = @b2_minerals
+		}
+		cost = {
+			trigger = {
+				exists = owner
+				owner = {
+					NOT = { has_valid_civic = civic_machine_tactical_algorithms }
+				}
+			}
+			volatile_motes = @b2_rare_cost
+		}
+		upkeep = {
+			energy = @b2_upkeep
+		}
+		upkeep = {
+			trigger = {
+				exists = owner
+				owner = {
+					NOT = { has_valid_civic = civic_machine_tactical_algorithms }
+				}
+			}
+			volatile_motes = @b2_rare_upkeep
+		}
+		produces = {
+			# equivalent of 2 evaluator jobs
+			unity = @[ 2 * oxr_mdlc_wm_base_evaluator_drone_output ]
+		}
+		upkeep = {
+			trigger = {
+				exists = owner
+			}
+			energy = @[ 2 * oxr_mdlc_wm_base_evaluator_drone_upkeep ]
+		}
+	}
+
+	prerequisites = {
+		"tech_centralized_command"
+		"oxr_mdlc_tech_world_machine_wmc_core"
+	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_military
+	}
+
+}
+# SHIELD GENERATOR
+oxr_mdlc_world_machines_building_planetary_shield_generator = {
+	base_buildtime = @b3_time
+	base_cap_amount = 1
+	position_priority = 100
+	can_be_ruined = no
+	category = army
+
+	allow = {
+		oxr_mdlc_has_upgraded_capital = yes
+		doesnt_have_building = { WHICH = building_planetary_shield_generator }
+		if = {
+			limit = { exists = orbital_defence }
+			orbital_defence = {
+				exists = starbase
+				starbase = {
+					NOR = {
+						has_starbase_building = ring_orbital_shield_generator
+						is_starbase_building_building = ring_orbital_shield_generator
+					}
+				}
+			}
+		}
+	}
+
+	destroy_trigger = {}
+
+	planet_modifier = {
+		planet_orbital_bombardment_damage = -0.5
+	}
+	triggered_planet_modifier = {
+		potential = { has_cosmic_storms_dlc = yes }
+		planet_storm_devastation_mult = -0.5
+	}
+
+	inline_script = {
+		script = cosmic_storms/StormBuildingModifiers
+	}
+
+	on_built = {
+		if = {
+			limit = { has_cosmic_storms_dlc = yes }
+			solar_system = {
+				set_star_flag = storm_no_negative_effects
+				remove_modifier = storm_base_modifier
+			}
+		}
+	}
+
+	on_destroy = {
+		if = {
+			limit = { has_cosmic_storms_dlc = yes }
+			owner = { set_country_flag = shield_on_destroy } #an action when destroyed
+			solar_system = {
+				remove_star_flag = storm_no_negative_effects
+			}
+		}
+	}
+
+	resources = {
+		category = oxr_mdlc_world_machines_military_buildings
+		cost = {
+			minerals = @b2_minerals
+		}
+		upkeep = {
+			energy = @b2_upkeep
+		}
+	}
+
+	prerequisites = {
+		"tech_planetary_shield_generator"
+		"oxr_mdlc_tech_world_machines_unlocked"
+	}
+
+	custom_storm_ai_weight = {
+		weight = 5
+		modifier = {
+			factor = 5
+			AND = {
+				exists = owner
+				solar_system = {
+					exists = owner
+					owner = { num_cosmic_storms_encountered >=2 }
+				}
+			}
+		}
+	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_military
+	}
+}
+
+
+#### RESEARCH ####
+# RESEARCH T1
+oxr_mdlc_world_machines_building_fractal_sanitizer = {
+	base_buildtime = @b1_time
+
+	exempt_from_ai_planet_specialization = no
+
+	category = research
+	inline_script = planet/buildings/oxr_sort_important
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_destroy
+
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_research
+		COST = @b1_minerals
+		RARE = 0
+		TIER = 1
+	}
+
+	upgrades = {
+		"oxr_mdlc_world_machines_building_fractal_sanitizer_2"
+	}
+
+	prerequisites = {
+		"tech_basic_science_lab_1"
+		# "oxr_mdlc_tech_world_machines_unlocked"
+	}
+
+}
+# RESEARCH T2
+oxr_mdlc_world_machines_building_fractal_sanitizer_2 = {
+	base_buildtime = @b2_time
+	can_build = no
+
+	exempt_from_ai_planet_specialization = no
+
+	category = research
+
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_destroy
+
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_research
+		COST = @b2_minerals
+		RARE = 0
+		TIER = 2
+	}
+	upgrades = {
+		oxr_mdlc_world_machines_building_fractal_sanitizer_3
+	}
+	prerequisites = {
+		"tech_basic_science_lab_2"
+		"oxr_mdlc_tech_world_machines_unlocked"
+	}
+
+}
+# RESEARCH T3
+oxr_mdlc_world_machines_building_fractal_sanitizer_3 = {
+	base_buildtime = @b3_time
+	can_build = no
+
+	exempt_from_ai_planet_specialization = no
+
+	category = research
+
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_destroy
+
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_research
+		COST = @b3_minerals
+		RARE = 1
+		TIER = 3
+	}
+	upgrades = {
+		oxr_mdlc_world_machines_building_fractal_sanitizer_4
+	}
+	prerequisites = {
+		"tech_basic_science_lab_3"
+		"oxr_mdlc_tech_world_machines_unlocked"
+	}
+}
+# RESEARCH T4
+oxr_mdlc_world_machines_building_fractal_sanitizer_4 = {
+	base_buildtime = @b4_time
+	can_build = no
+
+	exempt_from_ai_planet_specialization = no
+
+	category = research
+
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_destroy
+
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_research
+		COST = @b4_minerals
+		RARE = 1.5
+		TIER = 4
+	}
+
+	prerequisites = {
+		"tech_zero_point_power"
+		"oxr_mdlc_tech_world_machines_unlocked"
+		"oxr_mdlc_tech_world_machine_planetary_mastery"
+	}
+}
+# SUPERCOMPUTER (gestalt version of institute)
+oxr_mdlc_world_machines_building_cold_storage_datacenter = {
+	base_buildtime = @b2_time
+	empire_limit = {
+		base = 1
+	}
+	icon = oxr_mdlc_world_machines_auto_research_institute
+
+	category = research
+
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_destroy
+
+	allow = {
+		oxr_mdlc_has_upgraded_capital = yes
+	}
+
+	convert_to = {
+		building_institute
+	}
+
+	resources = {
+		category = oxr_mdlc_world_machines_science_buildings
+		cost = {
+			minerals = @b2_minerals
+			exotic_gases = @b2_rare_cost
+		}
+		upkeep = {
+			energy = @b2_upkeep
+			exotic_gases = @b2_rare_upkeep
+		}
+		produces = {
+			physics_research = 10
+			society_research = 10
+			engineering_research = 10
+		}
+		inline_script = {
+			script = planet/buildings/auto/oxr_organoid_upkeep
+			TIER = 1
+		}
+	}
+
+	country_modifier = {
+		country_scientist_cap_add = 1
+		all_technology_research_speed = 0.05
+	}
+
+	planet_modifier = {
+		xvcv_mdlc_world_machines_computer_districts_produces_mult = 0.2
+		oxr_mdlc_world_machines_science_buildings_produces_mult = 0.2
+	}
+
+	prerequisites = {
+		"tech_global_research_initiative"
+		"oxr_mdlc_tech_world_machine_wmc_core"
+	}
+
+	ai_resource_production = {
+		trigger = {
+			planet_resource_compare = {
+				resource = physics_research
+				value >= 20
+			}
+		}
+		physics_research = 8
+		society_research = 8
+		engineering_research = 8
+	}
+	ai_resource_production = {
+		trigger = {
+
+			planet_resource_compare = {
+				resource = physics_research
+				value >= 40
+			}
+		}
+		physics_research = 8
+		society_research = 8
+		engineering_research = 8
+	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_research
+	}
+}
+
+# In Phoenix 4.x, these single-research buildings give 200 researcher jobs,
+# a whopping 12 research total ...
+oxr_mdlc_world_machines_building_circuit_physics_1 = {
+	base_buildtime = @b1_time
+	exempt_from_ai_planet_specialization = no
+	planet_limit = 1
+
+	category = research
+	inline_script = planet/buildings/oxr_sort_important
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_destroy
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_research
+	}
+
+	resources = {
+		category = oxr_mdlc_world_machines_science_buildings
+		cost = {
+			minerals = @b1_minerals
+		}
+		upkeep = {
+			energy = @b1_upkeep
+		}
+		produces = {
+			# vanilla adds 200 physicist jobs, so 2 x base physicist output (6)
+			physics_research = 12
+		}
+	}
+
+	planet_modifier = {
+		oxr_mdlc_world_machines_science_buildings_physics_research_produces_add = 1
+		xvcv_mdlc_world_machines_science_districts_physics_research_produces_add = 1
+	}
+
+	upgrades = { "oxr_mdlc_world_machines_building_circuit_physics_2" }
+	prerequisites = { "tech_physics_1" }
+}
+oxr_mdlc_world_machines_building_circuit_physics_2 = {
+	can_build = no
+	base_buildtime = @b2_time
+	exempt_from_ai_planet_specialization = no
+
+	category = research
+	inline_script = planet/buildings/oxr_sort_important
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_destroy
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_research
+	}
+
+	resources = {
+		category = oxr_mdlc_world_machines_science_buildings
+		cost = {
+			minerals = @b2_minerals
+			volatile_motes = @b2_rare_cost
+		}
+		upkeep = {
+			energy = @b2_upkeep
+			volatile_motes = @b2_rare_upkeep
+		}
+		produces = {
+			# vanilla adds 200 physicist jobs, so 2 x base physicist output (6)
+			physics_research = 12
+		}
+	}
+
+	planet_modifier = {
+		oxr_mdlc_world_machines_science_buildings_physics_research_produces_add = 2
+		xvcv_mdlc_world_machines_science_districts_physics_research_produces_add = 2
+
+		oxr_mdlc_world_machines_science_buildings_volatile_motes_upkeep_add = 0.5
+		xvcv_mdlc_world_machines_science_districts_volatile_motes_upkeep_add = 0.5
+	}
+
+	upgrades = { "oxr_mdlc_world_machines_building_circuit_physics_3" }
+	prerequisites = { "tech_physics_2" }
+}
+oxr_mdlc_world_machines_building_circuit_physics_3 = {
+	can_build = no
+	base_buildtime = @b3_time
+	exempt_from_ai_planet_specialization = no
+
+	category = research
+	inline_script = planet/buildings/oxr_sort_important
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_destroy
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_research
+	}
+
+	resources = {
+		category = oxr_mdlc_world_machines_science_buildings
+		cost = {
+			minerals = @b3_minerals
+			volatile_motes = @b3_rare_cost
+		}
+		upkeep = {
+			energy = @b3_upkeep
+			volatile_motes = @b3_rare_upkeep
+		}
+		produces = { physics_research = 12 }
+	}
+
+	planet_modifier = {
+		oxr_mdlc_world_machines_science_buildings_physics_research_produces_add = 2
+		xvcv_mdlc_world_machines_science_districts_physics_research_produces_add = 2
+
+		oxr_mdlc_world_machines_science_buildings_physics_research_produces_mult = 0.15
+		xvcv_mdlc_world_machines_science_districts_physics_research_produces_mult = 0.15
+
+		oxr_mdlc_world_machines_science_buildings_volatile_motes_upkeep_add = 0.5
+		xvcv_mdlc_world_machines_science_districts_volatile_motes_upkeep_add = 0.5
+	}
+
+	prerequisites = { "tech_physics_3" }
+}
+
+oxr_mdlc_world_machines_building_circuit_society_1 = {
+	base_buildtime = @b1_time
+	exempt_from_ai_planet_specialization = no
+	planet_limit = 1
+
+	category = research
+	inline_script = planet/buildings/oxr_sort_important
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_destroy
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_research
+	}
+
+	resources = {
+		category = oxr_mdlc_world_machines_science_buildings
+		cost = {
+			minerals = @b1_minerals
+		}
+		upkeep = {
+			energy = @b1_upkeep
+		}
+		produces = {
+			society_research = 12
+		}
+	}
+
+	planet_modifier = {
+		oxr_mdlc_world_machines_science_buildings_society_research_produces_add = 1
+		xvcv_mdlc_world_machines_science_districts_society_research_produces_add = 1
+	}
+
+	upgrades = { "oxr_mdlc_world_machines_building_circuit_society_2" }
+	prerequisites = { "tech_society_1" }
+}
+oxr_mdlc_world_machines_building_circuit_society_2 = {
+	can_build = no
+	base_buildtime = @b2_time
+	exempt_from_ai_planet_specialization = no
+
+	category = research
+	inline_script = planet/buildings/oxr_sort_important
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_destroy
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_research
+	}
+
+	resources = {
+		category = oxr_mdlc_world_machines_science_buildings
+		cost = {
+			minerals = @b2_minerals
+			exotic_gases = @b2_rare_cost
+		}
+		upkeep = {
+			energy = @b2_upkeep
+			exotic_gases = @b2_rare_upkeep
+		}
+	}
+
+	planet_modifier = {
+		oxr_mdlc_world_machines_science_buildings_society_research_produces_add = 2
+		xvcv_mdlc_world_machines_science_districts_society_research_produces_add = 2
+
+		oxr_mdlc_world_machines_science_buildings_exotic_gases_upkeep_add = 0.5
+		xvcv_mdlc_world_machines_science_districts_exotic_gases_upkeep_add = 0.5
+	}
+
+	upgrades = { "oxr_mdlc_world_machines_building_circuit_society_3" }
+	prerequisites = { "tech_society_2" }
+}
+oxr_mdlc_world_machines_building_circuit_society_3 = {
+	can_build = no
+	base_buildtime = @b2_time
+	exempt_from_ai_planet_specialization = no
+
+	category = research
+	inline_script = planet/buildings/oxr_sort_important
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_destroy
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_research
+	}
+
+	resources = {
+		category = oxr_mdlc_world_machines_science_buildings
+		cost = {
+			minerals = @b3_minerals
+			exotic_gases = @b3_rare_cost
+		}
+		upkeep = {
+			energy = @b3_upkeep
+			exotic_gases = @b3_rare_upkeep
+		}
+	}
+
+	planet_modifier = {
+		oxr_mdlc_world_machines_science_buildings_society_research_produces_add = 2
+		xvcv_mdlc_world_machines_science_districts_society_research_produces_add = 2
+
+		oxr_mdlc_world_machines_science_buildings_society_research_produces_mult = 0.15
+		xvcv_mdlc_world_machines_science_districts_society_research_produces_mult = 0.15
+
+		oxr_mdlc_world_machines_science_buildings_exotic_gases_upkeep_add = 0.5
+		xvcv_mdlc_world_machines_science_districts_exotic_gases_upkeep_add = 0.5
+	}
+
+	prerequisites = { "tech_society_3" }
+}
+
+oxr_mdlc_world_machines_building_circuit_engineering_1 = {
+	base_buildtime = @b1_time
+	exempt_from_ai_planet_specialization = no
+	planet_limit = 1
+
+	category = research
+	inline_script = planet/buildings/oxr_sort_important
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_destroy
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_research
+	}
+
+	resources = {
+		category = oxr_mdlc_world_machines_science_buildings
+		cost = {
+			minerals = @b1_minerals
+		}
+		upkeep = {
+			energy = @b1_upkeep
+		}
+		produces = { engineering_research = 12 }
+	}
+
+	planet_modifier = {
+		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_add = 1
+		xvcv_mdlc_world_machines_science_districts_engineering_research_produces_add = 1
+	}
+
+	upgrades = { "oxr_mdlc_world_machines_building_circuit_engineering_2" }
+	prerequisites = { "tech_engineering_1" }
+}
+oxr_mdlc_world_machines_building_circuit_engineering_2 = {
+    can_build = no
+	base_buildtime = @b1_time
+	exempt_from_ai_planet_specialization = no
+
+	category = research
+	inline_script = planet/buildings/oxr_sort_important
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_destroy
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_research
+	}
+
+	resources = {
+		category = oxr_mdlc_world_machines_science_buildings
+		cost = {
+			minerals = @b2_minerals
+			rare_crystals = @b2_rare_cost
+		}
+		upkeep = {
+			energy = @b2_upkeep
+			rare_crystals = @b2_rare_upkeep
+		}
+		produces = { engineering_research = 12 }
+	}
+
+	planet_modifier = {
+		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_add = 2
+		xvcv_mdlc_world_machines_science_districts_engineering_research_produces_add = 2
+
+		oxr_mdlc_world_machines_science_buildings_rare_crystals_upkeep_add = 0.5
+		xvcv_mdlc_world_machines_science_districts_rare_crystals_upkeep_add = 0.5
+	}
+
+	upgrades = { "oxr_mdlc_world_machines_building_circuit_engineering_3" }
+	prerequisites = { "tech_engineering_2" }
+}
+oxr_mdlc_world_machines_building_circuit_engineering_3 = {
+    can_build = no
+	base_buildtime = @b1_time
+	exempt_from_ai_planet_specialization = no
+	planet_limit = 1
+
+	category = research
+	inline_script = planet/buildings/oxr_sort_important
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_destroy
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_research
+	}
+
+	resources = {
+		category = oxr_mdlc_world_machines_science_buildings
+		cost = {
+			minerals = @b2_minerals
+			rare_crystals = @b2_rare_cost
+		}
+		upkeep = {
+			energy = @b2_upkeep
+			rare_crystals = @b2_rare_upkeep
+		}
+		produces = { engineering_research = 12 }
+	}
+
+	planet_modifier = {
+		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_add = 2
+		xvcv_mdlc_world_machines_science_districts_engineering_research_produces_add = 2
+
+		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_mult = 0.15
+		xvcv_mdlc_world_machines_science_districts_engineering_research_produces_mult = 0.15
+
+		oxr_mdlc_world_machines_science_buildings_rare_crystals_upkeep_add = 0.5
+		xvcv_mdlc_world_machines_science_districts_rare_crystals_upkeep_add = 0.5
+	}
+
+	prerequisites = { "tech_engineering_3" }
+}
+
+# RESEARCH BOOSTER - TODO (?)
+# oxr_mdlc_world_machines_building_central_data_router = {
+# 	base_buildtime = @b2_time
+# 	category = research
+# 	base_cap_amount = 1
+# 	can_build = no
+
+# 	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+# 	inline_script = planet/buildings/auto/oxr_destroy
+
+# 	allow = {
+# 		oxr_mdlc_has_major_upgraded_capital = yes
+# 		# if = {
+# 		# 	limit = {
+# 		# 		NOT = { is_planet_class = xvcv_mdlc_pc_machine_cpu }
+# 		# 	}
+# 		# 	check_variable = {
+# 		# 		which = owner.math_number_five
+# 		# 		value >= value:oxr_mdlc_num_base_science_buildings
+# 		# 	}
+# 		# }
+# 		# else = {
+# 		# }
+# 	}
+# 	resources = {
+# 		category = oxr_mdlc_world_machines_science_buildings
+# 		cost = {
+# 			minerals = @b2_minerals
+# 			volatile_motes = @b2_rare_cost
+# 		}
+# 		upkeep = {
+# 			energy = @b2_upkeep
+# 			volatile_motes = @b2_rare_upkeep
+# 		}
+# 		# produces = {
+# 		# 	physics_research = 10
+# 		# 	society_research = 10
+# 		# 	engineering_research = 10
+# 		# }
+# 	}
+# 	planet_modifier = {
+# 		xvcv_mdlc_world_machines_computer_districts_produces_mult = 0.2
+# 		oxr_mdlc_world_machines_science_buildings_produces_mult = 0.2
+# 		xvcv_mdlc_world_machines_computer_districts_energy_upkeep_add = 10
+# 		oxr_mdlc_world_machines_science_buildings_energy_upkeep_add = 10
+# 	}
+# }
+# REPROGRAM CPU WORLDS
+oxr_mdlc_world_machines_building_fractal_fpga = {
+	base_buildtime = @b3_time
+	base_cap_amount = 1
+	can_build = yes
+	category = research
+
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_destroy
+
+	allow = {
+		custom_tooltip_fail = {
+			oxr_mdlc_has_major_upgraded_capital = yes
+			text = oxr_mdlc_world_machines_building_fractal_fpga_not_major_capital
+		}
+		custom_tooltip_fail = {
+			text = oxr_mdlc_world_machines_building_fractal_fpga_not_cpu_world
+			is_planet_class = xvcv_mdlc_pc_machine_cpu
+		}
+	}
+	resources = {
+		category = oxr_mdlc_world_machines_science_buildings
+		cost = {
+			minerals = @b2_minerals
+			exotic_gases = @b2_rare_cost
+		}
+		upkeep = {
+			energy = @b2_upkeep
+			exotic_gases = @b2_rare_upkeep
+		}
+		inline_script = {
+			script = planet/buildings/auto/oxr_organoid_upkeep
+			TIER = 1
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {
+			oxr_mdlc_planet_cpu_has_valid_designation_for_fpga = yes
+		}
+		xvcv_mdlc_world_machines_science_districts_energy_upkeep_add = 10
+		xvcv_mdlc_world_machines_science_districts_volatile_motes_upkeep_add = 1
+		xvcv_mdlc_world_machines_cooling_districts_upkeep_mult = 0.5
+		oxr_mdlc_world_machines_science_buildings_energy_upkeep_add = 7
+		oxr_mdlc_world_machines_science_buildings_volatile_motes_upkeep_add = 0.25
+	}
+	# ENG
+	triggered_planet_modifier = {
+		potential = {
+			has_designation = xvcv_mdlc_col_machine_cpu_engineering
+		}
+		xvcv_mdlc_world_machines_computer_districts_engineering_research_produces_mult = 0.5
+		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_mult = 1.5
+		oxr_mdlc_world_machines_science_buildings_physics_research_produces_mult = -1
+		oxr_mdlc_world_machines_science_buildings_society_research_produces_mult = -1
+	}
+	triggered_desc = {
+		trigger = {
+			has_designation = xvcv_mdlc_col_machine_cpu_engineering
+		}
+		text = oxr_mdlc_world_machines_building_fractal_fpga_focus_engineering
+	}
+	# PHYS
+	triggered_planet_modifier = {
+		potential = {
+			has_designation = xvcv_mdlc_col_machine_cpu_physics
+		}
+		xvcv_mdlc_world_machines_computer_districts_physics_research_produces_mult = 0.5
+		oxr_mdlc_world_machines_science_buildings_physics_research_produces_mult = 1.5
+		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_mult = -1
+		oxr_mdlc_world_machines_science_buildings_society_research_produces_mult = -1
+	}
+	triggered_desc = {
+		trigger = {
+			has_designation = xvcv_mdlc_col_machine_cpu_physics
+		}
+		text = oxr_mdlc_world_machines_building_fractal_fpga_focus_physics
+	}
+	# SOC
+	triggered_planet_modifier = {
+		potential = {
+			has_designation = xvcv_mdlc_col_machine_cpu_society
+		}
+		xvcv_mdlc_world_machines_computer_districts_society_research_produces_mult = 0.5
+		oxr_mdlc_world_machines_science_buildings_society_research_produces_mult = 1.5
+		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_mult = -1
+		oxr_mdlc_world_machines_science_buildings_physics_research_produces_mult = -1
+	}
+	triggered_desc = {
+		trigger = {
+			has_designation = xvcv_mdlc_col_machine_cpu_society
+		}
+		text = oxr_mdlc_world_machines_building_fractal_fpga_focus_society
+	}
+	triggered_desc = {
+		trigger = {
+			NOR = {
+				has_designation = xvcv_mdlc_col_machine_cpu_society
+				has_designation = xvcv_mdlc_col_machine_cpu_engineering
+				has_designation = xvcv_mdlc_col_machine_cpu_physics
+			}
+		}
+		text = oxr_mdlc_world_machines_building_fractal_fpga_focus_none
+	}
+	prerequisites = {
+		"oxr_mdlc_tech_world_machine_cpu_reprogrammable_gate"
+	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_research
+	}
+}
+
+
+#### RESOURCE ####
+# Replace some vanilla buildings with world-machine versions
+oxr_mdlc_world_machines_auto_farm_1 = {
+	can_build = yes
+	inline_script = planet/buildings/oxr_sort_important
+	# POTENTIAL
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	# RESOURCES & THE REST
+	# Don't use oxr_mdlc_auto_farm inline script for tier 1 buildings
+	base_buildtime = 180
+	category = resource
+	resources = {
+		category = oxr_mdlc_world_machines_food_buildings
+		cost = { minerals = 200 }
+		produces = { food = @[ 2 * oxr_mdlc_wm_base_farmer_output ] }
+		produces = {
+			trigger = {
+				exists = owner
+				owner = { has_tradition = tr_nanotech_1 }
+			}
+			nanites = @[ 2 * oxr_mdlc_wm_base_drone_nanite_output ]
+		}
+		upkeep = { energy = 2.5 }
+	}
+
+	prerequisites = {
+		"tech_hydroponics"
+		# "oxr_mdlc_tech_world_machines_unlocked"
+	}
+	upgrades = {
+		oxr_mdlc_world_machines_auto_farm_2
+	}
+
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_raw_resource
+		oxr_mdlc_building_set_wm_food
+	}
+}
+oxr_mdlc_world_machines_auto_farm_2 = {
+	can_build = no
+	# POTENTIAL
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	# RESOURCES & THE REST
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_auto_farm
+		TIER = 2
+		BASE_JOB_OUTPUT = @oxr_mdlc_wm_base_farmer_output
+	}
+	prerequisites = {
+		"tech_eco_simulation"
+		"oxr_mdlc_tech_world_machines_unlocked"
+	}
+	upgrades = {
+		oxr_mdlc_world_machines_auto_farm_3
+	}
+	allow = {
+		inline_script = {
+			script = country/resource_income_compare_gt
+			RESOURCE = society_research
+			TIER = 2
+		}
+	}
+}
+oxr_mdlc_world_machines_auto_farm_3 = {
+	can_build = no
+	# POTENTIAL
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	# RESOURCES & THE REST
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_auto_farm
+		TIER = 3
+		BASE_JOB_OUTPUT = @oxr_mdlc_wm_base_farmer_output
+	}
+	prerequisites = {
+		"tech_gene_crops"
+		"oxr_mdlc_tech_world_machines_unlocked"
+	}
+	upgrades = {
+		oxr_mdlc_world_machines_auto_farm_4
+	}
+	allow = {
+		inline_script = {
+			script = country/resource_income_compare_gt
+			RESOURCE = society_research
+			TIER = 3
+		}
+	}
+}
+oxr_mdlc_world_machines_auto_farm_4 = {
+	can_build = no
+	# POTENTIAL
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	# RESOURCES & THE REST
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_auto_farm
+		TIER = 4
+		BASE_JOB_OUTPUT = @oxr_mdlc_wm_base_farmer_output
+	}
+	prerequisites = {
+		"tech_nano_vitality_crops"
+		"oxr_mdlc_tech_world_machines_unlocked"
+		"oxr_mdlc_tech_world_machine_planetary_mastery"
+	}
+	upgrades = {
+		oxr_mdlc_world_machines_auto_farm_5
+	}
+	allow = {
+		oxr_mdlc_has_upgraded_capital = yes
+		inline_script = {
+			script = country/resource_income_compare_gt
+			RESOURCE = society_research
+			TIER = 4
+		}
+	}
+}
+oxr_mdlc_world_machines_auto_farm_5 = {
+	can_build = no
+	# POTENTIAL
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	# RESOURCES & THE REST
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_auto_farm
+		TIER = 5
+		BASE_JOB_OUTPUT = @oxr_mdlc_wm_base_farmer_output
+	}
+	prerequisites = {
+		"tech_food_processing_2"
+		"oxr_mdlc_tech_world_machines_unlocked"
+	}
+	allow = {
+		oxr_mdlc_has_upgraded_capital = yes
+		inline_script = {
+			script = country/resource_income_compare_gt
+			RESOURCE = society_research
+			TIER = 5
+		}
+	}
+}
+# Replace building_food_processing_facility
+oxr_mdlc_world_machines_building_auto_farm_logistics = {
+	base_buildtime = @b1_time
+	base_cap_amount = 1
+	inline_script = planet/buildings/oxr_sort_important
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+
+	destroy_trigger = {
+		exists = owner
+		OR = {
+			owner = {
+				is_ai = yes
+				country_uses_food = no
+			}
+			is_planet_world_machine = no
+			owner = {
+				NOT = { has_technology = oxr_mdlc_tech_world_machines_unlocked }
+			}
+		}
+	}
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_auto_farm_boost
+		# AUTO_FARM_PRODUCES_ADD = 2
+		PRODUCES = 10
+		MINERALS_COST = @b1_minerals
+		RARE_COST = 0
+		UPKEEP = 2
+		RARE_UPKEEP = 0
+		PRODUCTION_MULT = 0.2
+		ENERGY_UPKEEP_ADD = 1
+		# RING_COST = 0
+		# RING_RARE_COST = 0
+	}
+
+	upgrades = {
+		oxr_mdlc_world_machines_building_auto_farm_logistics_2
+	}
+	prerequisites = {
+		"tech_food_processing_1"
+		"oxr_mdlc_tech_world_machines_unlocked"
+	}
+
+}
+# T2
+oxr_mdlc_world_machines_building_auto_farm_logistics_2 = {
+	base_buildtime = @b2_time
+	can_build = no
+	
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	allow = {
+		exists = owner
+		oxr_mdlc_has_upgraded_capital = yes
+	}
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_auto_farm_boost
+		PRODUCES = 10
+		MINERALS_COST = @b2_minerals
+		RARE_COST = @b2_rare_cost
+		UPKEEP = 2
+		RARE_UPKEEP = @b2_rare_upkeep
+		PRODUCTION_MULT = 0.4
+		ENERGY_UPKEEP_ADD = 2
+	}
+
+	prerequisites = {
+		"tech_food_processing_2"
+	}
+}
+
+# Mining
+# Mining resource building - new
+oxr_mdlc_world_machines_auto_mine_1 = {
+	can_build = yes  # for now
+	inline_script = planet/buildings/oxr_sort_important
+	# POTENTIAL
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	# RESOURCES & THE REST
+	base_buildtime = 180
+	category = resource
+	resources = {
+		category = oxr_mdlc_world_machines_mining_buildings
+		produces = { minerals = @[ 2 * oxr_mdlc_wm_base_miner_output ] }
+		cost = { minerals = 200 }
+		upkeep = { energy = 2.5 }
+		produces = {
+			trigger = {
+				exists = owner
+				owner = { has_tradition = tr_nanotech_1 }
+			}
+			nanites = @[ 2 * oxr_mdlc_wm_base_drone_nanite_output ]
+		}
+	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_raw_resource
+		oxr_mdlc_minerals
+	}
+
+	inline_script = planet/buildings/auto/oxr_destroy
+	prerequisites = {
+		"tech_basic_industry"
+		# "oxr_mdlc_tech_world_machines_unlocked"
+	}
+	upgrades = {
+		oxr_mdlc_world_machines_auto_mine_2
+	}
+
+
+}
+oxr_mdlc_world_machines_auto_mine_2 = {
+	can_build = no
+	# POTENTIAL
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	# RESOURCES & THE REST
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_mining
+		TIER = 2
+		BASE_JOB_OUTPUT = @oxr_mdlc_wm_base_miner_output
+	}
+	inline_script = planet/buildings/auto/oxr_destroy
+	prerequisites = {
+		"tech_mining_1"
+	}
+	upgrades = {
+		oxr_mdlc_world_machines_auto_mine_3
+	}
+	allow = {
+		inline_script = {
+			script = country/resource_income_compare_gt
+			RESOURCE = engineering_research
+			TIER = 2
+		}
+	}
+}
+oxr_mdlc_world_machines_auto_mine_3 = {
+	can_build = no
+	# POTENTIAL
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	# RESOURCES & THE REST
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_mining
+		TIER = 3
+		BASE_JOB_OUTPUT = @oxr_mdlc_wm_base_miner_output
+	}
+	inline_script = planet/buildings/auto/oxr_destroy
+	prerequisites = {
+		"tech_mining_2"
+	}
+	upgrades = {
+		oxr_mdlc_world_machines_auto_mine_4
+	}
+	allow = {
+		inline_script = {
+			script = country/resource_income_compare_gt
+			RESOURCE = engineering_research
+			TIER = 3
+		}
+	}
+}
+oxr_mdlc_world_machines_auto_mine_4 = {
+	can_build = no
+	# POTENTIAL
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	# RESOURCES & THE REST
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_mining
+		TIER = 4
+		BASE_JOB_OUTPUT = @oxr_mdlc_wm_base_miner_output
+	}
+	inline_script = planet/buildings/auto/oxr_destroy
+	prerequisites = {
+		"tech_mining_3"
+		"oxr_mdlc_tech_world_machine_planetary_mastery"
+	}
+	allow = {
+		oxr_mdlc_has_upgraded_capital = yes
+		inline_script = {
+			script = country/resource_income_compare_gt
+			RESOURCE = engineering_research
+			TIER = 4
+		}
+	}
+	upgrades = {
+		oxr_mdlc_world_machines_auto_mine_5
+	}
+	planet_modifier = {
+		planet_stability_add = -1
+	}
+	country_modifier = {
+		empire_size_add = 1
+	}
+}
+oxr_mdlc_world_machines_auto_mine_5 = {
+	can_build = no
+	# POTENTIAL
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	# RESOURCES & THE REST
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_mining
+		TIER = 5
+		BASE_JOB_OUTPUT = @oxr_mdlc_wm_base_miner_output
+	}
+	inline_script = planet/buildings/auto/oxr_destroy
+	prerequisites = {
+		"tech_mining_3"
+		"tech_mineral_purification_2"
+	}
+	allow = {
+		oxr_mdlc_has_upgraded_capital = yes
+		inline_script = {
+			script = country/resource_income_compare_gt
+			RESOURCE = engineering_research
+			TIER = 5
+		}
+	}
+	planet_modifier = {
+		planet_stability_add = -2
+	}
+	country_modifier = {
+		empire_size_add = 2
+	}
+}
+oxr_mdlc_world_machines_building_auto_mining_support = {
+	can_build = yes
+	inline_script = planet/buildings/oxr_sort_important
+	# POTENTIAL
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	# RESOURCES & THE REST
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_mining_boost
+		BUILD_TIME = @b1_time
+		COST = 200
+		UPKEEP = 2
+		COST_MOTES = 0
+		PRODUCES_MULT = 0.2
+		ENERGY_UPKEEP_ADD = 1
+	}
+	inline_script = planet/buildings/auto/oxr_destroy
+	prerequisites = {
+		tech_mineral_purification_1
+	}
+	upgrades = {
+		oxr_mdlc_world_machines_building_auto_mining_support_2
+	}
+}
+oxr_mdlc_world_machines_building_auto_mining_support_2 = {
+	can_build = no
+	# POTENTIAL
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	# RESOURCES & THE REST
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_mining_boost
+		BUILD_TIME = @b2_time
+		COST = @b2_minerals
+		COST_MOTES = @b2_rare_cost
+		UPKEEP = 2
+		PRODUCES_MULT = 0.4
+		ENERGY_UPKEEP_ADD = 2
+	}
+
+	allow = {
+		oxr_mdlc_has_upgraded_capital = yes
+		oxr_mdlc_planet_has_vanilla_pop_colony_modifier = no
+	}
+	inline_script = planet/buildings/auto/oxr_destroy
+
+	prerequisites = {
+		tech_mineral_purification_2
+	}
+}
+
+# ENERGY - "new" old building
+oxr_mdlc_world_machines_auto_generator_1 = {
+	can_build = yes
+	inline_script = planet/buildings/oxr_sort_important
+	# POTENTIAL
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	# RESOURCES & THE REST
+
+	base_buildtime = 180
+	category = resource
+	resources = {
+		category = oxr_mdlc_world_machines_generator_buildings
+		cost = { minerals = 200 }
+		produces = { energy = @[ 2 * oxr_mdlc_wm_base_technician_output ] }
+		upkeep = {
+			trigger = {
+				NOT = { has_active_building = oxr_mdlc_world_machines_biofuel_refit_1 }
+			}
+
+			minerals = 2
+		}
+		upkeep = {
+			trigger = {
+				has_active_building = oxr_mdlc_world_machines_biofuel_refit_1
+			}
+			food = 4
+		}
+	}
+	inline_script = planet/buildings/auto/oxr_auto_biofuel
+
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_raw_resource
+		oxr_mdlc_building_set_wm_energy
+	}
+
+	inline_script = planet/buildings/auto/oxr_destroy
+	prerequisites = {
+		"tech_power_plant_1"
+		# "oxr_mdlc_tech_world_machines_unlocked"
+	}
+	upgrades = {
+		oxr_mdlc_world_machines_auto_generator_2
+	}
+
+}
+oxr_mdlc_world_machines_auto_generator_2 = {
+	can_build = no
+	# POTENTIAL
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	# RESOURCES & THE REST
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_generator
+		TIER = 2
+		PRODUCES = energy
+		BASE_JOB_OUTPUT = @oxr_mdlc_wm_base_technician_output
+		RS_BUILD = minerals
+		RS_RARE = physics_research
+		RS_UPKEEP = minerals
+	}
+	inline_script = planet/buildings/auto/oxr_destroy
+	prerequisites = {
+		"tech_power_plant_2"
+	}
+	upgrades = {
+		oxr_mdlc_world_machines_auto_generator_3
+	}
+	allow = {
+		inline_script = {
+			script = country/resource_income_compare_gt
+			RESOURCE = physics_research
+			TIER = 2
+		}
+	}
+}
+oxr_mdlc_world_machines_auto_generator_3 = {
+	can_build = no
+	# POTENTIAL
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	# RESOURCES & THE REST
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_generator
+		TIER = 3
+		PRODUCES = energy
+		BASE_JOB_OUTPUT = @oxr_mdlc_wm_base_technician_output
+		RS_BUILD = minerals
+		RS_RARE = physics_research
+		RS_UPKEEP = minerals
+	}
+	inline_script = planet/buildings/auto/oxr_destroy
+	prerequisites = {
+		"tech_power_plant_3"
+	}
+	upgrades = {
+		oxr_mdlc_world_machines_auto_generator_4
+	}
+	allow = {
+		inline_script = {
+			script = country/resource_income_compare_gt
+			RESOURCE = physics_research
+			TIER = 3
+		}
+	}
+}
+oxr_mdlc_world_machines_auto_generator_4 = {
+	can_build = no
+	# POTENTIAL
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	# RESOURCES & THE REST
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_generator
+		TIER = 4
+		PRODUCES = energy
+		BASE_JOB_OUTPUT = @oxr_mdlc_wm_base_technician_output
+		RS_BUILD = minerals
+		RS_RARE = physics_research
+		RS_UPKEEP = minerals
+	}
+	inline_script = planet/buildings/auto/oxr_destroy
+	prerequisites = {
+		"tech_power_plant_4"
+		"oxr_mdlc_tech_world_machine_planetary_mastery"
+	}
+	allow = {
+		oxr_mdlc_has_upgraded_capital = yes
+		inline_script = {
+			script = country/resource_income_compare_gt
+			RESOURCE = physics_research
+			TIER = 3
+		}
+	}
+	upgrades = {
+		oxr_mdlc_world_machines_auto_generator_5
+	}
+	planet_modifier = {
+		planet_stability_add = -1
+	}
+	country_modifier = {
+		empire_size_add = 1
+	}
+}
+oxr_mdlc_world_machines_auto_generator_5 = {
+	can_build = no
+	# POTENTIAL
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	# RESOURCES & THE REST
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_generator
+		TIER = 5
+		PRODUCES = energy
+		BASE_JOB_OUTPUT = @oxr_mdlc_wm_base_technician_output
+		RS_BUILD = minerals
+		RS_RARE = physics_research
+		RS_UPKEEP = minerals
+	}
+	inline_script = planet/buildings/auto/oxr_destroy
+	prerequisites = {
+		"tech_power_plant_4"
+		"tech_power_hub_2"
+	}
+	allow = {
+		oxr_mdlc_has_upgraded_capital = yes
+		inline_script = {
+			script = country/resource_income_compare_gt
+			RESOURCE = physics_research
+			TIER = 3
+		}
+	}
+	planet_modifier = {
+		planet_stability_add = -2
+	}
+	country_modifier = {
+		empire_size_add = 2
+	}
+}
+
+# Energy hub T1
+oxr_mdlc_world_machines_auto_energy_grid_1 = {
+	can_build = yes
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_destroy
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_generator_boost
+		MINERALS_COST = 100
+		ALLOYS_COST = 100
+		COST_CRYSTALS = 0
+		UPKEEP = 2
+		UPKEEP_CRYSTALS = 0
+		NUM_TECHNICIANS = 2
+		PRODUCES_MULT = 0.2
+		BUILD_TIME = @b1_time
+		BIOFUEL_UPKEEP = 4
+		BIOFUEL_ADD = 1
+	}
+	inline_script = planet/buildings/auto/oxr_auto_biofuel
+	prerequisites = {
+		tech_power_hub_1
+	}
+	upgrades = {
+		oxr_mdlc_world_machines_auto_energy_grid_2
+	}
+}
+# Energy hub T2
+oxr_mdlc_world_machines_auto_energy_grid_2 = {
+	can_build = no
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_destroy
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_generator_boost
+		MINERALS_COST = 100
+		ALLOYS_COST = 100
+		COST_CRYSTALS = @b2_rare_cost
+		UPKEEP = 4
+		UPKEEP_CRYSTALS = @b2_rare_upkeep
+		NUM_TECHNICIANS = 2
+		PRODUCES_MULT = 0.4
+		BUILD_TIME = @b2_time
+		BIOFUEL_UPKEEP = 8
+		BIOFUEL_ADD = 2
+	}
+	inline_script = planet/buildings/auto/oxr_auto_biofuel
+	prerequisites = {
+		tech_power_hub_2
+	}
+}
+# Convert food to energy
+oxr_mdlc_world_machines_biofuel_refit_1 = {
+	base_cap_amount = 1
+	base_buildtime = @b2_time
+	category = resource
+	potential = {
+		exists = owner
+		owner = {
+			OR = {
+				has_origin = oxr_mdlc_origin_world_machine_awakened
+				# has_ascension_perk = xvcv_mdlc_ap_world_machines
+			}
+			has_civic = civic_machine_catalytic_processing
+		}
+		is_planet_world_machine = yes
+	}
+	show_tech_unlock_if = {
+		OR = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+			# has_ascension_perk = xvcv_mdlc_ap_world_machines
+		}
+	}
+	on_built = {
+		owner = {
+			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
+		}
+	}
+	inline_script = planet/buildings/auto/oxr_destroy
+	custom_tooltip = oxr_mdlc_world_machines_biofuel_refit_1_tooltip
+	prerequisites = {
+		tech_bio_reactor_2
+	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_raw_resource
+		oxr_mdlc_building_set_wm_food
+	}
+}
+
+
+#### STRATEGIC ####
+# Gases
+oxr_mdlc_world_machines_building_welding_colony = {
+	base_buildtime = @b2_time
+
+	exempt_from_ai_planet_specialization = no
+	category = manufacturing
+	inline_script = planet/buildings/oxr_sort_important
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+
+	resources = {
+		category = oxr_mdlc_world_machines_strategic_resource_buildings
+		cost = {
+			minerals = 500
+		}
+		upkeep = { energy = 1 }
+		produces = {
+			exotic_gases = @[ 1 * oxr_mdlc_wm_base_chemist_drone_output ]
+		}
+		upkeep = {
+			#upkeep per SR job is currently 10 minerals 
+			energy = 2
+			alloys = 2 # worth 4 each
+		}
+		produces = {
+			trigger = { oxr_planet_owner_is_catalytic = yes }
+			volatile_motes = @[ 1 * oxr_mdlc_wm_base_chemist_drone_catalytic_output ]
+		}
+		upkeep = {
+			#upkeep per catalytic SR job is currently 15 food
+			trigger = { oxr_planet_owner_is_catalytic = yes }
+			energy = 2
+			alloys = 2 # worth 4 each
+			food = 5
+		}
+	}
+
+	prerequisites = {
+		"oxr_mdlc_tech_world_machines_unlocked"
+		"tech_exotic_gases"
+	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_production
+		oxr_mdlc_building_set_wm_strategic
+	}
+
+}
+# Motes
+oxr_mdlc_world_machines_building_particle_collider = {
+	base_buildtime = @b2_time
+
+	exempt_from_ai_planet_specialization = no
+	category = manufacturing
+	inline_script = planet/buildings/oxr_sort_important
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+
+	resources = {
+		category = oxr_mdlc_world_machines_strategic_resource_buildings
+		cost = {
+			minerals = @b2_minerals
+		}
+		upkeep = { energy = 1 }
+		produces = {
+			trigger = { oxr_planet_owner_is_catalytic = no }
+			volatile_motes = @[ 1 * oxr_mdlc_wm_base_chemist_drone_output ]
+			physics_research = 3
+		}
+		upkeep = {
+			trigger = { oxr_planet_owner_is_catalytic = no }
+			#upkeep per SR job is currently 10 minerals, science is 1 energy for 3 science
+			energy = 9
+			minerals = 2
+		}
+		produces = {
+			trigger = { oxr_planet_owner_is_catalytic = yes }
+			volatile_motes = @[ 1 * oxr_mdlc_wm_base_chemist_drone_catalytic_output ]
+			physics_research = 3
+		}
+		upkeep = {
+			#upkeep per catalytic SR job is currently 15 food
+			trigger = { oxr_planet_owner_is_catalytic = yes }
+			energy = 11
+			food = 5
+		}
+	}
+
+	prerequisites = {
+		"oxr_mdlc_tech_world_machines_unlocked"
+		"tech_volatile_motes"
+	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_production
+		oxr_mdlc_building_set_wm_strategic
+	}
+
+}
+# Crystals
+oxr_mdlc_world_machines_building_crystal_cultivation_tank = {
+	base_buildtime = @b2_time
+
+	exempt_from_ai_planet_specialization = no
+	category = manufacturing
+	inline_script = planet/buildings/oxr_sort_important
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+
+	resources = {
+		category = oxr_mdlc_world_machines_strategic_resource_buildings
+		cost = {
+			minerals = @b2_minerals
+			rare_crystals = 500
+			alloys = 50
+		}
+		upkeep = { energy = 1 }
+		produces = {
+			trigger = { oxr_planet_owner_is_catalytic = no }
+			rare_crystals = @[ 1 * oxr_mdlc_wm_base_chemist_drone_output ]
+		}
+		upkeep = {
+			trigger = { oxr_planet_owner_is_catalytic = no }
+			#upkeep per SR job is currently 10 minerals 
+			energy = 5
+			minerals = 5
+		}
+		produces = {
+			trigger = { oxr_planet_owner_is_catalytic = yes }
+			rare_crystals = @[ 1 * oxr_mdlc_wm_base_chemist_drone_catalytic_output ]
+		}
+		upkeep = {
+			#upkeep per catalytic SR job is currently 15 food
+			trigger = { oxr_planet_owner_is_catalytic = yes }
+			energy = 7.5
+			food = 7.5
+		}
+	}
+
+	prerequisites = {
+		"oxr_mdlc_tech_world_machines_unlocked"
+		"tech_rare_crystals"
+	}
+
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_production
+		oxr_mdlc_building_set_wm_strategic
+	}
+
+}
+
+ # Convert biomass to minerals by burning them ?
+ # oxr_mdlc_world_machines_building_bio_furnace = {}
+
+#### TRADE ####
+
+oxr_mdlc_world_machines_auto_logistics_1 = {
+	can_build = yes
+	base_buildtime = @b2_time
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_auto_logistics
+		TIER = 1
+	}
+
+	allow = { always = yes }
+	upgrades = {
+		oxr_mdlc_world_machines_auto_logistics_2
+	}
+}
+
+oxr_mdlc_world_machines_auto_logistics_2 = {
+	can_build = no
+	base_buildtime = @b3_time
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_auto_logistics
+		TIER = 2
+	}
+
+	allow = { oxr_mdlc_has_upgraded_capital = yes }
+	upgrades = {
+		oxr_mdlc_world_machines_auto_logistics_3
+	}
+}
+
+oxr_mdlc_world_machines_auto_logistics_3 = {
+	can_build = no
+	base_buildtime = @b4_time
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_auto_logistics
+		TIER = 3
+	}
+
+	allow = { oxr_mdlc_has_major_upgraded_capital = yes }
+
+}
+
+#### UNITY ####
+
+# UNITY T1
+oxr_mdlc_world_machines_building_auto_unity_1 = {
+	base_buildtime = @b1_time
+	can_build = yes
+
+	exempt_from_ai_planet_specialization = no
+
+	category = unity
+	inline_script = planet/buildings/oxr_sort_important
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+
+	destroy_trigger = {
+		exists = owner
+		owner = {
+			OR = {
+				is_machine_empire = no
+				has_valid_civic = civic_machine_servitor
+			}
+		}
+	}
+
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_unity
+	}
+
+	convert_to = {
+		building_bureaucratic_1
+		building_temple
+		building_hive_node
+	}
+
+
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_unity
+		TIER = 1
+		BUILD_COST = @b1_minerals
+		RARE_BUILD_COST = 0
+		UPKEEP_RARE_COST = 0
+	}
+
+	upgrades = {
+		"oxr_mdlc_world_machines_building_auto_unity_2"
+	}
+
+	prerequisites = {
+		"tech_planetary_government"
+		"oxr_mdlc_tech_world_machines_unlocked"
+	}
+
+}
+# UNITY T2
+oxr_mdlc_world_machines_building_auto_unity_2 = {
+	base_buildtime = @b2_time
+	can_build = no
+
+	category = unity
+
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+
+	# allow = {
+	# 	has_upgraded_capital = yes
+	# }
+
+	destroy_trigger = {
+		exists = owner
+		owner = {
+			OR = {
+				is_machine_empire = no
+				has_valid_civic = civic_machine_servitor
+			}
+		}
+	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_unity
+	}
+
+	convert_to = {
+		building_bureaucratic_2
+		building_holotemple
+		building_hive_cluster
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_unity
+		BUILD_COST = @b2_minerals
+		RARE_BUILD_COST = @b2_rare_cost
+		UPKEEP_RARE_COST = @b2_rare_upkeep
+		TIER = 2
+	}
+
+	prerequisites = {
+		"tech_colonial_bureaucracy"
+		"oxr_mdlc_tech_world_machines_unlocked"
+	}
+	upgrades = {
+		"oxr_mdlc_world_machines_building_auto_unity_3"
+	}
+}
+# UNITY T3
+oxr_mdlc_world_machines_building_auto_unity_3 = {
+	base_buildtime = @b3_time
+	can_build = no
+
+	category = unity
+
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+
+	allow = {
+		oxr_mdlc_has_upgraded_capital = yes
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = {
+			OR = {
+				is_machine_empire = no
+				has_valid_civic = civic_machine_servitor
+			}
+		}
+	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_unity
+	}
+
+	convert_to = {
+		building_bureaucratic_3
+		building_holotemple
+		building_hive_cluster
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_unity
+		BUILD_COST = @b3_minerals
+		RARE_BUILD_COST = @b3_rare_cost
+		UPKEEP_RARE_COST = @b3_rare_upkeep
+		TIER = 3
+	}
+
+	prerequisites = {
+		"tech_colonial_bureaucracy"
+		"oxr_mdlc_tech_world_machines_unlocked"
+	}
+	upgrades = {
+		"oxr_mdlc_world_machines_building_auto_unity_4"
+	}
+}
+# UNITY T4
+oxr_mdlc_world_machines_building_auto_unity_4 = {
+	base_buildtime = @b4_time
+	can_build = no
+
+	category = unity
+
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+
+	allow = {
+		oxr_mdlc_has_major_upgraded_capital = yes
+	}
+
+	destroy_trigger = {
+		exists = owner
+		owner = {
+			OR = {
+				is_machine_empire = no
+				has_valid_civic = civic_machine_servitor
+			}
+		}
+	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_unity
+	}
+
+	convert_to = {
+		building_bureaucratic_3
+		building_holotemple
+		building_hive_cluster
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_unity
+		BUILD_COST = @b4_minerals
+		RARE_BUILD_COST = @b4_rare_cost
+		UPKEEP_RARE_COST = @b4_rare_upkeep
+		TIER = 4
+	}
+
+	prerequisites = {
+		"tech_colonial_bureaucracy"
+		"oxr_mdlc_tech_world_machines_unlocked"
+		"oxr_mdlc_tech_world_machine_planetary_mastery"
+	}
+}
+
+# Alpha hub replacement - 
+oxr_mdlc_world_machines_building_auto_unity_alpha_hub = {
+	base_buildtime = @b2_time
+	empire_limit = {
+		base = 1
+	}
+
+	category = unity
+
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+
+	inline_script = planet/buildings/auto/oxr_destroy
+
+	convert_to = {
+		building_autocurating_vault
+		building_citadel_of_faith
+		building_corporate_vault
+	}
+
+	resources = {
+		category = oxr_mdlc_world_machines_unity_buildings
+		cost = {
+			minerals = @b2_minerals
+			rare_crystals = @b2_rare_cost
+		}
+		upkeep = {
+			energy = @b2_upkeep
+			rare_crystals = @b2_rare_upkeep
+		}
+		produces = {
+			unity = 6
+		}
+
+	}
+
+	country_modifier = {
+		country_official_cap_add = 1
+		country_unity_produces_mult = 0.05
+	}
+
+	prerequisites = {
+		"tech_autocurating_vault"
+	}
+
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_unity
+	}
+}
+
+#### UNIQUE ####
+oxr_mdlc_world_machines_building_storage_cradle = {
+	base_buildtime = @b3_time
+	category = resource
+	can_build = no
+
+	inline_script = planet/buildings/oxr_sort_important
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+
+	resources = {
+		category = oxr_mdlc_category_world_machines_buildings
+		cost = {
+			alloys = 1000
+		}
+		upkeep = {
+			physics_research = 1
+		}
+		produces = {
+			energy = 3
+		}
+	}
+
+	country_modifier = {
+		country_resource_max_oxr_mdlc_world_machine_core_add = 12
+	}
+	planet_modifier = {
+		planet_max_districts_add = -0.5
+	}
+
+	prerequisites = {
+		"oxr_mdlc_tech_world_machines_unlocked"
+		"oxr_mdlc_tech_world_machine_wmc_core"
+	}
+	on_destroy = {
+		owner = {
+			oxr_mdlc_country_world_machine_cores_recalc_amount = yes
+		}
+	}
+	on_repaired = {
+		owner = {
+			oxr_mdlc_country_world_machine_cores_recalc_amount = yes
+		}
+	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_utility
+		oxr_mdlc_building_set_wm_production
+	}
+
+}
+
+oxr_mdlc_world_machines_building_core_fabrication_depot = {
+	base_buildtime = @b3_time
+	category = manufacturing
+	base_cap_amount = 1
+	inline_script = planet/buildings/oxr_sort_important
+	# inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	potential = {
+		exists = owner
+		owner = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+		}
+		is_planet_world_machine = yes
+	}
+	show_tech_unlock_if = {
+		has_origin = oxr_mdlc_origin_world_machine_awakened
+	}
+	on_built = {
+		owner = {
+			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
+			oxr_mdlc_country_world_machine_cores_recalc_amount = yes
+		}
+	}
+	on_destroy = {
+		owner = {
+			oxr_mdlc_country_world_machine_cores_recalc_amount = yes
+		}
+	}
+
+	resources = {
+		category = oxr_mdlc_category_world_machines_buildings
+		cost = {
+			alloys = 3000
+			minerals = 4000
+		}
+		upkeep = {
+			physics_research = 1
+			energy = 10
+		}
+		produces = {
+			energy = 3
+		}
+		upkeep = {
+			trigger = {
+				has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
+			}
+			energy = @oxr_mdlc_modifier_wmc_fabrication_monthly_energy
+			alloys = @oxr_mdlc_modifier_wmc_fabrication_monthly_alloys
+			physics_research = 2
+		}
+	}
+	country_modifier = {
+		country_resource_max_oxr_mdlc_world_machine_core_add = 3
+	}
+	prerequisites = {
+		"oxr_mdlc_tech_world_machine_wmc_core"
+	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_utility
+		oxr_mdlc_building_set_wm_production
+	}
+}
+
+oxr_mdlc_building_auto_organoid_research_center = {
+	base_buildtime = @b1_time
+	icon = oxr_mdlc_building_organoid_research_center
+	base_cap_amount = 1
+	category = research
+	potential = {
+		exists = owner
+		owner = {
+			has_technology = oxr_mdlc_tech_organoid_1
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+		}
+	}
+	prerequisites = {
+		"oxr_mdlc_tech_organoid_1"
+	}
+	show_tech_unlock_if = {
+		OR = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+			has_ascension_perk = xvcv_mdlc_ap_world_machines
+		}
+	}
+
+	custom_tooltip = oxr_mdlc_building_auto_organoid_research_center_effect
+	planet_modifier = {
+		xvcv_mdlc_world_machines_computer_districts_energy_upkeep_mult = -0.1
+		xvcv_mdlc_world_machines_computer_districts_food_upkeep_add = 3
+		# hidden_effect = {
+			xvcv_mdlc_world_machines_science_districts_food_upkeep_add = 3
+			xvcv_mdlc_world_machines_unity_districts_food_upkeep_add = 3
+		# }
+	}
+	triggered_planet_modifier = {
+		potential = {
+			space_owner = {
+				has_technology = oxr_mdlc_tech_organoid_2
+			}
+		}
+		xvcv_mdlc_world_machines_computer_districts_energy_upkeep_mult = -0.1
+		xvcv_mdlc_world_machines_computer_districts_food_upkeep_add = 3
+		# hidden_effect = {
+			xvcv_mdlc_world_machines_science_districts_food_upkeep_add = 3
+			xvcv_mdlc_world_machines_unity_districts_food_upkeep_add = 3
+		# }
+	}
+	triggered_planet_modifier = {
+		potential = {
+			space_owner = {
+				has_technology = oxr_mdlc_tech_organoid_3
+			}
+		}
+		xvcv_mdlc_world_machines_computer_districts_energy_upkeep_mult = -0.1
+		xvcv_mdlc_world_machines_computer_districts_food_upkeep_add = 4
+		# hidden_effect = {
+			xvcv_mdlc_world_machines_science_districts_food_upkeep_add = 4
+			xvcv_mdlc_world_machines_unity_districts_food_upkeep_add = 4
+		# }
+	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_utility
+		oxr_mdlc_building_set_wm_research
+	}
+}
+
+# oxr_mdlc_zone_wm_construction_support = {
+# 	inline_script = planet/zones/oxr_wm_zone_base
+# 	planet_limit = 1
+# 	planet_modifier = {
+# 		planet_building_build_speed_mult = 0.15
+# 		oxr_mdlc_category_world_machines_buildings_cost_mult = 0.10
+# 		oxr_mdlc_category_world_machines_buildings_upkeep_mult = 0.10
+# 	}
+# }
+
+
+# EOF

@@ -11,48 +11,7 @@ country_event = {
 	picture_event_data = { portrait = root.ruler } #to remove "[06:59:30][portraitobject.cpp:493]: Failed to find portrait selector" error log
 
 	immediate = {
-		xvcv_mdlc_leader_making_clear_traits_variables_effect = yes
-		set_variable = { which = xvcv_mdlc_leader_making_start_number value = 1 } #one-time only
-		# Reset the maximum allowed leader level each time the GUI opens,
-		# and re-evaluate it.
-		oxr_mdlc_leader_making_set_maximum_allowed_leader_level = { LEVEL = 1 }
-		oxr_mdlc_leader_making_set_leader_skill_level = { LEVEL = 0 }
-		if = {
-			limit = { any_owned_leader = { has_base_skill >= 2 } }
-			oxr_mdlc_leader_making_set_maximum_allowed_leader_level = { LEVEL = 2 }
-		}
-		if = {
-			limit = { any_owned_leader = { has_base_skill >= 3 } }
-			oxr_mdlc_leader_making_set_maximum_allowed_leader_level = { LEVEL = 3 }
-		}
-		if = {
-			limit = { any_owned_leader = { has_base_skill >= 4 } }
-			oxr_mdlc_leader_making_set_maximum_allowed_leader_level = { LEVEL = 4 }
-		}
-		if = {
-			limit = { any_owned_leader = { has_base_skill >= 5 } }
-			oxr_mdlc_leader_making_set_maximum_allowed_leader_level = { LEVEL = 5 }
-		}
-		if = {
-			limit = { any_owned_leader = { has_base_skill >= 6 } }
-			oxr_mdlc_leader_making_set_maximum_allowed_leader_level = { LEVEL = 6 }
-		}
-		if = {
-			limit = { any_owned_leader = { has_base_skill >= 7 } }
-			oxr_mdlc_leader_making_set_maximum_allowed_leader_level = { LEVEL = 7 }
-		}
-		if = {
-			limit = { any_owned_leader = { has_base_skill >= 8 } }
-			oxr_mdlc_leader_making_set_maximum_allowed_leader_level = { LEVEL = 8 }
-		}
-		if = {
-			limit = { any_owned_leader = { has_base_skill >= 9 } }
-			oxr_mdlc_leader_making_set_maximum_allowed_leader_level = { LEVEL = 9 }
-		}
-		if = {
-			limit = { any_owned_leader = { has_base_skill >= 10 } }
-			oxr_mdlc_leader_making_set_maximum_allowed_leader_level = { LEVEL = 10 }
-		}
+		oxr_mdlc_leader_making_effects_on_gui_start = yes
 	}
 	custom_gui = xvcv_mdlc_leader_making
 
@@ -75,7 +34,7 @@ country_event = {
 
 	immediate = {
 		change_variable = { which = xvcv_mdlc_leader_making_trait_points value = 1 }
-		change_variable = { which = xvcv_mdlc_leader_making_max_traits_number value = 1 }
+		change_variable = { which = xvcv_mdlc_leader_making_trait_picks value = 1 }
 	}
 }
 #core modifying
@@ -100,10 +59,11 @@ country_event = {
 		#and check the leader class again
 		ruler = {
 			# Start setting vars scoped to ruler
-			save_global_event_target_as = xvcv_mdlc_core_modifying_empire_ruler
-			event_target:xvcv_mdlc_core_modifying_empire_ruler = {
-				xvcv_mdlc_core_modifying_clear_trait_variables_effect = yes
-			}
+			# save_global_event_target_as = xvcv_mdlc_core_modifying_empire_ruler
+			# event_target:xvcv_mdlc_core_modifying_empire_ruler = {
+			# 	xvcv_mdlc_core_modifying_reset_ruler_points_picks_effect = yes
+			# }
+			xvcv_mdlc_core_modifying_reset_ruler_points_picks_effect = yes
 			switch = {
 				trigger = leader_class
 				#sadly, this won't support modded leader classes
@@ -112,11 +72,14 @@ country_event = {
 				commander = { prev = { set_country_flag = xvcv_mdlc_core_modifying_ruler_leader_class_commander } }
 			}
 		}
-		if = {
-			limit = { NOT = { has_country_flag = xvcv_mdlc_core_modifying_trait_points_set } }
-			set_country_flag = xvcv_mdlc_core_modifying_trait_points_set #one-time only
-			xvcv_mdlc_core_modifying_clear_trait_variables_effect = yes
-		}
+		# if = {
+		# 	limit = { NOT = { has_country_flag = xvcv_mdlc_core_modifying_trait_points_set } }
+		# 	set_country_flag = xvcv_mdlc_core_modifying_trait_points_set #one-time only
+		# 	ruler = {
+		# 		xvcv_mdlc_core_modifying_reset_ruler_points_picks_effect = yes
+		# 	}
+		# }
+		# Below has ruler scope included in all the effects
 		oxr_mdlc_core_modifying_check_existing_traits_on_gui_open_effect = yes
 	}
 	custom_gui = xvcv_mdlc_core_modifying
@@ -154,7 +117,9 @@ country_event = {
 	}
 
 	immediate = {
-		xvcv_mdlc_core_modifying_clear_trait_variables_effect = yes
+		ruler = {
+			xvcv_mdlc_core_modifying_reset_ruler_points_picks_effect = yes
+		}
 	}
 }
 

@@ -94,25 +94,21 @@ oxr_mdlc_leader_making_increase_skill_level_costs = {
 xvcv_mdlc_leader_making_clear_traits_variables_effect = {
     # This effect is called when the leader-making GUI is opened,
     # and when a player clicks the reset button
-    optimize_memory
-	set_variable = {
+
+    # This effect is at level 2 of the effects stack
+
+    # Reset picks and points, and account for any tech upgrades
+    oxr_mdlc_leader_making_find_maximum_trait_points_for_leader = { LEVEL = 1 }
+    oxr_mdlc_leader_making_find_maximum_trait_picks_for_leader = yes
+    set_variable = {
         which = xvcv_mdlc_leader_making_trait_points
-        value = @xvcv_mdlc_leader_making_base_num_trait_points
-    } #max trait points
-    set_variable = { 
-        which = xvcv_mdlc_leader_making_max_traits_number
-        value = @xvcv_mdlc_leader_making_base_num_trait_picks
-    } #max traits number
-    if = {
-        limit = { has_technology = xvcv_mdlc_tech_leader_making_improvement }
-        change_variable = { which = xvcv_mdlc_leader_making_trait_points value = 1 } #increase max trait points by 1
-        change_variable = { which = xvcv_mdlc_leader_making_max_traits_number value = 1 }
+        value = oxr_mdlc_leader_making_max_trait_points
     }
-    if = {
-        limit = { has_technology = xvcv_mdlc_tech_leader_making_improvement_2 }
-        change_variable = { which = xvcv_mdlc_leader_making_trait_points value = 1 } #increase the trait points again
-        change_variable = { which = xvcv_mdlc_leader_making_max_traits_number value = 1 }
+    set_variable = {
+        which = xvcv_mdlc_leader_making_trait_picks
+        value = oxr_mdlc_leader_making_max_trait_picks
     }
+
     set_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = 0 }
     set_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = 0 }
     set_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy_for_displaying value = 0 }
@@ -171,7 +167,7 @@ oxr_mdlc_leader_making_clear_veteran_paragon_traits_selected_flags = {
 xvcv_mdlc_leader_making_trait_count_points_costs_effect = {
     optimize_memory
     change_variable = { which = xvcv_mdlc_leader_making_trait_points value = -1 }
-    change_variable = { which = xvcv_mdlc_leader_making_max_traits_number value = -1 }
+    change_variable = { which = xvcv_mdlc_leader_making_trait_picks value = -1 }
     change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = 200 }
     change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = 200 }
 }
@@ -179,7 +175,7 @@ xvcv_mdlc_leader_making_trait_count_points_costs_effect = {
 xvcv_mdlc_leader_making_trait_count_points_costs_alt_effect = {
     optimize_memory
     change_variable = { which = xvcv_mdlc_leader_making_trait_points value = -2 }
-    change_variable = { which = xvcv_mdlc_leader_making_max_traits_number value = -1 }
+    change_variable = { which = xvcv_mdlc_leader_making_trait_picks value = -1 }
     change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = 500 }
     change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = 500 }
     set_country_flag = oxr_mdlc_leader_making_veteran_trait_selected
@@ -189,7 +185,7 @@ xvcv_mdlc_leader_making_trait_count_points_costs_alt_effect = {
 xvcv_mdlc_leader_making_trait_count_points_costs_alt_2_effect = {
     optimize_memory
     change_variable = { which = xvcv_mdlc_leader_making_trait_points value = -3 }
-    change_variable = { which = xvcv_mdlc_leader_making_max_traits_number value = -1 }
+    change_variable = { which = xvcv_mdlc_leader_making_trait_picks value = -1 }
     change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_energy value = 1000 }
     change_variable = { which = xvcv_mdlc_leader_making_trait_costs_count_alloys value = 1000 }
     set_country_flag = oxr_mdlc_leader_making_paragon_trait_selected

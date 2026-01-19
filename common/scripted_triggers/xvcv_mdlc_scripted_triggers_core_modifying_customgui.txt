@@ -43,16 +43,21 @@ xvcv_mdlc_core_modifying_check_trait_resources_cost_common = {
     optimize_memory
     custom_tooltip_fail = {
         text = xvcv_mdlc_core_modifying_trait_cost.fail
-        has_country_resource = { type = energy amount >= 200 }
-        has_country_resource = { type = alloys amount >= 200 }
+        root.owner = {
+            has_country_resource = { type = energy amount >= 200 }
+            has_country_resource = { type = alloys amount >= 200 }
+        }
     }
 }
 # If points are NOT at least 1
-xvcv_mdlc_core_modifying_check_trait_points_cost_common = {
+xvcv_mdlc_core_modifying_ruler_check_trait_points_cost_common = {
     optimize_memory
     custom_tooltip_fail = {
         text = xvcv_mdlc_core_modifying_trait_points.fail
-        check_variable = { which = xvcv_mdlc_core_modifying_trait_points value >= 1 }
+        check_variable = {
+            which = xvcv_mdlc_core_modifying_trait_points
+            value >= 1
+        }
     }
 }
 #for veteran traits
@@ -60,22 +65,28 @@ xvcv_mdlc_core_modifying_check_trait_resources_cost_veteran = {
     optimize_memory
     custom_tooltip_fail = {
         text = xvcv_mdlc_core_modifying_trait_cost.fail_veteran
-        has_country_resource = { type = energy amount >= 500 }
-        has_country_resource = { type = alloys amount >= 500 }
+        root.owner = {
+            has_country_resource = { type = energy amount >= 500 }
+            has_country_resource = { type = alloys amount >= 500 }
+        }
+        
     }
 }
-xvcv_mdlc_core_modifying_check_trait_points_cost_veteran = {
+xvcv_mdlc_core_modifying_ruler_check_trait_points_cost_veteran = {
     optimize_memory
     custom_tooltip_fail = {
         text = xvcv_mdlc_core_modifying_trait_points.fail
-        check_variable = { which = xvcv_mdlc_core_modifying_trait_points value >= 2 }
+        check_variable = {
+            which = xvcv_mdlc_core_modifying_trait_points
+            value >= 2
+        }
     }
 }
 xvcv_mdlc_core_modifying_trait_skill_level_veteran_trigger = {
     optimize_memory
     custom_tooltip_fail = {
         text = xvcv_mdlc_core_modifying_trait_skill_level.fail_veteran
-        ruler = { has_base_skill >= 4 }
+        has_base_skill >= 4
     }
 }
 #for destiny traits
@@ -83,30 +94,40 @@ xvcv_mdlc_core_modifying_check_trait_resources_cost_paragon = {
     optimize_memory
     custom_tooltip_fail = {
         text = xvcv_mdlc_core_modifying_trait_cost.fail_paragon
-        has_country_resource = { type = energy amount >= 1000 }
-        has_country_resource = { type = alloys amount >= 1000 }
+        root.owner = {
+            has_country_resource = { type = energy amount >= 1000 }
+            has_country_resource = { type = alloys amount >= 1000 }
+        }
     }
 }
-xvcv_mdlc_core_modifying_check_trait_points_cost_paragon = {
+xvcv_mdlc_core_modifying_ruler_check_trait_points_cost_paragon = {
     optimize_memory
     custom_tooltip_fail = {
         text = xvcv_mdlc_core_modifying_trait_points.fail
-        check_variable = { which = xvcv_mdlc_core_modifying_trait_points value >= 3 }
+        check_variable = {
+            which = xvcv_mdlc_core_modifying_trait_points
+            value >= 3
+        }
     }
 }
 xvcv_mdlc_core_modifying_trait_skill_level_paragon_trigger = {
     optimize_memory
     custom_tooltip_fail = {
         text = xvcv_mdlc_core_modifying_trait_skill_level.fail_paragon
-        ruler = { has_base_skill >= 8 }
+        has_base_skill >= 8
     }
 }
 #and that ends here
-xvcv_mdlc_core_modifying_check_trait_picks = {
+xvcv_mdlc_core_modifying_ruler_check_trait_picks = {
     optimize_memory
     custom_tooltip_fail = {
         text = xvcv_mdlc_core_modifying_trait_picks.fail
-        check_variable = { which = xvcv_mdlc_core_modifying_trait_picks value > 0 }
+        ruler = {
+            check_variable = {
+                which = xvcv_mdlc_core_modifying_trait_picks
+                value > 0
+            }
+        }
     }
 }
 

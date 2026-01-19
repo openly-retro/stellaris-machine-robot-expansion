@@ -1,91 +1,5 @@
 #
-oxr_mdlc_tech_councilor_editing = {
-	cost = @tier2cost1
-	area = engineering
-	tier = 2
-	category = { industry }
-	prerequisites = {
-		"xvcv_mdlc_tech_leader_making"
-		"xvcv_mdlc_tech_core_modifying"
-	}
-	weight = @tier3weight3
 
-	potential = {
-		has_authority = auth_machine_intelligence
-		has_paragon_dlc = yes
-	}
-
-	prereqfor_desc = {
-		custom = {
-			title = "unlock_edict_oxr_mdlc_councilor_editing"
-			desc = "unlock_edict_oxr_mdlc_councilor_editing_desc"
-		}
-	}
-	weight_modifier = {
-		factor = 8
-		modifier = {
-			has_technology = tech_binary_motivators
-		}
-		factor = 14
-		modifier = {
-			OR = {
-				has_technology = xvcv_mdlc_tech_machine_identity_matrix
-				has_technology = tech_robomodding
-			}
-		}
-	}
-}
-# This is given via event
-oxr_mdlc_tech_mamp_1 = {
-	cost = @tier5cost1
-	area = engineering
-	tier = 5
-	category = { industry }
-	weight = @xvcv_mdlc_not_researchable_tech_weight
-	potential = {
-		has_ascension_perk = oxr_mdlc_ap_mamp
-	}
-	is_reverse_engineerable = no
-
-	prereqfor_desc = {
-		# custom = {
-		# 	title = "oxr_mdlc_mamp_frame_factory_1_unlock"
-		# 	desc = "oxr_mdlc_mamp_frame_factory_1_desc"
-		# }
-		custom = {
-			title = "oxr_mdlc_mamp_trait_cat_1_unlock_all"
-			desc = "oxr_mdlc_mamp_trait_cat_1_unlock_all_desc"
-		}
-		custom = {
-			title = "oxr_mdlc_decision_mamp_enable_auto_construction_cat_1_unlock"
-			desc = "oxr_mdlc_decision_mamp_enable_auto_construction_cat_1_unlock_desc"
-		}
-	}
-}
-# This is given via event
-oxr_mdlc_tech_mamp_2 = {
-	cost = @tier5cost2
-	area = engineering
-	tier = 5
-	category = { industry }
-	weight = @xvcv_mdlc_not_researchable_tech_weight
-	potential = {
-		has_ascension_perk = oxr_mdlc_ap_mamp
-	}
-	is_reverse_engineerable = no
-}
-# This is given via event
-oxr_mdlc_tech_mamp_3 = {
-	cost = @tier5cost2
-	area = engineering
-	tier = 5
-	category = { industry }
-	weight = @xvcv_mdlc_not_researchable_tech_weight
-	potential = {
-		has_ascension_perk = oxr_mdlc_ap_mamp
-	}
-	is_reverse_engineerable = no
-}
 
 # basically a duplicate of tech_binary_motivators
 oxr_mdlc_tech_cloning_actuators = {
@@ -217,64 +131,82 @@ oxr_mdlc_tech_organoid_3 = {
 	}
 }
 
-# oxr_mdlc_tech_bio_robot_directive_1 = {
-# 	cost = @tier3cost1
-# 	area = society
-# 	tier = 3
-# 	category = { biology }
-# 	weight = @tier3weight1
-# 	potential = {
-# 		oxr_mdlc_country_is_finished_bio_mech = yes
-# 		has_oxr_mdlc_country_feature_bio_mech_worlds = yes
-# 	}
-# 	prerequisites = { }
-# 	modifier = {
-# 		# planet_farmers_society_research_produces_add = 0.5
-# 		planet_farmers_xvcv_bio_robot_society_research_produces_add = 0.5
-# 		# planet_artisans_society_research_produces_add = 0.5
-# 		planet_artisans_xvcv_bio_robot_society_research_produces_add = 0.5
-# 		# planet_bureaucrats_society_research_produces_add = 0.5
-# 		planet_bureaucrats_xvcv_bio_robot_society_research_produces_add = 0.5
-# 		# planet_culture_workers_society_research_produces_add = 0.5
-# 		planet_culture_workers_xvcv_bio_robot_society_research_produces_add = 0.5
-# 		# planet_metallurgists_society_research_produces_add = 0.25
-# 		planet_metallurgists_xvcv_bio_robot_society_research_produces_add = 0.25
-# 	}
-# }
+# repeatables
+oxr_mdlc_tech_machine_species_points_picks_repeatable = {
+	area = engineering
+	cost = 250000
+	cost_per_level = 25000
+	tier = @repeatableTechTier
+	category = { industry }
+	levels = -1 #5% x 10 = 50% #use '-1' value for infinite researching
+	weight = @repeatableTechWeight
 
-# oxr_mdlc_tech_bio_robot_directive_2 = {
-# 	cost = @tier3cost3
-# 	area = society
-# 	tier = 3
-# 	category = { biology }
-# 	weight = @tier3weight3
-# 	potential = {
-# 		oxr_mdlc_country_is_finished_bio_mech = yes
-# 		has_oxr_mdlc_country_feature_bio_mech_worlds = yes
-# 	}
-# 	prerequisites = { "oxr_mdlc_tech_bio_robot_directive_1" }
-# 	modifier = {
-# 		planet_researchers_society_research_produces_add = 0.25
-# 		planet_artisans_consumer_goods_produces_add = 1
-# 		planet_artisans_food_upkeep_add = 2.5
-# 		planet_farmers_consumer_goods_produces_add = 0.2
-# 	}
-# }
+	potential = {
+		has_authority = auth_machine_intelligence
+		has_paragon_dlc = yes
+	}
+	prerequisites = {
+		"tech_self_assembling_components"  # T3 Eng
+		"tech_micro_replicators"		   # T2 Eng
+		"tech_mega_assembly"		   	   # T4 Eng
+	}
 
-# oxr_mdlc_tech_bio_robot_directive_3 = {
-# 	cost = @tier3cost3
-# 	area = society
-# 	tier = 3
-# 	category = { biology }
-# 	weight = @tier3weight1
-# 	potential = {
-# 		oxr_mdlc_country_is_finished_bio_mech = yes
-# 		has_oxr_mdlc_country_feature_bio_mech_worlds = yes
-# 	}
-# 	prerequisites = { }
-# 	modifier = {
-# 		pop_factions_society_research_produces_add = 1
-# 		# pop_category_specialists_xvcv_bio_robot_society_research_produces_add = 
-# 		planet_jobs_productive_society_research_produces_add = 0.3
-# 	}
-# }
+	weight_modifier = {
+		factor = @repatableTechFactor
+	}
+	
+	ai_weight = {
+		factor = 1.0
+	}
+
+	weight_groups = {
+		repeatable
+	}
+	mod_weight_if_group_picked = {
+		repeatable = 0.01
+	}
+
+	modifier = {
+		MACHINE_species_trait_picks_add = 1
+		MACHINE_species_trait_points_add = 2
+	}
+}
+
+oxr_mdlc_tech_mechanical_species_points_picks_repeatable = {
+	area = engineering
+	cost = 250000
+	cost_per_level = 25000
+	tier = @repeatableTechTier
+	category = { industry }
+	levels = -1 #5% x 10 = 50% #use '-1' value for infinite researching
+	weight = @repeatableTechWeight
+
+	potential = {
+		oxr_mldc_is_mechanical_empire = yes
+		has_paragon_dlc = yes
+	}
+	prerequisites = {
+		"tech_robot_assembly_complex"  # T4 eng
+		"tech_construction_templates"  # T3 eng
+	}
+
+	weight_modifier = {
+		factor = @repatableTechFactor
+	}
+	
+	ai_weight = {
+		factor = 1.0
+	}
+
+	weight_groups = {
+		repeatable
+	}
+	mod_weight_if_group_picked = {
+		repeatable = 0.01
+	}
+
+	modifier = {
+		ROBOT_species_trait_picks_add = 1
+		ROBOT_species_trait_points_add = 2
+	}
+}

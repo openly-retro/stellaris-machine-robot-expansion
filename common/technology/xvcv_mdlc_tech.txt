@@ -30,40 +30,7 @@ xvcv_mdlc_tech_automated_goods_manufacturing_2 = {
 		custom_tooltip = xvcv_mdlc_tech_automated_goods_manufacturing_2_tooltip
 	}
 }
-#for 'xvcv_mdlc_civic_trading_machine' civic
-xvcv_mdlc_tech_mutual_cooperation = {
-	cost = @tier2cost3
-	area = society
-	tier = 2
-	category = { statecraft }
-	weight = @tier2weight3
 
-	potential = {
-		has_valid_civic = xvcv_mdlc_civic_trading_machine
-	}
-
-	modifier = {
-		custom_tooltip = xvcv_mdlc_tech_mutual_cooperation_tooltip
-		envoys_add = 1
-		diplo_weight_economy_mult = 0.05
-	}
-}
-xvcv_mdlc_tech_negotiation_algorithms = {
-	cost = @tier3cost3
-	area = society
-	tier = 3
-	category = { statecraft }
-	prerequisites = { xvcv_mdlc_tech_mutual_cooperation }
-	weight = @tier3weight3
-
-	potential = {
-		has_valid_civic = xvcv_mdlc_civic_trading_machine
-	}
-
-	modifier = {
-		custom_tooltip = xvcv_mdlc_tech_negotiation_algorithms_tooltip
-	}
-}
 #for 'xvcv_mdlc_civic_planet_cracker' civic
 xvcv_mdlc_tech_orbital_cracker_upgrade_1 = {
 	cost = @tier2cost3
@@ -170,25 +137,7 @@ xvcv_mdlc_tech_production_algorithms_optimization = {
 		weight = 2
 	}
 }
-xvcv_mdlc_tech_spirit_energy_theory = {
-	cost = @tier3cost1
-	area = physics
-	tier = 3
-	category = { field_manipulation }
-	# prerequisites = { "tech_physics_2" }
-	prerequisites = { tech_hyper_drive_2 }
-	weight = @tier3weight1
 
-	potential = {
-		is_robot_empire = yes
-	}
-
-	modifier = {
-		# planet_researchers_physics_research_produces_mult = 0.05
-		# planet_researchers_upkeep_mult = -0.05
-		category_field_manipulation_research_speed_mult = 0.3
-	}
-}
 xvcv_mdlc_tech_build_design_opt = {
 	area = physics
 	tier = 3
@@ -373,203 +322,7 @@ xvcv_mdlc_tech_bio_unique_case_analysis = {
 		}
 	}
 }
-#can be acquired from the abyss
-xvcv_mdlc_tech_psionic_shield = {
-	icon = "tech_psionic_shield"
-	cost = @tier5cost3
-	area = physics
-	tier = 5
-	ai_update_type = all
-	is_rare = yes
-	category = { field_manipulation }
-	weight = @xvcv_mdlc_not_researchable_tech_weight
-	is_reverse_engineerable = no
 
-	potential = {
-		has_ascension_perk = xvcv_mdlc_ap_abyss
-	}
-}
-xvcv_mdlc_tech_psionic_barrier = {
-	icon = "tech_psionic_shield"
-	cost = @tier4cost3
-	area = physics
-	tier = 4
-	ai_update_type = all
-	is_rare = yes
-	category = { field_manipulation }
-	weight = @xvcv_mdlc_not_researchable_tech_weight
-	is_reverse_engineerable = no
-
-	potential = {
-		has_ascension_perk = xvcv_mdlc_ap_abyss
-	}
-}
-xvcv_mdlc_tech_precognition_interface = {
-	icon = "tech_precognition_interface"
-	cost = @tier4cost2
-	area = physics
-	tier = 4
-	is_rare = yes
-	category = { computing }
-	weight = @xvcv_mdlc_not_researchable_tech_weight
-	is_reverse_engineerable = no
-
-	# unlocks precognitive interface-component, combat-computer granting evasion to ships
-
-	prereqfor_desc = {
-		hide_prereq_for_desc = component
-		custom = {
-			title = "XVCV_MDLC_TECH_UNLOCK_COMBAT_COMPUTER_PRECOG_TITLE"
-			desc = "XVCV_MDLC_TECH_UNLOCK_COMBAT_COMPUTER_PRECOG_DESC"
-		}
-	}
-
-	potential = {
-		has_ascension_perk = xvcv_mdlc_ap_abyss
-	}
-
-	ai_weight = {
-		factor = 5 #very rare tech
-		modifier = {
-			factor = 2
-			is_militarist = yes
-		}
-	}
-}
-xvcv_mdlc_tech_psi_jump_drive_1 = {
-	icon = "tech_psi_jump_drive_1"
-	cost = @tier5cost2
-	area = physics
-	tier = 5
-	ai_update_type = all
-	is_rare = yes
-	category = { particles }
-	weight = @xvcv_mdlc_not_researchable_tech_weight
-	is_reverse_engineerable = no
-
-	feature_flags = {
-		jump_method
-	}
-
-	prereqfor_desc = {
-		component = {
-			title = "XVCV_MDLC_TECH_UNLOCK_PSI_JUMPDRIVE_1_TITLE"
-			desc = "XVCV_MDLC_TECH_UNLOCK_PSI_JUMPDRIVE_1_DESC"
-		}
-	}
-
-	potential = {
-		has_ascension_perk = xvcv_mdlc_ap_abyss
-	}
-
-	ai_weight = {
-		factor = 5 #very rare tech
-		modifier = {
-			factor = 2
-			is_militarist = yes
-		}
-	}
-}
-xvcv_mdlc_tech_cloaking_psi = {
-	icon = "tech_cloaking_psi"
-	cost = @tier5cost3
-	area = physics
-	tier = 5
-	category = { field_manipulation }
-	ai_update_type = all
-	is_rare = yes
-	prerequisites = { "xvcv_mdlc_tech_psi_jump_drive_1" }
-	weight = @tier5weight2
-	is_reverse_engineerable = no
-
-	potential = {
-		has_first_contact_dlc = yes
-		has_ascension_perk = xvcv_mdlc_ap_abyss
-	}
-
-	prereqfor_desc = {
-		hide_prereq_for_desc = component
-		custom = {
-			title = "XVCV_MDLC_TECH_UNLOCK_CLOAKING_PSI_TITLE"
-			desc = "XVCV_MDLC_TECH_UNLOCK_CLOAKING_PSI_DESC"
-		}
-	}
-
-	weight_modifier = {
-		modifier = {
-			factor = @ap_technological_ascendancy_rare_tech
-			has_ascension_perk = ap_technological_ascendancy
-		}
-		modifier = {
-			factor = @federation_perk_factor
-			has_federation = yes
-			federation = {
-				has_federation_perk = rare_tech_boost
-				any_member = { has_technology = xvcv_mdlc_tech_cloaking_psi }
-			}
-		}
-	}
-}
-xvcv_mdlc_tech_abyss_patron_whisperers = {
-	icon = "tech_covenant_whisperers"
-	area = physics
-	cost = @guardiantechcost
-	tier = @guardiantechtier
-	category = { field_manipulation }
-	ai_update_type = all
-	is_rare = yes
-	weight = @xvcv_mdlc_not_researchable_tech_weight
-	is_reverse_engineerable = no
-
-	potential = {
-		has_ascension_perk = xvcv_mdlc_ap_abyss
-	}
-}
-xvcv_mdlc_tech_abyss_patron_composer = {
-	icon = "tech_covenant_composer"
-	area = physics
-	cost = @guardiantechcost
-	tier = @guardiantechtier
-	category = { field_manipulation }
-	ai_update_type = all
-	is_rare = yes
-	weight = @xvcv_mdlc_not_researchable_tech_weight
-	is_reverse_engineerable = no
-
-	potential = {
-		has_ascension_perk = xvcv_mdlc_ap_abyss
-	}
-}
-xvcv_mdlc_tech_abyss_patron_instrument = {
-	icon = "tech_covenant_instrument"
-	area = physics
-	cost = @guardiantechcost
-	tier = @guardiantechtier
-	category = { field_manipulation }
-	ai_update_type = all
-	is_rare = yes
-	weight = @xvcv_mdlc_not_researchable_tech_weight
-	is_reverse_engineerable = no
-
-	potential = {
-		has_ascension_perk = xvcv_mdlc_ap_abyss
-	}
-}
-xvcv_mdlc_tech_abyss_patron_eater = {
-	icon = "tech_covenant_eater"
-	area = physics
-	cost = @guardiantechcost
-	tier = @guardiantechtier
-	category = { field_manipulation }
-	ai_update_type = all
-	is_rare = yes
-	weight = @xvcv_mdlc_not_researchable_tech_weight
-	is_reverse_engineerable = no
-
-	potential = {
-		has_ascension_perk = xvcv_mdlc_ap_abyss
-	}
-}
 #for 'xvcv_mdlc_ap_world_machines' ascension perk
 xvcv_mdlc_tech_world_machines_districts_produces = {
 	area = engineering
@@ -603,7 +356,7 @@ xvcv_mdlc_tech_world_machines_districts_produces = {
 	# }
 	
 	modifier = {
-		xvcv_mdlc_world_machines_districts_produces_mult = 0.05
+		oxr_mdlc_world_machines_all_structures_produces_mult = 0.05
 	}
 }
 
@@ -643,7 +396,7 @@ xvcv_mdlc_tech_world_machines_districts_produces_repeat = {
 	}
 	
 	modifier = {
-		xvcv_mdlc_world_machines_districts_produces_mult = 0.05
+		oxr_mdlc_world_machines_all_structures_produces_mult = 0.05
 	}
 }
 #for 'xvcv_mdlc_ap_bio_robot' ascension perk

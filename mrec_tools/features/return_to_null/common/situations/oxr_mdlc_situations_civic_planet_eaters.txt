@@ -1,0 +1,409 @@
+# Situations for the civic planet_eaters
+# Generally:
+# Stage 1: "relocate" pops, if they exist; player decides how
+# Stage 2: process atmosphere (can generate a few resources at this stage)
+# Stage 3: process crust (most food comes from this stage)
+# Stage 4: process mantle (minerals, rare crystals, some alloys)
+# Stage 5: Cool down core for processing with heat siphon (can generate energy with relevant tech)
+# Stage 6: Core processing (generate alloys)
+# Stage 7: Clean up
+
+oxr_mdlc_situation_planet_decomposer_mega = {
+	# Ideally I want the length of this situation
+	# To be some factor of the planet's size
+	# For ex: I want a size 30 planet to take 60 years to rip apart, by default 
+	picture = GFX_evt_continental
+	complete_icon_frame = GFX_situation_outcome_frame_green
+	complete_icon = GFX_situation_outcome_positive
+	on_start = {
+		if = {
+			limit = {
+				target = {
+					# In a few cases, skip Stage 1 (pops)
+					OR = {
+						is_colony = no
+						pop_amount = 0
+					}
+				}
+			}
+			# Skip the first stage
+			add_situation_progress = 1800
+		}
+	}
+	# BOOM
+	on_progress_complete = {
+		custom_tooltip = oxr_mdlc_situation_planet_decomposer_finish_effect
+		hidden_effect = {
+			target = {
+				remove_planet = this
+			}
+			destroy_situaton = this
+		}
+	}
+
+	stages = {
+		# Deal with pops
+		oxr_mdlc_situation_planet_decomposer_mega_stage_1 = {
+			# Pick/make some kind of pops-related icon
+			icon = GFX_xvcv_mdlc_situation_stage_1
+			icon_background = GFX_situation_stage_frame_green
+            end = 1800
+			# on_first_enter = {
+			# 	if = {
+			# 		limit = {
+			# 			target = {
+			# 				is_colony = no
+			# 			}
+			# 		}
+			# 		# Effect to skip/complete this stage
+			# 	}
+			# }
+		}
+
+		# Atmosphere
+		oxr_mdlc_situation_planet_decomposer_mega_stage_2 = {
+			icon = GFX_xvcv_mdlc_situation_stage_2
+			icon_background = GFX_situation_stage_frame_green
+            end = 5400
+			on_first_enter = {
+				if = {
+					limit = {
+						target = {
+							OR = {
+								is_planet_class = pc_barren
+								is_planet_class = pc_shattered
+							}
+						}
+					}
+					# Effect to skip/complete this stage, barren has no atmosphere?
+					add_situation_progress = 3600
+				}
+			}
+		}
+
+		# Crust
+		oxr_mdlc_situation_planet_decomposer_mega_stage_3 = {
+			icon = GFX_xvcv_mdlc_situation_stage_3
+			icon_background = GFX_situation_stage_frame_green
+            end = 10800
+		}
+
+		# Mantle
+		oxr_mdlc_situation_planet_decomposer_mega_stage_4 = {
+			icon = GFX_xvcv_mdlc_situation_stage_4
+			icon_background = GFX_situation_stage_frame_green
+            end = 19800
+		}
+
+		# Core cooling
+		oxr_mdlc_situation_planet_decomposer_mega_stage_5 = {
+			icon = GFX_xvcv_mdlc_situation_stage_5
+			icon_background = GFX_situation_stage_frame_green
+            end = 28800
+			on_first_enter = {
+				# if = {
+				# 	limit = {
+				# 		target = {
+				# 			is_planet_class = pc_frozen
+				# 		}
+				# 	}
+				# 	# Effect to skip/complete this stage, barren has no atmosphere?
+				# }
+			}
+		}
+
+		# Core
+		oxr_mdlc_situation_planet_decomposer_mega_stage_6 = {
+			icon = GFX_xvcv_mdlc_situation_stage_6
+			icon_background = GFX_situation_stage_frame_green
+            end = 34200
+		}
+
+		# Cleanup
+		oxr_mdlc_situation_planet_decomposer_mega_stage_7 = {
+			icon = GFX_xvcv_mdlc_situation_stage_7
+			icon_background = GFX_situation_stage_frame_green
+            end = 36000
+		}
+	}
+    monthly_progress = {
+        base = 30  # 1 month of progress per month
+
+		# paused
+		modifier = {
+			mult = 0
+			current_situation_approach = oxr_mdlc_situation_planet_decomposer_mega_approach_pause
+		}
+		# standard approach - no modifier
+		# slow/more efficient
+		modifier = {
+			mult = 0.8
+			current_situation_approach = oxr_mdlc_situation_planet_decomposer_mega_approach_refinement
+		}
+		# wasteful/push forward
+		modifier = {
+			mult = 1.25
+			current_situation_approach = oxr_mdlc_situation_planet_decomposer_mega_approach_careless
+		}
+		modifier = {
+			add = target.oxr_mdlc_planet_decomposer_situation_stage_1_progress
+			mult = target.oxr_mdlc_planet_decomposer_situation_stage_1_progress_stage_multiplier
+			current_stage = oxr_mdlc_situation_planet_decomposer_mega_stage_1
+		}
+		modifier = {
+			add = target.oxr_mdlc_planet_decomposer_situation_stage_2_progress
+			mult = target.oxr_mdlc_planet_decomposer_situation_stage_2_progress_stage_multiplier
+			current_stage = oxr_mdlc_situation_planet_decomposer_mega_stage_2
+		}
+		modifier = {
+			add = target.oxr_mdlc_planet_decomposer_situation_stage_3_progress
+			mult = target.oxr_mdlc_planet_decomposer_situation_stage_3_progress_stage_multiplier
+			current_stage = oxr_mdlc_situation_planet_decomposer_mega_stage_3
+		}
+		modifier = {
+			add = target.oxr_mdlc_planet_decomposer_situation_stage_4_progress
+			mult = target.oxr_mdlc_planet_decomposer_situation_stage_4_progress_stage_multiplier
+			current_stage = oxr_mdlc_situation_planet_decomposer_mega_stage_4
+		}
+		modifier = {
+			add = target.oxr_mdlc_planet_decomposer_situation_stage_5_progress
+			mult = target.oxr_mdlc_planet_decomposer_situation_stage_5_progress_stage_multiplier
+			current_stage = oxr_mdlc_situation_planet_decomposer_mega_stage_5
+		}
+		modifier = {
+			add = target.oxr_mdlc_planet_decomposer_situation_stage_6_progress
+			mult = target.oxr_mdlc_planet_decomposer_situation_stage_6_progress_stage_multiplier
+			current_stage = oxr_mdlc_situation_planet_decomposer_mega_stage_6
+		}
+		modifier = {
+			add = target.oxr_mdlc_planet_decomposer_situation_stage_7_progress
+			mult = target.oxr_mdlc_planet_decomposer_situation_stage_7_progress_stage_multiplier
+			current_stage = oxr_mdlc_situation_planet_decomposer_mega_stage_7
+		}
+
+    }
+
+	## For all stages
+	# Do nothing / pause
+	approach = {
+		name = oxr_mdlc_situation_planet_decomposer_mega_approach_pause
+		icon = GFX_situation_approach_suspicious
+		icon_background = GFX_situation_approach_bg_blue
+		on_select = {
+			custom_tooltip = oxr_mdlc_situation_planet_decomposer_mega_approach_pause_tooltip
+		}
+	}
+
+	## Stage 1 approaches
+	# Relocate home
+	approach = {
+		name = oxr_mdlc_situation_planet_decomposer_mega_approach_pops_relocate_home
+		icon = GFX_situation_approach_suspicious
+		icon_background = GFX_situation_approach_bg_blue
+		potential = {
+			current_stage = oxr_mdlc_situation_planet_decomposer_mega_stage_1
+		}
+		on_select = {
+			custom_tooltip = oxr_mdlc_situation_planet_decomposer_mega_approach_pops_relocate_home_tooltip
+		}
+	}
+	# Displace
+	approach = {
+		name = oxr_mdlc_situation_planet_decomposer_mega_approach_pops_displace
+		icon = GFX_situation_approach_suspicious
+		icon_background = GFX_situation_approach_bg_blue
+		potential = {
+			current_stage = oxr_mdlc_situation_planet_decomposer_mega_stage_1
+		}
+		on_select = {
+			custom_tooltip = oxr_mdlc_situation_planet_decomposer_mega_approach_pops_displace_tooltip
+		}
+	}
+	# Do bad things ...
+	approach = {
+		name = oxr_mdlc_situation_planet_decomposer_mega_approach_pops_purge
+		icon = GFX_situation_approach_suspicious
+		icon_background = GFX_situation_approach_bg_blue
+		default = yes
+		potential = {
+			current_stage = oxr_mdlc_situation_planet_decomposer_mega_stage_1
+			owner = {
+				# or they have any species policy set to purge
+				oxr_mdlc_is_machine_terminator = yes
+			}
+		}
+		on_select = {
+			custom_tooltip = oxr_mdlc_situation_planet_decomposer_mega_approach_pops_purge_tooltip
+		}
+	}
+
+	# Standard approach
+	approach = {
+		name = oxr_mdlc_situation_planet_decomposer_mega_approach_standard
+		icon = GFX_situation_approach_balance_sheet
+		icon_background = GFX_situation_approach_bg_green
+		potential = {
+			NOT = { current_stage = oxr_mdlc_situation_planet_decomposer_mega_stage_1 }
+		}
+		on_select = {
+			custom_tooltip = oxr_mdlc_situation_planet_decomposer_mega_approach_standard_tooltip
+		}
+		default = yes
+		resources = {
+			category = oxr_mdlc_category_origin_null_disassembler_situation
+			upkeep = {
+				energy = 10
+				minerals = 10
+			}
+            # Stage 2 - Atmosphere
+			inline_script = country/situation/oxr_decomposer_approach_standard_stage2
+            # Stage 3 - Crust
+			inline_script = country/situation/oxr_decomposer_approach_standard_stage3
+            # Stage 4 - Mantle
+			inline_script = country/sitaution/oxr_decomposer_approach_standard_stage4
+		}
+	}
+
+	# Slow, but more efficient
+	approach = {
+		name = oxr_mdlc_situation_planet_decomposer_mega_approach_refinement
+		icon = GFX_situation_approach_minerals
+		icon_background = GFX_situation_approach_bg_yellow
+		potential = {
+			NOT = { current_stage = oxr_mdlc_situation_planet_decomposer_mega_stage_1 }
+		}
+		on_select = {
+			custom_tooltip = oxr_mdlc_situation_planet_decomposer_mega_approach_refinement_tooltip
+		}
+		resources = {
+			category = oxr_mdlc_category_origin_null_disassembler_situation
+			upkeep = {
+				energy = 20
+				minerals = 20
+			}
+			produces = {
+				trigger = {
+					exists = target
+					target = { is_variable_set = oxr_mdlc_origin_null_planet_food_produces_tmp }
+				}
+				food = 1.25
+				multiplier = target.oxr_mdlc_origin_null_planet_food_produces_tmp
+			}
+			produces = {
+				trigger = {
+					exists = target
+					target = { is_variable_set = oxr_mdlc_origin_null_planet_energy_produces_tmp }
+				}
+				energy = 1.25
+				multiplier = target.oxr_mdlc_origin_null_planet_energy_produces_tmp
+			}
+			produces = {
+				trigger = {
+					exists = target
+					target = { is_variable_set = oxr_mdlc_origin_null_planet_minerals_produces_tmp }
+				}
+				minerals = 1.25
+				multiplier = target.oxr_mdlc_origin_null_planet_minerals_produces_tmp
+			}
+			produces = {
+				trigger = {
+					exists = target
+					target = { is_variable_set = oxr_mdlc_origin_null_planet_oxr_mdlc_resource_null_mega_debris_produces_tmp }
+				}
+				oxr_mdlc_resource_null_mega_debris = 1.25
+				multiplier = target.oxr_mdlc_origin_null_planet_oxr_mdlc_resource_null_mega_debris_produces_tmp
+			}
+		}
+	}
+
+	# Fast, but less efficient
+	approach = {
+		name = oxr_mdlc_situation_planet_decomposer_mega_approach_careless
+		icon = GFX_situation_approach_energy_credits
+		icon_background = GFX_situation_approach_bg_red
+		potential = {
+			NOT = { current_stage = oxr_mdlc_situation_planet_decomposer_mega_stage_1 }
+		}
+		on_select = {
+			custom_tooltip = oxr_mdlc_situation_planet_decomposer_mega_approach_careless_tooltip
+		}
+		resources = {
+			category = oxr_mdlc_category_origin_null_disassembler_situation
+			upkeep = {
+				energy = 20
+				minerals = 20
+			}
+			produces = {
+				trigger = {
+					exists = target
+					target = { is_variable_set = oxr_mdlc_origin_null_planet_food_produces_tmp }
+				}
+				food = 0.75
+				multiplier = target.oxr_mdlc_origin_null_planet_food_produces_tmp
+			}
+			produces = {
+				trigger = {
+					exists = target
+					target = { is_variable_set = oxr_mdlc_origin_null_planet_energy_produces_tmp }
+				}
+				energy = 0.75
+				multiplier = target.oxr_mdlc_origin_null_planet_energy_produces_tmp
+			}
+			produces = {
+				trigger = {
+					exists = target
+					target = { is_variable_set = oxr_mdlc_origin_null_planet_minerals_produces_tmp }
+				}
+				minerals = 0.75
+				multiplier = target.oxr_mdlc_origin_null_planet_minerals_produces_tmp
+			}
+			produces = {
+				trigger = {
+					exists = target
+					target = { is_variable_set = oxr_mdlc_origin_null_planet_oxr_mdlc_resource_null_mega_debris_produces_tmp }
+				}
+				oxr_mdlc_resource_null_mega_debris = 1.5
+				multiplier = target.oxr_mdlc_origin_null_planet_oxr_mdlc_resource_null_mega_debris_produces_tmp
+			}
+		}
+	}
+
+	## Stage 7: Cleanup
+	# Make things politically easier
+	approach = {
+		name = oxr_mdlc_situation_planet_decomposer_mega_stage_7_pay_influence
+		icon = GFX_situation_approach_energy_credits
+		icon_background = GFX_situation_approach_bg_red
+
+		potential = {
+			current_stage = oxr_mdlc_situation_planet_decomposer_mega_stage_7
+		}
+		on_select = {
+			custom_tooltip = oxr_mdlc_situation_planet_decomposer_mega_stage_7_pay_influence_tooltip
+		}
+	}
+	# "Bribes"
+	approach = {
+		name = oxr_mdlc_situation_planet_decomposer_mega_stage_7_share_wealth
+		icon = GFX_situation_approach_energy_credits
+		icon_background = GFX_situation_approach_bg_red
+		potential = {
+			current_stage = oxr_mdlc_situation_planet_decomposer_mega_stage_7
+		}
+		on_select = {
+			custom_tooltip = oxr_mdlc_situation_planet_decomposer_mega_stage_7_share_wealth_tooltip
+		}
+	}
+	# Apolitical
+	approach = {
+		name = oxr_mdlc_situation_planet_decomposer_mega_stage_7_ignore_consequences
+		icon = GFX_situation_approach_energy_credits
+		icon_background = GFX_situation_approach_bg_red
+		potential = {
+			current_stage = oxr_mdlc_situation_planet_decomposer_mega_stage_7
+		}
+		on_select = {
+			custom_tooltip = oxr_mdlc_situation_planet_decomposer_mega_stage_7_ignore_consequences_tooltip
+		}
+	}
+}

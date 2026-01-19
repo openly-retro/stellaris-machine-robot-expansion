@@ -1,7 +1,7 @@
 # Mechanical planet districts
 xvcv_mdlc_pc_mechanical_district_city = {
 	base_buildtime = @xvcv_mdlc_district_time_4
-	is_capped_by_modifier = no
+	is_uncapped = {}
 	default_starting_district = yes
 
 	zone_slots = {
@@ -11,21 +11,6 @@ xvcv_mdlc_pc_mechanical_district_city = {
 	}
 
 	inline_script = planet/districts/pc_mechanical/oxr_mech_district_potential
-
-	# triggered_desc = {
-	# 	trigger = {
-	# 		exists = owner
-	# 		owner = { has_auth_machine_intelligence = no }
-	# 	}
-	# 	text = district_city_desc
-	# }
-	# triggered_desc = {
-	# 	trigger = {
-	# 		exists = owner
-	# 		owner = { has_auth_machine_intelligence = yes }
-	# 	}
-	# 	text = district_nexus_desc
-	# }
 
 	conversion_ratio = 1
 	inline_script = planet/districts/convert_to/oxr_wm_district_primary
@@ -41,10 +26,9 @@ xvcv_mdlc_pc_mechanical_district_city = {
 			exists = owner
 			owner = { has_auth_machine_intelligence = no }
 		}
-		planet_housing_add = 1000
+		planet_housing_add = @oxr_mdlc_pc_mechanical_district_planet_housing_amount
 		planet_jobs_ruler_produces_mult = 0.01 #see: Stellaris\interface\modifiers.gfx file line no.438~441 and 490~493 to change the modifier icon
-		job_clerk_add = 100
-		# planet_max_buildings_add = 1
+		job_clerk_add = @oxr_mdlc_pc_mechanical_resource_jobs_amount
 		planet_building_build_speed_mult = 0.025
 	}
 
@@ -53,12 +37,10 @@ xvcv_mdlc_pc_mechanical_district_city = {
 			exists = owner
 			owner = { has_auth_machine_intelligence = yes }
 		}
-		planet_housing_add = 1100
+		planet_housing_add = @oxr_mdlc_pc_mechanical_district_planet_housing_amount
 		planet_jobs_complex_drone_produces_mult = 0.01
-		job_maintenance_drone_add = 300
-		# planet_max_buildings_add = 1
+		job_maintenance_drone_add = @oxr_mdlc_pc_mechanical_resource_jobs_amount
 		planet_building_build_speed_mult = 0.03
-
 	}
 
 	triggered_planet_modifier = {
@@ -104,27 +86,9 @@ xvcv_mdlc_pc_mechanical_district_city = {
 	triggered_planet_modifier = {
 		potential = {
 			exists = owner
-			owner = {
-				has_technology = tech_housing_2
-				NOT = { has_valid_civic = civic_agrarian_idyll }
-				has_auth_machine_intelligence = no
-			}
+			owner = { has_technology = tech_housing_2 }
 		}
 		modifier = { planet_housing_add = 100 }
-	}
-
-		triggered_planet_modifier = {
-		potential = {
-			exists = owner
-			owner = {
-				has_technology = tech_housing_2
-				has_auth_machine_intelligence = yes
-			}
-		}
-		modifier = {
-			planet_housing_add = 100
-			job_maintenance_drone_add = 100
-		}
 	}
 
 	## Descriptions
@@ -164,7 +128,7 @@ xvcv_mdlc_pc_mechanical_district_city = {
 
 xvcv_mdlc_pc_mechanical_district_generator = {
 	base_buildtime = @xvcv_mdlc_district_time_2
-	is_capped_by_modifier = no
+	is_uncapped = {}
 
 	inline_script = planet/districts/pc_mechanical/oxr_mech_district_potential
 
@@ -182,16 +146,29 @@ xvcv_mdlc_pc_mechanical_district_generator = {
 	}
 
 	planet_modifier = {
-		planet_housing_add = 300
+		planet_housing_add = @oxr_mdlc_pc_mechanical_district_planet_housing_amount
 		planet_technician_energy_produces_mult = 0.01
 	}
 
 	triggered_planet_modifier = {
 		potential = {
 			exists = owner
-			owner = { has_valid_civic = civic_agrarian_idyll }
+			owner = {
+				has_valid_civic = civic_agrarian_idyll
+			}
 		}
-		modifier = { planet_housing_add = 100 }
+		modifier = {
+			planet_housing_add = 300
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { is_gestalt = yes }
+		}
+		modifier = {
+			planet_housing_add = 100
+		}
 	}
 
 	triggered_planet_modifier = {
@@ -199,7 +176,7 @@ xvcv_mdlc_pc_mechanical_district_generator = {
 			exists = owner
 			owner = { is_gestalt = yes }
 		}
-		modifier = { job_technician_drone_add = 300 }
+		modifier = { job_technician_drone_add = @oxr_mdlc_pc_mechanical_resource_jobs_amount }
 	}
 
 	triggered_planet_modifier = {
@@ -210,7 +187,7 @@ xvcv_mdlc_pc_mechanical_district_generator = {
 				is_fallen_empire_spiritualist = no
 			}
 		}
-		modifier = { job_technician_add = 300 }
+		modifier = { job_technician_add = @oxr_mdlc_pc_mechanical_resource_jobs_amount }
 	}
 
 	triggered_planet_modifier = {
@@ -218,7 +195,7 @@ xvcv_mdlc_pc_mechanical_district_generator = {
 			exists = owner
 			owner = { is_fallen_empire_spiritualist = yes }
 		}
-		modifier = { job_fe_acolyte_generator_add = 300 }
+		modifier = { job_fe_acolyte_generator_add = @oxr_mdlc_pc_mechanical_resource_jobs_amount }
 	}
 
 	triggered_desc = {
@@ -253,7 +230,7 @@ xvcv_mdlc_pc_mechanical_district_generator = {
 }
 xvcv_mdlc_pc_mechanical_district_mining = {
 	base_buildtime = @xvcv_mdlc_district_time_2
-	is_capped_by_modifier = no
+	is_uncapped = {}
 
 	inline_script = planet/districts/pc_mechanical/oxr_mech_district_potential
 
@@ -271,16 +248,37 @@ xvcv_mdlc_pc_mechanical_district_mining = {
 	}
 
 	planet_modifier = {
-		planet_housing_add = 300
+		planet_housing_add = @oxr_mdlc_pc_mechanical_district_planet_housing_amount
 		planet_miners_minerals_produces_mult = 0.01
 	}
 
 	triggered_planet_modifier = {
 		potential = {
 			exists = owner
-			owner = { has_valid_civic = civic_agrarian_idyll }
+			owner = {
+				has_valid_civic = civic_agrarian_idyll
+			}
 		}
-		modifier = { planet_housing_add = 100 }
+		modifier = {
+			planet_housing_add = 300
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {
+			has_modifier = metal_planet
+		}
+		modifier = {
+			planet_housing_add = 500
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { is_gestalt = yes }
+		}
+		modifier = {
+			planet_housing_add = 100
+		}
 	}
 
 	triggered_planet_modifier = {
@@ -288,7 +286,9 @@ xvcv_mdlc_pc_mechanical_district_mining = {
 			exists = owner
 			owner = { is_gestalt = yes }
 		}
-		modifier = { job_mining_drone_add = 300 }
+		modifier = {
+			job_mining_drone_add = @oxr_mdlc_pc_mechanical_resource_jobs_amount
+		}
 	}
 
 	triggered_planet_modifier = {
@@ -299,7 +299,9 @@ xvcv_mdlc_pc_mechanical_district_mining = {
 				is_fallen_empire_spiritualist = no
 			}
 		}
-		modifier = { job_miner_add = 300 }
+		modifier = {
+			job_miner_add = @oxr_mdlc_pc_mechanical_resource_jobs_amount
+		}
 	}
 
 	triggered_planet_modifier = {
@@ -307,7 +309,9 @@ xvcv_mdlc_pc_mechanical_district_mining = {
 			exists = owner
 			owner = { is_fallen_empire_spiritualist = yes }
 		}
-		modifier = { job_fe_acolyte_mine_add = 300 }
+		modifier = {
+			job_fe_acolyte_mine_add = @oxr_mdlc_pc_mechanical_resource_jobs_amount
+		}
 	}
 
 	triggered_desc = {
@@ -343,7 +347,7 @@ xvcv_mdlc_pc_mechanical_district_mining = {
 }
 xvcv_mdlc_pc_mechanical_district_farming = {
 	base_buildtime = @xvcv_mdlc_district_time_2
-	is_capped_by_modifier = no
+	is_uncapped = {}
 
 	inline_script = planet/districts/pc_mechanical/oxr_mech_district_potential
 
@@ -361,7 +365,7 @@ xvcv_mdlc_pc_mechanical_district_farming = {
 	}
 
 	planet_modifier = {
-		planet_housing_add = 3
+		planet_housing_add = @oxr_mdlc_pc_mechanical_district_planet_housing_amount
 		planet_farmers_food_produces_mult = 0.01
 	}
 
@@ -389,7 +393,7 @@ xvcv_mdlc_pc_mechanical_district_farming = {
 			exists = owner
 			owner = { is_gestalt = yes }
 		}
-		modifier = { job_agri_drone_add = 300 }
+		modifier = { job_agri_drone_add = @oxr_mdlc_pc_mechanical_resource_jobs_amount }
 	}
 
 	triggered_planet_modifier = {
@@ -400,7 +404,7 @@ xvcv_mdlc_pc_mechanical_district_farming = {
 				is_fallen_empire_spiritualist = no
 			}
 		}
-		modifier = { job_farmer_add = 300 }
+		modifier = { job_farmer_add = @oxr_mdlc_pc_mechanical_resource_jobs_amount }
 	}
 
 	triggered_planet_modifier = {
@@ -408,7 +412,7 @@ xvcv_mdlc_pc_mechanical_district_farming = {
 			exists = owner
 			owner = { is_fallen_empire_spiritualist = yes }
 		}
-		modifier = { job_fe_acolyte_farm_add = 300 }
+		modifier = { job_fe_acolyte_farm_add = @oxr_mdlc_pc_mechanical_resource_jobs_amount }
 	}
 
 	triggered_desc = {

@@ -16,7 +16,8 @@ trait_mechanical = {
 
 	immortal_leaders = no
 
-	allowed_archetypes = { ROBOT MACHINE }
+	allowed_archetypes = { ROBOT MACHINE}
+	tags = { machine positive leader special }
 
 	leader_age_min = 1
 	leader_age_max = 10
@@ -26,6 +27,28 @@ trait_mechanical = {
 	modifier = {
 		pc_machine_habitability = 1
 		habitability_floor_add = 0.5
+	}
+
+	resources = {
+		category = planet_pops
+		# Energy Upkeep
+		upkeep = {
+			trigger = {
+				is_being_purged = no
+				is_sapient = yes
+			}
+			energy = @living_standard_energy_normal
+		}
+	}
+	
+	triggered_planet_growth_habitability_modifier = {
+		potential = {
+			exists = planet
+			planet = {
+				is_planet_class = pc_volcanic
+			}
+		}
+		habitability_floor_add = -0.25
 	}
 	triggered_planet_growth_habitability_modifier = {
 		potential = {

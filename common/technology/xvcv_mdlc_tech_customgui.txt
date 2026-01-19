@@ -29,6 +29,8 @@ xvcv_mdlc_tech_leader_making_improvement = {
 
 	modifier = {
 		custom_tooltip = xvcv_mdlc_tech_leader_making_improvement_tooltip
+		# oxr_mdlc_leader_making_bonus_trait_points_add = 1
+		# oxr_mdlc_leader_making_bonus_trait_picks_add = 1
 	}
 }
 xvcv_mdlc_tech_leader_making_improvement_2 = {
@@ -42,6 +44,8 @@ xvcv_mdlc_tech_leader_making_improvement_2 = {
 
 	modifier = {
 		custom_tooltip = xvcv_mdlc_tech_leader_making_improvement_tooltip
+		# oxr_mdlc_leader_making_bonus_trait_points_add = 1
+		# oxr_mdlc_leader_making_bonus_trait_picks_add = 1
 	}
 
 	weight_modifier = {
@@ -60,6 +64,45 @@ xvcv_mdlc_tech_leader_making_improvement_2 = {
 		}
 	}
 }
+oxr_mdlc_tech_leader_making_improvement_repeatable = {
+	icon = xvcv_mdlc_tech_leader_making_improvement_repeatable
+	area = physics
+	cost = @[ 50000 * 5 ]
+	cost_per_level = @[ 5000 * 5 ]
+	tier = @repeatableTechTier
+	category = { computing }
+	levels = -1 #5% x 10 = 50% #use '-1' value for infinite researching
+	weight = @repeatableTechWeight
+
+	potential = {
+		has_authority = auth_machine_intelligence
+		has_paragon_dlc = yes
+	}
+	prerequisites = {
+		"xvcv_mdlc_tech_leader_making_improvement_2"
+	}
+
+	weight_modifier = {
+		factor = @repatableTechFactor
+	}
+	
+	ai_weight = {
+		factor = 1.0
+	}
+
+	weight_groups = {
+		repeatable
+	}
+	mod_weight_if_group_picked = {
+		repeatable = 0.01
+	}
+	
+	modifier = {
+		oxr_mdlc_leader_making_bonus_trait_points_add = 3
+		oxr_mdlc_leader_making_bonus_trait_picks_add = 2
+	}
+}
+
 #xvcv_mdlc_core_modifying
 xvcv_mdlc_tech_core_modifying = {
 	cost = @tier3cost3
@@ -91,6 +134,8 @@ xvcv_mdlc_tech_core_modifying_improvement = {
 
 	modifier = {
 		custom_tooltip = xvcv_mdlc_tech_core_modifying_improvement_tooltip
+		# oxr_mdlc_core_modifying_bonus_trait_points_add = 1
+		# oxr_mdlc_core_modifying_bonus_trait_picks_add = 1
 	}
 }
 xvcv_mdlc_tech_core_modifying_improvement_2 = {
@@ -104,6 +149,8 @@ xvcv_mdlc_tech_core_modifying_improvement_2 = {
 
 	modifier = {
 		custom_tooltip = xvcv_mdlc_tech_core_modifying_improvement_tooltip
+		# oxr_mdlc_core_modifying_bonus_trait_points_add = 1
+		# oxr_mdlc_core_modifying_bonus_trait_picks_add = 1
 	}
 
 	weight_modifier = {
@@ -120,5 +167,43 @@ xvcv_mdlc_tech_core_modifying_improvement_2 = {
 				any_member = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 }
 			}
 		}
+	}
+}
+oxr_mdlc_tech_core_modifying_improvement_repeatable = {
+	icon = xvcv_mdlc_tech_core_modifying_improvement_repeatable
+	area = physics
+	cost = @[ 50000 * 5 ]
+	cost_per_level = @[ 5000 * 5 ]
+	tier = @repeatableTechTier
+	category = { computing }
+	levels = -1 #5% x 10 = 50% #use '-1' value for infinite researching
+	weight = @repeatableTechWeight
+
+	potential = {
+		has_authority = auth_machine_intelligence
+		has_paragon_dlc = yes
+	}
+	prerequisites = {
+		"xvcv_mdlc_tech_leader_making_improvement_2"
+	}
+
+	weight_modifier = {
+		factor = @repatableTechFactor
+	}
+	
+	ai_weight = {
+		factor = 1.0
+	}
+
+	weight_groups = {
+		repeatable
+	}
+	mod_weight_if_group_picked = {
+		repeatable = 0.01
+	}
+	
+	modifier = {
+		oxr_mdlc_leader_making_bonus_trait_points_add = 3
+		oxr_mdlc_leader_making_bonus_trait_picks_add = 2
 	}
 }

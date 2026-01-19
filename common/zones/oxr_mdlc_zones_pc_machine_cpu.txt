@@ -1,40 +1,310 @@
 oxr_mdlc_zone_pc_machine_cpu_research = {
-	# I don't really know what use this is, other than providing building slots
-
-	base_buildtime = @zone_buildtime
+	inline_script = planet/zones/oxr_wm_zone_base_cpu
+	icon = GFX_district_specialization_research
+	
 	potential = {
-		hidden_trigger = { exists = owner }
+		exists = owner
 		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
-		is_xvcv_mdlc_pc_machine_cpu = yes
 	}
-	unlock = { is_xvcv_mdlc_pc_machine_cpu = yes }
+	#unlock = { is_xvcv_mdlc_pc_machine_cpu = yes }
+
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_science_districts_produces_mult = 0.05
+		xvcv_mdlc_world_machines_science_districts_upkeep_mult = 0.05
+	}
+	
+	included_building_sets = {
+		research
+		physics
+		society
+		engineering
+		automation
+		origin
+		oxr_mdlc_building_set_wm_research
+	}
+	zone_sets = {
+		rikk_mdlc_zone_set_cpu_research
+	}
+}
+
+# raw resource bonus zones
+oxr_mdlc_zone_pc_machine_cpu_physics_energy = {
+	inline_script = planet/zones/oxr_wm_zone_base_cpu
+	icon = GFX_district_specialization_physics
+	
+	potential = {
+		exists = owner
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+	}
+	unlock = { owner = { has_technology = tech_physics_3 } }
+
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_physics_districts_physics_research_produces_mult = 0.20
+		xvcv_mdlc_world_machines_physics_districts_upkeep_mult = 0.25
+	}
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_physics_districts_physics_research_produces_add = @[ 2 * oxr_mdlc_wm_base_calculator_single_output ]
+		xvcv_mdlc_world_machines_physics_districts_energy_upkeep_add = 20
+		xvcv_mdlc_world_machines_engineering_districts_trade_upkeep_add = 5
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+	}
+	
+	included_building_sets = {
+		research
+		physics
+		society
+		engineering
+		automation
+		origin
+		oxr_mdlc_building_set_wm_research
+	}
+	zone_sets = {
+		rikk_mdlc_zone_set_cpu_physics
+	}
+}
+oxr_mdlc_zone_pc_machine_cpu_society_food = {
+	inline_script = planet/zones/oxr_wm_zone_base_cpu
+	icon = GFX_district_specialization_society
+	
+	potential = {
+		exists = owner
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+	}
+	unlock = { owner = { has_technology = tech_society_3 } }
+
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_society_districts_society_research_produces_mult = 0.20
+		xvcv_mdlc_world_machines_society_districts_upkeep_mult = 0.25
+	}
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_society_districts_society_research_produces_add = @[ 2 * oxr_mdlc_wm_base_calculator_single_output ]
+		xvcv_mdlc_world_machines_society_districts_food_upkeep_add = 20
+		xvcv_mdlc_world_machines_engineering_districts_trade_upkeep_add = 5
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+	}
+	
+	included_building_sets = {
+		research
+		physics
+		society
+		engineering
+		automation
+		origin
+		oxr_mdlc_building_set_wm_research
+	}
+	zone_sets = {
+		rikk_mdlc_zone_set_cpu_society
+	}
+}
+oxr_mdlc_zone_pc_machine_cpu_engineering_minerals = {
+	inline_script = planet/zones/oxr_wm_zone_base_cpu
+	icon = GFX_district_specialization_engineering
+	
+	potential = {
+		exists = owner
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+	}
+	unlock = { owner = { has_technology = tech_engineering_3 } }
+
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_engineering_districts_engineering_research_produces_mult = 0.20
+		xvcv_mdlc_world_machines_engineering_districts_upkeep_mult = 0.25
+	}
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_engineering_districts_engineering_research_produces_add = @[ 2 * oxr_mdlc_wm_base_calculator_single_output ]
+		xvcv_mdlc_world_machines_engineering_districts_minerals_upkeep_add = 20
+		xvcv_mdlc_world_machines_engineering_districts_trade_upkeep_add = 5
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+	}
+	
+	included_building_sets = {
+		research
+		physics
+		society
+		engineering
+		automation
+		origin
+		oxr_mdlc_building_set_wm_research
+	}
+	zone_sets = {
+		rikk_mdlc_zone_set_cpu_engineering
+	}
+}
+
+#rare resource zones
+oxr_mdlc_zone_pc_machine_cpu_dark_matter_drawing = {
+	icon = GFX_rikk_mdlc_district_specialization_physics_dark_matter
+	base_buildtime = @zone_buildtime
+	
+	potential = {
+		exists = owner
+		owner = { 
+			has_technology = rikk_mdlc_tech_rare_resource_synthesizer
+		}
+	}
+	unlock = { owner = { has_technology = tech_mine_dark_matter } }
+	
 	resources = {
 		category = oxr_mdlc_world_machines_zones
-		cost = { minerals = @zone_cost }
+		cost = { 
+			minerals = @zone_cost
+			sr_dark_matter = @b5_rare_cost
+		}
 	}
 
 	planet_modifier = {
 		zone_building_slots_add = 3
 	}
+	
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_physics_districts_upkeep_mult = 0.25
+	}
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_physics_districts_sr_dark_matter_produces_add = 1
+		xvcv_mdlc_world_machines_physics_districts_physics_research_produces_add = @[ 1 * oxr_mdlc_wm_base_calculator_single_output ]
+		xvcv_mdlc_world_machines_physics_districts_energy_upkeep_add = @[ 5 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+	}
+	
 	included_building_sets = {
-		engineering
 		research
+		physics
 		automation
 		origin
-		society
-		physics
+		oxr_mdlc_building_set_wm_strategic
 		oxr_mdlc_building_set_wm_research
 	}
 
-	excluded_building_sets = { 
-		knights
-		generator_automation
-		mining_automation
-		farming_automation
-		urban_automation
+	ai_resource_production = {
+		sr_dark_matter = 1
+		trigger = { always = yes }
+	}
+	
+	zone_sets = {
+		rikk_mdlc_zone_set_cpu_physics
+	}
+}
+oxr_mdlc_zone_pc_machine_cpu_living_metal_breeding = {
+	icon = GFX_rikk_mdlc_district_specialization_society_living_metal
+	base_buildtime = @zone_buildtime
+	
+	potential = {
+		exists = owner
+		owner = { 
+			has_technology = rikk_mdlc_tech_rare_resource_synthesizer
+		}
+	}
+	unlock = { owner = { has_technology = tech_mine_living_metal } }
+	
+	resources = {
+		category = oxr_mdlc_world_machines_zones
+		cost = { 
+			minerals = @zone_cost
+			sr_living_metal = @b5_rare_cost
+		}
 	}
 
+	planet_modifier = {
+		zone_building_slots_add = 3
+	}
+	
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_society_districts_upkeep_mult = 0.25
+	}
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_society_districts_sr_living_metal_produces_add = 1
+		xvcv_mdlc_world_machines_society_districts_society_research_produces_add = @[ 1 * oxr_mdlc_wm_base_calculator_single_output ]
+		xvcv_mdlc_world_machines_society_districts_alloys_upkeep_add = @[ 0.5 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
+		xvcv_mdlc_world_machines_society_districts_energy_upkeep_add = @[ 2.5 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+	}
+	
+	included_building_sets = {
+		research
+		society
+		automation
+		origin
+		oxr_mdlc_building_set_wm_strategic
+		oxr_mdlc_building_set_wm_research
+	}
+
+	ai_resource_production = {
+		sr_living_metal = 1
+		trigger = { always = yes }
+	}
+	
 	zone_sets = {
-		oxr_mdlc_zone_set_wm_research
+		rikk_mdlc_zone_set_cpu_society
+	}
+}
+oxr_mdlc_zone_pc_machine_cpu_nanite_feeding = {
+	icon = GFX_rikk_mdlc_district_specialization_engineering_nanites
+	base_buildtime = @zone_buildtime
+	
+	potential = {
+		exists = owner
+		owner = { 
+			has_technology = rikk_mdlc_tech_rare_resource_synthesizer
+		}
+	}
+	
+	unlock = { 
+		owner = { 
+			OR = {
+				has_tradition = tr_nanotech_1
+				has_active_tradition = tr_nanotech_1
+				has_technology = tech_nanite_transmutation
+			}
+		}
+	}
+	
+	resources = {
+		category = oxr_mdlc_world_machines_zones
+		cost = { 
+			minerals = @zone_cost
+			nanites = @b5_rare_cost
+		}
+	}
+
+	planet_modifier = {
+		zone_building_slots_add = 3
+	}
+	
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_engineering_districts_upkeep_mult = 0.25
+	}
+	triggered_planet_modifier = {
+		potential = { owner = { NOR = { has_tradition = tr_nanotech_1 has_active_tradition = tr_nanotech_1 } } }
+		xvcv_mdlc_world_machines_engineering_districts_nanites_produces_add = 1
+		xvcv_mdlc_world_machines_engineering_districts_engineering_research_produces_add = @[ 1 * oxr_mdlc_wm_base_calculator_single_output ]
+		xvcv_mdlc_world_machines_engineering_districts_minerals_upkeep_add = @[ 2.5 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
+		xvcv_mdlc_world_machines_engineering_districts_food_upkeep_add = @[ 2.5 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+	}
+	triggered_planet_modifier = {
+		potential = { owner = { OR = { has_tradition = tr_nanotech_1 has_active_tradition = tr_nanotech_1 } } }
+		xvcv_mdlc_world_machines_engineering_districts_nanites_produces_add = 4
+		xvcv_mdlc_world_machines_engineering_districts_engineering_research_produces_add = @[ 1 * oxr_mdlc_wm_base_calculator_single_output ]
+		xvcv_mdlc_world_machines_engineering_districts_minerals_upkeep_add = @[ 0.5 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
+		xvcv_mdlc_world_machines_engineering_districts_food_upkeep_add = @[ 0.5 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+	}
+	
+	included_building_sets = {
+		research
+		engineering
+		automation
+		origin
+		oxr_mdlc_building_set_wm_strategic
+		oxr_mdlc_building_set_wm_research
+	}
+
+	ai_resource_production = {
+		nanites = 1
+		trigger = { always = yes }
+	}
+	
+	zone_sets = {
+		rikk_mdlc_zone_set_cpu_engineering
 	}
 }

@@ -1,0 +1,62 @@
+
+rikk_mdlc_decision_battery_world = {
+	enactment_time = 720
+	
+	prerequisites = {
+		"rikk_mdlc_tech_battery_world"
+	}
+	
+	resources = {
+		category = decisions
+		cost = {
+			minerals = 5000
+		}
+	}
+
+	potential = {
+		exists = owner
+		NOT = { is_planet_class = rikk_mdlc_pc_battery }
+		is_artificial = no
+	}
+	
+	allow = {
+		num_districts = { type = any value < 2 }
+		custom_tooltip = {
+			fail_text = decision_cant_be_building_anything
+			has_building_construction = no
+		}
+	}
+
+	effect = {
+		custom_tooltip = rikk_mdlc_decision_battery_world_effects
+		hidden_effect = { 
+			change_pc = rikk_mdlc_pc_battery
+			add_district = rikk_mdlc_district_battery_quarters
+			set_planet_flag = rikk_mdlc_is_world_machine
+		}
+	}
+}
+
+rikk_mdlc_decision_un_battery_world = {
+	enactment_time = 360
+	
+	resources = {
+		category = decisions
+		cost = {
+			energy = 2000
+		}
+	}
+
+	potential = {
+		exists = owner
+		is_planet_class = rikk_mdlc_pc_battery
+	}
+	
+	allow = {
+		num_districts = { type = any value < 2 }
+	}
+
+	effect = {
+		change_pc = pc_arid
+	}
+}
