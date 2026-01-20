@@ -93,7 +93,7 @@ class CustomNoneTypes(Enum):
 class LeaderTrait:
     identifier: str  # the trait name
     leader_class_identifier: LeaderClass  # comes from inline_script
-    leader_class_list: List[LeaderClass]  # comes from leader_class = { x y z }
+    leader_class_list: list  # comes from leader_class = { x y z }
     leader_potential_add: str
     icon: str
     rarity: LeaderRarity
@@ -104,3 +104,25 @@ class LeaderTrait:
     modifiers: dict
     force_councilor_trait: bool = False
 
+
+def trait_obj_to_json(trait_obj) -> dict:
+
+    if type(trait_obj.leader_class_list) is list:
+        leader_class_list_text = [lclass for lclass in trait_obj.leader_class_list]
+    else:
+        leader_class_list_text = trait_obj.leader_class_list
+
+    return {
+        "identifier": trait_obj.identifier,
+        "leader_class_identifier": trait_obj.leader_class_identifier,
+        "leader_class_list": leader_class_list_text,
+        "leader_potential_add": trait_obj.leader_potential_add,
+        "icon": trait_obj.icon,
+        "rarity": trait_obj.rarity.value,
+        "allowed_for_councilor": trait_obj.allowed_for_councilor,
+        "allowed_for_ruler": trait_obj.allowed_for_ruler,
+        "tier": trait_obj.tier.value,
+        "custom_tooltip_with_modifiers": trait_obj.custom_tooltip_with_modifiers,
+        "modifiers": trait_obj.modifiers,
+        "force_councilor_trait": trait_obj.force_councilor_trait
+    }

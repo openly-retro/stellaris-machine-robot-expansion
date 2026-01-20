@@ -1,5 +1,6 @@
 """ Make Python objects from Clausewitz traits files """
 from argparse import ArgumentParser
+from copy import deepcopy
 from dataclasses import dataclass
 from enum import Enum
 from shutil import rmtree
@@ -25,6 +26,7 @@ from leader_trait import (
     LeaderTrait,
     TraitGainedType,
     LeaderTier,
+    trait_obj_to_json,
 )
 import sys
 
@@ -127,9 +129,9 @@ def make_trait_obj_from_raw_text(
     else:
         breakpoint()
     trait_tier = tier_from_script_rx.search(raw_trait_text).group(1)
-    leader_classes_list_raw = leader_class_rx.search(raw_trait_text).group('classnames').strip().split(' ')
+    leader_class_list_raw = leader_class_rx.search(raw_trait_text).group('classnames').strip().split(' ')
     leader_classes_list = [
-        LeaderClass(class_name) for class_name in leader_classes_list_raw
+        LeaderClass(class_name) for class_name in leader_class_list_raw
     ]
     custom_tooltip_with_modifiers = None
     leader_potential_add = ''
@@ -183,31 +185,77 @@ def make_trait_obj_from_raw_text(
         force_councilor_trait='force_councilor_trait = yes' in raw_trait_text
     )
 
-    leader_trait_json = {
-        "identifier": trait_name,
-        "leader_class_identifier": leader_class,
-        "leader_class_list": leader_classes_list_raw,
-        "leader_potential_add": leader_potential_add,
-        "icon": trait_icon,
-        "rarity": trait_rarity,
-        "allowed_for_councilor": allowed_for_councilor,
-        "allowed_for_ruler": allowed_for_ruler,
-        "tier": trait_tier,
-        "custom_tooltip_with_modifiers": custom_tooltip_with_modifiers,
-        "modifiers": modifiers,
-        "force_councilor_trait": 'force_councilor_trait = yes' in raw_trait_text
-    }
+    # leader_trait_json = {
+    #     "identifier": trait_name,
+    #     "leader_class_identifier": leader_class,
+    #     "leader_class_list": leader_class_list_raw,
+    #     "leader_potential_add": leader_potential_add,
+    #     "icon": trait_icon,
+    #     "rarity": trait_rarity,
+    #     "allowed_for_councilor": allowed_for_councilor,
+    #     "allowed_for_ruler": allowed_for_ruler,
+    #     "tier": trait_tier,
+    #     "custom_tooltip_with_modifiers": custom_tooltip_with_modifiers,
+    #     "modifiers": modifiers,
+    #     "force_councilor_trait": 'force_councilor_trait = yes' in raw_trait_text
+    # }
 
-    return (leader_trait_object, leader_trait_json)
-
-
-def pickle_trait(LeaderTrait) -> bytes:
-    1
+    return leader_trait_object
 
 
+def copy_trait_for_class(trait_as_obj: LeaderTrait, target_class: LeaderClass) -> LeaderTrait:
+    changed_trait = LeaderTrait(
+        identifier=trait_as_obj.identifier,  # the trait name
+        leader_class_identifier=target_class,  # comes from inline_script
+        leader_class_list=[target_class],  # comes from leader_class = { x y z }
+        leader_potential_add=trait_as_obj.leader_potential_add,
+        icon=trait_as_obj.icon,
+        rarity=trait_as_obj.rarity,
+        allowed_for_councilor=trait_as_obj.allowed_for_councilor,
+        allowed_for_ruler=trait_as_obj.allowed_for_ruler,
+        tier=trait_as_obj.tier,
+        custom_tooltip_with_modifiers=trait_as_obj.custom_tooltip_with_modifiers,
+        modifiers=trait_as_obj.modifiers,
+        force_councilor_trait=trait_as_obj.force_councilor_trait,
+    )
+    return changed_trait
 
-def unpickle_trait(pickled_file_contents) -> LeaderTrait:
-    1
+
+def write_pickle_and_json(trait_as_obj: LeaderTrait) -> None:
+    """ Write data and json files to the folder corresponding to the trait's class """
+    target_trait_obj_file_name = f"{trait_as_obj.identifier}.pickle"
+    trait_as_json = trait_obj_to_json(trait_as_obj)
+    # breakpoint()
+    target_trait_json_file_name = f"{trait_as_obj.identifier}.json"
+
+    # CUSTOM
+    target_trait_obj_file_path = os.path.join(
+        dest_folder,
+        trait_as_obj.leader_class_identifier,
+        target_trait_obj_file_name
+    )
+    # breakpoint()
+    with open(target_trait_obj_file_path, 'wb') as target_trait_file:
+         pickle.dump(trait_as_obj, target_trait_file)
+
+    # JSON
+    target_trait_json_file_path = os.path.join(
+        dest_folder,
+        trait_as_obj.leader_class_identifier,
+        target_trait_json_file_name
+    )
+    with open(target_trait_json_file_path, 'w') as target_trait_file:
+         json.dump(trait_as_json, target_trait_file, indent=4)
+
+    # Quick QA test
+    with open(target_trait_obj_file_path, 'rb') as target_trait_file:
+        trait_data = pickle.load(target_trait_file)
+        assert trait_data.identifier == trait_as_obj.identifier
+        # print(f"= OK: {target_trait_obj_file_path}")
+    # Done
+    print(
+        f'+ Processed {trait_as_obj.identifier} into the {trait_as_json['leader_class_identifier']} data folder'
+    )
 
 
 def process_files_in_folder(subfolder):
@@ -227,44 +275,25 @@ def process_files_in_folder(subfolder):
 
         trait_name = str(trait_file_name).split(os.path.sep)[-1].split('.')[0]
         with open(trait_file_name, 'r') as trait_file_obj:
-            trait_as_obj, trait_as_json = make_trait_obj_from_raw_text(
+            trait_as_obj = make_trait_obj_from_raw_text(
                 raw_trait_text=trait_file_obj.read(),
                 leader_class=leader_class,
                 trait_name=trait_name
             )
+            # Close file
 
-        # Close file
-        target_trait_obj_file_name = f"{trait_name}.pickle"
-        target_trait_json_file_name = f"{trait_name}.json"
+        # Does this trait get copied to the other leader class folders,
+        # because it has multiple classes?
 
-        # CUSTOM
-        target_trait_obj_file_path = os.path.join(
-            dest_folder,
-            leader_class,
-            target_trait_obj_file_name
-        )
-        with open(target_trait_obj_file_path, 'wb') as target_trait_file:
-             pickle.dump(trait_as_obj, target_trait_file)
+        for leader_class_obj in trait_as_obj.leader_class_list:
 
-        # JSON
-        target_trait_json_file_path = os.path.join(
-            dest_folder,
-            leader_class,
-            target_trait_json_file_name
-        )
-        # breakpoint()
-        with open(target_trait_json_file_path, 'w') as target_trait_file:
-             json.dump(trait_as_json, target_trait_file, indent=4)
+            trait_restricted_to_one_class = copy_trait_for_class(
+                trait_as_obj=trait_as_obj,
+                target_class=leader_class_obj.value
+            )
+            # Create the json for this and write it alongside the pickled object
+            write_pickle_and_json(trait_restricted_to_one_class)
 
-        # Quick QA test
-        with open(target_trait_obj_file_path, 'rb') as target_trait_file:
-            trait_data = pickle.load(target_trait_file)
-            assert trait_data.identifier == trait_as_obj.identifier
-            # print(f"= OK: {target_trait_obj_file_path}")
-        # Done
-        print(
-            f'+ Processed {trait_name} into the {leader_class} data folder'
-        )
         num_files += 1
 
     print(f"++ Done with {num_files} traits in {leader_class} folder")
