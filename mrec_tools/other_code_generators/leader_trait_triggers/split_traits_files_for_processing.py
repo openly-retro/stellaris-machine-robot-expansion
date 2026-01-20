@@ -2,13 +2,23 @@
 import re
 from dataclasses import dataclass
 from enum import Enum
-from typing import Union, List
 import os
 import argparse
 from shutil import rmtree
 import threading
 import time
 from multiprocessing import Process, TimeoutError
+from leader_trait import (
+    LEADER_MODIFIER_IDS,
+    Scopes,
+    LeaderClass,
+    LeaderRarity,
+    CustomNoneTypes,
+    LeaderTrait,
+    TraitGainedType,
+    LeaderTier,
+)
+
 
 # Find all leader classes allowed for the trait
 leader_class_re = r'leader_class\s=\s{\s(?P<classnames>(?:\w+\s)+?)}'
@@ -54,91 +64,12 @@ RAW_TRAITS_SUBFOLDER_NAME = 'raw'
 PROCESSED_TRAITS_SUBFOLDER_NAME = 'processed'
 
 
+class TraitNameNotFound(Exception):
+    pass
+
+
 ######################
 
-# This is a dict for faster searching
-LEADER_MODIFIER_IDS = {
-    "army_modifier": 1,
-    "background_planet_modifier": 1,
-    "councilor_modifier": 1,
-    "federation_modifier": 1,
-    "fleet_modifier": 1,
-    "galcom_modifier": 1,
-    "modifier": 1,
-    "planet_modifier": 1,
-    "sector_modifier": 1,
-    "self_modifier": 1,
-    "system_modifier": 1,
-    "triggered_army_modifier": 1,
-    "triggered_background_planet_modifier": 1,
-    "triggered_councilor_modifier": 1,
-    "triggered_federation_modifier": 1,
-    "triggered_fleet_modifier": 1,
-    "triggered_galcom_modifier": 1,
-    "triggered_modifier": 1,
-    "triggered_planet_modifier": 1,
-    "triggered_sector_modifier": 1,
-    "triggered_self_modifier": 1,
-    "triggered_system_modifier": 1,
-}
-
-# If any of these keys are present in the trait, grab them, and save them
-# because we will need them to build the trigger to check if the trait can
-# be added
-
-
-# A few scopes that may be used when creating the 'can we add this trait' trigger
-class Scopes(Enum):
-
-    COUNTRY = 'country',
-    LEADER = 'leader',
-    RULER = 'ruler',
-    SPECIES = 'species',
-    OWNER = 'owner'
-
-TRAIT_ADD_REQUIREMENTS_KEYS_AND_SCOPES = {
-    "leader_potential_add": Scopes.LEADER,
-    "requires_traits": Scopes.LEADER,
-    "requires_governments": Scopes.OWNER,
-    "prerequisites": Scopes.OWNER,
-    "opposites": Scopes.LEADER,
-}
-
-# The values that are allowed for leader classes
-class LeaderClass(Enum):
-
-    SCIENTIST = 'scientist'
-    COMMANDER = 'commander'
-    OFFICIAL = 'official'
-    MIXED = 'leader'
-
-class LeaderRarity(Enum):
-
-    COMMON = 'common'
-    VETERAN = 'veteran'
-    PARAGON = 'paragon'
-    FREE = 'free_or_veteran'
-
-# There are some values that would go in place of an int, but have no
-# Use like  " 'none' in CustomNoneTypes "
-class CustomNoneTypes(Enum):
-
-    NONE_STR = 'none'
-
-# Let's try to stay organized by using this
-@dataclass
-class LeaderTrait:
-    identifier: str  # the trait name
-    leader_class_identifier: LeaderClass  # comes from inline_script
-    leader_class_list: List[LeaderClass]  # comes from leader_class = { x y z }
-    icon: str
-    rarity: LeaderRarity
-    allowed_for_councilor: bool
-    allowed_for_ruler: bool
-    tier: Union[int,CustomNoneTypes]
-    custom_tooltip_with_modifiers: str
-    modifiers: dict
-    force_councilor_trait: bool = False
 
 # ripped from https://stackoverflow.com/questions/287871/how-do-i-print-colored-text-to-the-terminal
 class bcolors:
@@ -188,6 +119,42 @@ def reset_traits_build_files(build_folder):
         )
     print("Traits subfolder in build folder was cleaned up.")
 
+def get_trait_name_from_raw_data(trait_raw_text: str) -> str:
+
+    trait_name_matches = trait_id_rx.search(trait_raw_text)
+    trait_name = None
+    trait_name_match = trait_name_matches
+
+    for name_match_option_rx in [
+        trait_id_rx,
+        alt_trait_id_rx,
+        alt_trait_id_2_rx
+    ]:
+        if name_match := name_match_option_rx.search(trait_raw_text):
+            trait_name = name_match.group('full_name')
+
+    if not trait_name:
+        raise
+    return trait_name
+
+def find_trait_name_in_data(trait_raw_text) -> str:
+    trait_name_matches = trait_id_rx.search(trait_raw_text)
+    trait_name = None
+    trait_name_match = trait_name_matches
+
+    for name_match_option_rx in [
+        trait_id_rx,
+        alt_trait_id_rx,
+        alt_trait_id_2_rx
+    ]:
+        if name_match := name_match_option_rx.search(trait_raw_text):
+            trait_name = name_match.group('full_name')
+
+    if not trait_name:
+        raise TraitNameNotFound(trait_raw_text)
+
+    return trait_name
+
 
 def split_traits_files_into_chunks(
     traits_file_path: str, build_folder: str, verbose: bool = False
@@ -226,8 +193,6 @@ def split_traits_files_into_chunks(
         for tmp_trait_chunk in trait_chunks:
 
             tmp_chunk = tmp_trait_chunk.strip()
-            trait_name_matches = trait_id_rx.search(tmp_chunk)
-            trait_name = None
 
             if script_var_match := script_var_decl_rx.search(tmp_chunk):
                 if verbose:
@@ -237,25 +202,23 @@ def split_traits_files_into_chunks(
                 # breakpoint()
                 continue
 
-            trait_name_match = trait_name_matches
+            if tmp_chunk.startswith('####') and tmp_chunk.endswith('####'):
+                if verbose:
+                    print(
+                        f"{RED_DASH} Skipping what looks to be a comment: "
+                        f"{tmp_chunk}"
+                    )
+                traits_skipped += 1
+                continue
 
-            for name_match_option_rx in [
-                trait_id_rx,
-                alt_trait_id_rx,
-                alt_trait_id_2_rx
-            ]:
-                if name_match := name_match_option_rx.search(tmp_chunk):
-                    trait_name = name_match.group('full_name')
+            trait_name = find_trait_name_in_data(tmp_chunk)
 
-            if not trait_name:
-                if tmp_chunk.startswith('####') and tmp_chunk.endswith('####'):
-                    if verbose:
-                        print(
-                            f"{RED_DASH} Skipping what looks to be a comment: "
-                            # f"{tmp_chunk}"
-                        )
-                    traits_skipped += 1
-                    continue
+            if '#leader_trait_' in tmp_chunk:
+                if verbose:
+                    print(
+                        f"{RED_DASH} Skipping commented trait: {trait_name}"
+                    )
+                continue
 
             # Now we can do skips because we have the trait name
             if 'is_machine_empire = no' in tmp_chunk:
