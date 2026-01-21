@@ -43,8 +43,9 @@ leader_class_rx = re.compile(leader_class_re)
 
 # grab the entire code block for leader_potential_add
 # (?ms) are global flags that must go at the beginning of the regex
-# leader_potential_re = r'(?ms)^\t+leader_potential_add\s=\s{\s*(?P<contents>(?:.)+?)^\t}'
-leader_potential_re = r'(?ms)^\t(leader_potential_add = {\n(?P<requirements>.*)^\t}\n)'
+# leader_potential_re = r'(?ms)^\t(leader_potential_add = {\n(?P<requirements>.*)^\t})\n\t'
+# leader_potential_re = r'(?m)^\t(leader_potential_add = {\n(?P<requirements>\t\t.*\n)+)\t}\n'
+leader_potential_re = r'(?ms)^\t+leader_potential_add\s=\s{\s*(?P<contents>(?:.)+?)^\t}'
 leader_potential_rx = re.compile(leader_potential_re)
 
 # look for 'leader_trait_blalbalb = {' and grab the trait name from that
@@ -79,6 +80,11 @@ council_from_script_rx = re.compile(council_from_script_re)
 custom_tooltip_re = r'custom_tooltip_with_modifiers = (\w+)'
 custom_tooltip_rx = re.compile(custom_tooltip_re)
 
+# allowed origins is typically on one line
+# Find all leader classes allowed for the trait
+allowed_origins_re = r'allowed_origins\s=\s{\s(?P<origins>(?:\w+\s)+?)}'
+allowed_origins_rx = re.compile(allowed_origins_re)
+
 # A few ways to determine if the trait can be added to the ruler
 
 permit_ruler_by_potential_re = r'is_ruler = yes'
@@ -112,6 +118,21 @@ def reset_traits_files(build_folder):
         )
     print("Traits subfolder in build folder was cleaned up.")
 
+def extract_code_for_named_block(block_name: str, raw_trait_text: str) -> str:
+    block_parts = []
+
+    target_block_detected = False
+    trait_as_lines = raw_trait_text.split('\n')
+    for line in trait_as_lines:
+        if block_name in line and target_block_detected == False:
+            target_block_detected = True
+            continue
+        if line == "\t}":
+            target_block_detected = False
+        if target_block_detected:
+            block_parts.append(line)
+    return "\n".join(block_parts)
+
 
 def make_trait_obj_from_raw_text(
     raw_trait_text: str,
@@ -129,17 +150,20 @@ def make_trait_obj_from_raw_text(
     else:
         breakpoint()
     trait_tier = tier_from_script_rx.search(raw_trait_text).group(1)
-    leader_class_list_raw = leader_class_rx.search(raw_trait_text).group('classnames').strip().split(' ')
-    leader_classes_list = [
-        LeaderClass(class_name) for class_name in leader_class_list_raw
-    ]
+    if leader_class_list_raw_matches := leader_class_rx.search(raw_trait_text):
+        leader_class_list_raw = leader_class_rx.search(raw_trait_text).group('classnames').strip().split(' ')
+        leader_classes_list = [
+            LeaderClass(class_name) for class_name in leader_class_list_raw
+        ]
+    else:
+        breakpoint()
     custom_tooltip_with_modifiers = None
     leader_potential_add = ''
 
-    if leader_potential_add_match := leader_potential_rx.search(raw_trait_text):
-        leader_potential_add = leader_potential_add_match.group('requirements')
     # if 'leader_potential_add' in raw_trait_text:
-    #     breakpoint()
+    if leader_potential_add_match := leader_potential_rx.search(raw_trait_text):
+        leader_potential_add = leader_potential_add_match.group('contents')
+        # breakpoint()
 
     allowed_for_councilor = 'COUNCIL = yes' in raw_trait_text or 'force_councilor_trait = yes' in raw_trait_text
     allowed_for_ruler = any([
@@ -166,9 +190,22 @@ def make_trait_obj_from_raw_text(
             if modifier_block_match := re.findall(leader_modifier_re, raw_trait_text):
                 # Store the raw text as the contents of the named modifier for processing later
                 modifiers[leader_modifier] = modifier_block_match
-            else:
-                breakpoint()
-            
+
+            # If the block/modifier isn't found, that's fine
+
+            # else:
+            #     breakpoint()
+            # leader_modifier_code = extract_code_for_named_block(
+            #     leader_modifier, raw_trait_text
+            # )
+            # modifiers[leader_modifier] = leader_modifier_code
+
+    # catch some outliers that would not be picked up correctly by the above
+    if 'allowed_origins' in raw_trait_text:
+        allowed_origins_matches = allowed_origins_rx.search(raw_trait_text)
+        allowed_origins_raw = allowed_origins_matches.group('origins').strip()
+        allowed_origins_list = allowed_origins_raw.split(' ')
+        modifiers['allowed_origins'] = allowed_origins_list
 
     leader_trait_object = LeaderTrait(
         identifier=trait_name,
@@ -221,7 +258,7 @@ def copy_trait_for_class(trait_as_obj: LeaderTrait, target_class: LeaderClass) -
     return changed_trait
 
 
-def write_pickle_and_json(trait_as_obj: LeaderTrait) -> None:
+def write_pickle_and_json(trait_as_obj: LeaderTrait, verbose=False) -> None:
     """ Write data and json files to the folder corresponding to the trait's class """
     target_trait_obj_file_name = f"{trait_as_obj.identifier}.pickle"
     trait_as_json = trait_obj_to_json(trait_as_obj)
@@ -253,12 +290,13 @@ def write_pickle_and_json(trait_as_obj: LeaderTrait) -> None:
         assert trait_data.identifier == trait_as_obj.identifier
         # print(f"= OK: {target_trait_obj_file_path}")
     # Done
-    print(
-        f'+ Processed {trait_as_obj.identifier} into the {trait_as_json['leader_class_identifier']} data folder'
-    )
+    if verbose:
+        print(
+            f'+ Processed {trait_as_obj.identifier} into the {trait_as_json['leader_class_identifier']} data folder'
+        )
 
 
-def process_files_in_folder(subfolder):
+def process_files_in_folder(subfolder, verbose=False):
 
     leader_class = subfolder.split(
         os.path.sep
@@ -289,10 +327,10 @@ def process_files_in_folder(subfolder):
 
             trait_restricted_to_one_class = copy_trait_for_class(
                 trait_as_obj=trait_as_obj,
-                target_class=leader_class_obj.value
+                target_class=leader_class_obj.value,
             )
             # Create the json for this and write it alongside the pickled object
-            write_pickle_and_json(trait_restricted_to_one_class)
+            write_pickle_and_json(trait_restricted_to_one_class, verbose=verbose)
 
         num_files += 1
 
@@ -307,12 +345,6 @@ if __name__ == "__main__":
         description="Load raw trait texts and pickle them into LeaderTrait objects"
     )
     parser.add_argument(
-        '--pickle',
-        help='Export data from Clausewitz traits text to a serialized Python format',
-        action="store_true",
-        default=False
-    )
-    parser.add_argument(
         '--build_folder',
         help="Location of mrec_tools/build, if it's not a subfolder of where this is being run",
         required=True
@@ -321,6 +353,12 @@ if __name__ == "__main__":
         '--verbose',
         help="Print out extra information during processing",
         action='store_true',
+        default=False
+    )
+    parser.add_argument(
+        '--multiproc',
+        help="Run this script with multiprocessing (faster)",
+        action="store_true",
         default=False
     )
     args = parser.parse_args()
@@ -360,16 +398,19 @@ if __name__ == "__main__":
     for subfolder in leader_class_subfolders:
         # We know the name of the trait already by reading the file name
         # and we know the class by which folder it's in
-        # proc = Process(
-        #     target=process_files_in_folder,
-        #     args=[subfolder,]
-        # )
-        # procs.append(proc)
-        # proc.start()
-        process_files_in_folder(subfolder)
+        if args.multiproc:
+            proc = Process(
+                target=process_files_in_folder,
+                args=[subfolder,args.verbose]
+            )
+            procs.append(proc)
+            proc.start()
+        else:
+            process_files_in_folder(subfolder)
 
-    # for proc in procs:
-    #     proc.join()
+    if args.multiproc:
+        for proc in procs:
+            proc.join()
 
     end_time = time.perf_counter()
     execution_time = end_time - start_time

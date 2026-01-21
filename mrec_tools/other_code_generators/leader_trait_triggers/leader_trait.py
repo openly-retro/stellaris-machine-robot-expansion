@@ -26,6 +26,45 @@ LEADER_MODIFIER_IDS = {
     "triggered_sector_modifier": 1,
     "triggered_self_modifier": 1,
     "triggered_system_modifier": 1,
+    "prerequisites": 1,
+    # "allowed_origins": 1,
+    "opposites": 1,
+}
+
+TRAITS_TO_EXCLUDE = {
+    # commander
+    "leader_trait_clone_army_commander":1,  # Cant have clone origin with machines
+    "leader_trait_clone_army_fertile_commander":1,
+    "leader_trait_clone_army_full_commander":1,
+    "leader_trait_dragonslayer":1,  # Given via event
+    "leader_trait_eager_2":1, # Cant effect leader-building/core-mod
+    # "leader_trait_entrepreneur":1, # consumer goods-related trait,
+    # "trait_imperial_heir":1, # Gestalt isnt an imperial form of government (but they can form the Imperium)
+    # "leader_trait_academia_recruiter":1,  # requires materialist ethic,
+    # "leader_trait_shroud_preacher":1,  # requires spiritualist ethic,
+    "leader_trait_tzrynn_tithe":1, # given via event
+    "leader_trait_emotional_support_pet":1,  # cant be given to machines
+    "leader_trait_towel":1,  # given via event,
+    "leader_trait_percussive_maintainer":1,  #given via event ancrel.12005
+    "leader_trait_intemporal":1,  #given via event,
+    # "leader_trait_robotist":1,  # just annoying to deal with code-wise,
+    "leader_trait_rift_warped": 1,  # Astral planes event trait
+    "leader_trait_partially_digested": 1,  # Astral planes event trait
+    "leader_trait_obelisk_curse": 1,  # Astral planes event trait
+    "leader_trait_foreign_consciousness": 1,  # Astral planes event trait
+    "leader_trait_black_light_blinded": 1,  # Astral planes event trait
+    "leader_trait_sanitary_drone": 1,  # Astral planes event trait
+    "leader_trait_spacebender": 1,  # Astral planes event trait
+    "leader_trait_blorg_insight": 1,  # Astral planes event trait
+    "leader_trait_adaptable": 1,
+    "leader_trait_eager": 1,
+    "leader_trait_eager_machine": 1,
+    "leader_trait_resilient": 1,
+    "leader_trait_collective_wisdom": 1,
+    "leader_trait_society_focus": 1,  # for governor
+    "leader_trait_buccaneer": 1,  # for admirals
+    "leader_trait_rift_warped": 1,  # event trait
+    # "leader_trait_treasure_hoarder": 1  # should be restricted via origin
 }
 
 # If any of these keys are present in the trait, grab them, and save them
