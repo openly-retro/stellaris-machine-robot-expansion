@@ -4,11 +4,21 @@ __license__ = 'GPLv3'
 
 import os
 
-from pipeline.mre_common_vars import (
-    BUILD_FOLDER,
-    GUI_FOLDER,
-    sanity_check,
-)
+if __name__ == "__main__":
+    BUILD_FOLDER = os.path.join(
+        os.getcwd(), 'mrec_tools', 'build'
+    )
+else:
+    from pipeline.mre_common_vars import (
+        BUILD_FOLDER,
+        # sanity_check,
+    )
+
+def sanity_check():
+    from random import randint
+
+    return f"Sanity levels at {randint(15,115)}% of normal."
+
 HERE = os.getcwd()
 CODE_TOOLS_PATH = os.path.join(
     HERE, 'mrec_tools'
