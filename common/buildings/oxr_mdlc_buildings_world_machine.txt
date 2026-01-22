@@ -790,6 +790,10 @@ oxr_mdlc_world_machines_building_military_academy = {
 	}
 	can_be_ruined = no
 	category = army
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_military
+	}
 
 	potential = {
 		exists = owner
@@ -819,7 +823,6 @@ oxr_mdlc_world_machines_building_military_academy = {
 		potential = {
 			exists = owner
 			owner = { has_valid_civic = civic_machine_tactical_algorithms }
-
 		}
 		ship_evasion_mult = 0.02
 		ship_tracking_mult = 0.01
@@ -831,10 +834,29 @@ oxr_mdlc_world_machines_building_military_academy = {
 		potential = {
 			exists = owner
 			owner = { has_valid_civic = civic_machine_tactical_algorithms }
-
 		}
 		ship_shield_hardening_add = 0.1
 		mult = owner.value:tactical_algorithms_enclave_scaling_mult
+	}
+
+	triggered_country_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				is_gestalt = no
+			}
+		}
+		pop_soldier_bonus_workforce_mult = 0.15
+	}
+
+	triggered_country_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				is_gestalt = yes
+			}
+		}
+		pop_warrior_drone_bonus_workforce_mult = 0.15
 	}
 
 	resources = {
@@ -879,11 +901,6 @@ oxr_mdlc_world_machines_building_military_academy = {
 		"tech_centralized_command"
 		"oxr_mdlc_tech_world_machine_wmc_core"
 	}
-	building_sets = {
-		oxr_mdlc_building_set_wm_all
-		oxr_mdlc_building_set_wm_military
-	}
-
 }
 # SHIELD GENERATOR
 oxr_mdlc_world_machines_building_planetary_shield_generator = {
