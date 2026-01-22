@@ -119,6 +119,10 @@ def make_scripted_trigger_from_trait(
 
     ########### Corrections
     # Remove is_pool_leader trigger
+    for trigger_check in triggers:
+        if 'is_pool_leader = yes' in trigger_check:
+            triggers.remove(trigger_check)
+            break
 
 
     ########### Put it all together

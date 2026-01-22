@@ -72,7 +72,9 @@ def gen_core_modifying_button_effects_code(
 #{trait_name} {trait_comment}
 xvcv_mdlc_core_modifying_traits_{leader_class}_{trait_name}_add_button_effect = {{
     potential = {{
-        ruler = {{ NOT = {{ has_trait = {trait_name} }} }}
+        ruler = {{
+            NOT = {{ has_trait = {trait_name} }}
+        }}
     }}
     allow = {{
         root.owner = {{
@@ -82,6 +84,7 @@ xvcv_mdlc_core_modifying_traits_{leader_class}_{trait_name}_add_button_effect = 
         ruler = {{
             xvcv_mdlc_core_modifying_ruler_check_trait_points_cost_{rarity} = yes
             xvcv_mdlc_core_modifying_ruler_check_trait_picks = yes
+            oxr_mdlc_leader_{leader_class}_can_add_{trait_name} = yes
             {rendered_ruler_checks}
         }}
         {rendered_global_checks}

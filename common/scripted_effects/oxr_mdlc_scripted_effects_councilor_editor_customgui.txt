@@ -133,127 +133,40 @@ oxr_mdlc_councilor_editor_reset_trait_points_default = {
 
 oxr_mdlc_councilor_editor_refund_trait_points_cost_common = {
 	optimize_memory
-	if = {
-		# Refund trait points up to a certain level
-		# Ex: with T2 of the core modifying improvement, refund up to 6 points
-		limit = {
-			OR = {
-				check_variable = {
-					which = oxr_mdlc_councilor_editor_trait_points
-					value > @oxr_mdlc_councilor_editor_base_num_trait_points_t2
-				}
-				AND = {
-					NOT = { owner = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 } }
-					check_variable = {
-						which = oxr_mdlc_councilor_editor_trait_points
-						value > @oxr_mdlc_councilor_editor_base_num_trait_picks_t2
-					}
-				}
-				AND = {
-					NOT = { owner = { has_technology = xvcv_mdlc_tech_core_modifying_improvement } }
-					check_variable = {
-						which = oxr_mdlc_councilor_editor_trait_points
-						value > @oxr_mdlc_councilor_editor_base_num_trait_picks
-					}
-				}
-			}
-		}
-		# For each trait removed, increment points by 3
-		else = {
-			change_variable = {
-				which = oxr_mdlc_councilor_editor_trait_points
-				value = @oxr_mdlc_councilor_editor_common_trait_points_cost
-			}
-			owner = {
-				set_variable = {
-					which = oxr_mdlc_councilor_editor_trait_points
-					value = prev.oxr_mdlc_councilor_editor_trait_points
-				}
-			}
+	change_variable = {
+		which = oxr_mdlc_councilor_editor_trait_points
+		value = 1
+	}
+	owner = {
+		change_variable = {
+			which = oxr_mdlc_councilor_editor_trait_points
+			value = 1
 		}
 	}
 }
 oxr_mdlc_councilor_editor_refund_trait_points_cost_veteran = {
 	optimize_memory
-	if = {
-		# Refund trait points up to a certain level
-		# Ex: with T2 of the core modifying improvement, refund up to 6 points
-		limit = {
-			OR = {
-				check_variable = {
-					which = oxr_mdlc_councilor_editor_trait_points
-					value > @oxr_mdlc_councilor_editor_base_num_trait_points_t2
-				}
-				AND = {
-					NOT = { owner = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 } }
-					check_variable = {
-						which = oxr_mdlc_councilor_editor_trait_points
-						value > @oxr_mdlc_councilor_editor_base_num_trait_picks_t2
-					}
-				}
-				AND = {
-					NOT = { owner = { has_technology = xvcv_mdlc_tech_core_modifying_improvement } }
-					check_variable = {
-						which = oxr_mdlc_councilor_editor_trait_points
-						value > @oxr_mdlc_councilor_editor_base_num_trait_picks
-					}
-				}
-			}
-		}
-		# For each trait removed, increment points by 3
-		else = {
-			change_variable = {
-				which = oxr_mdlc_councilor_editor_trait_points
-				value = @oxr_mdlc_councilor_editor_veteran_trait_points_cost
-			}
-			owner = {
-				set_variable = {
-					which = oxr_mdlc_councilor_editor_trait_points
-					value = prev.oxr_mdlc_councilor_editor_trait_points
-				}
-			}
+	change_variable = {
+		which = oxr_mdlc_councilor_editor_trait_points
+		value = @oxr_mdlc_councilor_editor_veteran_trait_points_cost
+	}
+	owner = {
+		change_variable = {
+			which = oxr_mdlc_councilor_editor_trait_points
+			value = @oxr_mdlc_councilor_editor_veteran_trait_points_cost
 		}
 	}
 }
 oxr_mdlc_councilor_editor_refund_trait_points_cost_paragon = {
 	optimize_memory
-	if = {
-		# Refund trait points up to a certain level
-		# Ex: with T2 of the core modifying improvement, refund up to 6 points
-		limit = {
-			OR = {
-				check_variable = {
-					which = oxr_mdlc_councilor_editor_trait_points
-					value > @oxr_mdlc_councilor_editor_base_num_trait_points_t2
-				}
-				AND = {
-					NOT = { owner = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 } }
-					check_variable = {
-						which = oxr_mdlc_councilor_editor_trait_points
-						value > @oxr_mdlc_councilor_editor_base_num_trait_picks_t2
-					}
-				}
-				AND = {
-					NOT = { owner = { has_technology = xvcv_mdlc_tech_core_modifying_improvement } }
-					check_variable = {
-						which = oxr_mdlc_councilor_editor_trait_points
-						value > @oxr_mdlc_councilor_editor_base_num_trait_picks
-					}
-				}
-			}
-		}
-		# For each trait removed, increment points by 3
-		else = {
-			change_variable = {
-				which = oxr_mdlc_councilor_editor_trait_points
-				value = @oxr_mdlc_councilor_editor_destiny_trait_points_cost
-			}
-			owner = {
-				set_variable = {
-					which = oxr_mdlc_councilor_editor_trait_points
-					value = prev.oxr_mdlc_councilor_editor_trait_points
-				}
-			}
+	change_variable = {
+		which = oxr_mdlc_councilor_editor_trait_points
+		value = @oxr_mdlc_councilor_editor_destiny_trait_points_cost
+	}
+	owner = {
+		change_variable = {
+			which = oxr_mdlc_councilor_editor_trait_points
+			value = @oxr_mdlc_councilor_editor_destiny_trait_points_cost
 		}
 	}
 }
@@ -272,47 +185,14 @@ oxr_mdlc_councilor_editor_deduct_trait_pick = {
 	}
 }
 oxr_mdlc_councilor_editor_refund_trait_pick = {
-	if = {
-		# Refund trait points up to a certain level
-		# No t1 or t2 tech = max is 3
-		# no t2 tech = max is 4
-		# with t2 = max = 5
-		limit = {
-			OR = {
-				AND = {
-					NOT = { owner = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 } }
-					NOT = { owner = { has_technology = xvcv_mdlc_tech_core_modifying_improvement } }
-					check_variable = {
-						which = oxr_mdlc_councilor_editor_trait_picks
-						value < @oxr_mdlc_councilor_editor_base_num_trait_picks
-					}
-				}
-				AND = {
-					NOT = { owner = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 } }
-					owner = { has_technology = xvcv_mdlc_tech_core_modifying_improvement }
-					check_variable = {
-						which = oxr_mdlc_councilor_editor_trait_picks
-						value < @oxr_mdlc_councilor_editor_base_num_trait_picks_t1
-					}
-				}
-				AND = {
-					owner = { has_technology = xvcv_mdlc_tech_core_modifying_improvement_2 }
-					check_variable = {
-						which = oxr_mdlc_councilor_editor_trait_picks
-						value < @oxr_mdlc_councilor_editor_base_num_trait_picks_t2
-					}
-				}
-			}
-		}
+	change_variable = {
+		which = oxr_mdlc_councilor_editor_trait_picks
+		value = 1
+	}
+	owner = {
 		change_variable = {
 			which = oxr_mdlc_councilor_editor_trait_picks
 			value = 1
-		}
-		owner = {
-			change_variable = {
-				which = oxr_mdlc_councilor_editor_trait_picks
-				value = 1
-			}
 		}
 	}
 }
