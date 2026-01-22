@@ -109,7 +109,8 @@ def make_scripted_trigger_from_trait(
 
     if trait.modifiers.get('opposites'):
         # breakpoint()
-        opposites_list = [ opp_trait.strip() for opp_trait in trait.modifiers['opposites'][0].strip().split('\n') ]
+
+        opposites_list = [ opp_trait.strip() for opp_trait in trait.modifiers['opposites'].strip().split('\n') ]
         for opposite_trait in opposites_list:
             triggers.append(
                 f"NOT = {{ has_trait = {opposite_trait} }}"
