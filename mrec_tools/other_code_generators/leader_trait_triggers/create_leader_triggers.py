@@ -77,11 +77,26 @@ def make_scripted_trigger_from_trait(
 
     # Put tech requirements from prerequisites into leader country check
     if trait.modifiers.get('prerequisites'):
-        triggers.append(f"""
+        if trait.modifiers.get('prerequisites') == ' ':
+            # jump out a window
+            1
+        elif 'OR' in trait.modifiers['prerequisites']:
+            # I have no words
+            prereqs_as_triggers = trait.modifiers['prerequisites'].replace(
+                'tech_', 'has_technology = tech_'
+            )
+            triggers.append(f"""
     owner = {{
-        {trait.modifiers['prerequisites']}
-    }}"""
-        )
+        {prereqs_as_triggers}
+    }}""")
+        else:
+            tech_prerequisites = trait.modifiers['prerequisites'].strip().split('\n')
+            triggers.append("exists = owner")
+            for tech_prereq in tech_prerequisites:
+                triggers.append(
+                    f"owner = {{ has_technology = {tech_prereq} }}"
+                )
+            # breakpoint()
 
     if trait.modifiers.get('allowed_origins'):
         triggers.append(
@@ -93,6 +108,7 @@ def make_scripted_trigger_from_trait(
             )
 
     if trait.modifiers.get('opposites'):
+        # breakpoint()
         opposites_list = [ opp_trait.strip() for opp_trait in trait.modifiers['opposites'][0].strip().split('\n') ]
         for opposite_trait in opposites_list:
             triggers.append(

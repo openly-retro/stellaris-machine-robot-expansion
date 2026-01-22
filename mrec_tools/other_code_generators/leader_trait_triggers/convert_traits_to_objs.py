@@ -185,20 +185,31 @@ def make_trait_obj_from_raw_text(
     ]
     if len(modifiers_to_fetch):
         for leader_modifier in modifiers_to_fetch:
-            # Create a custom regex capturing the contents of 'leader_modifier = { <lines> }'
-            leader_modifier_re = r'(?ms)^\t+' + re.escape(leader_modifier) + r'\s=\s{\s*(?P<contents>(?:.)+?)^\t}'
-            if modifier_block_match := re.findall(leader_modifier_re, raw_trait_text):
-                # Store the raw text as the contents of the named modifier for processing later
-                modifiers[leader_modifier] = modifier_block_match
+            """ There are some considerations here:
+            We can encounter some of these blocks that are formatted like
+            1)
+            prerequisites = { some_text }
+            2)
+            prerequisites = {
+                some_text
+            }
+            Due to this inconsistency, we have to prepare two regex strings.
+            It's usually data formatted as lists that is the problem here.
 
-            # If the block/modifier isn't found, that's fine
+            So first, check for pattern 1, and prefer the results from that.
+            If pattern 1 doesn't match, then go for pattern 2
+            """
 
-            # else:
-            #     breakpoint()
-            # leader_modifier_code = extract_code_for_named_block(
-            #     leader_modifier, raw_trait_text
-            # )
-            # modifiers[leader_modifier] = leader_modifier_code
+            pattern_1_modifier_re = re.escape(leader_modifier) + r'\s=\s{(?P<contents>.*)}\n'
+            pattern_2_modifier_re = r'(?m)^\t\b' + re.escape(leader_modifier) + r'\b\s=\s{(?P<contents>(\n\t{2,}.+)+)\n\t}'
+            if modifier_block_match := re.findall(pattern_1_modifier_re, raw_trait_text):
+                modifiers[leader_modifier] = modifier_block_match[0][0]
+            else:
+                # Try looking for it in the expanded 'block' pattern
+                if modifier_block_match := re.findall(pattern_2_modifier_re, raw_trait_text):
+
+                    # Congraturaisins! It's a tuple!
+                    modifiers[leader_modifier] = modifier_block_match[0][0]
 
     # catch some outliers that would not be picked up correctly by the above
     if 'allowed_origins' in raw_trait_text:
@@ -221,21 +232,6 @@ def make_trait_obj_from_raw_text(
         modifiers=modifiers,
         force_councilor_trait='force_councilor_trait = yes' in raw_trait_text
     )
-
-    # leader_trait_json = {
-    #     "identifier": trait_name,
-    #     "leader_class_identifier": leader_class,
-    #     "leader_class_list": leader_class_list_raw,
-    #     "leader_potential_add": leader_potential_add,
-    #     "icon": trait_icon,
-    #     "rarity": trait_rarity,
-    #     "allowed_for_councilor": allowed_for_councilor,
-    #     "allowed_for_ruler": allowed_for_ruler,
-    #     "tier": trait_tier,
-    #     "custom_tooltip_with_modifiers": custom_tooltip_with_modifiers,
-    #     "modifiers": modifiers,
-    #     "force_councilor_trait": 'force_councilor_trait = yes' in raw_trait_text
-    # }
 
     return leader_trait_object
 
