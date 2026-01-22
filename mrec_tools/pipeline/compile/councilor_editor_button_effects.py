@@ -202,7 +202,7 @@ oxr_mdlc_councilor_editor_{councilor_type}_{trait_name}_add_button_effect = {{
 		event_target:oxr_mdlc_councilor_editor_target_@root = {{
 			oxr_mdlc_councilor_editor_check_trait_points_cost_{rarity} = yes
 			oxr_mdlc_councilor_editor_check_trait_picks = yes
-			oxr_mdlc_leader_{leader_class}_can_add_{trait_name_no_tier} = yes
+			oxr_mdlc_leader_{leader_class}_can_add_{trait_name} = yes
 			{"#" if required_subclass is None else ''}{subclass_check_trigger}
 		}}
 		{"\n        ".join(allowances)}
