@@ -1,0 +1,35 @@
+resources = {
+	category = terraforming
+	cost = {
+		energy = @xvcv_mdlc_pc_mechanical_cost
+		minerals = @xvcv_mdlc_pc_mechanical_cost
+	}
+}
+duration = @xvcv_mdlc_pc_mechanical_time
+
+potential = { has_ascension_perk = xvcv_mdlc_ap_mechanical_worlds }
+
+ai_weight = {
+	weight = 10
+	modifier = {
+		factor = 0	
+		resource_stockpile_compare = { resource = energy value < 20000 }
+	}
+}
+effect = {
+	# Planet scope
+	from = {
+		if = {
+			limit = {
+				has_modifier = terraforming_candidate
+			}
+			remove_modifier = terraforming_candidate
+		}
+	}
+	from = {
+		fire_on_action = {
+			on_action = on_xvcv_mdlc_pc_mechanical_terraform_complete
+		}
+	}
+	
+}

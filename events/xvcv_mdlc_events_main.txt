@@ -2795,7 +2795,9 @@ planet_event = {
 	hide_window = yes
 	is_triggered_only = yes
 
-
+	# The below really only works via decision and not on terraform complete,
+	# because the event is called after the planet class is changed,
+	# so there are no districts to count
 	immediate = {
 		# City districts
 		if = {
@@ -2892,7 +2894,65 @@ planet_event = {
 
 		log = "Mech world conversion: has \\[This.xvcv_mdlc_pc_mechanical_district_farming_var] farm districts"
 
+		# Save the tier of capital building and restore it after the decision
+		set_variable = {
+			which = oxr_mdlc_mechanical_capital_level
+			value = 0
+		}
+		if = {
+			limit = {
+				OR = {
+					has_building = building_deployment_post
+					has_building = building_colony_shelter
+				}
+			}
+			set_variable = {
+				which = oxr_mdlc_mechanical_capital_level
+				value = 1
+			}
+		}
+		else_if = {
+			limit = {
+				OR = {
+					has_building = building_capital
+					has_building = building_machine_capital
+				}
+				
+			}
+			set_variable = {
+				which = oxr_mdlc_mechanical_capital_level
+				value = 2
+			}
+		}
+		else_if = {
+			limit = {
+				OR = {
+					has_building = building_machine_major_capital
+					has_building = building_major_capital
+				}
+			}
+			set_variable = {
+				which = oxr_mdlc_mechanical_capital_level
+				value = 3
+			}
+		}
+		else_if = {
+			limit = {
+				OR = {
+					has_building = building_machine_system_capital
+					has_building = building_system_capital
+				}
+			}
+			set_variable = {
+				which = oxr_mdlc_mechanical_capital_level
+				value = 4
+			}
+		}
+
+
+		### CHANGE PLANET CLASS ###
 		remove_all_districts = yes
+
 		change_pc = xvcv_mdlc_pc_mechanical
 		#1:1 conversion #let the player remove remaining redundant districts
 		while = {
