@@ -35,6 +35,40 @@ can_release_vassal_from_species = {
 	}
 }
 
+can_release_vassal = {
+	# Machine & Robot Expansion Continued overrides
+	if = {
+		# Permit if empire has the AP from this mod
+		limit = {
+			has_oxr_mdlc_ap_distributed_multikernel = yes
+		}
+		always = yes
+	}
+	else = {
+		custom_tooltip = {
+			fail_text = default
+			NOT = { has_valid_civic = civic_machine_terminator }
+		}
+		custom_tooltip = {
+			fail_text = default
+			NOT = { has_valid_civic = civic_machine_assimilator }
+		}
+	}
+	# Normal vanilla overrides
+	custom_tooltip = {
+		fail_text = default
+		NOT = { has_valid_civic = civic_fanatic_purifiers }
+	}
+	custom_tooltip = {
+		fail_text = default
+		NOT = { has_valid_civic = civic_hive_devouring_swarm }
+	}
+	custom_tooltip = {
+		fail_text = default
+		is_genocidal_infernal = no
+	}
+}
+
 #Root = country
 #This = planet
 can_colonize_planet = {
