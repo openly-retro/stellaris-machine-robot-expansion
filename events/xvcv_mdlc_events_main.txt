@@ -516,9 +516,6 @@ country_event = {
 	show_sound = event_synthetic_evolution
 	is_triggered_only = yes
 
-	trigger = {
-		has_completed_special_project_in_log = XVCV_MDLC_AP_MIND_SEPARATION_PROJECT
-	}
 
 	immediate = {
 		xvcv_mdlc_servitor_morale_clear_effect = yes
@@ -535,11 +532,10 @@ country_event = {
 		clear_variable = xvcv_mdlc_gov_reform_cost_var
 
 		#add 12 goods per pop
-		prev = {
-			add_resource = {
-				consumer_goods = 12
-				mult = value:oxr_mdlc_num_pops_on_planet_oldstyle
-			}
+
+		add_resource = {
+			consumer_goods = 12
+			mult = value:oxr_mdlc_num_pops_on_planet_oldstyle
 		}
 
 		#this effect code should be placed above 'change_government' effect
@@ -2799,56 +2795,164 @@ planet_event = {
 	hide_window = yes
 	is_triggered_only = yes
 
-	trigger = {
-		is_planet_class = xvcv_mdlc_pc_mechanical_dummy_for_district_conversion
-	}
-
+	# The below really only works via decision and not on terraform complete,
+	# because the event is called after the planet class is changed,
+	# so there are no districts to count
 	immediate = {
-		while = {
-			limit = { has_district = district_city }
-			remove_district = district_city
-			change_variable = { which = xvcv_mdlc_pc_mechanical_district_city_var value = 1 }
+		# City districts
+		if = {
+			limit = {
+				num_districts = {
+					type = district_nexus
+					value > 0
+				}
+			}
+			export_trigger_value_to_variable = {
+				trigger = num_districts
+				parameters = { type = district_nexus }
+				variable = xvcv_mdlc_pc_mechanical_district_city_var
+			}
 		}
-		while = {
-			limit = { has_district = district_nexus }
-			remove_district = district_nexus
-			change_variable = { which = xvcv_mdlc_pc_mechanical_district_city_var value = 1 }
+		else = {
+			export_trigger_value_to_variable = {
+				trigger = num_districts
+				parameters = { type = district_city }
+				variable = xvcv_mdlc_pc_mechanical_district_city_var
+			}
 		}
-		# while = {
-		# 	limit = { has_district = district_industrial }
-		# 	remove_district = district_industrial
-		# 	change_variable = { which = xvcv_mdlc_pc_mechanical_district_industry_var value = 1 }
-		# }
-		while = {
-			limit = { has_district = district_generator }
-			remove_district = district_generator
-			change_variable = { which = xvcv_mdlc_pc_mechanical_district_generator_var value = 1 }
+
+		# Generator
+		if = {
+			limit = {
+				num_districts = {
+					type = district_generator_uncapped
+					value > 0
+				}
+			}
+			export_trigger_value_to_variable = {
+				trigger = num_districts
+				parameters = { type = district_generator_uncapped }
+				variable = xvcv_mdlc_pc_mechanical_district_generator_var
+			}
 		}
-		while = {
-			limit = { has_district = district_mining }
-			remove_district = district_mining
-			change_variable = { which = xvcv_mdlc_pc_mechanical_district_mining_var value = 1 }
+		else = {
+			export_trigger_value_to_variable = {
+				trigger = num_districts
+				parameters = { type = district_generator }
+				variable = xvcv_mdlc_pc_mechanical_district_generator_var
+			}
 		}
-		while = {
-			limit = { has_district = district_farming }
-			remove_district = district_farming
-			change_variable = { which = xvcv_mdlc_pc_mechanical_district_farming_var value = 1 }
+		
+		# Mines
+		if = {
+			limit = {
+				num_districts = {
+					type = district_mining_uncapped
+					value > 0
+				}
+			}
+			export_trigger_value_to_variable = {
+				trigger = num_districts
+				parameters = { type = district_mining_uncapped }
+				variable = xvcv_mdlc_pc_mechanical_district_mining_var
+			}
 		}
-		while = {
-			limit = { has_district = district_generator_uncapped }
-			remove_district = district_generator_uncapped
-			change_variable = { which = xvcv_mdlc_pc_mechanical_district_generator_var value = 1 }
+		else = {
+			export_trigger_value_to_variable = {
+				trigger = num_districts
+				parameters = { type = district_mining }
+				variable = xvcv_mdlc_pc_mechanical_district_mining_var
+			}
 		}
-		while = {
-			limit = { has_district = district_mining_uncapped }
-			remove_district = district_mining_uncapped
-			change_variable = { which = xvcv_mdlc_pc_mechanical_district_mining_var value = 1 }
+		# Farms
+		if = {
+			limit = {
+				num_districts = {
+					type = district_farming_uncapped
+					value > 0
+				}
+			}
+			export_trigger_value_to_variable = {
+				trigger = num_districts
+				parameters = { type = district_farming_uncapped }
+				variable = xvcv_mdlc_pc_mechanical_district_farming_var
+			}
 		}
-		while = {
-			limit = { has_district = district_farming_uncapped }
-			remove_district = district_farming_uncapped
-			change_variable = { which = xvcv_mdlc_pc_mechanical_district_farming_var value = 1 }
+		else = {
+			export_trigger_value_to_variable = {
+				trigger = num_districts
+				parameters = { type = district_farming }
+				variable = xvcv_mdlc_pc_mechanical_district_farming_var
+			}
 		}
+
+		log = "Mech world conversion: has \\[This.xvcv_mdlc_pc_mechanical_district_city_var] city districts"
+
+		log = "Mech world conversion: has \\[This.xvcv_mdlc_pc_mechanical_district_generator_var] generator districts"
+
+		log = "Mech world conversion: has \\[This.xvcv_mdlc_pc_mechanical_district_mining_var] mining districts"
+
+		log = "Mech world conversion: has \\[This.xvcv_mdlc_pc_mechanical_district_farming_var] farm districts"
+
+		# Save the tier of capital building and restore it after the decision
+		set_variable = {
+			which = oxr_mdlc_mechanical_capital_level
+			value = 0
+		}
+		if = {
+			limit = {
+				OR = {
+					has_building = building_deployment_post
+					has_building = building_colony_shelter
+				}
+			}
+			set_variable = {
+				which = oxr_mdlc_mechanical_capital_level
+				value = 1
+			}
+		}
+		else_if = {
+			limit = {
+				OR = {
+					has_building = building_capital
+					has_building = building_machine_capital
+				}
+				
+			}
+			set_variable = {
+				which = oxr_mdlc_mechanical_capital_level
+				value = 2
+			}
+		}
+		else_if = {
+			limit = {
+				OR = {
+					has_building = building_machine_major_capital
+					has_building = building_major_capital
+				}
+			}
+			set_variable = {
+				which = oxr_mdlc_mechanical_capital_level
+				value = 3
+			}
+		}
+		else_if = {
+			limit = {
+				OR = {
+					has_building = building_machine_system_capital
+					has_building = building_system_capital
+				}
+			}
+			set_variable = {
+				which = oxr_mdlc_mechanical_capital_level
+				value = 4
+			}
+		}
+
+
+		### CHANGE PLANET CLASS ###
+		remove_all_districts = yes
+
 		change_pc = xvcv_mdlc_pc_mechanical
 		#1:1 conversion #let the player remove remaining redundant districts
 		while = {
@@ -2856,18 +2960,13 @@ planet_event = {
 			subtract_variable = { which = xvcv_mdlc_pc_mechanical_district_city_var value = 1 }
 			add_district = xvcv_mdlc_pc_mechanical_district_city
 		}
-	
-		while = {
-			limit = { check_variable = { which = xvcv_mdlc_pc_mechanical_district_industry_var value > 0 } }
-			subtract_variable = { which = xvcv_mdlc_pc_mechanical_district_industry_var value = 1 }
-			add_district = xvcv_mdlc_pc_mechanical_district_city
-		}
+
 		while = {
 			limit = { check_variable = { which = xvcv_mdlc_pc_mechanical_district_generator_var value > 0 } }
 			subtract_variable = { which = xvcv_mdlc_pc_mechanical_district_generator_var value = 1 }
 			add_district = xvcv_mdlc_pc_mechanical_district_generator
 		}
-		# TODO: Maybe add industrial zone or smth "industrial"
+
 		while = {
 			limit = { check_variable = { which = xvcv_mdlc_pc_mechanical_district_mining_var value > 0 } }
 			subtract_variable = { which = xvcv_mdlc_pc_mechanical_district_mining_var value = 1 }

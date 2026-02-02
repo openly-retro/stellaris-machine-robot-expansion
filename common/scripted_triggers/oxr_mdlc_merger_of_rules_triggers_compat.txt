@@ -16,6 +16,11 @@ oxr_mdlc_can_release_vassal_from_species = {
 	}
 }
 
+oxr_mdlc_country_can_release_vassal = {
+	# Base game disallows assimilator, servitor, and exterminators
+	# these conditions are set as "AND"
+}
+
 oxr_mdlc_root_can_be_leader = {
 	# root scope
 	OR = {
@@ -139,7 +144,7 @@ oxr_mdlc_can_add_genetic_traits = {
 		from = {
 			OR = {
 				has_technology = tech_gene_tailoring
-				has_ascension_perk = xvcv_mdlc_ap_genetics_mastery
+				has_xvcv_mdlc_ap_genetics_mastery = yes
 				oxr_mdlc_country_is_finished_bio_mech = yes
 			}
 		}
@@ -149,24 +154,28 @@ oxr_mdlc_can_add_genetic_traits = {
 oxr_mdlc_can_remove_beneficial_genetic_traits = {
 	hidden_trigger = { exists = from }
 	from = {
-		OR = {
-			has_ascension_perk = xvcv_mdlc_ap_genetics_mastery
-			oxr_mdlc_country_is_finished_bio_mech = yes
-			# Break down base game 'if/ese' block
-			AND = {
-				has_biogenesis_dlc = no
+		if = {
+			limit = {
+				# First check things from this mod. If they don't exist, then do base game check
+				OR = {
+					has_xvcv_mdlc_ap_genetics_mastery = yes
+					oxr_mdlc_country_is_finished_bio_mech = yes
+				}
+				always = yes
+			}
+		}
+		else = {
+			# Base game check
+			if = {
+				limit = {
+					OR = {
+						has_biogenesis_dlc = no
+						has_tradition = tr_genetics_adopt
+					}
+				}
 				has_tradition = tr_genetics_resequencing
 			}
-			AND = {
-				has_tradition = tr_genetics_adopt
-				has_tradition = tr_genetics_resequencing
-			}
-			AND = {
-				has_biogenesis_dlc = yes
-				has_tradition = tr_purity_genotype_regeneration
-			}
-			AND = {
-				NOT = { has_tradition = tr_genetics_adopt }
+			else = {
 				has_tradition = tr_purity_genotype_regeneration
 			}
 		}
