@@ -49,7 +49,7 @@ planet flag: oxr_mdlc_consolidators_planet_consolidation_in_progress
 Other stuff:
 
 - planet event dialogues won't appear for planets not owned by the initiating country
-
+- The consolidator civic won't pick up habitat deposits, becaues they're created as a result of orbital deposits existing
 
 TODO:
 - create mover controller inside of event `xvcv_mdlc.3`
