@@ -33,11 +33,22 @@ rikk_mdlc_nano_drone = {
 		planet_jobs_upkeep_mult = 0.001
 	}
 
+	triggered_planet_modifier = {
+		potential = {
+			always = yes
+		}
+		planet_amenities_no_happiness_add = 50
+		mult = value:scripted_modifier_mult|MODIFIER|pop_job_amenities_mult|
+	}
+
     # copy from vanilla maintenance drone
     # slightly lower weight than maintenance drone
     weight = {
 		weight = 2  # @maintenance_drone_job
-		mult = value:scripted_modifier_job_weight_mult|MODIFIER|planet_pop_assembly_mult|
+		# mult = value:scripted_modifier_job_weight_mult|MODIFIER|planet_pop_assembly_mult|
+
+		# copy mult from vanilla maint drone job
+		mult = value:scripted_modifier_job_weight_mult|MODIFIER|pop_job_amenities_mult|
 		modifier = {
 			mult = value:job_weights_modifier|JOB|maintenance_drone|RESOURCE|unity|FACTOR|0.25|
 			exists = owner
@@ -45,6 +56,49 @@ rikk_mdlc_nano_drone = {
 				OR = {
 					has_valid_civic = civic_machine_maintenance_protocols
 					has_active_tradition = tr_versatility_operational_proxies
+				}
+			}
+		}
+		# Respond to finer controls via planet decision
+		modifier = {
+			factor = 5
+			exists = owner
+			planet = {
+				has_planet_flag = rikk_mdlc_planet_extended_nano_drone_subsidy
+			}
+		}
+		modifier = {
+			factor = 0
+			exists = owner
+			planet = {
+				has_planet_flag = rikk_mdlc_planet_extended_nano_drone_deactivation
+			}
+		}
+		# Respond to finer controls via policy changes
+		# Respect planet preferences over empire preferences
+		modifier = {
+			factor = 5
+			exists = owner
+			owner = {
+				has_policy_flag = oxr_mdlc_extended_traits_nano_drone_control_subsidize
+			}
+			planet = {
+				NOT = {
+					has_planet_flag = rikk_mdlc_planet_extended_nano_drone_subsidy
+					has_planet_flag = rikk_mdlc_planet_extended_nano_drone_deactivation
+				}
+			}
+		}
+		modifier = {
+			factor = 0
+			exists = owner
+			owner = {
+				has_policy_flag = oxr_mdlc_extended_traits_nano_drone_control_decommission
+			}
+			planet = {
+				# Do not override this planet's preference for nano drone jobs
+				NOT = {
+					has_planet_flag = rikk_mdlc_planet_extended_nano_drone_subsidy
 				}
 			}
 		}

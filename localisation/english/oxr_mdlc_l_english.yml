@@ -210,6 +210,21 @@
  oxr_mdlc_army_reanimation_control_mixed_name: "$oxr_mdlc_army_reanimation_control_mixed$"
  oxr_mdlc_army_reanimation_control_mixed_desc: "Our field reanimation drones will not show any preference at reconstruction time and will produce either an §Yundead or a cyborg army§!, randomly."
 
+ policy_oxr_mdlc_extended_traits_nano_drone_control: "$job_rikk_mdlc_nano_drone$ Control"
+ policy_oxr_mdlc_extended_traits_nano_drone_control_desc: "Set the priority for filling §Y$job_rikk_mdlc_nano_drone$§! jobs, which are a type of maintenance drone job that increases planetary production at the cost of upkeep.\n- Planets with their own nano-job preferences (set by planetary decision) will NOT be overridden by this empire-wide policy.\n- §YThis only controls the priority for when new pops are added to planets and there are no open jobs§!. Depending on the policy, a maintenance drone job will be filled, or a $job_rikk_mdlc_nano_drone$ job will be filled instead.\n- This policy does not shift job amounts around on the planet.\n- §HIf you need to move pops out of Maintenance Drone jobs or $job_rikk_mdlc_nano_drone$ jobs, you will need to create other jobs for the pops to move out of the maintenance job strata.§!"
+ oxr_mdlc_extended_traits_nano_drone_control_balanced: "No controls"
+ oxr_mdlc_extended_traits_nano_drone_control_balanced_name: "$oxr_mdlc_extended_traits_nano_drone_control_balanced$"
+ oxr_mdlc_extended_traits_nano_drone_control_balanced_desc: "Our empire's pre-programmed planetary maintenance drone job weights. Planets should fill more more Maintenance drone jobs over $job_rikk_mdlc_nano_drone$, generally, in a 3:2 ratio."
+ oxr_mdlc_extended_traits_nano_drone_control_subsidize: "§GMaximize§! job priority"
+ oxr_mdlc_extended_traits_nano_drone_control_subsidize_name: "$oxr_mdlc_extended_traits_nano_drone_control_subsidize$"
+ oxr_mdlc_extended_traits_nano_drone_control_subsidize_desc: "Planet logic will be programmed to maximize $job_rikk_mdlc_nano_drone$ jobs, setting job weight above Maintenance Drones."
+ oxr_mdlc_extended_traits_nano_drone_control_decommission: "§RMinimize§! job priority"
+ oxr_mdlc_extended_traits_nano_drone_control_decommission_name: "$oxr_mdlc_extended_traits_nano_drone_control_decommission$"
+ oxr_mdlc_extended_traits_nano_drone_control_decommission_desc: "Planets will not fill any $job_rikk_mdlc_nano_drone$ jobs on any planets. Any planet-specific settings will still take priority over the policy settings."
+
+ oxr_mdlc_extended_traits_nano_drone_planet_maximize_loc: "§GMaximizing§! $job_rikk_mdlc_nano_drone$ placement"
+ oxr_mdlc_extended_traits_nano_drone_planet_minimize_loc: "§RMinimizing§! $job_rikk_mdlc_nano_drone$ placement"
+ oxr_mdlc_extended_traits_nano_drone_planet_minimize_none: "Following empire policy"
 
 #endregion
 
@@ -225,6 +240,16 @@
  oxr_mdlc_config.4.name: "Experimental Settings"
  oxr_mdlc_config.4.desc: "These toggle experimental features which are either under active development or have been taken out of the main experience for various reasons. Feel free to play with these at your own peril (or amusement)."
  
+ oxr_mdlc_planet_event.1000.title: "Nanomachine Job Priority Control"
+ oxr_mdlc_planet_event.1000.desc: "Control filling $job_rikk_mdlc_nano_drone$ jobs on §H[This.GetName]§!, §!when new pops are assembled, or arrive, and there are no free jobs§!. Making choices below will not show any immediate effects or changes to pop groups or placements."
+
+ oxr_mdlc_planet_event.1000.option.a: "Reset $job_rikk_mdlc_nano_drone$ Job Preferences"
+ oxr_mdlc_planet_event.1000.option.a.tooltip: "Remove any settings and follow the empire's policy (set in §Y$policy_oxr_mdlc_extended_traits_nano_drone_control$§!)."
+ oxr_mdlc_planet_event.1000.option.b: "§GPrioritize§! $job_rikk_mdlc_nano_drone$ Jobs"
+ oxr_mdlc_planet_event.1000.option.b.tooltip: "$job_rikk_mdlc_nano_drone$ maintenance jobs will be greatly preferred over standard Maintenance drones."
+ oxr_mdlc_planet_event.1000.option.c: "§RPrevent§! $job_rikk_mdlc_nano_drone$ Jobs"
+ oxr_mdlc_planet_event.1000.option.c.tooltip: "$job_rikk_mdlc_nano_drone$ jobs will be deprioritized and will not be further populated on this planet."
+ oxr_mdlc_planet_event.1000.option.d: "Do not make any changes"
 
 
 #endregion
@@ -310,7 +335,15 @@
 
 #region civics_0x011
 
+ # Nothing to see here yet
 
+#endregion
+
+#region decisions_0x016
+ 
+ oxr_mdlc_decision_extended_change_nano_cluster_preference: "Change $job_rikk_mdlc_nano_drone$ Preferences"
+ oxr_mdlc_decision_extended_change_nano_cluster_preference_desc: ""
+ oxr_mdlc_decision_extended_change_nano_cluster_preference_tooltip: "Changes this planet's settings for placing pops into $job_rikk_mdlc_nano_drone$ jobs.\n\n§YCurrent setting§!: [GetPlanetNanoMachinePrioritySettings]"
 
 #endregion
 
@@ -318,3 +351,6 @@
 
  concept_oxr_mdlc_assembled_pop: "Assembled"
  concept_oxr_mdlc_assembled_pop_desc: "Any sentient or non-sentient species which increases its population by parts assembly (robots, Machines, certain Synthetic species), as opposed to populating with an organic cell-based biology."
+
+#endregion
+
