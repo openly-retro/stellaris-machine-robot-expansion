@@ -65,7 +65,12 @@ DISTRICTS = {
     "xvcv_mdlc_pc_virtual_district_admin": WHITE,
     "xvcv_mdlc_pc_virtual_district_amenity": PURPLE,
     # other
-    "xvcv_mdlc_common_district_cooling": BLUE
+    "xvcv_mdlc_common_district_cooling": BLUE,
+    # AMALGAMATION
+    "rikk_mdlc_district_battery_quarters": BLUE,
+    "rikk_mdlc_district_battery_crime": RED,
+    "rikk_mdlc_district_battery_amenities": CYAN,
+    "rikk_mdlc_district_battery_processing": YELLOW,
 }
 
 def get_src_path(path:str, dds_file_name: str) -> str:
