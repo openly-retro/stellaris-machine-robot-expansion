@@ -3,25 +3,29 @@ rikk_mdlc_tech_battery_world = {
 	area = society
 	tier = 2
 	category = { statecraft }
-	prerequisites = { "tech_colonial_centralization" }
 	weight = @tier2weight3
 	is_rare = yes
 	icon = tech_penal_colonies
+	is_reverse_engineerable = no
+
+	prerequisites = { "tech_colonial_centralization" }
 
 	potential = {
-		is_machine_empire = yes
-		allows_slavery = yes
+		oxr_mdlc_planet_owner_can_build_wm_districts = yes
 	}
 
 	weight_modifier = {
-		factor = 1
-		inline_script = {
-			script = technologies/rare_technologies_weight_modifiers
-			TECHNOLOGY = rikk_mdlc_tech_battery_world
+		modifier = {
+			factor = 2
+			has_federation = yes
+			federation = {
+				has_federation_perk = rare_tech_boost
+				any_member = { has_technology = rikk_mdlc_tech_battery_world }
+			}
 		}
 		modifier = {
-			factor = 0
-			num_owned_planets < 2
+			factor = 2
+			has_ascension_perk = ap_technological_ascendancy
 		}
 		modifier = {
 			factor = 4
@@ -70,6 +74,10 @@ rikk_mdlc_tech_battery_world = {
 				}
 				count > 10000
 			}
+		}
+		modifier = {
+			factor = 0
+			num_owned_planets < 2
 		}
 	}
 }
