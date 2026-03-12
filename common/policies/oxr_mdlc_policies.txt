@@ -36,3 +36,92 @@ oxr_mdlc_army_reanimation_control = {
 		}
 	}
 }
+
+oxr_mdlc_extended_traits_nano_drone_control = {
+	potential = {
+		# oxr_mdlc_country_has_any_nanomachine_trait_pops_checked_via_variable = yes
+		always = no
+	}
+	allow = { always = no }
+
+	# The "balanced" state (if that's even achievable)
+	option = {
+		name = oxr_mdlc_extended_traits_nano_drone_control_balanced
+
+		policy_flags = {
+			oxr_mdlc_extended_traits_nano_drone_control_balanced
+		}
+		AI_weight = {
+			factor = 1
+		}
+	}
+
+	# Increase weight for nano drones across the empire
+	option = {
+		name = oxr_mdlc_extended_traits_nano_drone_control_subsidize
+
+		policy_flags = {
+			oxr_mdlc_extended_traits_nano_drone_control_subsidize
+		}
+		AI_weight = {
+			factor = 1
+		}
+	}
+
+	# Decrease weight across the empire, effectively shutting them off
+	option = {
+		name = oxr_mdlc_extended_traits_nano_drone_control_decommission
+
+		policy_flags = {
+			oxr_mdlc_extended_traits_nano_drone_control_decommission
+		}
+		AI_weight = {
+			factor = 1
+		}
+	}
+}
+
+# Policy to route pop growth into pop assembly
+oxr_mdlc_synth_pop_assembly_support_control = {
+	potential = {
+		# OR = {
+		# 	oxr_mdlc_has_mechanical_origin = yes
+		# 	oxr_mdlc_is_synthetic_empire = yes
+		# }
+		always = no
+	}
+	allow = { always = no }
+
+	option = {
+		name = oxr_mdlc_synth_pop_assembly_support_control_default
+
+		policy_flags = {
+			oxr_mdlc_synth_pop_assembly_support_control_default
+		}
+		AI_weight = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = oxr_mdlc_synth_pop_assembly_support_reroute_growth_partial
+
+		policy_flags = {
+			oxr_mdlc_synth_pop_assembly_support_reroute_growth_partial
+		}
+		AI_weight = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = oxr_mdlc_synth_pop_assembly_support_reroute_growth_full
+
+		policy_flags = {
+			oxr_mdlc_synth_pop_assembly_support_reroute_growth_full
+		}
+		AI_weight = {
+			factor = 1
+		}
+	}
+}

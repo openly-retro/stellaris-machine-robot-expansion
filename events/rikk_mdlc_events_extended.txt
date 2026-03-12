@@ -315,16 +315,49 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		any_owned_planet = {
-			any_owned_species = { has_trait = rikk_mdlc_trait_robotic_constant_growth }
-		}
+		# Only run this event for machines and synths
+		oxr_mdlc_is_robot_empire = yes
+		# Not sure if this trigger is valid any more
 		has_mute_extended_machines = no
 	}
 
 	immediate = {
-		country_event = {
-			id = rikk_mdlc_extended.22
-			days = 1
+		if = {
+			limit = {
+				any_owned_planet = {
+					any_owned_species = { has_trait = rikk_mdlc_trait_robotic_constant_growth }
+				}
+			}
+			country_event = {
+				id = rikk_mdlc_extended.22
+				days = 1
+			}
+			set_variable = {
+				which = oxr_mdlc_country_has_any_nanomachine_trait_pops
+				value = 1
+			}
+		}
+		# Since this
+		else = {
+			set_variable = {
+				which = oxr_mdlc_country_has_any_nanomachine_trait_pops
+				value = 0
+			}
+		}
+
+		# Do something on the first run of this event, and only once
+		if = {
+			limit = {
+				NOT = {
+					has_country_flag = rikk_mdlc_extended_22_first_run_done
+				}
+			}
+			set_policy = {
+				policy = oxr_mdlc_extended_traits_nano_drone_control
+				key = oxr_mdlc_extended_traits_nano_drone_control_balanced
+				cooldown = no
+			}
+			set_country_flag = rikk_mdlc_extended_22_first_run_done
 		}
 	}
 }

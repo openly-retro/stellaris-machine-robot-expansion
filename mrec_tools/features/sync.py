@@ -83,6 +83,12 @@ if __name__== "__main__":
         help="Any feature folders you want to sync to the main mod, separated by spaces. (Optional)",
         default=[]
     )
+    parser.add_argument(
+        "--list-features",
+        help="List feature folder names",
+        action="store_true",
+        default=False
+    )
     args = parser.parse_args()
     # Now that's out of the way
     print("*~~ 0xRetro MRE:C Feature Sync Tool ~~*\n")
@@ -90,6 +96,17 @@ if __name__== "__main__":
         "This tool syncs any or all game features in the 'features' folder, from its separate code folder to the main mod. "
         "Because we like to stay organized here.\n"
     )
+    if args.list_features:
+        feature_folders_to_sync = [
+            f.path.split(os.path.sep)[-1] for f in os.scandir(features_folder)
+            if f.is_dir()
+        ]
+        print(f"Features that can be synced:")
+        print("\033[92m")
+        print("\n".join(feature_folders_to_sync))
+        print("\033[0m")
+        print("Use any of these after the '--features' option to sync them to the main mod for testing/updates.")
+        sys.exit()
     if not len(args.features_to_sync):
         """ Sync all to the main mod """
         feature_folders_to_sync = [

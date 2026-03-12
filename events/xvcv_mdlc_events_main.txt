@@ -206,10 +206,7 @@ planet_event = {
 
 	trigger = {
 		owner = {
-			OR = {
-				xvcv_mdlc_country_has_synthetic_origin = yes
-				# has_origin = xvcv_mdlc_origin_start_with_colony
-			}
+			xvcv_mdlc_country_has_synthetic_origin = yes
 		}
 	}
 
@@ -237,165 +234,40 @@ planet_event = {
 						homeworld = prev.capital_scope
 					}
 				}
-				# Deprecate force-adding mechanical world trait because now 
-				# trait_mechanical has been overridden to grant 100% habitability by default
-				# if = {
-				# 	limit = { has_origin = xvcv_mdlc_origin_mechanical_heritage }
-				# 	last_created_species = {
-				# 		oxr_mdlc_set_mechanical_heritage_species_habitability = yes
-				# 	}
-				# 	log = "Added pc mech preference at dominant species modification"
-				# }
+
 				xvcv_mdlc_dominant_species_changing_effect = yes
 			}
-			# if = {
-			# 	limit = { has_origin = xvcv_mdlc_origin_start_with_colony }
-			# 	add_resource = {
-			# 		energy = 1000
-			# 		minerals = 1000
-			# 		alloys = 100
-			# 	}
-			# }
-		}
-		# if = {
-		# 	limit = {
-		# 		owner = {
-		# 			has_origin = xvcv_mdlc_origin_start_with_colony
-		# 		}
-		# 	}
-		# 	planet = {
-		# 		generate_start_deposits_and_blockers = yes
-		# 		every_deposit = {
-		# 			limit = { is_blocker = yes }
-		# 			remove_deposit = yes #don't clear, just remove them completely #so they won't execute the on_cleared effect
-		# 		}
-		# 		add_deposit = xvcv_mdlc_d_origin_start_with_colony_arkship
-		# 		add_deposit = xvcv_mdlc_d_origin_start_with_colony_pop_factory_incomplete
-		# 		add_deposit = xvcv_mdlc_d_origin_start_with_colony_lab_incomplete
-		# 		add_deposit = xvcv_mdlc_d_origin_start_with_colony_inactive_drones
-		
-		# 		add_building = building_deployment_post
-		# 		add_district = district_nexus
-		# 	}
-		# 	if = {
-		# 		limit = {
-		# 			owner = {
-		# 				OR = {
-		# 					has_valid_civic = civic_machine_assimilator
-		# 					has_valid_civic = civic_machine_servitor
-		# 				}
-		# 			}
-		# 		}
-		# 		solar_system = {
-		# 			random_system_planet = {
-		# 				limit = { has_planet_flag = xvcv_mdlc_origin_start_with_colony_old_home }
-		# 				add_deposit = d_food_10
-		# 			}
-		# 		}
-		# 		# Add servitor building
-		# 		if = {
-		# 			limit = {
-		# 				owner = {
-		# 					has_valid_civic = civic_machine_servitor
-		# 				}
-		# 			}
-		# 			planet = {
-		# 				remove_building = building_deployment_post
-		# 				add_building = building_machine_capital
-		# 				add_building = building_organic_sanctuary
-		# 			}
-		# 		}
 
-		# 		# while = {
-		# 		# 	create_pop_group = { species = last_created_species }
-		# 		# 	count = 5
-		# 		# }
-		# 		# 4.0: Pops are 100 "each", so create 5 x 100 = 500
-		# 		create_pop_group = {
-		# 			species = last_created_species
-		# 			size = 500
-		# 			effect = { save_event_target_as = last_created_pop_group }
-		# 		}
-		# 		owner = { add_resource = { food = 100 } }
-		# 	}
-		# 	while = {
-		# 		limit = { free_jobs > 0 }
-		# 		create_pop_group = {
-		# 			species = owner.species
-		# 			effect = { save_event_target_as = last_created_pop_group }
-		# 		}
-		# 	}
-		# 	# while = {
-		# 	# 	limit = { num_unemployed > 0 }
-		# 	# 	random_owned_pop_group = {
-		# 	# 		limit = {
-		# 	# 			is_unemployed = yes
-		# 	# 		}
-		# 	# 		oxr_kill_pop_from_group = yes
-		# 	# 		log = "xvcv_mdlc.2 - removed an unemployed pop"
-		# 	# 	}
-		# 	# }
+		} # close owner scope
+
+		# Change citizenship rights for organic species in the galaxy,
+		# so that they do not automatically get assimilated by the synthetic empire
+		# let players choose if they want to assimilate the species
+		every_country = {
+			limit = {
+				founder_species = {
+					OR = {
+						has_trait = trait_organic
+						has_trait = trait_lithoid
+					}
+				}
+			}
+			founder_species = {
+
+				# Set the citizenship for the random empire's founder species
+				# in relation to the synth empire's country
+				# it seems this effect must be called from pop/pop_group/leader/species scope
+
+				set_citizenship_type = {
+					country = prevprev.owner
+					type = citizenship_full
+					cooldown = no
+				}
+			}
 			
-		# 	solar_system = {
-		# 		every_system_planet = {
-		# 			limit = {
-		# 				OR = {
-		# 					has_planet_flag = xvcv_mdlc_origin_start_with_colony_1st_settlement
-		# 					has_planet_flag = xvcv_mdlc_origin_start_with_colony_2nd_settlement
-		# 				}
-		# 			}
-		# 			set_owner = prevprev.owner
-				
-		# 			add_deposit = xvcv_mdlc_d_origin_start_with_colony_arkship
-		# 			add_deposit = xvcv_mdlc_d_origin_start_with_colony_pop_factory_incomplete
-		# 			add_deposit = xvcv_mdlc_d_origin_start_with_colony_lab_incomplete
-		# 			add_deposit = xvcv_mdlc_d_origin_start_with_colony_inactive_drones
-				
-		# 			add_building = building_deployment_post
-		# 			add_district = district_nexus
-		# 			while = {
-		# 				limit = {
-		# 					free_jobs > 0
-		# 				}
-		# 				create_pop_group = {
-		# 					species = owner.species
-		# 					size = 100
-		# 					effect = { save_event_target_as = last_created_pop_group }
-		# 				}
-		# 			}
-		# 			# while = {
-		# 			# 	limit = {
-		# 			# 		num_unemployed > 0
-		# 			# 	}
+		} #/every_country
 
-		# 			# 	random_owned_pop_group = {
-		# 			# 		limit = {
-		# 			# 			is_unemployed = yes
-		# 			# 		}
-		# 			# 		oxr_kill_pop_from_group = yes
-		# 			# 		log = "xvcv_mdlc.2 - removed an unemployed pop"
-		# 			# 	}
-		# 			# }
-		# 		}
-		# 		random_system_planet = {
-		# 			limit = { has_planet_flag = xvcv_mdlc_origin_start_with_colony_1st_settlement }
-		# 			#6 more generator districts
-		# 			add_deposit = d_tempestous_mountain
-		# 			add_deposit = d_tempestous_mountain
-		# 		}
-		# 		random_system_planet = {
-		# 			limit = { has_planet_flag = xvcv_mdlc_origin_start_with_colony_2nd_settlement }
-		# 			#6 more mining districts
-		# 			add_deposit = d_rich_mountain
-		# 			add_deposit = d_rich_mountain
-		# 		}
-		# 		random_system_planet = {
-		# 			limit = { has_planet_flag = mining_planet }
-		# 			create_mining_station = { owner = prevprev.owner }
-		# 		}
-		# 	}
-		# }
-	}
+	} #/immediate
 }
 
 #on_game_start / on_single_player_save_game_load: creating invisible countries
