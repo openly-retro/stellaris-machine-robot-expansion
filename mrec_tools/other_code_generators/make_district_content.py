@@ -32,6 +32,17 @@ DISTRICTS = {
     "xvcv_mdlc_pc_machine_auto_district_generator": YELLOW,
     "xvcv_mdlc_pc_machine_auto_district_mining": RED,
     "xvcv_mdlc_pc_machine_auto_district_farming": GREEN,
+    # AUTO - Swaps
+    "xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_foundry": ORANGE,
+    "xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_factory": ORANGE,
+    "xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_archive": CYAN,
+    "xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_research": CYAN,
+    "xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_physics": BLUE,
+    "xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_society": BLUE,
+    "xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_engineering": BLUE,
+    "xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_unity": CYAN,
+    "xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_trade": CYAN,
+    "xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_army": RED,
     # ECU
     "xvcv_mdlc_pc_machine_ecu_district_cooling_primary": BLUE,
     "xvcv_mdlc_pc_machine_ecu_district_production": ORANGE,
