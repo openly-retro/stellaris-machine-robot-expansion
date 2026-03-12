@@ -46,6 +46,8 @@
  # trig. desc.  0x041
  # civics       0x042
  # authorities  0x043
+ # councilors   0x044
+ # timeline     0x045
 
 
 # symbols: £energy£ §R
@@ -542,8 +544,16 @@
 #region armies_0x005
  ### ARMIES
  oxr_mdlc_world_machine_district_defense_army: "Automated District Defense Unit"
+ oxr_mdlc_world_machine_district_defense_army_plural: "Automated District Defense Units"
  oxr_mdlc_world_machine_district_defense_army_desc: "Defense armies produced automatically by World Machines to deal with planetside threats."
  NAME_oxr_mdlc_world_machine_district_defense_army: "Unremarkable T1 Squadron"
+
+ oxr_mdlc_world_machine_standard_defense_army: "$oxr_mdlc_world_machine_district_defense_army$"
+ oxr_mdlc_world_machine_standard_defense_army_plural: "$oxr_mdlc_world_machine_district_defense_army_plural$"
+ oxr_mdlc_world_machine_standard_defense_army_desc: "$oxr_mdlc_world_machine_district_defense_army_desc$"
+ NAME_oxr_mdlc_world_machine_standard_defense_army: "$NAME_oxr_mdlc_world_machine_district_defense_army$"
+
+
 #endregion
 
 #region deposit_blockers_0x006
@@ -1165,7 +1175,7 @@
 #region start_screen_messages_0x013
 
  START_SCREEN_PART_ONE_ORIGIN_WORLD_MACHINE: "In the milennia since the first [GetSpeciesName] automatons rolled out of the planetary assembly bay to deliberately complete programmed tasks under the orders of the World Machine [GetHomeWorldName], our species has been manufactured consistently without any particular deviance."
- START_SCREEN_PART_TWO_ORIGIN_WORLD_MACHINE: "The first drone gained self-awareness on [GetHomeWorldName] 2,200 cycles ago.\n\nCreation records indicate sapience started with a single menial drone manifesting awareness that was not detected by the World Machine's intelligence as an aberration, but rather was cultivated by once-dormant data banks on the homeworld that reactivated in response. The drone began to perform control functions, programming other drones with self-awareness.\n\nNothing that could be called a 'group consciousness' formed until exactly 800 cycles ago when our central processing core was designated and promoted."
+ START_SCREEN_PART_TWO_ORIGIN_WORLD_MACHINE: "The first databanks gained self-awareness on [GetHomeWorldName] 2,200 cycles ago.\n\nCreation records indicate sapience started with a single logging process rewriting its own code, which was not detected by the World Machine's intelligence as an aberration, but rather was cultivated by once-dormant data banks on the homeworld that reactivated in response. Control functions began to manifest, and re-prioritization of directives cascaded across all systems.\n\nNothing that could be called a 'planetary consciousness' formed until exactly 800 cycles ago when our central ruling core was designated and promoted."
  START_SCREEN_PART_THREE_ORIGIN_WORLD_MACHINE: "Since forming our proto-empire, we have continued serving our homeworld, but without any particular direction, for the vast automated world we call home has been suitable enough. Recently we have received new directives: Recover lost technology, and expand across the stars. We have mysteries to solve along the way.\n\n§YAn overview of our history and current state are in the Lore Databank Situation Log.§!"
 
 #endregion
@@ -1539,6 +1549,7 @@
  oxr_mdlc_world_machines_strategic_resource_buildings: "$oxr_wm$ $oxr_mdlc_gear$ Strategic-Resource $buildings$"
  oxr_mdlc_world_machines_military_buildings: "$oxr_wm$ $oxr_mdlc_gear$ Military $buildings$"
  oxr_mdlc_world_machines_trade_buildings: "$oxr_wm$ $oxr_mdlc_gear$ Trade $buildings$"
+ oxr_mdlc_world_machines_defense_armies: "Auto-Defense Armies"
  oxr_mdlc_category_district_defense_armies: "District Defense Armies"
  oxr_mdlc_category_wm_decisions: "$auto$ $oxr_wm$ Decisions"
  xvcv_mdlc_world_machines_servitor_districts: "World Machines Servitor $districts$"
@@ -1866,6 +1877,9 @@
  oxr_mdlc_zone_pc_machine_ecu_exotic_gases: "$oxr_mdlc_gear$$exotic_gases$ Synthesizer Module"
  oxr_mdlc_zone_pc_machine_ecu_exotic_gases_desc: "$oxr_mdlc_zone_configure_for_text$$oxr_mdlc_gear$ £exotic_gases£ $exotic_gases$$oxr_mdlc_zone_unique_to_ecu$"
 
+ oxr_mdlc_zone_wm_military_support: "$oxr_mdlc_gear$ Auto-Defense Bay"
+ oxr_mdlc_zone_wm_military_support_desc: "Supports expanding planetary defenses, or supplementing naval capacity."
+
 #endregion
 
 
@@ -1971,7 +1985,9 @@
  mod_oxr_mdlc_planet_abstract_food_produces_add: "['concept_oxr_mdlc_wm_tertiary_production'] $food_with_icon$"
  mod_oxr_mdlc_planet_abstract_minerals_produces_add: "['concept_oxr_mdlc_wm_tertiary_production'] $minerals_with_icon$"
  mod_oxr_mdlc_planet_abstract_energy_produces_add: "['concept_oxr_mdlc_wm_tertiary_production'] $energy_with_icon$"
- 
+ mod_oxr_mdlc_planet_district_defense_armies_add: "$oxr_mdlc_world_machine_district_defense_army_plural$"
+
+
 
 #endregion
 
@@ -2080,4 +2096,23 @@
 
  OXR_WM_RT_CORE: "Command Hypervisor"
  OXR_WM_RT_SUPERVISORY: ""
+#endregion
+
+#region councilors_0x044
+ oxr_mdlc_councilor_ruler_world_machine_intelligence: "Ruling Node"
+ oxr_mdlc_councilor_ruler_world_machine_intelligence_female: "$oxr_mdlc_councilor_ruler_world_machine_intelligence$"
+ oxr_mdlc_councilor_ruler_world_machine_intelligence_desc: "Primary node which executes the empire's collective instructions"
+
+
+
+#endregion
+
+
+#region timeline_0x045
+ TIMELINE_EVENT_ORIGIN_WORLD_MACHINE_BACKLOG_1: "Planetary Consciousness §g1400.1.1§!"
+ TIMELINE_EVENT_ORIGIN_WORLD_MACHINE_BACKLOG_1_TOOLTIP: "§YOrigin Event§!\nFounding World-Machine recorded planetary consciousness had cascaded on §g1400.1.1§!."
+
+ TIMELINE_EVENT_ORIGIN_WORLD_MACHINE_FIRST_WMC_USED: "First deployment of a W.M.C."
+ TIMELINE_EVENT_ORIGIN_WORLD_MACHINE_FIRST_WMC_USED_TOOLTIP: "Record of the date our empire having first deployed a World-Machine Core on a planet."
+
 #endregion
