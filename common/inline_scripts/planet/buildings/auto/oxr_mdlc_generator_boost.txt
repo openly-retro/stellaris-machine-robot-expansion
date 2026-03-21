@@ -1,46 +1,43 @@
-base_buildtime = $BUILD_TIME$
+base_buildtime = @[ ( $TIER$ * 180 ) + 180 ]
 base_cap_amount = 1
 category = resource
 resources = {
 	category = oxr_mdlc_world_machines_generator_buildings
 	cost = {
-		minerals = $MINERALS_COST$
-		alloys = $ALLOYS_COST$
-		rare_crystals = $COST_CRYSTALS$
+		minerals = @[ ( $TIER * 200 ) + 200 ]
+		# alloys = $ALLOYS_COST$
+		rare_crystals = $COST_RARE$
 	}
 	upkeep = {
 		trigger = {
 			NOT = { has_active_building = oxr_mdlc_world_machines_biofuel_refit_1 }
 		}
-		minerals = $UPKEEP$
+		minerals = @[ $TIER$ + 1 ]
 	}
 	upkeep = {
 		trigger = {
 			has_active_building = oxr_mdlc_world_machines_biofuel_refit_1
 		}
-		food = $BIOFUEL_UPKEEP$
+		food = @[ $TIER$ * 4 ]
 	}
 	upkeep = {
-		rare_crystals = $UPKEEP_CRYSTALS$
-		energy = @[ $NUM_TECHNICIANS$ * oxr_mdlc_wm_base_technician_upkeep ]
+		rare_crystals = $RARE_UPKEEP$
 	}
-	produces = {
-		energy = @[ $NUM_TECHNICIANS$ * oxr_mdlc_wm_base_technician_output ]
-	}
+
 }
 planet_modifier = {
-	xvcv_mdlc_world_machines_generator_districts_energy_produces_mult = $PRODUCES_MULT$
+	xvcv_mdlc_world_machines_generator_districts_energy_produces_mult = @[ $TIER$ * 0.085 ]
 	# xvcv_mdlc_world_machines_generator_districts_minerals_upkeep_mult = $PRODUCES_MULT$
 	# buildings :D
-	oxr_mdlc_world_machines_generator_buildings_energy_produces_mult = $PRODUCES_MULT$
+	oxr_mdlc_world_machines_generator_buildings_energy_produces_mult = @[ $TIER$ * 0.085 ]
 	# oxr_mdlc_world_machines_generator_buildings_minerals_upkeep_mult = $PRODUCES_MULT$
 }
 triggered_planet_modifier = {
 	potential = {
 		has_building = oxr_mdlc_world_machines_biofuel_refit_1
 	}
-	xvcv_mdlc_world_machines_generator_districts_food_upkeep_add = $BIOFUEL_ADD$
-	oxr_mdlc_world_machines_generator_buildings_food_upkeep_add = $BIOFUEL_ADD$
+	xvcv_mdlc_world_machines_generator_districts_food_upkeep_add = $TIER$
+	oxr_mdlc_world_machines_generator_buildings_food_upkeep_add = $TIER$
 }
 
 building_sets = {

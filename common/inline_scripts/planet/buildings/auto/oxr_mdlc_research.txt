@@ -1,5 +1,8 @@
 resources = {
-	# category = oxr_mdlc_category_world_machines_buildings
+	# In Phoenix 4.3, research building adds 60 of each job
+	# since 100 of a job produces "3" research resources, 60 jobs produce 60% of 3 which is ... low 
+	# Tier 1 adds 60 jobs, tier 2 adds 120 jobs, tier 3 adds 180, which is ( TIER * 60 jobs ) 
+
 	category = oxr_mdlc_world_machines_science_buildings
 	cost = {
 		minerals = $COST$
@@ -8,18 +11,83 @@ resources = {
 		energy = @[ $TIER$ * oxr_mdlc_wm_base_calculator_single_upkeep ]
 		exotic_gases = $RARE$
 	}
-	# In Phoenix 4.0, the research building adds 60 of each job,
-	# thats 60% of (6) which is the research output of 100 researchers
-	# which comes out to 3.5
-	# Tier 1 adds 60 jobs, tier 2 adds 120 jobs, tier 3 adds 180, which is ( TIER * 60 jobs ) 
-	# or TIER * 0.6 * 6, which for tier 3 would be ( 3 * 0.6 * 6 ) = 10.8 .. abysmally low tbh
-	# Pre-phoenix 4.0 it was +2, +4, +6 researchers who would each generate 3 base research each
-	# Settling on equivalent of 100 jobs for each research type, per tier
-	produces = {
-		engineering_research = @[ $TIER$ * oxr_mdlc_wm_base_calculator_single_output ] # 100 jobs at tier 1 = 6 output
-		physics_research = @[ $TIER$ * oxr_mdlc_wm_base_calculator_single_output ]
-		society_research = @[ $TIER$ * oxr_mdlc_wm_base_calculator_single_output ]
+	upkeep = {
+		trigger = {
+			planet = {
+				OR = {
+					has_active_building = oxr_mdlc_world_machines_building_circuit_physics_1
+					has_active_building = oxr_mdlc_world_machines_building_circuit_physics_2
+					has_active_building = oxr_mdlc_world_machines_building_circuit_physics_3
+				}
+			}
+		}
+		volatile_motes = @[ $TIER$ * 0.6 * 0.25]
 	}
+	upkeep = {
+		trigger = { planet = { has_building = oxr_mdlc_world_machines_building_circuit_physics_2 } }
+		volatile_motes = @[ $TIER$ * 0.6 * 0.25]
+	}
+
+	# Default amount
+	produces = {
+		engineering_research = @[ $TIER$ * 0.6 * oxr_mdlc_wm_base_calculator_single_output ] # 100 jobs at tier 1 = 6 output
+		physics_research = @[ $TIER$ * 0.6 * oxr_mdlc_wm_base_calculator_single_output ]
+		society_research = @[ $TIER$ * 0.6 * oxr_mdlc_wm_base_calculator_single_output ]
+	}
+
+	# Boosts from single-track research buildings (PHYSICS)
+	produces = {
+		trigger = {
+			has_active_building = oxr_mdlc_world_machines_building_circuit_physics_1
+		}
+		# planet_physicists_physics_research_produces_add = 0.25
+		physics_research = @[ $TIER$ * 0.6 * 0.25 ]
+	}
+	produces = {
+		trigger = {
+			OR = {
+				has_active_building = oxr_mdlc_world_machines_building_circuit_physics_2
+				has_active_building = oxr_mdlc_world_machines_building_circuit_physics_3
+			}
+		}
+		# planet_physicists_physics_research_produces_add = 0.5
+		physics_research = @[ $TIER$ * 0.6 * 0.5 ]
+	}
+	# Boosts from single-track research buildings (SOCIETY)
+	produces = {
+		trigger = {
+			has_active_building = oxr_mdlc_world_machines_building_circuit_society_1
+		}
+		# planet_physicists_society_research_produces_add = 0.25
+		society_research = @[ $TIER$ * 0.6 * 0.25 ]
+	}
+	produces = {
+		trigger = {
+			OR = {
+				has_active_building = oxr_mdlc_world_machines_building_circuit_society_2
+				has_active_building = oxr_mdlc_world_machines_building_circuit_society_3
+			}
+		}
+		society_research = @[ $TIER$ * 0.6 * 0.5 ]
+	}
+	# Boosts from single-track research buildings (engineering)
+	produces = {
+		trigger = {
+			has_active_building = oxr_mdlc_world_machines_building_circuit_engineering_1
+		}
+		# planet_physicists_engineering_research_produces_add = 0.25
+		engineering_research = @[ $TIER$ * 0.6 * 0.25 ]
+	}
+	produces = {
+		trigger = {
+			OR = {
+				has_active_building = oxr_mdlc_world_machines_building_circuit_engineering_2
+				has_active_building = oxr_mdlc_world_machines_building_circuit_engineering_3
+			}
+		}
+		engineering_research = @[ $TIER$ * 0.6 * 0.5 ]
+	}
+
 	inline_script = {
 		script = planet/buildings/auto/oxr_organoid_upkeep
 		TIER = $TIER$
@@ -30,6 +98,37 @@ triggered_desc = {
 		has_active_building = oxr_mdlc_building_auto_organoid_research_center
 	}
 	text = oxr_mdlc_building_auto_research_organoid_active
+}
+# Describe volatile motes upkeep from single-track research building
+triggered_desc = {
+	trigger = {
+		planet = {
+			OR = {
+				has_active_building = oxr_mdlc_world_machines_building_circuit_physics_1
+				has_active_building = oxr_mdlc_world_machines_building_circuit_physics_2
+				has_active_building = oxr_mdlc_world_machines_building_circuit_physics_3
+			}
+		}
+	}
+	text = oxr_mdlc_world_machines_research_building_sees_physics_circuit_upkeep
+}
+# Describe improved production from single-track research building
+triggered_desc = {
+	trigger = {
+		planet = { has_active_building = oxr_mdlc_world_machines_building_circuit_physics_1 }
+	}
+	text = oxr_mdlc_world_machines_research_building_sees_physics_circuit_1_produces
+}
+triggered_desc = {
+	trigger = {
+		planet = {
+			OR = {
+				has_active_building = oxr_mdlc_world_machines_building_circuit_physics_2
+				has_active_building = oxr_mdlc_world_machines_building_circuit_physics_3
+			}
+		}
+	}
+	text = oxr_mdlc_world_machines_research_building_sees_physics_circuit_2_produces
 }
 
 building_sets = {

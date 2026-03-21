@@ -1,17 +1,24 @@
-base_buildtime = @[ $TIER$ * 180 + 180 ]
+base_buildtime = @[ $TIER$ * 180 ]
 category = resource
 resources = {
 	category = oxr_mdlc_world_machines_generator_buildings
 	cost = {
-		$RS_BUILD$ = @[ $TIER$ * 200 + 200 ]
+		minerals = @[ $TIER$ * 200 ]   # dont add the extra 200 any more
 		# $RS_RARE$ = @[ $TIER$ * 15 ]
 	}
 	produces = {
-		$PRODUCES$ = @[ $TIER$ * 2 * $BASE_JOB_OUTPUT$ ]
+		energy = @[ ( $TIER$ + 1 ) * oxr_mdlc_wm_base_technician_output ]
 	}
 	upkeep = {
-		$RS_RARE$ = @[ $TIER$ * 3]
+		physics_research = @[ ( $TIER$ * 3 ) - 3 ]  # 3 upkeep at tier 2, 12 upkeep at tier 5
+		# mineral upkeep
+		minerals = @[ $TIER$ * 2.5 ]
 	}
+	# generic energy upkeep
+	upkeep = {
+		energy = @[ ( $TIER$ + 1 ) ]
+	}
+
 	# BIOFUEL CODE
 	upkeep = {
 		trigger = {

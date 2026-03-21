@@ -1,40 +1,41 @@
 category = resource
-
-triggered_planet_modifier = {
-	potential = { is_xvcv_mdlc_pc_ringworld_machine_auto = no }
-	xvcv_mdlc_world_machines_food_districts_food_produces_mult = $PRODUCTION_MULT$
-	xvcv_mdlc_world_machines_food_districts_energy_upkeep_add = $ENERGY_UPKEEP_ADD$
-	# buildings :D
-	oxr_mdlc_world_machines_food_buildings_food_produces_mult = $PRODUCTION_MULT$
-	oxr_mdlc_world_machines_food_buildings_energy_upkeep_add = $ENERGY_UPKEEP_ADD$
-}
-
-triggered_planet_modifier = {
-	potential = { is_xvcv_mdlc_pc_ringworld_machine_auto = yes }
-	xvcv_mdlc_world_machines_raw_resources_districts_food_produces_mult = $PRODUCTION_MULT$
-	xvcv_mdlc_world_machines_raw_resources_districts_energy_upkeep_add = $ENERGY_UPKEEP_ADD$
-	# buildings :D
-	oxr_mdlc_world_machines_food_buildings_food_produces_mult = $PRODUCTION_MULT$
-	oxr_mdlc_world_machines_food_buildings_energy_upkeep_add = $ENERGY_UPKEEP_ADD$
-	mult = 5
-}
-
 resources = {
 	category = oxr_mdlc_world_machines_food_buildings
-	produces = {
-		food = $PRODUCES$
-	}
+	# no more food production in 4.3 ;_;
+
 	cost = {
-		minerals = $MINERALS_COST$
-		volatile_motes = $RARE_COST$
+		minerals = @[ ( $TIER$ * 200 ) + 200 ]
+		volatile_motes = $COST_RARE$
 	}
 
 	upkeep = {
 		energy = $UPKEEP$
 		volatile_motes = $RARE_UPKEEP$
 	}
-
 }
+
+triggered_planet_modifier = {
+	potential = { is_xvcv_mdlc_pc_ringworld_machine_auto = no }
+	xvcv_mdlc_world_machines_food_districts_food_produces_mult = @[ $TIER$ * 0.085 ]
+	# xvcv_mdlc_world_machines_food_districts_energy_upkeep_add = $ENERGY_UPKEEP_ADD$
+	# buildings :D
+	oxr_mdlc_world_machines_food_buildings_food_produces_mult = @[ $TIER$ * 0.085 ]
+	# oxr_mdlc_world_machines_food_buildings_energy_upkeep_add = $ENERGY_UPKEEP_ADD$
+}
+
+triggered_planet_modifier = {
+	potential = { is_xvcv_mdlc_pc_ringworld_machine_auto = yes }
+	xvcv_mdlc_world_machines_raw_resources_districts_food_produces_mult = @[ $TIER$ * 0.085 ]
+	# xvcv_mdlc_world_machines_raw_resources_districts_energy_upkeep_add = $ENERGY_UPKEEP_ADD$
+	# buildings :D
+	oxr_mdlc_world_machines_food_buildings_food_produces_mult = @[ $TIER$ * 0.085 ]
+	# oxr_mdlc_world_machines_food_buildings_energy_upkeep_add = $ENERGY_UPKEEP_ADD$
+
+	# RIP multiplier T_T
+	# mult = 5
+}
+
+
 
 building_sets = {
 	oxr_mdlc_building_set_wm_all
