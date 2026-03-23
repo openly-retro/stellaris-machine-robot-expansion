@@ -2487,6 +2487,7 @@ oxr_mdlc_world_machines_biofuel_refit_1 = {
 
 #### STRATEGIC ####
 # Gases
+
 oxr_mdlc_world_machines_building_welding_colony = {
 	base_buildtime = @b2_time
 
@@ -2503,7 +2504,7 @@ oxr_mdlc_world_machines_building_welding_colony = {
 		upkeep = { energy = 1 }
 		produces = {
 			trigger = { oxr_planet_owner_is_catalytic = no }
-			exotic_gases = @[ 1 * oxr_mdlc_wm_base_chemist_drone_output ]
+			exotic_gases = @oxr_mdlc_wm_base_chemist_drone_output
 		}
 		upkeep = {
 			#upkeep per SR job is currently 10 minerals
@@ -2552,7 +2553,7 @@ oxr_mdlc_world_machines_building_particle_collider = {
 		# upkeep = { energy = 1 }
 		produces = {
 			trigger = { oxr_planet_owner_is_catalytic = no }
-			volatile_motes = @[ 1 * oxr_mdlc_wm_base_chemist_drone_output ]
+			volatile_motes = @oxr_mdlc_wm_base_chemist_drone_output
 			physics_research = 3
 		}
 		upkeep = {
@@ -2604,7 +2605,7 @@ oxr_mdlc_world_machines_building_crystal_cultivation_tank = {
 		# upkeep = { energy = 1 }
 		produces = {
 			trigger = { oxr_planet_owner_is_catalytic = no }
-			rare_crystals = @[ 1 * oxr_mdlc_wm_base_chemist_drone_output ]
+			rare_crystals = @oxr_mdlc_wm_base_chemist_drone_output
 		}
 		upkeep = {
 			trigger = { oxr_planet_owner_is_catalytic = no }
@@ -2644,7 +2645,6 @@ oxr_mdlc_world_machines_building_crystal_cultivation_tank = {
 
 oxr_mdlc_world_machines_auto_logistics_1 = {
 	can_build = yes
-	base_buildtime = @b2_time
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_auto_logistics
 		TIER = 1
@@ -2658,7 +2658,6 @@ oxr_mdlc_world_machines_auto_logistics_1 = {
 
 oxr_mdlc_world_machines_auto_logistics_2 = {
 	can_build = no
-	base_buildtime = @b3_time
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_auto_logistics
 		TIER = 2
@@ -2672,21 +2671,17 @@ oxr_mdlc_world_machines_auto_logistics_2 = {
 
 oxr_mdlc_world_machines_auto_logistics_3 = {
 	can_build = no
-	base_buildtime = @b4_time
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_auto_logistics
 		TIER = 3
 	}
-
 	allow = { oxr_mdlc_has_major_upgraded_capital = yes }
-
 }
 
 #### UNITY ####
 
 # UNITY T1
 oxr_mdlc_world_machines_building_auto_unity_1 = {
-	base_buildtime = @b1_time
 	can_build = yes
 
 	exempt_from_ai_planet_specialization = no
@@ -2720,9 +2715,8 @@ oxr_mdlc_world_machines_building_auto_unity_1 = {
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_unity
 		TIER = 1
-		BUILD_COST = @b1_minerals
-		RARE_BUILD_COST = 0
-		UPKEEP_RARE_COST = 0
+		RARE_COST = 0
+		RARE_UPKEEP = 0
 	}
 
 	upgrades = {
@@ -2737,11 +2731,8 @@ oxr_mdlc_world_machines_building_auto_unity_1 = {
 }
 # UNITY T2
 oxr_mdlc_world_machines_building_auto_unity_2 = {
-	base_buildtime = @b2_time
 	can_build = no
-
 	category = unity
-
 	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 
 	# allow = {
@@ -2770,9 +2761,8 @@ oxr_mdlc_world_machines_building_auto_unity_2 = {
 
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_unity
-		BUILD_COST = @b2_minerals
-		RARE_BUILD_COST = @b2_rare_cost
-		UPKEEP_RARE_COST = @b2_rare_upkeep
+		RARE_COST = @b2_rare_cost
+		RARE_UPKEEP = @b2_rare_upkeep
 		TIER = 2
 	}
 
@@ -2786,11 +2776,8 @@ oxr_mdlc_world_machines_building_auto_unity_2 = {
 }
 # UNITY T3
 oxr_mdlc_world_machines_building_auto_unity_3 = {
-	base_buildtime = @b3_time
 	can_build = no
-
 	category = unity
-
 	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 
 	allow = {
@@ -2819,9 +2806,8 @@ oxr_mdlc_world_machines_building_auto_unity_3 = {
 
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_unity
-		BUILD_COST = @b3_minerals
-		RARE_BUILD_COST = @b3_rare_cost
-		UPKEEP_RARE_COST = @b3_rare_upkeep
+		RARE_UPKEEP = @b3_rare_cost
+		RARE_COST = @b3_rare_upkeep
 		TIER = 3
 	}
 
@@ -2835,7 +2821,6 @@ oxr_mdlc_world_machines_building_auto_unity_3 = {
 }
 # UNITY T4
 oxr_mdlc_world_machines_building_auto_unity_4 = {
-	base_buildtime = @b4_time
 	can_build = no
 
 	category = unity
@@ -2868,9 +2853,8 @@ oxr_mdlc_world_machines_building_auto_unity_4 = {
 
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_unity
-		BUILD_COST = @b4_minerals
-		RARE_BUILD_COST = @b4_rare_cost
-		UPKEEP_RARE_COST = @b4_rare_upkeep
+		RARE_COST = @b4_rare_cost
+		RARE_UPKEEP = @b4_rare_upkeep
 		TIER = 4
 	}
 
@@ -2878,6 +2862,112 @@ oxr_mdlc_world_machines_building_auto_unity_4 = {
 		"tech_colonial_bureaucracy"
 		"oxr_mdlc_tech_world_machines_unlocked"
 		"oxr_mdlc_tech_world_machine_planetary_mastery"
+	}
+}
+
+# Unity structures efficiency++
+oxr_mdlc_world_machines_building_auto_unity_amplifier = {
+	base_buildtime = @b3_time
+	planet_limit = 1
+	category = unity
+
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+
+	inline_script = planet/buildings/auto/oxr_destroy
+
+	allow = {
+		oxr_mdlc_has_upgraded_capital = yes
+	}
+
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_unity
+	}
+
+	convert_to = {
+		building_bureaucratic_2
+		building_holotemple
+		building_hive_cluster
+		building_commensal_clearing_3
+	}
+
+	resources = {
+		category = oxr_mdlc_world_machines_unity_buildings
+		cost = {
+			minerals = @b3_minerals
+			rare_crystals = @b3_rare_cost
+		}
+		upkeep = {
+			energy = @b3_upkeep
+			rare_crystals = @b3_rare_upkeep
+		}
+	}
+
+	planet_modifier = {
+		# planet_bureaucrats_upkeep_mult = -0.10
+		oxr_mdlc_world_machines_unity_buildings_produces_mult = 0.05
+		xvcv_mdlc_world_machines_unity_districts_produces_mult = 0.05
+	}
+
+	prerequisites = {
+		"tech_galactic_bureaucracy"
+	}
+
+	show_tech_unlock_if = {
+		has_oxr_mdlc_origin_world_machine_awakened = yes
+	}
+}
+
+# Unity structures maintenance--
+oxr_mdlc_world_machines_building_auto_unity_optimizer = {
+	base_buildtime = @b2_time
+	planet_limit = 1
+	category = unity
+
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+
+	inline_script = planet/buildings/auto/oxr_destroy
+
+	allow = {
+		oxr_mdlc_has_upgraded_capital = yes
+	}
+
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_unity
+	}
+
+	convert_to = {
+		building_bureaucratic_2
+		building_holotemple
+		building_hive_cluster
+		building_commensal_clearing_3
+	}
+
+	resources = {
+		category = oxr_mdlc_world_machines_unity_buildings
+		cost = {
+			minerals = @b2_minerals
+			rare_crystals = @b2_rare_cost
+		}
+		upkeep = {
+			energy = @b2_upkeep
+			rare_crystals = @b2_rare_upkeep
+		}
+	}
+
+	planet_modifier = {
+		# planet_bureaucrats_upkeep_mult = -0.10
+		oxr_mdlc_world_machines_unity_buildings_upkeep_mult = -0.10
+		xvcv_mdlc_world_machines_unity_districts_upkeep_mult = -0.10
+	}
+
+	prerequisites = {
+		"tech_colonial_bureaucracy"
+	}
+
+	show_tech_unlock_if = {
+		has_oxr_mdlc_origin_world_machine_awakened = yes
 	}
 }
 
@@ -2902,23 +2992,70 @@ oxr_mdlc_world_machines_building_auto_unity_alpha_hub = {
 
 	resources = {
 		category = oxr_mdlc_world_machines_unity_buildings
-		cost = {
-			minerals = @b2_minerals
-			rare_crystals = @b2_rare_cost
-		}
-		upkeep = {
-			energy = @b2_upkeep
-			rare_crystals = @b2_rare_upkeep
-		}
 		produces = {
 			unity = 6
 		}
-
+		cost = {
+			trigger = {
+				has_ringworld_output_boost = no
+			}
+			minerals = @b2_minerals
+			rare_crystals = @b2_rare_cost
+		}
+		cost = {
+			trigger = {
+				has_ringworld_output_boost = yes
+			}
+			minerals = 1200
+			rare_crystals = 375
+		}
+		upkeep = {
+			trigger = {
+				has_ringworld_output_boost = no
+			}
+			energy = @b2_upkeep
+			rare_crystals = @b2_rare_upkeep
+		}
+		upkeep = {
+			trigger = {
+				has_ringworld_output_boost = yes
+			}
+			energy = 8
+			rare_crystals = 3
+		}
 	}
 
-	country_modifier = {
-		country_official_cap_add = 1
-		country_unity_produces_mult = 0.05
+	# Gone in 4.3 T_T
+	# country_modifier = {
+	# 	country_official_cap_add = 1
+	# 	country_unity_produces_mult = 0.05
+	# }
+	planet_modifier = {
+		# oxr_mdlc_world_machines_unity_buildings
+		oxr_mdlc_world_machines_unity_buildings_unity_produces_add = 1
+		oxr_mdlc_world_machines_unity_buildings_physics_research_produces_add = 0.2
+		oxr_mdlc_world_machines_unity_buildings_society_research_produces_add = 0.2
+		oxr_mdlc_world_machines_unity_buildings_engineering_research_produces_add = 0.2
+
+		# xvcv_mdlc_world_machines_unity_districts
+		xvcv_mdlc_world_machines_unity_districts_physics_research_produces_add = 0.2
+		xvcv_mdlc_world_machines_unity_districts_society_research_produces_add = 0.2
+		xvcv_mdlc_world_machines_unity_districts_engineering_research_produces_add = 0.2
+	}
+
+	# for auto ringworld
+	# xvcv_mdlc_world_machines_rnd_districts
+	triggered_planet_modifier = {
+		trigger = {
+			exists = owner
+			is_xvcv_mdlc_pc_ringworld_machine_auto = yes
+		}
+		# xvcv_mdlc_world_machines_unity_districts
+		xvcv_mdlc_world_machines_unity_districts_physics_research_produces_add = 0.2
+		xvcv_mdlc_world_machines_unity_districts_society_research_produces_add = 0.2
+		xvcv_mdlc_world_machines_unity_districts_engineering_research_produces_add = 0.2
+		# Make Ringworlds even more fun
+		mult = 5
 	}
 
 	prerequisites = {
