@@ -1,19 +1,19 @@
 category = manufacturing
-
+base_buildtime = @[ ( $TIER$ * 180 ) + 180 ]
 resources = {
 	category = oxr_mdlc_world_machines_foundry_buildings
 	cost = {
-		minerals = $COST$
+		minerals = @[ ( $TIER * 200 ) + 200 ]
 		volatile_motes = $RARE_COST$
 	}
 	upkeep = {
-		energy = $UPKEEP$
+		energy = @[ ( $TIER$ * $TIER$ ) + 1 ]  # best result, least effort
 		volatile_motes = $RARE_UPKEEP$
 	}
 	# produces
 	produces = {
 		trigger = { owner = { is_catalytic_empire = no } }
-		alloys = @oxr_mdlc_wm_base_fabricator_output
+		alloys = @[ $TIER$ * 2 * oxr_mdlc_wm_base_fabricator_output ]
 	}
 	upkeep = {
 		trigger = { owner = { is_catalytic_empire = no } }
@@ -22,7 +22,7 @@ resources = {
 	# catalytic
 	produces = {
 		trigger = { owner = { is_catalytic_empire = yes } }
-		alloys = @oxr_mdlc_wm_base_fabricator_catalytic_output
+		alloys = @[ $TIER$ * 2 * oxr_mdlc_wm_base_fabricator_catalytic_output ]
 	}
 	upkeep = {
 		trigger = { owner = { is_catalytic_empire = yes } }

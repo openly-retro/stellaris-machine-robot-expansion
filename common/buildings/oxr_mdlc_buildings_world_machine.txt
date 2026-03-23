@@ -371,9 +371,8 @@ oxr_mdlc_world_machines_building_auto_imperial_capital = {
 
 #### MANUFACTURING ###
 
-# Forge booster
+# Forges
 oxr_mdlc_world_machines_building_auto_forge_1 = {
-	base_buildtime = @b1_time
 	can_build = yes
 
 	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
@@ -381,8 +380,7 @@ oxr_mdlc_world_machines_building_auto_forge_1 = {
 
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_foundry
-		COST = @b1_minerals
-		UPKEEP = @b1_upkeep
+		TIER = 1
 		RARE_COST = 0
 		RARE_UPKEEP = 0
 		PRODUCTION_MULT = 0
@@ -398,9 +396,7 @@ oxr_mdlc_world_machines_building_auto_forge_1 = {
 }
 
 oxr_mdlc_world_machines_building_auto_forge_2 = {
-	base_buildtime = @b2_time
 	can_build = no
-	base_cap_amount = 1
 	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 	allow = {
 		# has_upgraded_capital = yes
@@ -410,11 +406,9 @@ oxr_mdlc_world_machines_building_auto_forge_2 = {
 
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_foundry
-		COST = @b2_minerals
+		TIER = 2
 		RARE_COST = @b3_rare_cost
-		UPKEEP = @b2_upkeep
 		RARE_UPKEEP = @b3_rare_upkeep
-		PRODUCTION_MULT = 0.1
 	}
 
 	upgrades = {
@@ -427,16 +421,13 @@ oxr_mdlc_world_machines_building_auto_forge_2 = {
 }
 
 oxr_mdlc_world_machines_building_auto_forge_3 = {
-	base_buildtime = @b3_time
 	can_build = no
 	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_foundry
-		COST = @b3_minerals
+		TIER = 3
 		RARE_COST = @b4_rare_cost
-		UPKEEP = @b3_upkeep
 		RARE_UPKEEP = @b4_rare_upkeep
-		PRODUCTION_MULT = 0.2
 	}
 
 	allow = {
@@ -450,11 +441,123 @@ oxr_mdlc_world_machines_building_auto_forge_3 = {
 	}
 }
 
-# New building - Forge w/ no boost
+# TODO: Forge "efficiency" and forge "upkeep"
+
+oxr_mdlc_world_machines_building_auto_forge_efficiency = {
+	base_buildtime = @b3_time
+	planet_limit = 1
+	category = manufacturing
+
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_destroy
+
+	resources = {
+		category = oxr_mdlc_world_machines_foundry_buildings
+		cost = {
+			trigger = {
+				has_ringworld_output_boost = no
+			}
+			minerals = @b3_minerals
+			volatile_motes = @b4_rare_cost
+		}
+		cost = {
+			trigger = {
+				has_ringworld_output_boost = yes
+			}
+			minerals = 1500
+			volatile_motes = 600
+		}
+		upkeep = {
+			trigger = {
+				has_ringworld_output_boost = no
+			}
+			energy = @b3_upkeep
+			volatile_motes = @b4_rare_upkeep
+		}
+		upkeep = {
+			trigger = {
+				has_ringworld_output_boost = yes
+			}
+			energy = 15
+			volatile_motes = 8
+		}
+	}
+
+	triggered_planet_modifier = {
+		# Buildings are not representing double jobs as I have declared as of 4.3
+		# Districts still are, however!
+		# Base game tier 1 adds 0.5 minerals per 100 mining jobs
+		# which is the same as 0.083%
+		potential = {
+			exists = owner
+			is_xvcv_mdlc_pc_machine_auto = yes
+		}
+		xvcv_mdlc_world_machines_primary_districts_alloys_produces_mult = 0.085
+		oxr_mdlc_world_machines_foundry_buildings_alloys_produces_mult = 0.085
+	}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			is_planet_world_machine = yes
+			is_xvcv_mdlc_pc_machine_auto = no
+		}
+		xvcv_mdlc_world_machines_production_districts_alloys_produces_mult = 0.085
+	}
+
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_production
+		oxr_mdlc_building_set_wm_military
+		oxr_mdlc_building_set_wm_alloys
+		oxr_mdlc_building_set_wm_foundry
+	}
+
+}
+
+oxr_mdlc_world_machines_building_auto_forge_upkeep = {
+	base_buildtime = @b2_time
+	planet_limit = 1
+	category = manufacturing
+
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+	inline_script = planet/buildings/auto/oxr_destroy
+
+	resources = {
+		category = oxr_mdlc_world_machines_foundry_buildings
+		cost = {
+			minerals = @b2_minerals
+			rare_crystals = @b3_rare_cost
+		}
+		upkeep = {
+			energy = @b2_upkeep
+			rare_crystals = @b3_rare_upkeep
+		}
+	}
+	triggered_planet_modifier = {
+		# Buildings are not representing double jobs as I have declared as of 4.3
+		# Districts still are, however!
+		# Base game tier 1 adds 0.5 minerals per 100 mining jobs
+		# which is the same as 0.083%
+		potential = {
+			exists = owner
+			is_xvcv_mdlc_pc_machine_auto = yes
+		}
+		xvcv_mdlc_world_machines_primary_districts_upkeep_mult = -0.1
+		oxr_mdlc_world_machines_foundry_buildings_upkeep_mult = -0.1
+	}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			is_planet_world_machine = yes
+			is_xvcv_mdlc_pc_machine_auto = no
+		}
+		xvcv_mdlc_world_machines_production_districts_upkeep_mult = -0.1
+	}
+
+}
 
 # Factories
 oxr_mdlc_world_machines_building_auto_factory_boost_1 = {
-	base_buildtime = @b1_time
 	base_cap_amount = 1
 
 	potential = {
@@ -493,7 +596,6 @@ oxr_mdlc_world_machines_building_auto_factory_boost_1 = {
 }
 # T2
 oxr_mdlc_world_machines_building_auto_factory_boost_2 = {
-	base_buildtime = @b2_time
 	can_build = no
 
 	allow = {
@@ -593,6 +695,8 @@ oxr_mdlc_world_machines_building_auto_factory_boost_3 = {
 	}
 	# BONG
 }
+
+# TODO: Factory "efficiency" and forge "upkeep" 
 
 oxr_mdlc_world_machines_building_auto_nanite_transmuter = {
 	base_buildtime = @b3_time
