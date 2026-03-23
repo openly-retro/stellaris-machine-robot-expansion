@@ -1,13 +1,13 @@
 category = manufacturing
-
+base_buildtime = @[ ( $TIER$ * 180 ) + 180 ]  # tier 1 is 360, tier 2 is 480,etc
 resources = {
 	category = oxr_mdlc_world_machines_factory_buildings
 	cost = {
-		minerals = @b3_minerals
+		minerals = @[ ( $TIER * 200 ) + 200 ]
 		rare_crystals = $RARE_COST$
 	}
 	upkeep = {
-		energy = $ENERGY_UPKEEP$
+		energy = @[ ( $TIER$ * $TIER$ ) + 1 ]  # best result, least effort
 		rare_crystals = $RARE_UPKEEP$
 	}
 	## PRODUCES
@@ -16,14 +16,14 @@ resources = {
 			exists = owner
 			oxr_planet_owner_is_catalytic = no
 		}
-		consumer_goods = @[ $JOBS$ * oxr_mdlc_wm_base_artisan_output ]
+		consumer_goods = @[ $TIER$ * 2 * oxr_mdlc_wm_base_artisan_output ]
 	}
 	upkeep = {
 		trigger = {
 			exists = owner
 			oxr_planet_owner_is_catalytic = no
 		}
-		minerals = @[ $JOBS$ * oxr_mdlc_wm_base_artisan_upkeep ]
+		minerals = @[ $TIER$ * 2 * oxr_mdlc_wm_base_artisan_upkeep ]
 	}
 	# CATALYTIC
 	produces = {
@@ -31,19 +31,19 @@ resources = {
 			exists = owner
 			oxr_planet_owner_is_catalytic = yes
 		}
-		consumer_goods = @[ $JOBS$ * oxr_mdlc_wm_base_artisan_catalytic_output ]
+		consumer_goods = @[ $TIER$ * 2 * oxr_mdlc_wm_base_artisan_catalytic_output ]
 	}
 	upkeep = {
 		trigger = {
 			exists = owner
 			oxr_planet_owner_is_catalytic = yes
 		}
-		food = @[ $JOBS$ * oxr_mdlc_wm_base_artisan_catalytic_upkeep ]
+		food = @[ $TIER$ * 2 * oxr_mdlc_wm_base_artisan_catalytic_upkeep ]
 	}
 }
 
 ai_resource_production = {
-	consumer_goods = @[ $JOBS$ * oxr_mdlc_wm_base_artisan_output ]
+	consumer_goods = @[ $TIER$ * 2 * oxr_mdlc_wm_base_artisan_output ]
 	trigger = { always = yes }
 }
 
