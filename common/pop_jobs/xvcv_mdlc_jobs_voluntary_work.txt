@@ -35,7 +35,7 @@ xvcv_mdlc_organic_foundry = {
 				exists = owner
 				owner = { is_catalytic_empire = no }
 			}
-			alloys = 3
+			alloys = 4
 		}
 		upkeep = {
 			trigger = {
@@ -49,14 +49,14 @@ xvcv_mdlc_organic_foundry = {
 				exists = owner
 				owner = { is_catalytic_empire = yes }
 			}
-			alloys = 3.75
+			alloys = 4
 		}
 		upkeep = {
 			trigger = {
 				exists = owner
 				owner = { is_catalytic_empire = yes }
 			}
-			food = 9
+			food = 12
 		}
 	}
 
@@ -107,8 +107,28 @@ xvcv_mdlc_organic_artisan = {
 	resources = {
 		# category = planet_artisans
 		category = planet_bio_trophies
-		produces = { consumer_goods = 6 }
-		upkeep = { minerals = 6 }
+		produces = {
+			consumer_goods = 6
+		}
+		produces = {
+			trigger = {
+				industrial_jobs_are_catalytic_trigger = yes
+			}
+			consumer_goods = 1.5
+		}
+		## UPKEEP
+		upkeep = {
+			trigger = {
+				industrial_jobs_are_catalytic_trigger = no
+			}
+			minerals = 6
+		}
+		upkeep = {
+			trigger = {
+				industrial_jobs_are_catalytic_trigger = yes
+			}
+			food = 9
+		}
 	}
 
 	weight = {
@@ -168,11 +188,7 @@ xvcv_mdlc_organic_researcher = {
 	resources = {
 		# category = planet_researchers
 		category = planet_bio_trophies
-		produces = {
-			physics_research = 4
-			engineering_research = 4
-			society_research = 4
-		}
+		produces = { physics_research = 3 }
 		upkeep = { consumer_goods = 2 }
 	}
 
@@ -214,7 +230,7 @@ xvcv_mdlc_organic_bureaucrat = {
 	resources = {
 		# category = planet_bureaucrats
 		category = planet_bio_trophies
-		produces = { unity = 4 }
+		produces = { unity = 3 }
 		upkeep = { consumer_goods = 2 }
 	}
 
@@ -263,7 +279,7 @@ xvcv_mdlc_organic_healthcare = {
 	}
 
 	triggered_planet_modifier = {
-		planet_amenities_no_happiness_add = 5
+		planet_amenities_no_happiness_add = 750
 		mult = value:scripted_modifier_mult|MODIFIER|pop_job_amenities_mult|
 	}
 
