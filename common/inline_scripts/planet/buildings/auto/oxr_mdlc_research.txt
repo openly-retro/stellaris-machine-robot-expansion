@@ -8,7 +8,7 @@ resources = {
 		minerals = $COST$
 	}
 	upkeep = {
-		energy = @[ $TIER$ * oxr_mdlc_wm_base_calculator_single_upkeep ]
+		energy = @[ $TIER$ * 0.6 * oxr_mdlc_wm_base_calculator_single_upkeep ]
 		exotic_gases = $RARE$
 	}
 	upkeep = {
@@ -21,14 +21,16 @@ resources = {
 				}
 			}
 		}
-		volatile_motes = @[ $TIER$ * 0.6 * 0.25]
+		volatile_motes = @[ ( $TIER$ * 0.6 * oxr_mdlc_wm_base_calculator_single_output ) * 0.085 ]
 	}
 	upkeep = {
 		trigger = { planet = { has_building = oxr_mdlc_world_machines_building_circuit_physics_2 } }
-		volatile_motes = @[ $TIER$ * 0.6 * 0.25]
+		volatile_motes = @[ ( $TIER$ * 0.6 * oxr_mdlc_wm_base_calculator_single_output ) * 0.085 ]
 	}
 
-	# Default amount
+	# Research Lab 1 gives 60 of each of the 3 research jobs
+	# 100 of a job produces the full amount (3)
+	# but 60/100 will produce 60% so that is why this is making so much less now
 	produces = {
 		engineering_research = @[ $TIER$ * 0.6 * oxr_mdlc_wm_base_calculator_single_output ] # 100 jobs at tier 1 = 6 output
 		physics_research = @[ $TIER$ * 0.6 * oxr_mdlc_wm_base_calculator_single_output ]
@@ -41,7 +43,7 @@ resources = {
 			has_active_building = oxr_mdlc_world_machines_building_circuit_physics_1
 		}
 		# planet_physicists_physics_research_produces_add = 0.25
-		physics_research = @[ $TIER$ * 0.6 * 0.25 ]
+		physics_research = @[ ( $TIER$ * 0.6 * oxr_mdlc_wm_base_calculator_single_output ) * 0.085 ]
 	}
 	produces = {
 		trigger = {
@@ -51,7 +53,7 @@ resources = {
 			}
 		}
 		# planet_physicists_physics_research_produces_add = 0.5
-		physics_research = @[ $TIER$ * 0.6 * 0.5 ]
+		physics_research = @[ ( $TIER$ * 0.6 * oxr_mdlc_wm_base_calculator_single_output ) * 0.17 ]
 	}
 	# Boosts from single-track research buildings (SOCIETY)
 	produces = {
@@ -59,7 +61,7 @@ resources = {
 			has_active_building = oxr_mdlc_world_machines_building_circuit_society_1
 		}
 		# planet_physicists_society_research_produces_add = 0.25
-		society_research = @[ $TIER$ * 0.6 * 0.25 ]
+		society_research = @[ ( $TIER$ * 0.6 * oxr_mdlc_wm_base_calculator_single_output ) * 0.085 ]
 	}
 	produces = {
 		trigger = {
@@ -68,7 +70,7 @@ resources = {
 				has_active_building = oxr_mdlc_world_machines_building_circuit_society_3
 			}
 		}
-		society_research = @[ $TIER$ * 0.6 * 0.5 ]
+		society_research = @[ ( $TIER$ * 0.6 * oxr_mdlc_wm_base_calculator_single_output ) * 0.17 ]
 	}
 	# Boosts from single-track research buildings (engineering)
 	produces = {
@@ -76,7 +78,7 @@ resources = {
 			has_active_building = oxr_mdlc_world_machines_building_circuit_engineering_1
 		}
 		# planet_physicists_engineering_research_produces_add = 0.25
-		engineering_research = @[ $TIER$ * 0.6 * 0.25 ]
+		engineering_research = @[ ( $TIER$ * 0.6 * oxr_mdlc_wm_base_calculator_single_output ) * 0.085 ]
 	}
 	produces = {
 		trigger = {
@@ -85,7 +87,7 @@ resources = {
 				has_active_building = oxr_mdlc_world_machines_building_circuit_engineering_3
 			}
 		}
-		engineering_research = @[ $TIER$ * 0.6 * 0.5 ]
+		engineering_research = @[ ( $TIER$ * 0.6 * oxr_mdlc_wm_base_calculator_single_output ) * 0.17 ]
 	}
 
 	inline_script = {
