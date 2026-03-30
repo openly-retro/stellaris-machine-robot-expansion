@@ -1854,23 +1854,9 @@ oxr_mdlc_world_machines_auto_farm_1 = {
 	# POTENTIAL
 	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 	# RESOURCES & THE REST
-	# Don't use oxr_mdlc_auto_farm inline script for tier 1 buildings
-	base_buildtime = 180
-	category = resource
-	resources = {
-		category = oxr_mdlc_world_machines_food_buildings
-		cost = { minerals = 200 }
-		# hydroponic farm gives 200 jobs
-		produces = { food = @[ 2 * oxr_mdlc_wm_base_farmer_output ] }
-
-		produces = {
-			trigger = {
-				exists = owner
-				owner = { has_tradition = tr_nanotech_1 }
-			}
-			nanites = @[ 2 * oxr_mdlc_wm_base_drone_nanite_output ]
-		}
-		upkeep = { energy = 2.5 }
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_auto_farm
+		TIER = 1
 	}
 
 	prerequisites = {
@@ -1894,7 +1880,6 @@ oxr_mdlc_world_machines_auto_farm_2 = {
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_auto_farm
 		TIER = 2
-		BASE_JOB_OUTPUT = @oxr_mdlc_wm_base_farmer_output
 	}
 	prerequisites = {
 		"tech_eco_simulation"
@@ -1919,7 +1904,6 @@ oxr_mdlc_world_machines_auto_farm_3 = {
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_auto_farm
 		TIER = 3
-		BASE_JOB_OUTPUT = @oxr_mdlc_wm_base_farmer_output
 	}
 	prerequisites = {
 		"tech_gene_crops"
@@ -1944,7 +1928,6 @@ oxr_mdlc_world_machines_auto_farm_4 = {
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_auto_farm
 		TIER = 4
-		BASE_JOB_OUTPUT = @oxr_mdlc_wm_base_farmer_output
 	}
 	prerequisites = {
 		"tech_nano_vitality_crops"
@@ -1971,7 +1954,6 @@ oxr_mdlc_world_machines_auto_farm_5 = {
 	inline_script = {
 		script = planet/buildings/auto/oxr_mdlc_auto_farm
 		TIER = 5
-		BASE_JOB_OUTPUT = @oxr_mdlc_wm_base_farmer_output
 	}
 	prerequisites = {
 		"tech_food_processing_2"
@@ -2051,25 +2033,9 @@ oxr_mdlc_world_machines_auto_mine_1 = {
 	# POTENTIAL
 	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
 	# RESOURCES & THE REST
-	base_buildtime = 180
-	category = resource
-	resources = {
-		category = oxr_mdlc_world_machines_mining_buildings
-		produces = { minerals = @[ 2 * oxr_mdlc_wm_base_miner_output ] }
-		cost = { minerals = 200 }
-		upkeep = { energy = 1.5 }
-		produces = {
-			trigger = {
-				exists = owner
-				owner = { has_tradition = tr_nanotech_1 }
-			}
-			nanites = @[ 2 * oxr_mdlc_wm_base_drone_nanite_output ]
-		}
-	}
-	building_sets = {
-		oxr_mdlc_building_set_wm_all
-		oxr_mdlc_building_set_wm_minerals
-		oxr_mdlc_minerals
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_mining
+		TIER = 1
 	}
 
 	inline_script = planet/buildings/auto/oxr_destroy
