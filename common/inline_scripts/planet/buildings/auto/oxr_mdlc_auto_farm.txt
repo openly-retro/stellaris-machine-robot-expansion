@@ -1,11 +1,27 @@
-inline_script = {
-	script = planet/buildings/auto/oxr_mdlc_basic_resource
-	CATEGORY = oxr_mdlc_world_machines_food_buildings
-	TIER = $TIER$
-	PRODUCES = food
-	BASE_JOB_OUTPUT = @oxr_mdlc_wm_base_farmer_output
-	RS_BUILD = minerals
-	RS_RARE = society_research
+base_buildtime = @[ $TIER$ * 180 ]
+category = resource
+resources = {
+	category = oxr_mdlc_world_machines_food_buildings
+	cost = {
+		minerals = @[ $TIER$ * 200 ]
+	}
+	produces = {
+		food = @[ $TIER$ * oxr_mdlc_wm_base_farmer_output ]
+	}
+	upkeep = {
+		# base building upkeep
+		energy = @[ $TIER$ * 1.5 ]
+
+		# various types of science upkeep here for lore
+		society_research = @[ ( $TIER$ * 1.5 ) - 1.5 ]  # 3 upkeep at tier 2, 12 upkeep at tier 5
+	}
+	produces = {
+		trigger = {
+			exists = owner
+			owner = { has_tradition = tr_nanotech_1 }
+		}
+		nanites = @[ ( $TIER$ + 1 ) * oxr_mdlc_wm_base_drone_nanite_output ]
+	}
 }
 
 building_sets = {

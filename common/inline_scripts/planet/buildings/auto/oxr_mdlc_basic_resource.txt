@@ -1,13 +1,19 @@
 base_buildtime = @[ $TIER$ * 180 ]
 category = resource
 resources = {
-	category = $CATEGORY$
+	category = $ECON_CATEGORY$
 	cost = {
-		$RS_BUILD$ = @[ $TIER$ * 200 ]
-		# $RS_RARE$ = @[ $TIER$ * 2 - 50 ]
+		$BUILD_WITH$ = @[ $TIER$ * 200 ]
 	}
 	produces = {
 		$PRODUCES$ = @[ $TIER$ * $BASE_JOB_OUTPUT$ ]
+	}
+	upkeep = {
+		# base building upkeep
+		energy = @[ $TIER$ * 1.5 ]
+
+		# various types of science upkeep here for lore
+		$SCIENCE_UPKEEP$ = @[ ( $TIER$ * 1.5 ) - 1.5 ]
 	}
 	produces = {
 		trigger = {
@@ -15,13 +21,6 @@ resources = {
 			owner = { has_tradition = tr_nanotech_1 }
 		}
 		nanites = @[ ( $TIER$ + 1 ) * oxr_mdlc_wm_base_drone_nanite_output ]
-	}
-	upkeep = {
-		# base building upkeep
-		energy = @[ $TIER$ * 2 ]
-
-		# various types of science upkeep here for lore
-		$RS_RARE$ = @[ ( $TIER$ * 3 ) - 3 ]  # 3 upkeep at tier 2, 12 upkeep at tier 5
 	}
 
 }

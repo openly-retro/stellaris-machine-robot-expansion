@@ -4,19 +4,16 @@ resources = {
 	category = oxr_mdlc_world_machines_generator_buildings
 	cost = {
 		minerals = @[ $TIER$ * 200 ]   # dont add the extra 200 any more
-		# $RS_RARE$ = @[ $TIER$ * 15 ]
 	}
 	produces = {
 		energy = @[ $TIER$ * oxr_mdlc_wm_base_technician_output ]
 	}
 	upkeep = {
-		physics_research = @[ ( $TIER$ * 3 ) - 3 ]  # 3 upkeep at tier 2, 12 upkeep at tier 5
-		# mineral upkeep
-		minerals = @[ $TIER$ * 2.5 ]
-	}
-	# generic energy upkeep
-	upkeep = {
+		# base building upkeep
 		energy = @[ $TIER$ + 1 ]
+
+		# various types of science upkeep here for lore
+		physics_research = @[ ( $TIER$ * 1.5 ) - 1.5 ]  # 3 upkeep at tier 2, 12 upkeep at tier 5
 	}
 
 	# BIOFUEL CODE
@@ -26,7 +23,7 @@ resources = {
 		}
 		# mineral tax on energy buildings is the only logical option available
 		# unless the upkeep is simply energy
-		$RS_UPKEEP$ = @[ $TIER$ * 2 ]
+		minerals = @[ $TIER$ * 2 ]
 	}
 	upkeep = {
 		trigger = {
