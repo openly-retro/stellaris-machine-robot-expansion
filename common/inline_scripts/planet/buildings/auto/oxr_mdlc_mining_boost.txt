@@ -1,22 +1,41 @@
-base_buildtime = $BUILD_TIME$
+base_buildtime = @[ ( $TIER$ * 180 ) + 180 ]  # tier 1 is 360, tier 2 is 480
 base_cap_amount = 1
 category = resource
 resources = {
 	category = oxr_mdlc_world_machines_mining_buildings
 	cost = {
-		minerals = $COST$
-		volatile_motes = $COST_MOTES$
+		minerals = @[ ( $TIER$ * 200 ) + 200 ]
+		volatile_motes = $COST_RARE$
 	}
 	upkeep = {
-		energy = $UPKEEP$
+		energy = 2
+		exotic_gases = $RARE_UPKEEP$
 	}
 }
 planet_modifier = {
-	xvcv_mdlc_world_machines_mining_districts_minerals_produces_mult = $PRODUCES_MULT$
-	xvcv_mdlc_world_machines_mining_districts_energy_upkeep_add = $ENERGY_UPKEEP_ADD$
+	# Buildings are not representing double jobs as I have declared as of 4.3
+	# Districts still are, however!
+	# Base game tier 1 adds 0.5 minerals per 100 mining jobs
+	# which is the same as 0.083%
+
+	xvcv_mdlc_world_machines_mining_districts_minerals_produces_mult = @[ $TIER$ * 0.085 ]
+	# xvcv_mdlc_world_machines_mining_districts_energy_upkeep_add = $ENERGY_UPKEEP_ADD$
 	# buildings :D
-	oxr_mdlc_world_machines_mining_buildings_minerals_produces_mult = $PRODUCES_MULT$
-	oxr_mdlc_world_machines_mining_buildings_energy_upkeep_add = $ENERGY_UPKEEP_ADD$
+	# Miner extra energy upkeep is gone in 4.3
+	oxr_mdlc_world_machines_mining_buildings_minerals_produces_mult = @[ $TIER$ * 0.085 ]
+	# oxr_mdlc_world_machines_mining_buildings_energy_upkeep_add = $ENERGY_UPKEEP_ADD$
+}
+
+triggered_planet_modifier = {
+	potential = { is_xvcv_mdlc_pc_ringworld_machine_auto = yes }
+	xvcv_mdlc_world_machines_raw_resources_districts_food_produces_mult = 0.083
+	# xvcv_mdlc_world_machines_raw_resources_districts_energy_upkeep_add = $ENERGY_UPKEEP_ADD$
+	# buildings :D
+	oxr_mdlc_world_machines_food_buildings_food_produces_mult = 0.083
+	# oxr_mdlc_world_machines_food_buildings_energy_upkeep_add = $ENERGY_UPKEEP_ADD$
+	
+	# nerfed in 4.3 aggghh why are there even ringworlds
+	# mult = 5
 }
 
 building_sets = {

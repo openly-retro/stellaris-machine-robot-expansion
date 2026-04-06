@@ -19,7 +19,8 @@ etc.
 ECONOMIC_CATEGORY_CONFIG_FILES = [
     'mdlc_economic_modifiers.yml',
     'mdlc_building_economic_modifiers.yml',
-    'mdlc_pop_economic_modifiers.yml'
+    'mdlc_pop_economic_modifiers.yml',
+    'mdlc_rikk_district_economic_modifiers.yml',
 ]
 
 GAME_RESOURCES = [

@@ -1,55 +1,33 @@
 category = manufacturing
-
+base_buildtime = @[ ( $TIER$ * 180 ) + 180 ]
 resources = {
 	category = oxr_mdlc_world_machines_foundry_buildings
 	cost = {
-		minerals = $COST$
+		minerals = @[ ( $TIER$ * 200 ) + 200 ]
 		volatile_motes = $RARE_COST$
 	}
 	upkeep = {
-		energy = $UPKEEP$
+		energy = @[ ( $TIER$ * $TIER$ ) + 1 ]  # best result, least effort
 		volatile_motes = $RARE_UPKEEP$
 	}
 	# produces
 	produces = {
 		trigger = { owner = { is_catalytic_empire = no } }
-		alloys = @oxr_mdlc_wm_base_fabricator_output
+		alloys = @[ $TIER$ * 2 * oxr_mdlc_wm_base_fabricator_output ]
 	}
 	upkeep = {
 		trigger = { owner = { is_catalytic_empire = no } }
-		minerals = @oxr_mdlc_wm_base_fabricator_upkeep
+		minerals = @[ $TIER$ * 2 * oxr_mdlc_wm_base_fabricator_upkeep ]
 	}
 	# catalytic
 	produces = {
 		trigger = { owner = { is_catalytic_empire = yes } }
-		alloys = @oxr_mdlc_wm_base_fabricator_catalytic_output
+		alloys = @[ $TIER$ * 2 * oxr_mdlc_wm_base_fabricator_catalytic_output ]
 	}
 	upkeep = {
 		trigger = { owner = { is_catalytic_empire = yes } }
-		food = @oxr_mdlc_wm_base_fabricator_catalytic_upkeep
+		food = @[ $TIER$ * 2 * oxr_mdlc_wm_base_fabricator_catalytic_upkeep ]
 	}
-}
-
-triggered_planet_modifier = {
-	potential = {
-		exists = owner
-		is_xvcv_mdlc_pc_machine_auto = yes
-	}
-	modifier = {
-		xvcv_mdlc_world_machines_primary_districts_alloys_produces_mult = $PRODUCTION_MULT$
-		xvcv_mdlc_world_machines_primary_districts_upkeep_mult = $PRODUCTION_MULT$
-	}
-}
-triggered_planet_modifier = {
-	potential = {
-		exists = owner
-		OR = {
-			is_xvcv_mdlc_pc_machine_ecu = yes
-			is_xvcv_mdlc_pc_ringworld_machine_auto = yes
-		}
-	}
-	xvcv_mdlc_world_machines_production_districts_produces_mult = $PRODUCTION_MULT$
-	xvcv_mdlc_world_machines_production_districts_upkeep_mult = $PRODUCTION_MULT$
 }
 
 building_sets = {
