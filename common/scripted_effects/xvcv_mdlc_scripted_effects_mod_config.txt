@@ -1,0 +1,39 @@
+xvcv_mdlc_country_effect_mod_config_do_counting_for_display = {
+	if = {
+		limit = { NOT = { has_country_flag = xvcv_mdlc_config_value_counts_locked } } #prevent counting until the player reopens the window
+		#xvcv_mdlc_config_free_jobs_count_effect
+		if = {
+			limit = { is_variable_set = xvcv_mdlc_empire_all_free_jobs_count_var }
+			clear_variable = xvcv_mdlc_empire_all_free_jobs_count_var
+		}
+		every_owned_planet = {
+			limit = { free_jobs > 0 }
+			export_trigger_value_to_variable = { trigger = free_jobs variable = xvcv_mdlc_planet_free_jobs_count_var }
+			root = { change_variable = { which = xvcv_mdlc_empire_all_free_jobs_count_var value = prev.xvcv_mdlc_planet_free_jobs_count_var } }
+		}
+		if = {
+			limit = { NOT = { is_variable_set = xvcv_mdlc_empire_all_free_jobs_count_var } }
+			set_variable = { which = xvcv_mdlc_empire_all_free_jobs_count_var value = 0 } #to show the player that the value is 0 #better than displaying an empty space
+		}
+		#xvcv_mdlc_config_free_housing_count_effect
+		if = {
+			limit = { is_variable_set = xvcv_mdlc_empire_all_free_housing_count_var }
+			clear_variable = xvcv_mdlc_empire_all_free_housing_count_var
+		}
+		every_owned_planet = {
+			limit = { free_housing > 0 }
+			export_trigger_value_to_variable = { trigger = free_housing variable = xvcv_mdlc_planet_free_housing_count_var }
+			root = { change_variable = { which = xvcv_mdlc_empire_all_free_housing_count_var value = prev.xvcv_mdlc_planet_free_housing_count_var } }
+		}
+		if = {
+			limit = { NOT = { is_variable_set = xvcv_mdlc_empire_all_free_housing_count_var } }
+			set_variable = { which = xvcv_mdlc_empire_all_free_housing_count_var value = 0 }
+		}
+		export_trigger_value_to_variable = {
+			trigger = num_assigned_jobs
+			parameters = { job = unemployed }
+			variable = xvcv_mdlc_empire_all_unemployed_pops_count_var
+		}
+		set_country_flag = xvcv_mdlc_config_value_counts_locked
+	}
+}
