@@ -1,5 +1,6 @@
 ﻿menu:
   event namespace: xvcv_mdlc_config
+  event id: 1
   effect on startup: xvcv_mdlc_country_effect_mod_config_do_counting_for_display
   - page:
     id: 1
@@ -18,11 +19,15 @@
         description: Robot -> Machine Species Conversion happens §Yannually§! only to §BMachine Intelligence§! Empire.
         interaction type: toggle
         toggle flag: xvcv_mdlc_config_1_on
+        extra_triggers:
+          - "OR = { oxr_mdlc_is_individual_machine = yes is_machine_empire = yes }"
       - name: Species Conversion (Machine -> Robot)
         short name: species_convergence_machine_to_robot
         description: Machine -> Robot Species Conversion happens §Yannually§! only to §GSynthetic Ascended§! Empire.
         interaction type: toggle
         toggle flag: xvcv_mdlc_config_2_on
+        extra triggers:
+          - "oxr_mdlc_is_synthetic_empire = yes"
       - name: Species Mergence
         interaction type: toggle
         toggle flag: xvcv_mdlc_config_3_on
@@ -42,7 +47,7 @@
       toggle flag: xvcv_mdlc_civic_assimilating_swarm_message_on
     - name: "§Y$xvcv_mdlc_r_unknown_core$§! Relic Notification"
       interaction type: toggle
-      country flag: xvcv_mdlc_r_unknown_core_message_on
+      toggle flag: xvcv_mdlc_r_unknown_core_message_on
       # ecu
     - name: "§Y$xvcv_mdlc_decision_machine_ecu_project$§! Completion Notice"
       interaction type: toggle
@@ -93,7 +98,7 @@
     - name: Bio-Mechanical Worlds feature
       description: An advanced planet type for Bio-Mechanical empires, which is an expanded form of the Mechanical planet.
       interaction type: toggle
-      country flag: oxr_mdlc_feature_bio_mech_buildings
+      toggle flag: oxr_mdlc_feature_bio_mech_buildings
     - name: Go to Page 3, Cleanup Commands
       switch to page: 4
     - name: Close this window
