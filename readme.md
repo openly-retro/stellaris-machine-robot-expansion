@@ -1,4 +1,4 @@
-This is a continuation of XVCV's "Machines & Robot Expansion" mod for Stellaris. The goals are to keep it up to date with the latest game version, fix bugs, and add new content.
+This is a continuation of XVCV's "Machine & Robot Expansion" mod for Stellaris. The goals are to keep it up to date with the latest game version, fix bugs, and add new content.
 
 The original author has abandoned the work and is no longer available for contact.
 
@@ -16,7 +16,11 @@ I will also respond to comments in the Github wiki and issues for this project.
 
 ## Contributing
 
-Please visit the Github repo wiki for this project: [https://github.com/openly-retro/stellaris-machine-robot-expansion/wiki](https://github.com/openly-retro/stellaris-machine-robot-expansion/wiki)
+Borrowing from QUEMU's [Code Provenance](https://github.com/qemu/qemu/blob/master/docs/devel/code-provenance.rst):
+
+**The Machine & Robot Expansion: Continued project policy is to DECLINE any contributions which are believed to include or derive from AI generated content. This includes ChatGPT, Claude, Copilot, Llama and similar tools.**
+
+For modders and interested persons in meat-space, please visit the Github repo wiki for this project: [https://github.com/openly-retro/stellaris-machine-robot-expansion/wiki](https://github.com/openly-retro/stellaris-machine-robot-expansion/wiki)
 
 Warnings about working with Clausewitz syntax (what base Stellaris traits files are written in)
 
