@@ -40,19 +40,25 @@ class MenuToggleOption(MenuBase):
 
 		loc_key_on_value = f"{self.name}\n$xvcv_mdlc_config.message.on.tooltip$"
 		loc_key_off_value = f"{self.description}\n$xvcv_mdlc_config.message.off.tooltip$"
+		# This is what get written to yml files
+		# Extra single space in front of content is mandatory
+		loc_key_on_pair = f" {loc_key_on_id}: \"{loc_key_on_value}\""
+		loc_key_off_pair = f" {loc_key_off_id}: \"{loc_key_off_value}\""
 
-		return f" {loc_key_on_id}: \"{loc_key_on_value}\"", f" {loc_key_off_id}: \"{loc_key_off_value}\""
+		return loc_key_on_pair, loc_key_off_pair
 
 @dataclass
 class MenuNavOption(MenuBase):
+	""" A class describing a menu option for switching to the next 'page' (event) in the menu """
 	event_id: int 						# For which game event is this option
 	event_namespace: str 				# for building out localisation references
-	option_id: int 						# index of this option in this page's list of options
-	next_page_event_id: int 			# event namespace + next_page_event_id
+	option_id: int 						# index of this option in this page's list of options (automatic)
+	target_page_event_id: int 			# event namespace + next_page_event_id
 
 
 @dataclass
 class MenuPage(MenuBase):
+	""" An event window with a description, image, and one or more options """
 	page_id: int 						# automatically assigned
 	picture_gfx_ref: str 				# GFX_evt_xvcv_mdlc
 	options: List[MenuToggleOption]
