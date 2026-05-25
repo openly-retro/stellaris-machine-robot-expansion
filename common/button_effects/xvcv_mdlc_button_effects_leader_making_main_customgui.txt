@@ -151,8 +151,11 @@ oxr_mdlc_leader_making_level_up_button_effect = {
         custom_tooltip_fail = {
             text = oxr_mdlc_leader_making_change_level_up.fail_unobtained
             # i'll "stand on my head and spit wooden nickels" if this works
-            oxr_mdlc_leader_making_check_maximum_allowed_leader_level = {
-                LEVEL = @[ xvcv_mdlc_leader_making_skill_level + 1 ]
+            from = {
+                check_variable = {
+                    which = xvcv_mdlc_leader_making_skill_level
+                    value < oxr_mdlc_leader_making_maximum_allowed_leader_level
+                }
             }
         }
         custom_tooltip_fail = {
