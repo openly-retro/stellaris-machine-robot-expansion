@@ -63,6 +63,36 @@ d_{deposit_resource_name}_{series} = {{
 
 """
 
+# Note the extra space at the beginning of the string, this is purposeful for proper yml
+orbital_deposit_localisation_template = " d_{deposit_resource_name}_{series}: \"£{deposit_resource_name}£ +{series}\""
+
+
+def iterate_resources_ranges_make_localisations() -> str:
+	""" Make a list of loc:key values for all the missing deposits created """
+	deposits_loc_list = []
+
+	resource_names = MISSING_RANGES.keys()
+	for game_resource in resource_names:
+
+		# Go through each range, and sequentially generate code for deposit locs
+		for missing_range_tuple in MISSING_RANGES[game_resource]:
+
+			for deposit_size in range(
+				missing_range_tuple[0], missing_range_tuple[1]
+			):
+				deposits_loc_list.append(
+					orbital_deposit_localisation_template.format(
+						deposit_resource_name=game_resource,
+						series=deposit_size
+					)
+				)
+
+	loc_file_contents = f"""
+l_english:
+{'\n'.join(deposits_loc_list)}
+"""
+
+
 def iterate_resources_ranges_make_deposits():
 
 	deposits_list = []
