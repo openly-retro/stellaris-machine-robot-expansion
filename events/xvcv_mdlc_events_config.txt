@@ -70,9 +70,7 @@ country_event = {
 		custom_tooltip = xvcv_mdlc_config.message.off.tooltip
 		trigger = {
 			NOT = { has_country_flag = xvcv_mdlc_config_2_on }
-			OR = {
-				oxr_mdlc_is_synthetic_empire = yes
-			}
+			oxr_mdlc_is_synthetic_empire = yes
 		}
 		hidden_effect = {
 			set_country_flag = xvcv_mdlc_config_2_on
@@ -114,6 +112,25 @@ country_event = {
 		trigger = { NOT = { has_country_flag = xvcv_mdlc_config_4_on } }
 		hidden_effect = {
 			set_country_flag = xvcv_mdlc_config_4_on
+			country_event = { id = xvcv_mdlc_config.1 }
+		}
+	}
+	# repeatable builder techs
+	option = {
+		name = xvcv_mdlc_config.1.5.on
+		custom_tooltip = xvcv_mdlc_config.message.on.tooltip
+		trigger = { has_country_flag = oxr_mdlc_country_feature_infinite_repeatable_builder_techs }
+		hidden_effect = {
+			remove_country_flag = oxr_mdlc_country_feature_infinite_repeatable_builder_techs
+			country_event = { id = xvcv_mdlc_config.1 }
+		}
+	}
+	option = {
+		name = xvcv_mdlc_config.1.5.off
+		custom_tooltip = xvcv_mdlc_config.message.off.tooltip
+		trigger = { NOT = { has_country_flag = oxr_mdlc_country_feature_infinite_repeatable_builder_techs } }
+		hidden_effect = {
+			set_country_flag = oxr_mdlc_country_feature_infinite_repeatable_builder_techs
 			country_event = { id = xvcv_mdlc_config.1 }
 		}
 	}
