@@ -244,6 +244,10 @@ xvcv_mdlc_bio_robot_pop_upkeep_control_gestalt = {
 		has_authority = auth_machine_intelligence
 	}
 
+	# Machine species by default have +1 energy upkeep
+	# Moving from energy focus to food focus means:
+	# - going from +1 energy to +0 energy
+	# - going from +0 food to +1 food
 	option = {
 		name = xvcv_mdlc_bio_robot_pop_upkeep_control_gestalt_energy_only
 
@@ -252,7 +256,7 @@ xvcv_mdlc_bio_robot_pop_upkeep_control_gestalt = {
 		}
 
 		modifier = {
-			pop_category_drones_xvcv_bio_robot_energy_upkeep_add = 1
+			pop_category_drones_xvcv_bio_robot_energy_upkeep_add = -0.0000000001
 		}
 
 		AI_weight = {
@@ -267,7 +271,7 @@ xvcv_mdlc_bio_robot_pop_upkeep_control_gestalt = {
 		}
 
 		modifier = {
-			pop_category_drones_xvcv_bio_robot_energy_upkeep_add = 0.75
+			pop_category_drones_xvcv_bio_robot_energy_upkeep_add = -0.25
 			pop_category_drones_xvcv_bio_robot_food_upkeep_add = 0.25
 		}
 
@@ -283,7 +287,7 @@ xvcv_mdlc_bio_robot_pop_upkeep_control_gestalt = {
 		}
 
 		modifier = {
-			pop_category_drones_xvcv_bio_robot_energy_upkeep_add = 0.5
+			pop_category_drones_xvcv_bio_robot_energy_upkeep_add = -0.5
 			pop_category_drones_xvcv_bio_robot_food_upkeep_add = 0.5
 		}
 
@@ -299,7 +303,7 @@ xvcv_mdlc_bio_robot_pop_upkeep_control_gestalt = {
 		}
 
 		modifier = {
-			pop_category_drones_xvcv_bio_robot_energy_upkeep_add = 0.25
+			pop_category_drones_xvcv_bio_robot_energy_upkeep_add = -0.75
 			pop_category_drones_xvcv_bio_robot_food_upkeep_add = 0.75
 		}
 
@@ -314,8 +318,10 @@ xvcv_mdlc_bio_robot_pop_upkeep_control_gestalt = {
 			xvcv_mdlc_bio_robot_pop_upkeep_control_gestalt_food_only
 		}
 
+		# Minus one energy is zero energy because of hidden base Machine pop upkeep
 		modifier = {
-			pop_category_drones_xvcv_bio_robot_food_upkeep_add = 1
+			pop_category_drones_xvcv_bio_robot_food_upkeep_add = @oxr_mdlc_one
+			pop_category_drones_xvcv_bio_robot_energy_upkeep_add = @oxr_mdlc_negative_1
 		}
 
 		AI_weight = {
@@ -337,9 +343,8 @@ xvcv_mdlc_bio_robot_pop_upkeep_control_non_gestalt = {
 		}
 
 		modifier = {
-			pop_category_workers_xvcv_bio_robot_energy_upkeep_add = 1
-			pop_category_specialists_xvcv_bio_robot_energy_upkeep_add = 1
-			pop_category_rulers_xvcv_bio_robot_energy_upkeep_add = 1
+			oxr_mdlc_pop_category_bio_mech_non_gestalt_pops_energy_upkeep_add = -0.00000001
+			# oxr_mdlc_pop_category_bio_mech_non_gestalt_pops_food_upkeep_add = @oxr_mdlc_negative_1
 		}
 
 		AI_weight = {
@@ -354,13 +359,9 @@ xvcv_mdlc_bio_robot_pop_upkeep_control_non_gestalt = {
 		}
 
 		modifier = {
-			pop_category_workers_xvcv_bio_robot_energy_upkeep_add = 0.75
-			pop_category_specialists_xvcv_bio_robot_energy_upkeep_add = 0.75
-			pop_category_rulers_xvcv_bio_robot_energy_upkeep_add = 0.75
+			oxr_mdlc_pop_category_bio_mech_non_gestalt_pops_energy_upkeep_add = -0.25
 
-			pop_category_workers_xvcv_bio_robot_food_upkeep_add = 0.25
-			pop_category_specialists_xvcv_bio_robot_food_upkeep_add = 0.25
-			pop_category_rulers_xvcv_bio_robot_food_upkeep_add = 0.25
+			oxr_mdlc_pop_category_bio_mech_non_gestalt_pops_food_upkeep_add = 0.75
 		}
 
 		AI_weight = {
@@ -375,13 +376,9 @@ xvcv_mdlc_bio_robot_pop_upkeep_control_non_gestalt = {
 		}
 
 		modifier = {
-			pop_category_workers_xvcv_bio_robot_energy_upkeep_add = 0.5
-			pop_category_specialists_xvcv_bio_robot_energy_upkeep_add = 0.5
-			pop_category_rulers_xvcv_bio_robot_energy_upkeep_add = 0.5
+			oxr_mdlc_pop_category_bio_mech_non_gestalt_pops_energy_upkeep_add = -0.5
 
-			pop_category_workers_xvcv_bio_robot_food_upkeep_add = 0.5
-			pop_category_specialists_xvcv_bio_robot_food_upkeep_add = 0.5
-			pop_category_rulers_xvcv_bio_robot_food_upkeep_add = 0.5
+			oxr_mdlc_pop_category_bio_mech_non_gestalt_pops_food_upkeep_add = 0.5
 		}
 
 		AI_weight = {
@@ -396,13 +393,9 @@ xvcv_mdlc_bio_robot_pop_upkeep_control_non_gestalt = {
 		}
 
 		modifier = {
-			pop_category_workers_xvcv_bio_robot_energy_upkeep_add = 0.25
-			pop_category_specialists_xvcv_bio_robot_energy_upkeep_add = 0.25
-			pop_category_rulers_xvcv_bio_robot_energy_upkeep_add = 0.25
+			oxr_mdlc_pop_category_bio_mech_non_gestalt_pops_energy_upkeep_add = -0.75
 
-			pop_category_workers_xvcv_bio_robot_food_upkeep_add = 0.75
-			pop_category_specialists_xvcv_bio_robot_food_upkeep_add = 0.75
-			pop_category_rulers_xvcv_bio_robot_food_upkeep_add = 0.75
+			oxr_mdlc_pop_category_bio_mech_non_gestalt_pops_food_upkeep_add = 0.75
 		}
 
 		AI_weight = {
@@ -417,9 +410,10 @@ xvcv_mdlc_bio_robot_pop_upkeep_control_non_gestalt = {
 		}
 
 		modifier = {
-			pop_category_workers_xvcv_bio_robot_food_upkeep_add = 1
-			pop_category_specialists_xvcv_bio_robot_food_upkeep_add = 1
-			pop_category_rulers_xvcv_bio_robot_food_upkeep_add = 1
+			#custom_tooltip_with_modifiers = oxr_mdlc_pop_category_bio_mech_non_gestalt_pops_food_upkeep_base_tt
+			oxr_mdlc_pop_category_bio_mech_non_gestalt_pops_energy_upkeep_add = @oxr_mdlc_negative_1
+
+			oxr_mdlc_pop_category_bio_mech_non_gestalt_pops_food_upkeep_add = @oxr_mdlc_one
 		}
 
 		AI_weight = {
