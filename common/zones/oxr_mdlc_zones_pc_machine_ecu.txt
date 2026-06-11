@@ -483,6 +483,10 @@ oxr_mdlc_zone_pc_machine_ecu_star_command = {
 	zone_sets = {
 		oxr_mdlc_zone_set_wm_military
 	}
+	# 1 rare crystal per 8 naval cap added, is what the t2 building provides
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_military_districts_alloys_upkeep_add = 6
+	}
 }
 
 oxr_mdlc_zone_pc_machine_ecu_ground_command = {
@@ -507,6 +511,9 @@ oxr_mdlc_zone_pc_machine_ecu_ground_command = {
 	zone_sets = {
 		oxr_mdlc_zone_set_wm_military
 	}
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_military_districts_logistics_upkeep_add = 8
+	}
 }
 
 oxr_mdlc_zone_pc_machine_ecu_military_supply_chain = {
@@ -520,13 +527,15 @@ oxr_mdlc_zone_pc_machine_ecu_military_supply_chain = {
 		military_theory
 		oxr_mdlc_building_set_wm_military
 	}
-	triggered_district_planet_modifier = {
-		xvcv_mdlc_world_machines_military_districts_trade_upkeep_add = @[ oxr_t3_planet_district_jobs * oxr_mdlc_wm_base_logistics_drone_output ]
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_military_districts_trade_upkeep_add = 6
+		xvcv_mdlc_world_machines_military_districts_exotic_gases_upkeep_add = 1
 		# mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 	}
-	triggered_district_country_modifier = {
+	triggered_country_modifier = {
 		ship_speed_mult = 0.01
 		mult = planet.oxr_mdlc_world_machines_districts_output_var
+		mult = value:oxr_mdlc_planet_num_military_districts
 	}
 	zone_sets = {
 		oxr_mdlc_zone_set_wm_military

@@ -102,19 +102,6 @@ xvcv_mdlc_civic_goods_distributor = {
 	modification = no
 }
 
-# xvcv_mdlc_civic_planet_cracker = {
-# 	potential = { authority = { value = auth_machine_intelligence } }
-# 	random_weight = { base = 5 }
-# 	description = "xvcv_mdlc_civic_planet_cracker_tooltip"
-# 	modifier = {
-# 		country_resource_max_minerals_add = 20000
-# 		country_base_minerals_produces_add = 20
-# 		planet_miners_minerals_produces_mult = -1.0
-# 		councilor_gestalt_growth_exp_gain = @gestalt_civic_node_xp_rate
-# 	}
-# 	modification = no
-# }
-
 # Exasperation's version
 xvcv_mdlc_civic_planet_cracker = {
 	potential = { authority = { value = auth_machine_intelligence } }
@@ -127,7 +114,7 @@ xvcv_mdlc_civic_planet_cracker = {
 	swap_type = {
 		trigger = {
 			is_scope_valid = yes
-			has_origin = oxr_mdlc_origin_world_machine_awakened
+			has_oxr_mdlc_origin_world_machine_awakened = yes
 		}
 		modifier = {
 			xvcv_mdlc_world_machines_mining_districts_minerals_produces_mult = -1.0
@@ -138,7 +125,7 @@ xvcv_mdlc_civic_planet_cracker = {
 	swap_type = {
 		trigger = {
 			is_scope_valid = yes
-			NOT = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+			has_oxr_mdlc_origin_world_machine_awakened = no
 		}
 		modifier = {
 			planet_miners_minerals_produces_mult = -1.0
@@ -171,28 +158,6 @@ xvcv_mdlc_civic_friendship_protocol = {
 	}
 }
 
-# xvcv_mdlc_civic_machine_learning = {
-# 	potential = { authority = { value = auth_machine_intelligence } }
-# 	random_weight = { base = 5 }
-# 	description = "xvcv_mdlc_civic_machine_learning_tooltip"
-# 	modifier = {
-# 		councilor_gestalt_cognitive_exp_gain = @gestalt_civic_node_xp_rate
-# 	}
-# 	swap_type = {
-# 		description = "xvcv_mdlc_civic_machine_learning_situation_complete_tooltip"
-# 		trigger = {
-# 			is_scope_valid = yes
-# 			has_country_flag = xvcv_mdlc_country_flag_civic_machine_learning_complete
-# 		}
-# 		modifier = {
-# 			planet_jobs_produces_mult = 0.25
-# 			planet_researchers_produces_mult = 0.25
-# 			councilor_gestalt_cognitive_exp_gain = @gestalt_civic_node_xp_rate
-# 		}
-# 	}
-# 	modification = no
-# }
-
 # Exasperation's version
 xvcv_mdlc_civic_machine_learning = {
 	potential = { authority = { value = auth_machine_intelligence } }
@@ -204,11 +169,11 @@ xvcv_mdlc_civic_machine_learning = {
 	swap_type = {
 		description = "xvcv_mdlc_civic_world_machine_learning_situation_tooltip"
 		trigger = {
+			has_oxr_mdlc_origin_world_machine_awakened = yes
 			is_scope_valid = yes
 			NOT = {
 				has_country_flag = xvcv_mdlc_country_flag_civic_machine_learning_complete
 			}
-			has_origin = oxr_mdlc_origin_world_machine_awakened
 		}
 	}
 	swap_type = {
@@ -216,9 +181,7 @@ xvcv_mdlc_civic_machine_learning = {
 		trigger = {
 			is_scope_valid = yes
 			has_country_flag = xvcv_mdlc_country_flag_civic_machine_learning_complete
-			NOT = {
-				has_origin = oxr_mdlc_origin_world_machine_awakened
-			}
+			has_oxr_mdlc_origin_world_machine_awakened = no
 		}
 		modifier = {
 			planet_jobs_produces_mult = 0.25
@@ -230,7 +193,7 @@ xvcv_mdlc_civic_machine_learning = {
 		description = "xvcv_mdlc_civic_machine_learning_situation_complete_tooltip"
 		trigger = {
 			is_scope_valid = yes
-			has_origin = oxr_mdlc_origin_world_machine_awakened
+			has_oxr_mdlc_origin_world_machine_awakened = yes
 			has_country_flag = xvcv_mdlc_country_flag_civic_machine_learning_complete
 		}
 		modifier = {
