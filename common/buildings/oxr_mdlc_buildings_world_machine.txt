@@ -2218,17 +2218,12 @@ oxr_mdlc_world_machines_auto_generator_1 = {
 		cost = { minerals = 200 }
 		produces = { energy = @[ 2 * oxr_mdlc_wm_base_technician_output ] }
 		upkeep = {
-			trigger = {
-				NOT = { has_active_building = oxr_mdlc_world_machines_biofuel_refit_1 }
-			}
-
-			minerals = 2.5
+			trigger = { NOT = { has_active_building = oxr_mdlc_world_machines_biofuel_refit_1 } }
+			minerals = @oxr_mdlc_wm_base_technician_upkeep
 		}
 		upkeep = {
-			trigger = {
-				has_active_building = oxr_mdlc_world_machines_biofuel_refit_1
-			}
-			food = 4
+			trigger = { has_active_building = oxr_mdlc_world_machines_biofuel_refit_1 }
+			food = @[ oxr_mdlc_wm_base_technician_upkeep * 2 ]
 		}
 	}
 	inline_script = planet/buildings/auto/oxr_auto_biofuel
@@ -2395,43 +2390,44 @@ oxr_mdlc_world_machines_auto_energy_grid_2 = {
 	}
 }
 # Convert food to energy
-oxr_mdlc_world_machines_biofuel_refit_1 = {
-	base_cap_amount = 1
-	base_buildtime = @b2_time
-	category = resource
-	potential = {
-		exists = owner
-		owner = {
-			OR = {
-				has_origin = oxr_mdlc_origin_world_machine_awakened
-				# has_ascension_perk = xvcv_mdlc_ap_world_machines
-			}
-			has_civic = civic_machine_catalytic_processing
-		}
-		is_planet_world_machine = yes
-	}
-	show_tech_unlock_if = {
-		OR = {
-			has_origin = oxr_mdlc_origin_world_machine_awakened
-			# has_ascension_perk = xvcv_mdlc_ap_world_machines
-		}
-	}
-	on_built = {
-		owner = {
-			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
-		}
-	}
-	inline_script = planet/buildings/auto/oxr_destroy
-	custom_tooltip = oxr_mdlc_world_machines_biofuel_refit_1_tooltip
-	prerequisites = {
-		tech_bio_reactor_2
-	}
-	building_sets = {
-		oxr_mdlc_building_set_wm_all
-		oxr_mdlc_building_set_wm_raw_resource
-		oxr_mdlc_building_set_wm_food
-	}
-}
+#generators do not have upkeep as of right now so this is disabled
+#oxr_mdlc_world_machines_biofuel_refit_1 = {
+#	base_cap_amount = 1
+#	base_buildtime = @b2_time
+#	category = resource
+#	potential = {
+#		exists = owner
+#		owner = {
+#			OR = {
+#				has_origin = oxr_mdlc_origin_world_machine_awakened
+#				# has_ascension_perk = xvcv_mdlc_ap_world_machines
+#			}
+#			has_civic = civic_machine_catalytic_processing
+#		}
+#		is_planet_world_machine = yes
+#	}
+#	show_tech_unlock_if = {
+#		OR = {
+#			has_origin = oxr_mdlc_origin_world_machine_awakened
+#			# has_ascension_perk = xvcv_mdlc_ap_world_machines
+#		}
+#	}
+#	on_built = {
+#		owner = {
+#			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
+#		}
+#	}
+#	inline_script = planet/buildings/auto/oxr_destroy
+#	custom_tooltip = oxr_mdlc_world_machines_biofuel_refit_1_tooltip
+#	prerequisites = {
+#		tech_bio_reactor_2
+#	}
+#	building_sets = {
+#		oxr_mdlc_building_set_wm_all
+#		oxr_mdlc_building_set_wm_raw_resource
+#		oxr_mdlc_building_set_wm_food
+#	}
+#}
 
 
 #### STRATEGIC ####
