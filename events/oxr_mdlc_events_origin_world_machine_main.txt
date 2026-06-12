@@ -828,9 +828,7 @@ planet_event = {
 				log = "oxr_mdlc_planet_world_machine_core_countdown wasn't set.. supposedly setting it now"
 				set_variable = {
 					which = oxr_mdlc_planet_world_machine_core_countdown
-					# value = @oxr_mdlc_world_machine_core_build_time_days
-					# value = 60
-					value = @oxr_mdlc_world_machine_core_build_time_days
+					value = @oxr_mdlc_world_machine_core_build_time_months
 				}
 				# Otherwise, RESUME wmc construction
 			}
@@ -851,19 +849,14 @@ planet_event = {
 	is_triggered_only = yes
 
 	immediate = {
-		add_modifier = {
-			modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
-			# days = @oxr_mdlc_world_machine_core_build_time_days
-			days = -1
-		}
-		planet_event = {
-			id = oxr_mdlc_origin_wm_main.1305
-		}
+		add_modifier = { modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress }
+		planet_event = { id = oxr_mdlc_origin_wm_main.1305 }
 	}
 }
 
-# Every day, check that the "in_progress" modifier is still active
+# Every month, check that the "in_progress" modifier is still active
 # If it's not, reset
+# Rikk: I changed this from daily to monthly for performance
 planet_event = {
 	id = oxr_mdlc_origin_wm_main.1305
 	hide_window = yes
@@ -874,22 +867,25 @@ planet_event = {
 	}
 	immediate = {
 		if = {
-			limit = {
-				NOR = {
-					has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
-					has_building = oxr_mdlc_world_machines_building_core_fabrication_depot
+			limit = { NOT = { has_building = oxr_mdlc_world_machines_building_core_fabrication_depot } }
+			log = "Stopping construction of WMC, from inside the 'watcher' event"
+			remove_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
+			clear_variable = oxr_mdlc_planet_world_machine_core_countdown
+			remove_planet_flag = oxr_mdlc_origin_world_machine_core_auto_build_enabled
+			create_message = {
+				type = OXR_MDLC_ORIGIN_WM_CORE_FABRICATION_HALTED_MISSING
+				localization = OXR_MDLC_ORIGIN_WM_CORE_FABRICATION_HALTED_MISSING_MESSAGE
+				days = 20
+				target = this
+				variable = {
+					type = name
+					localization = OXR_MDLC_ORIGIN_WM_CORE_FABRICATION_PLANET
+					scope = this
 				}
 			}
-			# Player cancelled the construction, so stop
-			log = "Stopping construction of WMC, from inside the 'watcher' event"
 		}
 		else_if = {
-			limit = {
-				planet_owner = {
-					oxr_mdlc_country_has_room_for_more_wmc = no
-					# oxr_mdlc_country_has_room_for_more_wmc_using_vars = no
-				}
-			}
+			limit = { planet_owner = { oxr_mdlc_country_has_room_for_more_wmc = no } }
 			log = "No more room for WMCs! Stopping construction of WMC, from inside the 'watcher' event"
 			remove_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
 			remove_planet_flag = oxr_mdlc_origin_world_machine_core_auto_build_enabled
@@ -944,7 +940,7 @@ planet_event = {
 				# Loop
 				planet_event = {
 					id = oxr_mdlc_origin_wm_main.1305
-					days = 1
+					months = 1
 				}
 			}
 		}
@@ -961,11 +957,11 @@ planet_event = {
 	immediate = {
 		# Is there enough room to add this WMC? if not, refund it
 		# In case the player spammed active/inactive to try and get many cores
-		space_owner = {
-			add_resource = {
-				oxr_mdlc_world_machine_core = 1
-			}
-		}
+		#space_owner = {
+		#	add_resource = {
+		#		oxr_mdlc_world_machine_core = 1
+		#	}
+		#}
 		log = "Fabricated 1 World Machine Cores"
 		hidden_effect = {
 			space_owner = {
