@@ -1,19 +1,3 @@
-@buildings_t1 = 1
-@buildings_t2 = 2
-@buildings_t3 = 3
-@buildings_t4 = 4
-@buildings_t5 = 5
-
-@tier_2_capital_defense_armies = 4
-@tier_3_capital_defense_armies = 8
-@tier_4_capital_defense_armies = 16
-@tier_5_capital_defense_armies = 24
-
-@oxr_capital_upgrade_t2_districts_num = 10
-@oxr_capital_upgrade_t3_districts_num = 18
-@oxr_capital_upgrade_t4_districts_num = 25
-@oxr_capital_upgrade_t5_districts_num = 32
-
 #### MANUFACTURING ###
 
 # Forges
@@ -33,6 +17,8 @@ oxr_mdlc_world_machines_building_auto_forge_1 = {
     	RARE_UPKEEP = 0
 		RESOURCES = " "
     	JOB = fabricator
+		JOBS = 2
+		MODIFIER = none
     	SET = foundry
     }
 }
@@ -54,6 +40,8 @@ oxr_mdlc_world_machines_building_auto_forge_2 = {
 		RARE_UPKEEP = @b2_rare_upkeep
     	RESOURCES = " "
 		JOB = fabricator
+		JOBS = 4
+		MODIFIER = none
 		SET = foundry
     }
 }
@@ -74,6 +62,8 @@ oxr_mdlc_world_machines_building_auto_forge_3 = {
 		RARE_UPKEEP = @b3_rare_upkeep
     	RESOURCES = " "
 		JOB = fabricator
+		JOBS = 6
+		MODIFIER = none
 		SET = foundry
     }
 }
@@ -83,20 +73,18 @@ oxr_mdlc_world_machines_building_auto_forge_upkeep = {
 	can_build = yes
     planet_limit = 1
 	prerequisites = { tech_alloys_1 }
+	ai_resource_production = {
+		alloys = 10
+	}
 
+	triggered_planet_modifier = { oxr_mdlc_world_machines_foundry_buildings_upkeep_mult = -0.10 }
 	triggered_planet_modifier = {
 		potential = { exists = owner is_xvcv_mdlc_pc_machine_auto = yes }
 		xvcv_mdlc_world_machines_primary_districts_upkeep_mult = -0.10
-		oxr_mdlc_world_machines_foundry_buildings_upkeep_mult = -0.10
 	}
 	triggered_planet_modifier = {
-		potential = {
-			exists = owner
-			is_planet_world_machine = yes
-			is_xvcv_mdlc_pc_machine_auto = no
-		}
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_ecu = yes }
 		xvcv_mdlc_world_machines_production_districts_upkeep_mult = -0.10
-		oxr_mdlc_world_machines_foundry_buildings_upkeep_mult = -0.10
 	}
 
 	inline_script = {
@@ -109,8 +97,10 @@ oxr_mdlc_world_machines_building_auto_forge_upkeep = {
 		RARE_MATERIAL = volatile_motes
 		RARE_COST = @b3_rare_cost
 		RARE_UPKEEP = @b3_rare_upkeep
-    	RESOURCES = " "
+    	RESOURCES = "upkeep = { energy = 3 }"
 		JOB = none
+		JOBS = 0
+		MODIFIER = none
 		SET = foundry
     }
 }
@@ -119,22 +109,39 @@ oxr_mdlc_world_machines_building_auto_forge_efficiency = {
 	can_build = yes
     planet_limit = 1
 	prerequisites = { tech_alloys_2 }
+	ai_resource_production = {
+		alloys = 10
+	}
 
 	triggered_planet_modifier = {
-		potential = { exists = owner is_xvcv_mdlc_pc_machine_auto = yes }
-		xvcv_mdlc_world_machines_primary_districts_alloys_produces_mult = 0.15
-		oxr_mdlc_world_machines_foundry_buildings_alloys_produces_mult = 0.15
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_auto = yes owner = { is_catalytic_empire = no } }
+		xvcv_mdlc_world_machines_primary_districts_alloys_produces_add = 1
+		xvcv_mdlc_world_machines_primary_districts_minerals_upkeep_add = 2
+		oxr_mdlc_world_machines_foundry_buildings_alloys_produces_add = 1
+		oxr_mdlc_world_machines_foundry_buildings_minerals_upkeep_add = 2
 	}
 	triggered_planet_modifier = {
-		potential = {
-			exists = owner
-			is_planet_world_machine = yes
-			is_xvcv_mdlc_pc_machine_auto = no
-		}
-		xvcv_mdlc_world_machines_production_districts_alloys_produces_mult = 0.15
-		oxr_mdlc_world_machines_foundry_buildings_alloys_produces_mult = 0.15
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_auto = yes owner = { is_catalytic_empire = yes } }
+		xvcv_mdlc_world_machines_primary_districts_alloys_produces_add = 1
+		xvcv_mdlc_world_machines_primary_districts_food_upkeep_add = 2
+		oxr_mdlc_world_machines_foundry_buildings_alloys_produces_add = 1
+		oxr_mdlc_world_machines_foundry_buildings_food_upkeep_add = 2
 	}
-	# set to 0.15, since we cnanot recreate the 0.10 job efficiency with the current code
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_ecu = yes owner = { is_catalytic_empire = no } }
+		xvcv_mdlc_world_machines_production_districts_alloys_produces_add = 3
+		xvcv_mdlc_world_machines_production_districts_minerals_upkeep_add = 6
+		oxr_mdlc_world_machines_foundry_buildings_alloys_produces_add = 3
+		oxr_mdlc_world_machines_foundry_buildings_minerals_upkeep_add = 6
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_ecu = yes owner = { is_catalytic_empire = yes } }
+		xvcv_mdlc_world_machines_production_districts_alloys_produces_add = 3
+		xvcv_mdlc_world_machines_production_districts_food_upkeep_add = 6
+		oxr_mdlc_world_machines_foundry_buildings_alloys_produces_add = 3
+		oxr_mdlc_world_machines_foundry_buildings_food_upkeep_add = 6
+	}
+	# set to add, since we cannot recreate the 0.10 job efficiency with the current code
 	inline_script = {
 		script = planet/buildings/auto/rikk_empty_building
 		CATEGORY = manufacturing
@@ -144,8 +151,10 @@ oxr_mdlc_world_machines_building_auto_forge_efficiency = {
 		RARE_MATERIAL = volatile_motes
 		RARE_COST = @b4_rare_cost
 		RARE_UPKEEP = @b4_rare_upkeep
-    	RESOURCES = " "
+    	RESOURCES = "upkeep = { energy = 5 }"
 		JOB = none
+		JOBS = 0
+		MODIFIER = none
 		SET = foundry
     }
 }
@@ -172,6 +181,8 @@ oxr_mdlc_world_machines_building_auto_factory_1 = {
 		RARE_UPKEEP = 0
     	RESOURCES = " "
 		JOB = artisan
+		JOBS = 2
+		MODIFIER = none
 		SET = factory
     }
 }
@@ -198,6 +209,8 @@ oxr_mdlc_world_machines_building_auto_factory_2 = {
 		RARE_UPKEEP = @b2_rare_upkeep
     	RESOURCES = " "
 		JOB = artisan
+		JOBS = 4
+		MODIFIER = none
 		SET = factory
     }
 }
@@ -225,6 +238,8 @@ oxr_mdlc_world_machines_building_auto_factory_3 = {
 		RARE_UPKEEP = @b3_rare_upkeep
     	RESOURCES = " "
 		JOB = artisan
+		JOBS = 6
+		MODIFIER = none
 		SET = factory
     }
 	# ANAESTHETIC!
@@ -236,20 +251,18 @@ oxr_mdlc_world_machines_building_auto_factory_upkeep = {
 	can_build = yes
     planet_limit = 1
 	prerequisites = { tech_luxuries_1 }
+	ai_resource_production = {
+		consumer_goods = 10
+	}
 
+	triggered_planet_modifier = { oxr_mdlc_world_machines_factory_buildings_upkeep_mult = -0.10 }
 	triggered_planet_modifier = {
 		potential = { exists = owner is_xvcv_mdlc_pc_machine_auto = yes }
 		xvcv_mdlc_world_machines_primary_districts_upkeep_mult = -0.10
-		oxr_mdlc_world_machines_factory_buildings_upkeep_mult = -0.10
 	}
 	triggered_planet_modifier = {
-		potential = {
-			exists = owner
-			is_planet_world_machine = yes
-			is_xvcv_mdlc_pc_machine_auto = no
-		}
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_ecu = yes }
 		xvcv_mdlc_world_machines_production_districts_upkeep_mult = -0.10
-		oxr_mdlc_world_machines_factory_buildings_upkeep_mult = -0.10
 	}
 
 	inline_script = {
@@ -266,8 +279,10 @@ oxr_mdlc_world_machines_building_auto_factory_upkeep = {
 		RARE_MATERIAL = rare_crystals
 		RARE_COST = @b3_rare_cost
 		RARE_UPKEEP = @b3_rare_upkeep
-    	RESOURCES = " "
+    	RESOURCES = "upkeep = { energy = 3 }"
 		JOB = none
+		JOBS = 0
+		MODIFIER = none
 		SET = factory
     }
 }
@@ -276,20 +291,37 @@ oxr_mdlc_world_machines_building_auto_factory_efficiency = {
 	can_build = yes
     planet_limit = 1
 	prerequisites = { tech_luxuries_2 }
+	ai_resource_production = {
+		consumer_goods = 10
+	}
 
 	triggered_planet_modifier = {
-		potential = { exists = owner is_xvcv_mdlc_pc_machine_auto = yes }
-		xvcv_mdlc_world_machines_primary_districts_consumer_goods_produces_mult = 0.15
-		oxr_mdlc_world_machines_factory_buildings_consumer_goods_produces_mult = 0.15
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_auto = yes owner = { is_catalytic_empire = no } }
+		xvcv_mdlc_world_machines_primary_districts_consumer_goods_produces_add = 2
+		xvcv_mdlc_world_machines_primary_districts_minerals_upkeep_add = 2
+		oxr_mdlc_world_machines_factory_buildings_consumer_goods_produces_add = 2
+		oxr_mdlc_world_machines_factory_buildings_minerals_upkeep_add = 2
 	}
 	triggered_planet_modifier = {
-		potential = {
-			exists = owner
-			is_planet_world_machine = yes
-			is_xvcv_mdlc_pc_machine_auto = no
-		}
-		xvcv_mdlc_world_machines_production_districts_consumer_goods_produces_mult = 0.15
-		oxr_mdlc_world_machines_factory_buildings_consumer_goods_produces_mult = 0.15
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_auto = yes owner = { is_catalytic_empire = yes } }
+		xvcv_mdlc_world_machines_primary_districts_consumer_goods_produces_add = 2
+		xvcv_mdlc_world_machines_primary_districts_food_upkeep_add = 2
+		oxr_mdlc_world_machines_factory_buildings_consumer_goods_produces_add = 2
+		oxr_mdlc_world_machines_factory_buildings_food_upkeep_add = 2
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_ecu = yes owner = { is_catalytic_empire = no } }
+		xvcv_mdlc_world_machines_production_districts_consumer_goods_produces_add = 6
+		xvcv_mdlc_world_machines_production_districts_minerals_upkeep_add = 6
+		oxr_mdlc_world_machines_factory_buildings_consumer_goods_produces_add = 6
+		oxr_mdlc_world_machines_factory_buildings_minerals_upkeep_add = 6
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_ecu = yes owner = { is_catalytic_empire = yes } }
+		xvcv_mdlc_world_machines_production_districts_consumer_goods_produces_add = 6
+		xvcv_mdlc_world_machines_production_districts_food_upkeep_add = 6
+		oxr_mdlc_world_machines_factory_buildings_consumer_goods_produces_add = 6
+		oxr_mdlc_world_machines_factory_buildings_food_upkeep_add = 6
 	}
 
 	inline_script = {
@@ -306,10 +338,60 @@ oxr_mdlc_world_machines_building_auto_factory_efficiency = {
 		RARE_MATERIAL = rare_crystals
 		RARE_COST = @b4_rare_cost
 		RARE_UPKEEP = @b4_rare_upkeep
-    	RESOURCES = " "
+    	RESOURCES = "upkeep = { energy = 5 }"
 		JOB = none
+		JOBS = 0
+		MODIFIER = none
 		SET = factory
     }
+}
+
+rikk_mdlc_world_machines_building_production_center = {
+	can_build = yes
+    planet_limit = 1
+	allow = { oxr_mdlc_has_major_upgraded_capital = yes }
+	prerequisites = { tech_global_production_strategy }
+	ai_resource_production = {
+		alloys = 10
+		consumer_goods = 10
+	}
+
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_auto = yes }
+		xvcv_mdlc_world_machines_primary_districts_alloys_produces_mult = 0.50
+		xvcv_mdlc_world_machines_primary_districts_consumer_goods_produces_mult = 0.50
+		oxr_mdlc_world_machines_foundry_buildings_alloys_produces_add = 0.50
+		oxr_mdlc_world_machines_factory_buildings_consumer_goods_produces_add = 0.50
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_ecu = yes }
+		xvcv_mdlc_world_machines_production_districts_alloys_produces_mult = 1.25
+		xvcv_mdlc_world_machines_production_districts_consumer_goods_produces_mult = 1.25
+		oxr_mdlc_world_machines_foundry_buildings_alloys_produces_add = 1.25
+		oxr_mdlc_world_machines_factory_buildings_consumer_goods_produces_add = 1.25
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = manufacturing
+		POTENTIAL = "
+			OR = {
+				owner = { country_uses_consumer_goods = yes }
+				is_planet_class = xvcv_mdlc_pc_machine_ecu
+			}
+		"
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_foundry_buildings
+		RARE_MATERIAL = volatile_motes
+		RARE_COST = @b2_rare_cost
+		RARE_UPKEEP = @b2_rare_upkeep
+    	RESOURCES = " upkeep = { energy = 5 } "
+		JOB = fabricator
+		JOBS = 1
+		MODIFIER = none
+		SET = "factory oxr_mdlc_building_set_wm_foundry"
+    }
+	
 }
 
 #### STRATEGIC ####
@@ -320,6 +402,9 @@ oxr_mdlc_world_machines_building_welding_colony = {
 	prerequisites = { tech_exotic_gases }
 	allow = { oxr_mdlc_has_upgraded_capital = yes }
 	inline_script = planet/buildings/oxr_sort_important
+	ai_resource_production = {
+		exotic_gases = @b3_rare_upkeep
+	}
 	inline_script = {
 		script = planet/buildings/auto/rikk_mdlc_SR_modifiers
 		SR = exotic_gases
@@ -338,6 +423,8 @@ oxr_mdlc_world_machines_building_welding_colony = {
 		RARE_UPKEEP = 0
     	RESOURCES = " "
 		JOB = none
+		JOBS = 0
+		MODIFIER = none
 		SET = strategic
     }
 }
@@ -348,6 +435,9 @@ oxr_mdlc_world_machines_building_particle_collider = {
 	prerequisites = { tech_volatile_motes }
 	allow = { oxr_mdlc_has_upgraded_capital = yes }
 	inline_script = planet/buildings/oxr_sort_important
+	ai_resource_production = {
+		volatile_motes = @b3_rare_upkeep
+	}
 	inline_script = {
 		script = planet/buildings/auto/rikk_mdlc_SR_modifiers
 		SR = volatile_motes
@@ -369,6 +459,8 @@ oxr_mdlc_world_machines_building_particle_collider = {
 			upkeep = { energy = 1 }
 		"
 		JOB = none
+		JOBS = 0
+		MODIFIER = none
 		SET = strategic
     }
 }
@@ -379,13 +471,16 @@ oxr_mdlc_world_machines_building_crystal_cultivation_tank = {
 	prerequisites = { tech_rare_crystals }
 	allow = { oxr_mdlc_has_upgraded_capital = yes }
 	inline_script = planet/buildings/oxr_sort_important
+	ai_resource_production = {
+		rare_crystals = @b3_rare_upkeep
+	}
 	inline_script = {
 		script = planet/buildings/auto/rikk_mdlc_SR_modifiers
 		SR = rare_crystals
 		ENERGY_NUM = @[ 0.05 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
 		RES_TWO = minerals
 		RES_TWO_NUM = @[ 0.05 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
-	} #the alloys are worth 4x their amount, so it adds up to the 0.1
+	}
 	inline_script = {
 		script = planet/buildings/auto/rikk_empty_building
 		CATEGORY = manufacturing
@@ -400,6 +495,103 @@ oxr_mdlc_world_machines_building_crystal_cultivation_tank = {
 			upkeep = { energy = 1 }
 		"
 		JOB = none
+		JOBS = 0
+		MODIFIER = none
+		SET = strategic
+    }
+}
+
+rikk_mdlc_world_machines_building_ancient_refinery = {
+	can_build = yes
+    planet_limit = 1
+	prerequisites = { tech_archaeo_refinery }
+	allow = { oxr_mdlc_has_upgraded_capital = yes }
+	inline_script = planet/buildings/oxr_sort_important
+	ai_resource_production = {
+		rare_crystals = @b3_rare_upkeep
+		volatile_motes = @b3_rare_upkeep
+		exotic_gases = @b3_rare_upkeep
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/rikk_mdlc_SR_modifiers
+		SR = rare_crystals
+		ENERGY_NUM = 0
+		RES_TWO = minerals
+		RES_TWO_NUM = 0
+	}
+	inline_script = {
+		script = planet/buildings/auto/rikk_mdlc_SR_modifiers
+		SR = volatile_motes
+		ENERGY_NUM = 0
+		RES_TWO = minerals
+		RES_TWO_NUM = 0
+	}
+	inline_script = {
+		script = planet/buildings/auto/rikk_mdlc_SR_modifiers
+		SR = exotic_gases
+		ENERGY_NUM = 0
+		RES_TWO = minerals
+		RES_TWO_NUM = @[ 0.2 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
+	}
+
+	triggered_planet_modifier = {
+		oxr_mdlc_world_machines_factory_buildings_rare_crystals_produces_mult = 0.10
+		oxr_mdlc_world_machines_factory_buildings_volatile_motes_produces_mult = 0.10
+		oxr_mdlc_world_machines_factory_buildings_exotic_gases_produces_mult = 0.10
+	}
+	triggered_planet_modifier = {
+		potential = { owner = { has_ascension_perk = ap_archaeoengineers } }
+		oxr_mdlc_world_machines_factory_buildings_rare_crystals_produces_mult = 0.05
+		oxr_mdlc_world_machines_factory_buildings_volatile_motes_produces_mult = 0.05
+		oxr_mdlc_world_machines_factory_buildings_exotic_gases_produces_mult = 0.05
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_auto = yes }
+		xvcv_mdlc_world_machines_primary_districts_rare_crystals_produces_mult = 0.10
+		xvcv_mdlc_world_machines_primary_districts_volatile_motes_produces_mult = 0.10
+		xvcv_mdlc_world_machines_primary_districts_exotic_gases_produces_mult = 0.10
+	}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			is_xvcv_mdlc_pc_machine_auto = yes
+			owner = { has_ascension_perk = ap_archaeoengineers }
+		}
+		xvcv_mdlc_world_machines_primary_districts_rare_crystals_produces_mult = 0.05
+		xvcv_mdlc_world_machines_primary_districts_volatile_motes_produces_mult = 0.05
+		xvcv_mdlc_world_machines_primary_districts_exotic_gases_produces_mult = 0.05
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_ecu = yes }
+		xvcv_mdlc_world_machines_production_districts_rare_crystals_produces_mult = 0.10
+		xvcv_mdlc_world_machines_production_districts_volatile_motes_produces_mult = 0.10
+		xvcv_mdlc_world_machines_production_districts_exotic_gases_produces_mult = 0.10
+	}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			is_xvcv_mdlc_pc_machine_ecu = yes
+			owner = { has_ascension_perk = ap_archaeoengineers }
+		}
+		xvcv_mdlc_world_machines_production_districts_rare_crystals_produces_mult = 0.05
+		xvcv_mdlc_world_machines_production_districts_volatile_motes_produces_mult = 0.05
+		xvcv_mdlc_world_machines_production_districts_exotic_gases_produces_mult = 0.05
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = manufacturing
+		POTENTIAL = " "
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_strategic_resource_buildings
+		RARE_MATERIAL = rare_crystals
+		RARE_COST = 0
+		RARE_UPKEEP = 0
+    	RESOURCES = " "
+		JOB = none
+		JOBS = 0
+		MODIFIER = none
 		SET = strategic
     }
 }
@@ -435,65 +627,49 @@ oxr_mdlc_world_machines_building_auto_nanite_transmuter = {
 			}
 			upkeep = {
 				nanites = 2
-				#energy = 5 #tier 3 already makes it cost 6 energy
+				energy = 2 #tier 3 makes it cost 3 energy, so 5 total
 			}
 		"
 		JOB = none
+		JOBS = 0
+		MODIFIER = none
 		SET = strategic
     }
 }
 # Turn nanites into alloys
 oxr_mdlc_world_machines_building_nanotech_cauldron = {
-	base_buildtime = @b2_time
-
-	category = manufacturing
-
-	potential = {
-		exists = owner
-		owner = {
-			has_tradition = tr_nanotech_2
-			has_oxr_mdlc_origin_world_machine_awakened = yes
-		}
-		oxr_mdlc_planet_has_vanilla_pop_colony_modifier = no
-		is_planet_world_machine = yes
+	can_build = yes
+	prerequisites = { }
+	allow = { oxr_mdlc_has_upgraded_capital = yes }
+	ai_resource_production = {
+		alloys = 10
+		trigger = { owner = { NOT = { has_deficit = nanites } } }
 	}
-
-	allow = {
-		is_planet_world_machine = yes
-	}
-
-	destroy_trigger = {
-		exists = owner
-		OR = {
-			NOT = {
-				owner = {
-					has_tradition = tr_nanotech_2
-					has_oxr_mdlc_origin_world_machine_awakened = yes
-				}
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = manufacturing
+		POTENTIAL = ""#"owner = { has_tradition = tr_nanotech_2 }"
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_industrial_buildings
+		RARE_MATERIAL = rare_crystals
+		RARE_COST = 0
+		RARE_UPKEEP = 0
+    	RESOURCES = "
+			produces = {
+				trigger = { owner = { NOT = { has_deficit = nanites } } }
+				alloys = 15
 			}
-			oxr_mdlc_planet_has_vanilla_pop_colony_modifier = yes
-		}
-	}
-
-	resources = {
-		category = oxr_mdlc_world_machines_foundry_buildings
-		cost = {
-			alloys = @b3_minerals
-		}
-		upkeep = {
-			nanites = 3
-			energy = 30
-		}
-		produces = {
-			alloys = 15
-		}
-	}
-
-	building_sets = {
-		oxr_mdlc_building_set_wm_all
-		oxr_mdlc_building_set_wm_manufacturing
-		oxr_mdlc_building_set_wm_nanotech
-	}
+			upkeep = {
+				nanites = 3
+				energy = 30
+			}
+		"
+		JOB = none
+		JOBS = 0
+		MODIFIER = none
+		SET = foundry
+    }
 }
 
 # EOF
