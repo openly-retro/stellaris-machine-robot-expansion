@@ -1,9 +1,48 @@
-@buildings_t1 = 1
-@buildings_t2 = 2
-@buildings_t3 = 3
-@buildings_t4 = 4
-@buildings_t5 = 5
+#### GOVERNMENT ####
+oxr_mdlc_world_machines_building_auto_stabilizer_1 = {
+	can_build = yes
+	prerequisites = { tech_planetary_government }
+    upgrades = { oxr_mdlc_world_machines_building_auto_stabilizer_2 }
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = government
+		POTENTIAL = " "
+    	TIER = 1
+		ECONOMIC_CATEGORY = oxr_mdlc_category_world_machines_buildings
+		RARE_MATERIAL = volatile_motes
+		RARE_COST = 0
+    	RARE_UPKEEP = 0
+		RESOURCES = " "
+    	JOB = patrol
+		JOBS = 2
+		MODIFIER = patrol
+    	SET = army
+    }
+}
 
+oxr_mdlc_world_machines_building_auto_stabilizer_2 = {
+	can_build = no
+	prerequisites = { tech_colonial_centralization }
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = government
+		POTENTIAL = " "
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_category_world_machines_buildings
+		RARE_MATERIAL = volatile_motes
+		RARE_COST = @b2_rare_cost
+    	RARE_UPKEEP = @b2_rare_upkeep
+		RESOURCES = " "
+    	JOB = patrol
+		JOBS = 5
+		MODIFIER = patrol
+    	SET = army
+    }
+}
+
+### CAPITAL BUILDINGS ###
 @tier_2_capital_defense_armies = 4
 @tier_3_capital_defense_armies = 8
 @tier_4_capital_defense_armies = 16
@@ -13,68 +52,6 @@
 @oxr_capital_upgrade_t3_districts_num = 18
 @oxr_capital_upgrade_t4_districts_num = 25
 @oxr_capital_upgrade_t5_districts_num = 32
-
-#### GOVERNMENT ####
-oxr_mdlc_world_machines_building_auto_stabilizer_1 = {
-	base_buildtime = @[ 1 * 180 ]
-
-	category = government
-
-	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
-
-	inline_script = {
-		script = planet/buildings/auto/oxr_mdlc_stability
-		RARE_COST = 0
-		UPKEEP_ENERGY = 2
-		RARE_UPKEEP = 0
-		PRODUCES_UNITY = 2  # mult x 2
-		UPKEEP_ENERGY = 2  # mult x 2
-		REDUCE_CRIME = -50
-		REDUCE_CRIME_CAMPAIGN = -10
-		STABILITY_ADD = 5
-		TIER = 1
-	}
-
-	prerequisites = {
-		"tech_planetary_government"
-	}
-
-	upgrades = {
-		oxr_mdlc_world_machines_building_auto_stabilizer_2
-	}
-}
-
-oxr_mdlc_world_machines_building_auto_stabilizer_2 = {
-	base_buildtime = @[ 2 * 180 ]
-
-	category = government
-	can_build = no
-
-	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
-
-	inline_script = {
-		script = planet/buildings/auto/oxr_mdlc_stability
-		RARE_COST = @b2_rare_cost
-		UPKEEP_ENERGY = @b1_upkeep
-		RARE_UPKEEP = @b2_rare_upkeep
-		PRODUCES_UNITY = 5  # mult x 5
-		UPKEEP_ENERGY = 10  # mult x 15
-		REDUCE_CRIME = -125
-		REDUCE_CRIME_CAMPAIGN = -50
-		STABILITY_ADD = 5
-		TIER = 2
-	}
-
-	prerequisites = {
-		"tech_colonial_centralization"
-	}
-	building_sets = {
-		oxr_mdlc_building_set_wm_all
-		oxr_mdlc_building_set_wm_government
-	}
-}
-
-### CAPITAL BUILDINGS ###
 
 # T1 (Post)
 oxr_mdlc_world_machines_building_auto_capital = {
