@@ -1,0 +1,56 @@
+#example of oxr_mdlc_world_machines_building_auto_forge_1
+#	can_build = yes
+#	#planet_limit = 1
+#	#allow = { oxr_mdlc_has_upgraded_capital = yes }
+#	prerequisites = { tech_basic_industry }
+#	upgrades = { oxr_mdlc_world_machines_building_auto_forge_2 }
+#	#triggered_planet_modifier = { }
+#	
+#	inline_script = {
+#		script = planet/buildings/auto/rikk_empty_building
+#		CATEGORY = manufacturing
+#		POTENTIAL = " "
+#		TIER = 1
+#		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_foundry_buildings
+#		RARE_MATERIAL = volatile_motes
+#		RARE_COST = 0
+#		RARE_UPKEEP = 0
+#		RESOURCES = " "
+#		JOB = fabricator
+#		SET = foundry
+#	}
+
+category = $CATEGORY$
+potential = {
+	exists = owner
+	owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+	is_planet_world_machine = yes
+	$POTENTIAL$
+}
+show_tech_unlock_if = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+on_built = { owner = { fire_on_action = { on_action = on_world_machine_popless_building_constructed } } }
+destroy_trigger = { owner = { oxr_mdlc_planet_owner_can_build_wm_districts = no } }
+
+base_buildtime = @b$TIER$_time
+resources = {
+	category = $ECONOMIC_CATEGORY$
+	cost = {
+		minerals = @b$TIER$_minerals
+		$RARE_MATERIAL$ = $RARE_COST$
+	}
+	upkeep = {
+		minerals = $TIER$
+		energy = $TIER$
+		$RARE_MATERIAL$ = $RARE_UPKEEP$
+	}
+	$RESOURCES$
+	inline_script = {
+		script = planet/buildings/auto/jobs/rikk_mdlc_$JOB$
+		TIER = $TIER$
+	}
+}
+building_sets = {
+	oxr_mdlc_building_set_wm_all
+	oxr_mdlc_building_set_wm_$CATEGORY$
+	oxr_mdlc_building_set_wm_$SET$
+}
