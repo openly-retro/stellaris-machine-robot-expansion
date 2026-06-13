@@ -17,6 +17,8 @@
 #		RARE_UPKEEP = 0
 #		RESOURCES = " "
 #		JOB = fabricator
+#		JOBS = 2
+#		MODIFIER = none
 #		SET = foundry
 #	}
 
@@ -39,15 +41,18 @@ resources = {
 		$RARE_MATERIAL$ = $RARE_COST$
 	}
 	upkeep = {
-		minerals = $TIER$
 		energy = $TIER$
 		$RARE_MATERIAL$ = $RARE_UPKEEP$
 	}
 	$RESOURCES$
 	inline_script = {
 		script = planet/buildings/auto/jobs/rikk_mdlc_$JOB$
-		TIER = $TIER$
+		JOBS = $JOBS$
 	}
+}
+inline_script = {
+	script = planet/buildings/auto/modifiers/rikk_mdlc_$MODIFIER$
+	JOBS = $JOBS$
 }
 building_sets = {
 	oxr_mdlc_building_set_wm_all
