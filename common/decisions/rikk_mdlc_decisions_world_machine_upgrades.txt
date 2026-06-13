@@ -293,7 +293,7 @@ rikk_mdlc_decision_world_machine_crust_roots = {
 	
 	effect = {
 		add_deposit = rikk_mdlc_d_world_machine_crust_roots
-		remove_planet_flag = crust_roots_queued
+		hidden_effect = { remove_planet_flag = crust_roots_queued }
 	}
 }
 
@@ -373,24 +373,25 @@ rikk_mdlc_decision_world_machine_synchronization_arrays = {
 
 	effect = {
 		custom_tooltip = rikk_mdlc_decision_world_machine_synchronization_arrays_effect
-		add_deposit = rikk_mdlc_d_world_machine_synchronization_arrays
-		# space_owner = {
-		# 	if = {
-		# 		limit = {
-		# 			is_variable_set = oxr_mdlc_num_rikk_mdlc_d_world_machine_synchronization_arrays
-		# 		}
-		# 		change_variable = {
-		# 			which = oxr_mdlc_num_rikk_mdlc_d_world_machine_synchronization_arrays
-		# 			value = 1
-		# 		}
-		# 	}
-		# 	else = {
-		# 		set_variable = {
-		# 			which = oxr_mdlc_num_rikk_mdlc_d_world_machine_synchronization_arrays
-		# 			value = 1
-		# 		}
-		# 	}
-		# }
+		if = {
+			limit = { has_deposit = rikk_mdlc_d_world_machine_crust_roots }
+			add_deposit = rikk_mdlc_d_world_machine_synchronization_arrays
+		}
+		else = {
+			space_owner = {
+				create_message = {
+					type = RIKK_MDLC_WM_UPGRADE_FAILED
+					localization = RIKK_MDLC_WM_UPGRADE_FAILED_MESSAGE
+					days = 36
+					target = ROOT
+					variable = {
+						type = name
+						localization = RIKK_MDLC_TERRAFORM_TARGET
+						scope = ROOT
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -440,8 +441,26 @@ rikk_mdlc_decision_world_machine_mantle_roots = {
 	on_unqueued = { remove_planet_flag = mantle_roots_queued }
 	
 	effect = {
-		add_deposit = rikk_mdlc_d_world_machine_mantle_roots
-		remove_planet_flag = mantle_roots_queued
+		if = {
+			limit = { has_deposit = rikk_mdlc_d_world_machine_crust_roots }
+			add_deposit = rikk_mdlc_d_world_machine_mantle_roots
+		}
+		else = {
+			space_owner = {
+				create_message = {
+					type = RIKK_MDLC_WM_UPGRADE_FAILED
+					localization = RIKK_MDLC_WM_UPGRADE_FAILED_MESSAGE
+					days = 36
+					target = ROOT
+					variable = {
+						type = name
+						localization = RIKK_MDLC_TERRAFORM_TARGET
+						scope = ROOT
+					}
+				}
+			}
+		}
+		hidden_effect = { remove_planet_flag = mantle_roots_queued }
 	}
 }
 
@@ -486,7 +505,25 @@ rikk_mdlc_decision_world_machine_mantle_engine = {
 	on_unqueued = { remove_planet_flag = mantle_engine_queued }
 	
 	effect = {
-		add_deposit = rikk_mdlc_d_world_machine_mantle_engine
+		if = {
+			limit = { has_deposit = rikk_mdlc_d_world_machine_mantle_roots }
+			add_deposit = rikk_mdlc_d_world_machine_mantle_engine
+		}
+		else = {
+			space_owner = {
+				create_message = {
+					type = RIKK_MDLC_WM_UPGRADE_FAILED
+					localization = RIKK_MDLC_WM_UPGRADE_FAILED_MESSAGE
+					days = 36
+					target = ROOT
+					variable = {
+						type = name
+						localization = RIKK_MDLC_TERRAFORM_TARGET
+						scope = ROOT
+					}
+				}
+			}
+		}
 		hidden_effect = { remove_planet_flag = mantle_engine_queued }
 	}
 }
@@ -529,7 +566,7 @@ rikk_mdlc_decision_world_machine_reinforced_planet = {
 	}
 	
 	effect = {
-		set_planet_flag = rikk_mdlc_planet_reinforced
+		hidden_effect = { set_planet_flag = rikk_mdlc_planet_reinforced }
 		custom_tooltip = rikk_mdlc_decision_world_machine_reinforced_planet_effect
 	}
 }
@@ -574,7 +611,25 @@ rikk_mdlc_decision_world_machine_mantle_transport_network = {
 	}
 	
 	effect = {
-		add_deposit = rikk_mdlc_d_world_machine_mantle_transport_network
+		if = {
+			limit = { has_deposit = rikk_mdlc_d_world_machine_mantle_roots }
+			add_deposit = rikk_mdlc_d_world_machine_mantle_transport_network
+		}
+		else = {
+			space_owner = {
+				create_message = {
+					type = RIKK_MDLC_WM_UPGRADE_FAILED
+					localization = RIKK_MDLC_WM_UPGRADE_FAILED_MESSAGE
+					days = 36
+					target = ROOT
+					variable = {
+						type = name
+						localization = RIKK_MDLC_TERRAFORM_TARGET
+						scope = ROOT
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -617,7 +672,25 @@ rikk_mdlc_decision_world_machine_mantle_buses = {
 	}
 	
 	effect = {
-		add_deposit = rikk_mdlc_d_world_machine_mantle_buses
+		if = {
+			limit = { has_deposit = rikk_mdlc_d_world_machine_mantle_roots }
+			add_deposit = rikk_mdlc_d_world_machine_mantle_buses
+		}
+		else = {
+			space_owner = {
+				create_message = {
+					type = RIKK_MDLC_WM_UPGRADE_FAILED
+					localization = RIKK_MDLC_WM_UPGRADE_FAILED_MESSAGE
+					days = 36
+					target = ROOT
+					variable = {
+						type = name
+						localization = RIKK_MDLC_TERRAFORM_TARGET
+						scope = ROOT
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -670,8 +743,26 @@ rikk_mdlc_decision_world_machine_outer_core_roots = {
 	on_unqueued = { remove_planet_flag = outer_core_roots_queued }
 	
 	effect = {
-		add_deposit = rikk_mdlc_d_world_machine_outer_core_roots
-		remove_planet_flag = outer_core_roots_queued
+		if = {
+			limit = { has_deposit = rikk_mdlc_d_world_machine_mantle_roots }
+			add_deposit = rikk_mdlc_d_world_machine_outer_core_roots
+		}
+		else = {
+			space_owner = {
+				create_message = {
+					type = RIKK_MDLC_WM_UPGRADE_FAILED
+					localization = RIKK_MDLC_WM_UPGRADE_FAILED_MESSAGE
+					days = 36
+					target = ROOT
+					variable = {
+						type = name
+						localization = RIKK_MDLC_TERRAFORM_TARGET
+						scope = ROOT
+					}
+				}
+			}
+		}
+		hidden_effect = { remove_planet_flag = outer_core_roots_queued }
 	}
 }
 
@@ -712,7 +803,25 @@ rikk_mdlc_decision_world_machine_outer_core_tap = {
 	}
 	
 	effect = {
-		add_deposit = rikk_mdlc_d_world_machine_outer_core_tap
+		if = {
+			limit = { has_deposit = rikk_mdlc_d_world_machine_outer_core_roots }
+			add_deposit = rikk_mdlc_d_world_machine_outer_core_tap
+		}
+		else = {
+			space_owner = {
+				create_message = {
+					type = RIKK_MDLC_WM_UPGRADE_FAILED
+					localization = RIKK_MDLC_WM_UPGRADE_FAILED_MESSAGE
+					days = 36
+					target = ROOT
+					variable = {
+						type = name
+						localization = RIKK_MDLC_TERRAFORM_TARGET
+						scope = ROOT
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -754,9 +863,27 @@ rikk_mdlc_decision_world_machine_outer_core_cooling = {
 	}
 	
 	effect = {
-		add_modifier = { modifier = rikk_mdlc_world_machine_outer_core_cooling_mod days = @wmupgradelength4 }
 		custom_tooltip = rikk_mdlc_decision_world_machine_outer_core_cooling_effect
-		hidden_effect = { planet_event = { id = rikk_mdlc_wm_upgrade_events.110 days = @wmupgradelength4 } }
+		if = {
+			limit = { has_deposit = rikk_mdlc_d_world_machine_outer_core_roots }
+			add_modifier = { modifier = rikk_mdlc_world_machine_outer_core_cooling_mod days = @wmupgradelength4 }
+			hidden_effect = { planet_event = { id = rikk_mdlc_wm_upgrade_events.110 days = @wmupgradelength4 } }
+		}
+		else = {
+			space_owner = {
+				create_message = {
+					type = RIKK_MDLC_WM_UPGRADE_FAILED
+					localization = RIKK_MDLC_WM_UPGRADE_FAILED_MESSAGE
+					days = 36
+					target = ROOT
+					variable = {
+						type = name
+						localization = RIKK_MDLC_TERRAFORM_TARGET
+						scope = ROOT
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -808,7 +935,25 @@ rikk_mdlc_decision_world_machine_inner_core_roots = {
 	on_unqueued = { remove_planet_flag = inner_core_roots_queued }
 	
 	effect = {
-		add_deposit = rikk_mdlc_d_world_machine_inner_core_roots
+		if = {
+			limit = { has_deposit = rikk_mdlc_d_world_machine_outer_core_roots }
+			add_deposit = rikk_mdlc_d_world_machine_inner_core_roots
+		}
+		else = {
+			space_owner = {
+				create_message = {
+					type = RIKK_MDLC_WM_UPGRADE_FAILED
+					localization = RIKK_MDLC_WM_UPGRADE_FAILED_MESSAGE
+					days = 36
+					target = ROOT
+					variable = {
+						type = name
+						localization = RIKK_MDLC_TERRAFORM_TARGET
+						scope = ROOT
+					}
+				}
+			}
+		}
 		hidden_effect = { remove_planet_flag = inner_core_roots_queued }
 	}
 }
@@ -861,7 +1006,25 @@ rikk_mdlc_decision_world_machine_inner_core_tap = {
 	on_unqueued = { remove_planet_flag = inner_core_tap_queued }
 	
 	effect = {
-		add_deposit = rikk_mdlc_d_world_machine_inner_core_tap
+		if = {
+			limit = { has_deposit = rikk_mdlc_d_world_machine_inner_core_roots }
+			add_deposit = rikk_mdlc_d_world_machine_inner_core_tap
+		}
+		else = {
+			space_owner = {
+				create_message = {
+					type = RIKK_MDLC_WM_UPGRADE_FAILED
+					localization = RIKK_MDLC_WM_UPGRADE_FAILED_MESSAGE
+					days = 36
+					target = ROOT
+					variable = {
+						type = name
+						localization = RIKK_MDLC_TERRAFORM_TARGET
+						scope = ROOT
+					}
+				}
+			}
+		}
 		hidden_effect = { remove_planet_flag = inner_core_tap_queued }
 	}
 }
@@ -914,17 +1077,33 @@ rikk_mdlc_decision_world_machine_core_core = {
 	on_unqueued = { remove_planet_flag = core_core_queued }
 	
 	effect = {
-		save_global_event_target_as = rikk_mdlc_wm_core_geological_upgrade_planet
-		hidden_effect = {
-			remove_planet_flag = core_core_queued
-			set_planet_flag = rikk_mdlc_situation_core_core_active
+		if = {
+			limit = { has_deposit = rikk_mdlc_d_world_machine_inner_core_roots }
+			save_global_event_target_as = rikk_mdlc_wm_core_geological_upgrade_planet
+			space_owner = {
+				start_situation = {
+					type = rikk_mdlc_situation_core_core
+					target = event_target:rikk_mdlc_wm_core_geological_upgrade_planet
+				}
+			}
+			hidden_effect = { set_planet_flag = rikk_mdlc_situation_core_core_active }
 		}
-		space_owner = {
-			start_situation = {
-				type = rikk_mdlc_situation_core_core
-				target = event_target:rikk_mdlc_wm_core_geological_upgrade_planet
+		else = {
+			space_owner = {
+				create_message = {
+					type = RIKK_MDLC_WM_UPGRADE_FAILED
+					localization = RIKK_MDLC_WM_UPGRADE_FAILED_MESSAGE
+					days = 36
+					target = ROOT
+					variable = {
+						type = name
+						localization = RIKK_MDLC_TERRAFORM_TARGET
+						scope = ROOT
+					}
+				}
 			}
 		}
+		hidden_effect = { remove_planet_flag = core_core_queued }
 		custom_tooltip = rikk_mdlc_decision_world_machine_core_core_effect
 	}
 }
