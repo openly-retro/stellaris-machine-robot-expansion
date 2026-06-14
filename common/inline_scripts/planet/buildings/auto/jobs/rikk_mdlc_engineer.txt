@@ -1,0 +1,14 @@
+# Research Lab 1 gives 60 of each of the 3 research jobs
+# 100 of a job produces the full amount (3)
+# but 60/100 will produce 60% so that is why this is making so much less now
+produces = {
+	engineering_research = @[ $JOBS$ * oxr_mdlc_wm_base_calculator_single_output ]
+}
+upkeep = {
+	energy = @[  $JOBS$ * oxr_mdlc_wm_base_calculator_single_upkeep ]
+}
+
+inline_script = {
+	script = planet/buildings/auto/oxr_organoid_upkeep
+	TIER = @[ $JOBS$ / 2 ]
+}
