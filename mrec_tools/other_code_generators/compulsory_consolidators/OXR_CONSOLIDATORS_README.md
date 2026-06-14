@@ -53,3 +53,14 @@ Other stuff:
 
 TODO:
 - create mover controller inside of event `xvcv_mdlc.3`
+
+WHERE ARE THE DROPOFFS?
+
+Orbital:
+ - oxr_mdlc_civic_orbital_target@root
+ - has_planet_flag = oxr_mdlc_civic_orbital_target@root
+
+Planetary features:
+
+	is_planet = oxr_mdlc_civic_consolidation_target_@root
+	has_planet_flag = oxr_mdlc_civic_consolidation_target_@root
