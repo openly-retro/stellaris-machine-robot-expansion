@@ -1,54 +1,104 @@
-@buildings_t1 = 1
-@buildings_t2 = 2
-@buildings_t3 = 3
-@buildings_t4 = 4
-@buildings_t5 = 5
-
-@tier_2_capital_defense_armies = 4
-@tier_3_capital_defense_armies = 8
-@tier_4_capital_defense_armies = 16
-@tier_5_capital_defense_armies = 24
-
-@oxr_capital_upgrade_t2_districts_num = 10
-@oxr_capital_upgrade_t3_districts_num = 18
-@oxr_capital_upgrade_t4_districts_num = 25
-@oxr_capital_upgrade_t5_districts_num = 32
-
 #### TRADE ####
 
 oxr_mdlc_world_machines_auto_logistics_1 = {
 	can_build = yes
+    upgrades = { oxr_mdlc_world_machines_auto_logistics_2 }
+	
 	inline_script = {
-		script = planet/buildings/auto/oxr_mdlc_auto_logistics
-		TIER = 1
-	}
-
-	allow = { always = yes }
-	upgrades = {
-		oxr_mdlc_world_machines_auto_logistics_2
-	}
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = trade
+		POTENTIAL = " "
+    	TIER = 1
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_trade_buildings
+		RARE_MATERIAL = minerals
+		RARE_COST = 0
+    	RARE_UPKEEP = 0
+		RESOURCES = " "
+    	JOB = trader
+		JOBS = 2
+		MODIFIER = none
+    	SET = trade
+    }
 }
 
 oxr_mdlc_world_machines_auto_logistics_2 = {
 	can_build = no
-	inline_script = {
-		script = planet/buildings/auto/oxr_mdlc_auto_logistics
-		TIER = 2
-	}
-
 	allow = { oxr_mdlc_has_upgraded_capital = yes }
-	upgrades = {
-		oxr_mdlc_world_machines_auto_logistics_3
-	}
+    upgrades = { oxr_mdlc_world_machines_auto_logistics_3 }
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = trade
+		POTENTIAL = " "
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_trade_buildings
+		RARE_MATERIAL = minerals
+		RARE_COST = 0
+    	RARE_UPKEEP = 0
+		RESOURCES = " "
+    	JOB = trader
+		JOBS = 4
+		MODIFIER = none
+    	SET = trade
+    }
+	planet_modifier = { planet_stability_add = -1 }
 }
 
 oxr_mdlc_world_machines_auto_logistics_3 = {
 	can_build = no
-	inline_script = {
-		script = planet/buildings/auto/oxr_mdlc_auto_logistics
-		TIER = 3
-	}
 	allow = { oxr_mdlc_has_major_upgraded_capital = yes }
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = trade
+		POTENTIAL = " "
+    	TIER = 3
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_trade_buildings
+		RARE_MATERIAL = rare_crystals
+		RARE_COST = @b2_rare_cost
+    	RARE_UPKEEP = @b2_rare_upkeep
+		RESOURCES = " "
+    	JOB = trader
+		JOBS = 6
+		MODIFIER = none
+    	SET = trade
+    }
+	planet_modifier = { planet_stability_add = -2 }
+}
+
+rikk_mdlc_world_machines_auto_megaplex = {
+	can_build = no
+	prerequisites = { tech_prescient_data_modeling }
+	allow = { oxr_mdlc_has_major_upgraded_capital = yes }
+	
+	triggered_planet_modifier = {
+		oxr_mdlc_world_machines_trade_buildings_upkeep_mult = -0.10
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner has_oxr_mdlc_zone_pc_machine_auto_trade = yes }
+		xvcv_mdlc_world_machines_primary_districts_upkeep_mult = -0.10
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner has_oxr_mdlc_zone_pc_machine_auto_trade = no }
+		xvcv_mdlc_world_machines_trade_districts_upkeep_mult = -0.10
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = trade
+		POTENTIAL = " "
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_trade_buildings
+		RARE_MATERIAL = rare_crystals
+		RARE_COST = @b2_rare_cost
+    	RARE_UPKEEP = @b2_rare_upkeep
+		RESOURCES = " "
+    	JOB = trader
+		JOBS = 2
+		MODIFIER = none
+    	SET = trade
+    }
+	planet_modifier = { planet_stability_add = -2 }
 }
 
 # EOF
