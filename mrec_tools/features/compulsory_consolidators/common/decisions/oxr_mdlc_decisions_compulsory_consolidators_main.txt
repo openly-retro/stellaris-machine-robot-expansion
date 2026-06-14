@@ -10,7 +10,7 @@ oxr_mdlc_decision_trigger_orbital_extraction_project = {
 	}
 	potential = {
 		exists = space_owner
-		space_owner = { has_civic = oxr_mdlc_civic_consolidators }
+		space_owner = { has_oxr_mdlc_civic_consolidators = yes }
 	}
 	allow = {
 		# always = yes
@@ -20,8 +20,8 @@ oxr_mdlc_decision_trigger_orbital_extraction_project = {
 		NOT = {
 			has_planet_flag = oxr_mdlc_civic_consolidators_extraction_in_progress
 			# Can't extract off the target planet
-			has_planet_flag = oxr_mdlc_civic_orbital_target@root
-			has_planet_flag = oxr_mdlc_civic_orbital_research_target@root
+			oxr_mdlc_planet_is_empire_orbital_consolidator_target = no
+			oxr_mdlc_planet_is_empire_planet_consolidation_target = no
 		}
 		oxr_mdlc_consolidators_planet_has_orbital_deposits = yes
 	}
@@ -36,5 +36,117 @@ oxr_mdlc_decision_trigger_orbital_extraction_project = {
 				}
 			}
 		}
+	}
+}
+
+oxr_mdlc_decision_move_orbital_consolidator_target = {
+	# Make another body the dropoff for orbital deposits
+	owned_planets_only = yes
+	enactment_time = 60
+	potential = {
+		exists = space_owner
+		space_owner = {
+			has_oxr_mdlc_civic_planet_eaters = yes
+		}
+		planet = {
+			oxr_mdlc_planet_is_empire_orbital_consolidator_target = no
+		}
+	}
+	allow = {
+		is_terraforming = no
+		has_anomaly = no
+		oxr_mdlc_country_has_move_orbital_consolidator_cooldown = no
+	}
+	resources = {
+		category = decisions
+		cost = {
+			trade = 1000
+			unity = 500
+		}
+	}
+	effect = {
+		planet = {
+			oxr_mdlc_planet_set_empire_orbital_consolidator_target = yes
+		}
+		owner = {
+			country_event = {
+				id = oxr_mdlc_civic_consolidators_util.100
+			}
+		}
+		# CREATE MESSAGE
+	}
+}
+
+oxr_mdlc_decision_move_orbital_research_consolidator_target = {
+	# Make another body the dropoff for orbital RESEARCH deposits
+	owned_planets_only = yes
+	enactment_time = 60
+	potential = {
+		exists = space_owner
+		space_owner = {
+			has_oxr_mdlc_civic_planet_eaters = yes
+		}
+		planet = {
+			oxr_mdlc_planet_is_empire_orbital_research_consolidator_target = no
+		}
+	}
+	allow = {
+		is_terraforming = no
+		has_anomaly = no
+		oxr_mdlc_country_has_orbital_research_consolidator_cooldown = no
+	}
+	resources = {
+		category = decisions
+		cost = {
+			trade = 1000
+			unity = 500
+		}
+	}
+	effect = {
+		planet = {
+			oxr_mdlc_planet_set_empire_orbital_research_target = yes
+		}
+		owner = {
+			country_event = {
+				id = oxr_mdlc_civic_consolidators_util.300
+			}
+		}
+		# CREATE MESSAGE
+	}
+}
+
+oxr_mdlc_decision_move_planet_consolidator_target = {
+	# Make a body the target for dropping off planetary features
+	owned_planets_only = yes
+	enactment_time = 60
+	potential = {
+		exists = space_owner
+		space_owner = {
+			has_oxr_mdlc_civic_planet_eaters = yes
+		}
+		planet = {
+			oxr_mdlc_planet_is_empire_planet_consolidation_target = no
+		}
+	}
+	allow = {
+		is_terraforming = no
+		has_anomaly = no
+		oxr_mdlc_country_has_planet_consolidator_cooldown = no
+	}
+	resources = {
+		category = decisions
+		cost = {
+			trade = 1000
+			unity = 500
+		}
+	}
+	effect = {
+		planet = {
+			oxr_mdlc_planet_set_empire_consolidation_target = yes
+		}
+		country_event = {
+			id = oxr_mdlc_civic_consolidators_util.200
+		}
+		# CREATE MESSAGE
 	}
 }
