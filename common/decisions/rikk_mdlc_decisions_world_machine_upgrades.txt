@@ -233,7 +233,10 @@ rikk_mdlc_decision_world_machine_harness_nanites = {
 	
 	potential = {
 		exists = space_owner
-		is_planet_class = pc_gray_goo
+		exists = planet
+		planet = {
+			is_planet_class = pc_gray_goo
+		}
 		space_owner = {
 			OR = {
 				# has_ascension_perk = xvcv_mdlc_ap_world_machines
@@ -243,7 +246,9 @@ rikk_mdlc_decision_world_machine_harness_nanites = {
 		space_owner = {
 			has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
 		}
-		NOT = { has_planet_flag = rikk_mdlc_world_machine_suitable }
+		planet = {
+			NOT = { has_planet_flag = rikk_mdlc_world_machine_suitable }
+		}
 		host_has_dlc = "Distant Stars Story Pack"
 	}
 	
@@ -260,10 +265,13 @@ rikk_mdlc_decision_world_machine_harness_nanites = {
 	}
 	
 	effect = {
-		add_modifier = { modifier = rikk_mdlc_world_machine_nanite_mod }
-		hidden_effect = { 
-			set_planet_flag = rikk_mdlc_world_machine_suitable
-			set_planet_flag = rikk_mdlc_world_machine_nanites_harnessed 
+		planet = {
+			add_modifier = { modifier = rikk_mdlc_world_machine_nanite_mod }
+			hidden_effect = { 
+				set_planet_flag = rikk_mdlc_world_machine_suitable
+				set_planet_flag = rikk_mdlc_world_machine_nanites_harnessed 
+			}
+
 		}
 		space_owner = {
 			create_message = {
@@ -281,9 +289,11 @@ rikk_mdlc_decision_world_machine_harness_nanites = {
 		# start_terraform_process = xvcv_mdlc_pc_machine_auto
 	}
 	on_queued = {
-		oxr_mdlc_planet_add_rikk_terraforming_queued_modifier = {
-			PLANET_CLASS = pc_gray_goo
-			DAYS = @wmupgradelength1
+		planet = {
+			oxr_mdlc_planet_add_rikk_terraforming_queued_modifier = {
+				PLANET_CLASS = pc_gray_goo
+				DAYS = @wmupgradelength1
+			}
 		}
 	}
 }
@@ -302,20 +312,25 @@ rikk_mdlc_decision_world_machine_crust_roots = {
 
 	potential = {
 		exists = owner
+		exists = planet
 		owner = {
 			oxr_mdlc_planet_owner_can_build_wm_districts = yes 
 			has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
 		}
-		rikk_mdlc_is_wm_planet_trigger = yes
-		NOT = { has_deposit = rikk_mdlc_d_world_machine_crust_roots }
+		planet = {
+			rikk_mdlc_is_wm_planet_trigger = yes
+			NOT = { has_deposit = rikk_mdlc_d_world_machine_crust_roots }
+		}
 	}
 
-	on_queued = { set_planet_flag = crust_roots_queued }
-	on_unqueued = { remove_planet_flag = crust_roots_queued }
+	on_queued = { planet = { set_planet_flag = crust_roots_queued } }
+	on_unqueued = { planet = { remove_planet_flag = crust_roots_queued } }
 	
 	effect = {
-		add_deposit = rikk_mdlc_d_world_machine_crust_roots
-		hidden_effect = { remove_planet_flag = crust_roots_queued }
+		planet = {
+			add_deposit = rikk_mdlc_d_world_machine_crust_roots
+			hidden_effect = { remove_planet_flag = crust_roots_queued }
+		}
 	}
 }
 
@@ -333,29 +348,37 @@ rikk_mdlc_decision_world_machine_synchronization_arrays = {
 	}	
 	potential = {
 		exists = owner
-		rikk_mdlc_is_wm_industrial_trigger = yes
+		exists = planet
+		planet = {
+			rikk_mdlc_is_wm_industrial_trigger = yes
+		}
 		owner = {
 			oxr_mdlc_planet_owner_can_build_wm_districts = yes
 			has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
 		}
-		NOT = { has_deposit = rikk_mdlc_d_world_machine_synchronization_arrays }
+		planet = {
+			NOT = { has_deposit = rikk_mdlc_d_world_machine_synchronization_arrays }
+		}
 	}
 	
 	allow = {
 		custom_tooltip = {
 			fail_text = rikk_mdlc_fail_crust_roots_queued
-			OR = { 
-				has_deposit = rikk_mdlc_d_world_machine_crust_roots
-				has_planet_flag = crust_roots_queued
+			planet = {
+				OR = { 
+					has_deposit = rikk_mdlc_d_world_machine_crust_roots
+					has_planet_flag = crust_roots_queued
+				}
 			}
 		}
 	}
 
 	effect = {
 		custom_tooltip = rikk_mdlc_decision_world_machine_synchronization_arrays_effect
+
 		if = {
-			limit = { has_deposit = rikk_mdlc_d_world_machine_crust_roots }
-			add_deposit = rikk_mdlc_d_world_machine_synchronization_arrays
+			limit = { planet? = { has_deposit = rikk_mdlc_d_world_machine_crust_roots } }
+			planet = { add_deposit = rikk_mdlc_d_world_machine_synchronization_arrays }
 		}
 		else = {
 			space_owner = {
@@ -372,6 +395,7 @@ rikk_mdlc_decision_world_machine_synchronization_arrays = {
 				}
 			}
 		}
+
 	}
 }
 
@@ -391,20 +415,25 @@ rikk_mdlc_decision_world_machine_mantle_roots = {
 	}	
 	potential = {
 		exists = owner
+		exists = planet
 		owner = {
 			oxr_mdlc_planet_owner_can_build_wm_districts = yes
 			has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
 		}
-		rikk_mdlc_is_wm_planet_trigger = yes
-		NOT = { has_deposit = rikk_mdlc_d_world_machine_mantle_roots }
+		planet = {
+			rikk_mdlc_is_wm_planet_trigger = yes
+			NOT = { has_deposit = rikk_mdlc_d_world_machine_mantle_roots }
+		}
 	}
 	
 	allow = {
 		custom_tooltip = {
 			fail_text = rikk_mdlc_fail_crust_roots_queued
-			OR = { 
-				has_deposit = rikk_mdlc_d_world_machine_crust_roots
-				has_planet_flag = crust_roots_queued
+			planet = {
+				OR = { 
+					has_deposit = rikk_mdlc_d_world_machine_crust_roots
+					has_planet_flag = crust_roots_queued
+				}
 			}
 		}
 		owner = {
@@ -417,13 +446,13 @@ rikk_mdlc_decision_world_machine_mantle_roots = {
 		#num_free_districts = { type = any value < 1 }
 	}
 	
-	on_queued = { set_planet_flag = mantle_roots_queued }
-	on_unqueued = { remove_planet_flag = mantle_roots_queued }
+	on_queued = { planet = { set_planet_flag = mantle_roots_queued } }
+	on_unqueued = { planet = { remove_planet_flag = mantle_roots_queued } }
 	
 	effect = {
 		if = {
-			limit = { has_deposit = rikk_mdlc_d_world_machine_crust_roots }
-			add_deposit = rikk_mdlc_d_world_machine_mantle_roots
+			limit = { planet? = { has_deposit = rikk_mdlc_d_world_machine_crust_roots } }
+			planet = { add_deposit = rikk_mdlc_d_world_machine_mantle_roots }
 		}
 		else = {
 			space_owner = {
@@ -440,7 +469,8 @@ rikk_mdlc_decision_world_machine_mantle_roots = {
 				}
 			}
 		}
-		hidden_effect = { remove_planet_flag = mantle_roots_queued }
+		hidden_effect = { planet = { remove_planet_flag = mantle_roots_queued } }
+
 	}
 }
 
@@ -458,36 +488,44 @@ rikk_mdlc_decision_world_machine_mantle_engine = {
 	}	
 	potential = {
 		exists = owner
-		rikk_mdlc_is_wm_planet_trigger = yes
+		exists = planet
+		planet = {
+			rikk_mdlc_is_wm_planet_trigger = yes
+		}
+		
 		owner = {
 			oxr_mdlc_planet_owner_can_build_wm_districts = yes
 			has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
 		}
-		NOT = { has_deposit = rikk_mdlc_d_world_machine_mantle_engine }
-		OR = { 
-			has_deposit = rikk_mdlc_d_world_machine_mantle_roots
-			has_planet_flag = mantle_roots_queued
+		planet = {
+			NOT = { has_deposit = rikk_mdlc_d_world_machine_mantle_engine }
+			OR = { 
+				has_deposit = rikk_mdlc_d_world_machine_mantle_roots
+				has_planet_flag = mantle_roots_queued
+			}
 		}
 	}
 	
 	allow = {
 		custom_tooltip = {
 			fail_text = rikk_mdlc_fail_mantle_roots_queued
-			OR = { 
-				has_deposit = rikk_mdlc_d_world_machine_mantle_roots
-				has_planet_flag = mantle_roots_queued
+			planet = {
+				OR = { 
+					has_deposit = rikk_mdlc_d_world_machine_mantle_roots
+					has_planet_flag = mantle_roots_queued
+				}
 			}
 		}
 		owner = { has_technology = oxr_mdlc_tech_geologic_seismic_wave_harvesting_1 }
 	}
 	
-	on_queued = { set_planet_flag = mantle_engine_queued }
-	on_unqueued = { remove_planet_flag = mantle_engine_queued }
+	on_queued = { planet = { set_planet_flag = mantle_engine_queued } }
+	on_unqueued = { planet = { remove_planet_flag = mantle_engine_queued } }
 	
 	effect = {
 		if = {
-			limit = { has_deposit = rikk_mdlc_d_world_machine_mantle_roots }
-			add_deposit = rikk_mdlc_d_world_machine_mantle_engine
+			limit = { planet? = { has_deposit = rikk_mdlc_d_world_machine_mantle_roots } }
+			planet = { add_deposit = rikk_mdlc_d_world_machine_mantle_engine }
 		}
 		else = {
 			space_owner = {
@@ -504,7 +542,8 @@ rikk_mdlc_decision_world_machine_mantle_engine = {
 				}
 			}
 		}
-		hidden_effect = { remove_planet_flag = mantle_engine_queued }
+		hidden_effect = { planet = { remove_planet_flag = mantle_engine_queued } }
+
 	}
 }
 
@@ -523,21 +562,17 @@ rikk_mdlc_decision_world_machine_reinforced_planet = {
 	
 	potential = {
 		exists = owner
-		rikk_mdlc_is_wm_planet_trigger = yes
+		exists = planet
+		planet = {
+			rikk_mdlc_is_wm_planet_trigger = yes
+		}
+		
 		owner = {
 			has_country_flag = wm_upgrade_reinforced_planet_allowed
 			has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
 		}
-		NOT = { has_planet_flag = rikk_mdlc_planet_reinforced }
-		OR = {
-			has_deposit = rikk_mdlc_d_world_machine_mantle_engine
-			has_planet_flag = mantle_engine_queued
-		}
-	}
-	
-	allow = {
-		custom_tooltip = {
-			fail_text = rikk_mdlc_fail_mantle_engine_queued
+		planet = {
+			NOT = { has_planet_flag = rikk_mdlc_planet_reinforced }
 			OR = {
 				has_deposit = rikk_mdlc_d_world_machine_mantle_engine
 				has_planet_flag = mantle_engine_queued
@@ -545,9 +580,24 @@ rikk_mdlc_decision_world_machine_reinforced_planet = {
 		}
 	}
 	
+	allow = {
+		custom_tooltip = {
+			fail_text = rikk_mdlc_fail_mantle_engine_queued
+			planet = {
+				OR = {
+					has_deposit = rikk_mdlc_d_world_machine_mantle_engine
+					has_planet_flag = mantle_engine_queued
+				}
+			}
+		}
+	}
+	
 	effect = {
-		hidden_effect = { set_planet_flag = rikk_mdlc_planet_reinforced }
-		custom_tooltip = rikk_mdlc_decision_world_machine_reinforced_planet_effect
+
+		planet = {
+			set_planet_flag = rikk_mdlc_planet_reinforced
+			custom_tooltip = rikk_mdlc_decision_world_machine_reinforced_planet_effect
+		}
 	}
 }
 
@@ -565,35 +615,43 @@ rikk_mdlc_decision_world_machine_mantle_transport_network = {
 	
 	potential = {
 		exists = owner
-		rikk_mdlc_is_wm_planet_trigger = yes
+		exists = planet
+		planet = {
+			rikk_mdlc_is_wm_planet_trigger = yes
+		}
 		owner = {
 			oxr_mdlc_planet_owner_can_build_wm_districts = yes
 			has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
 		}
-		NOT = { has_deposit = rikk_mdlc_d_world_machine_mantle_transport_network }
-		rikk_mdlc_is_wm_industrial_trigger = yes
-		is_planet_class = xvcv_mdlc_pc_machine_ecu
-		OR = { 
-			has_deposit = rikk_mdlc_d_world_machine_mantle_roots
-			has_planet_flag = mantle_roots_queued
+		planet = {
+			NOT = { has_deposit = rikk_mdlc_d_world_machine_mantle_transport_network }
+			rikk_mdlc_is_wm_industrial_trigger = yes
+			is_planet_class = xvcv_mdlc_pc_machine_ecu
+			OR = { 
+				has_deposit = rikk_mdlc_d_world_machine_mantle_roots
+				has_planet_flag = mantle_roots_queued
+			}
 		}
 	}
 	
 	allow = {
 		custom_tooltip = {
 			fail_text = rikk_mdlc_fail_mantle_roots_queued
-			OR = { 
-				has_deposit = rikk_mdlc_d_world_machine_mantle_roots
-				has_planet_flag = mantle_roots_queued
+			planet = {
+				OR = { 
+					has_deposit = rikk_mdlc_d_world_machine_mantle_roots
+					has_planet_flag = mantle_roots_queued
+				}
 			}
+			
 		}
 		owner = { has_technology = oxr_mdlc_tech_geologic_elastic_materials_1 }
 	}
 	
 	effect = {
 		if = {
-			limit = { has_deposit = rikk_mdlc_d_world_machine_mantle_roots }
-			add_deposit = rikk_mdlc_d_world_machine_mantle_transport_network
+			limit = { planet? = { has_deposit = rikk_mdlc_d_world_machine_mantle_roots } }
+			planet = { add_deposit = rikk_mdlc_d_world_machine_mantle_transport_network }
 		}
 		else = {
 			space_owner = {
@@ -610,6 +668,7 @@ rikk_mdlc_decision_world_machine_mantle_transport_network = {
 				}
 			}
 		}
+
 	}
 }
 
@@ -627,25 +686,33 @@ rikk_mdlc_decision_world_machine_mantle_buses = {
 	
 	potential = {
 		exists = owner
-		rikk_mdlc_is_wm_planet_trigger = yes
+		exists = planet
+		planet = {
+			rikk_mdlc_is_wm_planet_trigger = yes
+		}
+		
 		owner = {
 			oxr_mdlc_planet_owner_can_build_wm_districts = yes
 			has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
 		}
-		NOT = { has_deposit = rikk_mdlc_d_world_machine_mantle_buses }
-		rikk_mdlc_is_wm_computer_trigger = yes
-		OR = { 
-			has_deposit = rikk_mdlc_d_world_machine_mantle_roots
-			has_planet_flag = mantle_roots_queued
+		planet = {
+			NOT = { has_deposit = rikk_mdlc_d_world_machine_mantle_buses }
+			rikk_mdlc_is_wm_computer_trigger = yes
+			OR = { 
+				has_deposit = rikk_mdlc_d_world_machine_mantle_roots
+				has_planet_flag = mantle_roots_queued
+			}
 		}
 	}
 	
 	allow = {
 		custom_tooltip = {
 			fail_text = rikk_mdlc_fail_mantle_roots_queued
-			OR = { 
-				has_deposit = rikk_mdlc_d_world_machine_mantle_roots
-				has_planet_flag = mantle_roots_queued
+			planet = {
+				OR = { 
+					has_deposit = rikk_mdlc_d_world_machine_mantle_roots
+					has_planet_flag = mantle_roots_queued
+				}
 			}
 		}
 		owner = { has_technology = oxr_mdlc_tech_geologic_elastic_materials_1 }
@@ -653,8 +720,8 @@ rikk_mdlc_decision_world_machine_mantle_buses = {
 	
 	effect = {
 		if = {
-			limit = { has_deposit = rikk_mdlc_d_world_machine_mantle_roots }
-			add_deposit = rikk_mdlc_d_world_machine_mantle_buses
+			limit = { planet? = { has_deposit = rikk_mdlc_d_world_machine_mantle_roots } }
+			planet = { add_deposit = rikk_mdlc_d_world_machine_mantle_buses }
 		}
 		else = {
 			space_owner = {
@@ -671,6 +738,7 @@ rikk_mdlc_decision_world_machine_mantle_buses = {
 				}
 			}
 		}
+
 	}
 }
 
@@ -689,25 +757,34 @@ rikk_mdlc_decision_world_machine_outer_core_roots = {
 	}	
 	potential = {
 		exists = owner
-		rikk_mdlc_is_wm_planet_trigger = yes
+		exists = planet
+		planet = {
+			rikk_mdlc_is_wm_planet_trigger = yes
+		}
+
 		owner = {
 			oxr_mdlc_planet_owner_can_build_wm_districts = yes
 			has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
 		}
-		NOT = { has_deposit = rikk_mdlc_d_world_machine_outer_core_roots }
-		OR = { 
-			has_deposit = rikk_mdlc_d_world_machine_mantle_roots
-			has_planet_flag = mantle_roots_queued
+		planet = {
+			NOT = { has_deposit = rikk_mdlc_d_world_machine_outer_core_roots }
+			OR = { 
+				has_deposit = rikk_mdlc_d_world_machine_mantle_roots
+				has_planet_flag = mantle_roots_queued
+			}
 		}
 	}
 	
 	allow = {
 		custom_tooltip = {
 			fail_text = rikk_mdlc_fail_mantle_roots_queued
-			OR = { 
-				has_deposit = rikk_mdlc_d_world_machine_mantle_roots
-				has_planet_flag = mantle_roots_queued
+			planet = {
+				OR = { 
+					has_deposit = rikk_mdlc_d_world_machine_mantle_roots
+					has_planet_flag = mantle_roots_queued
+				}
 			}
+			
 		}
 		owner = {
 			AND = {
@@ -719,13 +796,14 @@ rikk_mdlc_decision_world_machine_outer_core_roots = {
 		}
 	}
 	
-	on_queued = { set_planet_flag = outer_core_roots_queued }
-	on_unqueued = { remove_planet_flag = outer_core_roots_queued }
+	on_queued = { planet = { set_planet_flag = outer_core_roots_queued } }
+	on_unqueued = { planet = { remove_planet_flag = outer_core_roots_queued } }
 	
 	effect = {
+
 		if = {
-			limit = { has_deposit = rikk_mdlc_d_world_machine_mantle_roots }
-			add_deposit = rikk_mdlc_d_world_machine_outer_core_roots
+			limit = { planet? = { has_deposit = rikk_mdlc_d_world_machine_mantle_roots } }
+			planet = { add_deposit = rikk_mdlc_d_world_machine_outer_core_roots }
 		}
 		else = {
 			space_owner = {
@@ -742,7 +820,8 @@ rikk_mdlc_decision_world_machine_outer_core_roots = {
 				}
 			}
 		}
-		hidden_effect = { remove_planet_flag = outer_core_roots_queued }
+		hidden_effect = { planet = { remove_planet_flag = outer_core_roots_queued } }
+
 	}
 }
 
@@ -759,33 +838,41 @@ rikk_mdlc_decision_world_machine_outer_core_tap = {
 	}	
 	potential = {
 		exists = owner
-		rikk_mdlc_is_wm_industrial_trigger = yes
+		exists = planet
+		planet = {
+			rikk_mdlc_is_wm_industrial_trigger = yes
+		}
 		owner = {
 			oxr_mdlc_planet_owner_can_build_wm_districts = yes
 			has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
 		}
-		NOT = { has_deposit = rikk_mdlc_d_world_machine_outer_core_tap }
-		OR = { 
-			has_deposit = rikk_mdlc_d_world_machine_outer_core_roots
-			has_planet_flag = outer_core_roots_queued
+		planet = {
+			NOT = { has_deposit = rikk_mdlc_d_world_machine_outer_core_tap }
+			OR = { 
+				has_deposit = rikk_mdlc_d_world_machine_outer_core_roots
+				has_planet_flag = outer_core_roots_queued
+			}
 		}
 	}
 	
 	allow = {
 		custom_tooltip = {
 			fail_text = rikk_mdlc_fail_outer_core_roots_queued
-			OR = { 
-				has_deposit = rikk_mdlc_d_world_machine_outer_core_roots
-				has_planet_flag = outer_core_roots_queued
+			planet = {
+				OR = { 
+					has_deposit = rikk_mdlc_d_world_machine_outer_core_roots
+					has_planet_flag = outer_core_roots_queued
+				}
 			}
 		}
 		owner = { has_technology = oxr_mdlc_tech_geologic_scaling_thermoelectrics }
 	}
 	
 	effect = {
+
 		if = {
-			limit = { has_deposit = rikk_mdlc_d_world_machine_outer_core_roots }
-			add_deposit = rikk_mdlc_d_world_machine_outer_core_tap
+			limit = { planet? = { has_deposit = rikk_mdlc_d_world_machine_outer_core_roots } }
+			planet = { add_deposit = rikk_mdlc_d_world_machine_outer_core_tap }
 		}
 		else = {
 			space_owner = {
@@ -802,6 +889,7 @@ rikk_mdlc_decision_world_machine_outer_core_tap = {
 				}
 			}
 		}
+
 	}
 }
 
@@ -818,36 +906,44 @@ rikk_mdlc_decision_world_machine_outer_core_cooling = {
 	}	
 	potential = {
 		exists = owner
-		rikk_mdlc_is_wm_computer_trigger = yes
+		exists = planet
+		planet = {
+			rikk_mdlc_is_wm_computer_trigger = yes
+		}
 		owner = {
 			oxr_mdlc_planet_owner_can_build_wm_districts = yes
 			has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
 		}
-		NOT = { has_deposit = rikk_mdlc_d_world_machine_outer_core_cooled }
-		NOT = { has_modifier = rikk_mdlc_world_machine_outer_core_cooling_mod }
-		OR = { 
-			has_deposit = rikk_mdlc_d_world_machine_outer_core_roots
-			has_planet_flag = outer_core_roots_queued
+		planet = {
+			NOT = { has_deposit = rikk_mdlc_d_world_machine_outer_core_cooled }
+			NOT = { has_modifier = rikk_mdlc_world_machine_outer_core_cooling_mod }
+			OR = { 
+				has_deposit = rikk_mdlc_d_world_machine_outer_core_roots
+				has_planet_flag = outer_core_roots_queued
+			}
 		}
 	}
 	
 	allow = {
 		custom_tooltip = {
 			fail_text = rikk_mdlc_fail_outer_core_roots_queued
-			OR = {
-				has_deposit = rikk_mdlc_d_world_machine_outer_core_roots
-				has_planet_flag = outer_core_roots_queued
+			planet = {
+				OR = {
+					has_deposit = rikk_mdlc_d_world_machine_outer_core_roots
+					has_planet_flag = outer_core_roots_queued
+				}
 			}
 		}
 		owner = { has_technology = oxr_mdlc_tech_geologic_scaling_thermoelectrics }
 	}
 	
 	effect = {
+
 		custom_tooltip = rikk_mdlc_decision_world_machine_outer_core_cooling_effect
 		if = {
-			limit = { has_deposit = rikk_mdlc_d_world_machine_outer_core_roots }
+			limit = { planet? = { has_deposit = rikk_mdlc_d_world_machine_outer_core_roots } }
 			add_modifier = { modifier = rikk_mdlc_world_machine_outer_core_cooling_mod days = @wmupgradelength4 }
-			hidden_effect = { planet_event = { id = rikk_mdlc_wm_upgrade_events.110 days = @wmupgradelength4 } }
+			hidden_effect = { planet = { planet_event = { id = rikk_mdlc_wm_upgrade_events.110 days = @wmupgradelength4 } } }
 		}
 		else = {
 			space_owner = {
@@ -864,6 +960,7 @@ rikk_mdlc_decision_world_machine_outer_core_cooling = {
 				}
 			}
 		}
+
 	}
 }
 
@@ -882,25 +979,31 @@ rikk_mdlc_decision_world_machine_inner_core_roots = {
 	}	
 	potential = {
 		exists = owner
+		exists = planet
 		owner = {
 			oxr_mdlc_planet_owner_can_build_wm_districts = yes
 			has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
 		}
-		rikk_mdlc_is_wm_planet_trigger = yes
-		NOT = { has_deposit = rikk_mdlc_d_world_machine_inner_core_roots }
-		OR = { 
-			has_deposit = rikk_mdlc_d_world_machine_outer_core_roots
-			has_planet_flag = outer_core_roots_queued
+		planet = {
+			rikk_mdlc_is_wm_planet_trigger = yes
+			NOT = { has_deposit = rikk_mdlc_d_world_machine_inner_core_roots }
+			OR = { 
+				has_deposit = rikk_mdlc_d_world_machine_outer_core_roots
+				has_planet_flag = outer_core_roots_queued
+			}
 		}
 	}
 	
 	allow = {
 		custom_tooltip = {
 			fail_text = rikk_mdlc_fail_outer_core_roots_queued
-			OR = { 
-				has_deposit = rikk_mdlc_d_world_machine_outer_core_roots
-				has_planet_flag = outer_core_roots_queued
+			planet = {
+				OR = { 
+					has_deposit = rikk_mdlc_d_world_machine_outer_core_roots
+					has_planet_flag = outer_core_roots_queued
+				}
 			}
+
 		}
 		owner = {
 			AND = {
@@ -911,13 +1014,14 @@ rikk_mdlc_decision_world_machine_inner_core_roots = {
 		}
 	}
 	
-	on_queued = { set_planet_flag = inner_core_roots_queued }
-	on_unqueued = { remove_planet_flag = inner_core_roots_queued }
+	on_queued = { planet = { set_planet_flag = inner_core_roots_queued } }
+	on_unqueued = { planet = { remove_planet_flag = inner_core_roots_queued } }
 	
 	effect = {
+
 		if = {
-			limit = { has_deposit = rikk_mdlc_d_world_machine_outer_core_roots }
-			add_deposit = rikk_mdlc_d_world_machine_inner_core_roots
+			limit = { planet? = { has_deposit = rikk_mdlc_d_world_machine_outer_core_roots } }
+			planet = { add_deposit = rikk_mdlc_d_world_machine_inner_core_roots }
 		}
 		else = {
 			space_owner = {
@@ -934,7 +1038,8 @@ rikk_mdlc_decision_world_machine_inner_core_roots = {
 				}
 			}
 		}
-		hidden_effect = { remove_planet_flag = inner_core_roots_queued }
+		hidden_effect = { planet = { remove_planet_flag = inner_core_roots_queued } }
+
 	}
 }
 
