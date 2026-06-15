@@ -84,14 +84,6 @@ country_event = {
 					}
 					log = "\\[prev.GetName] MINERAL BODY | swapped generators for mining districts"
 				}
-				if = {
-					limit = { has_district = district_generator_uncapped }
-					while = {
-						remove_district = district_generator_uncapped
-						add_district = district_mining_uncapped
-						count = 2
-					}
-				}
 			}
 			# Organic skin trait
 			if = {
@@ -2672,91 +2664,32 @@ planet_event = {
 	# so there are no districts to count
 	immediate = {
 		# City districts
-		if = {
-			limit = {
-				num_districts = {
-					type = district_nexus
-					value > 0
-				}
-			}
-			export_trigger_value_to_variable = {
-				trigger = num_districts
-				parameters = { type = district_nexus }
-				variable = xvcv_mdlc_pc_mechanical_district_city_var
-			}
-		}
-		else = {
-			export_trigger_value_to_variable = {
-				trigger = num_districts
-				parameters = { type = district_city }
-				variable = xvcv_mdlc_pc_mechanical_district_city_var
-			}
+		export_trigger_value_to_variable = {
+			trigger = num_districts
+			parameters = { type = district_city }
+			variable = xvcv_mdlc_pc_mechanical_district_city_var
 		}
 
 		# Generator
-		if = {
-			limit = {
-				num_districts = {
-					type = district_generator_uncapped
-					value > 0
-				}
-			}
-			export_trigger_value_to_variable = {
-				trigger = num_districts
-				parameters = { type = district_generator_uncapped }
-				variable = xvcv_mdlc_pc_mechanical_district_generator_var
-			}
-		}
-		else = {
-			export_trigger_value_to_variable = {
-				trigger = num_districts
-				parameters = { type = district_generator }
-				variable = xvcv_mdlc_pc_mechanical_district_generator_var
-			}
+		export_trigger_value_to_variable = {
+			trigger = num_districts
+			parameters = { type = district_generator }
+			variable = xvcv_mdlc_pc_mechanical_district_generator_var
 		}
 		
 		# Mines
-		if = {
-			limit = {
-				num_districts = {
-					type = district_mining_uncapped
-					value > 0
-				}
-			}
-			export_trigger_value_to_variable = {
-				trigger = num_districts
-				parameters = { type = district_mining_uncapped }
-				variable = xvcv_mdlc_pc_mechanical_district_mining_var
-			}
-		}
-		else = {
-			export_trigger_value_to_variable = {
-				trigger = num_districts
-				parameters = { type = district_mining }
-				variable = xvcv_mdlc_pc_mechanical_district_mining_var
-			}
+		export_trigger_value_to_variable = {
+			trigger = num_districts
+			parameters = { type = district_mining }
+			variable = xvcv_mdlc_pc_mechanical_district_mining_var
 		}
 		# Farms
-		if = {
-			limit = {
-				num_districts = {
-					type = district_farming_uncapped
-					value > 0
-				}
-			}
-			export_trigger_value_to_variable = {
-				trigger = num_districts
-				parameters = { type = district_farming_uncapped }
-				variable = xvcv_mdlc_pc_mechanical_district_farming_var
-			}
+		export_trigger_value_to_variable = {
+			trigger = num_districts
+			parameters = { type = district_farming }
+			variable = xvcv_mdlc_pc_mechanical_district_farming_var
 		}
-		else = {
-			export_trigger_value_to_variable = {
-				trigger = num_districts
-				parameters = { type = district_farming }
-				variable = xvcv_mdlc_pc_mechanical_district_farming_var
-			}
-		}
+
 
 		log = "Mech world conversion: has \\[This.xvcv_mdlc_pc_mechanical_district_city_var] city districts"
 
