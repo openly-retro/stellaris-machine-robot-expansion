@@ -1,0 +1,186 @@
+#### GOVERNMENT ####
+oxr_mdlc_world_machines_building_auto_stabilizer_1 = {
+	can_build = yes
+	prerequisites = { tech_planetary_government }
+    upgrades = { oxr_mdlc_world_machines_building_auto_stabilizer_2 }
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = government
+		POTENTIAL = " "
+    	TIER = 1
+		ECONOMIC_CATEGORY = oxr_mdlc_category_world_machines_buildings
+		RARE_MATERIAL = volatile_motes
+		RARE_COST = 0
+    	RARE_UPKEEP = 0
+		RESOURCES = " "
+    	JOB = patrol
+		JOBS = 2
+		MODIFIER = patrol
+    	SET = army
+    }
+}
+
+oxr_mdlc_world_machines_building_auto_stabilizer_2 = {
+	can_build = no
+	prerequisites = { tech_colonial_centralization }
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = government
+		POTENTIAL = " "
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_category_world_machines_buildings
+		RARE_MATERIAL = volatile_motes
+		RARE_COST = @b2_rare_cost
+    	RARE_UPKEEP = @b2_rare_upkeep
+		RESOURCES = " "
+    	JOB = patrol
+		JOBS = 5
+		MODIFIER = patrol
+    	SET = army
+    }
+}
+
+### CAPITAL BUILDINGS ###
+@tier_2_capital_defense_armies = 4
+@tier_3_capital_defense_armies = 8
+@tier_4_capital_defense_armies = 16
+@tier_5_capital_defense_armies = 24
+
+@oxr_capital_upgrade_t2_districts_num = 10
+@oxr_capital_upgrade_t3_districts_num = 18
+@oxr_capital_upgrade_t4_districts_num = 25
+@oxr_capital_upgrade_t5_districts_num = 32
+
+# T1 (Post)
+oxr_mdlc_world_machines_building_auto_capital = {
+	# resources
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_capital
+		COST = @b2_minerals
+		UPKEEP = @b2_upkeep
+		BUILD_TIME = @b2_time
+		# allow upgrade if >= this many districts
+		# 0 in this instance
+		REQ_MIN_NUM_DISTRICTS = 0
+		TIER = 1
+	}
+
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+
+	inline_script = planet/buildings/convert_to/oxr_capital_convert_t1
+
+	prerequisites = { "tech_planetary_government" }
+
+	upgrades = {
+		oxr_mdlc_world_machines_building_auto_capital_upgraded
+	}
+}
+# T2 (Capital)
+oxr_mdlc_world_machines_building_auto_capital_upgraded = {
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_capital
+		COST = @b2_minerals
+		UPKEEP = @b2_upkeep
+		BUILD_TIME = @b2_time
+		# allow upgrade if >= this many districts
+		REQ_MIN_NUM_DISTRICTS = @oxr_capital_upgrade_t2_districts_num
+		TIER = 2
+	}
+
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+
+	inline_script = planet/buildings/convert_to/oxr_capital_convert_t2
+
+	prerequisites = {
+		"tech_planetary_government"
+	}
+
+	upgrades = {
+		oxr_mdlc_world_machines_building_auto_capital_major_upgraded
+	}
+
+}
+# T3 (Major)
+oxr_mdlc_world_machines_building_auto_capital_major_upgraded = {
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_capital
+		COST = @b3_minerals
+		UPKEEP = @b3_upkeep
+		BUILD_TIME = @b3_time
+		# allow upgrade if >= this many districts
+		REQ_MIN_NUM_DISTRICTS = @oxr_capital_upgrade_t3_districts_num
+		TIER = 3
+	}
+
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+
+	inline_script = planet/buildings/convert_to/oxr_capital_convert_t3
+
+	prerequisites = {
+		"tech_colonial_centralization"
+	}
+
+	upgrades = {
+		"oxr_mdlc_world_machines_building_auto_capital_fully_upgraded"
+	}
+
+}
+# T4 (System)
+oxr_mdlc_world_machines_building_auto_capital_fully_upgraded = {
+	# resources
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_capital
+		COST = @b4_minerals
+		UPKEEP = @b4_upkeep
+		BUILD_TIME = @b4_time
+		# allow upgrade if >= this many districts
+		REQ_MIN_NUM_DISTRICTS = @oxr_capital_upgrade_t4_districts_num
+		TIER = 4
+	}
+
+	inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+
+	inline_script = planet/buildings/convert_to/oxr_capital_convert_t4
+
+	prerequisites = { "tech_galactic_administration" }
+
+	upgrades = {
+		"oxr_mdlc_world_machines_building_auto_imperial_capital"
+	}
+
+}
+
+# Imperial Capital - T5
+oxr_mdlc_world_machines_building_auto_imperial_capital = {
+	# not including this script bc potential is different
+	# inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+
+	# resources
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_capital
+		COST = @b4_minerals
+		UPKEEP = @b4_upkeep
+		BUILD_TIME = @b4_time
+		# allow upgrade if >= this many districts
+		REQ_MIN_NUM_DISTRICTS = @oxr_capital_upgrade_t5_districts_num
+		TIER = 5
+	}
+
+	potential = {
+		exists = owner
+		owner = {
+			has_origin = oxr_mdlc_origin_world_machine_awakened
+			is_galactic_emperor = yes
+		}
+	}
+	show_tech_unlock_if = {
+		has_origin = oxr_mdlc_origin_world_machine_awakened
+	}
+
+	inline_script = planet/buildings/convert_to/oxr_capital_convert_t5
+
+}
+
+# EOF

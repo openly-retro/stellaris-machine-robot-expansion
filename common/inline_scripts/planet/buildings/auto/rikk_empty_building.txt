@@ -1,0 +1,61 @@
+#example of oxr_mdlc_world_machines_building_auto_forge_1
+#	can_build = yes
+#	#planet_limit = 1
+#	#allow = { oxr_mdlc_has_upgraded_capital = yes }
+#	prerequisites = { tech_basic_industry }
+#	upgrades = { oxr_mdlc_world_machines_building_auto_forge_2 }
+#	#triggered_planet_modifier = { }
+#	
+#	inline_script = {
+#		script = planet/buildings/auto/rikk_empty_building
+#		CATEGORY = manufacturing										#This is the vanilla category for the building screen, and also is used for the building set
+#		POTENTIAL = " "													#Any additional potential statements can be put inbetween the " "
+#		TIER = 1														#This is used to calculate build time, mineral cost, and base energy upkeep
+#		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_foundry_buildings	#Economic category.
+#		RARE_MATERIAL = volatile_motes									#Any resource can be put here, it's just most often used for rare resources
+#		RARE_COST = 0													#extra cost of the above
+#		RARE_UPKEEP = 0													#extra upkeep of the above
+#		RESOURCES = " "													#any additional resources that you want to add in, like an extra cost statement
+#		JOB = fabricator												#job files are defined in the inline_script/planet/buildings/auto/jobs/ folder. They are meant to be the production of 1 job, its upkeep, plus an extra 1 energy upkeep per job, plus any modification to those resources
+#		JOBS = 2														#what to multiply the job file above by
+#		MODIFIER = none													#jobs that have modifier effects, in a sibling folder to the job folder. soldier and patrol drones are what I used it for. It is supplied the JOBS number so it can also be multiplied
+#		SET = foundry													#an additional building set. you can even put an additional. for example, adding an additional 'all' set is SET = "foundry oxr_mdlc_building_set_wm_all"
+#	}
+
+category = $CATEGORY$
+potential = {
+	exists = owner
+	owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+	is_planet_world_machine = yes
+	$POTENTIAL$
+}
+show_tech_unlock_if = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+on_built = { owner = { fire_on_action = { on_action = on_world_machine_popless_building_constructed } } }
+destroy_trigger = { owner = { oxr_mdlc_planet_owner_can_build_wm_districts = no } }
+
+base_buildtime = @b$TIER$_time
+resources = {
+	category = $ECONOMIC_CATEGORY$
+	cost = {
+		minerals = @b$TIER$_minerals
+		$RARE_MATERIAL$ = $RARE_COST$
+	}
+	upkeep = {
+		energy = $TIER$
+		$RARE_MATERIAL$ = $RARE_UPKEEP$
+	}
+	$RESOURCES$
+	inline_script = {
+		script = planet/buildings/auto/jobs/rikk_mdlc_$JOB$
+		JOBS = $JOBS$
+	}
+}
+inline_script = {
+	script = planet/buildings/auto/modifiers/rikk_mdlc_$MODIFIER$
+	JOBS = $JOBS$
+}
+building_sets = {
+	oxr_mdlc_building_set_wm_all
+	oxr_mdlc_building_set_wm_$CATEGORY$
+	oxr_mdlc_building_set_wm_$SET$
+}

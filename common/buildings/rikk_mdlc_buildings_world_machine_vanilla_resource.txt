@@ -1,0 +1,670 @@
+#### RESOURCE ####
+
+# ENERGY
+oxr_mdlc_world_machines_auto_generator_1 = {
+	can_build = yes
+	prerequisites = { tech_power_plant_1 }
+    upgrades = { oxr_mdlc_world_machines_auto_generator_2 }
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = resource
+		POTENTIAL = " "
+    	TIER = 1
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_generator_buildings
+		RARE_MATERIAL = physics_research
+		RARE_COST = 0
+    	RARE_UPKEEP = 0
+		RESOURCES = " "
+    	JOB = technician
+		JOBS = 2
+		MODIFIER = none
+    	SET = energy
+    }
+	#triggered_desc = { text = rikk_mdlc_text_build_higher_tier }
+}
+oxr_mdlc_world_machines_auto_generator_2 = {
+	can_build = no
+	prerequisites = { tech_power_plant_2 }
+    upgrades = { oxr_mdlc_world_machines_auto_generator_3 }
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = resource
+		POTENTIAL = " "
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_generator_buildings
+		RARE_MATERIAL = physics_research
+		RARE_COST = 0
+    	RARE_UPKEEP = 3
+		RESOURCES = " "
+    	JOB = technician
+		JOBS = 4
+		MODIFIER = none
+    	SET = energy
+    }
+	#triggered_desc = { text = rikk_mdlc_text_build_higher_tier }
+}
+oxr_mdlc_world_machines_auto_generator_3 = {
+	can_build = no
+	prerequisites = { tech_power_plant_3 }
+    upgrades = { oxr_mdlc_world_machines_auto_generator_4 }
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = resource
+		POTENTIAL = " "
+    	TIER = 3
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_generator_buildings
+		RARE_MATERIAL = physics_research
+		RARE_COST = 0
+    	RARE_UPKEEP = 6
+		RESOURCES = " "
+    	JOB = technician
+		JOBS = 6
+		MODIFIER = none
+    	SET = energy
+    }
+	#triggered_desc = { text = rikk_mdlc_text_build_higher_tier }
+}
+oxr_mdlc_world_machines_auto_generator_4 = {
+	can_build = no
+	prerequisites = { tech_power_plant_4 }
+    upgrades = { oxr_mdlc_world_machines_auto_generator_5 }
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = resource
+		POTENTIAL = " "
+    	TIER = 4
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_generator_buildings
+		RARE_MATERIAL = physics_research
+		RARE_COST = 0
+    	RARE_UPKEEP = 9
+		RESOURCES = " "
+    	JOB = technician
+		JOBS = 8
+		MODIFIER = none
+    	SET = energy
+    }
+	#triggered_desc = { text = rikk_mdlc_text_build_higher_tier }
+	planet_modifier = { planet_stability_add = -1 }
+}
+oxr_mdlc_world_machines_auto_generator_5 = {
+	can_build = no
+	prerequisites = { tech_power_plant_4 tech_power_hub_2 }
+    upgrades = { oxr_mdlc_world_machines_auto_generator_5 }
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = resource
+		POTENTIAL = " "
+    	TIER = 5
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_generator_buildings
+		RARE_MATERIAL = physics_research
+		RARE_COST = 0
+    	RARE_UPKEEP = 12
+		RESOURCES = " "
+    	JOB = technician
+		JOBS = 10
+		MODIFIER = none
+    	SET = energy
+    }
+	#triggered_desc = { text = rikk_mdlc_text_build_higher_tier }
+	planet_modifier = { planet_stability_add = -2 }
+}
+
+# Energy hub T1
+oxr_mdlc_world_machines_auto_energy_grid_1 = {
+	can_build = yes
+	base_cap_amount = 1
+	prerequisites = { tech_power_hub_1 }
+    upgrades = { oxr_mdlc_world_machines_auto_energy_grid_2 }
+	
+	triggered_planet_modifier = {
+		oxr_mdlc_world_machines_generator_buildings_energy_produces_add = 1
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = resource
+		POTENTIAL = " "
+    	TIER = 1
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_generator_buildings
+		RARE_MATERIAL = exotic_gases
+		RARE_COST = 0
+    	RARE_UPKEEP = 0
+		RESOURCES = " "
+    	JOB = technician
+		JOBS = 0
+		MODIFIER = none
+    	SET = energy
+    }
+	planet_modifier = { planet_stability_add = -1 }
+}
+# Energy hub T2
+oxr_mdlc_world_machines_auto_energy_grid_2 = {
+	can_build = no
+	base_cap_amount = 1
+	prerequisites = { tech_power_hub_2 }
+	allow = { oxr_mdlc_has_upgraded_capital = yes }
+	
+	triggered_planet_modifier = {
+		oxr_mdlc_world_machines_generator_buildings_energy_produces_add = 2
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = resource
+		POTENTIAL = " "
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_generator_buildings
+		RARE_MATERIAL = exotic_gases
+		RARE_COST = @b2_rare_cost
+    	RARE_UPKEEP = @b2_rare_upkeep
+		RESOURCES = " "
+    	JOB = technician
+		JOBS = 0
+		MODIFIER = none
+    	SET = energy
+    }
+	planet_modifier = { planet_stability_add = -2 }
+}
+
+# MINERALS
+oxr_mdlc_world_machines_auto_mine_1 = {
+	can_build = yes
+	prerequisites = { tech_basic_industry }
+    upgrades = { oxr_mdlc_world_machines_auto_mine_2 }
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = resource
+		POTENTIAL = " "
+    	TIER = 1
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_mining_buildings
+		RARE_MATERIAL = engineering_research
+		RARE_COST = 0
+    	RARE_UPKEEP = 0
+		RESOURCES = " "
+    	JOB = miner
+		JOBS = 2
+		MODIFIER = none
+    	SET = minerals
+    }
+	#triggered_desc = { text = rikk_mdlc_text_build_higher_tier }
+}
+oxr_mdlc_world_machines_auto_mine_2 = {
+	can_build = no
+	prerequisites = { tech_mining_1 }
+    upgrades = { oxr_mdlc_world_machines_auto_mine_3 }
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = resource
+		POTENTIAL = " "
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_mining_buildings
+		RARE_MATERIAL = engineering_research
+		RARE_COST = 0
+    	RARE_UPKEEP = 3
+		RESOURCES = " "
+    	JOB = miner
+		JOBS = 4
+		MODIFIER = none
+    	SET = minerals
+    }
+	#triggered_desc = { text = rikk_mdlc_text_build_higher_tier }
+}
+oxr_mdlc_world_machines_auto_mine_3 = {
+	can_build = no
+	prerequisites = { tech_mining_2 }
+    upgrades = { oxr_mdlc_world_machines_auto_mine_4 }
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = resource
+		POTENTIAL = " "
+    	TIER = 3
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_mining_buildings
+		RARE_MATERIAL = engineering_research
+		RARE_COST = 0
+    	RARE_UPKEEP = 6
+		RESOURCES = " "
+    	JOB = miner
+		JOBS = 6
+		MODIFIER = none
+    	SET = minerals
+    }
+	#triggered_desc = { text = rikk_mdlc_text_build_higher_tier }
+}
+oxr_mdlc_world_machines_auto_mine_4 = {
+	can_build = no
+	prerequisites = { tech_mining_3 }
+    upgrades = { oxr_mdlc_world_machines_auto_mine_5 }
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = resource
+		POTENTIAL = " "
+    	TIER = 4
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_mining_buildings
+		RARE_MATERIAL = engineering_research
+		RARE_COST = 0
+    	RARE_UPKEEP = 9
+		RESOURCES = " "
+    	JOB = miner
+		JOBS = 8
+		MODIFIER = none
+    	SET = minerals
+    }
+	#triggered_desc = { text = rikk_mdlc_text_build_higher_tier }
+	planet_modifier = { planet_stability_add = -1 }
+}
+oxr_mdlc_world_machines_auto_mine_5 = {
+	can_build = no
+	prerequisites = { tech_mining_3 tech_mineral_purification_2 }
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = resource
+		POTENTIAL = " "
+    	TIER = 5
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_mining_buildings
+		RARE_MATERIAL = engineering_research
+		RARE_COST = 0
+    	RARE_UPKEEP = 12
+		RESOURCES = " "
+    	JOB = miner
+		JOBS = 10
+		MODIFIER = none
+    	SET = minerals
+    }
+	#triggered_desc = { text = rikk_mdlc_text_build_higher_tier }
+	planet_modifier = { planet_stability_add = -2 }
+}
+oxr_mdlc_world_machines_building_auto_mining_support = {
+	can_build = yes
+	base_cap_amount = 1
+	prerequisites = { tech_mineral_purification_1 }
+    upgrades = { oxr_mdlc_world_machines_building_auto_mining_support_2 }
+	
+	triggered_planet_modifier = {
+		oxr_mdlc_world_machines_mining_buildings_minerals_produces_add = 1
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = resource
+		POTENTIAL = " "
+    	TIER = 1
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_mining_buildings
+		RARE_MATERIAL = rare_crystals
+		RARE_COST = 0
+    	RARE_UPKEEP = 0
+		RESOURCES = " "
+    	JOB = miner
+		JOBS = 0
+		MODIFIER = none
+    	SET = minerals
+    }
+	planet_modifier = { planet_stability_add = -1 }
+}
+oxr_mdlc_world_machines_building_auto_mining_support_2 = {
+	can_build = no
+	base_cap_amount = 1
+	prerequisites = { tech_mineral_purification_2 }
+	allow = { oxr_mdlc_has_upgraded_capital = yes }
+	
+	triggered_planet_modifier = {
+		oxr_mdlc_world_machines_mining_buildings_minerals_produces_add = 2
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = resource
+		POTENTIAL = " "
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_mining_buildings
+		RARE_MATERIAL = rare_crystals
+		RARE_COST = @b2_rare_cost
+    	RARE_UPKEEP = @b2_rare_upkeep
+		RESOURCES = " "
+    	JOB = miner
+		JOBS = 0
+		MODIFIER = none
+    	SET = minerals
+    }
+	planet_modifier = { planet_stability_add = -2 }
+}
+
+#FOOD
+oxr_mdlc_world_machines_auto_farm_1 = {
+	can_build = yes
+	prerequisites = { tech_hydroponics }
+    upgrades = { oxr_mdlc_world_machines_auto_farm_2 }
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = resource
+		POTENTIAL = " "
+    	TIER = 1
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_food_buildings
+		RARE_MATERIAL = society_research
+		RARE_COST = 0
+    	RARE_UPKEEP = 0
+		RESOURCES = " "
+    	JOB = farmer
+		JOBS = 2
+		MODIFIER = none
+    	SET = food
+    }
+	#triggered_desc = { text = rikk_mdlc_text_build_higher_tier }
+}
+oxr_mdlc_world_machines_auto_farm_2 = {
+	can_build = no
+	prerequisites = { tech_eco_simulation }
+    upgrades = { oxr_mdlc_world_machines_auto_farm_3 }
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = resource
+		POTENTIAL = " "
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_food_buildings
+		RARE_MATERIAL = society_research
+		RARE_COST = 0
+    	RARE_UPKEEP = 3
+		RESOURCES = " "
+    	JOB = farmer
+		JOBS = 4
+		MODIFIER = none
+    	SET = food
+    }
+	#triggered_desc = { text = rikk_mdlc_text_build_higher_tier }
+}
+oxr_mdlc_world_machines_auto_farm_3 = {
+	can_build = no
+	prerequisites = { tech_gene_crops }
+    upgrades = { oxr_mdlc_world_machines_auto_farm_4 }
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = resource
+		POTENTIAL = " "
+    	TIER = 3
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_food_buildings
+		RARE_MATERIAL = society_research
+		RARE_COST = 0
+    	RARE_UPKEEP = 6
+		RESOURCES = " "
+    	JOB = farmer
+		JOBS = 6
+		MODIFIER = none
+    	SET = food
+    }
+	#triggered_desc = { text = rikk_mdlc_text_build_higher_tier }
+}
+oxr_mdlc_world_machines_auto_farm_4 = {
+	can_build = no
+	prerequisites = { tech_nano_vitality_crops }
+    upgrades = { oxr_mdlc_world_machines_auto_farm_5 }
+	allow = { oxr_mdlc_has_upgraded_capital = yes }
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = resource
+		POTENTIAL = " "
+    	TIER = 4
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_food_buildings
+		RARE_MATERIAL = society_research
+		RARE_COST = 0
+    	RARE_UPKEEP = 9
+		RESOURCES = " "
+    	JOB = farmer
+		JOBS = 8
+		MODIFIER = none
+    	SET = food
+    }
+	#triggered_desc = { text = rikk_mdlc_text_build_higher_tier }
+	planet_modifier = { planet_stability_add = -1 }
+}
+oxr_mdlc_world_machines_auto_farm_5 = {
+	can_build = no
+	prerequisites = { tech_food_processing_2 }
+	allow = { oxr_mdlc_has_major_upgraded_capital = yes }
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = resource
+		POTENTIAL = " "
+    	TIER = 5
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_food_buildings
+		RARE_MATERIAL = society_research
+		RARE_COST = 0
+    	RARE_UPKEEP = 12
+		RESOURCES = " "
+    	JOB = farmer
+		JOBS = 10
+		MODIFIER = none
+    	SET = food
+    }
+	#triggered_desc = { text = rikk_mdlc_text_build_higher_tier }
+	planet_modifier = { planet_stability_add = -2 }
+}
+# Replace building_food_processing_facility
+oxr_mdlc_world_machines_building_auto_farm_logistics = {
+	base_cap_amount = 1
+	can_build = yes
+	prerequisites = { tech_food_processing_1 }
+    upgrades = { oxr_mdlc_world_machines_building_auto_farm_logistics_2 }
+
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_food_districts_food_produces_add = 1
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = resource
+		POTENTIAL = " "
+    	TIER = 1
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_food_buildings
+		RARE_MATERIAL = society_research
+		RARE_COST = 0
+    	RARE_UPKEEP = 0
+		RESOURCES = " "
+    	JOB = farmer
+		JOBS = 0
+		MODIFIER = none
+    	SET = food
+    }
+	planet_modifier = { planet_stability_add = -1 }
+}
+# T2
+oxr_mdlc_world_machines_building_auto_farm_logistics_2 = {
+	base_cap_amount = 1
+	can_build = no
+	prerequisites = { tech_food_processing_2 }
+	allow = { oxr_mdlc_has_upgraded_capital = yes }
+
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_food_districts_food_produces_add = 2
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = resource
+		POTENTIAL = " "
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_food_buildings
+		RARE_MATERIAL = exotic_gases
+		RARE_COST = @b2_rare_cost
+    	RARE_UPKEEP = @b2_rare_upkeep
+		RESOURCES = " "
+    	JOB = farmer
+		JOBS = 0
+		MODIFIER = none
+    	SET = food
+    }
+	planet_modifier = { planet_stability_add = -2 }
+}
+
+#bio-reactor
+oxr_mdlc_world_machines_building_biowaste_harvester = {
+	can_build = yes
+	base_cap_amount = 1
+	prerequisites = { tech_bio_reactor }
+	upgrades = { oxr_mdlc_world_machines_building_biowaste_harvester_2 }
+	
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_food_districts_food_produces_add = -4
+		xvcv_mdlc_world_machines_food_districts_energy_produces_add = 4
+		oxr_mdlc_world_machines_farming_buildings_food_produces_add = -4
+		oxr_mdlc_world_machines_farming_buildings_energy_produces_add = 4
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = resource
+		POTENTIAL = " "
+    	TIER = 1
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_food_buildings
+		RARE_MATERIAL = food
+		RARE_COST = @b1_cost
+    	RARE_UPKEEP = @b1_upkeep
+		RESOURCES = " "
+    	JOB = farmer
+		JOBS = 0
+		MODIFIER = none
+    	SET = food
+    }
+	planet_modifier = { planet_stability_add = -1 }
+}
+
+oxr_mdlc_world_machines_building_biowaste_harvester_2 = {
+	can_build = no
+	base_cap_amount = 1
+	prerequisites = { tech_bio_reactor }
+	allow = { oxr_mdlc_has_upgraded_capital = yes }
+	
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_food_districts_food_produces_add = -6
+		xvcv_mdlc_world_machines_food_districts_energy_produces_add = 4
+		xvcv_mdlc_world_machines_food_districts_exotic_gases_produces_add = 0.2
+		oxr_mdlc_world_machines_farming_buildings_food_produces_add = -6
+		oxr_mdlc_world_machines_farming_buildings_energy_produces_add = 4
+		oxr_mdlc_world_machines_farming_buildings_exotic_gases_produces_add = 0.2
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = resource
+		POTENTIAL = " "
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_food_buildings
+		RARE_MATERIAL = food
+		RARE_COST = @b2_cost
+    	RARE_UPKEEP = @b2_upkeep
+		RESOURCES = " "
+    	JOB = farmer
+		JOBS = 0
+		MODIFIER = none
+    	SET = food
+    }
+	planet_modifier = { planet_stability_add = -2 }
+}
+
+#Baol Organic Plant
+rikk_mdlc_world_machines_building_baol_organic_plant = {
+	can_build = yes
+	base_cap_amount = 1
+	prerequisites = { tech_secrets_baol }
+	
+	triggered_planet_modifier = {
+		potential = { owner = { country_uses_consumer_goods = no } }
+		xvcv_mdlc_world_machines_food_districts_food_produces_add = 0.5
+		xvcv_mdlc_world_machines_food_districts_energy_produces_add = 0.5
+		oxr_mdlc_world_machines_farming_buildings_food_produces_add = 0.5
+		oxr_mdlc_world_machines_farming_buildings_energy_produces_add = 0.5
+	}
+	triggered_planet_modifier = {
+		potential = { owner = { country_uses_consumer_goods = no has_ascension_perk = ap_archaeoengineers } }
+		xvcv_mdlc_world_machines_food_districts_energy_produces_add = 0.5
+		oxr_mdlc_world_machines_farming_buildings_energy_produces_add = 0.5
+	}
+	triggered_planet_modifier = {
+		potential = { owner = { country_uses_consumer_goods = yes } }
+		xvcv_mdlc_world_machines_food_districts_food_produces_add = 0.5
+		xvcv_mdlc_world_machines_food_districts_consumer_goods_produces_add = 0.25
+		oxr_mdlc_world_machines_farming_buildings_food_produces_add = 0.5
+		oxr_mdlc_world_machines_farming_buildings_consumer_goods_produces_add = 0.25
+	}
+	triggered_planet_modifier = {
+		potential = { owner = { country_uses_consumer_goods = yes has_ascension_perk = ap_archaeoengineers } }
+		xvcv_mdlc_world_machines_food_districts_consumer_goods_produces_add = 0.25
+		oxr_mdlc_world_machines_farming_buildings_consumer_goods_produces_add = 0.25
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = resource
+		POTENTIAL = " "
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_food_buildings
+		RARE_MATERIAL = minor_artifacts
+		RARE_COST = @b2_rare_cost
+    	RARE_UPKEEP = 0
+		RESOURCES = " "
+    	JOB = farmer
+		JOBS = 2
+		MODIFIER = none
+    	SET = "food oxr_mdlc_building_set_wm_factory oxr_mdlc_building_set_wm_manufacturing"
+    }
+	planet_modifier = { planet_stability_add = -2 }
+	ai_resource_production = {
+		food = 10
+		trigger = { has_any_agriculture_zone = yes }
+	}
+}
+
+# Convert food to energy
+#generators do not have upkeep as of right now so this is disabled
+#oxr_mdlc_world_machines_biofuel_refit_1 = {
+#	base_cap_amount = 1
+#	base_buildtime = @b2_time
+#	category = resource
+#	potential = {
+#		exists = owner
+#		owner = {
+#			OR = {
+#				has_origin = oxr_mdlc_origin_world_machine_awakened
+#				# has_ascension_perk = xvcv_mdlc_ap_world_machines
+#			}
+#			has_civic = civic_machine_catalytic_processing
+#		}
+#		is_planet_world_machine = yes
+#	}
+#	show_tech_unlock_if = {
+#		OR = {
+#			has_origin = oxr_mdlc_origin_world_machine_awakened
+#			# has_ascension_perk = xvcv_mdlc_ap_world_machines
+#		}
+#	}
+#	on_built = {
+#		owner = {
+#			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
+#		}
+#	}
+#	inline_script = planet/buildings/auto/oxr_destroy
+#	custom_tooltip = oxr_mdlc_world_machines_biofuel_refit_1_tooltip
+#	prerequisites = {
+#		tech_bio_reactor_2
+#	}
+#	building_sets = {
+#		oxr_mdlc_building_set_wm_all
+#		oxr_mdlc_building_set_wm_resource
+#		oxr_mdlc_building_set_wm_food
+#	}
+#}
+
+# EOF

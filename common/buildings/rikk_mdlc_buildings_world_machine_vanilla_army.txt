@@ -1,0 +1,189 @@
+#### MILITARY ####
+# MILITARY T1
+oxr_mdlc_world_machines_building_maintenance_legion = {
+	can_build = yes
+	can_be_ruined = no
+	prerequisites = { tech_planetary_defenses }
+    upgrades = { oxr_mdlc_world_machines_building_maintenance_legion_2 }
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = army
+		POTENTIAL = " "
+    	TIER = 1
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_military_buildings
+		RARE_MATERIAL = volatile_motes
+		RARE_COST = 0
+    	RARE_UPKEEP = 0
+		RESOURCES = " "
+    	JOB = warrior
+		JOBS = 2
+		MODIFIER = warrior
+    	SET = army
+    }
+	
+}
+# MILITARY T2
+oxr_mdlc_world_machines_building_maintenance_legion_2 = {
+	can_build = no
+	can_be_ruined = no
+	prerequisites = { tech_global_defense_grid }
+	allow = { oxr_mdlc_has_upgraded_capital = yes }
+	planetary_ftl_inhibitor = yes
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = army
+		POTENTIAL = " "
+    	TIER = 1
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_military_buildings
+		RARE_MATERIAL = volatile_motes
+		RARE_COST = @b2_rare_cost
+    	RARE_UPKEEP = @b2_rare_upkeep
+		RESOURCES = " "
+    	JOB = warrior
+		JOBS = 4
+		MODIFIER = warrior
+    	SET = army
+    }
+}
+# AUTO ACADEMY
+oxr_mdlc_world_machines_building_military_academy = {
+	empire_limit = { base = 1 }
+	can_build = yes
+	can_be_ruined = no
+	prerequisites = { tech_centralized_command }
+	allow = { OR = { oxr_mdlc_has_upgraded_capital = yes owner = { has_valid_civic = civic_machine_tactical_algorithms } } }
+	planetary_ftl_inhibitor = yes
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = army
+		POTENTIAL = " "
+    	TIER = 3
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_military_buildings
+		RARE_MATERIAL = volatile_motes
+		RARE_COST = 0
+    	RARE_UPKEEP = 0
+		RESOURCES = " 
+			cost = {
+				trigger = { exists = owner owner = { NOT = { has_valid_civic = civic_machine_tactical_algorithms } } }
+				volatile_motes = @b2_rare_cost
+			}
+			upkeep = {
+				trigger = { exists = owner owner = { NOT = { has_valid_civic = civic_machine_tactical_algorithms } } }
+				volatile_motes = @b2_rare_upkeep
+			}
+		"
+    	JOB = warrior
+		JOBS = 2
+		MODIFIER = warrior
+    	SET = army
+    }
+	custom_tooltip = oxr_mdlc_world_machines_building_military_academy_tooltip
+	# The boost is contained within inline_scripts/planet/buildings/auto/modifier/warrior
+
+	triggered_country_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_valid_civic = civic_machine_tactical_algorithms }
+		}
+		ship_evasion_mult = 0.02
+		ship_tracking_mult = 0.01
+		ship_shield_penetration_add = 0.05
+		ship_armor_penetration_add = 0.05
+		mult = owner.value:tactical_algorithms_scaling_mult
+	}
+	triggered_country_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_valid_civic = civic_machine_tactical_algorithms }
+		}
+		ship_shield_hardening_add = 0.1
+		mult = owner.value:tactical_algorithms_enclave_scaling_mult
+	}
+}
+# SHIELD GENERATOR
+oxr_mdlc_world_machines_building_planetary_shield_generator = {
+	base_cap_amount = 1
+	can_build = yes
+	can_be_ruined = no
+	prerequisites = { tech_planetary_shield_generator }
+	allow = {
+		oxr_mdlc_has_upgraded_capital = yes
+		if = {
+			limit = { exists = orbital_defence }
+			orbital_defence = {
+				exists = starbase
+				starbase = {
+					NOR = {
+						has_starbase_building = ring_orbital_shield_generator
+						is_starbase_building_building = ring_orbital_shield_generator
+					}
+				}
+			}
+		}
+	}
+	
+	planet_modifier = {
+		planet_orbital_bombardment_damage = -0.5
+	}
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = army
+		POTENTIAL = " "
+    	TIER = 3
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_military_buildings
+		RARE_MATERIAL = volatile_motes
+		RARE_COST = 0
+    	RARE_UPKEEP = 0
+		RESOURCES = " "
+    	JOB = none
+		JOBS = 0
+		MODIFIER = none
+    	SET = army
+    }
+	
+	custom_storm_ai_weight = {
+		weight = 5
+		modifier = {
+			factor = 5
+			AND = {
+				exists = owner
+				solar_system = {
+					exists = owner
+					owner = { num_cosmic_storms_encountered >=2 }
+				}
+			}
+		}
+	}
+	triggered_planet_modifier = {
+		potential = { has_cosmic_storms_dlc = yes }
+		planet_storm_devastation_mult = -0.5
+	}
+	inline_script = {
+		script = cosmic_storms/StormBuildingModifiers
+	}
+	on_built = {
+		if = {
+			limit = { has_cosmic_storms_dlc = yes }
+			solar_system = {
+				set_star_flag = storm_no_negative_effects
+				remove_modifier = storm_base_modifier
+			}
+		}
+	}
+	on_destroy = {
+		if = {
+			limit = { has_cosmic_storms_dlc = yes }
+			owner = { set_country_flag = shield_on_destroy } #an action when destroyed
+			solar_system = {
+				remove_star_flag = storm_no_negative_effects
+			}
+		}
+	}
+	planet_modifier = { planet_stability_add = -2 }
+}
+
+# EOF

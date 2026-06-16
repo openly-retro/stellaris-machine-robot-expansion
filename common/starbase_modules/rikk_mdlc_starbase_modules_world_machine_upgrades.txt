@@ -46,11 +46,11 @@ rikk_mdlc_world_machine_dyson_deflector = {
 		owner = {
 			has_monthly_income = {
 				resource = engineering_research
-				value > @oxr_mdlc_origin_wm_rikk_dyson_deflector_research_upkeep
+				value > @rikk_mdlc_wm_dyson_deflector_research_upkeep
 			}
 			has_monthly_income = {
 				resource = physics_research
-				value > @oxr_mdlc_origin_wm_rikk_dyson_deflector_research_upkeep
+				value > @rikk_mdlc_wm_dyson_deflector_research_upkeep
 			}
 		}
 	}
@@ -60,16 +60,17 @@ rikk_mdlc_world_machine_dyson_deflector = {
 	country_modifier = { rikk_mdlc_world_machine_dyson_sphere_receiver_max = 4 }
 	
 	resources = {
-		category = starbase_modules
+		category = rikk_mdlc_category_null
 		cost = { alloys = 1000 }
 		upkeep = {
 			energy = 1000
-			mult = owner.value:scripted_modifier_mult|MODIFIER|country_energy_produces_mult|
+			#disabled the mult because it was causing trouble with displaying to players
+			#mult = owner.value:scripted_modifier_mult|MODIFIER|country_energy_produces_mult|
 		}
 		upkeep = {
 			trigger = { always = yes }
-			physics_research = @oxr_mdlc_origin_wm_rikk_dyson_deflector_research_upkeep
-			engineering_research = @oxr_mdlc_origin_wm_rikk_dyson_deflector_research_upkeep
+			physics_research = @rikk_mdlc_wm_dyson_deflector_research_upkeep
+			engineering_research = @rikk_mdlc_wm_dyson_deflector_research_upkeep
 		}
 	}
 
@@ -117,11 +118,11 @@ rikk_mdlc_world_machine_dyson_deflector_O = {
 		owner = {
 			has_monthly_income = {
 				resource = engineering_research
-				value > @oxr_mdlc_origin_wm_rikk_dyson_deflector_research_upkeep
+				value > @rikk_mdlc_wm_dyson_deflector_research_upkeep_O_class
 			}
 			has_monthly_income = {
 				resource = physics_research
-				value > @oxr_mdlc_origin_wm_rikk_dyson_deflector_research_upkeep
+				value > @rikk_mdlc_wm_dyson_deflector_research_upkeep_O_class
 			}
 		}
 	}
@@ -129,20 +130,20 @@ rikk_mdlc_world_machine_dyson_deflector_O = {
 	country_modifier = { rikk_mdlc_world_machine_dyson_sphere_receiver_max = 20 }
 	
 	resources = {
-		category = starbase_modules
+		category = rikk_mdlc_category_null
 		cost = {
 			alloys = 5000
 		}
 		upkeep = {
 			energy = @dyson_p2_produces_energy_o_star
-			mult = owner.value:scripted_modifier_mult|MODIFIER|country_energy_produces_mult|
+			#mult = owner.value:scripted_modifier_mult|MODIFIER|country_energy_produces_mult|
 		}
 		upkeep = {
 			trigger = {
 				always = yes
 			}
-			physics_research = 80
-			engineering_research = 80
+			physics_research = @rikk_mdlc_wm_dyson_deflector_research_upkeep_O_class
+			engineering_research = @rikk_mdlc_wm_dyson_deflector_research_upkeep_O_class
 		}
 	}
 	
@@ -167,11 +168,11 @@ rikk_mdlc_world_machine_dyson_receiver = {
 			has_technology = rikk_mdlc_tech_world_machine_dyson
 			has_monthly_income = {
 				resource = engineering_research
-				value > @oxr_mdlc_rikk_dyson_deflector_research_upkeep_giga_o
+				value > @rikk_mdlc_wm_dyson_receiver_research_upkeep
 			}
 			has_monthly_income = {
 				resource = physics_research
-				value > @oxr_mdlc_rikk_dyson_deflector_research_upkeep_giga_o
+				value > @rikk_mdlc_wm_dyson_receiver_research_upkeep
 			}
 		}
 	}
@@ -211,8 +212,8 @@ rikk_mdlc_world_machine_dyson_receiver = {
 			trigger = {
 				always = yes
 			}
-			physics_research = @oxr_mdlc_rikk_dyson_deflector_research_upkeep_giga_o
-			engineering_research = @oxr_mdlc_rikk_dyson_deflector_research_upkeep_giga_o
+			physics_research = @rikk_mdlc_wm_dyson_receiver_research_upkeep
+			engineering_research = @rikk_mdlc_wm_dyson_receiver_research_upkeep
 		}
 	}
 

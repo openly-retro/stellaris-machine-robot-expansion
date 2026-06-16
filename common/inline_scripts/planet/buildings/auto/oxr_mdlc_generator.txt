@@ -18,18 +18,16 @@ resources = {
 
 	# BIOFUEL CODE
 	upkeep = {
-		trigger = {
-			NOT = { has_active_building = oxr_mdlc_world_machines_biofuel_refit_1 }
-		}
+		trigger = { NOT = { has_active_building = oxr_mdlc_world_machines_biofuel_refit_1 } }
 		# mineral tax on energy buildings is the only logical option available
 		# unless the upkeep is simply energy
-		minerals = @[ $TIER$ * 2 ]
+		minerals = @[ $TIER$ * oxr_mdlc_wm_base_technician_upkeep ]
 	}
 	upkeep = {
 		trigger = {
 			has_active_building = oxr_mdlc_world_machines_biofuel_refit_1
 		}
-		food = @[ $TIER$ * 4 ]
+		food = @[ $TIER$ * 2 * oxr_mdlc_wm_base_technician_upkeep ]
 	}
 }
 # desc
@@ -37,7 +35,7 @@ inline_script = planet/buildings/auto/oxr_auto_biofuel
 
 building_sets = {
 	oxr_mdlc_building_set_wm_all
-	oxr_mdlc_building_set_wm_raw_resource
+	oxr_mdlc_building_set_wm_resource
 	oxr_mdlc_building_set_wm_energy
 }
 

@@ -1,0 +1,1059 @@
+#### RESEARCH ####
+# RESEARCH T1
+oxr_mdlc_world_machines_building_fractal_sanitizer = {
+	can_build = yes
+	prerequisites = { tech_basic_science_lab_1 }
+    upgrades = { oxr_mdlc_world_machines_building_fractal_sanitizer_2 }
+	inline_script = planet/buildings/oxr_sort_important
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = research
+		POTENTIAL = " "
+    	TIER = 1
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_science_buildings
+		RARE_MATERIAL = exotic_gases
+		RARE_COST = 0
+    	RARE_UPKEEP = 0
+		RESOURCES = " "
+    	JOB = researcher
+		JOBS = 2
+		MODIFIER = none
+    	SET = research
+    }
+	#triggered_desc = { text = rikk_mdlc_text_build_higher_tier_t3 }
+	triggered_desc = {
+		trigger = { has_active_building = oxr_mdlc_building_auto_organoid_research_center }
+		text = oxr_mdlc_building_auto_research_organoid_active
+	}
+}
+# RESEARCH T2
+oxr_mdlc_world_machines_building_fractal_sanitizer_2 = {
+	can_build = no
+	prerequisites = { tech_basic_science_lab_2 }
+    upgrades = { oxr_mdlc_world_machines_building_fractal_sanitizer_3 }
+	inline_script = planet/buildings/oxr_sort_important
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = research
+		POTENTIAL = " "
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_science_buildings
+		RARE_MATERIAL = exotic_gases
+		RARE_COST = 0
+    	RARE_UPKEEP = 0
+		RESOURCES = " "
+    	JOB = researcher
+		JOBS = 4
+		MODIFIER = none
+    	SET = research
+    }
+	#triggered_desc = { text = rikk_mdlc_text_build_higher_tier_t3 }
+	triggered_desc = {
+		trigger = { has_active_building = oxr_mdlc_building_auto_organoid_research_center }
+		text = oxr_mdlc_building_auto_research_organoid_active
+	}
+}
+# RESEARCH T3
+oxr_mdlc_world_machines_building_fractal_sanitizer_3 = {
+	can_build = no
+	prerequisites = { tech_basic_science_lab_3 }
+	allow = { oxr_mdlc_has_upgraded_capital = yes }
+    upgrades = { oxr_mdlc_world_machines_building_fractal_sanitizer_4 }
+	inline_script = planet/buildings/oxr_sort_important
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = research
+		POTENTIAL = " "
+    	TIER = 3
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_science_buildings
+		RARE_MATERIAL = exotic_gases
+		RARE_COST = @b2_rare_cost
+    	RARE_UPKEEP = @b2_rare_upkeep
+		RESOURCES = " "
+    	JOB = researcher
+		JOBS = 6
+		MODIFIER = none
+    	SET = research
+    }
+	#triggered_desc = { text = rikk_mdlc_text_build_higher_tier_t3 }
+	triggered_desc = {
+		trigger = { has_active_building = oxr_mdlc_building_auto_organoid_research_center }
+		text = oxr_mdlc_building_auto_research_organoid_active
+	}
+	planet_modifier = { planet_stability_add = -1 }
+}
+# RESEARCH T4
+oxr_mdlc_world_machines_building_fractal_sanitizer_4 = {
+	can_build = no
+	prerequisites = { tech_zero_point_power }
+	allow = { oxr_mdlc_has_major_upgraded_capital = yes }
+    upgrades = { oxr_mdlc_world_machines_building_fractal_sanitizer_4 }
+	inline_script = planet/buildings/oxr_sort_important
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = research
+		POTENTIAL = " "
+    	TIER = 4
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_science_buildings
+		RARE_MATERIAL = exotic_gases
+		RARE_COST = @b3_rare_cost
+    	RARE_UPKEEP = @b3_rare_upkeep
+		RESOURCES = " "
+    	JOB = researcher
+		JOBS = 8
+		MODIFIER = none
+    	SET = research
+    }
+	#triggered_desc = { text = rikk_mdlc_text_build_higher_tier_t3 }
+	triggered_desc = {
+		trigger = { has_active_building = oxr_mdlc_building_auto_organoid_research_center }
+		text = oxr_mdlc_building_auto_research_organoid_active
+	}
+	planet_modifier = { planet_stability_add = -2 }
+}
+
+#research buff buildings
+### PHYSICS BUFF
+oxr_mdlc_world_machines_building_circuit_physics_1 = {
+    planet_limit = 1
+	prerequisites = { tech_physics_1 }
+    upgrades = { oxr_mdlc_world_machines_building_circuit_physics_2 }
+	inline_script = planet/buildings/oxr_sort_important
+
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = no }
+		oxr_mdlc_world_machines_science_buildings_physics_research_produces_add = 0.5
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner has_mdlc_science_zone = yes }
+		xvcv_mdlc_world_machines_primary_districts_physics_research_produces_add = 0.5
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner has_mdlc_science_zone = no is_xvcv_mdlc_pc_machine_auto = yes }
+		xvcv_mdlc_world_machines_science_districts_physics_research_produces_add = 0.5
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = yes }
+		xvcv_mdlc_world_machines_physics_districts_physics_research_produces_add = 1.5
+		oxr_mdlc_world_machines_science_buildings_physics_research_produces_add = 1.5
+	}
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = research
+		POTENTIAL = " "
+    	TIER = 1
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_science_buildings
+		RARE_MATERIAL = volatile_motes
+		RARE_COST = 0
+    	RARE_UPKEEP = 0
+		RESOURCES = " 
+			produces = { physics_research = @[ 2 * oxr_mdlc_wm_base_calculator_single_output ] }
+			upkeep = { energy = @[ 2 * oxr_mdlc_wm_base_calculator_single_upkeep ] }
+		"
+    	JOB = researcher
+		JOBS = 0
+		MODIFIER = none
+    	SET = research
+    }
+	triggered_desc = { text = rikk_mdlc_text_requires_appropriate_zone }
+	planet_modifier = { planet_stability_add = -1 }
+}
+oxr_mdlc_world_machines_building_circuit_physics_2 = {
+    planet_limit = 1
+	can_build = no
+	prerequisites = { tech_physics_2 }
+    upgrades = { oxr_mdlc_world_machines_building_circuit_physics_3 }
+	inline_script = planet/buildings/oxr_sort_important
+
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = no }
+		oxr_mdlc_world_machines_science_buildings_physics_research_produces_add = 1
+		oxr_mdlc_world_machines_science_buildings_volatile_motes_upkeep_add = 0.33
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner has_mdlc_science_zone = yes }
+		xvcv_mdlc_world_machines_primary_districts_physics_research_produces_add = 1
+		xvcv_mdlc_world_machines_primary_districts_volatile_motes_upkeep_add = 0.33
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner has_mdlc_science_zone = no is_xvcv_mdlc_pc_machine_auto = yes }
+		xvcv_mdlc_world_machines_science_districts_physics_research_produces_add = 1
+		xvcv_mdlc_world_machines_science_districts_volatile_motes_upkeep_add = 0.33
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = yes }
+		xvcv_mdlc_world_machines_physics_districts_physics_research_produces_add = 3
+		xvcv_mdlc_world_machines_physics_districts_volatile_motes_upkeep_add = 1
+		oxr_mdlc_world_machines_science_buildings_physics_research_produces_add = 3
+		oxr_mdlc_world_machines_science_buildings_volatile_motes_upkeep_add = 1
+	}
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = research
+		POTENTIAL = " "
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_science_buildings
+		RARE_MATERIAL = volatile_motes
+		RARE_COST = @b2_rare_cost
+    	RARE_UPKEEP = @b2_upkeep
+		RESOURCES = " 
+			produces = { physics_research = @[ 2 * oxr_mdlc_wm_base_calculator_single_output ] }
+			upkeep = { energy = @[ 2 * oxr_mdlc_wm_base_calculator_single_upkeep ] }
+		"
+    	JOB = researcher
+		JOBS = 0
+		MODIFIER = none
+    	SET = research
+    }
+	triggered_desc = { text = rikk_mdlc_text_requires_appropriate_zone }
+	planet_modifier = { planet_stability_add = -2 }
+}
+oxr_mdlc_world_machines_building_circuit_physics_3 = {
+    planet_limit = 1
+	can_build = no
+	prerequisites = { tech_physics_3 }
+    upgrades = { oxr_mdlc_world_machines_building_circuit_physics_3 }
+	inline_script = planet/buildings/oxr_sort_important
+
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = no }
+		oxr_mdlc_world_machines_science_buildings_physics_research_produces_add = 1.5
+		oxr_mdlc_world_machines_science_buildings_volatile_motes_upkeep_add = 0.5
+		oxr_mdlc_world_machines_science_buildings_energy_upkeep_add = 0.5
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner has_mdlc_science_zone = yes }
+		xvcv_mdlc_world_machines_primary_districts_physics_research_produces_add = 1.5
+		xvcv_mdlc_world_machines_primary_districts_volatile_motes_upkeep_add = 0.5
+		xvcv_mdlc_world_machines_primary_districts_energy_upkeep_add = 0.5
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner has_mdlc_science_zone = no is_xvcv_mdlc_pc_machine_auto = yes }
+		xvcv_mdlc_world_machines_science_districts_physics_research_produces_add = 1.5
+		xvcv_mdlc_world_machines_science_districts_volatile_motes_upkeep_add = 0.5
+		xvcv_mdlc_world_machines_science_districts_energy_upkeep_add = 0.5
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = yes }
+		xvcv_mdlc_world_machines_physics_districts_physics_research_produces_add = 4.5
+		xvcv_mdlc_world_machines_physics_districts_volatile_motes_upkeep_add = 1.5
+		xvcv_mdlc_world_machines_physics_districts_energy_upkeep_add = 1.5
+		oxr_mdlc_world_machines_science_buildings_physics_research_produces_add = 4.5
+		oxr_mdlc_world_machines_science_buildings_volatile_motes_upkeep_add = 1.5
+		oxr_mdlc_world_machines_science_buildings_energy_upkeep_add = 1.5
+	}
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = research
+		POTENTIAL = " "
+    	TIER = 3
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_science_buildings
+		RARE_MATERIAL = volatile_motes
+		RARE_COST = @b3_rare_cost
+    	RARE_UPKEEP = @b3_upkeep
+		RESOURCES = " 
+			produces = { physics_research = @[ 2 * oxr_mdlc_wm_base_calculator_single_output ] }
+			upkeep = { energy = @[ 2 * oxr_mdlc_wm_base_calculator_single_upkeep ] }
+		"
+    	JOB = researcher
+		JOBS = 0
+		MODIFIER = none
+    	SET = research
+    }
+	triggered_desc = { text = rikk_mdlc_text_requires_appropriate_zone }
+	planet_modifier = { planet_stability_add = -3 }
+}
+### SOCIETY BUFF
+oxr_mdlc_world_machines_building_circuit_society_1 = {
+    planet_limit = 1
+	prerequisites = { tech_society_1 }
+    upgrades = { oxr_mdlc_world_machines_building_circuit_society_2 }
+	inline_script = planet/buildings/oxr_sort_important
+
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = no }
+		oxr_mdlc_world_machines_science_buildings_society_research_produces_add = 0.5
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner has_mdlc_science_zone = yes }
+		xvcv_mdlc_world_machines_primary_districts_society_research_produces_add = 0.5
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner has_mdlc_science_zone = no is_xvcv_mdlc_pc_machine_auto = yes }
+		xvcv_mdlc_world_machines_science_districts_society_research_produces_add = 0.5
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = yes }
+		xvcv_mdlc_world_machines_society_districts_society_research_produces_add = 1.5
+		oxr_mdlc_world_machines_science_buildings_society_research_produces_add = 1.5
+	}
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = research
+		POTENTIAL = " "
+    	TIER = 1
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_science_buildings
+		RARE_MATERIAL = exotic_gases
+		RARE_COST = 0
+    	RARE_UPKEEP = 0
+		RESOURCES = " 
+			produces = { society_research = @[ 2 * oxr_mdlc_wm_base_calculator_single_output ] }
+			upkeep = { energy = @[ 2 * oxr_mdlc_wm_base_calculator_single_upkeep ] }
+		"
+    	JOB = researcher
+		JOBS = 0
+		MODIFIER = none
+    	SET = research
+    }
+	triggered_desc = { text = rikk_mdlc_text_requires_appropriate_zone }
+	planet_modifier = { planet_stability_add = -1 }
+}
+oxr_mdlc_world_machines_building_circuit_society_2 = {
+    planet_limit = 1
+	can_build = no
+	prerequisites = { tech_society_2 }
+    upgrades = { oxr_mdlc_world_machines_building_circuit_society_3 }
+	inline_script = planet/buildings/oxr_sort_important
+
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = no }
+		oxr_mdlc_world_machines_science_buildings_society_research_produces_add = 1
+		oxr_mdlc_world_machines_science_buildings_exotic_gases_upkeep_add = 0.33
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner has_mdlc_science_zone = yes }
+		xvcv_mdlc_world_machines_primary_districts_society_research_produces_add = 1
+		xvcv_mdlc_world_machines_primary_districts_exotic_gases_upkeep_add = 0.33
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner has_mdlc_science_zone = no is_xvcv_mdlc_pc_machine_auto = yes }
+		xvcv_mdlc_world_machines_science_districts_society_research_produces_add = 1
+		xvcv_mdlc_world_machines_science_districts_exotic_gases_upkeep_add = 0.33
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = yes }
+		xvcv_mdlc_world_machines_society_districts_society_research_produces_add = 3
+		xvcv_mdlc_world_machines_society_districts_exotic_gases_upkeep_add = 1
+		oxr_mdlc_world_machines_science_buildings_society_research_produces_add = 3
+		oxr_mdlc_world_machines_science_buildings_exotic_gases_upkeep_add = 1
+	}
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = research
+		POTENTIAL = " "
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_science_buildings
+		RARE_MATERIAL = exotic_gases
+		RARE_COST = @b2_rare_cost
+    	RARE_UPKEEP = @b2_upkeep
+		RESOURCES = " 
+			produces = { society_research = @[ 2 * oxr_mdlc_wm_base_calculator_single_output ] }
+			upkeep = { energy = @[ 2 * oxr_mdlc_wm_base_calculator_single_upkeep ] }
+		"
+    	JOB = researcher
+		JOBS = 0
+		MODIFIER = none
+    	SET = research
+    }
+	triggered_desc = { text = rikk_mdlc_text_requires_appropriate_zone }
+	planet_modifier = { planet_stability_add = -2 }
+}
+oxr_mdlc_world_machines_building_circuit_society_3 = {
+    planet_limit = 1
+	can_build = no
+	prerequisites = { tech_society_3 }
+    upgrades = { oxr_mdlc_world_machines_building_circuit_society_3 }
+	inline_script = planet/buildings/oxr_sort_important
+
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = no }
+		oxr_mdlc_world_machines_science_buildings_society_research_produces_add = 1.5
+		oxr_mdlc_world_machines_science_buildings_exotic_gases_upkeep_add = 0.5
+		oxr_mdlc_world_machines_science_buildings_energy_upkeep_add = 0.5
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner has_mdlc_science_zone = no is_xvcv_mdlc_pc_machine_auto = yes }
+		xvcv_mdlc_world_machines_science_districts_society_research_produces_add = 1.5
+		xvcv_mdlc_world_machines_science_districts_exotic_gases_upkeep_add = 0.5
+		xvcv_mdlc_world_machines_science_districts_energy_upkeep_add = 0.5
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner has_mdlc_science_zone = yes }
+		xvcv_mdlc_world_machines_primary_districts_society_research_produces_add = 1.5
+		xvcv_mdlc_world_machines_primary_districts_exotic_gases_upkeep_add = 0.5
+		xvcv_mdlc_world_machines_primary_districts_energy_upkeep_add = 0.5
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = yes }
+		xvcv_mdlc_world_machines_society_districts_society_research_produces_add = 4.5
+		xvcv_mdlc_world_machines_society_districts_exotic_gases_upkeep_add = 1.5
+		xvcv_mdlc_world_machines_society_districts_energy_upkeep_add = 1.5
+		oxr_mdlc_world_machines_science_buildings_society_research_produces_add = 4.5
+		oxr_mdlc_world_machines_science_buildings_exotic_gases_upkeep_add = 1.5
+		oxr_mdlc_world_machines_science_buildings_energy_upkeep_add = 1.5
+	}
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = research
+		POTENTIAL = " "
+    	TIER = 3
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_science_buildings
+		RARE_MATERIAL = exotic_gases
+		RARE_COST = @b3_rare_cost
+    	RARE_UPKEEP = @b3_upkeep
+		RESOURCES = " 
+			produces = { society_research = @[ 2 * oxr_mdlc_wm_base_calculator_single_output ] }
+			upkeep = { energy = @[ 2 * oxr_mdlc_wm_base_calculator_single_upkeep ] }
+		"
+    	JOB = researcher
+		JOBS = 0
+		MODIFIER = none
+    	SET = research
+    }
+	triggered_desc = { text = rikk_mdlc_text_requires_appropriate_zone }
+	planet_modifier = { planet_stability_add = -3 }
+}
+### ENGINEERING BUFF
+oxr_mdlc_world_machines_building_circuit_engineering_1 = {
+    planet_limit = 1
+	prerequisites = { tech_engineering_1 }
+    upgrades = { oxr_mdlc_world_machines_building_circuit_engineering_2 }
+	inline_script = planet/buildings/oxr_sort_important
+
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = no }
+		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_add = 0.5
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner has_mdlc_science_zone = yes }
+		xvcv_mdlc_world_machines_primary_districts_engineering_research_produces_add = 0.5
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner has_mdlc_science_zone = no is_xvcv_mdlc_pc_machine_auto = yes }
+		xvcv_mdlc_world_machines_science_districts_engineering_research_produces_add = 0.5
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = yes }
+		xvcv_mdlc_world_machines_engineering_districts_engineering_research_produces_add = 1.5
+		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_add = 1.5
+	}
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = research
+		POTENTIAL = " "
+    	TIER = 1
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_science_buildings
+		RARE_MATERIAL = rare_crystals
+		RARE_COST = 0
+    	RARE_UPKEEP = 0
+		RESOURCES = " 
+			produces = { engineering_research = @[ 2 * oxr_mdlc_wm_base_calculator_single_output ] }
+			upkeep = { energy = @[ 2 * oxr_mdlc_wm_base_calculator_single_upkeep ] }
+		"
+    	JOB = researcher
+		JOBS = 0
+		MODIFIER = none
+    	SET = research
+    }
+	triggered_desc = { text = rikk_mdlc_text_requires_appropriate_zone }
+	planet_modifier = { planet_stability_add = -1 }
+}
+oxr_mdlc_world_machines_building_circuit_engineering_2 = {
+    planet_limit = 1
+	can_build = no
+	prerequisites = { tech_engineering_2 }
+    upgrades = { oxr_mdlc_world_machines_building_circuit_engineering_3 }
+	inline_script = planet/buildings/oxr_sort_important
+
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = no }
+		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_add = 1
+		oxr_mdlc_world_machines_science_buildings_rare_crystals_upkeep_add = 0.33
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner has_mdlc_science_zone = yes }
+		xvcv_mdlc_world_machines_primary_districts_engineering_research_produces_add = 1
+		xvcv_mdlc_world_machines_primary_districts_rare_crystals_upkeep_add = 0.33
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner has_mdlc_science_zone = no is_xvcv_mdlc_pc_machine_auto = yes }
+		xvcv_mdlc_world_machines_science_districts_engineering_research_produces_add = 1
+		xvcv_mdlc_world_machines_science_districts_rare_crystals_upkeep_add = 0.33
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = yes }
+		xvcv_mdlc_world_machines_engineering_districts_engineering_research_produces_add = 3
+		xvcv_mdlc_world_machines_engineering_districts_rare_crystals_upkeep_add = 1
+		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_add = 3
+		oxr_mdlc_world_machines_science_buildings_rare_crystals_upkeep_add = 1
+	}
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = research
+		POTENTIAL = " "
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_science_buildings
+		RARE_MATERIAL = rare_crystals
+		RARE_COST = @b2_rare_cost
+    	RARE_UPKEEP = @b2_upkeep
+		RESOURCES = " 
+			produces = { engineering_research = @[ 2 * oxr_mdlc_wm_base_calculator_single_output ] }
+			upkeep = { energy = @[ 2 * oxr_mdlc_wm_base_calculator_single_upkeep ] }
+		"
+    	JOB = researcher
+		JOBS = 0
+		MODIFIER = none
+    	SET = research
+    }
+	triggered_desc = { text = rikk_mdlc_text_requires_appropriate_zone }
+	planet_modifier = { planet_stability_add = -2 }
+}
+oxr_mdlc_world_machines_building_circuit_engineering_3 = {
+    planet_limit = 1
+	can_build = no
+	prerequisites = { tech_engineering_3 }
+    upgrades = { oxr_mdlc_world_machines_building_circuit_engineering_3 }
+	inline_script = planet/buildings/oxr_sort_important
+
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = no }
+		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_add = 1.5
+		oxr_mdlc_world_machines_science_buildings_rare_crystals_upkeep_add = 0.5
+		oxr_mdlc_world_machines_science_buildings_energy_upkeep_add = 0.5
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner has_mdlc_science_zone = yes }
+		xvcv_mdlc_world_machines_primary_districts_engineering_research_produces_add = 1.5
+		xvcv_mdlc_world_machines_primary_districts_rare_crystals_upkeep_add = 0.5
+		xvcv_mdlc_world_machines_primary_districts_energy_upkeep_add = 0.5
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner has_mdlc_science_zone = no is_xvcv_mdlc_pc_machine_auto = yes }
+		xvcv_mdlc_world_machines_science_districts_engineering_research_produces_add = 1.5
+		xvcv_mdlc_world_machines_science_districts_rare_crystals_upkeep_add = 0.5
+		xvcv_mdlc_world_machines_science_districts_energy_upkeep_add = 0.5
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = yes }
+		xvcv_mdlc_world_machines_engineering_districts_engineering_research_produces_add = 4.5
+		xvcv_mdlc_world_machines_engineering_districts_rare_crystals_upkeep_add = 1.5
+		xvcv_mdlc_world_machines_engineering_districts_energy_upkeep_add = 1.5
+		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_add = 4.5
+		oxr_mdlc_world_machines_science_buildings_rare_crystals_upkeep_add = 1.5
+		oxr_mdlc_world_machines_science_buildings_energy_upkeep_add = 1.5
+	}
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = research
+		POTENTIAL = " "
+    	TIER = 3
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_science_buildings
+		RARE_MATERIAL = rare_crystals
+		RARE_COST = @b3_rare_cost
+    	RARE_UPKEEP = @b3_upkeep
+		RESOURCES = " 
+			produces = { engineering_research = @[ 2 * oxr_mdlc_wm_base_calculator_single_output ] }
+			upkeep = { energy = @[ 2 * oxr_mdlc_wm_base_calculator_single_upkeep ] }
+		"
+    	JOB = researcher
+		JOBS = 2
+		MODIFIER = none
+    	SET = research
+    }
+	triggered_desc = { text = rikk_mdlc_text_requires_appropriate_zone }
+	planet_modifier = { planet_stability_add = -3 }
+}
+
+# SCIENCE BOOSTERS
+rikk_mdlc_world_machines_building_research_upkeep = {
+	can_build = yes
+	prerequisites = { tech_basic_science_lab_2 }
+	inline_script = planet/buildings/oxr_sort_important
+	
+	triggered_planet_modifier = {
+		oxr_mdlc_world_machines_science_buildings_upkeep_mult = -0.10
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner has_mdlc_science_zone = yes }
+		xvcv_mdlc_world_machines_primary_districts_upkeep_mult = -0.10
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner has_mdlc_science_zone = no is_xvcv_mdlc_pc_machine_auto = yes }
+		xvcv_mdlc_world_machines_science_districts_upkeep_mult = -0.10
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = yes }
+		xvcv_mdlc_world_machines_computer_districts_upkeep_mult = -0.10
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = research
+		POTENTIAL = " "
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_science_buildings
+		RARE_MATERIAL = exotic_gases
+		RARE_COST = @b3_rare_cost
+    	RARE_UPKEEP = @b3_rare_upkeep
+		RESOURCES = " "
+    	JOB = researcher
+		JOBS = 0
+		MODIFIER = none
+    	SET = research
+    }
+	triggered_desc = { text = rikk_mdlc_text_requires_appropriate_zone }
+	planet_modifier = { planet_stability_add = -2 }
+}
+rikk_mdlc_world_machines_building_research_efficiency = {
+	can_build = yes
+	prerequisites = { tech_basic_science_lab_2 }
+	inline_script = planet/buildings/oxr_sort_important
+	
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = no }
+		oxr_mdlc_world_machines_science_buildings_physics_research_produces_add = 0.5
+		oxr_mdlc_world_machines_science_buildings_society_research_produces_add = 0.5
+		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_add = 0.5
+		oxr_mdlc_world_machines_science_buildings_energy_upkeep_add = 1.5
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner has_mdlc_science_zone = yes }
+		xvcv_mdlc_world_machines_primary_districts_physics_research_produces_add = 0.5
+		xvcv_mdlc_world_machines_primary_districts_society_research_produces_add = 0.5
+		xvcv_mdlc_world_machines_primary_districts_engineering_research_produces_add = 0.5
+		xvcv_mdlc_world_machines_primary_districts_energy_upkeep_add = 1.5
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner has_mdlc_science_zone = no is_xvcv_mdlc_pc_machine_auto = yes }
+		xvcv_mdlc_world_machines_science_districts_physics_research_produces_add = 0.5
+		xvcv_mdlc_world_machines_science_districts_society_research_produces_add = 0.5
+		xvcv_mdlc_world_machines_science_districts_engineering_research_produces_add = 0.5
+		xvcv_mdlc_world_machines_science_districts_energy_upkeep_add = 1.5
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = yes }
+		xvcv_mdlc_world_machines_physics_districts_physics_research_produces_add = 3
+		xvcv_mdlc_world_machines_society_districts_society_research_produces_add = 3
+		xvcv_mdlc_world_machines_engineering_districts_engineering_research_produces_add = 3
+		xvcv_mdlc_world_machines_physics_districts_energy_upkeep_add = 3
+		xvcv_mdlc_world_machines_society_districts_energy_upkeep_add = 3
+		xvcv_mdlc_world_machines_engineering_districts_energy_upkeep_add = 3
+		oxr_mdlc_world_machines_science_buildings_physics_research_produces_add = 3
+		oxr_mdlc_world_machines_science_buildings_society_research_produces_add = 3
+		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_add = 3
+		oxr_mdlc_world_machines_science_buildings_energy_upkeep_add = 3
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = research
+		POTENTIAL = " "
+    	TIER = 3
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_science_buildings
+		RARE_MATERIAL = exotic_gases
+		RARE_COST = @b4_rare_cost
+    	RARE_UPKEEP = @b4_rare_upkeep
+		RESOURCES = " "
+    	JOB = researcher
+		JOBS = 0
+		MODIFIER = none
+    	SET = research
+    }
+	triggered_desc = { text = rikk_mdlc_text_requires_appropriate_zone }
+	planet_modifier = { planet_stability_add = -2 }
+}
+
+# SUPERCOMPUTER (gestalt version of institute)
+oxr_mdlc_world_machines_building_cold_storage_datacenter = {
+	icon = oxr_mdlc_world_machines_auto_research_institute
+	can_build = yes
+    planet_limit = 1
+	prerequisites = { tech_global_research_initiative }
+	allow = { oxr_mdlc_has_upgraded_capital = yes }
+	inline_script = planet/buildings/oxr_sort_important
+	convert_to = { building_institute }
+	ai_resource_production = {
+		physics_research = 10
+		society_research = 10
+		engineering_research = 10
+	}
+
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = no }
+		oxr_mdlc_world_machines_science_buildings_physics_research_produces_add = 1
+		oxr_mdlc_world_machines_science_buildings_society_research_produces_add = 1
+		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_add = 1
+		oxr_mdlc_world_machines_science_buildings_energy_upkeep_add = 4
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner has_mdlc_science_zone = yes }
+		xvcv_mdlc_world_machines_primary_districts_physics_research_produces_add = 1
+		xvcv_mdlc_world_machines_primary_districts_society_research_produces_add = 1
+		xvcv_mdlc_world_machines_primary_districts_engineering_research_produces_add = 1
+		xvcv_mdlc_world_machines_primary_districts_energy_upkeep_add = 4
+	}
+	triggered_planet_modifier = { #doesn't add the bonus but shows the player
+		potential = { exists = owner has_mdlc_science_zone = no is_xvcv_mdlc_pc_machine_auto = yes }
+		xvcv_mdlc_world_machines_science_districts_physics_research_produces_add = 1
+		xvcv_mdlc_world_machines_science_districts_society_research_produces_add = 1
+		xvcv_mdlc_world_machines_science_districts_engineering_research_produces_add = 1
+		xvcv_mdlc_world_machines_science_districts_energy_upkeep_add = 4
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = yes }
+		xvcv_mdlc_world_machines_physics_districts_physics_research_produces_add = 3
+		xvcv_mdlc_world_machines_society_districts_society_research_produces_add = 3
+		xvcv_mdlc_world_machines_engineering_districts_engineering_research_produces_add = 3
+		xvcv_mdlc_world_machines_physics_districts_energy_upkeep_add = 4
+		xvcv_mdlc_world_machines_society_districts_energy_upkeep_add = 4
+		xvcv_mdlc_world_machines_engineering_districts_energy_upkeep_add = 4
+		oxr_mdlc_world_machines_science_buildings_physics_research_produces_add = 3
+		oxr_mdlc_world_machines_science_buildings_society_research_produces_add = 3
+		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_add = 3
+		oxr_mdlc_world_machines_science_buildings_energy_upkeep_add = 12
+	}
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = research
+		POTENTIAL = " "
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_science_buildings
+		RARE_MATERIAL = exotic_gases
+		RARE_COST = @b2_rare_cost
+    	RARE_UPKEEP = @b2_rare_upkeep
+		RESOURCES = " "
+    	JOB = researcher
+		JOBS = 0
+		MODIFIER = none
+    	SET = research
+    }
+	triggered_desc = { text = rikk_mdlc_text_requires_appropriate_zone }
+	triggered_desc = {
+		trigger = { has_active_building = oxr_mdlc_building_auto_organoid_research_center }
+		text = oxr_mdlc_building_auto_research_organoid_active
+	}
+	planet_modifier = { planet_stability_add = -2 }
+}
+
+#### ARCHAEOSTUDIES ####
+oxr_mdlc_world_machines_building_archaeostudies_recombinator = {
+    planet_limit = 1
+	can_build = no
+	prerequisites = { tech_archaeostudies }
+	inline_script = planet/buildings/oxr_sort_important
+	allow = { oxr_mdlc_has_upgraded_capital = yes }
+	empire_limit = { base = 1 }
+	custom_tooltip = oxr_mdlc_world_machines_building_archaeostudies_recombinator_tooltip
+
+	triggered_planet_modifier = {
+		potential = { exists = owner has_mdlc_science_zone = yes }
+		xvcv_mdlc_world_machines_primary_districts_minor_artifacts_produces_add = 0.10
+		xvcv_mdlc_world_machines_primary_districts_energy_upkeep_add = 2
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = no }
+		oxr_mdlc_world_machines_science_buildings_minor_artifacts_produces_add = 0.10
+		oxr_mdlc_world_machines_science_buildings_energy_upkeep_add = 2
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { has_ascension_perk = ap_archaeoengineers } }
+		xvcv_mdlc_world_machines_primary_districts_minor_artifacts_produces_add = 0.10
+		oxr_mdlc_world_machines_science_buildings_minor_artifacts_produces_add = 0.10
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = yes }
+		xvcv_mdlc_world_machines_society_districts_minor_artifacts_produces_add = 1
+		xvcv_mdlc_world_machines_society_districts_energy_upkeep_add = 6
+		oxr_mdlc_world_machines_science_buildings_minor_artifacts_produces_add = 0.30
+		oxr_mdlc_world_machines_science_buildings_energy_upkeep_add = 6
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { has_ascension_perk = ap_archaeoengineers } }
+		xvcv_mdlc_world_machines_society_districts_minor_artifacts_produces_add = 0.50
+		oxr_mdlc_world_machines_science_buildings_minor_artifacts_produces_add = 0.20
+	}
+
+	country_modifier = {
+		category_archaeostudies_research_speed_mult = 0.25
+		country_resource_max_minor_artifacts_add = 2000
+	}
+	triggered_country_modifier = {
+		potential = { exists = owner owner = { has_ascension_perk = ap_archaeoengineers } }
+		country_resource_max_minor_artifacts_add = 3000
+	}
+	triggered_country_modifier = {
+		potential = { planet = { has_planet_flag = oxr_mdlc_pc_was_relic } }
+		category_archaeostudies_research_speed_mult = 0.25
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = research
+		POTENTIAL = " "
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_science_buildings
+		RARE_MATERIAL = minor_artifacts
+		RARE_COST = @b2_rare_cost
+    	RARE_UPKEEP = 0
+		RESOURCES = " 
+			produces = { society_research = @oxr_mdlc_wm_base_calculator_single_output }
+			upkeep = { @oxr_mdlc_wm_base_calculator_single_upkeep }
+			produces = {
+				trigger = { exists = owner owner = { has_ascension_perk = ap_archaeoengineers } }
+				physics_research = @[ 2 * 2 ]
+				engineering_research = @[ 2 * 2 ]
+				society_research = @[ 5 * 2 ]
+			}
+			produces = {
+				trigger = { planet = { has_planet_flag = oxr_mdlc_pc_was_relic } }
+				minor_artifacts = 5
+			}
+			produces = {
+				trigger = { planet = { has_deposit = oxr_mdlc_d_world_machine_artifact_deposit_1 } }
+				unity = 5
+			}
+		"
+    	JOB = researcher
+		JOBS = 2
+		MODIFIER = none
+    	SET = research
+    }
+	ai_resource_production = {
+		physics_research = 6
+		engineering_research = 6
+		society_research = 15
+	}
+	planet_modifier = { planet_stability_add = -3 }
+}
+
+rikk_mdlc_world_machines_building_vultaum_reality_computer = { #compuper
+	icon = building_vultaum_reality_computer
+    planet_limit = 1
+	can_build = no
+	prerequisites = { tech_physics_3 }
+    upgrades = { oxr_mdlc_world_machines_building_circuit_physics_3 }
+	inline_script = planet/buildings/oxr_sort_important
+
+	triggered_planet_modifier = {
+		potential = { exists = owner has_mdlc_science_zone = yes }
+		xvcv_mdlc_world_machines_primary_districts_physics_research_produces_add = 2
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = no }
+		oxr_mdlc_world_machines_science_buildings_physics_research_produces_add = 2
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner has_mdlc_science_zone = yes owner = { has_ascension_perk = ap_archaeoengineers } }
+		xvcv_mdlc_world_machines_primary_districts_physics_research_produces_add = 2
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = no owner = { has_ascension_perk = ap_archaeoengineers } }
+		oxr_mdlc_world_machines_science_buildings_physics_research_produces_add = 2
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = yes }
+		xvcv_mdlc_world_machines_physics_districts_physics_research_produces_add = 6
+		oxr_mdlc_world_machines_science_buildings_physics_research_produces_add = 6
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = yes owner = { has_ascension_perk = ap_archaeoengineers } }
+		xvcv_mdlc_world_machines_physics_districts_physics_research_produces_add = 6
+		oxr_mdlc_world_machines_science_buildings_physics_research_produces_add = 6
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { has_ascension_perk = ap_cosmogenesis } }
+		xvcv_mdlc_world_machines_physics_districts_advanced_logic_produces_add = 1.5
+		xvcv_mdlc_world_machines_primary_districts_advanced_logic_produces_add = 0.5
+		oxr_mdlc_world_machines_science_buildings_advanced_logic_produces_add = 0.5
+	}
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = research
+		POTENTIAL = " "
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_science_buildings
+		RARE_MATERIAL = minor_artifacts
+		RARE_COST = 30
+    	RARE_UPKEEP = 0
+		RESOURCES = " "
+    	JOB = physicist
+		JOBS = 2
+		MODIFIER = none
+    	SET = research
+    }
+	triggered_desc = { text = rikk_mdlc_text_requires_appropriate_zone }
+	planet_modifier = { planet_stability_add = -10 }
+}
+
+### NANOTECH ###
+oxr_mdlc_world_machines_building_nanolab_1 = {
+	can_build = yes
+	planet_limit = 1
+    upgrades = { oxr_mdlc_world_machines_building_nanolab_2 }
+	inline_script = planet/buildings/oxr_sort_important
+	
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = no }
+		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_add = 1
+		oxr_mdlc_world_machines_science_buildings_nanites_upkeep_add =1
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner has_mdlc_science_zone = yes }
+		xvcv_mdlc_world_machines_primary_districts_engineering_research_produces_add = 1
+		xvcv_mdlc_world_machines_primary_districts_nanites_upkeep_add = 1
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner has_mdlc_science_zone = no is_xvcv_mdlc_pc_machine_auto = yes }
+		xvcv_mdlc_world_machines_science_districts_engineering_research_produces_add = 1
+		xvcv_mdlc_world_machines_science_districts_nanites_upkeep_add = 1
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = yes }
+		xvcv_mdlc_world_machines_engineering_districts_engineering_research_produces_add = 6
+		xvcv_mdlc_world_machines_engineering_districts_nanites_upkeep_add = 6
+		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_add = 2
+		oxr_mdlc_world_machines_science_buildings_nanites_upkeep_add = 2
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = research
+		POTENTIAL = " 
+			owner = { oxr_mdlc_country_is_nanotech_wm_origin = yes }
+		"
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_science_buildings
+		RARE_MATERIAL = nanites
+		RARE_COST = @b2_rare_cost
+    	RARE_UPKEEP = @b2_rare_upkeep
+		RESOURCES = " "
+    	JOB = engineer
+		JOBS = 2
+		MODIFIER = none
+    	SET = research
+    }
+	triggered_desc = { text = rikk_mdlc_text_requires_appropriate_zone }
+	triggered_desc = {
+		trigger = { has_active_building = oxr_mdlc_building_auto_organoid_research_center }
+		text = oxr_mdlc_building_auto_research_organoid_active
+	}
+	planet_modifier = { planet_stability_add = -1 }
+}
+
+oxr_mdlc_world_machines_building_nanolab_2 = {
+	can_build = yes
+	planet_limit = 1
+	inline_script = planet/buildings/oxr_sort_important
+	allow = { oxr_mdlc_has_upgraded_capital = yes }
+	
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = no }
+		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_add = 2
+		oxr_mdlc_world_machines_science_buildings_nanites_upkeep_add = 1.5
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner has_mdlc_science_zone = yes }
+		xvcv_mdlc_world_machines_primary_districts_engineering_research_produces_add = 2
+		xvcv_mdlc_world_machines_primary_districts_nanites_upkeep_add = 1.5
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner has_mdlc_science_zone = no is_xvcv_mdlc_pc_machine_auto = yes }
+		xvcv_mdlc_world_machines_science_districts_engineering_research_produces_add = 2
+		xvcv_mdlc_world_machines_science_districts_nanites_upkeep_add = 1.5
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = yes }
+		xvcv_mdlc_world_machines_engineering_districts_engineering_research_produces_add = 9
+		xvcv_mdlc_world_machines_engineering_districts_nanites_upkeep_add = 7.5
+		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_add = 3
+		oxr_mdlc_world_machines_science_buildings_nanites_upkeep_add = 2
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = research
+		POTENTIAL = " 
+			owner = { oxr_mdlc_country_is_nanotech_wm_origin = yes }
+		"
+    	TIER = 4
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_science_buildings
+		RARE_MATERIAL = nanites
+		RARE_COST = @b4_rare_cost
+    	RARE_UPKEEP = @b4_rare_upkeep
+		RESOURCES = " "
+    	JOB = engineer
+		JOBS = 2
+		MODIFIER = none
+    	SET = research
+    }
+	triggered_desc = { text = rikk_mdlc_text_requires_appropriate_zone }
+	triggered_desc = {
+		trigger = { has_active_building = oxr_mdlc_building_auto_organoid_research_center }
+		text = oxr_mdlc_building_auto_research_organoid_active
+	}
+	planet_modifier = { planet_stability_add = -2 }
+}
+
+#### ASTRAL ####
+# Rikk: I didn't touch these because I don't have the DLC
+oxr_mdlc_world_machines_building_auto_astral_1 = {
+	base_cap_amount = 1
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_astral_siphon
+		ENERGY_UPKEEP = @b1_upkeep
+		TIER = 1
+	}
+
+	upgrades = {
+		oxr_mdlc_world_machines_building_auto_astral_2
+	}
+}
+
+oxr_mdlc_world_machines_building_auto_astral_2 = {
+	can_build = no
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_astral_siphon
+		ENERGY_UPKEEP = @b3_upkeep
+		TIER = 2
+	}
+
+	upgrades = {
+		oxr_mdlc_world_machines_building_auto_astral_3
+	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_research
+		oxr_mdlc_building_set_wm_strategic
+	}
+}
+
+oxr_mdlc_world_machines_building_auto_astral_3 = {
+	can_build = no
+	inline_script = {
+		script = planet/buildings/auto/oxr_mdlc_astral_siphon
+		ENERGY_UPKEEP = @b3_upkeep
+		TIER = 3
+	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_research
+		oxr_mdlc_building_set_wm_strategic
+	}
+}
+
+# EOF
