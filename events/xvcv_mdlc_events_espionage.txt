@@ -670,7 +670,7 @@ country_event = {
 			}
 
 			every_controlled_fleet = { set_event_locked = yes }
-			random_owned_planet = {
+			random_owned_colony = {
 				limit = {
 					any_owned_pop_group = {
 						OR = {
@@ -679,7 +679,7 @@ country_event = {
 						}
 					}
 				}
-				set_planet_flag = machup_capital@prev
+				set_carrier_flag = machup_capital@prev
 				save_event_target_as = xvcv_mdlc_operation_machine_uprising_origin_planet
 			}
 
@@ -910,7 +910,7 @@ country_event = {
 					}
 				}
 				prev = {
-					every_owned_planet = {
+					every_owned_colony = {
 						limit = { solar_system = { has_star_flag = machup_system_flip } }
 				
 						# flip military stations
@@ -924,8 +924,10 @@ country_event = {
 								set_owner = event_target:current_uprising
 							}
 						}
-				
-						set_planet_flag = been_flipped
+						planet = {
+							set_planet_flag = been_flipped
+						}
+						
 						set_owner = event_target:current_uprising
 						set_controller = event_target:current_uprising
 				
@@ -1036,16 +1038,16 @@ country_event = {
 				# create fleets
 				# exterminator fleets, 150% naval cap
 				create_fleet_from_naval_cap = 0.2
-				random_owned_planet = { last_created_fleet = { set_location = prev } }
+				random_owned_colony = { last_created_fleet = { set_location = prev } }
 				reroll_random = yes
 				create_fleet_from_naval_cap = 0.3
-				random_owned_planet = { last_created_fleet = { set_location = prev } }
+				random_owned_colony = { last_created_fleet = { set_location = prev } }
 				reroll_random = yes
 				create_fleet_from_naval_cap = 0.4
-				random_owned_planet = { last_created_fleet = { set_location = prev } }
+				random_owned_colony = { last_created_fleet = { set_location = prev } }
 				reroll_random = yes
 				create_fleet_from_naval_cap = 0.6
-				random_owned_planet = { last_created_fleet = { set_location = prev } }
+				random_owned_colony = { last_created_fleet = { set_location = prev } }
 				#science
 				create_fleet = {
 					effect = {

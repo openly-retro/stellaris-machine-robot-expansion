@@ -34,7 +34,9 @@ xvcv_mdlc_decision_civic_planet_cracker = {
 
 	potential = {
 		exists = space_owner
+		exists = planet
 		space_owner = { has_valid_civic = xvcv_mdlc_civic_planet_cracker }
+		oxr_planet_is_ship = no
 	}
 
 	allow = {
@@ -42,69 +44,66 @@ xvcv_mdlc_decision_civic_planet_cracker = {
 			text = xvcv_mdlc_decision_civic_planet_cracker_tooltip.fail
 			is_colony = no #why the hell it's still displayed as 'IS_NOT_COLONY'? #it's not pretty
 		}
-		custom_tooltip_fail = {
-			text = xvcv_mdlc_decision_civic_planet_cracker_tooltip.fail_alt
-			NOT = { has_planet_flag = xvcv_mdlc_planet_cracker_placed }
+		exists = planet
+		planet = {
+			custom_tooltip_fail = {
+				text = xvcv_mdlc_decision_civic_planet_cracker_tooltip.fail_alt
+				NOT = { has_planet_flag = xvcv_mdlc_planet_cracker_placed }
+			}
+			custom_tooltip_fail = {
+				text = xvcv_mdlc_decision_civic_planet_cracker_tooltip.fail_shielded
+				NOT = { is_planet_class = pc_shielded }
+			}
+			custom_tooltip_fail = {
+				text = xvcv_mdlc_decision_civic_planet_cracker_tooltip.fail_shrouded
+				NOT = { is_planet_class = pc_shrouded }
+			}
+			custom_tooltip_fail = {
+				text = xvcv_mdlc_decision_civic_planet_cracker_tooltip.fail_gas
+				NOT = { is_planet_class = pc_gas_giant }
+			}
+			custom_tooltip_fail = {
+				text = xvcv_mdlc_decision_civic_planet_cracker_tooltip.fail_star
+				is_star = no
+			}
+			custom_tooltip_fail = {
+				text = xvcv_mdlc_decision_civic_planet_cracker_tooltip.fail_shattered
+				NOT = { is_planet_class = pc_shattered }
+			}
+			custom_tooltip_fail = {
+				text = xvcv_mdlc_decision_civic_planet_cracker_tooltip.fail_mega
+				NOT = { has_planet_flag = has_megastructure }
+			}
+
+			custom_tooltip_fail = {
+				text = xvcv_mdlc_decision_civic_planet_cracker_tooltip.fail_artificial
+				is_artificial = no
+			}
 		}
-		custom_tooltip_fail = {
-			text = xvcv_mdlc_decision_civic_planet_cracker_tooltip.fail_shielded
-			NOT = { is_planet_class = pc_shielded }
-		}
-		custom_tooltip_fail = {
-			text = xvcv_mdlc_decision_civic_planet_cracker_tooltip.fail_shrouded
-			NOT = { is_planet_class = pc_shrouded }
-		}
-		custom_tooltip_fail = {
-			text = xvcv_mdlc_decision_civic_planet_cracker_tooltip.fail_gas
-			NOT = { is_planet_class = pc_gas_giant }
-		}
-		custom_tooltip_fail = {
-			text = xvcv_mdlc_decision_civic_planet_cracker_tooltip.fail_star
-			is_star = no
-		}
-		custom_tooltip_fail = {
-			text = xvcv_mdlc_decision_civic_planet_cracker_tooltip.fail_shattered
-			NOT = { is_planet_class = pc_shattered }
-		}
-		custom_tooltip_fail = {
-			text = xvcv_mdlc_decision_civic_planet_cracker_tooltip.fail_mega
-			NOT = { has_planet_flag = has_megastructure }
-		}
-		# custom_tooltip_fail = {
-		# 	text = xvcv_mdlc_decision_civic_planet_cracker_tooltip.fail_ring
-		# 	NOR = {
-		# 		is_planet_class = pc_ringworld_habitable
-		# 		is_planet_class = pc_ringworld_habitable_damaged
-		# 		is_planet_class = pc_ringworld_tech
-		# 		is_planet_class = pc_ringworld_tech_damaged
-		# 		is_planet_class = pc_ringworld_seam
-		# 		is_planet_class = pc_ringworld_seam_damaged
-		# 	}
-		# }
-		custom_tooltip_fail = {
-			text = xvcv_mdlc_decision_civic_planet_cracker_tooltip.fail_artificial
-			is_artificial = no
-		}
+		
 	}
 
 	effect = {
 		custom_tooltip = xvcv_mdlc_decision_civic_planet_cracker_tooltip
 		hidden_effect = {
-			set_planet_flag = xvcv_mdlc_planet_cracker_placed
-			solar_system = {
-				spawn_megastructure = {
-					type = xvcv_mdlc_planet_cracker_incomplete
-					planet = root
-					orbit_distance = 0
-					owner = space_owner
-					init_effect = { upgrade_megastructure_to = xvcv_mdlc_planet_cracker }
+			planet = {
+				set_planet_flag = xvcv_mdlc_planet_cracker_placed
+				solar_system = {
+					spawn_megastructure = {
+						type = xvcv_mdlc_planet_cracker_incomplete
+						planet = root
+						orbit_distance = 0
+						owner = space_owner
+						init_effect = { upgrade_megastructure_to = xvcv_mdlc_planet_cracker }
+					}
+				}
+				clear_deposits = yes
+				if = {
+					limit = { exists = orbital_station }
+					orbital_station = { dismantle = yes }
 				}
 			}
-			clear_deposits = yes
-			if = {
-				limit = { exists = orbital_station }
-				orbital_station = { dismantle = yes }
-			}
+			# /planet
 		}
 	}
 
@@ -237,20 +236,24 @@ xvcv_mdlc_decision_machine_world_automation = {
 
 	potential = {
 		exists = owner
+		exists = planet
+		oxr_planet_is_ship = no
 		# owner = { has_ascension_perk = xvcv_mdlc_ap_world_machines }
 		# is_planet_class = pc_machine
-		oxr_mdlc_planet_can_become_t2_world_machine = yes
-		if = {
-			limit = {
-				owner = { has_ascension_perk = xvcv_mdlc_ap_world_machines }
+		planet = {
+			oxr_mdlc_planet_can_become_t2_world_machine = yes
+			if = {
+				limit = {
+					owner = { has_ascension_perk = xvcv_mdlc_ap_world_machines }
+				}
+				is_planet_class = pc_machine
 			}
-			is_planet_class = pc_machine
-		}
-		else_if = {
-			limit = {
-				owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+			else_if = {
+				limit = {
+					owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+				}
+				oxr_mdlc_planet_can_become_world_machine = yes
 			}
-			oxr_mdlc_planet_can_become_world_machine = yes
 		}
 	}
 
@@ -281,7 +284,7 @@ xvcv_mdlc_decision_machine_world_automation = {
 		weight = 0
 		modifier = {
 			weight = 100
-			owner = { NOT = { any_owned_planet = { is_planet_class = xvcv_mdlc_pc_machine_auto } } }
+			owner = { NOT = { any_owned_colony = { is_planet_class = xvcv_mdlc_pc_machine_auto } } }
 		}
 	}
 }
@@ -300,6 +303,8 @@ xvcv_mdlc_decision_machine_ecu_project = {
 
 	potential = {
 		exists = owner
+		exists = planet
+		oxr_planet_is_ship = no
 		owner = { oxr_mdlc_country_can_make_t3_ecu = yes }
 		planet = {
 			# Planet is not a T3 world-machine already, but Auto-Machine World is OK
@@ -361,7 +366,7 @@ xvcv_mdlc_decision_machine_ecu_project = {
 		weight = 0
 		modifier = {
 			weight = 100
-			owner = { NOT = { any_owned_planet = { is_planet_class = xvcv_mdlc_pc_machine_ecu } } }
+			owner = { NOT = { any_owned_colony = { is_planet_class = xvcv_mdlc_pc_machine_ecu } } }
 		}
 	}
 }
@@ -380,7 +385,12 @@ xvcv_mdlc_decision_machine_cpu_project = {
 
 	potential = {
 		exists = owner
-		xvcv_mdlc_world_machines_planet_classes_trigger = no
+		exists = planet
+		oxr_planet_is_ship = no
+		planet = {
+			xvcv_mdlc_world_machines_planet_classes_trigger = no
+		}
+		
 		habitable_structure = no
 		owner = { oxr_mdlc_country_can_make_t3_cpu = yes }
 	}
@@ -434,7 +444,7 @@ xvcv_mdlc_decision_machine_cpu_project = {
 		weight = 0
 		modifier = {
 			weight = 100
-			owner = { NOT = { any_owned_planet = { is_planet_class = xvcv_mdlc_pc_machine_cpu } } }
+			owner = { NOT = { any_owned_colony = { is_planet_class = xvcv_mdlc_pc_machine_cpu } } }
 		}
 	}
 }
@@ -453,6 +463,8 @@ xvcv_mdlc_decision_machine_ser_project = {
 
 	potential = {
 		exists = owner
+		exists = planet
+		oxr_planet_is_ship = no
 		planet = {
 			xvcv_mdlc_world_machines_planet_classes_trigger = no
 			habitable_structure = no
@@ -513,7 +525,7 @@ xvcv_mdlc_decision_machine_ser_project = {
 		weight = 0
 		modifier = {
 			weight = 100
-			owner = { NOT = { any_owned_planet = { is_planet_class = xvcv_mdlc_pc_machine_ser } } }
+			owner = { NOT = { any_owned_colony = { is_planet_class = xvcv_mdlc_pc_machine_ser } } }
 		}
 	}
 }
@@ -532,6 +544,8 @@ xvcv_mdlc_pc_ringworld_automation_project = {
 
 	potential = {
 		exists = owner
+		exists = planet
+		oxr_planet_is_ship = no
 		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
 		planet = {
 			is_colony = yes
@@ -599,7 +613,7 @@ xvcv_mdlc_pc_ringworld_automation_project = {
 		weight = 0
 		modifier = {
 			weight = 100
-			owner = { NOT = { any_owned_planet = { is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto } } }
+			owner = { NOT = { any_owned_colony = { is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto } } }
 		}
 	}
 }
@@ -618,6 +632,8 @@ xvcv_mdlc_decision_mechanical_worlds_terraforming_project = {
 
 	potential = {
 		exists = owner
+		exists = planet
+		oxr_planet_is_ship = no
 		owner = { has_ascension_perk = xvcv_mdlc_ap_mechanical_worlds }
 		planet = {
 			is_xvcv_mdlc_pc_mechanical = no
@@ -652,7 +668,7 @@ xvcv_mdlc_decision_mechanical_worlds_terraforming_project = {
 		weight = 0
 		modifier = {
 			weight = 100
-			owner = { NOT = { any_owned_planet = { is_planet_class = xvcv_mdlc_pc_mechanical } } }
+			owner = { NOT = { any_owned_colony = { is_planet_class = xvcv_mdlc_pc_mechanical } } }
 		}
 	}
 }
@@ -670,6 +686,8 @@ xvcv_mdlc_decision_virtual_world_project = {
 
 	potential = {
 		exists = owner
+		exists = planet
+		oxr_planet_is_ship = no
 		owner = { has_ascension_perk = xvcv_mdlc_ap_virtual_worlds }
 		planet = {
 			habitable_structure = no
@@ -726,7 +744,7 @@ xvcv_mdlc_decision_virtual_world_project = {
 		weight = 0
 		modifier = {
 			weight = 100
-			owner = { NOT = { any_owned_planet = { is_planet_class = xvcv_mdlc_pc_virtual } } }
+			owner = { NOT = { any_owned_colony = { is_planet_class = xvcv_mdlc_pc_virtual } } }
 		}
 	}
 }
@@ -742,7 +760,10 @@ xvcv_mdlc_decision_pop_commoditization = {
 	}
 
 	potential = {
-		is_planet_class = xvcv_mdlc_pc_virtual
+		exists = planet
+		planet = {
+			is_planet_class = xvcv_mdlc_pc_virtual
+		}
 	}
 
 	allow = {
@@ -896,13 +917,13 @@ xvcv_mdlc_decision_goods_for_research_bonus = {
 		weight = 0
 		modifier = {
 			weight = 10
-			planet = {
+			colony = {
 				total_workforce_with_job_tag = {
 					tags = { research }
 					value > 0
 				}
 			}
-			planet = {
+			colony = {
 				total_workforce_with_job_tag = {
 					tags = { research }
 					value < 200
@@ -922,7 +943,7 @@ xvcv_mdlc_decision_goods_for_research_bonus = {
 
 		modifier = {
 			weight = 20
-			planet = {
+			colony = {
 				total_workforce_with_job_tag = {
 					tags = { research }
 					value >= 200

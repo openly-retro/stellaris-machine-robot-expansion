@@ -2,13 +2,14 @@
 				limit = { prev = { has_valid_civic = xvcv_mdlc_civic_planet_cracker } }
 				solar_system = {
 					#search an eligible planet first
-					random_system_planet = {
+					random_system_planet_colony = {
 						limit = {
 							is_star = no
 							is_colony = no
 							is_colonizable = no
 							# asteroids are deleted in generate_home_planet_final_pass for "Resource Consolidation" origin
 							is_asteroid = no
+							oxr_planet_is_ship = no
 							NOR = {
 								is_planet_class = pc_shattered
 								is_planet_class = pc_ringworld_habitable_damaged
@@ -21,23 +22,25 @@
 						save_event_target_as = xvcv_mdlc_civic_planet_cracker_target
 					}
 					#search an eligible planet again with more wide conditions
-					random_system_planet = {
+					random_system_planet_colony = {
 						limit = {
 							NOT = { exists = event_target:xvcv_mdlc_civic_planet_cracker_target }
 							is_star = no
 							is_colony = no
 							is_colonizable = no
 							is_asteroid = no
+							oxr_planet_is_ship = no
 						}
 						save_event_target_as = xvcv_mdlc_civic_planet_cracker_target
 					}
 					#search an eligible planet for the last time with 'far more' wide conditions #there must be one in this case
-					random_system_planet = {
+					random_system_planet_colony = {
 						limit = {
 							NOT = { exists = event_target:xvcv_mdlc_civic_planet_cracker_target }
 							is_star = no
 							is_colony = no
 							is_asteroid = no
+							oxr_planet_is_ship = no
 						}
 						save_event_target_as = xvcv_mdlc_civic_planet_cracker_target
 					}
@@ -141,20 +144,11 @@
                         limit = { has_district = district_mining }
                         remove_district = district_mining
                     }
-                    else_if = {
-                        limit = { has_district = district_mining_uncapped }
-                        remove_district = district_mining_uncapped
-                    }
                     add_district = district_nexus
                     while = {
                         limit = { has_district = district_mining }
                         remove_district = district_mining
                         add_district = district_generator
-                    }
-                    while = {
-                        limit = { has_district = district_mining_uncapped }
-                        remove_district = district_mining_uncapped
-                        add_district = district_generator_uncapped
                     }
                 }
 			}

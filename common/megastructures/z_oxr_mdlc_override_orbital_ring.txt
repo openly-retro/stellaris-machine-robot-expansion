@@ -16,6 +16,26 @@ orbital_ring = {
 		cost = {
 			influence = 50
 		}
+		cost = {
+			trigger = {
+				country_uses_bio_ships = no
+			}
+			alloys = @starhold_cost
+		}
+		cost = {
+			trigger = {
+				country_uses_bio_ships = yes
+			}
+			alloys = @starhold_cost
+			mult = 0.5
+		}
+		cost = {
+			trigger = {
+				country_uses_bio_ships = yes
+			}
+			food = @starhold_cost
+			mult = @halved_alloy_to_food_cost_ratio
+		}
 		inline_script = {
 			script = oxr_merger_of_rules_copy/toggled_code
 			code = "
@@ -108,7 +128,7 @@ orbital_ring = {
                         inline_script = {
                             script = oxr_merger_of_rules_copy/toggled_code
                             code = "
-                                has_planet_flag = giga_planet_mega
+                                has_carrier_flag = giga_planet_mega
                                 is_planet_class = pc_giga_planetary_computer
                                 is_planet_class = pc_habitable_gas_giant
                             "
@@ -116,13 +136,13 @@ orbital_ring = {
                         }
 
 						# Special exception so you can build an orbital ring even if you have MSI's warship as a habitat.
-						has_planet_flag = has_payback_habitat
+						has_carrier_flag = has_payback_habitat
 						# any of these disqualify
 						AND = {
 							giga_habitable_structure = no # gigas own structures
 							habitable_structure = no # vanilla wrapper for is_artificial basically
 							is_regular_giga_maginot_world = no
-							NOT = { has_planet_flag = ruined_orbital_ring_planet }
+							NOT = { has_carrier_flag = ruined_orbital_ring_planet }
 						}
 					}
 				}
@@ -140,7 +160,7 @@ orbital_ring = {
 			custom_tooltip = {
 				fail_text = "requires_no_orbital_debris"
 				NOR = {
-					has_planet_flag = has_orbital_debris
+					has_carrier_flag = has_orbital_debris
 				}
 			}
 			OR = {
@@ -170,12 +190,6 @@ orbital_ring = {
 	# from = country
 	ai_weight = {
 		factor = 5
-
-		modifier = {
-			factor = 0.1
-			starbase = { NOT = { has_starbase_size >= starbase_starport } }
-		}
-
 		modifier = {
 			factor = 3
 			solar_system = {
@@ -190,7 +204,6 @@ orbital_ring = {
 				is_same_value = owner.capital_scope.solar_system
 			}
 		}
-
 		modifier = {
 			factor = 0.1
 			any_neighbor_system = {
@@ -200,7 +213,7 @@ orbital_ring = {
 		}
 		modifier = {
 			factor = 3
-			any_system_colony = {
+			any_system_planet_colony = {
 				pop_amount >= 5000
 				NOT = { exists = orbital_defence }
 			}
