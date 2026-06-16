@@ -18,7 +18,7 @@ rikk_mdlc_rw_upgrade_is_gar = {
 }
 
 rikk_mdlc_planet_has_any_overclocked_pops = {
-	planet = {
+	colony = {
 		any_owned_pop_group = {
 			rikk_mdlc_pop_has_any_overclocked_trait = yes
 		}
@@ -26,7 +26,7 @@ rikk_mdlc_planet_has_any_overclocked_pops = {
 }
 
 rikk_mdlc_planet_has_cooling_towers = {
-	planet = {
+	colony = {
 		num_zones = {
 			type = rikk_mdlc_zone_cooling_towers
 			value > 0
@@ -48,5 +48,34 @@ rikk_mdlc_pop_has_any_overclocked_trait = {
 		has_trait = rikk_mdlc_trait_robot_overclocked_elevated_junctions
 		has_trait = rikk_mdlc_trait_robot_overclocked_pre_planned_assembly
 		has_trait = rikk_mdlc_trait_robot_overclocked_excessive_endurance
+	}
+}
+
+rikk_mdlc_has_active_fpga = {
+	colony = {
+		has_active_building = oxr_mdlc_world_machines_building_fractal_fpga
+		OR = {
+			has_designation = xvcv_mdlc_col_machine_cpu_physics
+			has_designation = xvcv_mdlc_col_machine_cpu_society
+			has_designation = xvcv_mdlc_col_machine_cpu_engineering
+		}
+	}
+}
+rikk_mdlc_has_active_fpga_physics = {
+	colony = {
+		has_active_building = oxr_mdlc_world_machines_building_fractal_fpga
+		has_designation = xvcv_mdlc_col_machine_cpu_physics
+	}
+}
+rikk_mdlc_has_active_fpga_society = {
+	colony = {
+		has_active_building = oxr_mdlc_world_machines_building_fractal_fpga
+		has_designation = xvcv_mdlc_col_machine_cpu_society
+	}
+}
+rikk_mdlc_has_active_fpga_engineering = {
+	colony = {
+		has_active_building = oxr_mdlc_world_machines_building_fractal_fpga
+		has_designation = xvcv_mdlc_col_machine_cpu_engineering
 	}
 }
