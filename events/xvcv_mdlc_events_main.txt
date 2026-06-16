@@ -84,14 +84,6 @@ country_event = {
 					}
 					log = "\\[prev.GetName] MINERAL BODY | swapped generators for mining districts"
 				}
-				if = {
-					limit = { has_district = district_generator_uncapped }
-					while = {
-						remove_district = district_generator_uncapped
-						add_district = district_mining_uncapped
-						count = 2
-					}
-				}
 			}
 			# Organic skin trait
 			if = {
@@ -609,7 +601,7 @@ country_event = {
 			limit = { leader_class = scientist }
 			set_council_position = councilor_research
 		}
-		every_owned_planet = {
+		every_owned_colony = {
 			while = {
 				limit = { has_district = district_nexus }
 				remove_district = district_nexus
@@ -1176,7 +1168,7 @@ country_event = {
 					}
 				}
 			}
-			every_owned_planet = { 
+			every_owned_colony = { 
 				create_pop_group = {
 					species = last_created_species
 					effect = { save_event_target_as = last_created_pop_group }
@@ -1493,8 +1485,8 @@ country_event = {
 	immediate = {
 		#xvcv_mdlc_pop_growth_scale_check_effect
 		# random_country = {
-		# 	limit = { any_owned_planet = { artificial_pops_last_month_growth > 0 } }
-		# 	random_owned_planet = {
+		# 	limit = { any_owned_colony = { artificial_pops_last_month_growth > 0 } }
+		# 	random_owned_colony = {
 		# 		limit = { artificial_pops_last_month_growth > 0 }
 		# 		planet = { xvcv_mdlc_planet_extract_assembly_rate_for_data = yes }
 		# 	}
@@ -1549,7 +1541,7 @@ country_event = {
 			last_created_species = {
 				save_global_event_target_as = xvcv_mdlc_bio_robot_species
 			}
-			every_owned_planet = {
+			every_owned_colony = {
 				create_pop_group = {
 					species = last_created_species
 					effect = { save_event_target_as = last_created_pop_group }
@@ -1659,11 +1651,11 @@ country_event = {
 	trigger = {
 		is_ai = no
 		any_owned_species = { has_trait = xvcv_mdlc_trait_bio_robot }
-		any_owned_planet = { xvcv_mdlc_bio_robot_auto_growth_possible_planet_trigger = yes }
+		any_owned_colony = { xvcv_mdlc_bio_robot_auto_growth_possible_planet_trigger = yes }
 	}
 
 	immediate = {
-		every_owned_planet = {
+		every_owned_colony = {
 			limit = {
 				xvcv_mdlc_bio_robot_auto_growth_possible_planet_trigger = yes
 				NOT = { has_modifier = planet_robot_assembly_control }
@@ -1677,7 +1669,7 @@ country_event = {
 			}
 		}
 		# Remove the modifier info from the planet UI, but don't clear any vars
-		# every_owned_planet = {
+		# every_owned_colony = {
 		# 	limit = {
 		# 		xvcv_mdlc_bio_robot_auto_growth_possible_planet_trigger = yes
 		# 		OR = {
@@ -1703,14 +1695,14 @@ country_event = {
 
 	trigger = {
 		is_ai = no
-		any_owned_planet = {
+		any_owned_colony = {
 			is_variable_set = xvcv_mdlc_bio_robot_growth_progress_var
 			xvcv_mdlc_bio_robot_auto_growth_not_possible_planet_trigger = yes
 		}
 	}
 
 	immediate = {
-		every_owned_planet = {
+		every_owned_colony = {
 			limit = {
 				is_variable_set = xvcv_mdlc_bio_robot_growth_progress_var
 				xvcv_mdlc_bio_robot_auto_growth_not_possible_planet_trigger = yes
@@ -2364,7 +2356,7 @@ country_event = {
 	}
 
 	immediate = {
-		every_owned_planet = {
+		every_owned_colony = {
 			limit = { xvcv_mdlc_world_machines_planet_classes_trigger = yes }
 			xvcv_mdlc_planet_wm_calc_output_value = yes
 		}
@@ -2384,7 +2376,7 @@ country_event = {
 	}
 
 	immediate = {
-		every_owned_planet = {
+		every_owned_colony = {
 			limit = { any_owned_species = { has_trait = xvcv_mdlc_trait_self_replicating_microbot } }
 			# New method: Count the number of pops with the trait, set to planet var
 			# Then, the deposit will add pop assembly, multiplied by that var
@@ -2410,14 +2402,14 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		any_owned_planet = {
+		any_owned_colony = {
 			has_deposit = xvcv_mdlc_d_trait_self_replicating_microbot
 			NOT = { any_owned_species = { has_trait = xvcv_mdlc_trait_self_replicating_microbot } }
 		}
 	}
 
 	immediate = {
-		every_owned_planet = {
+		every_owned_colony = {
 			limit = {
 				has_deposit = xvcv_mdlc_d_trait_self_replicating_microbot
 				NOT = { any_owned_species = { has_trait = xvcv_mdlc_trait_self_replicating_microbot } }
@@ -2672,91 +2664,32 @@ planet_event = {
 	# so there are no districts to count
 	immediate = {
 		# City districts
-		if = {
-			limit = {
-				num_districts = {
-					type = district_nexus
-					value > 0
-				}
-			}
-			export_trigger_value_to_variable = {
-				trigger = num_districts
-				parameters = { type = district_nexus }
-				variable = xvcv_mdlc_pc_mechanical_district_city_var
-			}
-		}
-		else = {
-			export_trigger_value_to_variable = {
-				trigger = num_districts
-				parameters = { type = district_city }
-				variable = xvcv_mdlc_pc_mechanical_district_city_var
-			}
+		export_trigger_value_to_variable = {
+			trigger = num_districts
+			parameters = { type = district_city }
+			variable = xvcv_mdlc_pc_mechanical_district_city_var
 		}
 
 		# Generator
-		if = {
-			limit = {
-				num_districts = {
-					type = district_generator_uncapped
-					value > 0
-				}
-			}
-			export_trigger_value_to_variable = {
-				trigger = num_districts
-				parameters = { type = district_generator_uncapped }
-				variable = xvcv_mdlc_pc_mechanical_district_generator_var
-			}
-		}
-		else = {
-			export_trigger_value_to_variable = {
-				trigger = num_districts
-				parameters = { type = district_generator }
-				variable = xvcv_mdlc_pc_mechanical_district_generator_var
-			}
+		export_trigger_value_to_variable = {
+			trigger = num_districts
+			parameters = { type = district_generator }
+			variable = xvcv_mdlc_pc_mechanical_district_generator_var
 		}
 		
 		# Mines
-		if = {
-			limit = {
-				num_districts = {
-					type = district_mining_uncapped
-					value > 0
-				}
-			}
-			export_trigger_value_to_variable = {
-				trigger = num_districts
-				parameters = { type = district_mining_uncapped }
-				variable = xvcv_mdlc_pc_mechanical_district_mining_var
-			}
-		}
-		else = {
-			export_trigger_value_to_variable = {
-				trigger = num_districts
-				parameters = { type = district_mining }
-				variable = xvcv_mdlc_pc_mechanical_district_mining_var
-			}
+		export_trigger_value_to_variable = {
+			trigger = num_districts
+			parameters = { type = district_mining }
+			variable = xvcv_mdlc_pc_mechanical_district_mining_var
 		}
 		# Farms
-		if = {
-			limit = {
-				num_districts = {
-					type = district_farming_uncapped
-					value > 0
-				}
-			}
-			export_trigger_value_to_variable = {
-				trigger = num_districts
-				parameters = { type = district_farming_uncapped }
-				variable = xvcv_mdlc_pc_mechanical_district_farming_var
-			}
+		export_trigger_value_to_variable = {
+			trigger = num_districts
+			parameters = { type = district_farming }
+			variable = xvcv_mdlc_pc_mechanical_district_farming_var
 		}
-		else = {
-			export_trigger_value_to_variable = {
-				trigger = num_districts
-				parameters = { type = district_farming }
-				variable = xvcv_mdlc_pc_mechanical_district_farming_var
-			}
-		}
+
 
 		log = "Mech world conversion: has \\[This.xvcv_mdlc_pc_mechanical_district_city_var] city districts"
 
@@ -3347,7 +3280,7 @@ planet_event = {
 				delete_fleet = this
 				
 			}
-			random_system_planet = {
+			random_system_planet_colony = {
 				limit = {
 					has_planet_flag = habitat
 				}
