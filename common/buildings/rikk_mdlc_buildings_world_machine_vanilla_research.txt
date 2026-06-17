@@ -981,12 +981,13 @@ oxr_mdlc_world_machines_building_cold_storage_datacenter = {
 
 #### ARCHAEOSTUDIES ####
 oxr_mdlc_world_machines_building_archaeostudies_recombinator = {
-    planet_limit = 1
 	can_build = yes
+	planet_limit = 1 #this needs to be here for the build tab special colour
+	empire_limit = 1
 	prerequisites = { tech_archaeostudies }
-	inline_script = planet/buildings/oxr_sort_important
 	allow = { oxr_mdlc_has_upgraded_capital = yes }
-	empire_limit = { base = 1 }
+	inline_script = planet/buildings/oxr_sort_important
+	
 	custom_tooltip = oxr_mdlc_world_machines_building_archaeostudies_recombinator_tooltip
 
 	triggered_planet_modifier = {
@@ -1012,11 +1013,11 @@ oxr_mdlc_world_machines_building_archaeostudies_recombinator = {
 		oxr_mdlc_world_machines_science_buildings_energy_upkeep_add = 6
 	}
 	triggered_planet_modifier = {
-		potential = { exists = owner owner = { has_ascension_perk = ap_archaeoengineers } }
+		potential = { exists = owner owner = { has_ascension_perk = ap_archaeoengineers } is_xvcv_mdlc_pc_machine_cpu = yes }
 		xvcv_mdlc_world_machines_society_districts_minor_artifacts_produces_add = 0.50
 		oxr_mdlc_world_machines_science_buildings_minor_artifacts_produces_add = 0.20
 	}
-
+	
 	country_modifier = {
 		category_archaeostudies_research_speed_mult = 0.25
 		country_resource_max_minor_artifacts_add = 2000
@@ -1041,7 +1042,7 @@ oxr_mdlc_world_machines_building_archaeostudies_recombinator = {
     	RARE_UPKEEP = 0
 		RESOURCES = " 
 			produces = { society_research = @oxr_mdlc_wm_base_calculator_single_output }
-			upkeep = { @oxr_mdlc_wm_base_calculator_single_upkeep }
+			upkeep = { energy = @oxr_mdlc_wm_base_calculator_single_upkeep }
 			produces = {
 				trigger = { exists = owner owner = { has_ascension_perk = ap_archaeoengineers } }
 				physics_research = @[ 2 * 2 ]
@@ -1074,7 +1075,7 @@ rikk_mdlc_world_machines_building_vultaum_reality_computer = { #compuper
 	icon = building_vultaum_reality_computer
     planet_limit = 1
 	can_build = no
-	prerequisites = { tech_physics_3 }
+	prerequisites = { tech_secrets_vultaum }
     upgrades = { oxr_mdlc_world_machines_building_circuit_physics_3 }
 	inline_script = planet/buildings/oxr_sort_important
 
