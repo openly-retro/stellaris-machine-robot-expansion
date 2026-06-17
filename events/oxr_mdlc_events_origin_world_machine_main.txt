@@ -21,6 +21,7 @@ country_event = {
 	trigger = {
 		has_origin = oxr_mdlc_origin_world_machine_awakened
 		exists = capital_scope
+		capital_scope = { exists = planet }
 		is_country_type = default
 	}
 	immediate = {
@@ -34,7 +35,7 @@ country_event = {
 				}
 				set_country_flag = oxr_mdlc_origin_world_machine_setup_started
 				capital_scope = {
-					oxr_mdlc_origin_wm_planet_game_start_setup = yes
+					planet = { oxr_mdlc_origin_wm_planet_game_start_setup = yes }
 				}
 			}
 		}
@@ -293,17 +294,20 @@ planet_event = {
 				energy = -250
 			}
 		}
-		planet_event = {
-			id = oxr_mdlc_origin_wm_main.502
-			days = 14
+		planet = {
+			planet_event = {
+				id = oxr_mdlc_origin_wm_main.502
+				days = 14
+			}
 		}
+		
 		trigger = {
 			NOT = {
-				has_planet_flag = oxr_mdlc_wm_main_501_c_picked
+				planet = { has_planet_flag = oxr_mdlc_wm_main_501_c_picked }
 			}
 		}
 		hidden_effect = {
-			set_planet_flag = oxr_mdlc_wm_main_501_c_picked
+			planet = { set_planet_flag = oxr_mdlc_wm_main_501_c_picked }
 		}
 	}
 }
@@ -367,7 +371,8 @@ planet_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		is_planet_world_machine = yes
+		exists = planet
+		planet = { is_planet_world_machine = yes }
 	}
 	immediate = {
 		owner = {
@@ -466,7 +471,9 @@ planet_event = {
 					scope = ROOT
 				}
 			}
-			remove_planet_flag = oxr_mdlc_planet_wm_show_completion_msg
+			planet = {
+				remove_planet_flag = oxr_mdlc_planet_wm_show_completion_msg
+			}
 		}
 	}
 }
@@ -835,8 +842,10 @@ planet_event = {
 			else = {
 				log = "apparently the oxr_mdlc_planet_world_machine_core_countdown is set to \\[This.oxr_mdlc_planet_world_machine_core_countdown]"
 			}
-			planet_event = {
-				id = oxr_mdlc_origin_wm_main.1300
+			planet = {
+				planet_event = {
+					id = oxr_mdlc_origin_wm_main.1300
+				}
 			}
 		}
 	}

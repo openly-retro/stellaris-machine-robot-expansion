@@ -36,79 +36,92 @@ country_event = {
 				limit = {
 					has_planet_flag = xvcv_mdlc_origin_start_with_colony_1st_settlement
 				}
-				save_event_target_as = xvcv_mdlc_origin_start_with_colony_1st_settlement
-				change_pc = capital_scope  # .oxr_mdlc_homeworld_planet_class
-				create_colony = { owner = event_target:oxr_mdlc_doomsday_empire }
+				planet = {
+					save_event_target_as = xvcv_mdlc_origin_start_with_colony_1st_settlement
+					change_pc = capital_scope  # .oxr_mdlc_homeworld_planet_class
+					create_colony = { owner = event_target:oxr_mdlc_doomsday_empire }
 
-				generate_start_deposits_and_blockers = yes
-				every_deposit = {
-					limit = { is_blocker = yes }
-					remove_deposit = yes #don't clear, just remove them completely #so they won't execute the on_cleared effect
+					generate_start_deposits_and_blockers = yes
+					every_deposit = {
+						limit = { is_blocker = yes }
+						remove_deposit = yes #don't clear, just remove them completely #so they won't execute the on_cleared effect
+					}
+					generate_start_buildings_and_districts = yes
+					generate_start_pops = yes
+
+					add_deposit = xvcv_mdlc_d_origin_start_with_colony_arkship
+					add_deposit = xvcv_mdlc_d_origin_start_with_colony_pop_factory_incomplete
+					add_deposit = xvcv_mdlc_d_origin_start_with_colony_lab_incomplete
+					add_deposit = xvcv_mdlc_d_origin_start_with_colony_inactive_drones
 				}
-				generate_start_buildings_and_districts = yes
-				generate_start_pops = yes
+				
+				planet = {
+					while = {
+						count = 40
 
-				add_deposit = xvcv_mdlc_d_origin_start_with_colony_arkship
-				add_deposit = xvcv_mdlc_d_origin_start_with_colony_pop_factory_incomplete
-				add_deposit = xvcv_mdlc_d_origin_start_with_colony_lab_incomplete
-				add_deposit = xvcv_mdlc_d_origin_start_with_colony_inactive_drones
-
-				while = {
-					count = 40
-
-					random_owned_pop_group = {
-						kill_pop_group = {
-							pop_group = this
-							amount = 100
+						random_owned_pop_group = {
+							kill_pop_group = {
+								pop_group = this
+								amount = 100
+							}
 						}
 					}
+					remove_building = building_machine_capital
 				}
-				remove_building = building_machine_capital
 
 			}
 			random_system_planet_colony = {
 				limit = {
 					has_planet_flag = xvcv_mdlc_origin_start_with_colony_2nd_settlement
 				}
-				save_event_target_as = xvcv_mdlc_origin_start_with_colony_2nd_settlement
-				create_colony = { owner = event_target:oxr_mdlc_doomsday_empire }
+				planet = {
+					save_event_target_as = xvcv_mdlc_origin_start_with_colony_2nd_settlement
+					create_colony = { owner = event_target:oxr_mdlc_doomsday_empire }
 
-				generate_start_deposits_and_blockers = yes
-				every_deposit = {
-					limit = { is_blocker = yes }
-					remove_deposit = yes #don't clear, just remove them completely #so they won't execute the on_cleared effect
+					generate_start_deposits_and_blockers = yes
+					every_deposit = {
+						limit = { is_blocker = yes }
+						remove_deposit = yes #don't clear, just remove them completely #so they won't execute the on_cleared effect
+					}
+					generate_start_buildings_and_districts = yes
+					generate_start_pops = yes
+
+					add_deposit = xvcv_mdlc_d_origin_start_with_colony_arkship
+					add_deposit = xvcv_mdlc_d_origin_start_with_colony_pop_factory_incomplete
+					add_deposit = xvcv_mdlc_d_origin_start_with_colony_lab_incomplete
+					add_deposit = xvcv_mdlc_d_origin_start_with_colony_inactive_drones
 				}
-				generate_start_buildings_and_districts = yes
-				generate_start_pops = yes
 
-				add_deposit = xvcv_mdlc_d_origin_start_with_colony_arkship
-				add_deposit = xvcv_mdlc_d_origin_start_with_colony_pop_factory_incomplete
-				add_deposit = xvcv_mdlc_d_origin_start_with_colony_lab_incomplete
-				add_deposit = xvcv_mdlc_d_origin_start_with_colony_inactive_drones
+				planet = {
+					while = {
+						count = 40
 
-				while = {
-					count = 40
-
-					random_owned_pop_group = {
-						kill_pop_group = {
-							pop_group = this
-							amount = 100
+						random_owned_pop_group = {
+							kill_pop_group = {
+								pop_group = this
+								amount = 100
+							}
 						}
 					}
+					remove_building = building_machine_capital
 				}
-				remove_building = building_machine_capital
 
 			}
 		}
 		event_target:xvcv_mdlc_origin_start_with_colony_1st_settlement = {
 			#6 more generator districts
-			add_deposit = d_tempestous_mountain
-			add_deposit = d_tempestous_mountain
+			planet = {
+				add_deposit = d_tempestous_mountain
+				add_deposit = d_tempestous_mountain
+			}
+			
 		}
 		event_target:xvcv_mdlc_origin_start_with_colony_2nd_settlement = {
 			#6 more generator districts
-			add_deposit = d_rich_mountain
-			add_deposit = d_rich_mountain
+			planet = {
+				add_deposit = d_rich_mountain
+				add_deposit = d_rich_mountain
+			}
 		}
 
 		capital_scope = {
@@ -117,46 +130,49 @@ country_event = {
 			# 	limit = { is_blocker = yes }
 			# 	remove_deposit = yes #don't clear, just remove them completely #so they won't execute the on_cleared effect
 			# }
-			generate_start_deposits_and_blockers = yes
-			remove_building = building_machine_capital
-			add_building = building_machine_assembly_plant
+			planet = {
 
-			add_deposit = xvcv_mdlc_d_origin_start_with_colony_arkship
-			add_deposit = xvcv_mdlc_d_origin_start_with_colony_pop_factory_incomplete
-			add_deposit = xvcv_mdlc_d_origin_start_with_colony_lab_incomplete
-			add_deposit = xvcv_mdlc_d_origin_start_with_colony_inactive_drones
-			add_building = building_deployment_post
-			
-			# Scale down the number of pops.. not sure how many XVCV intended at the start
-			# This leaves about 600
-			export_trigger_value_to_variable = {
-				trigger = pop_amount
-				variable = oxr_mdlc_origin_start_with_colony_homeworld_pops
-			}
-			set_variable = {
-				which = oxr_mdlc_origin_start_with_colony_homeworld_pops_num_remove
-				value = oxr_mdlc_origin_start_with_colony_homeworld_pops
-			}
-			subtract_variable = {
-				which = oxr_mdlc_origin_start_with_colony_homeworld_pops_num_remove
-				value = 2000
-			}
-			divide_variable = {
-				which = oxr_mdlc_origin_start_with_colony_homeworld_pops_num_remove
-				value = 100
-			}
-			log = "Homeworld \\[This.GetName] started with \\[This.oxr_mdlc_origin_start_with_colony_homeworld_pops] pops"
-			log = "Will reduce population down to (x100) \\[This.oxr_mdlc_origin_start_with_colony_homeworld_pops_num_remove] "
-			# Leave behind 1000 pops
-			random_owned_pop_group = {
-				add_pop_amount = 700
-			}
-			
-			while = {
-				count = 3
-				add_district = district_generator
-				add_district = district_mining
-			}
+				generate_start_deposits_and_blockers = yes
+				remove_building = building_machine_capital
+				add_building = building_machine_assembly_plant
+
+				add_deposit = xvcv_mdlc_d_origin_start_with_colony_arkship
+				add_deposit = xvcv_mdlc_d_origin_start_with_colony_pop_factory_incomplete
+				add_deposit = xvcv_mdlc_d_origin_start_with_colony_lab_incomplete
+				add_deposit = xvcv_mdlc_d_origin_start_with_colony_inactive_drones
+				add_building = building_deployment_post
+				
+				# Scale down the number of pops.. not sure how many XVCV intended at the start
+				# This leaves about 600
+				export_trigger_value_to_variable = {
+					trigger = pop_amount
+					variable = oxr_mdlc_origin_start_with_colony_homeworld_pops
+				}
+				set_variable = {
+					which = oxr_mdlc_origin_start_with_colony_homeworld_pops_num_remove
+					value = oxr_mdlc_origin_start_with_colony_homeworld_pops
+				}
+				subtract_variable = {
+					which = oxr_mdlc_origin_start_with_colony_homeworld_pops_num_remove
+					value = 2000
+				}
+				divide_variable = {
+					which = oxr_mdlc_origin_start_with_colony_homeworld_pops_num_remove
+					value = 100
+				}
+				log = "Homeworld \\[This.GetName] started with \\[This.oxr_mdlc_origin_start_with_colony_homeworld_pops] pops"
+				log = "Will reduce population down to (x100) \\[This.oxr_mdlc_origin_start_with_colony_homeworld_pops_num_remove] "
+				# Leave behind 1000 pops
+				random_owned_pop_group = {
+					add_pop_amount = 700
+				}
+				
+				while = {
+					count = 3
+					add_district = district_generator
+					add_district = district_mining
+				}
+			} # /planet
 
 		}
 
@@ -172,8 +188,8 @@ country_event = {
 			capital_scope = {
 				solar_system = {
 					random_system_planet_colony = {
-						limit = { has_planet_flag = xvcv_mdlc_origin_start_with_colony_old_home }
-						add_deposit = d_food_10
+						limit = { planet = { has_planet_flag = xvcv_mdlc_origin_start_with_colony_old_home } }
+						planet = { add_deposit = d_food_10 }
 					}
 				}
 			}
@@ -186,32 +202,17 @@ country_event = {
 					}
 				}
 				event_target:oxr_mdlc_home_planet = {
-					remove_building = building_deployment_post
-					add_building = building_machine_capital
-					add_building = building_organic_sanctuary
+					planet = {
+						remove_building = building_deployment_post
+						add_building = building_machine_capital
+						add_building = building_organic_sanctuary
+					}
 				}
 			}
 
-			# while = {
-			# 	create_pop_group = { species = last_created_species }
-			# 	count = 5
-			# }
-			# 4.0: Pops are 100 "each", so create 5 x 100 = 500
-			# create_pop_group = {
-			# 	species = last_created_species
-			# 	size = 500
-			# 	effect = { save_event_target_as = last_created_pop_group }
-			# }
-			# owner = { add_resource = { food = 100 } }
 		}
-		# while = {
-		# 	limit = { free_jobs > 0 }
-		# 	create_pop_group = {
-		# 		species = owner.species
-		# 		effect = { save_event_target_as = last_created_pop_group }
-		# 	}
-		# }
 
-	}
+
+	} #/immediate
 
 }
