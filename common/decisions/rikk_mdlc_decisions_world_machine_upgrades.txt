@@ -24,25 +24,15 @@ rikk_mdlc_decision_world_machine_solidify_molten = {
 
 	potential = {
 		exists = space_owner
-		exists = planet
 		planet = {
 			is_planet_class = pc_molten
-		}
-
-		space_owner = {
-			OR = {
-				# has_ascension_perk = xvcv_mdlc_ap_world_machines
-				has_origin = oxr_mdlc_origin_world_machine_awakened
-			}
-			has_technology = oxr_mdlc_tech_geologic_heat_shielding_2
-		}
-		space_owner = {
-			has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
-		}
-		planet = {
 			NOT = { has_planet_flag = rikk_mdlc_world_machine_suitable }
 		}
-
+		space_owner = {
+			oxr_mdlc_planet_owner_can_build_wm_districts = yes
+			has_technology = oxr_mdlc_tech_geologic_heat_shielding_2
+			has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
+		}
 	}
 	
 	allow = {
@@ -90,22 +80,15 @@ rikk_mdlc_decision_world_machine_defrost_cryosphere = {
 	
 	potential = {
 		exists = space_owner
-		exists = planet
-		is_planet_class = pc_frozen
-		space_owner = {
-			OR = {
-				# has_ascension_perk = xvcv_mdlc_ap_world_machines
-				has_origin = oxr_mdlc_origin_world_machine_awakened
-			}
-			has_technology = oxr_mdlc_tech_geologic_scaling_thermoelectrics
-		}
-		space_owner = {
-			has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
-		}
 		planet = {
+			is_planet_class = pc_frozen
 			NOT = { has_planet_flag = rikk_mdlc_world_machine_suitable }
 		}
-		
+		space_owner = {
+			oxr_mdlc_planet_owner_can_build_wm_districts = yes
+			has_technology = oxr_mdlc_tech_geologic_scaling_thermoelectrics
+			has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
+		}
 	}
 	
 	allow = {
@@ -153,30 +136,21 @@ rikk_mdlc_decision_world_machine_cleanse_toxic = {
 	
 	potential = {
 		exists = space_owner
-		exists = planet
 		planet = {
 			is_planet_class = pc_toxic
-		}
-		
-		space_owner = {
-			OR = {
-				# has_ascension_perk = xvcv_mdlc_ap_world_machines
-				has_origin = oxr_mdlc_origin_world_machine_awakened
-			}
-			has_technology = tech_climate_restoration
-		}
-		space_owner = {
-			has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
-		}
-		planet = {
 			NOT = { has_planet_flag = rikk_mdlc_world_machine_suitable }
+		}
+		space_owner = {
+			oxr_mdlc_planet_owner_can_build_wm_districts = yes
+			has_technology = tech_climate_restoration
+			has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
 		}
 	}
 	
 	allow = {
 		is_terraforming = no
 		has_anomaly = no
-		NOT = { has_modifier = rikk_mdlc_decision_world_machine_convert_pc_toxic_on_queued_modifier }
+		NOT = { has_modifier = rikk_mdlc_world_machine_toxic_mod }
 	}
 	
 	effect = {
@@ -186,7 +160,6 @@ rikk_mdlc_decision_world_machine_cleanse_toxic = {
 				add_modifier = { modifier = rikk_mdlc_world_machine_toxic_mod }
 				set_planet_flag = rikk_mdlc_world_machine_suitable
 				# rikk_mdlc_planet_wm_add_random_blockers = { WORLD_TYPE = toxic}
-				remove_modifier = rikk_mdlc_decision_world_machine_convert_pc_toxic_on_queued_modifier
 			}
 		}
 		space_owner = {
@@ -220,37 +193,21 @@ rikk_mdlc_decision_world_machine_harness_nanites = {
 	
 	potential = {
 		exists = space_owner
-		exists = planet
 		planet = {
 			is_planet_class = pc_gray_goo
-		}
-
-		space_owner = {
-			OR = {
-				# has_ascension_perk = xvcv_mdlc_ap_world_machines
-				has_origin = oxr_mdlc_origin_world_machine_awakened
-			}
-		}
-		space_owner = {
-			has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
-		}
-		planet = {
 			NOT = { has_planet_flag = rikk_mdlc_world_machine_suitable }
 		}
-
+		space_owner = {
+			oxr_mdlc_planet_owner_can_build_wm_districts = yes
+			has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
+		}
 		host_has_dlc = "Distant Stars Story Pack"
 	}
 	
-	allow = { 
-		space_owner = {
-			AND = { 
-				has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
-				has_resource = {
-					type = oxr_mdlc_world_machine_core amount >= 1
-				}
-			}
-		}
+	allow = {
+		is_terraforming = no
 		has_anomaly = no
+		NOT = { has_modifier = rikk_mdlc_world_machine_nanites_harnessed }
 	}
 	
 	effect = {
