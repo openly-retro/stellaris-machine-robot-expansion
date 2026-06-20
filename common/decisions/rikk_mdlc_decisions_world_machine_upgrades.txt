@@ -184,7 +184,6 @@ rikk_mdlc_decision_world_machine_cleanse_toxic = {
 			remove_modifier = rikk_mdlc_decision_world_machine_convert_pc_toxic_on_queued_modifier
 		}
 	}
-
 }
 
 rikk_mdlc_decision_world_machine_harness_nanites = {
@@ -225,6 +224,15 @@ rikk_mdlc_decision_world_machine_harness_nanites = {
 			}
 		}
 
+	}
+	
+	on_queued = {
+		planet = {
+			oxr_mdlc_planet_add_rikk_terraforming_queued_modifier = {
+				PLANET_CLASS = pc_gray_goo
+				DAYS = @wmupgradelength1
+			}
+		}
 	}
 	
 	effect = {
@@ -395,8 +403,7 @@ rikk_mdlc_decision_world_machine_mantle_roots = {
 	on_unqueued = { planet = { remove_planet_flag = mantle_roots_queued } }
 	
 	effect = {
-		if = {
-			limit = { has_deposit = rikk_mdlc_d_world_machine_crust_roots }
+		planet = {
 			add_deposit = rikk_mdlc_d_world_machine_mantle_roots
 			hidden_effect = {
 				remove_planet_flag = mantle_roots_queued
@@ -408,12 +415,6 @@ rikk_mdlc_decision_world_machine_mantle_roots = {
 				planet_event = { id = rikk_mdlc_wm_upgrade_events.200 days = 1 }
 			}
 		}
-		else = {
-			space_owner = {
-				inline_script = country/messages/rikk_mdlc_terraform_message_failed
-			}
-		}
-		hidden_effect = { planet = { remove_planet_flag = mantle_roots_queued } }
 	}
 }
 
@@ -466,8 +467,7 @@ rikk_mdlc_decision_world_machine_mantle_engine = {
 	on_unqueued = { planet = { remove_planet_flag = mantle_engine_queued } }
 	
 	effect = {
-		if = {
-			limit = { has_deposit = rikk_mdlc_d_world_machine_mantle_roots }
+		planet = {
 			add_deposit = rikk_mdlc_d_world_machine_mantle_engine
 			hidden_effect = {
 				remove_planet_flag = mantle_engine_queued
@@ -479,12 +479,6 @@ rikk_mdlc_decision_world_machine_mantle_engine = {
 				planet_event = { id = rikk_mdlc_wm_upgrade_events.200 days = 1 }
 			}
 		}
-		else = {
-			space_owner = {
-				inline_script = country/messages/rikk_mdlc_terraform_message_failed
-			}
-		}
-		hidden_effect = { planet = { remove_planet_flag = mantle_engine_queued } }
 	}
 }
 
@@ -540,7 +534,7 @@ rikk_mdlc_decision_world_machine_reinforced_planet = {
 					limit = { has_deposit = rikk_mdlc_d_world_machine_mantle_engine }
 					set_planet_flag = rikk_mdlc_planet_reinforced
 				}
-				else = { space_owner = { inline_script = country/messages/rikk_mdlc_upgrade_message_failed } }
+				else = { space_owner = { inline_script = country/messages/rikk_mdlc_upgrade_message_failed } 
 				planet_event = { id = rikk_mdlc_wm_upgrade_events.200 days = 1 }
 			}
 		}
@@ -722,8 +716,7 @@ rikk_mdlc_decision_world_machine_outer_core_roots = {
 	on_unqueued = { planet = { remove_planet_flag = outer_core_roots_queued } }
 	
 	effect = {
-		if = {
-			limit = { has_deposit = rikk_mdlc_d_world_machine_mantle_roots }
+		planet = {
 			add_deposit = rikk_mdlc_d_world_machine_outer_core_roots
 			hidden_effect = {
 				remove_planet_flag = outer_core_roots_queued
@@ -735,12 +728,6 @@ rikk_mdlc_decision_world_machine_outer_core_roots = {
 				planet_event = { id = rikk_mdlc_wm_upgrade_events.200 days = 1 }
 			}
 		}
-		else = {
-			space_owner = {
-				inline_script = country/messages/rikk_mdlc_terraform_message_failed
-			}
-		}
-		hidden_effect = { planet = { remove_planet_flag = outer_core_roots_queued } }
 	}
 }
 
@@ -928,8 +915,7 @@ rikk_mdlc_decision_world_machine_inner_core_roots = {
 	on_unqueued = { planet = { remove_planet_flag = inner_core_roots_queued } }
 	
 	effect = {
-		if = {
-			limit = { has_deposit = rikk_mdlc_d_world_machine_outer_core_roots }
+		planet = {
 			add_deposit = rikk_mdlc_d_world_machine_inner_core_roots
 			hidden_effect = {
 				remove_planet_flag = inner_core_roots_queued
@@ -941,12 +927,6 @@ rikk_mdlc_decision_world_machine_inner_core_roots = {
 				planet_event = { id = rikk_mdlc_wm_upgrade_events.200 days = 1 }
 			}
 		}
-		else = {
-			space_owner = {
-				inline_script = country/messages/rikk_mdlc_terraform_message_failed
-			}
-		}
-		hidden_effect = { planet = { remove_planet_flag = inner_core_roots_queued } }
 	}
 }
 
@@ -1090,13 +1070,6 @@ rikk_mdlc_decision_world_machine_core_core = {
 					}
 				}
 				planet_event = { id = rikk_mdlc_wm_upgrade_events.200 days = 1 }
-			}
-
-			hidden_effect = {
-				planet = {
-					remove_planet_flag = core_core_queued
-					set_planet_flag = rikk_mdlc_situation_core_core_active
-				}
 			}
 		}
 	}
