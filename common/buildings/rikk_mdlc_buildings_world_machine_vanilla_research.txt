@@ -772,7 +772,7 @@ rikk_mdlc_world_machines_building_research_efficiency = {
 		xvcv_mdlc_world_machines_science_districts_energy_upkeep_add = 1.5
 	}
 	triggered_planet_modifier = {
-		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = yes }
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = yes rikk_mdlc_has_active_fpga = no }
 		xvcv_mdlc_world_machines_physics_districts_physics_research_produces_add = 3
 		xvcv_mdlc_world_machines_society_districts_society_research_produces_add = 3
 		xvcv_mdlc_world_machines_engineering_districts_engineering_research_produces_add = 3
@@ -892,7 +892,7 @@ oxr_mdlc_world_machines_building_cold_storage_datacenter = {
 		xvcv_mdlc_world_machines_science_districts_energy_upkeep_add = 4
 	}
 	triggered_planet_modifier = {
-		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = yes }
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = yes rikk_mdlc_has_active_fpga = no }
 		xvcv_mdlc_world_machines_physics_districts_physics_research_produces_add = 3
 		xvcv_mdlc_world_machines_society_districts_society_research_produces_add = 3
 		xvcv_mdlc_world_machines_engineering_districts_engineering_research_produces_add = 3
@@ -1144,11 +1144,6 @@ oxr_mdlc_world_machines_building_nanolab_1 = {
 		oxr_mdlc_world_machines_science_buildings_nanites_upkeep_add = 1
 	}
 	triggered_planet_modifier = {
-		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = yes }
-		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_add = 2
-		oxr_mdlc_world_machines_science_buildings_nanites_upkeep_add = 2
-	}
-	triggered_planet_modifier = {
 		potential = { exists = owner has_mdlc_science_zone = yes }
 		xvcv_mdlc_world_machines_primary_districts_engineering_research_produces_add = 1
 		xvcv_mdlc_world_machines_primary_districts_nanites_upkeep_add = 1
@@ -1159,9 +1154,11 @@ oxr_mdlc_world_machines_building_nanolab_1 = {
 		xvcv_mdlc_world_machines_science_districts_nanites_upkeep_add = 1
 	}
 	triggered_planet_modifier = {
-		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = yes rikk_mdlc_has_active_fpga_physics = no rikk_mdlc_has_active_fpga_society = no }
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = yes OR = { rikk_mdlc_has_active_fpga = no rikk_mdlc_has_active_fpga_engineering = yes}
 		xvcv_mdlc_world_machines_engineering_districts_engineering_research_produces_add = 6
 		xvcv_mdlc_world_machines_engineering_districts_nanites_upkeep_add = 6
+		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_add = 2
+		oxr_mdlc_world_machines_science_buildings_nanites_upkeep_add = 2
 	}
 
 	inline_script = {
@@ -1197,25 +1194,25 @@ oxr_mdlc_world_machines_building_nanolab_2 = {
 	
 	triggered_planet_modifier = {
 		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = no }
-		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_add = 2
-		oxr_mdlc_world_machines_science_buildings_nanites_upkeep_add = 1.5
+		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_add = 1.5
+		oxr_mdlc_world_machines_science_buildings_nanites_upkeep_add = 1.25
 	}
 	triggered_planet_modifier = {
 		potential = { exists = owner has_mdlc_science_zone = yes }
-		xvcv_mdlc_world_machines_primary_districts_engineering_research_produces_add = 2
-		xvcv_mdlc_world_machines_primary_districts_nanites_upkeep_add = 1.5
+		xvcv_mdlc_world_machines_primary_districts_engineering_research_produces_add = 1.5
+		xvcv_mdlc_world_machines_primary_districts_nanites_upkeep_add = 1.25
 	}
 	triggered_planet_modifier = {
 		potential = { exists = owner has_mdlc_science_zone = no is_xvcv_mdlc_pc_machine_auto = yes }
-		xvcv_mdlc_world_machines_science_districts_engineering_research_produces_add = 2
-		xvcv_mdlc_world_machines_science_districts_nanites_upkeep_add = 1.5
+		xvcv_mdlc_world_machines_science_districts_engineering_research_produces_add = 1.5
+		xvcv_mdlc_world_machines_science_districts_nanites_upkeep_add = 1.25
 	}
 	triggered_planet_modifier = {
-		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = yes }
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = yes OR = { rikk_mdlc_has_active_fpga = no rikk_mdlc_has_active_fpga_engineering = yes }
 		xvcv_mdlc_world_machines_engineering_districts_engineering_research_produces_add = 9
 		xvcv_mdlc_world_machines_engineering_districts_nanites_upkeep_add = 7.5
 		oxr_mdlc_world_machines_science_buildings_engineering_research_produces_add = 3
-		oxr_mdlc_world_machines_science_buildings_nanites_upkeep_add = 2
+		oxr_mdlc_world_machines_science_buildings_nanites_upkeep_add = 2.5
 	}
 
 	inline_script = {
