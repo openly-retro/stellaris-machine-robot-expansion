@@ -86,7 +86,7 @@ xvcv_mdlc_world_machines_strategic_resource_districts = {
 }
 
 # To encompass Forge and Foundry as Zones in a single industrial district
-xvcv_mdlc_world_machines_forge_foundry_districts = {
+xvcv_mdlc_world_machines_foundry_factory_districts = {
 	parent = xvcv_mdlc_world_machines_industrial_districts
 	modifier_category = colony
 
@@ -100,10 +100,35 @@ xvcv_mdlc_world_machines_forge_foundry_districts = {
 		upkeep
 		produces
 	}
+	
+	triggered_produces_modifier = {
+		key = xvcv_mdlc_world_machines_foundry_districts
+		modifier_types = { add mult } 
+		trigger = { has_oxr_mdlc_zone_pc_machine_ecu_alloys = yes }
+		use_parent_icon = no
+	}
+	triggered_upkeep_modifier = {
+		key = xvcv_mdlc_world_machines_foundry_districts
+		modifier_types = { add mult } 
+		trigger = { has_oxr_mdlc_zone_pc_machine_ecu_alloys = yes }
+		use_parent_icon = no
+	}
+	triggered_produces_modifier = {
+		key = xvcv_mdlc_world_machines_factory_districts
+		modifier_types = { add mult } 
+		trigger = { has_oxr_mdlc_zone_pc_machine_ecu_consumer_goods = yes }
+		use_parent_icon = no
+	}
+	triggered_upkeep_modifier = {
+		key = xvcv_mdlc_world_machines_factory_districts
+		modifier_types = { add mult } 
+		trigger = { has_oxr_mdlc_zone_pc_machine_ecu_consumer_goods = yes }
+		use_parent_icon = no
+	}
 }
 # alloys, nanites
 xvcv_mdlc_world_machines_foundry_districts = {
-	parent = xvcv_mdlc_world_machines_forge_foundry_districts
+	parent = xvcv_mdlc_world_machines_foundry_factory_districts
 	modifier_category = colony
 	generate_add_modifiers = {
 		produces
@@ -116,7 +141,7 @@ xvcv_mdlc_world_machines_foundry_districts = {
 }
 # CG.. nothing else really
 xvcv_mdlc_world_machines_factory_districts = {
-	parent = xvcv_mdlc_world_machines_forge_foundry_districts
+	parent = xvcv_mdlc_world_machines_foundry_factory_districts
 	modifier_category = colony
 	generate_add_modifiers = {
 		produces
