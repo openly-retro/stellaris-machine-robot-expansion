@@ -1,88 +1,30 @@
 # auto-worlds
-# buildings
 triggered_planet_modifier = {
-	potential = { exists = owner is_xvcv_mdlc_pc_machine_auto = yes }
-	oxr_mdlc_world_machines_foundry_buildings_$SR$_produces_add = @[ oxr_mdlc_wm_base_chemist_drone_output * 0.1 ]
-	oxr_mdlc_world_machines_factory_buildings_$SR$_produces_add = @[ oxr_mdlc_wm_base_chemist_drone_output * 0.1 ]
+	potential = { exists = owner is_xvcv_mdlc_pc_machine_ecu = no is_xvcv_mdlc_pc_ringworld_machine_auto = no }
+	rikk_mdlc_world_machines_industrial_structures_$SR$_produces_add = @[ oxr_mdlc_wm_base_chemist_drone_output * 0.1 ]
 }
 triggered_planet_modifier = {
-	potential = { exists = owner is_xvcv_mdlc_pc_machine_auto = yes owner = { is_catalytic_empire = no } }
-	oxr_mdlc_world_machines_foundry_buildings_energy_upkeep_add = $ENERGY_NUM$
-	oxr_mdlc_world_machines_foundry_buildings_$RES_TWO$_upkeep_add = $RES_TWO_NUM$
-	oxr_mdlc_world_machines_factory_buildings_energy_upkeep_add = $ENERGY_NUM$
-	oxr_mdlc_world_machines_factory_buildings_$RES_TWO$_upkeep_add = $RES_TWO_NUM$
+	potential = { exists = owner is_xvcv_mdlc_pc_machine_ecu = no is_xvcv_mdlc_pc_ringworld_machine_auto = no owner = { is_catalytic_empire = no } }
+	rikk_mdlc_world_machines_industrial_structures_minerals_upkeep_add = $MINERALS_AMOUNT$
+	rikk_mdlc_world_machines_industrial_structures_$RES_TWO$_upkeep_add = $RES_TWO_AMOUNT$
 }
 triggered_planet_modifier = {
-	potential = { exists = owner is_xvcv_mdlc_pc_machine_auto = yes owner = { is_catalytic_empire = yes } }
-	oxr_mdlc_world_machines_foundry_buildings_food_upkeep_add = $ENERGY_NUM$
-	oxr_mdlc_world_machines_foundry_buildings_$RES_TWO$_upkeep_add = $RES_TWO_NUM$
-	oxr_mdlc_world_machines_factory_buildings_food_upkeep_add = $ENERGY_NUM$
-	oxr_mdlc_world_machines_factory_buildings_$RES_TWO$_upkeep_add = $RES_TWO_NUM$
+	potential = { exists = owner is_xvcv_mdlc_pc_machine_ecu = no is_xvcv_mdlc_pc_ringworld_machine_auto = no owner = { is_catalytic_empire = yes } }
+	rikk_mdlc_world_machines_industrial_structures_food_upkeep_add = @[ 1.5 * $MINERALS_AMOUNT$]
+	rikk_mdlc_world_machines_industrial_structures_$RES_TWO$_upkeep_add = $RES_TWO_AMOUNT$
 }
-# primary district
+# ringworlds
 triggered_planet_modifier = {
-	potential = { exists = owner has_mdlc_industrial_zone = yes }
-	xvcv_mdlc_world_machines_primary_districts_$SR$_produces_add = @[ oxr_mdlc_wm_base_chemist_drone_output * 0.1 ]
+	potential = { exists = owner is_xvcv_mdlc_pc_ringworld_machine_auto = yes }
+	rikk_mdlc_world_machines_structures_$SR$_produces_add = @[ oxr_mdlc_wm_base_chemist_drone_output * 0.5 ]
 }
 triggered_planet_modifier = {
-	potential = { 
-		exists = owner
-		has_mdlc_industrial_zone = yes 
-		owner = { is_catalytic_empire = no }
-	}
-	xvcv_mdlc_world_machines_primary_districts_energy_upkeep_add = $ENERGY_NUM$
-	xvcv_mdlc_world_machines_primary_districts_$RES_TWO$_upkeep_add = $RES_TWO_NUM$
+	potential = { exists = owner is_xvcv_mdlc_pc_ringworld_machine_auto = yes owner = { is_catalytic_empire = no } }
+	rikk_mdlc_world_machines_industrial_structures_minerals_upkeep_add = @[ $MINERALS_AMOUNT$ * 5 ]
+	rikk_mdlc_world_machines_industrial_structures_$RES_TWO$_upkeep_add = @[ $RES_TWO_AMOUNT$ * 5 ]
 }
 triggered_planet_modifier = {
-	potential = { 
-		exists = owner
-		has_mdlc_industrial_zone = yes
-		owner = { is_catalytic_empire = yes }
-	}
-	xvcv_mdlc_world_machines_primary_districts_food_upkeep_add = $ENERGY_NUM$
-	xvcv_mdlc_world_machines_primary_districts_$RES_TWO$_upkeep_add = $RES_TWO_NUM$
+	potential = { exists = owner is_xvcv_mdlc_pc_ringworld_machine_auto = yes owner = { is_catalytic_empire = yes } }
+	rikk_mdlc_world_machines_industrial_structures_food_upkeep_add = @[ $MINERALS_AMOUNT$ * 5 ]
+	rikk_mdlc_world_machines_industrial_structures_$RES_TWO$_upkeep_add = @[ $RES_TWO_AMOUNT$ * 5 ]
 }
-#false displays
-triggered_planet_modifier = {
-	potential = { exists = owner has_mdlc_industrial_zone = no is_xvcv_mdlc_pc_machine_auto = yes owner = { is_catalytic_empire = no } }
-	xvcv_mdlc_world_machines_industrial_districts_$SR$_produces_add = @[ oxr_mdlc_wm_base_chemist_drone_output * 0.1 ]
-	xvcv_mdlc_world_machines_industrial_districts_energy_upkeep_add = $ENERGY_NUM$
-	xvcv_mdlc_world_machines_industrial_districts_$RES_TWO$_upkeep_add = $RES_TWO_NUM$
-}
-triggered_planet_modifier = {
-	potential = { exists = owner has_mdlc_industrial_zone = no is_xvcv_mdlc_pc_machine_auto = yes owner = { is_catalytic_empire = yes } }
-	xvcv_mdlc_world_machines_industrial_districts_$SR$_produces_add = @[ oxr_mdlc_wm_base_chemist_drone_output * 0.1 ]
-	xvcv_mdlc_world_machines_industrial_districts_food_upkeep_add = $ENERGY_NUM$
-	xvcv_mdlc_world_machines_industrial_districts_$RES_TWO$_upkeep_add = $RES_TWO_NUM$
-}
-# t3 worlds disabled because there is an entire district 
-#triggered_planet_modifier = {
-#	potential = {
-#		exists = owner
-#		is_xvcv_mdlc_pc_machine_ecu = yes
-#	}
-#	oxr_mdlc_world_machines_foundry_buildings_$SR$_produces_add = @[ oxr_mdlc_wm_base_chemist_drone_output * 0.3 ]
-#	oxr_mdlc_world_machines_factory_buildings_$SR$_produces_add = @[ oxr_mdlc_wm_base_chemist_drone_output * 0.3 ]
-#}
-#triggered_planet_modifier = {
-#	potential = {
-#		exists = owner
-#		is_xvcv_mdlc_pc_machine_ecu = yes
-#		owner = { is_catalytic_empire = no }
-#	}
-#	oxr_mdlc_world_machines_foundry_buildings_energy_upkeep_add = @[ $ENERGY_NUM$ * 3 ]
-#	oxr_mdlc_world_machines_foundry_buildings_$RES_TWO$_upkeep_add = @[ $RES_TWO_NUM$ * 3 ]
-#	oxr_mdlc_world_machines_factory_buildings_energy_upkeep_add = @[ $ENERGY_NUM$ * 3 ]
-#	oxr_mdlc_world_machines_factory_buildings_$RES_TWO$_upkeep_add = @[ $RES_TWO_NUM$ * 3 ]
-#}
-#triggered_planet_modifier = {
-#	potential = {
-#		exists = owner
-#		is_xvcv_mdlc_pc_machine_ecu = yes
-#		owner = { is_catalytic_empire = yes }
-#	}
-#	oxr_mdlc_world_machines_foundry_buildings_food_upkeep_add = @[ $ENERGY_NUM$ * 3 ]
-#	oxr_mdlc_world_machines_foundry_buildings_$RES_TWO$_upkeep_add = @[ $RES_TWO_NUM$ * 3 ]
-#	oxr_mdlc_world_machines_factory_buildings_food_upkeep_add = @[ $ENERGY_NUM$ * 3 ]
-#	oxr_mdlc_world_machines_factory_buildings_$RES_TWO$_upkeep_add = @[ $RES_TWO_NUM$ * 3 ]
-#}
