@@ -498,40 +498,40 @@ rikk_mdlc_world_machines_building_ancient_refinery = {
 		exotic_gases = @b3_rare_upkeep
 	}
 	
-	#these are all purely decorative, the modifiers don't work in triggered_planet_modifier
-	inline_script = {
-		script = planet/buildings/auto/rikk_mdlc_SR_modifiers
-		SR = rare_crystals
-		MINERALS_AMOUNT = @[ 0.2 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
-		# yes it is annoying where the mineral upkeep shows up but it doesn't change no matter where I put the upkeep
-		RES_TWO = energy
-		RES_TWO_AMOUNT = 0
-	}
-	inline_script = {
-		script = planet/buildings/auto/rikk_mdlc_SR_modifiers
-		SR = volatile_motes
-		MINERALS_AMOUNT = 0
-		RES_TWO = energy
-		RES_TWO_AMOUNT = 0
-	}
-	inline_script = {
-		script = planet/buildings/auto/rikk_mdlc_SR_modifiers
-		SR = exotic_gases
-		MINERALS_AMOUNT = 0
-		RES_TWO = energy
-		RES_TWO_AMOUNT = 0
-	}
-	
+	#these are all purely decorative, scripted modifiers don't work in triggered_planet_modifier
+	# auto-worlds
 	triggered_planet_modifier = {
-		rikk_mdlc_world_machines_industrial_structures_rare_crystals_produces_mult = 0.10
-		rikk_mdlc_world_machines_industrial_structures_volatile_motes_produces_mult = 0.10
-		rikk_mdlc_world_machines_industrial_structures_exotic_gases_produces_mult = 0.10
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_ecu = no is_xvcv_mdlc_pc_ringworld_machine_auto = no }
+		rikk_mdlc_world_machines_industrial_structures_sr_produces_add = @[ 0.1 * oxr_mdlc_wm_base_chemist_drone_output  ]
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_ecu = no is_xvcv_mdlc_pc_ringworld_machine_auto = no owner = { is_catalytic_empire = no } }
+		rikk_mdlc_world_machines_industrial_structures_minerals_upkeep_add = @[ 0.2 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_ecu = no is_xvcv_mdlc_pc_ringworld_machine_auto = no owner = { is_catalytic_empire = yes } }
+		rikk_mdlc_world_machines_industrial_structures_food_upkeep_add = @[ 0.3 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
+	}
+	# ringworlds
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_ringworld_machine_auto = yes }
+		rikk_mdlc_world_machines_structures_sr_produces_add = @[ 0.5 * oxr_mdlc_wm_base_chemist_drone_output  ]
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_ringworld_machine_auto = yes owner = { is_catalytic_empire = no } }
+		rikk_mdlc_world_machines_industrial_structures_minerals_upkeep_add = @oxr_mdlc_wm_base_chemist_drone_upkeep
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_ringworld_machine_auto = yes owner = { is_catalytic_empire = yes } }
+		rikk_mdlc_world_machines_industrial_structures_food_upkeep_add = @[ 1.5 * oxr_mdlc_wm_base_chemist_drone_upkeep  ]
+	}
+	# multipliers for all worlds
+	triggered_planet_modifier = {
+		rikk_mdlc_world_machines_industrial_structures_sr_produces_mult = 0.10
 	}
 	triggered_planet_modifier = {
 		potential = { exists = owner owner = { has_ascension_perk = ap_archaeoengineers } }
-		rikk_mdlc_world_machines_industrial_structures_rare_crystals_produces_mult = 0.05
-		rikk_mdlc_world_machines_industrial_structures_volatile_motes_produces_mult = 0.05
-		rikk_mdlc_world_machines_industrial_structures_exotic_gases_produces_mult = 0.05
+		rikk_mdlc_world_machines_industrial_structures_sr_produces_mult = 0.05
 	}
 	
 	inline_script = {
