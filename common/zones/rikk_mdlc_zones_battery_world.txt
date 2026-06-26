@@ -19,9 +19,7 @@ rikk_mdlc_zone_battery_military_primary = {
 		oxr_mdlc_building_set_wm_government
 	}
 
-	zone_sets = {
-		rikk_mdlc_zone_set_battery_world
-	}
+	zone_sets = { rikk_mdlc_zone_set_battery_world }
 
 	inline_script = {
 		script = planet/zones/auto/oxr_wm_soldier_zone_production
@@ -29,20 +27,45 @@ rikk_mdlc_zone_battery_military_primary = {
 		JOBS = 1
 	}
 
-	planet_modifier = {
-		zone_building_slots_add = 3
+	planet_modifier = { zone_building_slots_add = 3 }
+	
+	resources = {
+		category = planet_zones
+		cost = { minerals = @zone_cost }
+	}
+}
+# Commercial Nexus
+rikk_mdlc_zone_battery_trade_primary = {
+	icon = GFX_district_specialization_trade
+	base_buildtime = @zone_buildtime
+	
+	potential = {
+		exists = owner
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		uses_district_set = rikk_mdlc_battery_world
 	}
 	
 	resources = {
 		category = planet_zones
-		cost = {
-			minerals = @zone_cost
-		}
+		cost = { minerals = @zone_cost }
 	}
+	
+	triggered_planet_modifier = { zone_building_slots_add = 3 }
+	
+	inline_script = {
+		script = planet/zones/auto/oxr_wm_trade_zone_production
+		DISTRICT_CATEGORY = rikk_mdlc_category_district_battery_quarters
+		JOBS = 1
+	}
+	
+	zone_sets = { rikk_mdlc_zone_set_battery_world }
 
-	ai_resource_production = {
-		consumer_goods = 10
-		trigger = { always = yes }
+	included_building_sets = {
+		trade
+		urban_automation
+		origin
+		oxr_mdlc_building_set_wm_trade
+		oxr_mdlc_building_set_wm_government
 	}
 }
 
@@ -78,7 +101,7 @@ rikk_mdlc_zone_suppression_unit = {
 			owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
 		} 
 		planet_crime_add = -40
-		planet_defense_armies_add = 4
+		planet_defense_armies_add = 2
 	}
 	
 	planet_modifier = {
@@ -118,7 +141,7 @@ rikk_mdlc_zone_cooperation_unit = {
 	unlock = { always = yes }
 
 	triggered_district_planet_modifier = {
-		pop_happiness = 0.01
+		pop_slave_happiness = 0.01
 	}
 	
 	triggered_district_planet_modifier = {
@@ -177,8 +200,8 @@ rikk_mdlc_zone_abundancy_protocols = {
 	unlock = { always = yes }
 
 	triggered_district_planet_modifier = {
-		pop_happiness = 0.05
-		pop_category_slave_consumer_goods_upkeep_add = 0.10
+		pop_slave_happiness = 0.05
+		pop_category_workers_consumer_goods_upkeep_add = 0.10
 	}
 
 	planet_modifier = {
@@ -260,7 +283,7 @@ rikk_mdlc_zone_increased_processing = {
 
 	triggered_district_planet_modifier = {
 		planet_technician_energy_produces_mult = 0.05
-		pop_happiness = -0.02
+		pop_slave_happiness = -0.02
 	}
 
 	planet_modifier = {
@@ -297,7 +320,7 @@ rikk_mdlc_zone_moderated_processing = {
 
 	triggered_district_planet_modifier = {
 		planet_technician_energy_produces_mult = -0.05
-		pop_happiness = 0.02
+		pop_slave_happiness = 0.02
 	}
 
 	planet_modifier = {

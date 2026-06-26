@@ -2,12 +2,34 @@
 # 100 of a job produces the full amount (3)
 # but 60/100 will produce 60% so that is why this is making so much less now
 produces = {
+	trigger = { rikk_mdlc_colony_has_active_fpga = no }
 	engineering_research = @[ $JOBS$ * 0.3 * oxr_mdlc_wm_base_calculator_single_output ]
 	physics_research = @[ $JOBS$ * 0.3 * oxr_mdlc_wm_base_calculator_single_output ]
 	society_research = @[ $JOBS$ * 0.3 * oxr_mdlc_wm_base_calculator_single_output ]
 }
 upkeep = {
+	trigger = { rikk_mdlc_colony_has_active_fpga = no }
 	energy = @[  $JOBS$ * 0.90 * oxr_mdlc_wm_base_calculator_single_upkeep ]
+}
+#FPGA
+# PHY
+produces = {
+	trigger = { rikk_mdlc_colony_has_active_fpga_physics = yes }
+	physics_research = @[ $JOBS$ * oxr_mdlc_wm_base_calculator_single_output ]
+}
+# SOC
+produces = {
+	trigger = { rikk_mdlc_colony_has_active_fpga_society = yes }
+	society_research = @[ $JOBS$ * oxr_mdlc_wm_base_calculator_single_output ]
+}
+# ENG
+produces = {
+	trigger = { rikk_mdlc_colony_has_active_fpga_engineering = yes }
+	engineering_research = @[ $JOBS$ * oxr_mdlc_wm_base_calculator_single_output ]
+}
+upkeep = {
+	trigger = { rikk_mdlc_colony_has_active_fpga = yes }
+	energy = @[  $JOBS$ * oxr_mdlc_wm_base_calculator_single_upkeep ]
 }
 
 inline_script = {
