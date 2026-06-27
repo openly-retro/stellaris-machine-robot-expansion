@@ -72,31 +72,6 @@ oxr_mdlc_planet_can_automate_ring = {
 	}
 }
 
-# Can the country make an auto-machine world
-oxr_mdlc_country_can_make_t2_world_machine = {
-	if = {
-		limit = {
-			owner = {
-				has_ascension_perk = xvcv_mdlc_ap_world_machines
-			}
-			is_planet_class = pc_machine
-		}
-		always = yes
-	}
-	else_if = {
-		limit = {
-			owner = {
-				has_origin = oxr_mdlc_origin_world_machine_awakened
-			}
-			oxr_mdlc_planet_can_become_world_machine = yes
-		}
-		always = yes
-	}
-	else = {
-		always = no
-	}
-}
-
 oxr_mdlc_planet_can_refill_district_defense_armies = {
 	count_planet_army = {
 		count <= oxr_mdlc_world_machine_num_max_district_armies
@@ -357,6 +332,7 @@ oxr_mdlc_country_is_nanotech_wm_origin = {
 oxr_mdlc_planet_world_machine_is_rebooting = {
 	if = {
 		limit = {
+			exists = planet
 			is_planet_world_machine = yes
 		}
 		OR = {
