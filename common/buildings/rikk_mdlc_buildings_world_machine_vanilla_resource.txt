@@ -635,42 +635,45 @@ rikk_mdlc_world_machines_building_baol_organic_plant = {
 
 # Convert food to energy
 #generators do not have upkeep as of right now so this is disabled
-#oxr_mdlc_world_machines_biofuel_refit_1 = {
-#	base_cap_amount = 1
-#	base_buildtime = @b2_time
-#	category = resource
-#	potential = {
-#		exists = owner
-#		owner = {
-#			OR = {
-#				has_origin = oxr_mdlc_origin_world_machine_awakened
-#				# has_ascension_perk = xvcv_mdlc_ap_world_machines
-#			}
-#			has_civic = civic_machine_catalytic_processing
-#		}
-#		is_planet_world_machine = yes
-#	}
-#	show_tech_unlock_if = {
-#		OR = {
-#			has_origin = oxr_mdlc_origin_world_machine_awakened
-#			# has_ascension_perk = xvcv_mdlc_ap_world_machines
-#		}
-#	}
-#	on_built = {
-#		owner = {
-#			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
-#		}
-#	}
-#	inline_script = planet/buildings/auto/oxr_destroy
-#	custom_tooltip = oxr_mdlc_world_machines_biofuel_refit_1_tooltip
-#	prerequisites = {
-#		tech_bio_reactor_2
-#	}
-#	building_sets = {
-#		oxr_mdlc_building_set_wm_all
-#		oxr_mdlc_building_set_wm_resource
-#		oxr_mdlc_building_set_wm_food
-#	}
-#}
+oxr_mdlc_world_machines_biofuel_refit_1 = {
+	base_cap_amount = 1
+	base_buildtime = @b2_time
+	category = resource
+	can_build = no
+	potential = {
+		#exists = owner
+		#owner = {
+		#	OR = {
+		#		has_origin = oxr_mdlc_origin_world_machine_awakened
+		#		 has_ascension_perk = xvcv_mdlc_ap_world_machines
+		#	}
+		#	has_civic = civic_machine_catalytic_processing
+		#}
+		#is_planet_world_machine = yes
+		always = no
+	}
+	show_tech_unlock_if = {
+		#OR = {
+		#	has_origin = oxr_mdlc_origin_world_machine_awakened
+		#	 has_ascension_perk = xvcv_mdlc_ap_world_machines
+		#}
+		always = no
+	}
+	on_built = {
+		owner = {
+			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
+		}
+	}
+	inline_script = planet/buildings/auto/oxr_destroy
+	custom_tooltip = oxr_mdlc_world_machines_biofuel_refit_1_tooltip
+	prerequisites = {
+		tech_bio_reactor_2
+	}
+	building_sets = {
+		oxr_mdlc_building_set_wm_all
+		oxr_mdlc_building_set_wm_resource
+		oxr_mdlc_building_set_wm_food
+	}
+}
 
 # EOF
