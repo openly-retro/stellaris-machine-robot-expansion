@@ -371,8 +371,7 @@ planet_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		exists = planet
-		planet = { is_planet_world_machine = yes }
+		planet? = { is_planet_world_machine = yes }
 	}
 	immediate = {
 		owner = {
@@ -392,10 +391,10 @@ planet_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		is_planet_world_machine = yes
-		owner = {
-			has_ascension_perk = xvcv_mdlc_ap_virtual_worlds
-		}
+		exists = owner
+		exists = planet
+		planet = { is_planet_world_machine = yes }
+		owner = { has_xvcv_mdlc_ap_virtual_worlds = yes }
 	}
 	immediate = {
 		owner = {
@@ -417,11 +416,9 @@ planet_event = {
 
 	trigger = {
 		exists = space_owner
-		from = {
-			has_origin = oxr_mdlc_origin_world_machine_awakened
-		}
+		from = { has_oxr_mdlc_origin_world_machine_awakened = yes }
 		is_colony = no
-		is_planet_world_machine = yes
+		planet? = { is_planet_world_machine = yes }
 	}
 
 	immediate = {
@@ -489,7 +486,9 @@ planet_event = {
 		space_owner = {
 			has_origin = oxr_mdlc_origin_world_machine_awakened
 		}
-		NOT = { has_deposit = oxr_mdlc_d_world_machine_core }
+		planet? = {
+			NOT = { has_deposit = oxr_mdlc_d_world_machine_core }
+		}
 		is_colony = no
 	}
 

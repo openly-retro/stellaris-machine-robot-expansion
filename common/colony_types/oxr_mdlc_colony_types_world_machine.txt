@@ -642,7 +642,7 @@ oxr_mdlc_wm_col_nexus = {
 	icon = GFX_colony_type_urban
 
 	potential = {
-		is_planet_world_machine = yes
+		planet? = { is_planet_world_machine = yes }
 		is_capital = no
 	}
 
@@ -653,9 +653,10 @@ oxr_mdlc_wm_col_nexus = {
 	# District build speed modifier
 	triggered_planet_modifier = {
 		potential = {
-			is_xvcv_mdlc_pc_machine_auto = yes
+			exists = planet
 			exists = owner
 			owner = { has_oxr_mdlc_origin_world_machine_awakened = yes }
+			planet = { is_xvcv_mdlc_pc_machine_auto = yes }
 		}
 		#split this off because it would be too strong on auto-servers
 		planet_structures_upkeep_mult = -0.10
@@ -665,15 +666,17 @@ oxr_mdlc_wm_col_nexus = {
 	triggered_planet_modifier = {
 		potential = {
 			exists = owner
-			is_xvcv_mdlc_pc_machine_auto = yes
+			exists = planet
 			owner = { has_oxr_mdlc_origin_world_machine_awakened = no }
+			planet = { is_xvcv_mdlc_pc_machine_auto = yes }
 		}
 		planet_xvcv_mdlc_pc_machine_auto_district_city_build_speed_mult = 0.25
 	}
 	triggered_planet_modifier = {
 		potential = {
 			exists = owner
-			is_xvcv_mdlc_pc_machine_ser = yes
+			exists = planet
+			planet = { is_xvcv_mdlc_pc_machine_ser = yes }
 		}
 		planet_xvcv_mdlc_pc_machine_ser_district_logistics_build_speed_mult = 0.25
 	}
@@ -900,13 +903,15 @@ oxr_mdlc_wm_col_capital_factory = {
 	}
 	triggered_planet_modifier = {
 		potential = {
-			is_planet_class = xvcv_mdlc_pc_machine_ecu
+			exists = planet
+			planet = { is_xvcv_mdlc_pc_machine_ecu = yes }
 		}
 		planet_xvcv_mdlc_pc_machine_ecu_district_production_build_speed_mult = 0.25
 	}
 	triggered_planet_modifier = {
 		potential = {
-			is_xvcv_mdlc_pc_machine_auto = yes
+			exists = planet
+			planet = { is_xvcv_mdlc_pc_machine_auto = yes }
 		}
 		planet_xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_build_speed_mult = 0.25
 	}
