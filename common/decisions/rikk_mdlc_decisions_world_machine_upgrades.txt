@@ -801,13 +801,14 @@ rikk_mdlc_decision_world_machine_outer_core_cooling = {
 		planet = {
 			NOT = { has_deposit = rikk_mdlc_d_world_machine_outer_core_cooled }
 			NOT = { has_modifier = rikk_mdlc_world_machine_outer_core_cooling_mod }
+			NOT = { has_planet_flag = rikk_mdlc_wm_upgrade_outer_core_cooling_queued_flag }
 			OR = { 
 				has_deposit = rikk_mdlc_d_world_machine_outer_core_roots
 				has_planet_flag = outer_core_roots_queued
 			}
 		}
 	}
-	
+
 	allow = {
 		custom_tooltip = {
 			fail_text = rikk_mdlc_fail_outer_core_roots_queued
@@ -820,31 +821,26 @@ rikk_mdlc_decision_world_machine_outer_core_cooling = {
 		}
 		owner = { has_technology = oxr_mdlc_tech_geologic_scaling_thermoelectrics }
 	}
-	
-	effect = {
-		if = {
-			limit = { planet = { has_deposit = rikk_mdlc_d_world_machine_outer_core_roots } }
-			planet = {
-				hidden_effect = { }
-			}
-		}
-		else = {
-			space_owner = {
-				inline_script = country/messages/rikk_mdlc_terraform_message_failed
-			}
-		}
-	}
+
+	on_queued = { planet = { set_planet_flag = rikk_mdlc_wm_upgrade_outer_core_cooling_queued_flag } }
+	on_unqueued = { planet = { remove_planet_flag = rikk_mdlc_wm_upgrade_outer_core_cooling_queued_flag } }
+
 	effect = {
 		planet = {
 			custom_tooltip = rikk_mdlc_decision_world_machine_outer_core_cooling_effect
+
+			remove_planet_flag = rikk_mdlc_wm_upgrade_outer_core_cooling_queued_flag
 			add_modifier = { modifier = rikk_mdlc_world_machine_outer_core_cooling_mod days = @wmupgradelength4 }
+			
 			hidden_effect = {
+				# If rikk_mdlc_d_world_machine_outer_core_roots isn't present, fail the decision
 				if = {
 					limit = { NOT = { has_deposit = rikk_mdlc_d_world_machine_outer_core_roots } }
-					remove_modifier = rikk_mdlc_world_machine_outer_core_cooling_mod days
+					remove_modifier = rikk_mdlc_world_machine_outer_core_cooling_mod
 					space_owner = { inline_script = country/messages/rikk_mdlc_upgrade_message_failed }
 				}
 				else = {
+					# Add the deposit after 3600 days (10 yrs)
 					planet_event = { id = rikk_mdlc_wm_upgrade_events.110 days = @wmupgradelength4 }
 				}
 				planet_event = { id = rikk_mdlc_wm_event.200 days = 1 }
