@@ -152,7 +152,14 @@ planet_event = {
 	hide_window = yes
 	is_triggered_only = yes
 
+	trigger = {
+		# Don't add the deposit if something catastrophic happened to the planet
+		# in the last 10 years
+		is_planet_world_machine = yes
+	}
+
 	immediate = {
+		remove_modifier = rikk_mdlc_world_machine_outer_core_cooling_mod
 		add_deposit = rikk_mdlc_d_world_machine_outer_core_cooled
 	}
 }
