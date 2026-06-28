@@ -596,42 +596,41 @@ country_event = {
 	trigger = {
 		is_ai = no
 		has_country_flag = xvcv_mdlc_config_4_on
-		count_owned_planet = { count > 1 }
+		count_owned_colony = { count > 1 }
 		is_robot_empire = yes
-		any_owned_pop_group = { is_unemployed = yes }
+		any_owned_pop_group = {is_unemployed = yes }
 		any_owned_colony = {
-			free_jobs > 0
+			free_jobs > 100
 			is_under_colonization = no
 			has_orbital_bombardment = no
 			is_controlled_by = owner #owner must be controller
 		}
 	}
-	# TODO: Make this loop fewer times
+
+	# Retro: Move batches of 100, and ignore leftovers (sorry leftovers..)
 	immediate = {
+
 		while = {
 			limit = {
-				any_owned_pop_group = { is_unemployed = yes }
+				any_owned_pop_group = {
+					is_unemployed = yes
+					pop_group_size > 100
+				}
 				any_owned_colony = {
-					free_jobs > 0
+					free_jobs > 100
 					is_under_colonization = no
 					has_orbital_bombardment = no
 					is_controlled_by = owner
 				}
 			}
 			random_owned_pop_group = {
-				limit = { is_unemployed = yes }
-				# TODO: identify 'unemployed' drones
-				# they are auto-maintenance drones 
-				# if = {
-				# 	limit = {
-				# 		OR = {
-				# 			is_pop_category = specialist
-				# 			is_pop_category = ruler
-				# 		}
-				# 	}
-				# 	clear_pop_category = yes
-				# }
+				limit = {
+					is_unemployed = yes
+					pop_group_size > 100
+				}
+
 				prev = {
+					# Country scope
 					random_owned_colony = {
 						limit = {
 							free_jobs > 0
@@ -639,9 +638,16 @@ country_event = {
 							has_orbital_bombardment = no
 							is_controlled_by = owner
 						}
-						resettle_pop = { pop = prevprev planet = this }
+						save_event_target_as = xvcv_mdlc_colony_unemployment_resettlement_target
 					}
 				}
+				# Now we are back in pop group scope
+				# resettle_pop = { pop = prevprev planet = this }
+				oxr_resettle_pop_group = {
+					target_scope = this
+					source_scope = event_target:xvcv_mdlc_colony_unemployment_resettlement_target
+				}
+
 			}
 		}
 	}
