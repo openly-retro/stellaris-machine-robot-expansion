@@ -20,7 +20,7 @@
                                 is_planet_class = pc_ringworld_seam_damaged
                             }
                         }
-                        save_event_target_as = xvcv_mdlc_civic_planet_cracker_target
+                        planet = { save_event_target_as = xvcv_mdlc_civic_planet_cracker_target }
                     }
                     #search an eligible planet again with more wide conditions
                     random_system_planet_colony = {
@@ -31,9 +31,8 @@
                             is_colony = no
                             is_colonizable = no
                             is_asteroid = no
-                            oxr_planet_is_ship = no
                         }
-                        save_event_target_as = xvcv_mdlc_civic_planet_cracker_target
+                        planet = { save_event_target_as = xvcv_mdlc_civic_planet_cracker_target }
                     }
                     #search an eligible planet for the last time with 'far more' wide conditions #there must be one in this case
                     random_system_planet_colony = {
@@ -43,13 +42,14 @@
                             is_star = no
                             is_colony = no
                             is_asteroid = no
-                            oxr_planet_is_ship = no
                         }
-                        save_event_target_as = xvcv_mdlc_civic_planet_cracker_target
+                        # Save in planet scope so we don't have to fuss over scope too much below
+                        planet = { save_event_target_as = xvcv_mdlc_civic_planet_cracker_target }
                     }
                     if = {
                         limit = { exists = event_target:xvcv_mdlc_civic_planet_cracker_target }
                         event_target:xvcv_mdlc_civic_planet_cracker_target = {
+                            # Theoretically this should all be in a planet scope already
                             planet = { set_planet_flag = xvcv_mdlc_planet_cracker_placed }
 
                             prev = {
@@ -67,10 +67,8 @@
                                 orbital_station = { dismantle = yes }
                             }
                             if = {
-                                planet = {
-                                    limit = { planet_size > 10 }
-                                    set_planet_size = 10
-                                }
+                                limit = { planet_size > 10 }
+                                set_planet_size = 10
                             }
                             planet = {
                                 if = {
