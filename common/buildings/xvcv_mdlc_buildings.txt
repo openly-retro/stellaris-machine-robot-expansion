@@ -4,8 +4,8 @@ xvcv_mdlc_building_automated_goods_fabricator = {
 	category = manufacturing
 
 	potential = {
-		exists = owner
-		owner = { has_valid_civic = xvcv_mdlc_civic_goods_distributor }
+		exists = planet
+		owner? = { has_valid_civic = xvcv_mdlc_civic_goods_distributor }
 	}
 
 	allow = {
@@ -74,8 +74,7 @@ xvcv_mdlc_building_maintenance_depot = {
 	category = amenity
 
 	potential = {
-		exists = owner
-		owner = { has_valid_civic = xvcv_mdlc_civic_maintenance_depot }
+		owner? = { has_valid_civic = xvcv_mdlc_civic_maintenance_depot }
 	}
 
 	allow = {
@@ -130,8 +129,7 @@ xvcv_mdlc_building_maintenance_spire = {
 	category = amenity
 
 	potential = {
-		exists = owner
-		owner = { has_valid_civic = xvcv_mdlc_civic_maintenance_depot }
+		owner? = { has_valid_civic = xvcv_mdlc_civic_maintenance_depot }
 	}
 
 	allow = {
@@ -176,8 +174,7 @@ xvcv_mdlc_building_uplink_node_facility = {
 	category = government
 
 	potential = {
-		exists = owner
-		owner = { has_valid_civic = xvcv_mdlc_civic_uplink_node }
+		owner? = { has_valid_civic = xvcv_mdlc_civic_uplink_node }
 	}
 
 	allow = {
@@ -185,8 +182,7 @@ xvcv_mdlc_building_uplink_node_facility = {
 	}
 
 	destroy_trigger = {
-		exists = owner
-		owner = { NOT = { has_valid_civic = xvcv_mdlc_civic_uplink_node } }
+		owner? = { NOT = { has_valid_civic = xvcv_mdlc_civic_uplink_node } }
 	}
 
 	convert_to = {
@@ -222,8 +218,7 @@ xvcv_mdlc_building_bio_robot_clone_plants = {
 	can_build = yes
 
 	potential = {
-		exists = owner
-		owner = {
+		owner? = {
 			is_ai = no
 			has_ascension_perk = xvcv_mdlc_ap_bio_robot
 		}
@@ -232,8 +227,7 @@ xvcv_mdlc_building_bio_robot_clone_plants = {
 	allow = {
 		custom_tooltip_fail = {
 			text = xvcv_mdlc_building_bio_robot_clone_plants_tooltip.fail
-			exists = owner
-			owner = { NOT = { has_special_project = XVCV_MDLC_AP_BIO_ROBOT_PROJECT } }
+			owner? = { NOT = { has_special_project = XVCV_MDLC_AP_BIO_ROBOT_PROJECT } }
 		}
 		custom_tooltip_fail = {
 			text = oxr_mdlc_bio_mech_cloning_vat_planet_limit_reached.not_bio_pc
@@ -293,8 +287,7 @@ xvcv_mdlc_building_bio_robot_clone_plants_2 = {
 	can_build = no
 
 	potential = {
-		exists = owner
-		owner = {
+		owner? = {
 			is_ai = no
 			has_ascension_perk = xvcv_mdlc_ap_bio_robot
 		}
@@ -315,8 +308,7 @@ xvcv_mdlc_building_bio_robot_clone_plants_3 = {
 	can_build = no
 
 	potential = {
-		exists = owner
-		owner = {
+		owner? = {
 			is_ai = no
 			has_ascension_perk = xvcv_mdlc_ap_bio_robot
 		}
@@ -341,8 +333,7 @@ xvcv_mdlc_building_sentinel_complex = {
 	category = government
 
 	potential = {
-		exists = owner
-		owner = { has_authority = auth_machine_intelligence }
+		owner? = { has_authority = auth_machine_intelligence }
 	}
 
 	allow = {
@@ -395,9 +386,11 @@ xvcv_mdlc_building_district_slot = {
 	category = government
 
 	potential = {
-		OR = {
-			xvcv_mdlc_world_machines_planet_classes_trigger = yes
-			is_planet_class = xvcv_mdlc_pc_virtual
+		planet? = {
+			OR = {
+				xvcv_mdlc_world_machines_planet_classes_trigger = yes
+				is_planet_class = xvcv_mdlc_pc_virtual
+			}
 		}
 	}
 
@@ -442,8 +435,7 @@ xvcv_mdlc_building_matter_data_converter = {
 	category = research
 
 	potential = {
-		exists = owner
-		owner = { has_ascension_perk = xvcv_mdlc_ap_virtual_worlds }
+		owner? = { has_ascension_perk = xvcv_mdlc_ap_virtual_worlds }
 		uses_district_set = xvcv_mdlc_pc_virtual_district_set
 	}
 
