@@ -38,20 +38,52 @@ grand_archive_0 = {
 
 	potential = {
 		is_country_type = default
-		NOR = {
-			any_owned_megastructure = {
-				is_megastructure_type = grand_archive_0
-			}
-		}
+		has_grand_archive = no
 	}
 
 	possible = {
-		hidden_trigger = {
-			exists = starbase
+		if = {
+			limit = {
+				from = {
+					is_nomadic = no
+				}
+			}
+			hidden_trigger = {
+				exists = starbase
+			}
+			custom_tooltip = {
+				fail_text = "requires_inside_border"
+				is_inside_border = from
+			}
+			custom_tooltip = {
+				fail_text = must_have_2500_pops
+				OR = {
+					from = { oxr_mdlc_can_build_grand_archive = yes }
+					from = {
+						pop_amount >= 2500
+					}
+					from.owner = {
+						is_wilderness_empire = yes
+					}
+				}
+			}
 		}
-		custom_tooltip = {
-			fail_text = "requires_inside_border"
-			is_inside_border = from
+		else = {
+			custom_tooltip = {
+				fail_text = requires_tier_2_waystation_on_wayline
+				any_starbase_in_system = {
+					is_waystation_starbase = yes
+					owner? = {
+						is_same_value = from
+					}
+					any_starbase_in_network = {
+						has_starbase_size >= starbase_waystation_2
+						owner? = {
+							is_same_value = from
+						}
+					}
+				}
+			}
 		}
 		custom_tooltip = {
 			fail_text = "requires_surveyed_system"
@@ -64,32 +96,50 @@ grand_archive_0 = {
 				}
 			}
 		}
-		custom_tooltip = {
-			fail_text = must_have_2500_pops
-			OR = {
-                oxr_mdlc_can_build_grand_archive = yes
-				from = {
-					pop_amount >= 2500
-				}
-				from.owner = {
-					is_wilderness_empire = yes
-				}
-			}
-		}
 	}
 
 	placement_rules = {
 		planet_possible = {
-			is_colony = yes
-			OR = {
-                oxr_mdlc_can_build_grand_archive = yes
-				pop_amount >= 2500
-				AND = {
-					exists = owner
-					owner = { is_wilderness_empire = yes }
+			custom_tooltip = {
+				fail_text = "requires_survey_not_habitable"
+				is_surveyed = {			# prevent leaking habitability information
+					who = prev.from
+					status = yes
+				}
+				colonizable_planet = no
+			}
+			custom_tooltip = {
+				fail_text = "requires_no_anomaly"
+				NOT = {
+					has_anomaly = yes
 				}
 			}
-		}
+			custom_tooltip = {
+				fail_text = "requires_not_minor_planetary_body"
+				NOR = {
+					is_asteroid = yes
+					is_moon = yes
+				}
+			}
+			custom_tooltip = {
+				fail_text = "requires_not_star"
+				is_star = no
+			}
+			custom_tooltip = {
+				fail_text = "requires_not_astral_scar"
+				is_astral_scar = no
+			}
+			custom_tooltip = {
+				fail_text = "requires_not_ring_world"
+				is_ringworld = no
+			}
+			custom_tooltip = {
+				fail_text = "requires_no_existing_megastructure"
+				NOT = {
+					has_carrier_flag = megastructure
+				}
+			}
+		} # use these for all non-star megastructures
 	}
 
 	country_modifier = {
@@ -116,8 +166,18 @@ grand_archive_0 = {
 
 	on_build_complete = {
 		from = {
+			country_event = {
+				id = grand_archive.8090
+				scopes = {
+					from = fromfrom
+					fromfrom = prev
+					fromfromfrom = fromfromfrom
+				}
+			}
 			if = {
-				limit = { has_country_flag = grand_archive_destroyed }
+				limit = {
+					has_country_flag = grand_archive_destroyed
+				}
 				remove_country_flag = grand_archive_destroyed
 				country_event = {
 					id = grand_archive.4580
@@ -126,7 +186,7 @@ grand_archive_0 = {
 			}
 		}
 		fromfrom.planet = {
-			set_planet_flag = has_megastructure
+			set_carrier_flag = has_megastructure
 		}
 	}
 }
