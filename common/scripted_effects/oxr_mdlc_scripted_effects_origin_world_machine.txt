@@ -2348,3 +2348,15 @@ oxr_mdlc_planet_wm_remove_capital_automation = {
 		}
 	}
 }
+
+oxr_mdlc_planet_destroy_nomad_orbitals_to_prepare_auto_colony = {
+	# Deposits need to be removed from the planet, and the secret owner needs to be reset
+	# since some tricky things make it impossible to use decisions on unowned non-habitables
+	# with deposits on them
+	clear_deposits = yes
+	create_colony = {
+		owner = space_owner
+		species = space_owner.species
+	}
+	destroy_colony = yes
+}

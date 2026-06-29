@@ -1,0 +1,178 @@
+oxr_mdlc_world_machine_core_dropsite = {
+	# Used to start the World Machine conversion process on a planet,
+	# since the decision path is broken in 4.4+
+
+	entity = "construction_platform_entity"
+	construction_entity = "construction_platform_entity"
+	portrait = "GFX_megastructure_construction_background"
+	entity_offset = { x = 0 y = -10 }
+
+	place_entity_on_planet_plane = yes
+	show_galactic_map_icon = no
+	show_in_outliner = no
+	use_planet_resource = no  # linked to deposit?
+	build_time = 30
+	entity_offset = { x = 0 y = 0 }
+
+	build_type = around_planet
+
+	construction_blocks_and_blocked_by = none
+
+	dismantle_cost = { category = megastructures cost = { energy = 0 } }
+	dismantle_time = 30
+	dismantle_potential = { always = yes }
+	dismantle_possible = { always = yes }
+
+	# trigger, scope: country
+	# from: fleet for new megastructures and megastructure for upgrades
+	potential = {
+		is_country_type = default
+		has_oxr_mdlc_origin_world_machine_awakened = yes
+	}
+
+	# trigger scope: galactic object
+	# from: country
+	# fromfrom: fleet for new megastructures and megastructure for upgrades
+	possible = {
+		hidden_trigger = {
+			exists = starbase
+		}
+		custom_tooltip = {
+			fail_text = "requires_inside_border"
+			is_inside_border = from
+		}
+		custom_tooltip = {
+			fail_text = "requires_surveyed_system"
+			NOT = {
+				any_system_planet = {
+					is_surveyed = {
+						who = prev.from
+						status = no
+					}
+				}
+			}
+		}
+	}
+
+	placement_rules = {
+		planet_possible = {
+			# trigger, scope: planet
+
+			custom_tooltip = {
+				fail_text = "requires_no_existing_megastructure"
+				NOT = { has_carrier_flag = has_megastructure }
+			}
+			custom_tooltip = {
+				fail_text = "requires_not_star"
+				is_star = no
+			}
+			custom_tooltip = {
+				fail_text = "requires_not_astral_scar"
+				is_astral_scar = no
+			}
+
+			
+			
+			
+
+			is_planet_world_machine = no
+
+			OR = {
+				oxr_mdlc_planet_can_become_world_machine = yes
+				oxr_mdlc_planet_can_automate_ring = yes
+			}
+			custom_tooltip = {
+				fail_text = "requires_no_existing_megastructure"
+				NOT = { has_carrier_flag = megastructure }
+			}
+			is_colony = no  # use xvcv's original decision for that one
+
+			custom_tooltip = {
+				fail_text = "requires_no_anomaly"
+				NOT = { has_anomaly = yes }
+			}
+
+		}
+	}
+
+
+	on_dismantle_start = {
+		fromfrom.planet = {
+			log = ""
+		}
+	}
+	on_dismantle_cancel = {
+		fromfrom.planet = {
+			log = ""
+		}
+	}
+
+	on_build_start = {
+		fromfrom.planet = {
+			set_planet_flag = has_megastructure
+			set_planet_flag = has_oxr_mdlc_world_machine_core_dropsite
+		}
+	}
+	
+	on_build_complete = {
+		fromfrom.planet = {
+
+			custom_tooltip = oxr_mdlc_decisions_origin_wm_start_world_with_core_effect
+
+			hidden_effect = {
+				# Remove nomad deposits, reset ownership to space_owner empire
+				# oxr_mdlc_planet_destroy_nomad_orbitals_to_prepare_auto_colony = yes
+
+				# Copied over from the decision
+				remove_planet_flag = has_megastructure
+				remove_planet_flag = has_oxr_mdlc_world_machine_core_dropsite
+
+				if = {
+					limit = {
+						is_ringworld = yes
+					}
+					start_terraform_process = xvcv_mdlc_pc_ringworld_machine_auto
+				}
+				else = {
+					start_terraform_process = xvcv_mdlc_pc_machine_auto
+				}
+
+				create_message = {
+					type = OXR_MDLC_WM_PLANET_CORE_DROPSITE
+					localization = OXR_MDLC_WM_PLANET_CORE_DROPSITE_MESSAGE
+					days = 10
+					target = this
+				}
+
+			}
+		}
+		# We don't need this mega since it did its job
+		remove_megastructure = this
+	}
+
+	on_dismantle_complete = {
+		# fromfrom.planet = {
+		# 	clear_deposits = yes
+		# 	remove_planet_flag = has_megastructure
+		# 	remove_planet_flag = xvcv_mdlc_planet_cracker_placed
+		# }
+		# This only works if there is ONLY 1 being dismantled in the system
+		random_system_planet_colony = {
+			limit = {
+				planet? = {
+					has_planet_flag = oxr_mdlc_clear_dismantled_planet_cracker
+				}
+			}
+			planet = {
+				remove_planet_flag = xvcv_mdlc_planet_cracker_placed
+				remove_planet_flag = has_megastructure
+				remove_planet_flag = oxr_mdlc_clear_dismantled_planet_cracker
+				clear_deposits = yes
+			}
+		}
+	}
+	resources = {
+		category = station_gatherers
+		upkeep = { energy = 1 }
+	}
+}
