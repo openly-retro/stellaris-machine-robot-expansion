@@ -6,40 +6,20 @@
 
 # No housing districts needed on an auto-ringworld!
 xvcv_mdlc_pc_machine_ring_district_primary = {
-	base_buildtime = @rw_district_buildtime
-	is_uncapped = {}
+	inline_script = planet/districts/ring/rikk_mdlc_ring_district_base
+	inline_script = planet/districts/convert_to/oxr_wm_district_primary
+	conversion_ratio = 1
+	
 	default_starting_district = yes
-
-	show_on_uncolonized = {
-		exists = from
-		from = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
-		uses_district_set = xvcv_mdlc_pc_machine_ring_district_set
-	}
-
-	potential = {
-		exists = owner
-		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
-		uses_district_set = xvcv_mdlc_pc_machine_ring_district_set
-	}
 
 	zone_slots = {
 		oxr_mdlc_origin_wm_slot_city_government
-		oxr_mdlc_origin_wm_slot_city_01
+		oxr_mdlc_origin_wm_slot_city_01			#swap these to a modifier specific zone down the line?
 		oxr_mdlc_origin_wm_slot_city_02
 	}
 
-	conversion_ratio = 1
-	inline_script = planet/districts/convert_to/oxr_wm_district_primary
-
-	on_built = {
-		inline_script = planet/districts/on_action/on_wm_district_built
-	}
-	on_destroy = {
-		inline_script = planet/districts/on_action/on_wm_district_destroy
-	}
-
 	resources = {
-		category = xvcv_mdlc_world_machines_cities_districts
+		category = xvcv_mdlc_world_machines_primary_districts
 		cost = {
 			minerals = @oxr_rw_cost
 		}
@@ -52,26 +32,13 @@ xvcv_mdlc_pc_machine_ring_district_primary = {
 
 # Research OR development ("growth and development")
 xvcv_mdlc_pc_machine_ring_district_computer = {
-	base_buildtime = @rw_district_buildtime
-	is_uncapped = {}
-
-	show_on_uncolonized = {
-		exists = from
-		from = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
-		uses_district_set = xvcv_mdlc_pc_machine_ring_district_set
-	}
-	potential = {
-		exists = owner
-		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
-		uses_district_set = xvcv_mdlc_pc_machine_ring_district_set
-	}
+	inline_script = planet/districts/ring/rikk_mdlc_ring_district_base
+	inline_script = planet/districts/convert_to/oxr_wm_district_2
+	conversion_ratio = 1
 
 	zone_slots = {
 		oxr_mdlc_slot_pc_machine_ring_rnd
 	}
-
-	conversion_ratio = 1
-	inline_script = planet/districts/convert_to/oxr_wm_district_2
 
 	resources = {
 		category = xvcv_mdlc_world_machines_rnd_districts
@@ -84,73 +51,46 @@ xvcv_mdlc_pc_machine_ring_district_computer = {
 			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 		}
 		# BASE PRODUCTION, NO SPECIALIZATION
-		produces = {
-			trigger = {
-				oxr_mdlc_auto_ringworld_has_any_rnd_zones = no
-			}
-			physics_research = @[ 1.5 * oxr_mdlc_wm_base_calculator_output ]
-			engineering_research = @[ 1.5 * oxr_mdlc_wm_base_calculator_output ]
-			society_research = @[ 1.5 * oxr_mdlc_wm_base_calculator_output ]
-			unity = @[ 2 * oxr_mdlc_wm_base_coordinator_output ]
-			trade = @[ 2 * oxr_mdlc_wm_base_logistics_drone_output ]
-			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
-		}
-		upkeep = {
-			trigger = {
-				has_oxr_mdlc_zone_pc_machine_ring_research = no
-				has_oxr_mdlc_zone_pc_machine_ring_unity = no
-				has_oxr_mdlc_zone_pc_machine_ring_trade = no
-			}
-			energy = @[ 4.5 + ( 2 * oxr_mdlc_wm_base_coordinator_upkeep ) + ( 2 * oxr_mdlc_wm_base_logistics_drone_upkeep ) ]
-			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
-		}
+		#produces = {
+		#	trigger = {
+		#		oxr_mdlc_auto_ringworld_has_any_rnd_zones = no
+		#	}
+		#	physics_research = @[ 1.5 * oxr_mdlc_wm_base_calculator_output ]
+		#	engineering_research = @[ 1.5 * oxr_mdlc_wm_base_calculator_output ]
+		#	society_research = @[ 1.5 * oxr_mdlc_wm_base_calculator_output ]
+		#	unity = @[ 2 * oxr_mdlc_wm_base_coordinator_output ]
+		#	trade = @[ 2 * oxr_mdlc_wm_base_logistics_drone_output ]
+		#	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		#}
+		#upkeep = {
+		#	trigger = {
+		#		has_oxr_mdlc_zone_pc_machine_ring_research = no
+		#		has_oxr_mdlc_zone_pc_machine_ring_unity = no
+		#		has_oxr_mdlc_zone_pc_machine_ring_trade = no
+		#	}
+		#	energy = @[ 4.5 + ( 2 * oxr_mdlc_wm_base_coordinator_upkeep ) + ( 2 * oxr_mdlc_wm_base_logistics_drone_upkeep ) ]
+		#	mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		#}
 	}
 
-	on_built = {
-		inline_script = planet/districts/on_action/on_wm_district_built
-	}
-	on_destroy = {
-		inline_script = planet/districts/on_action/on_wm_district_destroy
-	}
-
-	triggered_name = {
-		trigger = {
-			has_oxr_mdlc_zone_pc_machine_ring_research = yes
-		}
-		text = xvcv_mdlc_pc_machine_ring_district_computer_name_research
-	}
-	triggered_name = {
-		trigger = {
-			has_oxr_mdlc_zone_pc_machine_ring_unity = yes
-		}
-		text = xvcv_mdlc_pc_machine_ring_district_computer_name_admin
-	}
-	triggered_name = {
-		trigger = {
-			has_oxr_mdlc_zone_pc_machine_ring_trade = yes
-		}
-		text = xvcv_mdlc_pc_machine_ring_district_computer_name_admin
-	}
-	# research
-	# triggered_name = {
-	# 	trigger = {
-	# 		has_oxr_mdlc_zone_pc_machine_ring_research_physics = yes
-	# 	}
-	# 	text = xvcv_mdlc_pc_machine_ring_district_computer_name_energy_physics
-	# }
-	# triggered_name = {
-	# 	trigger = {
-	# 		has_oxr_mdlc_zone_pc_machine_ring_research_society = yes
-	# 	}
-	# 	text = xvcv_mdlc_pc_machine_ring_district_computer_name_energy_society
-	# }
-	# triggered_name = {
-	# 	trigger = {
-	# 		has_oxr_mdlc_zone_pc_machine_ring_research_engineering = yes
-	# 	}
-	# 	text = xvcv_mdlc_pc_machine_ring_district_computer_name_energy_engineering
-	# }
-	# default
+	#triggered_name = {
+	#	trigger = {
+	#		has_oxr_mdlc_zone_pc_machine_ring_research = yes
+	#	}
+	#	text = xvcv_mdlc_pc_machine_ring_district_computer_name_research
+	#}
+	#triggered_name = {
+	#	trigger = {
+	#		has_oxr_mdlc_zone_pc_machine_ring_unity = yes
+	#	}
+	#	text = xvcv_mdlc_pc_machine_ring_district_computer_name_unity
+	#}
+	#triggered_name = {
+	#	trigger = {
+	#		has_oxr_mdlc_zone_pc_machine_ring_trade = yes
+	#	}
+	#	text = xvcv_mdlc_pc_machine_ring_district_computer_name_unity
+	#}
 	triggered_name = {
 		text = xvcv_mdlc_pc_machine_ring_district_computer_name_none
 	}
@@ -497,7 +437,7 @@ xvcv_mdlc_pc_machine_ring_district_raw_resource = {
 
 
 ### Swap districts
-xvcv_mdlc_pc_machine_ring_district_generator = {
+xvcv_mdlc_pc_machine_ring_district_energy = {
 	base_buildtime = @rw_district_buildtime
 	is_uncapped = {}
 
@@ -540,7 +480,7 @@ xvcv_mdlc_pc_machine_ring_district_generator = {
 
 }
 
-xvcv_mdlc_pc_machine_ring_district_farming = {
+xvcv_mdlc_pc_machine_ring_district_food = {
 	base_buildtime = @rw_district_buildtime
 	is_uncapped = {}
 
@@ -588,7 +528,7 @@ xvcv_mdlc_pc_machine_ring_district_farming = {
 # xvcv_mdlc_pc_machine_ring_district_energy_physics = {
 # 	base_buildtime = @rw_district_buildtime
 # 	is_uncapped = {}
-# 	icon = xvcv_mdlc_pc_machine_ring_district_generator
+# 	icon = xvcv_mdlc_pc_machine_ring_district_energy
 # 	overlay_icon = GFX_district_physics
 
 # 	zone_slots = {
@@ -624,14 +564,14 @@ xvcv_mdlc_pc_machine_ring_district_farming = {
 # 		fire_on_action = { on_action = on_world_machine_district_demolished }
 # 	}
 # 	# triggered_name = {
-# 	# 	text = xvcv_mdlc_pc_machine_ring_district_farming_triggered_name_none
+# 	# 	text = xvcv_mdlc_pc_machine_ring_district_food_triggered_name_none
 # 	# }
 
 # }
 # xvcv_mdlc_pc_machine_ring_district_energy_society = {
 # 	base_buildtime = @rw_district_buildtime
 # 	is_uncapped = {}
-# 	icon = xvcv_mdlc_pc_machine_ring_district_generator
+# 	icon = xvcv_mdlc_pc_machine_ring_district_energy
 # 	overlay_icon = GFX_district_society
 
 # 	zone_slots = {
@@ -667,14 +607,14 @@ xvcv_mdlc_pc_machine_ring_district_farming = {
 # 		fire_on_action = { on_action = on_world_machine_district_demolished }
 # 	}
 # 	triggered_name = {
-# 		text = xvcv_mdlc_pc_machine_ring_district_farming_triggered_name_none
+# 		text = xvcv_mdlc_pc_machine_ring_district_raw_resource_name_food
 # 	}
 
 # }
 # xvcv_mdlc_pc_machine_ring_district_energy_engineering = {
 # 	base_buildtime = @rw_district_buildtime
 # 	is_uncapped = {}
-# 	icon = xvcv_mdlc_pc_machine_ring_district_generator
+# 	icon = xvcv_mdlc_pc_machine_ring_district_energy
 # 	overlay_icon = GFX_district_engineering
 
 # 	zone_slots = {
@@ -710,7 +650,7 @@ xvcv_mdlc_pc_machine_ring_district_farming = {
 # 		fire_on_action = { on_action = on_world_machine_district_demolished }
 # 	}
 # 	triggered_name = {
-# 		text = xvcv_mdlc_pc_machine_ring_district_farming_triggered_name_none
+# 		text = xvcv_mdlc_pc_machine_ring_district_raw_resource_name_energy
 # 	}
 
 # }
