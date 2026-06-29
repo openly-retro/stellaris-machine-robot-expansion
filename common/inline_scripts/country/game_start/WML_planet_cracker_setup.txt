@@ -4,20 +4,22 @@
                     #search an eligible planet first
                     random_system_planet_colony = {
                         limit = {
-                            oxr_colonizable_is_planet = yes
-                            is_star = no
-                            is_colony = no
-                            is_colonizable = no
-                            # asteroids are deleted in generate_home_planet_final_pass for "Resource Consolidation" origin
-                            is_asteroid = no
-                            oxr_planet_is_ship = no
-                            NOR = {
-                                is_planet_class = pc_shattered
-                                is_planet_class = pc_ringworld_habitable_damaged
-                                is_planet_class = pc_ringworld_tech
-                                is_planet_class = pc_ringworld_tech_damaged
-                                is_planet_class = pc_ringworld_seam
-                                is_planet_class = pc_ringworld_seam_damaged
+
+                            planet? = {
+                                is_star = no
+                                is_colony = no
+                                is_colonizable = no
+                                # asteroids are deleted in generate_home_planet_final_pass for "Resource Consolidation" origin
+                                is_asteroid = no
+                                oxr_planet_is_ship = no
+                                NOR = {
+                                    is_planet_class = pc_shattered
+                                    is_planet_class = pc_ringworld_habitable_damaged
+                                    is_planet_class = pc_ringworld_tech
+                                    is_planet_class = pc_ringworld_tech_damaged
+                                    is_planet_class = pc_ringworld_seam
+                                    is_planet_class = pc_ringworld_seam_damaged
+                                }
                             }
                         }
                         planet = { save_event_target_as = xvcv_mdlc_civic_planet_cracker_target }
@@ -26,11 +28,14 @@
                     random_system_planet_colony = {
                         limit = {
                             NOT = { exists = event_target:xvcv_mdlc_civic_planet_cracker_target }
-                            oxr_colonizable_is_planet = yes
-                            is_star = no
-                            is_colony = no
-                            is_colonizable = no
-                            is_asteroid = no
+
+                            planet? = {
+                                is_star = no
+                                is_colony = no
+                                is_colonizable = no
+                                is_asteroid = no
+                            }
+
                         }
                         planet = { save_event_target_as = xvcv_mdlc_civic_planet_cracker_target }
                     }
@@ -38,10 +43,11 @@
                     random_system_planet_colony = {
                         limit = {
                             NOT = { exists = event_target:xvcv_mdlc_civic_planet_cracker_target }
-                            oxr_colonizable_is_planet = yes
-                            is_star = no
-                            is_colony = no
-                            is_asteroid = no
+                            planet? = {
+                                is_star = no
+                                is_colony = no
+                                is_asteroid = no
+                            }
                         }
                         # Save in planet scope so we don't have to fuss over scope too much below
                         planet = { save_event_target_as = xvcv_mdlc_civic_planet_cracker_target }
@@ -67,8 +73,8 @@
                                 orbital_station = { dismantle = yes }
                             }
                             if = {
-                                limit = { planet_size > 10 }
-                                set_planet_size = 10
+                                limit = { planet? = { planet_size > 10 } }
+                                planet = { set_planet_size = 10 }
                             }
                             planet = {
                                 if = {
@@ -108,7 +114,7 @@
                             #   change_pc = pc_ringworld_seam_damaged
                             #   spawn_ringworld_cracker_effect = yes
                             # }
-                        
+
                             # print_scope_effect = yes
                             planet = {
                                 if = {
