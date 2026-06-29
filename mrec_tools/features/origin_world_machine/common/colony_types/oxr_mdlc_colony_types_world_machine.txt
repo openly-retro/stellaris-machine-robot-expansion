@@ -7,7 +7,7 @@ xvcv_mdlc_col_machine_auto_standard = {
 		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
 		OR = {
 			uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
-			uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
+			uses_district_set = xvcv_mdlc_pc_machine_ring_district_set
 		}
 		is_capital = no
 	}
@@ -32,7 +32,7 @@ xvcv_mdlc_col_machine_auto_generator = {
 		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
 		OR = {
 			uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
-			uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
+			uses_district_set = xvcv_mdlc_pc_machine_ring_district_set
 		}
 	}
 
@@ -43,9 +43,9 @@ xvcv_mdlc_col_machine_auto_generator = {
 	}
 	triggered_planet_modifier = {
 		potential = {
-			uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
+			uses_district_set = xvcv_mdlc_pc_machine_ring_district_set
 		}
-		planet_xvcv_mdlc_pc_ringworld_machine_auto_district_generator_build_speed_mult = 0.25
+		planet_xvcv_mdlc_pc_machine_ring_district_generator_build_speed_mult = 0.25
 	}
 
 	inline_script = {
@@ -65,7 +65,7 @@ xvcv_mdlc_col_machine_auto_generator = {
 		#	parameters = {
 		#		limit = {
 		#			OR = {
-		#				type = xvcv_mdlc_pc_ringworld_machine_auto_district_generator
+		#				type = xvcv_mdlc_pc_machine_ring_district_generator
 		#				type = xvcv_mdlc_pc_machine_auto_district_generator
 		#			}
 		#		}
@@ -75,7 +75,7 @@ xvcv_mdlc_col_machine_auto_generator = {
 		#}
 		complex_trigger_modifier = {
 			trigger = num_free_districts
-			parameters = { type = xvcv_mdlc_pc_ringworld_machine_auto_district_generator }
+			parameters = { type = xvcv_mdlc_pc_machine_ring_district_generator }
 			mode = add
 		}
 		complex_trigger_modifier = {
@@ -113,7 +113,7 @@ xvcv_mdlc_col_machine_auto_mining = {
 		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
 		OR = {
 			uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
-			uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
+			uses_district_set = xvcv_mdlc_pc_machine_ring_district_set
 		}
 	}
 
@@ -183,7 +183,7 @@ xvcv_mdlc_col_machine_auto_farming = {
 		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
 		OR = {
 			uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
-			uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
+			uses_district_set = xvcv_mdlc_pc_machine_ring_district_set
 		}
 	}
 
@@ -194,9 +194,9 @@ xvcv_mdlc_col_machine_auto_farming = {
 	}
 	triggered_planet_modifier = {
 		potential = {
-			uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
+			uses_district_set = xvcv_mdlc_pc_machine_ring_district_set
 		}
-		planet_xvcv_mdlc_pc_ringworld_machine_auto_district_farming_build_speed_mult = 0.25
+		planet_xvcv_mdlc_pc_machine_ring_district_farming_build_speed_mult = 0.25
 	}
 
 	inline_script = {
@@ -244,7 +244,7 @@ xvcv_mdlc_col_machine_auto_industrial = {
 		OR = {
 			is_xvcv_mdlc_pc_machine_auto = yes
 			is_xvcv_mdlc_pc_machine_ecu = yes
-			is_xvcv_mdlc_pc_ringworld_machine_auto = yes
+			is_xvcv_mdlc_pc_machine_ring = yes
 		}
 		is_capital = no
 	}
@@ -258,7 +258,7 @@ xvcv_mdlc_col_machine_auto_industrial = {
 		potential = {
 			OR = {
 				num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_alloys value > 0 }
-				num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_alloys value > 0 }
+				num_zones = { type = oxr_mdlc_zone_pc_machine_ring_alloys value > 0 }
 				num_zones = { type = oxr_mdlc_zone_pc_machine_auto_alloys value > 0 }
 			}
 		}
@@ -270,7 +270,7 @@ xvcv_mdlc_col_machine_auto_industrial = {
 		potential = {
 			OR = {
 				num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_consumer_goods value > 0 }
-				num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_consumer_goods value > 0 }
+				num_zones = { type = oxr_mdlc_zone_pc_machine_ring_consumer_goods value > 0 }
 				num_zones = { type = oxr_mdlc_zone_pc_machine_auto_consumer_goods value > 0 }
 			}
 		}
@@ -288,8 +288,8 @@ xvcv_mdlc_col_machine_auto_industrial = {
 		planet_xvcv_mdlc_pc_machine_ecu_district_production_build_speed_mult = 0.25
 	}
 	triggered_planet_modifier = {
-		potential = { is_xvcv_mdlc_pc_ringworld_machine_auto = yes }
-		planet_xvcv_mdlc_pc_ringworld_machine_auto_district_industrial_build_speed_mult = 0.25
+		potential = { is_xvcv_mdlc_pc_machine_ring = yes }
+		planet_xvcv_mdlc_pc_machine_ring_district_industrial_build_speed_mult = 0.25
 	}
 
 	inline_script = planet/districts/auto/oxr_industrial_tradition_boost
@@ -332,7 +332,7 @@ xvcv_mdlc_col_machine_auto_administrative = {
 		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
 		OR = {
 			uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
-			uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
+			uses_district_set = xvcv_mdlc_pc_machine_ring_district_set
 		}
 		is_capital = no
 	}
@@ -379,7 +379,7 @@ xvcv_mdlc_col_machine_auto_foundry = {
 		OR = {
 			is_xvcv_mdlc_pc_machine_auto = yes
 			is_xvcv_mdlc_pc_machine_ecu = yes
-			is_xvcv_mdlc_pc_ringworld_machine_auto = yes
+			is_xvcv_mdlc_pc_machine_ring = yes
 		}
 	}
 
@@ -409,8 +409,8 @@ xvcv_mdlc_col_machine_auto_foundry = {
 		planet_xvcv_mdlc_pc_machine_ecu_district_production_build_speed_mult = 0.25
 	}
 	triggered_planet_modifier = {
-		potential = { is_xvcv_mdlc_pc_ringworld_machine_auto = yes }
-		planet_xvcv_mdlc_pc_ringworld_machine_auto_district_industrial_build_speed_mult = 0.25
+		potential = { is_xvcv_mdlc_pc_machine_ring = yes }
+		planet_xvcv_mdlc_pc_machine_ring_district_industrial_build_speed_mult = 0.25
 	}
 
 	inline_script = planet/districts/auto/oxr_industrial_tradition_boost
@@ -453,7 +453,7 @@ xvcv_mdlc_col_machine_auto_factory = {
 		OR = {
 			is_xvcv_mdlc_pc_machine_auto = yes
 			is_xvcv_mdlc_pc_machine_ecu = yes
-			is_xvcv_mdlc_pc_ringworld_machine_auto = yes
+			is_xvcv_mdlc_pc_machine_ring = yes
 		}
 	}
 
@@ -482,8 +482,8 @@ xvcv_mdlc_col_machine_auto_factory = {
 		planet_xvcv_mdlc_pc_machine_ecu_district_production_build_speed_mult = 0.25
 	}
 	triggered_planet_modifier = {
-		potential = { is_xvcv_mdlc_pc_ringworld_machine_auto = yes }
-		planet_xvcv_mdlc_pc_ringworld_machine_auto_district_industrial_build_speed_mult = 0.25
+		potential = { is_xvcv_mdlc_pc_machine_ring = yes }
+		planet_xvcv_mdlc_pc_machine_ring_district_industrial_build_speed_mult = 0.25
 	}
 
 	inline_script = planet/districts/auto/oxr_industrial_tradition_boost
@@ -543,7 +543,7 @@ xvcv_mdlc_col_machine_auto_research = {
 		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
 		OR = {
 			uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
-			uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
+			uses_district_set = xvcv_mdlc_pc_machine_ring_district_set
 		}
 	}
 
@@ -553,9 +553,9 @@ xvcv_mdlc_col_machine_auto_research = {
 	}
 	triggered_planet_modifier = {
 		potential = {
-			uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
+			uses_district_set = xvcv_mdlc_pc_machine_ring_district_set
 		}
-		planet_xvcv_mdlc_pc_ringworld_machine_auto_district_rnd_build_speed_mult = 0.25
+		planet_xvcv_mdlc_pc_machine_ring_district_computer_build_speed_mult = 0.25
 		xvcv_mdlc_world_machines_science_districts_upkeep_mult = -0.2
 		xvcv_mdlc_world_machines_rnd_districts_physics_research_produces_mult= 0.15
 		xvcv_mdlc_world_machines_rnd_districts_society_research_produces_mult= 0.15
@@ -580,7 +580,7 @@ xvcv_mdlc_col_machine_auto_research = {
 		complex_trigger_modifier = {
 			trigger = num_districts
 			parameters = {
-				type = xvcv_mdlc_pc_ringworld_machine_auto_district_rnd
+				type = xvcv_mdlc_pc_machine_ring_district_computer
 			}
 			mode = add
 			mult = 3
@@ -623,7 +623,7 @@ xvcv_mdlc_col_machine_auto_refinery = {
 		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
 		OR = {
 			uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
-			uses_district_set = xvcv_mdlc_pc_ringworld_machine_auto_district_set
+			uses_district_set = xvcv_mdlc_pc_machine_ring_district_set
 		}
 	}
 

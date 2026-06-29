@@ -1,0 +1,723 @@
+@oxr_rw_cost = 1000
+@oxr_rw_cost_sr = 50
+# @rw_maintenance = 5
+# @rw_maintenance_sr = 1
+# @rw_district_buildtime = 360
+
+# No housing districts needed on an auto-ringworld!
+xvcv_mdlc_pc_machine_ring_district_primary = {
+	base_buildtime = @rw_district_buildtime
+	is_uncapped = {}
+	default_starting_district = yes
+
+	show_on_uncolonized = {
+		exists = from
+		from = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		uses_district_set = xvcv_mdlc_pc_machine_ring_district_set
+	}
+
+	potential = {
+		exists = owner
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		uses_district_set = xvcv_mdlc_pc_machine_ring_district_set
+	}
+
+	zone_slots = {
+		oxr_mdlc_origin_wm_slot_city_government
+		oxr_mdlc_origin_wm_slot_city_01
+		oxr_mdlc_origin_wm_slot_city_02
+	}
+
+	conversion_ratio = 1
+	inline_script = planet/districts/convert_to/oxr_wm_district_primary
+
+	on_built = {
+		inline_script = planet/districts/on_action/on_wm_district_built
+	}
+	on_destroy = {
+		inline_script = planet/districts/on_action/on_wm_district_destroy
+	}
+
+	resources = {
+		category = xvcv_mdlc_world_machines_cities_districts
+		cost = {
+			minerals = @oxr_rw_cost
+		}
+		upkeep = {
+			energy = @rw_maintenance
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+	}
+}
+
+# Research OR development ("growth and development")
+xvcv_mdlc_pc_machine_ring_district_computer = {
+	base_buildtime = @rw_district_buildtime
+	is_uncapped = {}
+
+	show_on_uncolonized = {
+		exists = from
+		from = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		uses_district_set = xvcv_mdlc_pc_machine_ring_district_set
+	}
+	potential = {
+		exists = owner
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		uses_district_set = xvcv_mdlc_pc_machine_ring_district_set
+	}
+
+	zone_slots = {
+		oxr_mdlc_slot_pc_machine_ring_rnd
+	}
+
+	conversion_ratio = 1
+	inline_script = planet/districts/convert_to/oxr_wm_district_2
+
+	resources = {
+		category = xvcv_mdlc_world_machines_rnd_districts
+		cost = {
+			minerals = @oxr_rw_cost
+			exotic_gases = @oxr_rw_cost_sr
+		}
+		upkeep = {
+			exotic_gases = 1
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		# BASE PRODUCTION, NO SPECIALIZATION
+		produces = {
+			trigger = {
+				oxr_mdlc_auto_ringworld_has_any_rnd_zones = no
+			}
+			physics_research = @[ 1.5 * oxr_mdlc_wm_base_calculator_output ]
+			engineering_research = @[ 1.5 * oxr_mdlc_wm_base_calculator_output ]
+			society_research = @[ 1.5 * oxr_mdlc_wm_base_calculator_output ]
+			unity = @[ 2 * oxr_mdlc_wm_base_coordinator_output ]
+			trade = @[ 2 * oxr_mdlc_wm_base_logistics_drone_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		upkeep = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_machine_ring_research = no
+				has_oxr_mdlc_zone_pc_machine_ring_unity = no
+				has_oxr_mdlc_zone_pc_machine_ring_trade = no
+			}
+			energy = @[ 4.5 + ( 2 * oxr_mdlc_wm_base_coordinator_upkeep ) + ( 2 * oxr_mdlc_wm_base_logistics_drone_upkeep ) ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+	}
+
+	on_built = {
+		inline_script = planet/districts/on_action/on_wm_district_built
+	}
+	on_destroy = {
+		inline_script = planet/districts/on_action/on_wm_district_destroy
+	}
+
+	triggered_name = {
+		trigger = {
+			has_oxr_mdlc_zone_pc_machine_ring_research = yes
+		}
+		text = xvcv_mdlc_pc_machine_ring_district_computer_name_research
+	}
+	triggered_name = {
+		trigger = {
+			has_oxr_mdlc_zone_pc_machine_ring_unity = yes
+		}
+		text = xvcv_mdlc_pc_machine_ring_district_computer_name_admin
+	}
+	triggered_name = {
+		trigger = {
+			has_oxr_mdlc_zone_pc_machine_ring_trade = yes
+		}
+		text = xvcv_mdlc_pc_machine_ring_district_computer_name_admin
+	}
+	# research
+	# triggered_name = {
+	# 	trigger = {
+	# 		has_oxr_mdlc_zone_pc_machine_ring_research_physics = yes
+	# 	}
+	# 	text = xvcv_mdlc_pc_machine_ring_district_computer_name_energy_physics
+	# }
+	# triggered_name = {
+	# 	trigger = {
+	# 		has_oxr_mdlc_zone_pc_machine_ring_research_society = yes
+	# 	}
+	# 	text = xvcv_mdlc_pc_machine_ring_district_computer_name_energy_society
+	# }
+	# triggered_name = {
+	# 	trigger = {
+	# 		has_oxr_mdlc_zone_pc_machine_ring_research_engineering = yes
+	# 	}
+	# 	text = xvcv_mdlc_pc_machine_ring_district_computer_name_energy_engineering
+	# }
+	# default
+	triggered_name = {
+		text = xvcv_mdlc_pc_machine_ring_district_computer_name_none
+	}
+}
+
+
+# Industrial OR goods 
+xvcv_mdlc_pc_machine_ring_district_industrial = {
+	base_buildtime = @rw_district_buildtime
+	is_uncapped = {}
+
+	show_on_uncolonized = {
+		exists = from
+		from = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		uses_district_set = xvcv_mdlc_pc_machine_ring_district_set
+	}
+	potential = {
+		exists = owner
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		uses_district_set = xvcv_mdlc_pc_machine_ring_district_set
+	}
+	conversion_ratio = 1
+	inline_script = planet/districts/convert_to/oxr_wm_district_3
+
+	zone_slots = {
+		xvcv_mdlc_slot_pc_machine_ring_industrial
+	}
+
+	resources = {
+		category = xvcv_mdlc_world_machines_foundry_factory_districts
+		cost = { minerals = @oxr_rw_cost }
+		upkeep = { energy = @rw_maintenance }
+		# If no zones have been built, incur a default build cost
+		cost = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_machine_ring_alloys = no
+				has_oxr_mdlc_zone_pc_machine_ring_consumer_goods = no
+			}
+			rare_crystals = @oxr_rw_cost_sr
+		}
+		upkeep = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_machine_ring_alloys = no
+				has_oxr_mdlc_zone_pc_machine_ring_consumer_goods = no
+			}
+			energy = @rw_maintenance
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		upkeep = {
+			# trigger = { has_oxr_mdlc_zone_pc_machine_ring_alloys = no }
+			rare_crystals = @rw_maintenance_sr
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		upkeep = {
+			trigger = {
+				exists = owner
+				owner = { has_edict = industrial_maintenance }
+			}
+			energy = 4
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+
+		# NO ZONES, NOT CATALYTIC, NO GOODS
+		produces = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_machine_ring_consumer_goods = no
+				has_oxr_mdlc_zone_pc_machine_ring_alloys = no
+				oxr_planet_owner_is_catalytic = no
+				oxr_planet_owner_uses_goods = no
+			}
+			alloys = @[ 12 * oxr_mdlc_wm_base_fabricator_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		upkeep = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_machine_ring_consumer_goods = no
+				has_oxr_mdlc_zone_pc_machine_ring_alloys = no
+				oxr_planet_owner_is_catalytic = no
+				oxr_planet_owner_uses_goods = no
+			}
+			minerals = @[ 12 * oxr_mdlc_wm_base_fabricator_upkeep ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		# NO ZONES, YES CATALYTIC, NO GOODS
+		produces = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_machine_ring_consumer_goods = no
+				has_oxr_mdlc_zone_pc_machine_ring_alloys = no
+				oxr_planet_owner_is_catalytic = yes
+				oxr_planet_owner_uses_goods = no
+			}
+			alloys = @[ 12 * oxr_mdlc_wm_base_fabricator_catalytic_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		upkeep = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_machine_ring_consumer_goods = no
+				has_oxr_mdlc_zone_pc_machine_ring_alloys = no
+				oxr_planet_owner_is_catalytic = yes
+				oxr_planet_owner_uses_goods = no
+			}
+			food = @[ 12 * oxr_mdlc_wm_base_fabricator_catalytic_upkeep ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		# NO ZONES, NOT CATALYTIC, USES GOODS
+		produces = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_machine_ring_consumer_goods = no
+				has_oxr_mdlc_zone_pc_machine_ring_alloys = no
+				oxr_planet_owner_is_catalytic = no
+				oxr_planet_owner_uses_goods = yes
+			}
+			consumer_goods = @[ 6 * oxr_mdlc_wm_base_artisan_output ]
+			alloys = @[ 6 * oxr_mdlc_wm_base_fabricator_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		upkeep = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_machine_ring_consumer_goods = no
+				has_oxr_mdlc_zone_pc_machine_ring_alloys = no
+				oxr_planet_owner_is_catalytic = no
+				oxr_planet_owner_uses_goods = yes
+			}
+			minerals = @[ ( 6 * oxr_mdlc_wm_base_artisan_upkeep ) + ( 6 * oxr_mdlc_wm_base_fabricator_upkeep ) ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		# NO ZONES, YES CATALYTIC, YES GOODS
+		produces = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_machine_ring_consumer_goods = no
+				has_oxr_mdlc_zone_pc_machine_ring_alloys = no
+				oxr_planet_owner_is_catalytic = no
+				oxr_planet_owner_uses_goods = yes
+			}
+			consumer_goods = @[ 6 * oxr_mdlc_wm_base_artisan_catalytic_output ]
+			alloys = @[ 6 * oxr_mdlc_wm_base_fabricator_catalytic_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		upkeep = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_machine_ring_consumer_goods = no
+				has_oxr_mdlc_zone_pc_machine_ring_alloys = no
+				oxr_planet_owner_is_catalytic = no
+				oxr_planet_owner_uses_goods = yes
+			}
+			food = @[ ( 6 * oxr_mdlc_wm_base_fabricator_catalytic_upkeep ) + ( 6 * oxr_mdlc_wm_base_artisan_catalytic_upkeep ) ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		#### ZONES ####
+		# ALLOYS - NOT CATALYTIC
+		produces = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_machine_ring_alloys = yes
+				oxr_planet_owner_is_catalytic = no
+			}
+			alloys = @[ 12 * oxr_mdlc_wm_base_fabricator_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		upkeep = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_machine_ring_alloys = yes
+				oxr_planet_owner_is_catalytic = no
+			}
+			minerals = @[ 12 * oxr_mdlc_wm_base_fabricator_upkeep ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		# ALLOYS - CATALYTIC
+		produces = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_machine_ring_alloys = yes
+				oxr_planet_owner_is_catalytic = yes
+			}
+			alloys = @[ 12 * oxr_mdlc_wm_base_fabricator_catalytic_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		upkeep = {
+		trigger = {
+				has_oxr_mdlc_zone_pc_machine_ring_alloys = yes
+				oxr_planet_owner_is_catalytic = yes
+			}
+			food = @[ 12 * oxr_mdlc_wm_base_fabricator_catalytic_upkeep ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		# GOODS
+		produces = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_machine_ring_consumer_goods = yes
+				oxr_planet_owner_is_catalytic = no
+			}
+			consumer_goods = @[ 12 * oxr_mdlc_wm_base_artisan_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		upkeep = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_machine_ring_consumer_goods = yes
+				oxr_planet_owner_is_catalytic = no
+			}
+			minerals = @[ 12 * oxr_mdlc_wm_base_artisan_upkeep ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		# GOODS - CATALYTIC
+		produces = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_machine_ring_consumer_goods = yes
+				oxr_planet_owner_is_catalytic = yes
+			}
+			consumer_goods = @[ 12 * oxr_mdlc_wm_base_artisan_catalytic_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		upkeep = {
+			trigger = {
+				has_oxr_mdlc_zone_pc_machine_ring_consumer_goods = yes
+				oxr_planet_owner_is_catalytic = yes
+			}
+			minerals = @[ 12 * oxr_mdlc_wm_base_artisan_catalytic_upkeep ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+	}
+
+	on_built = {
+		inline_script = planet/districts/on_action/on_wm_district_built
+	}
+	on_destroy = {
+		inline_script = planet/districts/on_action/on_wm_district_destroy
+	}
+
+	triggered_name = {
+		trigger = {
+			has_oxr_mdlc_zone_pc_machine_ring_alloys = yes
+		}
+		text = xvcv_mdlc_pc_machine_ring_district_industrial_name_alloys
+	}
+	triggered_name = {
+		trigger = {
+			has_oxr_mdlc_zone_pc_machine_ring_consumer_goods = yes
+		}
+		text = xvcv_mdlc_pc_machine_ring_district_industrial_name_goods
+	}
+	triggered_name = {
+		text = xvcv_mdlc_pc_machine_ring_district_industrial_name_mixed
+	}
+}
+
+# Farm OR generator ("Raw Resources")
+xvcv_mdlc_pc_machine_ring_district_raw_resource = {
+	base_buildtime = @rw_district_buildtime
+	is_uncapped = {}
+
+	show_on_uncolonized = {
+		exists = from
+		from = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		uses_district_set = xvcv_mdlc_pc_machine_ring_district_set
+	}
+	potential = {
+		exists = owner
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		uses_district_set = xvcv_mdlc_pc_machine_ring_district_set
+	}
+
+	conversion_ratio = 1
+	inline_script = planet/districts/convert_to/oxr_wm_district_4
+
+	zone_slots = {
+		xvcv_mdlc_slot_pc_machine_ring_raw_resource
+	}
+
+	resources = {
+		category = xvcv_mdlc_world_machines_raw_resources_districts
+		cost = {
+			minerals = @oxr_rw_cost
+			rare_crystals = @oxr_rw_cost_sr
+		}
+		
+		upkeep = {
+			rare_crystals = @rw_maintenance_sr
+		}
+
+
+        ## GENERATOR ##
+        produces = {
+            trigger = {
+                has_oxr_mdlc_zone_pc_machine_ring_energy = yes
+            }
+            energy = @[ 12 * oxr_mdlc_wm_base_technician_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+        }
+        # GENERATOR UPKEEP
+        upkeep = {
+            trigger = {
+				NOT = { has_active_building = oxr_mdlc_world_machines_biofuel_refit_1 }
+                has_oxr_mdlc_zone_pc_machine_ring_energy = yes
+            }
+            minerals = @oxr_mdlc_wm_base_technician_upkeep
+	        energy = 2
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+        }
+        upkeep = {
+            trigger = {
+                has_active_building = oxr_mdlc_world_machines_biofuel_refit_1
+                has_oxr_mdlc_zone_pc_machine_ring_energy = yes
+            }
+            food = @[ 12 * oxr_mdlc_wm_base_technician_upkeep * 2 ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+        }
+        ## FARM ##
+        produces = {
+            trigger = { has_oxr_mdlc_zone_pc_machine_ring_food = yes }
+			food = @[ 12 * oxr_mdlc_wm_base_farmer_output ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+		produces = {
+			trigger = {
+				exists = owner
+				owner = { has_tradition = tr_nanotech_1 }
+                has_oxr_mdlc_zone_pc_machine_ring_food = yes
+			}
+			nanites = @[ 12 * 0.2 ]
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+	}
+
+	on_built = {
+		inline_script = planet/districts/on_action/on_wm_district_built
+	}
+	on_destroy = {
+		inline_script = planet/districts/on_action/on_wm_district_destroy
+	}
+	triggered_name = {
+		trigger = {
+			has_oxr_mdlc_zone_pc_machine_ring_food = yes
+		}
+		text = xvcv_mdlc_pc_machine_ring_district_raw_resource_name_food
+	}
+	triggered_name = {
+		trigger = {
+			has_oxr_mdlc_zone_pc_machine_ring_energy = yes
+		}
+		text = xvcv_mdlc_pc_machine_ring_district_raw_resource_name_energy
+	}
+	triggered_name = {
+		text = xvcv_mdlc_pc_machine_ring_district_raw_resource_name_none
+	}
+}
+
+
+### Swap districts
+xvcv_mdlc_pc_machine_ring_district_generator = {
+	base_buildtime = @rw_district_buildtime
+	is_uncapped = {}
+
+	zone_slots = {
+		slot_empty
+	}
+
+	show_on_uncolonized = {
+		always = no
+	}
+
+	potential = {
+		always = no
+	}
+
+	convert_to = {
+		district_rw_generator
+	}
+
+    on_built = {
+		if = {
+			limit = { 
+				owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+			}
+			owner = {
+				fire_on_action = { on_action = on_world_machine_district_completed_country }
+			}
+			fire_on_action = { on_action = on_world_machine_district_completed_planet }
+		}
+	}
+	on_destroy = {
+		fire_on_action = { on_action = on_world_machine_district_demolished }
+	}
+	triggered_name = {
+		trigger = {
+			has_oxr_mdlc_zone_pc_machine_ring_energy_physics = yes
+		}
+		text = xvcv_mdlc_pc_machine_ring_district_raw_resource_name_energy_physics
+	}
+
+}
+
+xvcv_mdlc_pc_machine_ring_district_farming = {
+	base_buildtime = @rw_district_buildtime
+	is_uncapped = {}
+
+	zone_slots = {
+		slot_empty
+	}
+
+	show_on_uncolonized = {
+		always = no
+	}
+
+	potential = {
+		always = no
+	}
+
+	# resources = {
+	# 	category = xvcv_mdlc_world_machines_food_districts
+	# 	cost = {
+	# 		minerals = @oxr_rw_cost
+	# 		volatile_motes = @oxr_rw_cost_sr
+	# 	}
+    # }
+	on_built = {
+		if = {
+			limit = { 
+				owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+			}
+			owner = {
+				fire_on_action = { on_action = on_world_machine_district_completed_country }
+			}
+			fire_on_action = { on_action = on_world_machine_district_completed_planet }
+		}
+	}
+	on_destroy = {
+		fire_on_action = { on_action = on_world_machine_district_demolished }
+	}
+	triggered_name = {
+		trigger = {
+			has_oxr_mdlc_zone_pc_machine_ring_food_biology = yes
+		}
+		text = xvcv_mdlc_pc_machine_ring_district_raw_resource_name_food_biology
+	}
+}
+
+# xvcv_mdlc_pc_machine_ring_district_energy_physics = {
+# 	base_buildtime = @rw_district_buildtime
+# 	is_uncapped = {}
+# 	icon = xvcv_mdlc_pc_machine_ring_district_generator
+# 	overlay_icon = GFX_district_physics
+
+# 	zone_slots = {
+# 		slot_empty
+# 	}
+
+# 	show_on_uncolonized = {
+# 		always = no
+# 	}
+
+# 	potential = {
+# 		always = no
+# 	}
+
+# 	convert_to = {
+# 		district_rw_generator
+# 	}
+#     triggered_name = {
+#         text = xvcv_mdlc_pc_machine_ring_district_raw_resource_triggered_name_energy_physics
+#     }
+#     on_built = {
+# 		if = {
+# 			limit = { 
+# 				owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+# 			}
+# 			owner = {
+# 				fire_on_action = { on_action = on_world_machine_district_completed_country }
+# 			}
+# 			fire_on_action = { on_action = on_world_machine_district_completed_planet }
+# 		}
+# 	}
+# 	on_destroy = {
+# 		fire_on_action = { on_action = on_world_machine_district_demolished }
+# 	}
+# 	# triggered_name = {
+# 	# 	text = xvcv_mdlc_pc_machine_ring_district_farming_triggered_name_none
+# 	# }
+
+# }
+# xvcv_mdlc_pc_machine_ring_district_energy_society = {
+# 	base_buildtime = @rw_district_buildtime
+# 	is_uncapped = {}
+# 	icon = xvcv_mdlc_pc_machine_ring_district_generator
+# 	overlay_icon = GFX_district_society
+
+# 	zone_slots = {
+# 		slot_empty
+# 	}
+
+# 	show_on_uncolonized = {
+# 		always = no
+# 	}
+
+# 	potential = {
+# 		always = no
+# 	}
+
+# 	convert_to = {
+# 		district_rw_generator
+# 	}
+#     triggered_name = {
+#         text = xvcv_mdlc_pc_machine_ring_district_raw_resource_name_energy_society
+#     }
+#     on_built = {
+# 		if = {
+# 			limit = { 
+# 				owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+# 			}
+# 			owner = {
+# 				fire_on_action = { on_action = on_world_machine_district_completed_country }
+# 			}
+# 			fire_on_action = { on_action = on_world_machine_district_completed_planet }
+# 		}
+# 	}
+# 	on_destroy = {
+# 		fire_on_action = { on_action = on_world_machine_district_demolished }
+# 	}
+# 	triggered_name = {
+# 		text = xvcv_mdlc_pc_machine_ring_district_farming_triggered_name_none
+# 	}
+
+# }
+# xvcv_mdlc_pc_machine_ring_district_energy_engineering = {
+# 	base_buildtime = @rw_district_buildtime
+# 	is_uncapped = {}
+# 	icon = xvcv_mdlc_pc_machine_ring_district_generator
+# 	overlay_icon = GFX_district_engineering
+
+# 	zone_slots = {
+# 		slot_empty
+# 	}
+
+# 	show_on_uncolonized = {
+# 		always = no
+# 	}
+
+# 	potential = {
+# 		always = no
+# 	}
+
+# 	convert_to = {
+# 		district_rw_generator
+# 	}
+#     triggered_name = {
+#         text = xvcv_mdlc_pc_machine_ring_district_raw_resource_name_energy_engineering
+#     }
+#     on_built = {
+# 		if = {
+# 			limit = { 
+# 				owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
+# 			}
+# 			owner = {
+# 				fire_on_action = { on_action = on_world_machine_district_completed_country }
+# 			}
+# 			fire_on_action = { on_action = on_world_machine_district_completed_planet }
+# 		}
+# 	}
+# 	on_destroy = {
+# 		fire_on_action = { on_action = on_world_machine_district_demolished }
+# 	}
+# 	triggered_name = {
+# 		text = xvcv_mdlc_pc_machine_ring_district_farming_triggered_name_none
+# 	}
+
+# }
+
+xvcv_mdlc_pc_ringworld_machine_auto_district_primary = { potential = { exists = owner is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto } convert_to = { xvcv_mdlc_pc_machine_ring_district_primary } }
+xvcv_mdlc_pc_ringworld_machine_auto_district_rnd = { potential = { exists = owner is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto } convert_to = { xvcv_mdlc_pc_ringworld_machine_auto_district_rnd } }
+xvcv_mdlc_pc_ringworld_machine_auto_district_industrial = { potential = { exists = owner is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto } convert_to = { xvcv_mdlc_pc_ringworld_machine_auto_district_industrial } }
+xvcv_mdlc_pc_ringworld_machine_auto_district_raw_resource = { potential = { exists = owner is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto } convert_to = { xvcv_mdlc_pc_ringworld_machine_auto_district_raw_resource } }
+xvcv_mdlc_pc_ringworld_machine_auto_district_generator = { potential = { exists = owner is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto } convert_to = { xvcv_mdlc_pc_ringworld_machine_auto_district_generator } }
+xvcv_mdlc_pc_ringworld_machine_auto_district_farming = { potential = { exists = owner is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto } convert_to = { xvcv_mdlc_pc_ringworld_machine_auto_district_farming } }

@@ -1,6 +1,6 @@
 #auto worlds
 #	xvcv_mdlc_pc_machine_auto
-#	xvcv_mdlc_pc_ringworld_machine_auto
+#	xvcv_mdlc_pc_machine_ring
 #	xvcv_mdlc_pc_machine_ecu
 #	xvcv_mdlc_pc_machine_cpu
 #	xvcv_mdlc_pc_machine_ser
@@ -845,7 +845,7 @@ rikk_mdlc_decision_world_machine_outer_core_cooling = {
 					space_owner = { inline_script = country/messages/rikk_mdlc_upgrade_message_failed }
 				}
 				else = {
-					planet_event = { id = rikk_mdlc_wm_upgrade_events.110 days = @wmupgradelength4 }
+					planet_event = { id = rikk_mdlc_wm_event.110 days = @wmupgradelength4 }
 				}
 				planet_event = { id = rikk_mdlc_wm_event.200 days = 1 }
 			}
@@ -1065,5 +1065,19 @@ rikk_mdlc_decision_world_machine_core_core = {
 				planet_event = { id = rikk_mdlc_wm_event.200 days = 1 }
 			}
 		}
+	}
+}
+
+rikk_mdlc_decision_convert_broken_ring = {
+	icon = oxr_mdlc_decisions_origin_wm_expand_planet
+	owned_planets_only = no
+	
+	potential = {
+		exists = space_owner
+		planet = { is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto }
+	}
+	
+	effect = {
+		hidden_effect = { planet = { rikk_mdlc_swap_ringworld_effect = yes } }
 	}
 }
