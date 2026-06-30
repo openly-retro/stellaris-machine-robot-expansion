@@ -55,9 +55,16 @@ oxr_mdlc_world_machines_building_military_academy = {
 	prerequisites = { tech_centralized_command }
 	allow = { OR = { oxr_mdlc_has_upgraded_capital = yes owner = { has_valid_civic = civic_machine_tactical_algorithms } } }
 	planetary_ftl_inhibitor = yes
+	on_built = { 
+		owner = { 
+			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
+			set_country_flag = has_oxr_mdlc_world_machines_building_military_academy
+		}
+	}
+	on_destroy = { remove_country_flag = has_oxr_mdlc_world_machines_building_military_academy }
 	
 	inline_script = {
-		script = planet/buildings/auto/rikk_empty_building
+		script = planet/buildings/auto/rikk_empty_building_no_on_built
 		CATEGORY = army
 		POTENTIAL = " "
     	TIER = 3
