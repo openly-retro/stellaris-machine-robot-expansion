@@ -7,12 +7,11 @@ oxr_mdlc_world_machine_core_dropsite = {
 	portrait = "GFX_megastructure_construction_background"
 	entity_offset = { x = 0 y = -10 }
 
-	place_entity_on_planet_plane = yes
+	place_entity_on_planet_plane = no
 	show_galactic_map_icon = no
 	show_in_outliner = no
 	use_planet_resource = no  # linked to deposit?
 	build_time = 30
-	entity_offset = { x = 0 y = 0 }
 
 	build_type = around_planet
 
@@ -70,22 +69,26 @@ oxr_mdlc_world_machine_core_dropsite = {
 				fail_text = "requires_not_astral_scar"
 				is_astral_scar = no
 			}
-
-			
-			
-			
-
-			is_planet_world_machine = no
-
-			OR = {
-				oxr_mdlc_planet_can_become_world_machine = yes
-				oxr_mdlc_planet_can_automate_ring = yes
+			custom_tooltip = {
+				fail_text = "oxr_mdlc_world_machine_core_tooltip.fail_is_wm"
+				is_planet_world_machine = no
 			}
+			custom_tooltip = {
+				fail_text = "oxr_mdlc_world_machine_core_tooltip.fail_invalid_candidate"
+				OR = {
+					oxr_mdlc_planet_can_become_world_machine = yes
+					oxr_mdlc_planet_can_automate_ring = yes
+				}
+			}
+
 			custom_tooltip = {
 				fail_text = "requires_no_existing_megastructure"
 				NOT = { has_carrier_flag = megastructure }
 			}
-			is_colony = no  # use xvcv's original decision for that one
+			custom_tooltip = {
+				fail_text = "oxr_mdlc_world_machine_core_tooltip.fail_is_colony"
+				is_colony = no  # use xvcv's original decision for that one
+			}
 
 			custom_tooltip = {
 				fail_text = "requires_no_anomaly"
@@ -107,13 +110,15 @@ oxr_mdlc_world_machine_core_dropsite = {
 		}
 	}
 
+	# effects, scope: galactic object, from: country,
+	# fromfrom: megastructure instance (when upgrading existing megastructure)
 	on_build_start = {
-		fromfrom.planet = {
-			set_planet_flag = has_megastructure
-			set_planet_flag = has_oxr_mdlc_world_machine_core_dropsite
-		}
+
 	}
-	
+
+	# effects, scope: galactic object, from: country,
+	# fromfrom: megastructure instance, fromfromfrom: constructing fleet
+	# prev: starbase (if the megastructure spawns a starbase)
 	on_build_complete = {
 		fromfrom.planet = {
 
@@ -124,8 +129,6 @@ oxr_mdlc_world_machine_core_dropsite = {
 				# oxr_mdlc_planet_destroy_nomad_orbitals_to_prepare_auto_colony = yes
 
 				# Copied over from the decision
-				remove_planet_flag = has_megastructure
-				remove_planet_flag = has_oxr_mdlc_world_machine_core_dropsite
 
 				if = {
 					limit = {
@@ -137,40 +140,29 @@ oxr_mdlc_world_machine_core_dropsite = {
 					start_terraform_process = xvcv_mdlc_pc_machine_auto
 				}
 
-				create_message = {
-					type = OXR_MDLC_WM_PLANET_CORE_DROPSITE
-					localization = OXR_MDLC_WM_PLANET_CORE_DROPSITE_MESSAGE
-					days = 10
-					target = this
-				}
-
 			}
+
 		}
 		# We don't need this mega since it did its job
-		remove_megastructure = this
-	}
-
-	on_dismantle_complete = {
-		# fromfrom.planet = {
-		# 	clear_deposits = yes
-		# 	remove_planet_flag = has_megastructure
-		# 	remove_planet_flag = xvcv_mdlc_planet_cracker_placed
-		# }
-		# This only works if there is ONLY 1 being dismantled in the system
-		random_system_planet_colony = {
-			limit = {
-				planet? = {
-					has_planet_flag = oxr_mdlc_clear_dismantled_planet_cracker
+		fromfrom = {
+			create_message = {
+				type = OXR_MDLC_WM_PLANET_CORE_DROPSITE
+				localization = OXR_MDLC_WM_PLANET_CORE_DROPSITE_MESSAGE
+				days = 20
+				target = planet
+				variable = {
+					type = name
+					localization = OXR_MDLC_TARGET_WM_PLANET
+					scope = planet
 				}
 			}
-			planet = {
-				remove_planet_flag = xvcv_mdlc_planet_cracker_placed
-				remove_planet_flag = has_megastructure
-				remove_planet_flag = oxr_mdlc_clear_dismantled_planet_cracker
-				clear_deposits = yes
-			}
+			remove_megastructure = this
 		}
+
 	}
+
+	on_dismantle_complete = { }
+
 	resources = {
 		category = station_gatherers
 		upkeep = { energy = 1 }
