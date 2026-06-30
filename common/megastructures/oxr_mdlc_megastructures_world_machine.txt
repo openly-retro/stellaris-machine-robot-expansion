@@ -51,6 +51,24 @@ oxr_mdlc_world_machine_core_dropsite = {
 				}
 			}
 		}
+		custom_tooltip = {
+			fail_text = "oxr_mdlc_world_machine_core_tooltip.fail_insufficient_wmc"
+			space_owner = {
+				has_resource = {
+					type = oxr_mdlc_world_machine_core
+					amount >= 1
+				}
+			}
+		}
+		custom_tooltip = {
+			fail_text = "oxr_mdlc_world_machine_core_tooltip.fail_insufficient_energy"
+			space_owner = {
+				has_resource = {
+					type = energy
+					amount >= 2500
+				}
+			}
+		}
 	}
 
 	placement_rules = {
@@ -83,6 +101,47 @@ oxr_mdlc_world_machine_core_dropsite = {
 			}
 
 			custom_tooltip = {
+				fail_text = "oxr_mdlc_world_machine_core_tooltip.fail_technology"
+				OR = {
+					is_planet_class = pc_frozen
+					space_owner = {
+						has_technology = oxr_mdlc_tech_geologic_scaling_thermoelectrics
+						has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
+					}
+				}
+				
+			}
+
+
+			custom_tooltip = {
+				fail_text = "oxr_mdlc_world_machine_core_tooltip.fail_technology"
+				OR = {
+					is_planet_class = pc_molten
+					space_owner = {
+						has_technology = oxr_mdlc_tech_geologic_heat_shielding_2
+						has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
+					}
+				}
+				
+			}
+		
+
+			custom_tooltip = {
+				fail_text = "oxr_mdlc_world_machine_core_tooltip.fail_technology"
+				OR = {
+					AND = {
+						is_planet_class = pc_toxic
+						space_owner = {
+							has_technology = tech_climate_restoration
+							has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
+						}
+					}
+				}
+				
+			}
+
+
+			custom_tooltip = {
 				fail_text = "oxr_mdlc_world_machine_core_tooltip.fail_is_terraforming"
 				is_terraforming = no
 			}
@@ -101,7 +160,9 @@ oxr_mdlc_world_machine_core_dropsite = {
 				NOT = { has_anomaly = yes }
 			}
 
-		}
+			
+			
+		} #/planet_possible
 	}
 
 
@@ -126,31 +187,26 @@ oxr_mdlc_world_machine_core_dropsite = {
 	# fromfrom: megastructure instance, fromfromfrom: constructing fleet
 	# prev: starbase (if the megastructure spawns a starbase)
 	on_build_complete = {
-		fromfrom.planet = {
 
-			custom_tooltip = oxr_mdlc_decisions_origin_wm_start_world_with_core_effect
-
-			hidden_effect = {
-				# Remove nomad deposits, reset ownership to space_owner empire
-				# oxr_mdlc_planet_destroy_nomad_orbitals_to_prepare_auto_colony = yes
-
-				# Copied over from the decision
-
-				if = {
-					limit = {
-						is_ringworld = yes
+		# Check if there are enough resources to start terraforming,
+		# otherwise the empire gets a free terraform!
+		if = {
+			limit = {
+				from = {
+					OR = {
+						has_resource = {
+							type = oxr_mdlc_world_machine_core
+							amount = 0
+						}
+						has_resource = {
+							type = energy
+							amount < 2500
+						}
 					}
-					start_terraform_process = xvcv_mdlc_pc_ringworld_machine_auto
 				}
-				else = {
-					start_terraform_process = xvcv_mdlc_pc_machine_auto
-				}
-
 			}
-
-		}
-		# We don't need this mega since it did its job
-		fromfrom = {
+			# throw an error message
+			# destroy the mega
 			create_message = {
 				type = OXR_MDLC_WM_PLANET_CORE_DROPSITE
 				localization = OXR_MDLC_WM_PLANET_CORE_DROPSITE_MESSAGE
@@ -162,10 +218,53 @@ oxr_mdlc_world_machine_core_dropsite = {
 					scope = planet
 				}
 			}
-			remove_megastructure = this
+			fromfrom = {
+				remove_megastructure = this
+			}
+		}
+		else = {
+			# Proceed as planned
+			fromfrom.planet = {
+
+				custom_tooltip = oxr_mdlc_decisions_origin_wm_start_world_with_core_effect
+
+				hidden_effect = {
+					# Remove nomad deposits, reset ownership to space_owner empire
+					# oxr_mdlc_planet_destroy_nomad_orbitals_to_prepare_auto_colony = yes
+
+					# Copied over from the decision
+
+					if = {
+						limit = {
+							is_ringworld = yes
+						}
+						start_terraform_process = xvcv_mdlc_pc_ringworld_machine_auto
+					}
+					else = {
+						start_terraform_process = xvcv_mdlc_pc_machine_auto
+					}
+
+				}
+
+			}
+			# We don't need this mega since it did its job
+			fromfrom = {
+				create_message = {
+					type = OXR_MDLC_WM_PLANET_CORE_DROPSITE
+					localization = OXR_MDLC_WM_PLANET_CORE_DROPSITE_MESSAGE
+					days = 20
+					target = planet
+					variable = {
+						type = name
+						localization = OXR_MDLC_TARGET_WM_PLANET
+						scope = planet
+					}
+				}
+				remove_megastructure = this
+			}
 		}
 
-	}
+	} #/on_build_complete
 
 	on_dismantle_complete = { }
 
