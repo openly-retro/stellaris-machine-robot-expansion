@@ -68,7 +68,13 @@ oxr_mdlc_zone_none = {
 # Any building from any set
 oxr_mdlc_origin_wm_zone_any = {
 	icon = GFX_district_specialization_urban
-	inline_script = planet/zones/oxr_wm_zone_base
+	inline_script = planet/zones/oxr_wm_zone_base_no_potential
+	
+	potential = {
+		hidden_trigger = { exists = owner }
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		planet = { is_planet_world_machine = yes is_xvcv_mdlc_pc_machine_ring = no }
+	}
 
 	country_modifier = { country_resource_max_add = 1500 }
 
@@ -90,7 +96,13 @@ oxr_mdlc_origin_wm_zone_any = {
 # Any building in the world-machine set
 oxr_mdlc_origin_wm_zone_any_wm = {
 	icon = GFX_district_specialization_urban
-	inline_script = planet/zones/oxr_wm_zone_base
+	inline_script = planet/zones/oxr_wm_zone_base_no_potential
+	
+	potential = {
+		hidden_trigger = { exists = owner }
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		planet = { is_planet_world_machine = yes is_xvcv_mdlc_pc_machine_ring = no }
+	}
 
 	max_buildings = 3
 	country_modifier = { country_resource_max_add = 3000 }
@@ -103,6 +115,65 @@ oxr_mdlc_origin_wm_zone_any_wm = {
 		mining_automation
 		farming_automation
 		urban_automation
+	}
+	planet_modifier = {
+		zone_building_slots_add = 3
+	}
+	zone_sets = { oxr_mdlc_zone_set_wm_common }
+}
+
+# Any building from any set except minerals for ringworlds
+oxr_mdlc_origin_wm_zone_any_ring = {
+	icon = GFX_district_specialization_urban
+	inline_script = planet/zones/oxr_wm_zone_base_no_potential
+	
+	potential = {
+		hidden_trigger = { exists = owner }
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		planet = { is_xvcv_mdlc_pc_machine_ring = yes }
+	}
+
+	country_modifier = { country_resource_max_add = 1500 }
+
+	max_buildings = 3
+	include = { all }
+	excluded_building_sets = { 
+		knights
+		generator_automation
+		mining_automation
+		farming_automation
+		urban_automation
+		oxr_mdlc_building_set_wm_minerals
+	}
+	planet_modifier = {
+		zone_building_slots_add = 3
+	}
+	zone_sets = { oxr_mdlc_zone_set_wm_common }
+}
+
+# Any building in the world-machine set
+oxr_mdlc_origin_wm_zone_any_wm_ring = {
+	icon = GFX_district_specialization_urban
+	inline_script = planet/zones/oxr_wm_zone_base_no_potential
+	
+	potential = {
+		hidden_trigger = { exists = owner }
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		planet = { is_xvcv_mdlc_pc_machine_ring = yes }
+	}
+
+	max_buildings = 3
+	country_modifier = { country_resource_max_add = 3000 }
+	included_building_sets = {
+		oxr_mdlc_building_set_wm_all
+	}
+	excluded_building_sets = { 
+		knights
+		generator_automation
+		mining_automation
+		farming_automation
+		urban_automation
+		oxr_mdlc_building_set_wm_minerals
 	}
 	planet_modifier = {
 		zone_building_slots_add = 3

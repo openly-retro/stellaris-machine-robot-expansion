@@ -1,5 +1,31 @@
 # Zones for the auto-ringworld
 # Primary Segment
+# default government zone
+oxr_mdlc_zone_pc_machine_ring_default = {
+	icon = GFX_district_specialization_urban
+	base_buildtime = @zone_buildtime
+	potential = { hidden_trigger = { exists = owner } }
+	unlock = { is_xvcv_mdlc_pc_machine_ring = yes }
+	resources = {
+		category = planet_zones
+		cost = { minerals = @zone_cost }
+	}
+	max_buildings = 6
+	include = { all }
+	excluded_building_sets = { 
+		knights
+		generator_automation
+		mining_automation
+		farming_automation
+		urban_automation
+		oxr_mdlc_building_set_wm_minerals
+	}
+	zone_sets = {
+		oxr_mdlc_zone_set_wm_default
+	}
+
+}
+
 # Planetary Defenses
 rikk_mdlc_zone_pc_machine_ring_military = {
 	icon = GFX_district_specialization_fortress
@@ -91,7 +117,7 @@ oxr_mdlc_zone_pc_machine_ring_science = {
 
 	inline_script = {
 		script = planet/zones/auto/oxr_wm_research_zone_production
-		DISTRICT_CATEGORY = xvcv_mdlc_world_machines_computer_districts
+		DISTRICT_CATEGORY = xvcv_mdlc_world_machines_rnd_districts
 		JOBS = 8 #Rikk: This is going to act like 8 of each job, which is a little over 2.5x what it should be. This is so ringworld is competitive with cpu with fpga.
 	}
 	
@@ -115,7 +141,7 @@ oxr_mdlc_zone_pc_machine_ring_unity = {
 
 	inline_script = {
 		script = planet/zones/auto/oxr_wm_unity_zone_production
-		DISTRICT_CATEGORY = xvcv_mdlc_world_machines_computer_districts
+		DISTRICT_CATEGORY = xvcv_mdlc_world_machines_rnd_districts
 		JOBS = 10
 	}
 	
