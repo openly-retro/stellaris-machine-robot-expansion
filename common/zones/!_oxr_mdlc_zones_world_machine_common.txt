@@ -130,7 +130,7 @@ oxr_mdlc_origin_wm_zone_any_wm = {
 oxr_mdlc_zone_pc_machine_ring_default = {
 	icon = GFX_district_specialization_urban
 	base_buildtime = @zone_buildtime
-	potential = { hidden_trigger = { exists = owner } planet = { is_xvcv_mdlc_pc_machine_ring = yes } }
+	potential = { hidden_trigger = { exists = owner } is_xvcv_mdlc_pc_machine_ring = yes }
 	unlock = { is_xvcv_mdlc_pc_machine_ring = yes }
 	resources = {
 		category = planet_zones
@@ -154,64 +154,27 @@ oxr_mdlc_zone_pc_machine_ring_default = {
 }
 oxr_mdlc_origin_wm_zone_any_ring = {
 	icon = GFX_district_specialization_urban
-	inline_script = planet/zones/oxr_wm_zone_base_no_potential
-	
-	potential = {
-		hidden_trigger = { exists = owner }
-		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
-		planet = { is_xvcv_mdlc_pc_machine_ring = yes }
-	}
-	unlock = { is_xvcv_mdlc_pc_machine_ring = yes }
+	inline_script = planet/zones/oxr_wm_zone_base_ring
 
 	country_modifier = { country_resource_max_add = 1000 }
 
 	max_buildings = 3
 	include = { all }
-	excluded_building_sets = { 
-		knights
-		generator_automation
-		mining_automation
-		farming_automation
-		urban_automation
-		mining
-		fallen_empire_mining
-		oxr_mdlc_building_set_wm_minerals
-	}
-	planet_modifier = {
-		zone_building_slots_add = 3
-	}
-	zone_sets = { oxr_mdlc_zone_set_wm_common }
+	
+	zone_sets = { oxr_mdlc_zone_set_wm_common rikk_mdlc_zone_set_ring_primary }
 }
 
 # Any building in the world-machine set
 oxr_mdlc_origin_wm_zone_any_wm_ring = {
 	icon = GFX_district_specialization_urban
-	inline_script = planet/zones/oxr_wm_zone_base_no_potential
-	
-	potential = {
-		hidden_trigger = { exists = owner }
-		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
-		planet = { is_xvcv_mdlc_pc_machine_ring = yes }
-	}
-	unlock = { is_xvcv_mdlc_pc_machine_ring = yes }
+	inline_script = planet/zones/oxr_wm_zone_base_ring
 
-	max_buildings = 3
 	country_modifier = { country_resource_max_add = 2500 }
+	
+	max_buildings = 3
 	included_building_sets = {
 		oxr_mdlc_building_set_wm_all
 	}
-	excluded_building_sets = { 
-		knights
-		generator_automation
-		mining_automation
-		farming_automation
-		urban_automation
-		mining
-		fallen_empire_mining
-		oxr_mdlc_building_set_wm_minerals
-	}
-	planet_modifier = {
-		zone_building_slots_add = 3
-	}
-	zone_sets = { oxr_mdlc_zone_set_wm_common }
+	
+	zone_sets = { oxr_mdlc_zone_set_wm_common rikk_mdlc_zone_set_ring_primary }
 }
