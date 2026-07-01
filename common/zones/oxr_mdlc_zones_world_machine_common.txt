@@ -4,10 +4,13 @@ oxr_mdlc_origin_wm_zone_default = {
 	base_buildtime = @zone_buildtime
 	potential = {
 		hidden_trigger = { exists = owner }
-		is_planet_world_machine = yes
+		planet = {
+			is_planet_world_machine = yes
+			is_xvcv_mdlc_pc_machine_ring = no
+		}
 	}
 
-	unlock = { is_planet_world_machine = yes }
+	unlock = { planet = { is_planet_world_machine = yes is_xvcv_mdlc_pc_machine_ring = no } }
 
 	resources = {
 		category = planet_zones
@@ -76,7 +79,7 @@ oxr_mdlc_origin_wm_zone_any = {
 		planet = { is_planet_world_machine = yes is_xvcv_mdlc_pc_machine_ring = no }
 	}
 
-	country_modifier = { country_resource_max_add = 1500 }
+	country_modifier = { country_resource_max_add = 1000 }
 
 	max_buildings = 3
 	include = { all }
@@ -105,7 +108,7 @@ oxr_mdlc_origin_wm_zone_any_wm = {
 	}
 
 	max_buildings = 3
-	country_modifier = { country_resource_max_add = 3000 }
+	country_modifier = { country_resource_max_add = 2500 }
 	included_building_sets = {
 		oxr_mdlc_building_set_wm_all
 	}
@@ -122,7 +125,33 @@ oxr_mdlc_origin_wm_zone_any_wm = {
 	zone_sets = { oxr_mdlc_zone_set_wm_common }
 }
 
+# these zones are here for ringworlds to prevent mineral buildings
 # Any building from any set except minerals for ringworlds
+oxr_mdlc_zone_pc_machine_ring_default = {
+	icon = GFX_district_specialization_urban
+	base_buildtime = @zone_buildtime
+	potential = { hidden_trigger = { exists = owner } planet = { is_xvcv_mdlc_pc_machine_ring = yes } }
+	unlock = { is_xvcv_mdlc_pc_machine_ring = yes }
+	resources = {
+		category = planet_zones
+		cost = { minerals = @zone_cost }
+	}
+	max_buildings = 6
+	include = { all }
+	excluded_building_sets = { 
+		knights
+		generator_automation
+		mining_automation
+		farming_automation
+		urban_automation
+		mining
+		fallen_empire_mining
+		oxr_mdlc_building_set_wm_minerals
+	}
+	zone_sets = {
+		oxr_mdlc_zone_set_wm_default
+	}
+}
 oxr_mdlc_origin_wm_zone_any_ring = {
 	icon = GFX_district_specialization_urban
 	inline_script = planet/zones/oxr_wm_zone_base_no_potential
@@ -133,7 +162,7 @@ oxr_mdlc_origin_wm_zone_any_ring = {
 		planet = { is_xvcv_mdlc_pc_machine_ring = yes }
 	}
 
-	country_modifier = { country_resource_max_add = 1500 }
+	country_modifier = { country_resource_max_add = 1000 }
 
 	max_buildings = 3
 	include = { all }
@@ -143,6 +172,8 @@ oxr_mdlc_origin_wm_zone_any_ring = {
 		mining_automation
 		farming_automation
 		urban_automation
+		mining
+		fallen_empire_mining
 		oxr_mdlc_building_set_wm_minerals
 	}
 	planet_modifier = {
@@ -163,7 +194,7 @@ oxr_mdlc_origin_wm_zone_any_wm_ring = {
 	}
 
 	max_buildings = 3
-	country_modifier = { country_resource_max_add = 3000 }
+	country_modifier = { country_resource_max_add = 2500 }
 	included_building_sets = {
 		oxr_mdlc_building_set_wm_all
 	}
@@ -173,6 +204,8 @@ oxr_mdlc_origin_wm_zone_any_wm_ring = {
 		mining_automation
 		farming_automation
 		urban_automation
+		mining
+		fallen_empire_mining
 		oxr_mdlc_building_set_wm_minerals
 	}
 	planet_modifier = {

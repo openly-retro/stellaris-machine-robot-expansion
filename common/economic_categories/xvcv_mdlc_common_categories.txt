@@ -112,6 +112,55 @@ xvcv_mdlc_world_machines_industrial_districts = {
 		produces
 		upkeep
 	}
+	
+	triggered_produces_modifier = {
+		key = xvcv_mdlc_world_machines_foundry_districts
+		modifier_types = { add mult } 
+		trigger = { is_scope_valid = yes has_oxr_mdlc_zone_pc_machine_ring_alloys = yes }
+		use_parent_icon = no
+	}
+	triggered_upkeep_modifier = {
+		key = xvcv_mdlc_world_machines_foundry_districts
+		modifier_types = { add mult } 
+		trigger = { is_scope_valid = yes has_oxr_mdlc_zone_pc_machine_ring_alloys = yes }
+		use_parent_icon = no
+	}
+	triggered_produces_modifier = {
+		key = xvcv_mdlc_world_machines_factory_districts
+		modifier_types = { add mult } 
+		trigger = { is_scope_valid = yes has_oxr_mdlc_zone_pc_machine_ring_consumer_goods = yes }
+		use_parent_icon = no
+	}
+	triggered_upkeep_modifier = {
+		key = xvcv_mdlc_world_machines_factory_districts
+		modifier_types = { add mult } 
+		trigger = { is_scope_valid = yes has_oxr_mdlc_zone_pc_machine_ring_consumer_goods = yes }
+		use_parent_icon = no
+	}
+	triggered_produces_modifier = {
+		key = xvcv_mdlc_world_machines_foundry_factory_districts
+		modifier_types = { add mult } 
+		trigger = { is_scope_valid = yes has_mdlc_ring_foundry_factory_zone = yes }
+		use_parent_icon = no
+	}
+	triggered_upkeep_modifier = {
+		key = xvcv_mdlc_world_machines_foundry_factory_districts
+		modifier_types = { add mult } 
+		trigger = { is_scope_valid = yes has_mdlc_ring_foundry_factory_zone = yes }
+		use_parent_icon = no
+	}
+	triggered_produces_modifier = {
+		key = xvcv_mdlc_world_machines_trade_districts
+		modifier_types = { add mult } 
+		trigger = { is_scope_valid = yes has_oxr_mdlc_zone_pc_machine_ring_trade = yes }
+		use_parent_icon = no
+	}
+	triggered_upkeep_modifier = {
+		key = xvcv_mdlc_world_machines_trade_districts
+		modifier_types = { add mult } 
+		trigger = { is_scope_valid = yes has_oxr_mdlc_zone_pc_machine_ring_trade = yes }
+		use_parent_icon = no
+	}
 }
 
 # naval cap
@@ -138,6 +187,7 @@ xvcv_mdlc_world_machines_trade_districts = {
 	generate_add_modifiers = {
 		produces
 		upkeep
+		cost
 	}
 }
 
@@ -202,6 +252,7 @@ xvcv_mdlc_world_machines_foundry_districts = {
 	generate_add_modifiers = {
 		produces
 		upkeep
+		cost
 	}
 	generate_mult_modifiers = {
 		produces
@@ -215,6 +266,7 @@ xvcv_mdlc_world_machines_factory_districts = {
 	generate_add_modifiers = {
 		produces
 		upkeep
+		cost
 	}
 	generate_mult_modifiers = {
 		produces
@@ -234,14 +286,40 @@ xvcv_mdlc_world_machines_raw_resources_districts = {
 		produces
 		upkeep
 	}
+	
+	triggered_produces_modifier = {
+		key = xvcv_mdlc_world_machines_food_districts
+		modifier_types = { add mult } 
+		trigger = { is_scope_valid = yes has_oxr_mdlc_zone_pc_machine_ring_food = yes }
+		use_parent_icon = no
+	}
+	triggered_upkeep_modifier = {
+		key = xvcv_mdlc_world_machines_food_districts
+		modifier_types = { add mult } 
+		trigger = { is_scope_valid = yes has_oxr_mdlc_zone_pc_machine_ring_food = yes }
+		use_parent_icon = no
+	}
+	triggered_produces_modifier = {
+		key = xvcv_mdlc_world_machines_generator_districts
+		modifier_types = { add mult } 
+		trigger = { is_scope_valid = yes has_oxr_mdlc_zone_pc_machine_ring_energy = yes }
+		use_parent_icon = no
+	}
+	triggered_upkeep_modifier = {
+		key = xvcv_mdlc_world_machines_generator_districts
+		modifier_types = { add mult } 
+		trigger = { is_scope_valid = yes has_oxr_mdlc_zone_pc_machine_ring_energy = yes }
+		use_parent_icon = no
+	}
 }
-#shouldn't this be farming? the other two are activities...
+# Rikk: Food is a resource, mining is an action, generator is a construction. none of these three follow any discernable scheme.
 xvcv_mdlc_world_machines_food_districts = {
 	parent = xvcv_mdlc_world_machines_raw_resources_districts
 	modifier_category = colony
 	generate_add_modifiers = {
 		upkeep
 		produces
+		cost
 	}
 	generate_mult_modifiers = {
 		produces
@@ -266,6 +344,7 @@ xvcv_mdlc_world_machines_generator_districts = {
 	generate_add_modifiers = {
 		upkeep
 		produces
+		cost
 	}
 	generate_mult_modifiers = {
 		produces
@@ -286,21 +365,29 @@ xvcv_mdlc_world_machines_computer_districts = {
 		produces
 		upkeep
 	}
-	modifier_category = colony
-}
-
-# for auto ringworld
-xvcv_mdlc_world_machines_rnd_districts = {
-	parent = xvcv_mdlc_world_machines_computer_districts
-	modifier_category = colony
-	generate_add_modifiers = {
-		produces
-		upkeep
-		cost
+	triggered_produces_modifier = {
+		key = xvcv_mdlc_world_machines_science_districts
+		modifier_types = { add mult } 
+		trigger = { is_scope_valid = yes has_oxr_mdlc_zone_pc_machine_ring_research = yes }
+		use_parent_icon = yes
 	}
-	generate_mult_modifiers = {
-		produces
-		upkeep
+	triggered_upkeep_modifier = {
+		key = xvcv_mdlc_world_machines_science_districts
+		modifier_types = { add mult } 
+		trigger = { is_scope_valid = yes has_oxr_mdlc_zone_pc_machine_ring_research = yes }
+		use_parent_icon = no
+	}
+	triggered_produces_modifier = {
+		key = xvcv_mdlc_world_machines_unity_districts
+		modifier_types = { add mult } 
+		trigger = { is_scope_valid = yes has_oxr_mdlc_zone_pc_machine_ring_unity = yes }
+		use_parent_icon = yes
+	}
+	triggered_upkeep_modifier = {
+		key = xvcv_mdlc_world_machines_unity_districts
+		modifier_types = { add mult } 
+		trigger = { is_scope_valid = yes has_oxr_mdlc_zone_pc_machine_ring_unity = yes }
+		use_parent_icon = no
 	}
 }
 
@@ -311,6 +398,7 @@ xvcv_mdlc_world_machines_science_districts = {
 	generate_add_modifiers = {
 		upkeep
 		produces
+		cost
 	}
 	generate_mult_modifiers = {
 		produces
@@ -395,6 +483,7 @@ xvcv_mdlc_world_machines_unity_districts = {
 	generate_add_modifiers = {
 	 	produces
 	 	upkeep
+		cost
 	}
 	generate_mult_modifiers = {
 		produces
