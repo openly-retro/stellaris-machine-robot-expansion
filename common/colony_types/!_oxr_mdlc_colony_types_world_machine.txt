@@ -679,6 +679,60 @@ xvcv_mdlc_col_machine_auto_trade = {
 	}
 }
 
+#Military
+xvcv_mdlc_col_machine_auto_fortress = {
+	icon = GFX_xvcv_mdlc_colony_type_machine_auto_fortress
+
+	potential = {
+		exists = owner
+		is_capital = no
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		OR = {
+			is_xvcv_mdlc_pc_machine_auto = yes
+			is_xvcv_mdlc_pc_machine_ring = yes
+		}
+	}
+
+	planet_modifier = {
+		planet_army_build_speed_mult = 0.25
+		planet_orbital_bombardment_damage = -0.10
+		army_defense_damage_mult = 0.20
+		planet_oxr_mdlc_world_machines_building_maintenance_legion_build_speed_mult = 0.25
+		planet_oxr_mdlc_world_machines_building_maintenance_legion_2_build_speed_mult = 0.25
+	}
+
+	# District build speed modifier
+	# Auto
+	triggered_planet_modifier = {
+		potential = {
+			is_xvcv_mdlc_pc_machine_auto = yes
+			exists = owner
+			owner = { has_oxr_mdlc_origin_world_machine_awakened = yes }
+		}
+		planet_xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_build_speed_mult = 0.25
+	}
+	triggered_planet_modifier = {
+		potential = {
+			is_xvcv_mdlc_pc_machine_auto = yes
+			exists = owner
+			owner = { has_oxr_mdlc_origin_world_machine_awakened = no }
+		}
+		planet_xvcv_mdlc_pc_machine_auto_district_city_build_speed_mult = 0.25
+	}
+	# Ring
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_machine_ring = yes }
+		planet_xvcv_mdlc_pc_machine_ring_district_primary_build_speed_mult = 0.25
+	}
+
+	weight_modifier = {
+		modifier = {
+			add = @stickiness
+			has_designation = xvcv_mdlc_col_machine_auto_trade
+		}
+	}
+}
+
 # Capital Planet
 oxr_mdlc_wm_col_capital = {
 	icon = GFX_colony_type_capital
