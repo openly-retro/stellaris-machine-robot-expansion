@@ -37,9 +37,9 @@ rikk_mdlc_world_machine_toxic_mod = {
 	icon = "gfx/interface/icons/planet_modifiers/pm_seismological_disturbances.dds"
 	icon_frame = 1
 	#custom_tooltip = rikk_mdlc_world_machine_toxic_mod_effect
-	xvcv_mdlc_world_machines_strategic_resource_districts_exotic_gases_produces_mult = 0.33
-	xvcv_mdlc_world_machines_strategic_resource_districts_volatile_motes_produces_mult = 0.33
-	xvcv_mdlc_world_machines_strategic_resource_districts_rare_crystals_produces_mult = 0.33
+	xvcv_mdlc_world_machines_strategic_resource_districts_exotic_gases_produces_mult = 0.25
+	xvcv_mdlc_world_machines_strategic_resource_districts_volatile_motes_produces_mult = 0.25
+	xvcv_mdlc_world_machines_strategic_resource_districts_rare_crystals_produces_mult = 0.25
 }
 rikk_mdlc_decision_world_machine_convert_pc_toxic_on_queued_modifier = {
 	icon = "gfx/interface/icons/planet_modifiers/pm_seismological_disturbances.dds"
@@ -68,6 +68,59 @@ rikk_mdlc_situation_core_upgrade_phase_2 = {
 	planet_building_build_speed_mult = -0.10
 }
 rikk_mdlc_situation_core_upgrade_phase_3 = {
+	
+}
+# These deposits should describe why they were kept around in localization
+# The general idea is 1 SR, 1 raw resource, 1 build speed mult, and all get 1 extra modifier for fun
+#molten mods: these are rich planets, so they get resource discounts
+rikk_mdlc_calcite_deposits_mod = { # Calcite is used to make concrete
+	icon = "gfx/interface/icons/planet_modifiers/pm_cold_barren_planet.dds"
+	planet_building_build_speed_mult = 0.33
+	xvcv_mdlc_world_machines_districts_minerals_cost_mult = -0.20
+}
+rikk_mdlc_lightning_delta_mod = { #forms Fulgurite Crystals and can be used to supplement power supplies 
+	icon = "gfx/interface/icons/planet_modifiers/pm_perpetual_lightning.dds"
+	xvcv_mdlc_world_machines_strategic_resource_districts_rare_crystals_produces_add = @oxr_mdlc_wm_base_chemist_drone_output
+	xvcv_mdlc_world_machines_districts_energy_upkeep_mult = -0.10 #(the conditions to form the fulgurite makes generation unreliable so no energy produces add)
+}
+rikk_mdlc_pyroclastic_surges_mod = { # brings new resources to the surface/funneled directly into industry with filtering
+	icon = "gfx/interface/icons/planet_modifiers/pm_volcanic_lavafall.dds"
+	xvcv_mdlc_world_machines_mining_districts_minerals_produces_add = @oxr_mdlc_wm_base_miner_output
+	xvcv_mdlc_world_machines_districts_minerals_upkeep_mult = -0.10
+}
+#frozen mods: No defining trait except that they were cold, could have trapped resources or easy access to keeping cool
+rikk_mdlc_chemical_glacier_mod = { # Trapped reactants for building and 
+	icon = "gfx/interface/icons/planet_modifiers/rikk_mdlc_chemical_glacier_mod.dds"
+	planet_building_build_speed_mult = 0.33
+	xvcv_mdlc_world_machines_science_districts_produces_mult = 0.05
+}
+rikk_mdlc_hydrocarbon_sea_mod = { #burn for energy or producing polymers for transporting (the scourge of plastic packaging will never cease)
+	icon = "gfx/interface/icons/planet_modifiers/rikk_mdlc_subsurface_sea_mod.dds"
+	xvcv_mdlc_world_machines_generator_districts_energy_produces_add = @oxr_mdlc_wm_base_technician_output
+	xvcv_mdlc_world_machines_trade_districts_trade_produces_mult = 0.10
+}
+rikk_mdlc_natural_super_geyser_mod = { #collects rare resources in its shafts
+	icon = "gfx/interface/icons/planet_modifiers/rikk_mdlc_natural_super_geyser_mod.dds"
+	xvcv_mdlc_world_machines_strategic_resource_districts_volatile_motes_produces_add = @oxr_mdlc_wm_base_chemist_drone_output
+	xvcv_mdlc_world_machines_cooling_districts_upkeep_mult = -0.20
+}
+#toxic mods
+rikk_mdlc_sulfur_geysers_mod = {
+	icon = "gfx/interface/icons/planet_modifiers/rikk_mdlc_sulfur_geysers_mod.dds"
+	xvcv_mdlc_world_machines_strategic_resource_districts_exotic_gases_produces_add = @oxr_mdlc_wm_base_chemist_drone_output
+	xvcv_mdlc_world_machines_military_districts_upkeep_mult = -0.25
+}
+rikk_mdlc_bacterium_sea_mod = { # Excellent fertilizing agent
+	icon = "gfx/interface/icons/planet_modifiers/rikk_mdlc_carbonic_sea_mod.dds"
+	xvcv_mdlc_world_machines_food_districts_food_produces_add = @oxr_mdlc_wm_base_farmer_output
+	xvcv_mdlc_world_machines_computer_districts_produces_mult = 0.05
+}
+rikk_mdlc_acidic_basin_mod = {
+	icon = "gfx/interface/icons/planet_modifiers/pm_carbon_world.dds"
+	planet_building_build_speed_mult = 0.33
+	xvcv_mdlc_world_machines_strategic_resource_districts_exotic_gases_produces_mult = 0.05
+	xvcv_mdlc_world_machines_strategic_resource_districts_volatile_motes_produces_mult = 0.05
+	xvcv_mdlc_world_machines_strategic_resource_districts_rare_crystals_produces_mult = 0.05
 	
 }
 

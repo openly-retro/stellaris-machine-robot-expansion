@@ -131,14 +131,14 @@ situation_event = {
 }
 
 # world machine events
-#force transfer ringworld types
+#force transfer ringworld types/update deposits/add new SR deposit
 event = {
 	id = rikk_mdlc_wm_event.50
 	is_triggered_only = yes
 	hide_window = yes
 	immediate = {
 		every_country = {
-				limit = { any_owned_planet = { is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto } }
+			limit = { any_owned_planet = { is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto } }
 			every_owned_planet = {
 				limit = { is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto }
 				rikk_mdlc_swap_ringworld_effect = yes
@@ -148,6 +148,41 @@ event = {
 				}
 			}
 			remove_country_flag = rikk_mdlc_ringworld_converted
+		}
+		every_country = {
+			limit = { any_owned_planet = { rikk_mdlc_is_wm_planet_trigger = yes } }
+			every_owned_planet = {
+				limit = { has_deposit = rikk_mdlc_d_world_machine_crust_roots }
+				if = { #could be written better but this is a one-off event
+					limit = { has_deposit = rikk_mdlc_d_world_machine_inner_core_roots }
+					remove_deposit = rikk_mdlc_d_world_machine_inner_core_roots
+					remove_deposit = rikk_mdlc_d_world_machine_outer_core_roots
+					remove_deposit = rikk_mdlc_d_world_machine_mantle_roots
+					remove_deposit = rikk_mdlc_d_world_machine_crust_roots
+					add_deposit = rikk_mdlc_d_world_machine_roots_4
+				}
+				else_if = {
+					limit = { has_deposit = rikk_mdlc_d_world_machine_outer_core_roots }
+					remove_deposit = rikk_mdlc_d_world_machine_outer_core_roots
+					remove_deposit = rikk_mdlc_d_world_machine_mantle_roots
+					remove_deposit = rikk_mdlc_d_world_machine_crust_roots
+					add_deposit = rikk_mdlc_d_world_machine_roots_3
+				}
+				else_if = {
+					limit = { has_deposit = rikk_mdlc_d_world_machine_mantle_roots }
+					remove_deposit = rikk_mdlc_d_world_machine_mantle_roots
+					remove_deposit = rikk_mdlc_d_world_machine_crust_roots
+					add_deposit = rikk_mdlc_d_world_machine_roots_2
+				}
+				else_if = {
+					limit = { has_deposit = rikk_mdlc_d_world_machine_crust_roots }
+					remove_deposit = rikk_mdlc_d_world_machine_crust_roots
+					add_deposit = rikk_mdlc_d_world_machine_roots_1
+				}
+			}
+			every_owned_planet = {
+				rikk_mdlc_planet_effect_add_SR_deposit = yes
+			}
 		}
 	}
 }
@@ -313,16 +348,16 @@ planet_event = {
 		every_deposit = {
 			limit = {
 				OR = {
-					is_deposit_type = rikk_mdlc_d_world_machine_crust_roots
+					is_deposit_type = rikk_mdlc_d_world_machine_roots_1
 					is_deposit_type = rikk_mdlc_d_world_machine_synchronization_arrays
-					is_deposit_type = rikk_mdlc_d_world_machine_mantle_roots
+					is_deposit_type = rikk_mdlc_d_world_machine_roots_2
 					is_deposit_type = rikk_mdlc_d_world_machine_mantle_engine
 					is_deposit_type = rikk_mdlc_d_world_machine_mantle_transport_network
 					is_deposit_type = rikk_mdlc_d_world_machine_mantle_buses
-					is_deposit_type = rikk_mdlc_d_world_machine_outer_core_roots
+					is_deposit_type = rikk_mdlc_d_world_machine_roots_3
 					is_deposit_type = rikk_mdlc_d_world_machine_outer_core_tap
 					is_deposit_type = rikk_mdlc_d_world_machine_outer_core_cooled
-					is_deposit_type = rikk_mdlc_d_world_machine_inner_core_roots
+					is_deposit_type = rikk_mdlc_d_world_machine_roots_3
 					is_deposit_type = rikk_mdlc_d_world_machine_core_core
 					is_deposit_type = rikk_mdlc_d_world_machine_inner_core_tap
 					is_deposit_type = rikk_mdlc_d_world_machine_special_resources
