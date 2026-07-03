@@ -6,7 +6,7 @@ rikk_mdlc_zone_gas_generator = {
 		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
 		is_xvcv_mdlc_pc_machine_auto = yes
 	}
-	unlock = { owner = { has_technology = tech_exotic_gases } }
+	unlock = { owner = { has_technology = tech_exotic_gases has_tradition = rikk_mdlc_tr_zoning_2 } }
 	resources = {
 		category = oxr_mdlc_world_machines_zones
 		cost = {
@@ -47,7 +47,7 @@ rikk_mdlc_zone_crystalline_scanning = {
 		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
 		is_xvcv_mdlc_pc_machine_auto = yes
 	}
-	unlock = { owner = { has_technology = tech_rare_crystals } }
+	unlock = { owner = { has_technology = tech_rare_crystals has_tradition = rikk_mdlc_tr_zoning_2 } }
 	resources = {
 		category = oxr_mdlc_world_machines_zones
 		cost = {
@@ -85,7 +85,7 @@ rikk_mdlc_zone_mote_fertilizing = {
 		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
 		is_xvcv_mdlc_pc_machine_auto = yes
 	}
-	unlock = { owner = { has_technology = tech_volatile_motes } }
+	unlock = { owner = { has_technology = tech_volatile_motes has_tradition = rikk_mdlc_tr_zoning_2 } }
 	resources = {
 		category = oxr_mdlc_world_machines_zones
 		cost = {
@@ -129,19 +129,36 @@ rikk_mdlc_zone_mote_capacitors = {
 	potential = {
 		exists = owner
 		OR = {
+			is_xvcv_mdlc_pc_machine_ring = yes
+			is_xvcv_mdlc_pc_machine_auto = yes
 			is_xvcv_mdlc_pc_machine_cpu = yes
 			is_xvcv_mdlc_pc_machine_ser = yes
 		}
 		owner = { 
 			oxr_mdlc_planet_owner_can_build_wm_districts = yes
-			has_technology = tech_volatile_motes
 		}
 	}
+	unlock = { owner = { has_technology = tech_volatile_motes has_tradition = rikk_mdlc_tr_zoning_3 } }
 	
 	planet_modifier = {
-		xvcv_mdlc_world_machines_computer_districts_produces_mult = 0.25
+		xvcv_mdlc_world_machines_science_districts_produces_mult = 0.25
+		xvcv_mdlc_world_machines_science_districts_energy_upkeep_mult = 0.1
+		xvcv_mdlc_world_machines_unity_districts_produces_mult = 0.25
+		xvcv_mdlc_world_machines_unity_districts_energy_upkeep_mult = 0.1
 		xvcv_mdlc_world_machines_computer_districts_energy_upkeep_mult = 0.1
+	}
+	triggered_planet_modifier = {
+		potential = { oxr_mdlc_planet_is_t3_world_machine = yes }
 		xvcv_mdlc_world_machines_cooling_districts_volatile_motes_upkeep_add = @b4_rare_upkeep
+	}
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_machine_auto = yes }
+		xvcv_mdlc_world_machines_primary_districts_volatile_motes_upkeep_add = @b2_rare_upkeep
+	}
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_machine_ring = yes }
+		xvcv_mdlc_world_machines_science_districts_volatile_motes_upkeep_add = @b3_rare_upkeep
+		xvcv_mdlc_world_machines_unity_districts_volatile_motes_upkeep_add = @b3_rare_upkeep
 	}
 	
 	max_buildings = 0
@@ -163,21 +180,57 @@ rikk_mdlc_zone_gas_processes = {
 	potential = {
 		exists = owner
 		OR = {
+			is_xvcv_mdlc_pc_machine_auto = yes
 			is_xvcv_mdlc_pc_machine_ecu = yes
 			is_xvcv_mdlc_pc_machine_ser = yes
+			is_xvcv_mdlc_pc_machine_ring = yes
 		}
 		owner = { 
 			oxr_mdlc_planet_owner_can_build_wm_districts = yes
-			has_technology = tech_exotic_gases
 		}
 	}
+	unlock = { owner = { has_technology = tech_exotic_gases has_tradition = rikk_mdlc_tr_zoning_3 } }
 	
-	planet_modifier = {
+	triggered_planet_modifier = {
+		potential = { oxr_mdlc_planet_is_t3_world_machine = yes }
+		xvcv_mdlc_world_machines_trade_districts_produces_mult = 0.25
 		xvcv_mdlc_world_machines_foundry_districts_produces_mult = 0.25
 		xvcv_mdlc_world_machines_factory_districts_produces_mult = 0.25
-		xvcv_mdlc_world_machines_districts_trade_produces_mult = 0.25
 		xvcv_mdlc_world_machines_industrial_districts_upkeep_mult = 0.1
 		xvcv_mdlc_world_machines_cooling_districts_exotic_gases_upkeep_add = @b4_rare_upkeep
+	}
+	
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_machine_auto = yes has_oxr_mdlc_zone_pc_machine_auto_alloys = no has_oxr_mdlc_zone_pc_machine_auto_consumer_goods = no has_oxr_mdlc_zone_pc_machine_auto_trade = no }
+		xvcv_mdlc_world_machines_trade_districts_produces_mult = 0.25
+		xvcv_mdlc_world_machines_foundry_districts_produces_mult = 0.25
+		xvcv_mdlc_world_machines_factory_districts_upkeep_mult = 0.1
+		xvcv_mdlc_world_machines_primary_districts_exotic_gases_upkeep_add = @b2_rare_upkeep
+	}
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_machine_auto = yes has_oxr_mdlc_zone_pc_machine_auto_alloys = yes has_oxr_mdlc_zone_pc_machine_auto_consumer_goods = no has_oxr_mdlc_zone_pc_machine_auto_trade = no }
+		xvcv_mdlc_world_machines_foundry_districts_produces_mult = 0.25
+		xvcv_mdlc_world_machines_foundry_factory_districts_upkeep_mult = 0.1
+		xvcv_mdlc_world_machines_foundry_districts_exotic_gases_upkeep_add = @b2_rare_upkeep
+	}
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_machine_auto = yes has_oxr_mdlc_zone_pc_machine_auto_consumer_goods = yes has_oxr_mdlc_zone_pc_machine_auto_alloys = no has_oxr_mdlc_zone_pc_machine_auto_trade = no }
+		xvcv_mdlc_world_machines_factory_districts_produces_mult = 0.25
+		xvcv_mdlc_world_machines_factory_factory_districts_upkeep_mult = 0.1
+		xvcv_mdlc_world_machines_factory_districts_exotic_gases_upkeep_add = @b2_rare_upkeep
+	}
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_machine_auto = yes has_oxr_mdlc_zone_pc_machine_auto_trade = yes has_oxr_mdlc_zone_pc_machine_auto_alloys = no has_oxr_mdlc_zone_pc_machine_auto_consumer_goods = no }
+		xvcv_mdlc_world_machines_trade_districts_produces_mult = 0.25
+		xvcv_mdlc_world_machines_trade_factory_districts_upkeep_mult = 0.1
+		xvcv_mdlc_world_machines_trade_districts_exotic_gases_upkeep_add = @b2_rare_upkeep
+	}
+	
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_machine_ring = yes }
+		xvcv_mdlc_world_machines_industrial_districts_produces_mult = 0.25
+		xvcv_mdlc_world_machines_industrial_districts_upkeep_mult = 0.1
+		xvcv_mdlc_world_machines_industrial_districts_exotic_gases_upkeep_add = @b3_rare_upkeep
 	}
 	
 	max_buildings = 0
@@ -201,9 +254,9 @@ rikk_mdlc_zone_crystal_construction = {
 		rikk_mdlc_is_wm_planet_trigger = yes
 		owner = { 
 			oxr_mdlc_planet_owner_can_build_wm_districts = yes
-			has_technology = tech_exotic_gases
 		}
 	}
+	unlock = { owner = { has_technology = tech_rare_crystals has_tradition = rikk_mdlc_tr_zoning_3 } }
 	
 	triggered_planet_modifier = {
 		potential = { is_xvcv_mdlc_pc_machine_auto = yes }
