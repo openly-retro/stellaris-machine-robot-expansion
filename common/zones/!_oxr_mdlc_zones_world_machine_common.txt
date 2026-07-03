@@ -124,6 +124,76 @@ oxr_mdlc_origin_wm_zone_any_wm = {
 	}
 	zone_sets = { oxr_mdlc_zone_set_wm_common }
 }
+# No buildings all storage
+rikk_mdlc_wm_zone_storage = {
+	icon = GFX_district_specialization_urban
+	inline_script = planet/zones/oxr_wm_zone_base_no_potential
+	
+	potential = {
+		hidden_trigger = { exists = owner }
+		owner = {
+			oxr_mdlc_planet_owner_can_build_wm_districts = yes
+			has_tradition = rikk_mdlc_tr_zoning_1
+		}
+		planet = { is_planet_world_machine = yes }
+	}
+	
+	#These are replacements for the buildings slots being gone
+	country_modifier = {
+		country_resource_max_add = 15000
+	}
+	triggered_country_modifier = {
+		potential = { exists = owner owner = { has_technology = tech_construction_templates } }
+		country_resource_max_add = 15000
+	}
+	triggered_country_modifier = {
+		potential = { exists = owner owner = { has_valid_civic = civic_machine_obsessional_directive } }
+		country_resource_max_consumer_goods_add = 15000
+	}
+	
+	#These are the district modifiers
+	triggered_district_country_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_auto = yes }
+		country_resource_max_add = 5000
+	}
+	triggered_district_country_modifier = {
+		potential = { exists = owner owner = { has_technology = tech_construction_templates } is_xvcv_mdlc_pc_machine_auto = yes }
+		country_resource_max_add = 5000
+	}
+	triggered_district_country_modifier = {
+		potential = { exists = owner owner = { has_valid_civic = civic_machine_obsessional_directive } is_xvcv_mdlc_pc_machine_auto = yes }
+		country_resource_max_consumer_goods_add = 5000
+	}
+	triggered_district_country_modifier = {
+		potential = { exists = owner oxr_mdlc_planet_is_t3_world_machine = yes }
+		country_resource_max_add = 15000
+	}
+	triggered_district_country_modifier = {
+		potential = { exists = owner owner = { has_technology = tech_construction_templates } oxr_mdlc_planet_is_t3_world_machine = yes }
+		country_resource_max_add = 15000
+	}
+	triggered_district_country_modifier = {
+		potential = { exists = owner owner = { has_valid_civic = civic_machine_obsessional_directive } oxr_mdlc_planet_is_t3_world_machine = yes }
+		country_resource_max_consumer_goods_add = 15000
+	}
+	triggered_district_country_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_ring = yes }
+		country_resource_max_add = 25000
+	}
+	triggered_district_country_modifier = {
+		potential = { exists = owner owner = { has_technology = tech_construction_templates } is_xvcv_mdlc_pc_machine_ring = yes }
+		country_resource_max_add = 25000
+	}
+	triggered_district_country_modifier = {
+		potential = { exists = owner owner = { has_valid_civic = civic_machine_obsessional_directive } is_xvcv_mdlc_pc_machine_ring = yes }
+		country_resource_max_consumer_goods_add = 25000
+	}
+	
+	max_buildings = 0
+	included_building_sets = { oxr_mdlc_building_set_wm_all }
+	#planet_modifier = { zone_building_slots_add = 3 }
+	zone_sets = { oxr_mdlc_zone_set_wm_common }
+}
 
 # these zones are here for ringworlds to prevent mineral buildings
 # Any building from any set except minerals for ringworlds
