@@ -1,0 +1,78 @@
+
+rikk_mdlc_zone_pc_machine_ser_empire_size = {
+	icon = GFX_district_specialization_culture_worker
+	inline_script = planet/zones/oxr_wm_zone_base_ser
+	
+	unlock = { owner = { has_technology = rikk_mdlc_tech_zone_ser_empire_size } }
+	
+	included_building_sets = {
+		unity
+		origin
+		oxr_mdlc_building_set_wm_unity
+		oxr_mdlc_building_set_wm_security
+		oxr_mdlc_building_set_wm_utility
+	}
+
+	empire_limit = {
+		base = 1
+		modifier = {
+			owner = { has_tradition = rikk_mdlc_tr_zoning_5 }
+			add = 2
+		}
+	}
+	
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_trade_districts_energy_upkeep_add = @[ oxr_t3_planet_district_jobs * oxr_mdlc_wm_base_coordinator_upkeep ]
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+	}
+	
+	triggered_district_country_modifier = {
+		empire_size_add = -3
+		mult = value:rikk_mdlc_combined_special_multiplier
+	}
+
+	zone_sets = {
+		oxr_mdlc_zone_set_wm_trade
+	}
+	
+	show_in_tech = rikk_mdlc_tech_zone_ser_building_cap
+}
+rikk_mdlc_zone_pc_machine_ser_building_cap = {
+	icon = GFX_district_specialization_bureaucrat
+	inline_script = planet/zones/oxr_wm_zone_base_ser
+	
+	unlock = { owner = { has_technology = rikk_mdlc_tech_zone_ser_building_cap } }
+	
+	included_building_sets = {
+		unity
+		origin
+		oxr_mdlc_building_set_wm_unity
+		oxr_mdlc_building_set_wm_security
+		oxr_mdlc_building_set_wm_utility
+	}
+
+	empire_limit = {
+		base = 1
+		#modifier = {
+		#	has_technology = super_cool_building_capacity_tech
+		#	add = 1
+		#}
+	}
+
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_trade_districts_energy_upkeep_add = @[ oxr_t3_planet_district_jobs * oxr_mdlc_wm_base_coordinator_upkeep ]
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+	}
+	
+	triggered_district_country_modifier = {
+		planet_building_capacity_add = 0.034
+		mult = value:rikk_mdlc_combined_special_multiplier
+	}
+
+	zone_sets = {
+		oxr_mdlc_zone_set_wm_trade
+	}
+	
+	show_in_tech = rikk_mdlc_tech_zone_ser_empire_size
+}
+
