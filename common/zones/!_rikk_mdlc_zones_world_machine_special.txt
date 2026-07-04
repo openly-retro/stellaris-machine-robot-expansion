@@ -76,3 +76,38 @@ rikk_mdlc_zone_pc_machine_ser_building_cap = {
 	show_in_tech = rikk_mdlc_tech_zone_ser_empire_size
 }
 
+oxr_mdlc_zone_pc_machine_ecu_military_supply_chain = {
+	icon = GFX_oxr_mdlc_wm_district_specialization_military_trade
+	inline_script = planet/zones/oxr_wm_zone_base_ecu
+
+	unlock = { owner = { has_technology = rikk_mdlc_tech_zone_ecu_speed_mult } }
+	
+	swap_type = xvcv_mdlc_pc_machine_ecu_district_military_supply
+	swap_type_weight = 5
+	
+	empire_limit = {
+		base = 1
+		#modifier = {
+		#	has_technology = super_cool_tech
+		#	add = 1
+		#}
+	}
+	
+	included_building_sets = {
+		military_theory
+		oxr_mdlc_building_set_wm_army
+	}
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_military_districts_trade_upkeep_add = 4
+		xvcv_mdlc_world_machines_military_districts_exotic_gases_upkeep_add = 2
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+	}
+	triggered_district_country_modifier = {
+		ship_speed_mult = 0.01
+		mult = value:rikk_mdlc_combined_special_multiplier
+	}
+	zone_sets = {
+		oxr_mdlc_zone_set_wm_military
+	}
+	show_in_tech = rikk_mdlc_tech_zone_ecu_speed_mult
+}
