@@ -210,18 +210,12 @@ xvcv_mdlc_pc_machine_ser_district_crime = {
 		text = xvcv_mdlc_pc_machine_ser_district_cryption_effect
 	}
 	triggered_desc = {
-		trigger = {
-			exists = owner
-			num_districts = {
-				type = xvcv_mdlc_pc_machine_ser_district_crime
-				value = 0
-			}
-			num_zones = {
-				type = oxr_mdlc_zone_pc_machine_ser_anticrime
-				value = 1
-			}
-		}
+		trigger = { has_oxr_mdlc_zone_pc_machine_ser_anticrime = yes }
 		text = xvcv_mdlc_pc_machine_ser_district_crime_effect_none
+	}
+	triggered_desc = {
+		trigger = { OR = { has_oxr_mdlc_zone_pc_machine_ser_anticrime = yes has_oxr_mdlc_zone_pc_machine_ser_encryption = yes } }
+		text = rikk_mdlc_efficiency_modifier_alert
 	}
 
 	resources = {
