@@ -1,21 +1,23 @@
 rikk_mdlc_tr_zoning_adopt = {
-	#unlocks_agenda = xvcv_mdlc_agenda_assembly_engineering
+	#unlocks_agenda = 
 	
 	modifier = {
 		oxr_mdlc_world_machines_zones_cost_mult = -0.25
 	}
 }
 rikk_mdlc_tr_zoning_finish = {
-	#if the empire is not machine nor synth, only this will have effect
 	modifier = {
 		ascension_perks_add = 1
-		empire_size_districts_mult = -0.1
+		empire_size_districts_mult = -0.15
 	}
 }
 
 rikk_mdlc_tr_zoning_1 = {
-	custom_tooltip = rikk_mdlc_tr_zoning_1_desc
-
+	custom_tooltip_with_modifiers = rikk_mdlc_tr_zoning_1_desc
+	modifier = {
+		country_resource_max_add = 10000
+	}
+	
 	ai_weight = { factor = 100 }
 }
 
@@ -35,14 +37,23 @@ rikk_mdlc_tr_zoning_3 = {
 
 rikk_mdlc_tr_zoning_4 = {
 	possible = { has_tradition = rikk_mdlc_tr_zoning_2 }
-	custom_tooltip = rikk_mdlc_tr_zoning_4_desc
-
+	custom_tooltip_with_modifiers = rikk_mdlc_tr_zoning_4_desc
+	on_enabled = {
+		add_research_option = rikk_mdlc_tech_dark_matter_synthesis
+		add_research_option = rikk_mdlc_tech_living_metal_synthesis
+		add_research_option = rikk_mdlc_tech_nanites_synthesis
+		add_research_option = rikk_mdlc_tech_zro_synthesis
+	}
 	ai_weight = { factor = 100 }
 }
 #5th tradition
 rikk_mdlc_tr_zoning_5 = {
 	possible = { has_tradition = rikk_mdlc_tr_zoning_3 }
-	custom_tooltip = rikk_mdlc_tr_zoning_5_desc
+	custom_tooltip_with_modifiers = rikk_mdlc_tr_zoning_5_desc
+	on_enabled = {
+		add_research_option = rikk_mdlc_tech_zone_ser_building_cap
+		add_research_option = rikk_mdlc_tech_zone_ser_empire_size
+	}
 
 	ai_weight = { factor = 100 }
 }
