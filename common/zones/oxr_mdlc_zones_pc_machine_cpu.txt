@@ -36,13 +36,24 @@ oxr_mdlc_zone_pc_machine_cpu_physics_energy = {
 		exists = owner
 		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
 	}
-	unlock = { owner = { has_technology = tech_physics_3 } }
+	unlock = {
+		owner = { has_technology = tech_physics_3 }
+		custom_tooltip = {
+			fail_text = rikk_mdlc_text_disabled_by_fpga
+			OR = {
+				rikk_mdlc_colony_has_active_fpga = no
+				rikk_mdlc_colony_has_active_fpga_physics = yes
+			}
+		}
+	}
 
 	triggered_planet_modifier = {
+		potential = { OR = { rikk_mdlc_colony_has_active_fpga = no rikk_mdlc_colony_has_active_fpga_physics = yes } }
 		xvcv_mdlc_world_machines_physics_districts_physics_research_produces_mult = 0.20
 		xvcv_mdlc_world_machines_physics_districts_upkeep_mult = 0.25
 	}
 	triggered_planet_modifier = {
+		potential = { OR = { rikk_mdlc_colony_has_active_fpga = no rikk_mdlc_colony_has_active_fpga_physics = yes } }
 		xvcv_mdlc_world_machines_physics_districts_physics_research_produces_add = @[ 2 * oxr_mdlc_wm_base_calculator_single_output ]
 		xvcv_mdlc_world_machines_physics_districts_energy_upkeep_add = 20
 		xvcv_mdlc_world_machines_engineering_districts_trade_upkeep_add = 5
@@ -70,13 +81,24 @@ oxr_mdlc_zone_pc_machine_cpu_society_food = {
 		exists = owner
 		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
 	}
-	unlock = { owner = { has_technology = tech_society_3 } }
+	unlock = {
+		owner = { has_technology = tech_society_3 }
+		custom_tooltip = {
+			fail_text = rikk_mdlc_text_disabled_by_fpga
+			OR = {
+				rikk_mdlc_colony_has_active_fpga = no
+				rikk_mdlc_colony_has_active_fpga_society = yes
+			}
+		}
+	}
 
 	triggered_planet_modifier = {
+		potential = { OR = { rikk_mdlc_colony_has_active_fpga = no rikk_mdlc_colony_has_active_fpga_society = yes } }
 		xvcv_mdlc_world_machines_society_districts_society_research_produces_mult = 0.20
 		xvcv_mdlc_world_machines_society_districts_upkeep_mult = 0.25
 	}
 	triggered_planet_modifier = {
+		potential = { OR = { rikk_mdlc_colony_has_active_fpga = no rikk_mdlc_colony_has_active_fpga_society = yes } }
 		xvcv_mdlc_world_machines_society_districts_society_research_produces_add = @[ 2 * oxr_mdlc_wm_base_calculator_single_output ]
 		xvcv_mdlc_world_machines_society_districts_food_upkeep_add = 20
 		xvcv_mdlc_world_machines_engineering_districts_trade_upkeep_add = 5
@@ -104,13 +126,24 @@ oxr_mdlc_zone_pc_machine_cpu_engineering_minerals = {
 		exists = owner
 		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
 	}
-	unlock = { owner = { has_technology = tech_engineering_3 } }
+	unlock = {
+		owner = { has_technology = tech_engineering_3 }
+		custom_tooltip = {
+			fail_text = rikk_mdlc_text_disabled_by_fpga
+			OR = {
+				rikk_mdlc_colony_has_active_fpga = no
+				rikk_mdlc_colony_has_active_fpga_engineering = yes
+			}
+		}
+	}
 
 	triggered_planet_modifier = {
+		potential = { OR = { rikk_mdlc_colony_has_active_fpga = no rikk_mdlc_colony_has_active_fpga_engineering = yes } }
 		xvcv_mdlc_world_machines_engineering_districts_engineering_research_produces_mult = 0.20
 		xvcv_mdlc_world_machines_engineering_districts_upkeep_mult = 0.25
 	}
 	triggered_planet_modifier = {
+		potential = { OR = { rikk_mdlc_colony_has_active_fpga = no rikk_mdlc_colony_has_active_fpga_engineering = yes } }
 		xvcv_mdlc_world_machines_engineering_districts_engineering_research_produces_add = @[ 2 * oxr_mdlc_wm_base_calculator_single_output ]
 		xvcv_mdlc_world_machines_engineering_districts_minerals_upkeep_add = 20
 		xvcv_mdlc_world_machines_engineering_districts_trade_upkeep_add = 5
@@ -145,7 +178,15 @@ oxr_mdlc_zone_pc_machine_cpu_dark_matter_drawing = {
 			}
 		}
 	}
-	unlock = { }
+	unlock = {
+		custom_tooltip = {
+			fail_text = rikk_mdlc_text_disabled_by_fpga
+			OR = {
+				rikk_mdlc_colony_has_active_fpga = no
+				rikk_mdlc_colony_has_active_fpga_physics = yes
+			}
+		}
+	}
 	
 	resources = {
 		category = oxr_mdlc_world_machines_zones
@@ -160,16 +201,18 @@ oxr_mdlc_zone_pc_machine_cpu_dark_matter_drawing = {
 	}
 	
 	triggered_planet_modifier = {
+		potential = { OR = { rikk_mdlc_colony_has_active_fpga = no rikk_mdlc_colony_has_active_fpga_physics = yes } }
 		xvcv_mdlc_world_machines_physics_districts_upkeep_mult = 0.25
 	}
 	triggered_planet_modifier = {
+		potential = { OR = { rikk_mdlc_colony_has_active_fpga = no rikk_mdlc_colony_has_active_fpga_physics = yes } }
 		xvcv_mdlc_world_machines_physics_districts_sr_dark_matter_produces_add = 1
 		xvcv_mdlc_world_machines_physics_districts_physics_research_produces_add = @[ 1 * oxr_mdlc_wm_base_calculator_single_output ]
 		xvcv_mdlc_world_machines_physics_districts_energy_upkeep_add = @[ 5 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
 		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 	}
 	triggered_planet_modifier = {
-		potential = { owner = { has_tradition = rikk_mdlc_tr_zoning_4 } }
+		potential = { owner = { has_tradition = rikk_mdlc_tr_zoning_4 } OR = { rikk_mdlc_colony_has_active_fpga = no rikk_mdlc_colony_has_active_fpga_physics = yes } }
 		xvcv_mdlc_world_machines_physics_districts_sr_dark_matter_produces_add = 1
 	}
 	
@@ -206,7 +249,15 @@ oxr_mdlc_zone_pc_machine_cpu_living_metal_breeding = {
 			}
 		}
 	}
-	unlock = { }
+	unlock = {
+		custom_tooltip = {
+			fail_text = rikk_mdlc_text_disabled_by_fpga
+			OR = {
+				rikk_mdlc_colony_has_active_fpga = no
+				rikk_mdlc_colony_has_active_fpga_society = yes
+			}
+		}
+	}
 	
 	resources = {
 		category = oxr_mdlc_world_machines_zones
@@ -221,9 +272,11 @@ oxr_mdlc_zone_pc_machine_cpu_living_metal_breeding = {
 	}
 	
 	triggered_planet_modifier = {
+		potential = { OR = { rikk_mdlc_colony_has_active_fpga = no rikk_mdlc_colony_has_active_fpga_society = yes } }
 		xvcv_mdlc_world_machines_society_districts_upkeep_mult = 0.25
 	}
 	triggered_planet_modifier = {
+		potential = { OR = { rikk_mdlc_colony_has_active_fpga = no rikk_mdlc_colony_has_active_fpga_society = yes } }
 		xvcv_mdlc_world_machines_society_districts_sr_living_metal_produces_add = 1
 		xvcv_mdlc_world_machines_society_districts_society_research_produces_add = @[ 1 * oxr_mdlc_wm_base_calculator_single_output ]
 		xvcv_mdlc_world_machines_society_districts_alloys_upkeep_add = @[ 0.5 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
@@ -231,7 +284,7 @@ oxr_mdlc_zone_pc_machine_cpu_living_metal_breeding = {
 		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 	}
 	triggered_planet_modifier = {
-		potential = { owner = { has_tradition = rikk_mdlc_tr_zoning_4 } }
+		potential = { owner = { has_tradition = rikk_mdlc_tr_zoning_4 } OR = { rikk_mdlc_colony_has_active_fpga = no rikk_mdlc_colony_has_active_fpga_society = yes } }
 		xvcv_mdlc_world_machines_society_districts_sr_living_metal_produces_add = 1
 	}
 	
@@ -269,7 +322,15 @@ oxr_mdlc_zone_pc_machine_cpu_nanite_feeding = {
 		}
 	}
 	
-	unlock = { }
+	unlock = {
+		custom_tooltip = {
+			fail_text = rikk_mdlc_text_disabled_by_fpga
+			OR = {
+				rikk_mdlc_colony_has_active_fpga = no
+				rikk_mdlc_colony_has_active_fpga_engineering = yes
+			}
+		}
+	}
 	
 	resources = {
 		category = oxr_mdlc_world_machines_zones
@@ -284,10 +345,11 @@ oxr_mdlc_zone_pc_machine_cpu_nanite_feeding = {
 	}
 	
 	triggered_planet_modifier = {
+		potential = { OR = { rikk_mdlc_colony_has_active_fpga = no rikk_mdlc_colony_has_active_fpga_society = yes } }
 		xvcv_mdlc_world_machines_engineering_districts_upkeep_mult = 0.25
 	}
 	triggered_planet_modifier = {
-		potential = { owner = { NOR = { has_tradition = tr_nanotech_1 has_active_tradition = tr_nanotech_1 } } }
+		potential = { owner = { NOR = { has_tradition = tr_nanotech_1 has_active_tradition = tr_nanotech_1 } } OR = { rikk_mdlc_colony_has_active_fpga = no rikk_mdlc_colony_has_active_fpga_engineering = yes } }
 		xvcv_mdlc_world_machines_engineering_districts_nanites_produces_add = 1
 		xvcv_mdlc_world_machines_engineering_districts_engineering_research_produces_add = @[ 1 * oxr_mdlc_wm_base_calculator_single_output ]
 		xvcv_mdlc_world_machines_engineering_districts_minerals_upkeep_add = @[ 2.5 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
@@ -295,7 +357,7 @@ oxr_mdlc_zone_pc_machine_cpu_nanite_feeding = {
 		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 	}
 	triggered_planet_modifier = {
-		potential = { owner = { OR = { has_tradition = tr_nanotech_1 has_active_tradition = tr_nanotech_1 } } }
+		potential = { owner = { OR = { has_tradition = tr_nanotech_1 has_active_tradition = tr_nanotech_1 } } OR = { rikk_mdlc_colony_has_active_fpga = no rikk_mdlc_colony_has_active_fpga_engineering = yes } }
 		xvcv_mdlc_world_machines_engineering_districts_nanites_produces_add = 4
 		xvcv_mdlc_world_machines_engineering_districts_engineering_research_produces_add = @[ 1 * oxr_mdlc_wm_base_calculator_single_output ]
 		xvcv_mdlc_world_machines_engineering_districts_minerals_upkeep_add = @[ 0.5 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
@@ -303,7 +365,7 @@ oxr_mdlc_zone_pc_machine_cpu_nanite_feeding = {
 		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 	}
 	triggered_planet_modifier = {
-		potential = { owner = { has_tradition = rikk_mdlc_tr_zoning_4 } }
+		potential = { owner = { has_tradition = rikk_mdlc_tr_zoning_4 } OR = { rikk_mdlc_colony_has_active_fpga = no rikk_mdlc_colony_has_active_fpga_engineering = yes } }
 		xvcv_mdlc_world_machines_engineering_districts_nanites_produces_add = 1
 	}
 	
