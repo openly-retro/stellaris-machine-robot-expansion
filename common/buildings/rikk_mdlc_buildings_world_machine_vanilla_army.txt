@@ -61,7 +61,7 @@ oxr_mdlc_world_machines_building_military_academy = {
 			set_country_flag = has_oxr_mdlc_world_machines_building_military_academy
 		}
 	}
-	on_destroy = { remove_country_flag = has_oxr_mdlc_world_machines_building_military_academy }
+	on_destroy = { owner = { remove_country_flag = has_oxr_mdlc_world_machines_building_military_academy } }
 	
 	inline_script = {
 		script = planet/buildings/auto/rikk_empty_building_no_on_built
@@ -137,7 +137,7 @@ oxr_mdlc_world_machines_building_planetary_shield_generator = {
 	}
 	
 	inline_script = {
-		script = planet/buildings/auto/rikk_empty_building
+		script = planet/buildings/auto/rikk_empty_building_no_on_built
 		CATEGORY = army
 		POTENTIAL = " "
     	TIER = 3
@@ -173,6 +173,7 @@ oxr_mdlc_world_machines_building_planetary_shield_generator = {
 		script = cosmic_storms/StormBuildingModifiers
 	}
 	on_built = {
+		fire_on_action = { on_action = on_world_machine_popless_building_constructed }
 		if = {
 			limit = { has_cosmic_storms_dlc = yes }
 			solar_system = {

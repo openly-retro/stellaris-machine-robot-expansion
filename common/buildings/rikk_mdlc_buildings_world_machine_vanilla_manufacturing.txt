@@ -381,7 +381,7 @@ oxr_mdlc_world_machines_building_welding_colony = {
 		rikk_mdlc_world_machines_industrial_structures_exotic_gases_produces_mult = 0.10
 	}
 	inline_script = {
-		script = planet/buildings/auto/rikk_empty_building
+		script = planet/buildings/auto/rikk_empty_building_no_on_built
 		CATEGORY = manufacturing
 		POTENTIAL = " "
     	TIER = 2
@@ -397,7 +397,10 @@ oxr_mdlc_world_machines_building_welding_colony = {
     }
 	planet_modifier = { planet_stability_add = -2 }
 	triggered_desc = { text = rikk_mdlc_text_requires_appropriate_zone }
-	on_built = { rikk_mdlc_planet_effect_add_SR_deposit = yes }
+	on_built = { 
+		fire_on_action = { on_action = on_world_machine_popless_building_constructed }
+		rikk_mdlc_planet_effect_add_SR_deposit = yes
+	}
 }
 # Volatile Motes
 oxr_mdlc_world_machines_building_particle_collider = {
@@ -421,7 +424,7 @@ oxr_mdlc_world_machines_building_particle_collider = {
 		rikk_mdlc_world_machines_industrial_structures_volatile_motes_produces_mult = 0.10
 	}
 	inline_script = {
-		script = planet/buildings/auto/rikk_empty_building
+		script = planet/buildings/auto/rikk_empty_building_no_on_built
 		CATEGORY = manufacturing
 		POTENTIAL = " "
     	TIER = 2
@@ -440,7 +443,10 @@ oxr_mdlc_world_machines_building_particle_collider = {
     }
 	planet_modifier = { planet_stability_add = -2 }
 	triggered_desc = { text = rikk_mdlc_text_requires_appropriate_zone }
-	on_built = { rikk_mdlc_planet_effect_add_SR_deposit = yes }
+	on_built = { 
+		fire_on_action = { on_action = on_world_machine_popless_building_constructed }
+		rikk_mdlc_planet_effect_add_SR_deposit = yes
+	}
 }
 # Rare Crystals
 oxr_mdlc_world_machines_building_crystal_cultivation_tank = {
@@ -464,7 +470,7 @@ oxr_mdlc_world_machines_building_crystal_cultivation_tank = {
 		rikk_mdlc_world_machines_industrial_structures_rare_crystals_produces_mult = 0.10
 	}
 	inline_script = {
-		script = planet/buildings/auto/rikk_empty_building
+		script = planet/buildings/auto/rikk_empty_building_no_on_built
 		CATEGORY = manufacturing
 		POTENTIAL = " "
     	TIER = 2
@@ -481,6 +487,7 @@ oxr_mdlc_world_machines_building_crystal_cultivation_tank = {
 	planet_modifier = { planet_stability_add = -2 }
 	triggered_desc = { text = rikk_mdlc_text_requires_appropriate_zone }
 	on_built = { 
+		fire_on_action = { on_action = on_world_machine_popless_building_constructed }
 		rikk_mdlc_planet_effect_add_SR_deposit = yes
 		planet = { planet_event = { id = rikk_mdlc_wm_event.200 days = 1 } }
 	}
@@ -535,7 +542,7 @@ rikk_mdlc_world_machines_building_ancient_refinery = {
 	}
 	
 	inline_script = {
-		script = planet/buildings/auto/rikk_empty_building
+		script = planet/buildings/auto/rikk_empty_building_no_on_built
 		CATEGORY = manufacturing
 		POTENTIAL = " "
     	TIER = 2
@@ -554,7 +561,10 @@ rikk_mdlc_world_machines_building_ancient_refinery = {
 		text = rikk_mdlc_text_requires_appropriate_zone
 	}
 	planet_modifier = { planet_stability_add = -5 }
-	on_built = { rikk_mdlc_planet_effect_add_SR_deposit = yes }
+	on_built = { 
+		fire_on_action = { on_action = on_world_machine_popless_building_constructed }
+		rikk_mdlc_planet_effect_add_SR_deposit = yes
+	}
 }
 
 ### NANOTECH ###
