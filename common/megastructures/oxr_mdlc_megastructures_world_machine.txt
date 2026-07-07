@@ -92,64 +92,76 @@ oxr_mdlc_world_machine_core_dropsite = {
 				is_planet_world_machine = no
 			}
 
-			custom_tooltip = {
-				fail_text = "oxr_mdlc_world_machine_core_tooltip.fail_invalid_candidate"
-				OR = {
-					oxr_mdlc_planet_can_become_world_machine = yes
-					oxr_mdlc_planet_can_automate_ring = yes
+			# don't block frozen/molten/toxic, allow here but check tech below
+			# 
+			# structuring it this way makes it so that 
+			# oxr_mdlc_planet_can_become_world_machine resolving to 'false'/no
+			# does not stop the game engine from evaluating whether the planet *could*
+			# be colonized if it is any of the 3 types below
+			# 
+			if = {
+				limit = {
+					oxr_mdlc_planet_can_become_world_machine_with_tech = yes
 				}
-			}
-
-			custom_tooltip = {
-				fail_text = "oxr_mdlc_world_machine_core_tooltip.fail_technology"
-				OR = {
-					is_planet_class = pc_frozen
-					space_owner = {
-						has_technology = oxr_mdlc_tech_geologic_scaling_thermoelectrics
-						has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
+				# Check that correct technologies are researched
+				if = {
+					limit = {
+						is_planet_class = pc_frozen
 					}
-				}
-				
-			}
-
-
-			custom_tooltip = {
-				fail_text = "oxr_mdlc_world_machine_core_tooltip.fail_technology"
-				OR = {
-					is_planet_class = pc_molten
-					space_owner = {
-						has_technology = oxr_mdlc_tech_geologic_heat_shielding_2
-						has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
-					}
-				}
-				
-			}
-		
-
-			custom_tooltip = {
-				fail_text = "oxr_mdlc_world_machine_core_tooltip.fail_technology"
-				OR = {
-					AND = {
-						is_planet_class = pc_toxic
+					custom_tooltip = {
+						fail_text = "oxr_mdlc_world_machine_core_tooltip.fail_technology"
 						space_owner = {
-							has_technology = tech_climate_restoration
+							has_technology = oxr_mdlc_tech_geologic_scaling_thermoelectrics
+							has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
+						}
+					}
+
+				}
+				if = {
+					limit = {
+						is_planet_class = pc_molten
+					}
+					custom_tooltip = {
+						fail_text = "oxr_mdlc_world_machine_core_tooltip.fail_technology"
+						space_owner = {
+							has_technology = oxr_mdlc_tech_geologic_heat_shielding_2
 							has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
 						}
 					}
 				}
-				
-			}
+				if = {
+					limit = {
+						is_planet_class = pc_toxic
+					}
+					custom_tooltip = {
+						fail_text = "oxr_mdlc_world_machine_core_tooltip.fail_technology"
+						space_owner = {
+							has_technology = tech_climate_restoration
+							has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
+						}
 
+					}
+				}
+
+
+			} #/end if for frozen/molten/toxic
+			else = {
+				# If the planet class is not one of the three classes that can be colonized
+				# with research, check if it is any of the default accessible planet classes 
+				custom_tooltip = {
+					fail_text = "oxr_mdlc_world_machine_core_tooltip.fail_invalid_candidate"
+					OR = {
+						oxr_mdlc_planet_can_become_world_machine = yes
+						oxr_mdlc_planet_can_automate_ring = yes
+					}
+				}
+			}
 
 			custom_tooltip = {
 				fail_text = "oxr_mdlc_world_machine_core_tooltip.fail_is_terraforming"
 				is_terraforming = no
 			}
 
-			custom_tooltip = {
-				fail_text = "requires_no_existing_megastructure"
-				NOT = { has_carrier_flag = megastructure }
-			}
 			custom_tooltip = {
 				fail_text = "oxr_mdlc_world_machine_core_tooltip.fail_is_colony"
 				is_colony = no  # use xvcv's original decision for that one
@@ -160,8 +172,6 @@ oxr_mdlc_world_machine_core_dropsite = {
 				NOT = { has_anomaly = yes }
 			}
 
-			
-			
 		} #/planet_possible
 	}
 
@@ -171,6 +181,7 @@ oxr_mdlc_world_machine_core_dropsite = {
 			log = ""
 		}
 	}
+
 	on_dismantle_cancel = {
 		fromfrom.planet = {
 			log = ""
