@@ -101,21 +101,24 @@ oxr_mdlc_decisions_origin_wm_reboot_ruined_world = {
 		}
 	}
 	effect = {
-		save_event_target_as = oxr_mdlc_ruined_world_machine
-		log = "Ruined WM target set to \\[event_target:oxr_mdlc_ruined_world_machine.GetName]"
-		space_owner = {
-			start_situation = {
-				type = oxr_mdlc_origin_wm_situation_restore_ruined_world_machine
-				# target = oxr_mdlc_ruined_world_machine
-				target = event_target:oxr_mdlc_ruined_world_machine
-				# target = owner
-				effect = {
-					set_situation_approach = oxr_mdlc_origin_wm_situation_restore_ruined_world_machine_approach_pause
+		custom_tooltip = oxr_mdlc_origin_wm_situation_restore_ruined_world_machine.tooltip
+		hidden_effect = {
+			save_event_target_as = oxr_mdlc_ruined_world_machine
+			log = "Ruined WM target set to \\[event_target:oxr_mdlc_ruined_world_machine.GetName]"
+			space_owner = {
+				start_situation = {
+					type = oxr_mdlc_origin_wm_situation_restore_ruined_world_machine
+					# target = oxr_mdlc_ruined_world_machine
+					target = event_target:oxr_mdlc_ruined_world_machine
+					# target = owner
+					effect = {
+						set_situation_approach = oxr_mdlc_origin_wm_situation_restore_ruined_world_machine_approach_pause
+					}
 				}
-			}
-			# Starting event screen
-			country_event = {
-				id = oxr_mdlc_origin_wm_main.1000
+				# Starting event screen
+				country_event = {
+					id = oxr_mdlc_origin_wm_main.1000
+				}
 			}
 		}
 		
