@@ -214,21 +214,21 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 		enable_special_project = {
 			name = OXR_MDLC_ORIGIN_WM_WHO_WE_ARE_1
 		}
-		complete_special_project = {
-			type = OXR_MDLC_ORIGIN_WM_WHO_WE_ARE_1
-		}
+		#complete_special_project = {
+		#	type = OXR_MDLC_ORIGIN_WM_WHO_WE_ARE_1
+		#}
 		enable_special_project = {
 			name = OXR_MDLC_ORIGIN_WM_WHAT_WE_KNOW_1
 		}
-		complete_special_project = {
-			type = OXR_MDLC_ORIGIN_WM_WHAT_WE_KNOW_1
-		}
+		#complete_special_project = {
+		#	type = OXR_MDLC_ORIGIN_WM_WHAT_WE_KNOW_1
+		#}
 		enable_special_project = {
 			name = OXR_MDLC_ORIGIN_WM_INFO_PLANET_DEPLOY_LIST
 		}
-		complete_special_project = {
-			type = OXR_MDLC_ORIGIN_WM_INFO_PLANET_DEPLOY_LIST
-		}
+		#complete_special_project = {
+		#	type = OXR_MDLC_ORIGIN_WM_INFO_PLANET_DEPLOY_LIST
+		#}
 	}
 
 	## Swap buildings
@@ -900,34 +900,39 @@ oxr_mdlc_find_neighbor_planet_and_convert_to_ruined_world_machine = {
 		random_neighbor_system = {
 			limit = {
 				any_system_planet = {
-					is_colonizable = yes
+					exists = planet
+					oxr_mdlc_planet_can_become_world_machine = yes
 				}
 			}
 			random_system_planet = {
 				limit = {
-					is_colonizable = yes
+					exists = planet
+					oxr_mdlc_planet_can_become_world_machine = yes
 				}
-				# oxr_mdlc_pc_convert_to_ruined_world_machine = yes
-				change_pc = xvcv_mdlc_pc_machine_auto_ruined
-				clear_blockers = yes
-				clear_deposits = yes
-				# no point to add all the blockers... ruined type is uninhabitable
-				# ... or is it ?
-				# oxr_mdlc_origin_wm_planet_random_add_all_blockers = yes
-				log = "Starting setup: Changed \\[This.GetName] to Ruined World Machine"
-				set_planet_flag = oxr_mdlc_ruined_world_machine
-				add_anomaly = {
-					category = oxr_mdlc_anomaly_ruined_wm
-				}
-				clear_planet_modifiers = yes
-				if = {
-					limit = {
-						planet_size < 28 
+				planet = {
+					# oxr_mdlc_pc_convert_to_ruined_world_machine = yes
+					change_pc = xvcv_mdlc_pc_machine_auto_ruined
+					clear_blockers = yes
+					clear_deposits = yes
+					# no point to add all the blockers... ruined type is uninhabitable
+					# ... or is it ?
+					# oxr_mdlc_origin_wm_planet_random_add_all_blockers = yes
+					log = "Starting setup: Changed \\[This.GetName] to Ruined World Machine"
+					set_planet_flag = oxr_mdlc_ruined_world_machine
+					add_anomaly = {
+						category = oxr_mdlc_anomaly_ruined_wm
 					}
-					# Let's be generous
-					set_planet_size = 28
+					clear_planet_modifiers = yes
+					if = {
+						limit = {
+							planet_size < 28 
+						}
+						# Let's be generous
+						set_planet_size = 28
+					}
 				}
-			}
+
+			} #/random_system_planet_colony
 		}
 	}
 }
@@ -976,19 +981,6 @@ oxr_mdlc_wm_country_set_wmc_tech_level = {
 			which = oxr_mdlc_wmc_manufacture_core_tech_level
 			value = 0.5
 		}
-	}
-}
-
-oxr_mdlc_planet_start_refilling_district_defense_armies = {
-	optimize_memory
-	set_planet_flag = oxr_mdlc_world_machines_refilling_armies_active
-	add_modifier = {
-		modifier = oxr_mdlc_world_machine_district_army_restock_in_progress
-		days = 7
-	}
-	planet_event = {
-		id = oxr_mdlc_origin_wm_main.2001
-		days = 7
 	}
 }
 
@@ -1361,7 +1353,11 @@ oxr_mdlc_planet_create_world_machine_colony = {
 	# oxr_mdlc_origin_wm_main.500 after terraform finished
 	# oxr_mdlc_decision_origin_wm_reactivate_colony
 
+	# This is already called inside of a planet scope so not everything needs to be
+	# explicitly placed in planet scope again
+
 	planet = {
+		clear_blockers = yes
 		save_event_target_as = oxr_mdlc_new_wm_planet
 		create_colony = {
 			owner = from
@@ -1508,22 +1504,6 @@ oxr_mdlc_planet_create_world_machine_colony = {
 		clear_variable = oxr_mdlc_planet_num_pops_to_remove
 	}
 
-	# if = {
-	# 	limit = {
-	# 		pop_amount = 200
-	# 		from = {
-	# 			has_origin = oxr_mdlc_origin_world_machine_awakened
-	# 		}
-	# 	}
-	# 	create_pop_group = {
-	# 		species = from.founder_species
-	# 		size = 100
-	# 		effect = {
-	# 			save_event_target_as = last_created_pop_group
-	# 		}
-	# 	}
-	# 	log = "Created one extra Automation species"
-	# }
 	# Set these vars
 	oxr_mdlc_origin_world_machine_calc_max_district_armies = yes
 
@@ -1641,6 +1621,7 @@ oxr_mdlc_planet_do_wm_origin_things_after_project = {
 
 }
 
+# Rikk: This is no longer necessary thanks to rikk_mdlc_wm_upgrade_events.200 but I'm leaving it here for games that don't have those flags (24 June 2026)
 oxr_mdlc_planet_create_deposit_upgrade_flags = {
 	# Call before terraform / WM project finishes
 	# Any world machine upgrades will be transferred to the other world machine type
@@ -1731,15 +1712,18 @@ oxr_mdlc_planet_create_deposit_upgrade_flags = {
 	}
 }
 
+# Rikk: This is no longer necessary thanks to rikk_mdlc_wm_upgrade_events.200 but I'm leaving it here for games that don't have those flags (24 June 2026)
 oxr_mdlc_planet_restore_deposit_upgrades = {
 	# Look for these flags, and then create the corresponding deposit
 	if = {
 		limit = {
 			has_planet_flag = has_rikk_mdlc_d_world_machine_crust_roots
+			NOT = { has_deposit = rikk_mdlc_d_world_machine_crust_roots }
 		}
 		add_deposit = rikk_mdlc_d_world_machine_crust_roots
 		remove_planet_flag = has_rikk_mdlc_d_world_machine_crust_roots
 	}
+	else = { remove_planet_flag = has_rikk_mdlc_d_world_machine_crust_roots }
 	# if = {
 	# 	limit = {
 	#		has_planet_flag = has_rikk_mdlc_d_world_machine_cooling_towers
@@ -1750,87 +1734,111 @@ oxr_mdlc_planet_restore_deposit_upgrades = {
 	if = {
 		limit = {
 			has_planet_flag = has_rikk_mdlc_d_world_machine_synchronization_arrays
+			NOT = { has_deposit = rikk_mdlc_d_world_machine_synchronization_arrays }
 		}
 		add_deposit = rikk_mdlc_d_world_machine_synchronization_arrays
 		remove_planet_flag = has_rikk_mdlc_d_world_machine_synchronization_arrays
 	}
+	else = { remove_planet_flag = has_rikk_mdlc_d_world_machine_synchronization_arrays }
 	if = {
 		limit = {
 			has_planet_flag = has_rikk_mdlc_d_world_machine_mantle_roots
+			NOT = { has_deposit = rikk_mdlc_d_world_machine_mantle_roots }
 		}
 		add_deposit = rikk_mdlc_d_world_machine_mantle_roots
 		remove_planet_flag = has_rikk_mdlc_d_world_machine_mantle_roots
 	}
+	else = { remove_planet_flag = has_rikk_mdlc_d_world_machine_mantle_roots }
 	if = {
 		limit = {
 			has_planet_flag = has_rikk_mdlc_d_world_machine_mantle_engine
+			NOT = { has_deposit = rikk_mdlc_d_world_machine_mantle_engine }
 		}
 		add_deposit = rikk_mdlc_d_world_machine_mantle_engine
 		remove_planet_flag = has_rikk_mdlc_d_world_machine_mantle_engine
 	}
+	else = { remove_planet_flag = has_rikk_mdlc_d_world_machine_mantle_engine }
 	if = {
 		limit = {
 			has_planet_flag = has_rikk_mdlc_d_world_machine_mantle_transport_network
+			NOT = { has_deposit = rikk_mdlc_d_world_machine_mantle_transport_network }
 		}
 		add_deposit = rikk_mdlc_d_world_machine_mantle_transport_network
 		remove_planet_flag = has_rikk_mdlc_d_world_machine_mantle_transport_network
 	}
+	else = { remove_planet_flag = has_rikk_mdlc_d_world_machine_mantle_transport_network }
 	if = {
 		limit = {
 			has_planet_flag = has_rikk_mdlc_d_world_machine_mantle_buses
+			NOT = { has_deposit = rikk_mdlc_d_world_machine_mantle_buses }
 		}
 		add_deposit = rikk_mdlc_d_world_machine_mantle_buses
 		remove_planet_flag = has_rikk_mdlc_d_world_machine_mantle_buses
 	}
+	else = { remove_planet_flag = has_rikk_mdlc_d_world_machine_mantle_buses }
 	if = {
 		limit = {
 			has_planet_flag = has_rikk_mdlc_d_world_machine_outer_core_roots
+			NOT = { has_deposit = rikk_mdlc_d_world_machine_outer_core_roots }
 		}
 		add_deposit = rikk_mdlc_d_world_machine_outer_core_roots
 		remove_planet_flag = has_rikk_mdlc_d_world_machine_outer_core_roots
 	}
+	else = { remove_planet_flag = has_rikk_mdlc_d_world_machine_outer_core_roots }
 	if = {
 		limit = {
 			has_planet_flag = has_rikk_mdlc_d_world_machine_outer_core_tap
+			NOT = { has_deposit = rikk_mdlc_d_world_machine_outer_core_tap }
 		}
 		add_deposit = rikk_mdlc_d_world_machine_outer_core_tap
 		remove_planet_flag = has_rikk_mdlc_d_world_machine_outer_core_tap
 	}
+	else = { remove_planet_flag = has_rikk_mdlc_d_world_machine_outer_core_tap }
 	if = {
 		limit = {
 			has_planet_flag = has_rikk_mdlc_d_world_machine_outer_core_cooled
+			NOT = { has_deposit = rikk_mdlc_d_world_machine_outer_core_cooled }
 		}
 		add_deposit = rikk_mdlc_d_world_machine_outer_core_cooled
 		remove_planet_flag = has_rikk_mdlc_d_world_machine_outer_core_cooled
 	}
+	else = { remove_planet_flag = has_rikk_mdlc_d_world_machine_outer_core_cooled }
 	if = {
 		limit = {
 			has_planet_flag = has_rikk_mdlc_d_world_machine_inner_core_roots
+			NOT = { has_deposit = rikk_mdlc_d_world_machine_inner_core_roots }
 		}
 		add_deposit = rikk_mdlc_d_world_machine_inner_core_roots
 		remove_planet_flag = has_rikk_mdlc_d_world_machine_inner_core_roots
 	}
+	else = { remove_planet_flag = has_rikk_mdlc_d_world_machine_inner_core_roots }
 	if = {
 		limit = {
 			has_planet_flag = has_rikk_mdlc_d_world_machine_core_core
+			NOT = { has_deposit = rikk_mdlc_d_world_machine_core_core }
 		}
 		add_deposit = rikk_mdlc_d_world_machine_core_core
 		remove_planet_flag = has_rikk_mdlc_d_world_machine_core_core
 	}
+	else = { remove_planet_flag = has_rikk_mdlc_d_world_machine_core_core }
 	if = {
 		limit = {
 			has_planet_flag = has_rikk_mdlc_d_world_machine_inner_core_tap
+			NOT = { has_deposit = rikk_mdlc_d_world_machine_inner_core_tap }
 		}
 		add_deposit = rikk_mdlc_d_world_machine_inner_core_tap
 		remove_planet_flag = has_rikk_mdlc_d_world_machine_inner_core_tap
 	}
+	else = { remove_planet_flag = has_rikk_mdlc_d_world_machine_inner_core_tap }
 	if = {
 		limit = {
 			has_planet_flag = has_rikk_mdlc_d_world_machine_core_refuse
+			NOT = { has_deposit = rikk_mdlc_d_world_machine_core_refuse }
 		}
 		add_deposit = rikk_mdlc_d_world_machine_core_refuse
 		remove_planet_flag = has_rikk_mdlc_d_world_machine_core_refuse
 	}
+	else = { remove_planet_flag = has_rikk_mdlc_d_world_machine_core_refuse }
 }
 
 oxr_mdlc_planet_add_wmc_core_deposit_if_missing = {
@@ -2008,7 +2016,7 @@ oxr_mdlc_planet_clear_blockers_etc_if_not_already_wm = {
 
 	if = {
 		limit = {
-			is_planet_world_machine = no
+			planet? = { is_planet_world_machine = no }
 		}
 		# Same as vanilla terraform from X to pc_machine
 		reroll_deposits = yes
@@ -2339,5 +2347,41 @@ oxr_mdlc_planet_wm_remove_capital_automation = {
 				BUILDING = building_imperial_machine_capital
 			}
 		}
+	}
+}
+
+oxr_mdlc_planet_destroy_nomad_orbitals_to_prepare_auto_colony = {
+	# Deposits need to be removed from the planet, and the secret owner needs to be reset
+	# since some tricky things make it impossible to use decisions on unowned non-habitables
+	# with deposits on them
+	clear_deposits = yes
+	create_colony = {
+		owner = space_owner
+		species = space_owner.species
+	}
+	destroy_colony = yes
+}
+
+oxr_mdlc_planet_show_wmc_drop_complete_message = {
+	# Call in planet scope
+	create_message = {
+		type = OXR_MDLC_WM_PLANET_CORE_DROPSITE
+		localization = OXR_MDLC_WM_PLANET_CORE_DROPSITE_MESSAGE
+		days = 10
+		target = this
+	}
+}
+
+oxr_resettle_pop_group = {
+	$target_planet$ = {
+		create_pop_group = {
+			pop_group = $source_pop_group$
+			size = 100
+		}
+	}
+	# removing pop groups can be done in any scope
+	kill_pop_group = {
+		pop_group = $source_pop_group$
+		amount = 100
 	}
 }

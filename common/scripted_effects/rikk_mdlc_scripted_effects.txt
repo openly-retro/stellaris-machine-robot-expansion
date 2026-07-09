@@ -161,3 +161,18 @@ rikk_mdlc_rw_upgrade_calculator = {
 		clear_variable = rikk_mdlc_rw_upgrade_counter_hundred
 	}
 }
+
+rikk_mdlc_fail_geoengineering_upgrade_if_deposit_missing = {
+	# Helper effect from Retro
+	if = {
+		limit = {
+			NOT = {
+				has_deposit = $REQUIRED_DEPOSIT$
+			}
+		}
+		remove_deposit = $UPGRADE_DEPOSIT$
+		space_owner = {
+			inline_script = country/messages/rikk_mdlc_upgrade_message_failed
+		}
+	}
+}

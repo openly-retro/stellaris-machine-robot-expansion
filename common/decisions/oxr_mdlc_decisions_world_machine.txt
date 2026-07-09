@@ -1,63 +1,14 @@
 # Decisions
-oxr_mdlc_decisions_origin_wm_start_world_with_core = {
-	# owned_planets_only = yes
 
-	# enactment_time = 60
-	potential = {
-		exists = space_owner
-		space_owner = {
-			has_origin = oxr_mdlc_origin_world_machine_awakened
-		}
-		is_planet_world_machine = no
-		OR = {
-			oxr_mdlc_planet_can_become_world_machine = yes
-			oxr_mdlc_planet_can_automate_ring = yes
-		}
-		is_colony = no  # use xvcv's original decision for that one
-	}
-	allow = {
-		# always = yes
-		is_terraforming = no
-		space_owner = {
-			has_resource = {
-				type = oxr_mdlc_world_machine_core
-				amount >= 1
-			}
-			has_resource = {
-				type = energy
-				amount >= 2500
-			}
-		}
-		has_anomaly = no
-	}
-	resources = {
-		category = decisions
-		cost = {
-			energy = 0
-		}
-	}
-	effect = {
-		custom_tooltip = oxr_mdlc_decisions_origin_wm_start_world_with_core_effect
-		hidden_effect = {
-			if = {
-				limit = {
-					is_ringworld = yes
-				}
-				start_terraform_process = xvcv_mdlc_pc_ringworld_machine_auto
-			}
-			else = {
-				start_terraform_process = xvcv_mdlc_pc_machine_auto
-			}
-
-		}
-	}
-}
 oxr_mdlc_decisions_origin_wm_reboot_ruined_world = {
 	owned_planets_only = no
 	potential = {
 		exists = space_owner
+		exists = planet
 		space_owner = { has_origin = oxr_mdlc_origin_world_machine_awakened }
-		is_planet_class = xvcv_mdlc_pc_machine_auto_ruined
+		planet = {
+			is_planet_class = xvcv_mdlc_pc_machine_auto_ruined
+		}
 		hidden_trigger = {
 			NOR = {
 				has_modifier = oxr_mdlc_origin_world_machine_world_rebooting_stage_1
@@ -94,21 +45,24 @@ oxr_mdlc_decisions_origin_wm_reboot_ruined_world = {
 		}
 	}
 	effect = {
-		save_event_target_as = oxr_mdlc_ruined_world_machine
-		log = "Ruined WM target set to \\[event_target:oxr_mdlc_ruined_world_machine.GetName]"
-		space_owner = {
-			start_situation = {
-				type = oxr_mdlc_origin_wm_situation_restore_ruined_world_machine
-				# target = oxr_mdlc_ruined_world_machine
-				target = event_target:oxr_mdlc_ruined_world_machine
-				# target = owner
-				effect = {
-					set_situation_approach = oxr_mdlc_origin_wm_situation_restore_ruined_world_machine_approach_pause
+		custom_tooltip = oxr_mdlc_origin_wm_situation_restore_ruined_world_machine.tooltip
+		hidden_effect = {
+			save_event_target_as = oxr_mdlc_ruined_world_machine
+			log = "Ruined WM target set to \\[event_target:oxr_mdlc_ruined_world_machine.GetName]"
+			space_owner = {
+				start_situation = {
+					type = oxr_mdlc_origin_wm_situation_restore_ruined_world_machine
+					# target = oxr_mdlc_ruined_world_machine
+					target = event_target:oxr_mdlc_ruined_world_machine
+					# target = owner
+					effect = {
+						set_situation_approach = oxr_mdlc_origin_wm_situation_restore_ruined_world_machine_approach_pause
+					}
 				}
-			}
-			# Starting event screen
-			country_event = {
-				id = oxr_mdlc_origin_wm_main.1000
+				# Starting event screen
+				country_event = {
+					id = oxr_mdlc_origin_wm_main.1000
+				}
 			}
 		}
 		
@@ -117,7 +71,6 @@ oxr_mdlc_decisions_origin_wm_reboot_ruined_world = {
 
 oxr_mdlc_decisions_origin_wm_start_auto_build_core = {
 	owned_planets_only = yes
-	# enactment_time = @oxr_mdlc_world_machine_core_build_time_days  # 1080
 	enactment_time = 15
 	# resources = {
 	# 	category = decisions
@@ -128,6 +81,7 @@ oxr_mdlc_decisions_origin_wm_start_auto_build_core = {
 	# }
 	potential = {
 		exists = space_owner
+		exists = planet
 		space_owner = {
 			has_origin = oxr_mdlc_origin_world_machine_awakened
 			has_technology = oxr_mdlc_tech_world_machine_wmc_core
@@ -135,12 +89,14 @@ oxr_mdlc_decisions_origin_wm_start_auto_build_core = {
 				has_country_flag = oxr_mdlc_world_machine_tech_stolen
 			}
 		}
-		is_planet_world_machine = yes
-		NOT = {
-			has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
-			has_planet_flag = oxr_mdlc_origin_world_machine_core_auto_build_enabled
+		planet = {
+			is_planet_world_machine = yes
+			NOT = {
+				has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
+				has_planet_flag = oxr_mdlc_origin_world_machine_core_auto_build_enabled
+			}
+			has_building = oxr_mdlc_world_machines_building_core_fabrication_depot
 		}
-		has_building = oxr_mdlc_world_machines_building_core_fabrication_depot
 	}
 	allow = {
 		space_owner = {
@@ -167,9 +123,11 @@ oxr_mdlc_decisions_origin_wm_start_auto_build_core = {
 			# add_modifier = {
 			# 	modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
 			# }
-			set_planet_flag = oxr_mdlc_origin_world_machine_core_auto_build_enabled
-			planet_event = {
-				id = oxr_mdlc_origin_wm_main.1299
+			planet = {
+				set_planet_flag = oxr_mdlc_origin_world_machine_core_auto_build_enabled
+				planet_event = {
+					id = oxr_mdlc_origin_wm_main.1299
+				}
 			}
 		}
 	}
@@ -180,10 +138,13 @@ oxr_mdlc_decisions_origin_wm_start_auto_build_core_stop = {
 	enactment_time = 15  # 1080
 	resources = {
 		category = decisions
-		cost = { }
+		cost = {
+			energy = 0
+		}
 	}
 	potential = {
 		exists = space_owner
+		exists = planet
 		space_owner = {
 			has_origin = oxr_mdlc_origin_world_machine_awakened
 			has_technology = oxr_mdlc_tech_world_machine_wmc_core
@@ -191,12 +152,13 @@ oxr_mdlc_decisions_origin_wm_start_auto_build_core_stop = {
 				has_country_flag = oxr_mdlc_world_machine_tech_stolen
 			}
 		}
-		is_planet_world_machine = yes
-		OR = {
-			has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
-			has_planet_flag = oxr_mdlc_origin_world_machine_core_auto_build_enabled
+		planet = {
+			is_planet_world_machine = yes
+			OR = {
+				has_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
+				has_planet_flag = oxr_mdlc_origin_world_machine_core_auto_build_enabled
+			}
 		}
-		
 	}
 	allow = {
 		# has_building = oxr_mdlc_world_machines_building_core_fabrication_depot
@@ -218,17 +180,20 @@ oxr_mdlc_decisions_origin_wm_restock_armies = {
 	enactment_time = 7
 	resources = {
 		category = decisions
-		cost = { }
+		cost = { energy = 0 }
 	}
 	potential = {
 		exists = space_owner
+		exists = planet
 		space_owner = {
 			has_origin = oxr_mdlc_origin_world_machine_awakened
 		}
-		is_planet_world_machine = yes
-		NOT = { has_planet_flag = oxr_mdlc_world_machines_refilling_armies_active }
-		NOT = { has_modifier = oxr_mdlc_world_machine_district_army_decommissioning_in_progress }
-		oxr_mdlc_planet_can_refill_district_defense_armies = yes
+		planet = {
+			is_planet_world_machine = yes
+			NOT = { has_planet_flag = oxr_mdlc_world_machines_refilling_armies_active }
+			NOT = { has_modifier = oxr_mdlc_world_machine_district_army_decommissioning_in_progress }
+			oxr_mdlc_planet_can_refill_district_defense_armies = yes
+		}
 	}
 	allow = {
 		has_ground_combat = no
@@ -236,17 +201,11 @@ oxr_mdlc_decisions_origin_wm_restock_armies = {
 	effect = {
 		custom_tooltip = oxr_mdlc_decisions_origin_wm_restock_armies_effect
 		hidden_effect = {
-			# set_planet_flag = oxr_mdlc_world_machines_refilling_armies_active
-			# add_modifier = {
-			# 	modifier = oxr_mdlc_world_machine_district_army_restock_in_progress
-			# 	days = 7
-			# }
-			# planet_event = {
-			# 	id = oxr_mdlc_origin_wm_main.2001
-			# }
-			# oxr_mdlc_planet_start_refilling_district_defense_armies = yes
-			planet_event = {
-				id = oxr_mdlc_origin_wm_main.2000
+
+			planet = {
+				planet_event = {
+					id = oxr_mdlc_origin_wm_main.2000
+				}
 			}
 		}
 	}
@@ -264,6 +223,7 @@ oxr_mdlc_decisions_origin_wm_requisition_automatons = {
 	}
 	potential = {
 		exists = space_owner
+		exists = planet
 		space_owner = {
 			has_origin = oxr_mdlc_origin_world_machine_awakened
 		}
@@ -313,6 +273,7 @@ oxr_mdlc_decisions_origin_wm_self_destruct = {
 	}
 	potential = {
 		exists = space_owner
+		exists = planet
 		space_owner = {
 			# for release, dont bother restricting to AP or origin, rely on the tradition's potential/allow
 			has_tradition = oxr_mdlc_tr_defensive_directives_self_destruct
@@ -350,8 +311,9 @@ oxr_mdlc_decision_ap_wm_automate_capital = {
 		}
 	}
 	potential = {
-		planet = { is_colony = yes }
 		exists = owner
+		exists = planet
+		planet = { is_colony = yes }
 		owner = {
 			OR = {
 				has_ascension_perk = xvcv_mdlc_ap_world_machines
@@ -380,7 +342,9 @@ oxr_mdlc_decision_ap_wm_automate_capital = {
 		
 	}
 	effect = {
-		oxr_mdlc_planet_wm_automate_capital = yes
+		planet = {
+			oxr_mdlc_planet_wm_automate_capital = yes
+		}
 	}
 }
 
@@ -396,6 +360,7 @@ oxr_mdlc_decision_ap_wm_automate_capital_remove = {
 	potential = {
 		# Ordered specifically for optimal short-circuit
 		exists = owner
+		exists = planet
 		planet = { is_colony = yes }
 		owner = {
 			OR = {
@@ -415,16 +380,20 @@ oxr_mdlc_decision_ap_wm_automate_capital_remove = {
 		}
 	}
 	allow = {
-		OR = {
-			has_building = oxr_mdlc_world_machines_building_auto_capital
-			has_building = oxr_mdlc_world_machines_building_auto_capital_upgraded
-			has_building = oxr_mdlc_world_machines_building_auto_capital_major_upgraded
-			has_building = oxr_mdlc_world_machines_building_auto_capital_fully_upgraded
-			has_building = oxr_mdlc_world_machines_building_auto_imperial_capital
+		planet = {
+			OR = {
+				has_building = oxr_mdlc_world_machines_building_auto_capital
+				has_building = oxr_mdlc_world_machines_building_auto_capital_upgraded
+				has_building = oxr_mdlc_world_machines_building_auto_capital_major_upgraded
+				has_building = oxr_mdlc_world_machines_building_auto_capital_fully_upgraded
+				has_building = oxr_mdlc_world_machines_building_auto_imperial_capital
+			}
 		}
 	}
 	effect = {
-		oxr_mdlc_planet_wm_remove_capital_automation = yes
+		planet = {
+			oxr_mdlc_planet_wm_remove_capital_automation = yes
+		}
 	}
 }
 
@@ -439,6 +408,7 @@ oxr_mdlc_decision_origin_wm_shutdown_colony = {
 
 	potential = {
 		exists = owner
+		exists = planet
 		owner = {
 			has_oxr_mdlc_origin_world_machine_awakened = yes
 		}
@@ -488,6 +458,7 @@ oxr_mdlc_decision_origin_wm_reactivate_colony = {
 	}
 	allow = {
 		exists = space_owner
+		exists = planet
 		planet = {
 			is_terraforming = no
 			has_anomaly = no
@@ -542,10 +513,14 @@ rikk_mdlc_decision_world_machine_exhibits = {
 
 	potential = {
 		exists = space_owner
+		exists = planet
 		space_owner = {
 			has_origin = oxr_mdlc_origin_world_machine_awakened
 		}
-		is_planet_world_machine = yes
+		planet = {
+			is_planet_world_machine = yes
+		}
+		
 		has_ancrel = yes
 	}
 

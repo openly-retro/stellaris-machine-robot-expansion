@@ -70,6 +70,7 @@ rikk_mdlc_decision_rw_upgrade = {
 			alloys = 5000 energy = 10000
 		}
 
+
 		#maybe stick different costs in here for the different ascension paths (dark matter virtual, living metal modularity, nanite)
 		#cost = {
 		#	trigger = { has_tradition = tr_virtuality_adopt }
@@ -88,10 +89,19 @@ rikk_mdlc_decision_rw_upgrade = {
 					is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
 				}
 				and = {
-					space_owner = { has_technology = giga_tech_ringworld_upgrade }
 					is_planet_class = pc_ringworld_tech
+					OR = {
+						has_global_flag = upgrade_capped_1
+						has_global_flag = upgrade_capped_2
+						has_global_flag = upgrade_capped_3
+						has_global_flag = upgrade_capped_r
+						has_global_flag = upgrade_capped_u
+					}
 				}
 			}
+		}
+		space_owner = {
+			has_technology = "tech_ring_world"
 		}
 	}
 	
@@ -148,21 +158,6 @@ rikk_mdlc_decision_rw_upgrade = {
 	}
 }
 
-#this exists just to let the player know they can upgrade tech sections with giga's ringworld upgrade tech
-#rikk_mdlc_decision_rw_upgrade_dummy = {
-#	enactment_time = 3600
-#	prerequisites = { "giga_tech_ringworld_upgrade" }
-#	resources = {
-#		category = decisions
-#		cost = {
-#			alloys = 10000
-#			energy = 20000
-#		}
-#	}
-#	potential = { always = no }
-#	effect = {
-#		planet = {
-#			custom_tooltip = rikk_mdlc_decision_rw_upgrade_effect
-#		}
-#	}
-#}
+#this decision has been moved to the wmo-gigas compatability submod since it crashes the mod without gigas
+
+#rikk_mdlc_decision_rw_upgrade_dummy = { }

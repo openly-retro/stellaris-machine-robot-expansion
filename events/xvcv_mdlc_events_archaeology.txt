@@ -45,20 +45,26 @@ country_event = {
 					type = hyperlane
 				}
 				any_system_planet = {
+					exists = planet
 					colonizable_planet = yes
 					NOR = {
-						has_planet_flag = prescripted_ideal
-						exists = archaeological_site
+						planet = {
+							has_planet_flag = prescripted_ideal
+							exists = archaeological_site
+						}
 					}
 					has_anomaly = no
 				}
 			}
-			random_system_planet = {
+			random_system_planet_colony = {
 				limit = {
 					colonizable_planet = yes
+					exists = planet
 					NOR = {
-						has_planet_flag = prescripted_ideal
-						exists = archaeological_site
+						planet = {
+							has_planet_flag = prescripted_ideal
+							exists = archaeological_site
+						}
 					}
 					has_anomaly = no
 				}
@@ -82,11 +88,13 @@ country_event = {
 					}
 				}
 
-				prevent_anomaly = yes
-				remove_all_buildings = yes
-				add_modifier = { modifier = xvcv_mdlc_primitive_machine_unknown_structure days = -1 }
-				create_archaeological_site = xvcv_mdlc_primitive_machine_site
-				add_blocker = { type = d_archaeological_site }
+				planet = {
+					prevent_anomaly = yes
+					remove_all_buildings = yes
+					add_modifier = { modifier = xvcv_mdlc_primitive_machine_unknown_structure days = -1 }
+					create_archaeological_site = xvcv_mdlc_primitive_machine_site
+					add_blocker = { type = d_archaeological_site }
+				}
 
 				create_ambient_object = {
 					type = "medium_debris_01_object"

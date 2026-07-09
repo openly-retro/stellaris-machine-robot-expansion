@@ -69,100 +69,6 @@ can_release_vassal = {
 	}
 }
 
-#Root = country
-#This = planet
-can_colonize_planet = {
-	hidden_trigger = {
-		exists = root
-	}
-	custom_tooltip = {
-		fail_text = "COLONIZATION_IMPOSSIBLE_UNDER_INVESTIGATION"
-		NOT = { has_planet_flag = planet_under_investigation }
-	}
-	custom_tooltip = {
-		fail_text = "COLONIZATION_IMPOSSIBLE_DYSON_SPHERE"
-		if = {
-			limit = {
-				is_artificial = no	# Colonizing habitats is fine
-			}
-			system_has_dyson_sphere = no
-		}
-	}
-	custom_tooltip = {
-		fail_text = "COLONIZATION_IMPOSSIBLE_DYSON_SPHERE_CONSTRUCTION"
-		if = {
-			limit = {
-				system_has_dyson_sphere = no
-				is_artificial = no	# Colonizing habitats is fine
-			}
-			NOT = {
-				solar_system = {
-					has_star_flag = dyson_sphere_construction
-				}
-			}
-		}
-	}
-	custom_tooltip = {
-		fail_text = "COLONIZATION_IMPOSSIBLE_COSMOGENESIS_EXODUS"
-		exists = root
-		root = {
-			NOT = { owner = { has_event_chain = cosmogenesis_planet_pickup_chain } }
-		}
-	}
-	custom_tooltip = {
-		fail_text = "COLONIZATION_IMPOSSIBLE_CRIMSON_CRAWLERS"
-
-		if = {
-			limit = {
-				has_modifier = crimson_crawlers
-			}
-			root = {
-				cares_for_crimson_crawlers = yes
-			}
-		}
-	}
-
-	custom_tooltip = {
-		fail_text = "COLONIZATION_IMPOSSIBLE_DEFENDED_PLANET"
-		NOT = { has_planet_flag = planet_defended_forbid_colonization }
-	}
-
-	custom_tooltip = {
-		fail_text = "COLONIZATION_IMPOSSIBLE_SMEEGIBB_PLANET"
-		NOT = { has_planet_flag = cannot_colonize_smeegibb_shelter }
-	}
-
-	custom_tooltip = {
-		# Machine & Robot Expansion Continued
-		fail_text = oxr_mdlc_can_colonize_planet_pc_habitat.fail_active
-		NAND = {
-			is_planet_class = pc_habitat
-			oxr_mdlc_planet_decision_dismantle_habitat_active = yes
-		}
-	}
-	custom_tooltip = {
-		# Machine & Robot Expansion Continued
-		fail_text = oxr_mdlc_can_colonize_planet.wm_is_rebooting
-		oxr_mdlc_planet_world_machine_is_rebooting = no
-	}
-	custom_tooltip = {
-		# Machine & Robot Expansion Continued
-		fail_text = oxr_mdlc_can_colonize_planet.is_wm_empire_non_wm
-		NAND = {
-			exists = space_owner
-			is_planet_world_machine = yes
-			space_owner = {
-				has_oxr_mdlc_origin_world_machine_awakened = yes
-			}
-		}
-	}
-	custom_tooltip = {
-		# Machine & Robot Expansion Continued
-		fail_text = oxr_mdlc_can_colonize_planet.planet_being_decomposed
-		NOT = { has_planet_flag = oxr_mdlc_origin_null_stellar_formatter_placed }
-	}
-}
-
 can_species_be_assembled = {
 	is_sapient = yes
 	NOT = {
@@ -198,58 +104,9 @@ can_species_be_assembled = {
 			# Machines & Robot Expansion Continued
 			has_xvcv_mdlc_trait_bio_robot = no
 		}
+		# Create a second block so the OR has something to resolve to
 		AND = {
-			is_organic_species = yes
-			if = {
-				limit = {
-					root.owner = { is_hive_empire = yes }
-				}
-				has_trait = trait_hive_mind
-			}
-			else_if = {
-				limit = { has_budding_trait = yes }
-				root = {
-					any_owned_species = { is_exact_same_species = prevprev }
-				}
-			}
-			else_if = {
-				limit = { has_trait = trait_tiyanki }
-				root = {
-					any_owned_species = { is_exact_same_species = prevprev }
-				}
-			}
-			else_if = {
-				limit = {
-					OR = {
-						has_trait = trait_clone_soldier_infertile
-						has_trait = trait_clone_soldier_infertile_full_potential
-					}
-				}
-				root = {
-					# Event 'clones.3' should cover this, but extra safety check.
-					has_building = building_clone_army_clone_vat
-					NOT = {
-						check_variable = {
-							which = clone_pops_missing
-							value = 0
-						}
-					}
-				}
-			}
-			else = {
-				root = {
-					OR = {
-						has_building = building_clone_vats
-						has_modifier = tiyanki_trophy
-						owner = { has_modifier = syamelles_curse }
-						AND = {
-							has_building = building_posthumous_employment_center
-							owner = { has_civic = civic_permanent_employment }
-						}
-						has_planet_flag = can_organic_assemble_flag #for mod compatibility
-					}
-				}
-			}
+			is_sapient = yes
 		}
 	}
 	has_population_control = {

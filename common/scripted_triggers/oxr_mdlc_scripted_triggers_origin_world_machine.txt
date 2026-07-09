@@ -6,6 +6,27 @@ oxr_mdlc_planet_owner_can_build_wm_districts = {
 	}
 }
 
+oxr_mdlc_colony_can_have_wm_structures = {
+	# Checks for AP and origin on WM planets only
+	exists = owner
+	exists = planet
+	planet = { is_planet_world_machine = yes }
+	owner = {
+		OR = {
+			has_xvcv_mdlc_ap_world_machines = yes
+			has_oxr_mdlc_origin_world_machine_awakened = yes
+		}
+	}
+}
+
+oxr_mdlc_colony_can_have_wm_structures_wm_origin = {
+	# Checks for WM Origin on WM planets only
+	exists = owner
+	exists = planet
+	planet = { is_planet_world_machine = yes }
+	owner = { has_oxr_mdlc_origin_world_machine_awakened = yes }
+}
+
 oxr_mdlc_planet_has_any_world_machine_blockers = {
 	OR = {
 		has_deposit = oxr_mdlc_d_world_machine_collapsed_charge_controller
@@ -66,34 +87,18 @@ oxr_mdlc_planet_can_become_world_machine = {
 		# is_colonizable = yes  # support other mods that add colonizable classes
 	}
 }
-oxr_mdlc_planet_can_automate_ring = {
+
+oxr_mdlc_planet_can_become_world_machine_with_tech = {
 	OR = {
-		is_planet_class = pc_ringworld_habitable
+		is_planet_class = pc_frozen
+		is_planet_class = pc_molten
+		is_planet_class = pc_toxic
 	}
 }
 
-# Can the country make an auto-machine world
-oxr_mdlc_country_can_make_t2_world_machine = {
-	if = {
-		limit = {
-			owner = {
-				has_ascension_perk = xvcv_mdlc_ap_world_machines
-			}
-			is_planet_class = pc_machine
-		}
-		always = yes
-	}
-	else_if = {
-		limit = {
-			owner = {
-				has_origin = oxr_mdlc_origin_world_machine_awakened
-			}
-			oxr_mdlc_planet_can_become_world_machine = yes
-		}
-		always = yes
-	}
-	else = {
-		always = no
+oxr_mdlc_planet_can_automate_ring = {
+	OR = {
+		is_planet_class = pc_ringworld_habitable
 	}
 }
 
@@ -357,6 +362,7 @@ oxr_mdlc_country_is_nanotech_wm_origin = {
 oxr_mdlc_planet_world_machine_is_rebooting = {
 	if = {
 		limit = {
+			exists = planet
 			is_planet_world_machine = yes
 		}
 		OR = {

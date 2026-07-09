@@ -92,7 +92,8 @@ country_event = {
 			unity = 10000
 		}
 		# Planet changes, copied from mind integration AP event
-		every_owned_planet = {
+		every_owned_colony = {
+
 			if = {
 				limit = { has_building = building_colony_shelter }
 				remove_building = building_colony_shelter
@@ -358,15 +359,15 @@ country_event = {
 				remove_building = building_corporate_vault
 				add_building = building_alpha_hub
 			}
-			planet_event = {
+			colony_event = {
 				# on_initialize_advanced_colony: remove tile blockers on capital
 				id = game_start.20
 			}
-			planet_event = {
+			colony_event = {
 				# on_initialize_advanced_colony: upgrade colony shelter
 				id = game_start.21
 			}
-			planet_event = {
+			colony_event = {
 				# on_initialize_advanced_colony: 
 				# set up additional buildings (mines, farms, power plants)
 				id = game_start.22
@@ -586,76 +587,4 @@ country_event = {
 			}
 		}
 	}
-}
-
-# Change nanomachine job filling preferences on a planet
-planet_event = {
-	id = oxr_mdlc.1000
-	title = "oxr_mdlc_planet_event.1000.title"
-	desc = "oxr_mdlc_planet_event.1000.desc"
-	picture = GFX_evt_unity_symbol
-	is_triggered_only = yes
-
-	trigger = {
-		has_planet_flag = oxr_mdlc_decision_extended_change_nano_cluster_preference_in_progress
-	}
-
-	option = {
-		# name = "Do not make any changes"
-		name = "oxr_mdlc_planet_event.1000.option.d"
-		default_hide_option = yes
-		hidden_effect = {
-			remove_planet_flag = oxr_mdlc_decision_extended_change_nano_cluster_preference_in_progress
-		}
-	}
-
-	option = {
-		# name = "Reset Nanomachine Cluster Job Preferences"
-		name = "oxr_mdlc_planet_event.1000.option.a"
-		custom_tooltip = oxr_mdlc_planet_event.1000.option.a.tooltip
-		allow = {
-			OR = {
-				has_planet_flag = rikk_mdlc_planet_extended_nano_drone_subsidy
-				has_planet_flag = rikk_mdlc_planet_extended_nano_drone_deactivation
-			}
-		}
-		hidden_effect = {
-			remove_planet_flag = rikk_mdlc_planet_extended_nano_drone_subsidy
-			remove_planet_flag = rikk_mdlc_planet_extended_nano_drone_deactivation
-
-			remove_planet_flag = oxr_mdlc_decision_extended_change_nano_cluster_preference_in_progress
-		}
-	}
-
-	option = {
-		# name = "Prioritize Nanomachine Cluster Jobs"
-		name = "oxr_mdlc_planet_event.1000.option.b"
-		custom_tooltip = oxr_mdlc_planet_event.1000.option.b.tooltip
-		allow = {
-			NOT = { has_planet_flag = rikk_mdlc_planet_extended_nano_drone_subsidy }
-		}
-		hidden_effect = {
-			set_planet_flag = rikk_mdlc_planet_extended_nano_drone_subsidy
-			remove_planet_flag = rikk_mdlc_planet_extended_nano_drone_deactivation
-			
-			remove_planet_flag = oxr_mdlc_decision_extended_change_nano_cluster_preference_in_progress
-		}
-	}
-
-	option = {
-		# name = "Remove Nanomachine Cluster Jobs"
-		name = "oxr_mdlc_planet_event.1000.option.c"
-		custom_tooltip = oxr_mdlc_planet_event.1000.option.c.tooltip
-		allow = {
-			NOT = { has_planet_flag = rikk_mdlc_planet_extended_nano_drone_deactivation }
-		}
-		hidden_effect = {
-			remove_planet_flag = rikk_mdlc_planet_extended_nano_drone_subsidy
-			set_planet_flag = rikk_mdlc_planet_extended_nano_drone_deactivation
-
-			remove_planet_flag = oxr_mdlc_decision_extended_change_nano_cluster_preference_in_progress
-		}
-	}
-
-	
 }

@@ -1,0 +1,98 @@
+#### TRADE ####
+
+oxr_mdlc_world_machines_auto_logistics_1 = {
+	can_build = yes
+    upgrades = { oxr_mdlc_world_machines_auto_logistics_2 }
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = trade
+		POTENTIAL = " "
+    	TIER = 1
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_trade_buildings
+		RARE_MATERIAL = rare_crystals
+		RARE_COST = 0
+    	RARE_UPKEEP = 0
+		RESOURCES = " "
+    	JOB = trader
+		JOBS = 2
+		MODIFIER = none
+    	SET = trade
+    }
+}
+
+oxr_mdlc_world_machines_auto_logistics_2 = {
+	can_build = no
+	allow = { oxr_mdlc_has_upgraded_capital = yes }
+    upgrades = { oxr_mdlc_world_machines_auto_logistics_3 }
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = trade
+		POTENTIAL = " "
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_trade_buildings
+		RARE_MATERIAL = rare_crystals
+		RARE_COST = 0
+    	RARE_UPKEEP = 0
+		RESOURCES = " "
+    	JOB = trader
+		JOBS = 4
+		MODIFIER = none
+    	SET = trade
+    }
+	planet_modifier = { planet_stability_add = -1 }
+}
+
+oxr_mdlc_world_machines_auto_logistics_3 = {
+	can_build = no
+	allow = { oxr_mdlc_has_major_upgraded_capital = yes }
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = trade
+		POTENTIAL = " "
+    	TIER = 3
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_trade_buildings
+		RARE_MATERIAL = rare_crystals
+		RARE_COST = @b2_rare_cost
+    	RARE_UPKEEP = @b2_rare_upkeep
+		RESOURCES = " "
+    	JOB = trader
+		JOBS = 6
+		MODIFIER = none
+    	SET = trade
+    }
+	planet_modifier = { planet_stability_add = -2 }
+}
+
+rikk_mdlc_world_machines_auto_megaplex = {
+	can_build = yes
+	planet_limit = 1
+	allow = { oxr_mdlc_has_upgraded_capital = yes }
+	
+	triggered_planet_modifier = {
+		oxr_mdlc_world_machines_trade_buildings_upkeep_mult = -0.10
+		xvcv_mdlc_world_machines_trade_districts_upkeep_mult = -0.10
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = trade
+		POTENTIAL = " "
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_trade_buildings
+		RARE_MATERIAL = rare_crystals
+		RARE_COST = @b2_rare_cost
+    	RARE_UPKEEP = @b2_rare_upkeep
+		RESOURCES = " "
+    	JOB = trader
+		JOBS = 2
+		MODIFIER = none
+    	SET = trade
+    }
+	planet_modifier = { planet_stability_add = -2 }
+	triggered_desc = { text = rikk_mdlc_text_requires_appropriate_zone }
+}
+
+# EOF

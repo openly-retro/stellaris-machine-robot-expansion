@@ -15,7 +15,10 @@ rikk_mdlc_decision_battery_world = {
 
 	potential = {
 		exists = owner
-		NOT = { is_planet_class = rikk_mdlc_pc_battery }
+		exists = planet
+		planet = {
+			NOT = { is_planet_class = rikk_mdlc_pc_battery }
+		}
 		is_artificial = no
 	}
 	
@@ -29,16 +32,18 @@ rikk_mdlc_decision_battery_world = {
 
 	effect = {
 		custom_tooltip = rikk_mdlc_decision_battery_world_effects
-		hidden_effect = { 
-			change_pc = rikk_mdlc_pc_battery
-			add_district = rikk_mdlc_district_battery_quarters
-			set_planet_flag = rikk_mdlc_is_world_machine
+		hidden_effect = {
+			planet = {
+				change_pc = rikk_mdlc_pc_battery
+				add_district = rikk_mdlc_district_battery_quarters
+				set_planet_flag = rikk_mdlc_is_world_machine
 
-			if = {
-				limit = {
-					has_modifier = oxr_mdlc_planet_origin_world_machine_info
+				if = {
+					limit = {
+						has_modifier = oxr_mdlc_planet_origin_world_machine_info
+					}
+					remove_modifier = oxr_mdlc_planet_origin_world_machine_info
 				}
-				remove_modifier = oxr_mdlc_planet_origin_world_machine_info
 			}
 		}
 	}
@@ -56,7 +61,9 @@ rikk_mdlc_decision_un_battery_world = {
 
 	potential = {
 		exists = owner
-		is_planet_class = rikk_mdlc_pc_battery
+		exists = planet
+		planet = { is_planet_class = rikk_mdlc_pc_battery }
+		
 	}
 	
 	allow = {
@@ -64,6 +71,8 @@ rikk_mdlc_decision_un_battery_world = {
 	}
 
 	effect = {
-		change_pc = pc_arid
+		planet = {
+			change_pc = pc_arid
+		}
 	}
 }

@@ -1,0 +1,28 @@
+
+oxr_job_weights_modifier = {
+	# Ported up from Stellaris 3.12
+	# According to docs, this is an "expensive" check
+	# May be best to skip using this.. as it's gone from the base game now
+	complex_trigger_modifier = {
+		trigger = check_economic_production_modifier_for_job
+		parameters = {
+			job = $JOB$
+			resource = $RESOURCE$
+		}
+		mode = add
+		[[FACTOR]
+			mult = $FACTOR$
+		]
+	}
+	add = value:job_weights_manual_corrections|JOB|$JOB$|
+	add = 1
+	min = 0
+	pow = 3 #we need it to have a bit more impact
+
+	modifier = {
+		owner = {
+			has_deficit = $RESOURCE$
+		}
+		mult = @\[ 10 * $FACTOR|1$ ]
+	}
+}

@@ -90,13 +90,15 @@ xvcv_mdlc_leader_check_memory_share_level_up_happened_for_official = {
 }
 
 is_planet_world_machine = {
-	OR = {
-		is_planet_class = xvcv_mdlc_pc_machine_ser
-		is_planet_class = xvcv_mdlc_pc_machine_cpu
-		is_planet_class = xvcv_mdlc_pc_machine_ecu
-		is_planet_class = xvcv_mdlc_pc_machine_auto
-		is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
-		has_planet_flag = rikk_mdlc_is_world_machine
+	planet = {
+		OR = {
+			is_planet_class = xvcv_mdlc_pc_machine_ser
+			is_planet_class = xvcv_mdlc_pc_machine_cpu
+			is_planet_class = xvcv_mdlc_pc_machine_ecu
+			is_planet_class = xvcv_mdlc_pc_machine_auto
+			is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
+			has_planet_flag = rikk_mdlc_is_world_machine
+		}
 	}
 }
 
@@ -108,4 +110,11 @@ oxr_mdlc_country_has_mind_separated = {
 
 oxr_mdlc_planet_has_only_1_district = {
 	num_districts = { type = any value < 2 }
+}
+
+xvcv_mdlc_country_machine_has_voluntary_work = {
+	owner? = {
+		has_authority = auth_machine_intelligence
+		has_ascension_perk = xvcv_mdlc_ap_organic_work
+	}
 }

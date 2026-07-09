@@ -41,7 +41,7 @@ rikk_mdlc_situation_core_core = {
 			
 			on_first_enter = { 
 				situation_event = { id = rikk_mdlc_wm_upgrade_events.20 }
-				target = { planet_event = { id = rikk_mdlc_wm_upgrade_events.70 days = 1 } }
+				target.planet = { planet_event = { id = rikk_mdlc_wm_upgrade_events.70 days = 1 } }
 				# if = {
 					# limit = {
 						# owner = { has_country_flag = rikk_mdlc_core_core_shaddup }
@@ -75,19 +75,20 @@ rikk_mdlc_situation_core_core = {
 	on_progress_complete = {
 		custom_tooltip = rikk_mdlc_situation_core_core_complete
 		situation_event = { id = rikk_mdlc_wm_upgrade_events.40 }
-		target = {
+		target.planet = {
 			remove_modifier = weak_magnetic_field
 			# add_deposit = rikk_mdlc_d_world_machine_core_core
 			hidden_effect = {
 				set_planet_flag = rikk_mdlc_core_core_installed
 				remove_planet_flag = rikk_mdlc_situation_core_core_active
 				remove_planet_flag = rikk_mdlc_core_core_monster
+				planet = { planet_event = { id = rikk_mdlc_wm_upgrade_events.200 days = 1 } }
 			}
 		}
 		destroy_situation = this
 	}
 	on_abort = {
-		target = {
+		target.planet = {
 			hidden_effect = { 
 				remove_planet_flag = rikk_mdlc_situation_core_core_active 
 				remove_planet_flag = rikk_mdlc_core_core_monster 
@@ -120,31 +121,24 @@ rikk_mdlc_situation_core_core = {
 		resources = {
 			category = situations
 			upkeep = {
-				trigger = {
-					current_stage = rikk_mdlc_situation_core_upgrade_stage_1
-				}
-				alloys = 30
-				energy = 50
+				energy = 120
 			}
 			upkeep = {
-				trigger = {
-					OR = {
-						current_stage = rikk_mdlc_situation_core_upgrade_stage_2
-						current_stage = rikk_mdlc_situation_core_upgrade_stage_3
-					}
-				}
-				energy = 50
+				trigger = { current_stage = rikk_mdlc_situation_core_upgrade_stage_1 }
+				alloys = 20
 			}
 			produces = {
-				trigger = {
-					current_stage = rikk_mdlc_situation_core_upgrade_stage_2
-				}
+				trigger = { current_stage = rikk_mdlc_situation_core_upgrade_stage_2 }
 				minerals = 200
+			}
+			upkeep = {
+				trigger = { current_stage = rikk_mdlc_situation_core_upgrade_stage_2 }
+				energy = 40
 			}
 		}
 		on_select = {
 			custom_tooltip = rikk_mdlc_approach_normal_effect
-			target = {
+			target.planet = {
 				hidden_effect = {
 					if = {
 						limit = { oxr_mdlc_planet_class_uses_cooling = yes }
@@ -166,25 +160,24 @@ rikk_mdlc_situation_core_core = {
 		resources = {
 			category = situations
 			upkeep = {
-				trigger = {
-					current_stage = rikk_mdlc_situation_core_upgrade_stage_1
-				}
-				alloys = 60
-				energy = 100
+				energy = 300
+			}
+			upkeep = {
+				trigger = { current_stage = rikk_mdlc_situation_core_upgrade_stage_1 }
+				alloys = 50
 			}
 			produces = {
-				trigger = {
-					current_stage = rikk_mdlc_situation_core_upgrade_stage_2
-				}
+				trigger = { current_stage = rikk_mdlc_situation_core_upgrade_stage_2 }
 				minerals = 50
 			}
 		}
 		target_modifier = {
 			planet_stability_add = -10
+			planet_structures_upkeep_mult = 0.10
 		}
 		on_select = {
 			custom_tooltip = rikk_mdlc_approach_extra_effect
-			target = {
+			target.planet = {
 				hidden_effect = {
 					if = {
 						limit = { oxr_mdlc_planet_class_uses_cooling = yes }
@@ -206,7 +199,7 @@ rikk_mdlc_situation_core_core = {
 		ai_weight = { base = 0 }
 		potential = { current_stage = rikk_mdlc_situation_core_upgrade_stage_1 }
 		allow = {
-			target = {
+			target.planet = {
 				OR = {
 					has_district = xvcv_mdlc_pc_machine_ecu_district_cooling_primary
 					has_district = xvcv_mdlc_pc_machine_ser_district_cooling_primary
@@ -223,7 +216,7 @@ rikk_mdlc_situation_core_core = {
 		}
 		on_select = {
 			custom_tooltip = rikk_mdlc_approach_cooling_district_effect
-			target = {
+			target.planet = {
 				hidden_effect = {
 					if = {
 						limit = {
@@ -290,7 +283,7 @@ rikk_mdlc_situation_core_core = {
 		}
 		on_select = {
 			custom_tooltip = rikk_mdlc_approach_stage_2_dumping_grounds_effect
-			target = {
+			target.planet = {
 				hidden_effect = {
 					planet_event = { id = rikk_mdlc_wm_upgrade_events.70 days = 1 }
 				}

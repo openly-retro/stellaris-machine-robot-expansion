@@ -1,0 +1,511 @@
+#### UNITY ####
+
+# UNITY T1
+oxr_mdlc_world_machines_building_auto_unity_1 = {
+	can_build = yes
+	prerequisites = { tech_planetary_government }
+    upgrades = { oxr_mdlc_world_machines_building_auto_unity_2 }
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = unity
+		POTENTIAL = " "
+    	TIER = 1
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_unity_buildings
+		RARE_MATERIAL = rare_crystals
+		RARE_COST = 0
+    	RARE_UPKEEP = 0
+		RESOURCES = " "
+    	JOB = coordinator
+		JOBS = 2
+		MODIFIER = none
+    	SET = unity
+    }
+	#triggered_desc = { text = rikk_mdlc_text_build_higher_tier_t3 }
+	triggered_desc = {
+		trigger = { has_active_building = oxr_mdlc_building_auto_organoid_research_center }
+		text = oxr_mdlc_building_auto_research_organoid_active
+	}
+	convert_to = {
+		building_bureaucratic_1
+		building_temple
+		building_hive_node
+	}
+}
+# UNITY T2
+oxr_mdlc_world_machines_building_auto_unity_2 = {
+	can_build = no
+	prerequisites = { tech_planetary_unification }
+    upgrades = { oxr_mdlc_world_machines_building_auto_unity_3 }
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = unity
+		POTENTIAL = " "
+    	TIER = 1
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_unity_buildings
+		RARE_MATERIAL = rare_crystals
+		RARE_COST = @b2_rare_cost
+    	RARE_UPKEEP = @b2_rare_upkeep
+		RESOURCES = " "
+    	JOB = coordinator
+		JOBS = 4
+		MODIFIER = none
+    	SET = unity
+    }
+	#triggered_desc = { text = rikk_mdlc_text_build_higher_tier_t3 }
+	triggered_desc = {
+		trigger = { has_active_building = oxr_mdlc_building_auto_organoid_research_center }
+		text = oxr_mdlc_building_auto_research_organoid_active
+	}
+	convert_to = {
+		building_bureaucratic_2
+		building_temple
+		building_hive_node
+	}
+}
+# UNITY T3
+oxr_mdlc_world_machines_building_auto_unity_3 = {
+	can_build = no
+	prerequisites = { tech_adaptive_bureaucracy }
+    upgrades = { oxr_mdlc_world_machines_building_auto_unity_4 }
+	allow = { oxr_mdlc_has_upgraded_capital = yes }
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = unity
+		POTENTIAL = " "
+    	TIER = 3
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_unity_buildings
+		RARE_MATERIAL = rare_crystals
+		RARE_COST = @b3_rare_cost
+    	RARE_UPKEEP = @b3_rare_upkeep
+		RESOURCES = " "
+    	JOB = coordinator
+		JOBS = 6
+		MODIFIER = none
+    	SET = unity
+    }
+	#triggered_desc = { text = rikk_mdlc_text_build_higher_tier_t3 }
+	triggered_desc = {
+		trigger = { has_active_building = oxr_mdlc_building_auto_organoid_research_center }
+		text = oxr_mdlc_building_auto_research_organoid_active
+	}
+	convert_to = {
+		building_bureaucratic_3
+		building_temple
+		building_hive_node
+	}
+	planet_modifier = { planet_stability_add = -1 }
+}
+# UNITY T4
+oxr_mdlc_world_machines_building_auto_unity_4 = {
+	can_build = no
+	prerequisites = { tech_colonial_bureaucracy }
+	allow = { oxr_mdlc_has_major_upgraded_capital = yes }
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = unity
+		POTENTIAL = " "
+    	TIER = 4
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_unity_buildings
+		RARE_MATERIAL = rare_crystals
+		RARE_COST = @b4_rare_cost
+    	RARE_UPKEEP = @b4_rare_upkeep
+		RESOURCES = " "
+    	JOB = coordinator
+		JOBS = 8
+		MODIFIER = none
+    	SET = unity
+    }
+	#triggered_desc = { text = rikk_mdlc_text_build_higher_tier_t3 }
+	triggered_desc = {
+		trigger = { has_active_building = oxr_mdlc_building_auto_organoid_research_center }
+		text = oxr_mdlc_building_auto_research_organoid_active
+	}
+	convert_to = {
+		building_bureaucratic_3
+		building_temple
+		building_hive_node
+	}
+	planet_modifier = { planet_stability_add = -2 }
+}
+
+# Unity structure upkeep
+oxr_mdlc_world_machines_building_auto_unity_optimizer = {
+	can_build = yes
+	planet_limit = 1
+	prerequisites = { tech_colonial_bureaucracy }
+	allow = { oxr_mdlc_has_upgraded_capital = yes }
+	
+	triggered_planet_modifier = {
+		oxr_mdlc_world_machines_unity_buildings_upkeep_mult = -0.10
+		xvcv_mdlc_world_machines_unity_districts_upkeep_mult = -0.10
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = unity
+		POTENTIAL = " "
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_unity_buildings
+		RARE_MATERIAL = rare_crystals
+		RARE_COST = @b2_rare_cost
+    	RARE_UPKEEP = @b2_rare_upkeep
+		RESOURCES = " "
+    	JOB = none
+		JOBS = 0
+		MODIFIER = none
+    	SET = unity
+    }
+	planet_modifier = { planet_stability_add = -2 }
+	triggered_desc = { text = rikk_mdlc_text_requires_appropriate_zone }
+}
+
+# Unity structure efficiency
+oxr_mdlc_world_machines_building_auto_unity_amplifier = {
+	can_build = yes
+	planet_limit = 1
+	prerequisites = { tech_colonial_bureaucracy }
+	allow = { oxr_mdlc_has_upgraded_capital = yes }
+	
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_ser = no is_xvcv_mdlc_pc_ringworld_machine_auto = no }
+		oxr_mdlc_world_machines_unity_buildings_unity_produces_add = 1
+		oxr_mdlc_world_machines_unity_buildings_energy_upkeep_add = 1
+		xvcv_mdlc_world_machines_unity_districts_unity_produces_add = 1
+		xvcv_mdlc_world_machines_unity_districts_energy_upkeep_add = 1
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_ser = yes }
+		oxr_mdlc_world_machines_unity_buildings_unity_produces_add = 3
+		oxr_mdlc_world_machines_unity_buildings_energy_upkeep_add = 3
+		xvcv_mdlc_world_machines_unity_districts_unity_produces_add = 3
+		xvcv_mdlc_world_machines_unity_districts_energy_upkeep_add = 3
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_ringworld_machine_auto = yes }
+		oxr_mdlc_world_machines_unity_buildings_unity_produces_add = 5
+		oxr_mdlc_world_machines_unity_buildings_energy_upkeep_add = 5
+		xvcv_mdlc_world_machines_unity_districts_unity_produces_add = 5
+		xvcv_mdlc_world_machines_unity_districts_energy_upkeep_add = 5
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = unity
+		POTENTIAL = " "
+    	TIER = 3
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_unity_buildings
+		RARE_MATERIAL = rare_crystals
+		RARE_COST = @b3_rare_cost
+    	RARE_UPKEEP = @b3_rare_upkeep
+		RESOURCES = " "
+    	JOB = none
+		JOBS = 0
+		MODIFIER = none
+    	SET = unity
+    }
+	planet_modifier = { planet_stability_add = -2 }
+	triggered_desc = { text = rikk_mdlc_text_requires_appropriate_zone }
+}
+
+# Alpha hub 
+oxr_mdlc_world_machines_building_auto_unity_alpha_hub = {
+	can_build = yes
+	planet_limit = 1
+	prerequisites = { tech_autocurating_vault }
+	allow = { oxr_mdlc_has_upgraded_capital = yes }
+	
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_ser = no is_xvcv_mdlc_pc_ringworld_machine_auto = no }
+		oxr_mdlc_world_machines_unity_buildings_unity_produces_add = 1
+		oxr_mdlc_world_machines_unity_buildings_physics_research_produces_add = 0.2
+		oxr_mdlc_world_machines_unity_buildings_society_research_produces_add = 0.2
+		oxr_mdlc_world_machines_unity_buildings_engineering_research_produces_add = 0.2
+		oxr_mdlc_world_machines_unity_buildings_energy_upkeep_add = 4
+		
+		xvcv_mdlc_world_machines_unity_districts_unity_produces_add = 1
+		xvcv_mdlc_world_machines_unity_districts_physics_research_produces_add = 0.2
+		xvcv_mdlc_world_machines_unity_districts_society_research_produces_add = 0.2
+		xvcv_mdlc_world_machines_unity_districts_engineering_research_produces_add = 0.2
+		xvcv_mdlc_world_machines_unity_districts_energy_upkeep_add = 4
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_ser = yes }
+		oxr_mdlc_world_machines_unity_buildings_unity_produces_add = 3
+		oxr_mdlc_world_machines_unity_buildings_physics_research_produces_add = 0.6
+		oxr_mdlc_world_machines_unity_buildings_society_research_produces_add = 0.6
+		oxr_mdlc_world_machines_unity_buildings_engineering_research_produces_add = 0.6
+		oxr_mdlc_world_machines_unity_buildings_energy_upkeep_add = 12
+		
+		xvcv_mdlc_world_machines_unity_districts_unity_produces_add = 3
+		xvcv_mdlc_world_machines_unity_districts_physics_research_produces_add = 0.6
+		xvcv_mdlc_world_machines_unity_districts_society_research_produces_add = 0.6
+		xvcv_mdlc_world_machines_unity_districts_engineering_research_produces_add = 0.6
+		xvcv_mdlc_world_machines_unity_districts_energy_upkeep_add = 12
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_ringworld_machine_auto = yes }
+		oxr_mdlc_world_machines_unity_buildings_unity_produces_add = 5
+		oxr_mdlc_world_machines_unity_buildings_physics_research_produces_add = 1
+		oxr_mdlc_world_machines_unity_buildings_society_research_produces_add = 1
+		oxr_mdlc_world_machines_unity_buildings_engineering_research_produces_add = 1
+		oxr_mdlc_world_machines_unity_buildings_energy_upkeep_add = 20
+		
+		xvcv_mdlc_world_machines_unity_districts_unity_produces_add = 5
+		xvcv_mdlc_world_machines_unity_districts_physics_research_produces_add = 1
+		xvcv_mdlc_world_machines_unity_districts_society_research_produces_add = 1
+		xvcv_mdlc_world_machines_unity_districts_engineering_research_produces_add = 1
+		xvcv_mdlc_world_machines_unity_districts_energy_upkeep_add = 20
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = unity
+		POTENTIAL = " "
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_unity_buildings
+		RARE_MATERIAL = rare_crystals
+		RARE_COST = @b2_rare_cost
+    	RARE_UPKEEP = @b2_rare_upkeep
+		RESOURCES = " 
+			cost = {
+				trigger = {
+					has_ringworld_output_boost = yes
+				}
+				minerals = @b4_minerals
+				rare_crystals = @b4_rare_cost
+			}
+			upkeep = {
+				trigger = {
+					has_ringworld_output_boost = yes
+				}
+				energy = @b4_upkeep
+				rare_crystals = @b4_rare_upkeep
+			}
+		"
+    	JOB = none
+		JOBS = 0
+		MODIFIER = none
+    	SET = unity
+    }
+	planet_modifier = { planet_stability_add = -2 }
+	convert_to = {
+		building_autocurating_vault
+		building_citadel_of_faith
+		building_corporate_vault
+	}
+	triggered_desc = { text = rikk_mdlc_text_requires_appropriate_zone }
+}
+
+#simulation site/autochthon monument
+rikk_mdlc_world_machines_building_simulation_1 = {
+	can_build = yes
+	planet_limit = 1
+	prerequisites = { tech_cultural_heritage }
+	upgrades = { rikk_mdlc_world_machines_building_simulation_2 }
+
+	triggered_planet_modifier = {
+		oxr_mdlc_world_machines_unity_buildings_unity_produces_mult = 0.05
+		xvcv_mdlc_world_machines_unity_districts_unity_produces_mult = 0.05
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = unity
+		POTENTIAL = " "
+    	TIER = 1
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_unity_buildings
+		RARE_MATERIAL = rare_crystals
+		RARE_COST = 0
+    	RARE_UPKEEP = 0
+		RESOURCES = "
+			produces = {
+				trigger = { exists = owner }
+				unity = 1
+				multiplier = owner.trigger:num_ascension_perks
+			}
+		"
+    	JOB = none
+		JOBS = 0
+		MODIFIER = none
+    	SET = unity
+    }
+	ai_resource_production = { unity = 5 }
+	triggered_desc = {
+		text = building_autochthon_monument_effect
+	}
+	triggered_desc = { text = rikk_mdlc_text_requires_appropriate_zone }
+}
+
+rikk_mdlc_world_machines_building_simulation_2 = {
+	can_build = no
+	planet_limit = 1
+	prerequisites = { tech_heritage_site }
+	allow = { oxr_mdlc_has_upgraded_capital = yes }
+	upgrades = { rikk_mdlc_world_machines_building_simulation_3 }
+
+	triggered_planet_modifier = {
+		oxr_mdlc_world_machines_unity_buildings_unity_produces_mult = 0.10
+		xvcv_mdlc_world_machines_unity_districts_unity_produces_mult = 0.10
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = unity
+		POTENTIAL = " "
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_unity_buildings
+		RARE_MATERIAL = rare_crystals
+		RARE_COST = 0
+    	RARE_UPKEEP = 0
+		RESOURCES = "
+			produces = {
+				trigger = { exists = owner }
+				unity = 2
+				multiplier = owner.trigger:num_ascension_perks
+			}
+		"
+    	JOB = none
+		JOBS = 0
+		MODIFIER = none
+    	SET = unity
+    }
+	planet_modifier = { planet_stability_add = -1 }
+	ai_resource_production = { unity = 10 }
+	triggered_desc = {
+		text = building_autochthon_monument_effect
+	}
+	triggered_desc = { text = rikk_mdlc_text_requires_appropriate_zone }
+}
+
+rikk_mdlc_world_machines_building_simulation_3 = {
+	can_build = no
+	planet_limit = 1
+	prerequisites = { tech_hypercomms_forum }
+	allow = { oxr_mdlc_has_major_upgraded_capital = yes }
+
+	triggered_planet_modifier = {
+		oxr_mdlc_world_machines_unity_buildings_unity_produces_mult = 0.15
+		xvcv_mdlc_world_machines_unity_districts_unity_produces_mult = 0.15
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = unity
+		POTENTIAL = " "
+    	TIER = 3
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_unity_buildings
+		RARE_MATERIAL = rare_crystals
+		RARE_COST = 0
+    	RARE_UPKEEP = 0
+		RESOURCES = "
+			produces = {
+				trigger = { exists = owner }
+				unity = 3
+				multiplier = owner.trigger:num_ascension_perks
+			}
+		"
+    	JOB = none
+		JOBS = 0
+		MODIFIER = none
+    	SET = unity
+    }
+	planet_modifier = { planet_stability_add = -2 }
+	ai_resource_production = { unity = 15 }
+	triggered_desc = {
+		text = building_autochthon_monument_effect
+	}
+	triggered_desc = { text = rikk_mdlc_text_requires_appropriate_zone }
+}
+
+#ministry of culture from the artist enclave event
+rikk_mdlc_world_machines_building_artist_patron = {
+	can_build = yes
+	empire_limit = { base = 1 }
+
+	triggered_planet_modifier = {
+		oxr_mdlc_world_machines_unity_buildings_unity_produces_mult = 0.05
+		xvcv_mdlc_world_machines_unity_districts_unity_produces_mult = 0.05
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = unity
+		POTENTIAL = "
+			custom_tooltip = {
+				text = EMPIRE_UNIQUE_BUILDING
+				owner = {
+					has_country_flag = artist_building_patron
+				}
+			}
+		"
+    	TIER = 1
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_unity_buildings
+		RARE_MATERIAL = rare_crystals
+		RARE_COST = 0
+    	RARE_UPKEEP = 0
+		RESOURCES = " "
+    	JOB = none
+		JOBS = 0
+		MODIFIER = none
+    	SET = "unity oxr_mdlc_building_set_wm_government"
+    } 
+	ai_resource_production = { unity = 5 }
+	planet_modifier = { planet_stability_add = -1 }
+	triggered_desc = { text = rikk_mdlc_text_requires_appropriate_zone }
+}
+
+# building_league_offices from precursor
+rikk_mdlc_world_machines_building_league_office = {
+	can_build = yes
+	empire_limit = { base = 1 }
+	allow = { has_major_upgraded_capital = yes }
+	prerequisites = { tech_secrets_league }
+
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_ser = no is_xvcv_mdlc_pc_ringworld_machine_auto = no }
+		oxr_mdlc_world_machines_unity_buildings_unity_produces_add = 0.5
+		xvcv_mdlc_world_machines_unity_districts_unity_produces_add = 0.5
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_ser = yes }
+		oxr_mdlc_world_machines_unity_buildings_unity_produces_add = 1.5
+		xvcv_mdlc_world_machines_unity_districts_unity_produces_add = 1.5
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_ringworld_machine_auto = yes }
+		oxr_mdlc_world_machines_unity_buildings_unity_produces_add = 2.5
+		xvcv_mdlc_world_machines_unity_districts_unity_produces_add = 2.5
+	}
+
+	country_modifier = { country_edict_fund_add = 50 }
+	triggered_country_modifier = {
+		potential = { owner = { has_ascension_perk = ap_archaeoengineers } }
+		country_edict_fund_add = 50
+	}
+
+
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = unity
+		POTENTIAL = " "
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_unity_buildings
+		RARE_MATERIAL = rare_crystals
+		RARE_COST = @b2_rare_cost
+    	RARE_UPKEEP = @b2_rare_upkeep
+		RESOURCES = " "
+    	JOB = coordinator
+		JOBS = 2
+		MODIFIER = none
+    	SET = "unity oxr_mdlc_building_set_wm_government"
+    } 
+	ai_resource_production = { unity = 5 }
+	planet_modifier = { planet_stability_add = -2 }
+	triggered_desc = { text = rikk_mdlc_text_requires_appropriate_zone }
+}
+
+# EOF

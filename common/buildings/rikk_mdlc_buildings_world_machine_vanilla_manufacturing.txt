@@ -1,0 +1,643 @@
+#### MANUFACTURING ###
+
+# Forges
+oxr_mdlc_world_machines_building_auto_forge_1 = {
+	can_build = yes
+	prerequisites = { tech_basic_industry }
+    upgrades = { oxr_mdlc_world_machines_building_auto_forge_2 }
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = manufacturing
+		POTENTIAL = " "
+    	TIER = 1
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_foundry_buildings
+		RARE_MATERIAL = volatile_motes
+		RARE_COST = 0
+    	RARE_UPKEEP = 0
+		RESOURCES = " "
+    	JOB = fabricator
+		JOBS = 2
+		MODIFIER = none
+    	SET = foundry
+    }
+}
+
+oxr_mdlc_world_machines_building_auto_forge_2 = {
+	can_build = no
+	allow = { oxr_mdlc_has_upgraded_capital = yes }
+	prerequisites = { tech_alloys_1 }
+    upgrades = { oxr_mdlc_world_machines_building_auto_forge_3 }
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = manufacturing
+		POTENTIAL = " "
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_foundry_buildings
+		RARE_MATERIAL = volatile_motes
+		RARE_COST = @b2_rare_cost
+		RARE_UPKEEP = @b2_rare_upkeep
+    	RESOURCES = " "
+		JOB = fabricator
+		JOBS = 4
+		MODIFIER = none
+		SET = foundry
+    }
+	planet_modifier = { planet_stability_add = -1 }
+}
+
+oxr_mdlc_world_machines_building_auto_forge_3 = {
+	can_build = no
+	allow = { oxr_mdlc_has_major_upgraded_capital = yes }
+	prerequisites = { tech_alloys_2 }
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = manufacturing
+		POTENTIAL = " "
+    	TIER = 3
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_foundry_buildings
+		RARE_MATERIAL = volatile_motes
+		RARE_COST = @b3_rare_cost
+		RARE_UPKEEP = @b3_rare_upkeep
+    	RESOURCES = " "
+		JOB = fabricator
+		JOBS = 6
+		MODIFIER = none
+		SET = foundry
+    }
+	planet_modifier = { planet_stability_add = -2 }
+}
+
+# Forge modifiers
+oxr_mdlc_world_machines_building_auto_forge_upkeep = {
+	can_build = yes
+    planet_limit = 1
+	prerequisites = { tech_alloys_1 }
+	ai_resource_production = {
+		alloys = 10
+	}
+
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_foundry_districts_upkeep_mult = -0.10
+		oxr_mdlc_world_machines_foundry_buildings_upkeep_mult = -0.10
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = manufacturing
+		POTENTIAL = " "
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_industrial_buildings 
+#all four of the modifier buildings are set to this economic category so they don't produce SR with the SR buildings built
+		RARE_MATERIAL = volatile_motes
+		RARE_COST = @b3_rare_cost
+		RARE_UPKEEP = @b3_rare_upkeep
+    	RESOURCES = "upkeep = { energy = 3 }"
+		JOB = none
+		JOBS = 0
+		MODIFIER = none
+		SET = foundry
+    }
+	planet_modifier = { planet_stability_add = -2 }
+	triggered_desc = { text = rikk_mdlc_text_requires_appropriate_zone }
+}
+
+oxr_mdlc_world_machines_building_auto_forge_efficiency = {
+	can_build = yes
+    planet_limit = 1
+	prerequisites = { tech_alloys_2 }
+	ai_resource_production = {
+		alloys = 10
+	}
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_mdlc_industrial_modifiers
+		CATEGORY = foundry
+		RESOURCE = alloys
+		OUPUT_AMOUNT = 1
+		UPKEEP_AMOUNT = 2
+		POTENTIAL = " "
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = manufacturing
+		POTENTIAL = " "
+    	TIER = 3
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_industrial_buildings
+		RARE_MATERIAL = volatile_motes
+		RARE_COST = @b4_rare_cost
+		RARE_UPKEEP = @b4_rare_upkeep
+    	RESOURCES = "upkeep = { energy = 5 }"
+		JOB = none
+		JOBS = 0
+		MODIFIER = none
+		SET = foundry
+    }
+	planet_modifier = { planet_stability_add = -2 }
+	triggered_desc = { text = rikk_mdlc_text_requires_appropriate_zone }
+}
+
+# Factories
+oxr_mdlc_world_machines_building_auto_factory_1 = {
+	can_build = yes
+	prerequisites = { tech_basic_industry }
+    upgrades = { oxr_mdlc_world_machines_building_auto_factory_2 }
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = manufacturing
+		POTENTIAL = "
+			OR = {
+				owner = { country_uses_consumer_goods = yes }
+				is_planet_class = xvcv_mdlc_pc_machine_ecu
+			}
+		"
+    	TIER = 1
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_factory_buildings
+		RARE_MATERIAL = rare_crystals
+		RARE_COST = 0
+		RARE_UPKEEP = 0
+    	RESOURCES = " "
+		JOB = artisan
+		JOBS = 2
+		MODIFIER = none
+		SET = factory
+    }
+}
+
+oxr_mdlc_world_machines_building_auto_factory_2 = {
+	can_build = no
+	allow = { oxr_mdlc_has_upgraded_capital = yes }
+	prerequisites = { tech_luxuries_1 }
+    upgrades = { oxr_mdlc_world_machines_building_auto_factory_3 }
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = manufacturing
+		POTENTIAL = "
+			OR = {
+				owner = { country_uses_consumer_goods = yes }
+				is_planet_class = xvcv_mdlc_pc_machine_ecu
+			}
+		"
+    	TIER = 1
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_factory_buildings
+		RARE_MATERIAL = rare_crystals
+		RARE_COST = @b2_rare_cost
+		RARE_UPKEEP = @b2_rare_upkeep
+    	RESOURCES = " "
+		JOB = artisan
+		JOBS = 4
+		MODIFIER = none
+		SET = factory
+    }
+	planet_modifier = { planet_stability_add = -1 }
+}
+
+oxr_mdlc_world_machines_building_auto_factory_3 = {
+	# DOCTOR! DOC-TOOOOR!
+	# MY BRAIN HURTS!
+	# ... IT WILL HAVE TO COME OUT ??
+	can_build = no
+	allow = { oxr_mdlc_has_major_upgraded_capital = yes }
+	prerequisites = { tech_luxuries_2 }
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = manufacturing
+		POTENTIAL = "
+			OR = {
+				owner = { country_uses_consumer_goods = yes }
+				is_planet_class = xvcv_mdlc_pc_machine_ecu
+			}
+		"
+    	TIER = 3
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_factory_buildings
+		RARE_MATERIAL = rare_crystals
+		RARE_COST = @b3_rare_cost
+		RARE_UPKEEP = @b3_rare_upkeep
+    	RESOURCES = " "
+		JOB = artisan
+		JOBS = 6
+		MODIFIER = none
+		SET = factory
+    }
+	planet_modifier = { planet_stability_add = -2 }
+	# ANAESTHETIC!
+	# ANAESTH-EEETIC!
+	# BONG
+}
+
+oxr_mdlc_world_machines_building_auto_factory_upkeep = {
+	can_build = yes
+    planet_limit = 1
+	prerequisites = { tech_luxuries_1 }
+	ai_resource_production = {
+		consumer_goods = 10
+	}
+
+	triggered_planet_modifier = { 
+		xvcv_mdlc_world_machines_factory_districts_upkeep_mult = -0.10
+		oxr_mdlc_world_machines_factory_buildings_upkeep_mult = -0.10
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = manufacturing
+		POTENTIAL = "
+			OR = {
+				owner = { country_uses_consumer_goods = yes }
+				is_planet_class = xvcv_mdlc_pc_machine_ecu
+			}
+		"
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_industrial_buildings
+		RARE_MATERIAL = rare_crystals
+		RARE_COST = @b3_rare_cost
+		RARE_UPKEEP = @b3_rare_upkeep
+    	RESOURCES = "upkeep = { energy = 3 }"
+		JOB = none
+		JOBS = 0
+		MODIFIER = none
+		SET = factory
+    }
+	planet_modifier = { planet_stability_add = -2 }
+	triggered_desc = { text = rikk_mdlc_text_requires_appropriate_zone }
+}
+
+oxr_mdlc_world_machines_building_auto_factory_efficiency = {
+	can_build = yes
+    planet_limit = 1
+	prerequisites = { tech_luxuries_2 }
+	ai_resource_production = { consumer_goods = 10 }
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_mdlc_industrial_modifiers
+		CATEGORY = factory
+		RESOURCE = consumer_goods
+		OUPUT_AMOUNT = 2
+		UPKEEP_AMOUNT = 2
+		POTENTIAL = " "
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = manufacturing
+		POTENTIAL = "
+			OR = {
+				owner = { country_uses_consumer_goods = yes }
+				is_planet_class = xvcv_mdlc_pc_machine_ecu
+			}
+		"
+    	TIER = 3
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_industrial_buildings
+		RARE_MATERIAL = rare_crystals
+		RARE_COST = @b4_rare_cost
+		RARE_UPKEEP = @b4_rare_upkeep
+    	RESOURCES = "upkeep = { energy = 5 }"
+		JOB = none
+		JOBS = 0
+		MODIFIER = none
+		SET = factory
+    }
+	planet_modifier = { planet_stability_add = -2 }
+	triggered_desc = { text = rikk_mdlc_text_requires_appropriate_zone }
+}
+
+rikk_mdlc_world_machines_building_production_center = {
+	can_build = yes
+    planet_limit = 1
+	allow = { oxr_mdlc_has_major_upgraded_capital = yes }
+	prerequisites = { tech_global_production_strategy }
+	ai_resource_production = {
+		alloys = 10
+		consumer_goods = 10
+	}
+	inline_script = {
+		script = planet/buildings/auto/rikk_mdlc_industrial_modifiers
+		CATEGORY = foundry
+		RESOURCE = alloys
+		OUPUT_AMOUNT = 0.5
+		UPKEEP_AMOUNT = 0
+		POTENTIAL = " "
+	}
+	inline_script = {
+		script = planet/buildings/auto/rikk_mdlc_industrial_modifiers
+		CATEGORY = foundry
+		RESOURCE = consumer_goods
+		OUPUT_AMOUNT = 0.5
+		UPKEEP_AMOUNT = 0
+		POTENTIAL = " "
+	}
+
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = manufacturing
+		POTENTIAL = "
+			OR = {
+				owner = { country_uses_consumer_goods = yes }
+				is_planet_class = xvcv_mdlc_pc_machine_ecu
+			}
+		"
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_foundry_buildings
+		RARE_MATERIAL = volatile_motes
+		RARE_COST = @b2_rare_cost
+		RARE_UPKEEP = @b2_rare_upkeep
+    	RESOURCES = " upkeep = { energy = 5 } "
+		JOB = fabricator
+		JOBS = 0
+		MODIFIER = none
+		SET = "factory oxr_mdlc_building_set_wm_foundry"
+    }
+	planet_modifier = { planet_stability_add = -3 }
+	triggered_desc = { text = rikk_mdlc_text_requires_appropriate_zone }
+}
+
+#### STRATEGIC ####
+# Exotic Gases
+oxr_mdlc_world_machines_building_welding_colony = {
+	can_build = yes
+    planet_limit = 1
+	prerequisites = { tech_exotic_gases }
+	allow = { oxr_mdlc_has_upgraded_capital = yes }
+	inline_script = planet/buildings/oxr_sort_important
+	ai_resource_production = {
+		exotic_gases = @b3_rare_upkeep
+	} 
+	# This was originally alloys and energy but it's alloys and minerals now to make it easy for me
+	inline_script = {
+		script = planet/buildings/auto/rikk_mdlc_SR_modifiers
+		SR = exotic_gases
+		MINERALS_AMOUNT = @[ 0.05 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
+		RES_TWO = alloys
+		RES_TWO_AMOUNT = @[ 0.01 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
+	} # The alloys are worth 5x their amount, so it adds up to the 0.1
+	
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_ecu = yes }
+		rikk_mdlc_world_machines_industrial_structures_exotic_gases_produces_mult = 0.10
+	}
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = manufacturing
+		POTENTIAL = " OR = { is_xvcv_mdlc_pc_machine_auto = yes is_xvcv_mdlc_pc_machine_ecu = yes }"
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_strategic_resource_buildings
+		RARE_MATERIAL = exotic_gases
+		RARE_COST = 0
+		RARE_UPKEEP = 0
+    	RESOURCES = " "
+		JOB = none
+		JOBS = 0
+		MODIFIER = none
+		SET = strategic
+    }
+	planet_modifier = { planet_stability_add = -2 }
+	triggered_desc = { text = rikk_mdlc_text_requires_appropriate_zone }
+	on_built = { rikk_mdlc_planet_effect_add_SR_deposit = yes }
+}
+# Volatile Motes
+oxr_mdlc_world_machines_building_particle_collider = {
+	can_build = yes
+    planet_limit = 1
+	prerequisites = { tech_volatile_motes }
+	allow = { oxr_mdlc_has_upgraded_capital = yes }
+	inline_script = planet/buildings/oxr_sort_important
+	ai_resource_production = {
+		volatile_motes = @b3_rare_upkeep
+	}
+	inline_script = {
+		script = planet/buildings/auto/rikk_mdlc_SR_modifiers
+		SR = volatile_motes
+		MINERALS_AMOUNT = @[ 0.02 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
+		RES_TWO = energy
+		RES_TWO_AMOUNT = @[ 0.08 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_ecu = yes }
+		rikk_mdlc_world_machines_industrial_structures_volatile_motes_produces_mult = 0.10
+	}
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = manufacturing
+		POTENTIAL = " OR = { is_xvcv_mdlc_pc_machine_auto = yes is_xvcv_mdlc_pc_machine_ecu = yes }"
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_strategic_resource_buildings
+		RARE_MATERIAL = volatile_motes
+		RARE_COST = 0
+		RARE_UPKEEP = 0
+    	RESOURCES = " 
+			produces = { physics_research = 3 }
+			upkeep = { energy = 1 }
+		"
+		JOB = none
+		JOBS = 0
+		MODIFIER = none
+		SET = strategic
+    }
+	planet_modifier = { planet_stability_add = -2 }
+	triggered_desc = { text = rikk_mdlc_text_requires_appropriate_zone }
+	on_built = { rikk_mdlc_planet_effect_add_SR_deposit = yes }
+}
+# Rare Crystals
+oxr_mdlc_world_machines_building_crystal_cultivation_tank = {
+	can_build = yes
+    planet_limit = 1
+	prerequisites = { tech_rare_crystals }
+	allow = { oxr_mdlc_has_upgraded_capital = yes }
+	inline_script = planet/buildings/oxr_sort_important
+	ai_resource_production = {
+		rare_crystals = @b3_rare_upkeep
+	}
+	inline_script = {
+		script = planet/buildings/auto/rikk_mdlc_SR_modifiers
+		SR = rare_crystals
+		MINERALS_AMOUNT = @[ 0.05 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
+		RES_TWO = energy
+		RES_TWO_AMOUNT = @[ 0.05 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_ecu = yes }
+		rikk_mdlc_world_machines_industrial_structures_rare_crystals_produces_mult = 0.10
+	}
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = manufacturing
+		POTENTIAL = " OR = { is_xvcv_mdlc_pc_machine_auto = yes is_xvcv_mdlc_pc_machine_ecu = yes }"
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_strategic_resource_buildings
+		RARE_MATERIAL = rare_crystals
+		RARE_COST = 0
+		RARE_UPKEEP = 0
+    	RESOURCES = " "
+		JOB = none
+		JOBS = 0
+		MODIFIER = none
+		SET = strategic
+    }
+	planet_modifier = { planet_stability_add = -2 }
+	triggered_desc = { text = rikk_mdlc_text_requires_appropriate_zone }
+	on_built = {
+		planet = {
+			rikk_mdlc_planet_effect_add_SR_deposit = yes
+			planet_event = {
+				id = rikk_mdlc_wm_upgrade_events.200 days = 1
+			}
+		}
+	}
+
+}
+
+rikk_mdlc_world_machines_building_ancient_refinery = {
+	can_build = yes
+    planet_limit = 1
+	prerequisites = { tech_archaeo_refinery }
+	allow = { oxr_mdlc_has_upgraded_capital = yes }
+	inline_script = planet/buildings/oxr_sort_important
+	ai_resource_production = {
+		rare_crystals = @b3_rare_upkeep
+		volatile_motes = @b3_rare_upkeep
+		exotic_gases = @b3_rare_upkeep
+	}
+	
+	#these are all purely decorative, scripted modifiers don't work in triggered_planet_modifier
+	# auto-worlds
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_ecu = no is_xvcv_mdlc_pc_ringworld_machine_auto = no }
+		rikk_mdlc_world_machines_industrial_structures_sr_produces_add = @[ 0.1 * oxr_mdlc_wm_base_chemist_drone_output  ]
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_ecu = no is_xvcv_mdlc_pc_ringworld_machine_auto = no owner = { is_catalytic_empire = no } }
+		rikk_mdlc_world_machines_industrial_structures_minerals_upkeep_add = @[ 0.2 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_ecu = no is_xvcv_mdlc_pc_ringworld_machine_auto = no owner = { is_catalytic_empire = yes } }
+		rikk_mdlc_world_machines_industrial_structures_food_upkeep_add = @[ 0.3 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
+	}
+	# ringworlds
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_ringworld_machine_auto = yes }
+		rikk_mdlc_world_machines_structures_sr_produces_add = @[ 0.5 * oxr_mdlc_wm_base_chemist_drone_output  ]
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_ringworld_machine_auto = yes owner = { is_catalytic_empire = no } }
+		rikk_mdlc_world_machines_industrial_structures_minerals_upkeep_add = @oxr_mdlc_wm_base_chemist_drone_upkeep
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_ringworld_machine_auto = yes owner = { is_catalytic_empire = yes } }
+		rikk_mdlc_world_machines_industrial_structures_food_upkeep_add = @[ 1.5 * oxr_mdlc_wm_base_chemist_drone_upkeep  ]
+	}
+	# multipliers for all worlds
+	triggered_planet_modifier = {
+		rikk_mdlc_world_machines_industrial_structures_sr_produces_mult = 0.10
+	}
+	triggered_planet_modifier = {
+		potential = { exists = owner owner = { has_ascension_perk = ap_archaeoengineers } }
+		rikk_mdlc_world_machines_industrial_structures_sr_produces_mult = 0.05
+	}
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = manufacturing
+		POTENTIAL = " "
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_strategic_resource_buildings
+		RARE_MATERIAL = minor_artifacts
+		RARE_COST = 25
+		RARE_UPKEEP = 0
+    	RESOURCES = " "
+		JOB = none
+		JOBS = 0
+		MODIFIER = none
+		SET = strategic
+    }
+	triggered_desc = { 
+		trigger = { is_xvcv_mdlc_pc_machine_auto = yes }
+		text = rikk_mdlc_text_requires_appropriate_zone
+	}
+	planet_modifier = { planet_stability_add = -5 }
+	on_built = { rikk_mdlc_planet_effect_add_SR_deposit = yes }
+}
+
+### NANOTECH ###
+# Turn nanites into strategic resources
+oxr_mdlc_world_machines_building_auto_nanite_transmuter = {
+	can_build = yes
+	prerequisites = { tech_nanite_transmutation }
+	allow = { oxr_mdlc_has_upgraded_capital = yes }
+	ai_resource_production = {
+		rare_crystals = @b3_rare_upkeep
+		volatile_motes = @b3_rare_upkeep
+		exotic_gases = @b3_rare_upkeep
+		trigger = { owner = { NOT = { has_deficit = nanites } } }
+	}
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = manufacturing
+		POTENTIAL = " "
+    	TIER = 3
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_strategic_resource_buildings
+		RARE_MATERIAL = rare_crystals
+		RARE_COST = 0
+		RARE_UPKEEP = 0
+    	RESOURCES = "
+			produces = {
+				trigger = { owner = { NOT = { has_deficit = nanites } } }
+				rare_crystals = 5
+				volatile_motes = 5
+				exotic_gases = 5
+			}
+			upkeep = {
+				nanites = 2
+				energy = 2 #tier 3 makes it cost 3 energy, so 5 total
+			}
+		"
+		JOB = none
+		JOBS = 0
+		MODIFIER = none
+		SET = strategic
+    }
+	planet_modifier = { planet_stability_add = -1 }
+}
+# Turn nanites into alloys
+oxr_mdlc_world_machines_building_nanotech_cauldron = {
+	can_build = yes
+	prerequisites = { }
+	allow = { oxr_mdlc_has_upgraded_capital = yes }
+	ai_resource_production = {
+		alloys = 10
+		trigger = { owner = { NOT = { has_deficit = nanites } } }
+	}
+	
+	inline_script = {
+		script = planet/buildings/auto/rikk_empty_building
+		CATEGORY = manufacturing
+		POTENTIAL = " owner = { has_tradition = tr_nanotech_2 } "
+    	TIER = 2
+		ECONOMIC_CATEGORY = oxr_mdlc_world_machines_industrial_buildings
+		RARE_MATERIAL = rare_crystals
+		RARE_COST = 0
+		RARE_UPKEEP = 0
+    	RESOURCES = "
+			produces = {
+				trigger = { owner = { NOT = { has_deficit = nanites } } }
+				alloys = 15
+			}
+			upkeep = {
+				nanites = 3
+				energy = 30
+			}
+		"
+		JOB = none
+		JOBS = 0
+		MODIFIER = none
+		SET = foundry
+    }
+	planet_modifier = { planet_stability_add = -1 }
+}
+
+# EOF
