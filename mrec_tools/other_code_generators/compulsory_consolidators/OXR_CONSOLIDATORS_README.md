@@ -64,3 +64,17 @@ Planetary features:
 
 	is_planet = oxr_mdlc_civic_consolidation_target_@root
 	has_planet_flag = oxr_mdlc_civic_consolidation_target_@root
+
+
+## Version 2 design
+
+This civic will require some micro
+
+1. Place megastructure on stellar body with deposit. Player chooses "mining" or "research" or "auto" upgrade
+1. If Mining extractor, only deposits that could have mining stations are prepared
+2. If Research, only deposits that could be research stations are prepared
+3. If Auto, this symbolizes the player doesn't care, and they will be extracted in random order
+4. If player runs out of extraction resources, megas will deconstruct automatically / disable themselves
+2. If multiple orbitals, each will be prepared in sequence, over time, at 3-month intervals
+3. Special projects will be created in space for each orbital extracted. These can be completed by construction ships on "special project autopilot"
+5. Mega self deconstructs if no more valid orbitals are found
