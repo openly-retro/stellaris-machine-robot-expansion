@@ -203,6 +203,7 @@ rikk_mdlc_decision_world_machine_cleanse_toxic = {
 				script = country/messages/rikk_mdlc_terraform_message
 				msg = MESSAGE_TOXIC_WORLD_CLEANSED
 			}
+			remove_modifier = rikk_mdlc_decision_world_machine_convert_pc_toxic_on_queued_modifier
 		}
 	}
 }
@@ -242,6 +243,15 @@ rikk_mdlc_decision_world_machine_harness_nanites = {
 		is_terraforming = no
 		has_anomaly = no
 		NOT = { has_modifier = rikk_mdlc_world_machine_nanite_mod }
+	}
+	on_queued = {
+		planet = {
+			oxr_mdlc_planet_add_rikk_terraforming_queued_modifier = {
+				PLANET_CLASS = pc_gray_goo
+				DAYS = @wmupgradelength1
+			}
+		}
+
 	}
 	
 	on_queued = {
@@ -563,7 +573,6 @@ rikk_mdlc_decision_world_machine_reinforced_planet = {
 		planet = {
 			rikk_mdlc_is_wm_planet_trigger = yes
 		}
-
 		owner = {
 			has_country_flag = wm_upgrade_reinforced_planet_allowed
 			has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
@@ -621,7 +630,7 @@ rikk_mdlc_decision_world_machine_mantle_transport_network = {
 		exists = owner
 		exists = planet
 		planet = { rikk_mdlc_is_wm_planet_trigger = yes }
-		
+
 		owner = {
 			oxr_mdlc_planet_owner_can_build_wm_districts = yes
 			has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
@@ -769,7 +778,7 @@ rikk_mdlc_decision_world_machine_outer_core_roots = {
 		exists = owner
 		exists = planet
 		planet = { rikk_mdlc_is_wm_planet_trigger = yes }
-		
+
 		owner = {
 			oxr_mdlc_planet_owner_can_build_wm_districts = yes
 			has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
@@ -848,7 +857,6 @@ rikk_mdlc_decision_world_machine_outer_core_tap = {
 		exists = owner
 		exists = planet
 		planet = { rikk_mdlc_is_wm_industrial_trigger = yes }
-		
 		owner = {
 			oxr_mdlc_planet_owner_can_build_wm_districts = yes
 			has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
@@ -916,7 +924,6 @@ rikk_mdlc_decision_world_machine_outer_core_cooling = {
 		exists = owner
 		exists = planet
 		planet = { rikk_mdlc_is_wm_computer_trigger = yes }
-		
 		owner = {
 			oxr_mdlc_planet_owner_can_build_wm_districts = yes
 			has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
@@ -966,6 +973,11 @@ rikk_mdlc_decision_world_machine_outer_core_cooling = {
 				}
 				else = { planet_event = { id = rikk_mdlc_wm_event.110 days = @wmupgradelength4 } }
 				planet_event = { id = rikk_mdlc_wm_event.200 days = @[ wmupgradelength4 + 2 ] }
+			}
+		}
+		else = {
+			space_owner = {
+				inline_script = country/messages/rikk_mdlc_terraform_message_failed
 			}
 		}
 	}
@@ -1072,7 +1084,6 @@ rikk_mdlc_decision_world_machine_inner_core_tap = {
 		exists = owner
 		exists = planet
 		planet = { rikk_mdlc_is_wm_planet_trigger = yes }
-		
 		owner = {
 			oxr_mdlc_planet_owner_can_build_wm_districts = yes
 			has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
@@ -1150,7 +1161,6 @@ rikk_mdlc_decision_world_machine_core_core = {
 		exists = owner
 		exists = planet
 		planet = { rikk_mdlc_is_wm_planet_trigger = yes }
-
 		owner = {
 			oxr_mdlc_planet_owner_can_build_wm_districts = yes
 			has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
