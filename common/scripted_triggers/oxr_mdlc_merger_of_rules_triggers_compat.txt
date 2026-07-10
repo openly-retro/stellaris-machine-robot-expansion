@@ -82,15 +82,15 @@ oxr_mdlc_has_mechanical_origin = {
 oxr_mdlc_is_synthetic_empire = {
 	OR = {
 		# owner_species = { has_trait = trait_mechanical }
-		founder_species = { is_archetype = XVCV_MDLC_BIO_ROBOT }  # AP
+		owner_species = { is_archetype = XVCV_MDLC_BIO_ROBOT }  # AP
 		has_country_flag = synthetic_empire
-		founder_species = { is_species_class = XVCV_MDLC_ROBOT }  # origin
+		owner_species = { is_species_class = XVCV_MDLC_ROBOT }  # origin
 	}
 }
 # Machines: self aware, assembled, did not ascend from organic bodies
 oxr_mdlc_is_any_machine_empire = {
 	OR = {
-        founder_species = { is_archetype = MACHINE }
+        owner_species = { is_archetype = MACHINE }
 		owner_species = { has_trait = trait_machine_unit }
     }
 }
@@ -429,7 +429,7 @@ has_oxr_mdlc_trait_dry_planet_preference = { has_trait = oxr_mdlc_trait_dry_plan
 has_oxr_mdlc_trait_wet_planet_preference = { has_trait = oxr_mdlc_trait_wet_planet_preference }
 has_oxr_mdlc_trait_frozen_planet_preference = { has_trait = oxr_mdlc_trait_frozen_planet_preference }
 has_oxr_mdlc_trait_machine_pc_shattered_ring_habitable_preference = { has_trait = oxr_mdlc_trait_machine_pc_shattered_ring_habitable_preference }
-has_xvcv_mdlc_trait_pc_ringworld_machine_auto_preference = { has_trait = xvcv_mdlc_trait_pc_ringworld_machine_auto_preference }
+has_xvcv_mdlc_trait_pc_machine_ring_preference = { has_trait = xvcv_mdlc_trait_pc_machine_ring_preference }
 has_oxr_mdlc_trait_pc_habitat_preference = { has_trait = oxr_mdlc_trait_pc_habitat_preference }
 has_oxr_mdlc_trait_void_dweller_1 = { has_trait = oxr_mdlc_trait_void_dweller_1 }
 has_oxr_mdlc_trait_void_dweller_2 = { has_trait = oxr_mdlc_trait_void_dweller_2 }
@@ -505,8 +505,8 @@ is_xvcv_mdlc_pc_machine_auto = { planet = { is_planet_class = xvcv_mdlc_pc_machi
 is_xvcv_mdlc_pc_machine_ecu = { planet = { is_planet_class = xvcv_mdlc_pc_machine_ecu } }
 is_xvcv_mdlc_pc_machine_cpu = { planet = { is_planet_class = xvcv_mdlc_pc_machine_cpu } }
 is_xvcv_mdlc_pc_machine_ser = { planet = { is_planet_class = xvcv_mdlc_pc_machine_ser } }
+is_xvcv_mdlc_pc_machine_ring = { planet = { is_planet_class = xvcv_mdlc_pc_machine_ring } }
 is_xvcv_mdlc_pc_virtual = { planet = { is_planet_class = xvcv_mdlc_pc_virtual } }
-is_xvcv_mdlc_pc_ringworld_machine_auto = { planet = { is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto } }
 
 # DISTRICTS
 ## Auto-Machine World
@@ -542,12 +542,12 @@ has_xvcv_mdlc_building_matter_data_converter = { colony = { has_building = xvcv_
 has_xvcv_mdlc_pc_virtual_district_research = { colony = { has_district = xvcv_mdlc_pc_virtual_district_research } }
 has_xvcv_mdlc_pc_virtual_district_admin = { colony = { has_district = xvcv_mdlc_pc_virtual_district_admin } }
 has_xvcv_mdlc_pc_virtual_district_amenity = { colony = { has_district = xvcv_mdlc_pc_virtual_district_amenity } }
-## Auto-Ringworld xvcv_mdlc_pc_ringworld_machine_auto
-has_xvcv_mdlc_pc_ringworld_machine_auto_district_primary = { colony = { has_district = xvcv_mdlc_pc_ringworld_machine_auto_district_primary } }
-has_xvcv_mdlc_pc_ringworld_machine_auto_district_rnd = { colony = { has_district = xvcv_mdlc_pc_ringworld_machine_auto_district_rnd } }
-has_xvcv_mdlc_pc_ringworld_machine_auto_district_industrial = { colony = { has_district = xvcv_mdlc_pc_ringworld_machine_auto_district_industrial } }
-has_xvcv_mdlc_pc_ringworld_machine_auto_district_raw_resource = { colony = { has_district = xvcv_mdlc_pc_ringworld_machine_auto_district_raw_resource } }
-has_xvcv_mdlc_pc_ringworld_machine_auto_district_farming = { colony = { has_district = xvcv_mdlc_pc_ringworld_machine_auto_district_farming } }
+## Auto-Ringworld xvcv_mdlc_pc_machine_ring
+has_xvcv_mdlc_pc_machine_ring_district_primary = { colony = { has_district = xvcv_mdlc_pc_machine_ring_district_primary } }
+has_xvcv_mdlc_pc_machine_ring_district_computer = { colony = { has_district = xvcv_mdlc_pc_machine_ring_district_computer } }
+has_xvcv_mdlc_pc_machine_ring_district_industrial = { colony = { has_district = xvcv_mdlc_pc_machine_ring_district_industrial } }
+has_xvcv_mdlc_pc_machine_ring_district_raw_resource = { colony = { has_district = xvcv_mdlc_pc_machine_ring_district_raw_resource } }
+has_xvcv_mdlc_pc_machine_ring_district_food = { colony = { has_district = xvcv_mdlc_pc_machine_ring_district_food } }
 
 
 # ZONES
@@ -607,16 +607,67 @@ has_oxr_mdlc_zone_pc_ringworld_machine_auto_energy = { num_zones = { type = oxr_
 has_oxr_mdlc_zone_pc_ringworld_machine_auto_energy_physics = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_energy_physics value > 0 } }
 has_oxr_mdlc_zone_pc_ringworld_machine_auto_food_biology = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_food_biology value > 0 } }
 
-oxr_mdlc_auto_ringworld_has_any_rnd_zones = {
-	OR = {
-		has_oxr_mdlc_zone_pc_ringworld_machine_auto_research = yes
-		has_oxr_mdlc_zone_pc_ringworld_machine_auto_unity = yes
-		has_oxr_mdlc_zone_pc_ringworld_machine_auto_trade = yes
-		# has_oxr_mdlc_zone_pc_ringworld_machine_auto_research_physics = yes
-		# has_oxr_mdlc_zone_pc_ringworld_machine_auto_research_society = yes
-		# has_oxr_mdlc_zone_pc_ringworld_machine_auto_research_engineering = yes
+has_mdlc_science_zone = {
+	colony = { 
+		OR = {
+			num_zones = { type = oxr_mdlc_zone_pc_machine_auto_archive value > 0 }
+			num_zones = { type = oxr_mdlc_zone_pc_machine_auto_science value > 0 }
+			num_zones = { type = oxr_mdlc_zone_pc_machine_auto_physics value > 0 }
+			num_zones = { type = oxr_mdlc_zone_pc_machine_auto_society value > 0 }
+			num_zones = { type = oxr_mdlc_zone_pc_machine_auto_engineering value > 0 }
+		}
 	}
 }
+has_mdlc_unity_zone = {
+	colony = { 
+		OR = {
+			num_zones = { type = oxr_mdlc_zone_pc_machine_auto_archive value > 0 }
+			num_zones = { type = oxr_mdlc_zone_pc_machine_auto_unity value > 0 }
+		}
+	}
+}
+
+has_mdlc_industrial_zone = {
+	colony = { 
+		OR = {
+			num_zones = { type = oxr_mdlc_zone_pc_machine_auto_alloys value > 0 }
+			num_zones = { type = oxr_mdlc_zone_pc_machine_auto_consumer_goods value > 0 }
+		}
+	}
+}
+
+## AUTO-RINGWORLD
+has_rikk_mdlc_zone_pc_machine_ring_military = { num_zones = { type = rikk_mdlc_zone_pc_machine_ring_military value > 0 } }
+has_rikk_mdlc_zone_pc_machine_ring_urban_energy = { num_zones = { type = rikk_mdlc_zone_pc_machine_ring_urban_energy value > 0 } }
+has_rikk_mdlc_zone_pc_machine_ring_urban_food = { num_zones = { type = rikk_mdlc_zone_pc_machine_ring_urban_food value > 0 } }
+
+has_oxr_mdlc_zone_pc_machine_ring_research = { num_zones = { type = oxr_mdlc_zone_pc_machine_ring_research value > 0 } }
+has_oxr_mdlc_zone_pc_machine_ring_unity = { num_zones = { type = oxr_mdlc_zone_pc_machine_ring_unity value > 0 } }
+
+has_oxr_mdlc_zone_pc_machine_ring_alloys = { num_zones = { type = oxr_mdlc_zone_pc_machine_ring_alloys value > 0 } }
+has_oxr_mdlc_zone_pc_machine_ring_consumer_goods = { num_zones = { type = oxr_mdlc_zone_pc_machine_ring_consumer_goods value > 0 } }
+has_oxr_mdlc_zone_pc_machine_ring_mixed = { num_zones = { type = oxr_mdlc_zone_pc_machine_ring_mixed value > 0 } }
+has_oxr_mdlc_zone_pc_machine_ring_trade = { num_zones = { type = oxr_mdlc_zone_pc_machine_ring_trade value > 0 } }
+
+has_oxr_mdlc_zone_pc_machine_ring_food = { num_zones = { type = oxr_mdlc_zone_pc_machine_ring_food value > 0 } }
+has_oxr_mdlc_zone_pc_machine_ring_energy = { num_zones = { type = oxr_mdlc_zone_pc_machine_ring_energy value > 0 } }
+
+# has_oxr_mdlc_zone_pc_machine_ring_research_physics = { num_zones = { type = oxr_mdlc_zone_pc_machine_ring_research_physics value > 0 } }
+# has_oxr_mdlc_zone_pc_machine_ring_research_society = { num_zones = { type = oxr_mdlc_zone_pc_machine_ring_research_society value > 0 } }
+# has_oxr_mdlc_zone_pc_machine_ring_research_engineering = { num_zones = { type = oxr_mdlc_zone_pc_machine_ring_research_engineering value > 0 } }
+# has_oxr_mdlc_zone_pc_machine_ring_energy_physics = { num_zones = { type = oxr_mdlc_zone_pc_machine_ring_energy_physics value > 0 } }
+# has_oxr_mdlc_zone_pc_machine_ring_food_biology = { num_zones = { type = oxr_mdlc_zone_pc_machine_ring_food_biology value > 0 } }
+
+has_mdlc_ring_foundry_factory_zone = {
+	colony = { 
+		OR = {
+			num_zones = { type = has_oxr_mdlc_zone_pc_machine_ring_alloys value > 0 }
+			num_zones = { type = has_oxr_mdlc_zone_pc_machine_ring_mixed value > 0 }
+			num_zones = { type = has_oxr_mdlc_zone_pc_machine_ring_consumer_goods value > 0 }
+		}
+	}
+}
+
 
 # ECU zones
 has_oxr_mdlc_zone_pc_machine_ecu_alloys = { num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_alloys value > 0 } }
@@ -625,13 +676,25 @@ has_oxr_mdlc_zone_pc_machine_ecu_triple_strategic_resources = { num_zones = { ty
 has_oxr_mdlc_zone_pc_machine_ecu_rare_crystals = { num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_rare_crystals value > 0 } }
 has_oxr_mdlc_zone_pc_machine_ecu_volatile_motes = { num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_volatile_motes value > 0 } }
 has_oxr_mdlc_zone_pc_machine_ecu_exotic_gases = { num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_exotic_gases value > 0 } }
-#has_oxr_mdlc_zone_pc_machine_ecu_dark_matter_drawing = { num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_dark_matter_drawing value > 0 } }
-#has_oxr_mdlc_zone_pc_machine_ecu_living_metal_breeding = { num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_living_metal_breeding value > 0 } }
-#has_oxr_mdlc_zone_pc_machine_ecu_nanite_feeding = { num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_nanite_feeding value > 0 } }
+has_oxr_mdlc_zone_pc_machine_ecu_dark_matter_drawing = { num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_dark_matter_drawing value > 0 } }
+has_oxr_mdlc_zone_pc_machine_ecu_living_metal_breeding = { num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_living_metal_breeding value > 0 } }
+has_oxr_mdlc_zone_pc_machine_ecu_nanite_feeding = { num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_nanite_feeding value > 0 } }
 has_oxr_mdlc_zone_pc_machine_ecu_zro_summoning = { num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_zro_summoning value > 0 } }
 has_oxr_mdlc_zone_pc_machine_ecu_star_command = { num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_star_command value > 0 } }
 has_oxr_mdlc_zone_pc_machine_ecu_ground_command = { num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_ground_command value > 0 } }
 has_oxr_mdlc_zone_pc_machine_ecu_military_supply_chain = { num_zones = { type = oxr_mdlc_zone_pc_machine_ecu_military_supply_chain value > 0 } }
+has_rikk_mdlc_zone_pc_machine_ecu_military_shipyard = { num_zones = { type = rikk_mdlc_zone_pc_machine_ecu_military_shipyard value > 0 } }
+
+rikk_mdlc_has_military_zone = {
+	colony = {
+		OR = {
+			has_oxr_mdlc_zone_pc_machine_ecu_star_command = yes
+			has_oxr_mdlc_zone_pc_machine_ecu_ground_command = yes
+			has_oxr_mdlc_zone_pc_machine_ecu_military_supply_chain = yes
+			has_rikk_mdlc_zone_pc_machine_ecu_military_shipyard = yes
+		}
+	}
+}
 
 # CPU zones
 has_oxr_mdlc_zone_pc_machine_cpu_research = { num_zones = { type = oxr_mdlc_zone_pc_machine_cpu_research value > 0 } }
@@ -648,6 +711,9 @@ has_oxr_mdlc_zone_pc_machine_ser_zro_unity = { num_zones = { type = oxr_mdlc_zon
 has_oxr_mdlc_zone_pc_machine_ser_trade = { num_zones = { type = oxr_mdlc_zone_pc_machine_ser_trade value > 0 } }
 has_oxr_mdlc_zone_pc_machine_ser_anticrime = { num_zones = { type = oxr_mdlc_zone_pc_machine_ser_anticrime value > 0 } }
 has_oxr_mdlc_zone_pc_machine_ser_encryption = { num_zones = { type = oxr_mdlc_zone_pc_machine_ser_encryption value > 0 } }
+has_rikk_mdlc_zone_pc_machine_ser_empire_size = { num_zones = { type = rikk_mdlc_zone_pc_machine_ser_empire_size value > 0 } }
+has_rikk_mdlc_zone_pc_machine_ser_building_cap = { num_zones = { type = rikk_mdlc_zone_pc_machine_ser_building_cap value > 0 } }
+has_rikk_mdlc_zone_pc_machine_ser_influence = { num_zones = { type = rikk_mdlc_zone_pc_machine_ser_influence value > 0 } }
 
 # STANDARD
 has_oxr_mdlc_zone_pc_machine_auto_archive = { num_zones = { type = oxr_mdlc_zone_pc_machine_auto_archive value > 0 } }

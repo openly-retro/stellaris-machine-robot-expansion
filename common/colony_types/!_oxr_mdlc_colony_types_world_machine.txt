@@ -1,0 +1,915 @@
+@rikk_mdlc_col_bonus = 0.15 # This was introduced with vanilla's job efficiency. no more negative upkeep modifier!
+
+# machine districts DO NOT get the adaptability bonus because machines have versatility, not adaptability
+# Standard Auto-Machine World designations
+xvcv_mdlc_col_machine_auto_standard = {
+	icon = GFX_xvcv_mdlc_colony_type_machine_auto
+
+	potential = {
+		exists = owner
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		OR = {
+			uses_district_set = xvcv_mdlc_pc_machine_auto_district_set
+			uses_district_set = xvcv_mdlc_pc_machine_ring_district_set
+		}
+		is_capital = no
+	}
+
+	planet_modifier = {
+		planet_stability_add = 5
+		planet_amenities_no_happiness_add = 1000
+		oxr_mdlc_world_machines_all_structures_produces_mult = 0.05
+	}
+
+	weight_modifier = {
+		base = 100
+	}
+}
+xvcv_mdlc_col_machine_auto_generator = {
+	# Focus on raw resources
+	icon = GFX_xvcv_mdlc_col_machine_auto_generator
+
+	potential = {
+		exists = owner
+		is_capital = no
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		OR = {
+			is_xvcv_mdlc_pc_machine_auto = yes
+			is_xvcv_mdlc_pc_machine_ring = yes
+		}
+	}
+
+	planet_modifier = {
+		oxr_mdlc_world_machines_energy_structures_produces_mult = @rikk_mdlc_col_bonus
+	}
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_machine_auto = yes }
+		planet_xvcv_mdlc_pc_machine_auto_district_generator_build_speed_mult = 0.25
+	}
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_machine_ring = yes }
+		planet_xvcv_mdlc_pc_machine_ring_district_raw_resource_build_speed_mult = 0.25
+	}
+	inline_script = {
+		script = planet/districts/auto/oxr_drone_tradition_boost
+		TYPE = energy
+	}
+
+	weight_modifier = {
+		modifier = {
+			add = @stickiness
+			has_designation = xvcv_mdlc_col_machine_auto_generator
+		}
+		complex_trigger_modifier = {
+			trigger = num_free_districts
+			parameters = { type = xvcv_mdlc_pc_machine_ring_district_energy }
+			mode = add
+		}
+		complex_trigger_modifier = {
+			trigger = num_free_districts
+			parameters = { type = xvcv_mdlc_pc_machine_auto_district_generator }
+			mode = add
+		}
+		modifier = {
+			add = 5
+			OR = {
+				has_modifier = hazardous_weather
+				has_modifier = strong_magnetic_field
+			}
+		}
+		modifier = {
+			add = 10
+			OR = {
+				has_building = oxr_mdlc_world_machines_auto_generator_1
+				has_building = oxr_mdlc_world_machines_auto_generator_2
+				has_building = oxr_mdlc_world_machines_auto_generator_3
+				has_building = oxr_mdlc_world_machines_auto_generator_4
+				has_building = oxr_mdlc_world_machines_auto_generator_5
+				has_building = oxr_mdlc_world_machines_auto_energy_grid_1
+				has_building = oxr_mdlc_world_machines_auto_energy_grid_2
+			}
+		}
+	}
+}
+xvcv_mdlc_col_machine_auto_mining = {
+	icon = GFX_xvcv_mdlc_col_machine_auto_mining
+
+	potential = {
+		exists = owner
+		is_capital = no
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		is_xvcv_mdlc_pc_machine_auto = yes
+	}
+
+	planet_modifier = {
+		oxr_mdlc_world_machines_minerals_structures_produces_mult = @rikk_mdlc_col_bonus
+	}
+	triggered_planet_modifier = { # This is needed to make the build speed modifier appear at the bottom of the tooltip
+		potential = { is_xvcv_mdlc_pc_machine_auto = yes }
+		planet_xvcv_mdlc_pc_machine_auto_district_mining_build_speed_mult = 0.25
+	}
+	
+	inline_script = {
+		script = planet/districts/auto/oxr_drone_tradition_boost
+		TYPE = minerals
+	}
+
+	weight_modifier = {
+		modifier = {
+			add = @stickiness
+			has_designation = col_mining
+		}
+		complex_trigger_modifier = {
+			trigger = num_districts
+			parameters = {
+				type = district_mining
+			}
+			mode = add
+			mult = 2
+		}
+
+		complex_trigger_modifier = {
+			trigger = num_free_districts
+			parameters = {
+				type = district_mining
+			}
+			mode = add
+		}
+		modifier = {
+			add = 10
+			OR = {
+				has_building = building_mineral_purification_plant
+				has_building = building_mineral_purification_hub
+			}
+		}
+		modifier = {
+			add = 5
+			OR = {
+				has_modifier = asteroid_belt
+				has_modifier = mineral_rich
+				has_modifier = ultra_rich
+				has_modifier = extensive_moon_system
+				has_modifier = asteroid_impacts
+				has_modifier = carbon_world
+			}
+		}
+		modifier = {
+			add = -10
+			has_modifier = mineral_poor
+		}
+	}
+}
+xvcv_mdlc_col_machine_auto_farming = {
+	icon = GFX_xvcv_mdlc_col_machine_auto_farming
+
+	potential = {
+		exists = owner
+		is_capital = no
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		OR = {
+			is_xvcv_mdlc_pc_machine_auto = yes
+			is_xvcv_mdlc_pc_machine_ring = yes
+		}
+	}
+
+	planet_modifier = {
+		oxr_mdlc_world_machines_food_structures_produces_mult = @rikk_mdlc_col_bonus
+	}
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_machine_auto = yes }
+		planet_xvcv_mdlc_pc_machine_auto_district_farming_build_speed_mult = 0.25
+	}
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_machine_ring = yes }
+		planet_xvcv_mdlc_pc_machine_ring_district_raw_resource_build_speed_mult = 0.25
+	}
+	inline_script = {
+		script = planet/districts/auto/oxr_drone_tradition_boost
+		TYPE = food
+	}
+
+	weight_modifier = {
+		modifier = {
+			add = @stickiness
+			has_designation = col_farming
+		}
+		complex_trigger_modifier = {
+			trigger = num_districts
+			parameters = {
+				type = xvcv_mdlc_pc_machine_auto_district_farming
+			}
+			mode = add
+			mult = 2
+		}
+		complex_trigger_modifier = {
+			trigger = num_free_districts
+			parameters = {
+				type = xvcv_mdlc_pc_machine_auto_district_farming
+			}
+			mode = add
+		}
+		modifier = {
+			add = -10
+			OR = {
+				has_modifier = bleak_planet
+				has_modifier = unbalanced_ecosystem
+				has_modifier = irradiated_planet
+			}
+		}
+	}
+}
+xvcv_mdlc_col_machine_auto_industrial = {
+	icon = GFX_xvcv_mdlc_col_machine_auto_industrial
+
+	potential = {
+		exists = owner
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		OR = {
+			is_xvcv_mdlc_pc_machine_auto = yes
+			is_xvcv_mdlc_pc_machine_ring = yes
+		}
+		is_capital = no
+	}
+	
+	planet_modifier = {
+		oxr_mdlc_world_machines_foundry_buildings_produces_mult = @rikk_mdlc_col_bonus
+		oxr_mdlc_world_machines_foundry_buildings_upkeep_mult = @rikk_mdlc_col_bonus
+		oxr_mdlc_world_machines_factory_buildings_produces_mult = @rikk_mdlc_col_bonus
+		oxr_mdlc_world_machines_factory_buildings_upkeep_mult = @rikk_mdlc_col_bonus
+	}	
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_machine_auto = no } #auto worlds get double bonuses when a cg+alloys zone are built
+		xvcv_mdlc_world_machines_foundry_districts_produces_mult = @[ 0.5 * rikk_mdlc_col_bonus ]
+		xvcv_mdlc_world_machines_foundry_districts_upkeep_mult = @[ 0.5 * rikk_mdlc_col_bonus ]
+		xvcv_mdlc_world_machines_factory_districts_produces_mult = @[ 0.5 * rikk_mdlc_col_bonus ]
+		xvcv_mdlc_world_machines_factory_districts_upkeep_mult = @[ 0.5 * rikk_mdlc_col_bonus ]
+	}
+	triggered_planet_modifier = {
+		potential = { has_oxr_mdlc_zone_pc_machine_ring_alloys = no has_oxr_mdlc_zone_pc_machine_ring_consumer_goods = no }
+		xvcv_mdlc_world_machines_foundry_factory_districts_produces_mult = @rikk_mdlc_col_bonus
+		xvcv_mdlc_world_machines_foundry_factory_districts_upkeep_mult = @rikk_mdlc_col_bonus
+	}
+	triggered_planet_modifier = {
+		potential = { has_oxr_mdlc_zone_pc_machine_ring_alloys = yes }
+		xvcv_mdlc_world_machines_foundry_districts_produces_mult = @rikk_mdlc_col_bonus
+		xvcv_mdlc_world_machines_foundry_districts_upkeep_mult = @rikk_mdlc_col_bonus
+	}
+	triggered_planet_modifier = {
+		potential = { has_oxr_mdlc_zone_pc_machine_ring_consumer_goods = yes }
+		xvcv_mdlc_world_machines_factory_districts_produces_mult = @rikk_mdlc_col_bonus
+		xvcv_mdlc_world_machines_factory_districts_upkeep_mult = @rikk_mdlc_col_bonus
+	}
+
+	# District build speeds
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_machine_auto = yes }
+		planet_xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_build_speed_mult = 0.25
+	}
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_machine_ring = yes }
+		planet_xvcv_mdlc_pc_machine_ring_district_industrial_build_speed_mult = 0.25
+	}
+
+	inline_script = planet/districts/auto/oxr_industrial_tradition_boost
+
+	weight_modifier = {
+		modifier = {
+			add = @stickiness
+			has_designation = xvcv_mdlc_col_machine_auto_industrial
+		}
+		complex_trigger_modifier = {
+			trigger = num_districts
+			parameters = {
+				type = xvcv_mdlc_pc_machine_auto_district_primary_origin_wm
+			}
+			mode = add
+			mult = 3
+		}
+		modifier = {
+			add = 15
+			AND = {
+				OR = {
+					has_building = building_factory_1
+					has_building = building_factory_2
+					has_building = building_factory_3
+				}
+				OR = {
+					has_building = building_foundry_1
+					has_building = building_foundry_2
+					has_building = building_foundry_3
+				}
+			}
+		}
+	}
+}
+
+xvcv_mdlc_col_machine_auto_foundry = {
+	icon = GFX_xvcv_mdlc_col_machine_auto_foundry
+
+	potential = {
+		exists = owner
+		is_capital = no
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		OR = {
+			is_xvcv_mdlc_pc_machine_auto = yes
+			is_xvcv_mdlc_pc_machine_ring = yes
+		}
+	}
+
+	planet_modifier = {
+		oxr_mdlc_world_machines_foundry_structures_produces_mult = @rikk_mdlc_col_bonus
+		oxr_mdlc_world_machines_foundry_structures_upkeep_mult = @rikk_mdlc_col_bonus
+	}
+	
+	# Auto
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			is_xvcv_mdlc_pc_machine_auto = yes
+			owner = { has_oxr_mdlc_origin_world_machine_awakened = yes }
+		}
+		planet_xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_build_speed_mult = 0.25
+	}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			is_xvcv_mdlc_pc_machine_auto = yes
+			owner = { has_oxr_mdlc_origin_world_machine_awakened = no }
+		}
+		planet_xvcv_mdlc_pc_machine_auto_district_city_build_speed_mult = 0.25
+	}
+	# Ring
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_machine_ring = yes }
+		planet_xvcv_mdlc_pc_machine_ring_district_industrial_build_speed_mult = 0.25
+	}
+
+	inline_script = planet/districts/auto/oxr_industrial_tradition_boost
+
+	weight_modifier = {
+		modifier = {
+			add = @stickiness
+			has_designation = col_foundry
+		}
+		complex_trigger_modifier = {
+			trigger = num_districts
+			parameters = {
+				type = xvcv_mdlc_pc_machine_auto_district_primary_origin_wm
+			}
+			mode = add
+			mult = 3
+		}
+
+		modifier = {
+			add = 11
+			has_designation = col_factory
+			exists = owner
+			owner = {
+				has_monthly_income = { resource = alloys value < 0 }
+				has_monthly_income = { resource = consumer_goods value >= 0 }
+			}
+		}
+	}
+}
+
+xvcv_mdlc_col_machine_auto_factory = {
+	icon = GFX_xvcv_mdlc_col_machine_auto_factory
+
+	potential = {
+		exists = owner
+		is_capital = no
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		OR = {
+			is_xvcv_mdlc_pc_machine_auto = yes
+			is_xvcv_mdlc_pc_machine_ring = yes
+		}
+	}
+
+	planet_modifier = {
+		oxr_mdlc_world_machines_factory_structures_produces_mult = @rikk_mdlc_col_bonus
+		oxr_mdlc_world_machines_factory_structures_upkeep_mult = @rikk_mdlc_col_bonus
+	}
+	
+	# Auto
+	triggered_planet_modifier = {
+		potential = {
+			is_xvcv_mdlc_pc_machine_auto = yes
+			exists = owner
+			owner = { has_oxr_mdlc_origin_world_machine_awakened = yes }
+		}
+		planet_xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_build_speed_mult = 0.25
+	}
+	triggered_planet_modifier = {
+		potential = {
+			is_xvcv_mdlc_pc_machine_auto = yes
+			exists = owner
+			owner = { has_oxr_mdlc_origin_world_machine_awakened = no }
+		}
+		planet_xvcv_mdlc_pc_machine_auto_district_city_build_speed_mult = 0.25
+	}
+	# Ring
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_machine_ring = yes }
+		planet_xvcv_mdlc_pc_machine_ring_district_industrial_build_speed_mult = 0.25
+	}
+
+	inline_script = planet/districts/auto/oxr_industrial_tradition_boost
+
+	weight_modifier = {
+		modifier = {
+			add = @stickiness
+			has_designation = xvcv_mdlc_col_machine_auto_factory
+		}
+		modifier = {
+			has_any_foundry_zone = no
+			has_any_factory_zone = yes
+			add = @zone_urban
+		}
+		modifier = {
+			add = 10
+			OR = {
+				has_building = oxr_mdlc_world_machines_building_auto_factory_1
+				has_building = oxr_mdlc_world_machines_building_auto_factory_2
+				has_building = oxr_mdlc_world_machines_building_auto_factory_3
+			}
+		}
+		modifier = {
+			add = -5
+			OR = {
+				has_building = oxr_mdlc_world_machines_building_auto_forge_1
+				has_building = oxr_mdlc_world_machines_building_auto_forge_2
+				has_building = oxr_mdlc_world_machines_building_auto_forge_3
+			}
+		}
+		modifier = {
+			add = 11
+			has_designation = xvcv_mdlc_col_machine_auto_foundry
+			exists = owner
+			owner = {
+				has_monthly_income = { resource = consumer_goods value < 0 }
+				has_monthly_income = { resource = alloys value >= 0 }
+			}
+		}
+	}
+}
+
+xvcv_mdlc_col_machine_auto_administrative = {
+	icon = GFX_xvcv_mdlc_col_machine_auto_administrative
+	potential = {
+		exists = owner
+		is_capital = no
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		OR = {
+			is_xvcv_mdlc_pc_machine_auto = yes
+			is_xvcv_mdlc_pc_machine_ring = yes
+		}
+	}
+
+	planet_modifier = {
+		oxr_mdlc_world_machines_unity_structures_produces_mult = @rikk_mdlc_col_bonus
+		oxr_mdlc_world_machines_unity_structures_upkeep_mult = @rikk_mdlc_col_bonus
+	}
+	# Auto
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			is_xvcv_mdlc_pc_machine_auto = yes
+			owner = { has_oxr_mdlc_origin_world_machine_awakened = yes }
+		}
+		planet_xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_build_speed_mult = 0.25
+	}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			is_xvcv_mdlc_pc_machine_auto = yes
+			owner = { has_oxr_mdlc_origin_world_machine_awakened = no }
+		}
+		planet_xvcv_mdlc_pc_machine_auto_district_city_build_speed_mult = 0.25
+	}
+	# Ring
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_machine_ring = yes }
+		planet_xvcv_mdlc_pc_machine_ring_district_computer_build_speed_mult = 0.25
+	}
+
+	weight_modifier = {
+		modifier = {
+			add = @stickiness
+			has_designation = xvcv_mdlc_col_machine_auto_administrative
+		}
+	}
+}
+
+
+xvcv_mdlc_col_machine_auto_research = {
+	icon = GFX_xvcv_mdlc_col_machine_auto_research
+
+	potential = {
+		exists = owner
+		is_capital = no
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		OR = {
+			is_xvcv_mdlc_pc_machine_auto = yes
+			is_xvcv_mdlc_pc_machine_ring = yes
+		}
+	}
+
+	planet_modifier = {
+		oxr_mdlc_world_machines_science_structures_upkeep_mult = @rikk_mdlc_col_bonus
+	}
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_machine_auto = yes }
+		planet_xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_build_speed_mult = 0.25
+		oxr_mdlc_world_machines_science_structures_produces_mult= @rikk_mdlc_col_bonus
+	}
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_machine_ring = yes }
+		planet_xvcv_mdlc_pc_machine_ring_district_computer_build_speed_mult = 0.25
+		oxr_mdlc_world_machines_science_structures_produces_mult = @[ 2 * rikk_mdlc_col_bonus ]
+		# Rikk: rings no longer have an inherent science bonus but I wanna have fun
+	}
+
+	weight_modifier = {
+		modifier = {
+			add = @stickiness
+			has_designation = xvcv_mdlc_col_machine_auto_research
+		}
+		modifier = {
+			add = 10
+			OR = {
+				has_building = oxr_mdlc_world_machines_building_fractal_sanitizer
+				has_building = oxr_mdlc_world_machines_building_fractal_sanitizer_2
+				has_building = oxr_mdlc_world_machines_building_fractal_sanitizer_3
+				has_building = oxr_mdlc_world_machines_building_fractal_sanitizer_4
+			}
+		}
+		modifier = {
+			add = -5
+			OR = {
+				has_building = oxr_mdlc_world_machines_building_auto_unity_1
+				has_building = oxr_mdlc_world_machines_building_auto_unity_2
+				has_building = oxr_mdlc_world_machines_building_auto_unity_3
+				has_building = oxr_mdlc_world_machines_building_auto_unity_4
+			}
+		}
+	}
+}
+
+xvcv_mdlc_col_machine_auto_refinery = {
+	icon = GFX_xvcv_mdlc_col_machine_auto_refinery
+
+	potential = {
+		exists = owner
+		is_capital = no
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		OR = {
+			is_xvcv_mdlc_pc_machine_auto = yes
+			is_xvcv_mdlc_pc_machine_ring = yes
+		}
+	}
+	
+	planet_modifier = {
+		#doubled bonus because the industrial colony types already provide a 15% bonus to everything so this owuld do nothing if only 15%
+		oxr_mdlc_world_machines_strategic_resource_buildings_produces_mult = @[ 2 * rikk_mdlc_col_bonus ]
+	}
+	triggered_planet_modifier = { 
+		potential = { OR ={ has_mdlc_industrial_zone = no has_oxr_mdlc_zone_pc_machine_ring_mixed = yes } }
+		xvcv_mdlc_world_machines_foundry_factory_districts_exotic_gases_produces_mult = @[ 2 * rikk_mdlc_col_bonus ]
+		xvcv_mdlc_world_machines_foundry_factory_districts_volatile_motes_produces_mult = @[ 2 * rikk_mdlc_col_bonus ]
+		xvcv_mdlc_world_machines_foundry_factory_districts_rare_crystals_produces_mult = @[ 2 * rikk_mdlc_col_bonus ]
+	}
+	triggered_planet_modifier = {
+		potential = { OR = { has_oxr_mdlc_zone_pc_machine_auto_alloys = yes has_oxr_mdlc_zone_pc_machine_ring_alloys = yes } }
+		xvcv_mdlc_world_machines_foundry_districts_exotic_gases_produces_mult = @[ 2 * rikk_mdlc_col_bonus ]
+		xvcv_mdlc_world_machines_foundry_districts_volatile_motes_produces_mult = @[ 2 * rikk_mdlc_col_bonus ]
+		xvcv_mdlc_world_machines_foundry_districts_rare_crystals_produces_mult = @[ 2 * rikk_mdlc_col_bonus ]
+	}
+	triggered_planet_modifier = {
+		potential = { 
+			OR = { 
+				AND = { 
+					has_oxr_mdlc_zone_pc_machine_auto_consumer_goods = yes 
+					has_oxr_mdlc_zone_pc_machine_auto_alloys = no
+				}
+				AND = { 
+					has_oxr_mdlc_zone_pc_machine_ring_consumer_goods = yes 
+					has_oxr_mdlc_zone_pc_machine_ring_alloys = no
+				}
+			}
+		}
+		xvcv_mdlc_world_machines_factory_districts_exotic_gases_produces_mult = @[ 2 * rikk_mdlc_col_bonus ]
+		xvcv_mdlc_world_machines_factory_districts_volatile_motes_produces_mult = @[ 2 * rikk_mdlc_col_bonus ]
+		xvcv_mdlc_world_machines_factory_districts_rare_crystals_produces_mult = @[ 2 * rikk_mdlc_col_bonus ]
+	}
+	# District build speeds
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_machine_auto = yes }
+		planet_xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_build_speed_mult = 0.25
+	}
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_machine_ring = yes }
+		planet_xvcv_mdlc_pc_machine_ring_district_industrial_build_speed_mult = 0.25
+	}
+
+	weight_modifier = {
+
+		complex_trigger_modifier = {
+			trigger = count_owned_pop_group
+			parameters = {
+				limit = {
+					planet = {
+						has_sr_producing_job = yes
+					}
+				}
+			}
+			mode = add
+			mult = 3
+		}
+	}
+}
+
+#trade
+xvcv_mdlc_col_machine_auto_trade = {
+	icon = GFX_xvcv_mdlc_colony_type_machine_auto_trade
+
+	potential = {
+		exists = owner
+		exists = planet
+		is_capital = no
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		OR = {
+			is_xvcv_mdlc_pc_machine_auto = yes
+			is_xvcv_mdlc_pc_machine_ring = yes
+		}
+	}
+
+	planet_modifier = {
+		oxr_mdlc_world_machines_trade_structures_produces_mult = @rikk_mdlc_col_bonus
+		oxr_mdlc_world_machines_trade_structures_upkeep_mult = @rikk_mdlc_col_bonus
+	}
+
+	# District build speed modifier
+	# Auto
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_oxr_mdlc_origin_world_machine_awakened = yes }
+			planet = { is_xvcv_mdlc_pc_machine_auto = yes }
+		}
+		#split this off because it would be too strong on auto-servers
+		planet_structures_upkeep_mult = -0.10
+		oxr_mdlc_world_machines_trade_structures_produces_mult = 0.1
+		planet_xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_build_speed_mult = 0.25
+	}
+	triggered_planet_modifier = {
+		potential = {
+			is_xvcv_mdlc_pc_machine_auto = yes
+			exists = owner
+			owner = { has_oxr_mdlc_origin_world_machine_awakened = no }
+			planet = { is_xvcv_mdlc_pc_machine_auto = yes }
+		}
+		planet_xvcv_mdlc_pc_machine_auto_district_city_build_speed_mult = 0.25
+	}
+	# Ring
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_machine_ring = yes }
+		planet_xvcv_mdlc_pc_machine_ring_district_industrial_build_speed_mult = 0.25
+	}
+
+	weight_modifier = {
+		modifier = {
+			add = @stickiness
+			has_designation = xvcv_mdlc_col_machine_auto_trade
+		}
+	}
+}
+
+#Military
+xvcv_mdlc_col_machine_auto_fortress = {
+	icon = GFX_xvcv_mdlc_colony_type_machine_auto_fortress
+
+	potential = {
+		exists = owner
+		is_capital = no
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		OR = {
+			is_xvcv_mdlc_pc_machine_auto = yes
+			is_xvcv_mdlc_pc_machine_ring = yes
+		}
+	}
+
+	planet_modifier = {
+		planet_army_build_speed_mult = 0.25
+		planet_orbital_bombardment_damage = -0.10
+		army_defense_damage_mult = 0.20
+		planet_oxr_mdlc_world_machines_building_maintenance_legion_build_speed_mult = 0.25
+		planet_oxr_mdlc_world_machines_building_maintenance_legion_2_build_speed_mult = 0.25
+	}
+
+	# District build speed modifier
+	# Auto
+	triggered_planet_modifier = {
+		potential = {
+			is_xvcv_mdlc_pc_machine_auto = yes
+			exists = owner
+			owner = { has_oxr_mdlc_origin_world_machine_awakened = yes }
+		}
+		planet_xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_build_speed_mult = 0.25
+	}
+	triggered_planet_modifier = {
+		potential = {
+			is_xvcv_mdlc_pc_machine_auto = yes
+			exists = owner
+			owner = { has_oxr_mdlc_origin_world_machine_awakened = no }
+		}
+		planet_xvcv_mdlc_pc_machine_auto_district_city_build_speed_mult = 0.25
+	}
+	# Ring
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_machine_ring = yes }
+		planet_xvcv_mdlc_pc_machine_ring_district_primary_build_speed_mult = 0.25
+	}
+
+	weight_modifier = {
+		modifier = {
+			add = @stickiness
+			has_designation = xvcv_mdlc_col_machine_auto_trade
+		}
+	}
+}
+
+# Capital Planet
+oxr_mdlc_wm_col_capital = {
+	icon = GFX_colony_type_capital
+	potential = {
+		exists = owner
+		is_capital = yes
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		is_planet_world_machine = yes
+	}
+
+	planet_modifier = {
+		planet_stability_add = 5
+		oxr_mdlc_world_machines_all_structures_produces_mult = 0.1
+		planet_building_build_speed_mult = 0.1
+	}
+
+	inline_script = planet/rikk_mdlc_capital_colony_modifiers
+
+	weight_modifier = {
+		base = 1000
+	}
+}
+# Capital Planet - Resource Extraction
+oxr_mdlc_wm_col_capital_extraction = {
+	icon = GFX_colony_type_capital_extraction
+
+	potential = {
+		exists = owner
+		is_capital = yes
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		is_planet_world_machine = yes
+	}
+
+	triggered_planet_modifier = {
+		planet_stability_add = 5
+		oxr_mdlc_world_machines_food_structures_produces_mult = 0.2
+		oxr_mdlc_world_machines_minerals_structures_produces_mult = 0.2
+		oxr_mdlc_world_machines_energy_structures_produces_mult = 0.2
+	}
+	
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_machine_auto = yes }
+		planet_xvcv_mdlc_pc_machine_auto_district_generator_build_speed_mult = 0.25
+		planet_xvcv_mdlc_pc_machine_auto_district_mining_build_speed_mult = 0.25
+		planet_xvcv_mdlc_pc_machine_auto_district_farming_build_speed_mult = 0.25
+	}
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_machine_ring = yes }
+		planet_xvcv_mdlc_pc_machine_ring_district_raw_resource_build_speed_mult = 0.25
+	}
+
+	inline_script = planet/rikk_mdlc_capital_colony_modifiers
+
+	weight_modifier = {
+		base = 1000
+	}
+}
+
+oxr_mdlc_wm_col_capital_foundry = {
+	icon = GFX_colony_type_capital_foundry
+
+	potential = {
+		exists = owner
+		is_capital = yes
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		is_planet_world_machine = yes
+	}
+
+
+	triggered_planet_modifier = {
+		planet_stability_add = 5
+		oxr_mdlc_world_machines_foundry_structures_produces_mult = 0.2
+	}
+	
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_machine_auto = yes }
+		planet_xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_build_speed_mult = 0.25
+	}
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_machine_ecu = yes }
+		planet_xvcv_mdlc_pc_machine_ecu_district_production_build_speed_mult = 0.25
+	}
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_machine_ring = yes }
+		planet_xvcv_mdlc_pc_machine_ring_district_industrial_build_speed_mult = 0.25
+	}
+
+	inline_script = planet/rikk_mdlc_capital_colony_modifiers
+
+	# used by AI to estimate what will happen when we change the designation
+	ai_resource_conversion = {
+		consumer_goods = 0
+		alloys = 2
+
+		trigger = {
+			owner = {
+				country_uses_consumer_goods = yes
+			}
+		}
+	}
+
+	ai_resource_current_conversion = {
+		alloys = 0.5
+		consumer_goods = -2
+
+		trigger = {
+			owner = {
+				country_uses_consumer_goods = yes
+			}
+		}
+	}
+
+	weight_modifier = {
+		base = 0
+	}
+}
+
+oxr_mdlc_wm_col_capital_factory = {
+	icon = GFX_colony_type_capital_factory
+
+	potential = {
+		exists = owner
+		is_capital = yes
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		is_planet_world_machine = yes
+	}
+
+	triggered_planet_modifier = {
+		planet_stability_add = 5
+		oxr_mdlc_world_machines_factory_structures_produces_mult = 0.2
+	}
+	
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_machine_auto = yes }
+		planet_xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_build_speed_mult = 0.25
+	}
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_machine_ecu = yes }
+		planet_xvcv_mdlc_pc_machine_ecu_district_production_build_speed_mult = 0.25
+	}
+	triggered_planet_modifier = {
+		potential = { is_xvcv_mdlc_pc_machine_ring = yes }
+		planet_xvcv_mdlc_pc_machine_ring_district_industrial_build_speed_mult = 0.25
+	}
+	
+	inline_script = planet/rikk_mdlc_capital_colony_modifiers
+
+	# used by AI to estimate what will happen when we change the designation
+	ai_resource_conversion = {
+		consumer_goods = 2
+		alloys = 0
+
+		trigger = {
+			owner = {
+				country_uses_consumer_goods = yes
+			}
+		}
+	}
+
+	# Used by AI to estimate the current effects of this designation
+	ai_resource_current_conversion = {
+		consumer_goods = 0.5
+		alloys = -0.5
+
+		trigger = {
+			owner = {
+				country_uses_consumer_goods = yes
+			}
+		}
+	}
+
+	weight_modifier = {
+		base = 0
+	}
+}

@@ -1,0 +1,209 @@
+@oxr_rw_cost = 1000
+@oxr_rw_cost_sr = 50
+@oxr_rw_upkeep_sr = 1
+# @rw_maintenance = 5
+# @rw_maintenance_sr = 1
+# @rw_district_buildtime = 360
+
+# No housing districts needed on an auto-ringworld!
+xvcv_mdlc_pc_machine_ring_district_primary = {
+	inline_script = planet/districts/ring/rikk_mdlc_ring_district_base
+	inline_script = planet/districts/convert_to/oxr_wm_district_primary
+	conversion_ratio = 1
+	gridbox = GFX_xvcv_mdlc_pc_machine_auto_district_primary
+	
+	default_starting_district = yes
+
+	zone_slots = {
+		oxr_mdlc_slot_pc_machine_ring_primary
+		oxr_mdlc_slot_pc_machine_ring_primary_01
+		oxr_mdlc_slot_pc_machine_ring_primary_02
+	}
+
+	resources = {
+		category = xvcv_mdlc_world_machines_primary_districts
+		cost = {
+			minerals = @oxr_rw_cost
+		}
+		upkeep = {
+			energy = @rw_maintenance
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+	}
+	triggered_desc = { text = rikk_mdlc_world_machines_districts_tooltip }
+	triggered_desc = { text = rikk_mdlc_world_machines_primary_districts_tooltip }
+	triggered_desc = { text = rikk_mdlc_world_machines_military_districts_tooltip trigger = { has_rikk_mdlc_zone_pc_machine_ring_military = yes } }
+}
+
+# Research OR development ("growth and development")
+xvcv_mdlc_pc_machine_ring_district_computer = {
+	inline_script = planet/districts/ring/rikk_mdlc_ring_district_base
+	inline_script = planet/districts/convert_to/oxr_wm_district_2
+	conversion_ratio = 1
+	gridbox = GFX_xvcv_mdlc_pc_machine_auto_district_research
+
+	zone_slots = {
+		oxr_mdlc_slot_pc_machine_ring_computer
+	}
+
+	resources = {
+		category = xvcv_mdlc_world_machines_computer_districts
+		cost = {
+			minerals = @oxr_rw_cost
+			exotic_gases = @oxr_rw_cost_sr #rare crystals and exotic gases because they are used in research and unity respectively
+			rare_crystals = @oxr_rw_cost_sr
+		}
+		upkeep = {
+			exotic_gases = @oxr_rw_upkeep_sr
+			rare_crystals = @oxr_rw_upkeep_sr
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+	}
+	triggered_desc = { text = rikk_mdlc_world_machines_districts_tooltip }
+	triggered_desc = { text = rikk_mdlc_world_machines_computer_districts_tooltip }
+	triggered_desc = { text = rikk_mdlc_world_machines_unity_districts_tooltip trigger = { has_oxr_mdlc_zone_pc_machine_ring_unity = yes } }
+	triggered_desc = { text = rikk_mdlc_world_machines_science_districts_tooltip trigger = { has_oxr_mdlc_zone_pc_machine_ring_research = yes } }
+}
+
+
+# Industrial OR goods 
+xvcv_mdlc_pc_machine_ring_district_industrial = {
+	#icon = xvcv_mdlc_pc_machine_ring_district_industrial
+	inline_script = planet/districts/ring/rikk_mdlc_ring_district_base
+	inline_script = planet/districts/convert_to/oxr_wm_district_3
+	conversion_ratio = 1
+	gridbox = GFX_xvcv_mdlc_pc_machine_auto_district_foundry
+
+	zone_slots = {
+		xvcv_mdlc_slot_pc_machine_ring_industrial
+	}
+
+	resources = {
+		category = xvcv_mdlc_world_machines_industrial_districts
+		cost = {
+			minerals = @oxr_rw_cost
+			volatile_motes = @oxr_rw_cost_sr #rare crystals and volatile motes because they are used in alloys and CG respectively
+			rare_crystals = @oxr_rw_cost_sr
+		}
+		upkeep = {
+			volatile_motes = @oxr_rw_upkeep_sr
+			rare_crystals = @oxr_rw_upkeep_sr
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+	}
+	triggered_name = { text = xvcv_mdlc_pc_machine_ring_district_industrial_name_none }
+	triggered_desc = { text = rikk_mdlc_world_machines_districts_tooltip }
+	triggered_desc = { text = rikk_mdlc_world_machines_industrial_districts_tooltip }
+	triggered_desc = { text = rikk_mdlc_world_machines_foundry_districts_tooltip trigger = { has_oxr_mdlc_zone_pc_machine_ring_alloys = yes } }
+	triggered_desc = { text = rikk_mdlc_world_machines_factory_districts_tooltip trigger = { has_oxr_mdlc_zone_pc_machine_ring_consumer_goods = yes } }
+	triggered_desc = { text = rikk_mdlc_world_machines_foundry_factory_districts_tooltip trigger = { has_oxr_mdlc_zone_pc_machine_ring_mixed = yes } }
+	triggered_desc = { text = rikk_mdlc_world_machines_trade_districts_tooltip trigger = { has_oxr_mdlc_zone_pc_machine_ring_trade = yes } }
+}
+
+# Farm OR generator ("Raw Resources")
+xvcv_mdlc_pc_machine_ring_district_raw_resource = {
+	inline_script = planet/districts/ring/rikk_mdlc_ring_district_base
+	inline_script = planet/districts/convert_to/oxr_wm_district_4
+	conversion_ratio = 1
+	gridbox = GFX_xvcv_mdlc_pc_machine_auto_district_farming
+	
+	zone_slots = {
+		xvcv_mdlc_slot_pc_machine_ring_raw_resource
+	}
+
+	resources = {
+		category = xvcv_mdlc_world_machines_raw_resources_districts
+		cost = {
+			minerals = @oxr_rw_cost
+			exotic_gases = @oxr_rw_cost_sr
+			volatile_motes = @oxr_rw_cost_sr
+		}
+		
+		upkeep = {
+			exotic_gases = @oxr_rw_upkeep_sr
+			volatile_motes = @oxr_rw_upkeep_sr
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+		}
+	}
+	
+	triggered_name = { text = xvcv_mdlc_pc_machine_ring_district_raw_resource_name_none }
+	triggered_desc = { text = rikk_mdlc_world_machines_districts_tooltip }
+	triggered_desc = { text = rikk_mdlc_world_machines_raw_resources_districts_tooltip }
+	triggered_desc = { text = rikk_mdlc_world_machines_food_districts_tooltip trigger = { has_oxr_mdlc_zone_pc_machine_ring_food = yes } }
+	triggered_desc = { text = rikk_mdlc_world_machines_generator_districts_tooltip trigger = { has_oxr_mdlc_zone_pc_machine_ring_energy = yes } }
+}
+
+
+### Swap districts
+# primary
+xvcv_mdlc_pc_machine_ring_district_military = {
+	#icon = xvcv_mdlc_pc_machine_ring_district_military
+	overlay_icon = GFX_district_fortress
+	gridbox = GFX_xvcv_mdlc_pc_machine_auto_district_army
+	inline_script = { script = planet/districts/rikk_wm_swap_base }
+}
+# computer
+xvcv_mdlc_pc_machine_ring_district_research = {
+	#icon = xvcv_mdlc_pc_machine_ring_district_research
+	overlay_icon = GFX_district_research
+	gridbox = GFX_xvcv_mdlc_pc_machine_auto_district_research
+	triggered_name = { text = xvcv_mdlc_pc_machine_ring_district_computer_name_research }
+	inline_script = { script = planet/districts/rikk_wm_swap_base }
+}
+xvcv_mdlc_pc_machine_ring_district_unity = {
+	#icon = xvcv_mdlc_pc_machine_ring_district_unity
+	overlay_icon = GFX_district_unity
+	gridbox = GFX_xvcv_mdlc_pc_machine_auto_district_unity
+	triggered_name = { text = xvcv_mdlc_pc_machine_ring_district_computer_name_unity }
+	inline_script = { script = planet/districts/rikk_wm_swap_base }
+}
+# industrial
+xvcv_mdlc_pc_machine_ring_district_industrial_alloys = {
+	icon = xvcv_mdlc_pc_machine_ring_district_industrial_typed
+	overlay_icon = GFX_district_alloys
+	gridbox = GFX_xvcv_mdlc_pc_machine_auto_district_foundry
+	triggered_name = { text = xvcv_mdlc_pc_machine_ring_district_industrial_name_alloys }
+	inline_script = { script = planet/districts/rikk_wm_swap_base }
+}
+xvcv_mdlc_pc_machine_ring_district_industrial_consumer_goods = {
+	icon = xvcv_mdlc_pc_machine_ring_district_industrial_typed
+	overlay_icon = GFX_district_consumer_goods
+	gridbox = GFX_xvcv_mdlc_pc_machine_auto_district_factory
+	triggered_name = { text = xvcv_mdlc_pc_machine_ring_district_industrial_name_goods }
+	inline_script = { script = planet/districts/rikk_wm_swap_base }
+}
+xvcv_mdlc_pc_machine_ring_district_industrial_mixed = {
+	icon = xvcv_mdlc_pc_machine_ring_district_industrial_typed
+	overlay_icon = GFX_district_mixed_industry
+	gridbox = GFX_xvcv_mdlc_pc_machine_auto_district_foundry
+	triggered_name = { text = xvcv_mdlc_pc_machine_ring_district_industrial_name_mixed }
+	inline_script = { script = planet/districts/rikk_wm_swap_base }
+}
+xvcv_mdlc_pc_machine_ring_district_industrial_trade = {
+	icon = xvcv_mdlc_pc_machine_ring_district_industrial_typed
+	overlay_icon = GFX_district_trade
+	gridbox = GFX_xvcv_mdlc_pc_machine_auto_district_trade
+	triggered_name = { text = xvcv_mdlc_pc_machine_ring_district_industrial_name_trade }
+	inline_script = { script = planet/districts/rikk_wm_swap_base }
+}
+# raw resource
+xvcv_mdlc_pc_machine_ring_district_energy = {
+	# icon = xvcv_mdlc_pc_machine_ring_district_energy
+	overlay_icon = GFX_district_energy
+	gridbox = GFX_xvcv_mdlc_pc_machine_auto_district_generator
+	triggered_name = { text = xvcv_mdlc_pc_machine_ring_district_raw_resource_name_energy }
+	inline_script = { script = planet/districts/rikk_wm_swap_base }
+}
+xvcv_mdlc_pc_machine_ring_district_food = {
+	# icon = xvcv_mdlc_pc_machine_ring_district_food
+	overlay_icon = GFX_district_food
+	gridbox = GFX_xvcv_mdlc_pc_machine_auto_district_farming
+	triggered_name = { text = xvcv_mdlc_pc_machine_ring_district_raw_resource_name_food }
+	inline_script = { script = planet/districts/rikk_wm_swap_base }
+}
+
+# These are here so players playing an older ringworld aren't destroyed by the update, to be deleted
+xvcv_mdlc_pc_ringworld_machine_auto_district_primary = { potential = { always = no } show_on_uncolonized = { always = no } convert_to = { xvcv_mdlc_pc_machine_ring_district_primary } icon = xvcv_mdlc_pc_machine_ring_district_primary gridbox = GFX_xvcv_mdlc_pc_machine_auto_district_primary }
+xvcv_mdlc_pc_ringworld_machine_auto_district_rnd = { potential = { always = no } show_on_uncolonized = { always = no } convert_to = { xvcv_mdlc_pc_ringworld_machine_auto_district_rnd } icon = xvcv_mdlc_pc_machine_ring_district_primary gridbox = GFX_xvcv_mdlc_pc_machine_auto_district_primary }
+xvcv_mdlc_pc_ringworld_machine_auto_district_industrial = { potential = { always = no } show_on_uncolonized = { always = no } convert_to = { xvcv_mdlc_pc_ringworld_machine_auto_district_industrial } icon = xvcv_mdlc_pc_machine_ring_district_primary gridbox = GFX_xvcv_mdlc_pc_machine_auto_district_primary }
+xvcv_mdlc_pc_ringworld_machine_auto_district_raw_resource = { potential = { always = no } show_on_uncolonized = { always = no } convert_to = { xvcv_mdlc_pc_ringworld_machine_auto_district_raw_resource } icon = xvcv_mdlc_pc_machine_ring_district_primary gridbox = GFX_xvcv_mdlc_pc_machine_auto_district_primary }

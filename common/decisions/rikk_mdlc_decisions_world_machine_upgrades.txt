@@ -1,6 +1,6 @@
 #auto worlds
 #	xvcv_mdlc_pc_machine_auto
-#	xvcv_mdlc_pc_ringworld_machine_auto
+#	xvcv_mdlc_pc_machine_ring
 #	xvcv_mdlc_pc_machine_ecu
 #	xvcv_mdlc_pc_machine_cpu
 #	xvcv_mdlc_pc_machine_ser
@@ -17,9 +17,16 @@ rikk_mdlc_decision_world_machine_solidify_molten = {
 	resources = {
 		category = decisions
 		cost = {
-			energy = 5000
-			rare_crystals = 1000
-			alloys = 500
+			energy = 4000
+			rare_crystals = 800
+			alloys = 400
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_terraform_decisions_cost_mult|
+		}
+		cost = {
+			trigger = { space_owner = { NOT = { has_tradition = rikk_mdlc_tr_geoscaping_2 } } }
+			energy = 1000
+			rare_crystals = 200
+			alloys = 100
 		}
 	}
 
@@ -56,6 +63,7 @@ rikk_mdlc_decision_world_machine_solidify_molten = {
 		hidden_effect = {
 			planet = {
 				add_modifier = { modifier = rikk_mdlc_world_machine_molten_mod }
+				rikk_mdlc_planet_wm_add_terraform_modifiers = yes
 				set_planet_flag = rikk_mdlc_world_machine_suitable
 				# rikk_mdlc_planet_wm_add_random_blockers = { WORLD_TYPE = molten}
 				remove_modifier = rikk_mdlc_decision_world_machine_convert_pc_molten_on_queued_modifier
@@ -77,7 +85,12 @@ rikk_mdlc_decision_world_machine_defrost_cryosphere = {
 	resources = {
 		category = decisions
 		cost = {
-			energy = 15000
+			energy = 12000
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_terraform_decisions_cost_mult|
+		}
+		cost = {
+			trigger = { space_owner = { NOT = { has_tradition = rikk_mdlc_tr_geoscaping_2 } } }
+			energy = 3000
 		}
 	}
 	
@@ -113,6 +126,7 @@ rikk_mdlc_decision_world_machine_defrost_cryosphere = {
 		hidden_effect = {
 			planet = {
 				add_modifier = { modifier = rikk_mdlc_world_machine_frozen_mod }
+				rikk_mdlc_planet_wm_add_terraform_modifiers = yes
 				set_planet_flag = rikk_mdlc_world_machine_suitable
 				remove_modifier = rikk_mdlc_decision_world_machine_convert_pc_frozen_on_queued_modifier
 			}
@@ -133,9 +147,16 @@ rikk_mdlc_decision_world_machine_cleanse_toxic = {
 	resources = {
 		category = decisions
 		cost = {
-			energy = 5000
-			volatile_motes = 750
-			exotic_gases = 750
+			energy = 4000
+			volatile_motes = 600
+			exotic_gases = 600
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_terraform_decisions_cost_mult|
+		}
+		cost = {
+			trigger = { space_owner = { NOT = { has_tradition = rikk_mdlc_tr_geoscaping_2 } } }
+			energy = 1000
+			volatile_motes = 150
+			exotic_gases = 150
 		}
 	}
 	
@@ -172,6 +193,7 @@ rikk_mdlc_decision_world_machine_cleanse_toxic = {
 		hidden_effect = {
 			planet = {
 				add_modifier = { modifier = rikk_mdlc_world_machine_toxic_mod }
+				rikk_mdlc_planet_wm_add_terraform_modifiers = yes
 				set_planet_flag = rikk_mdlc_world_machine_suitable
 				# rikk_mdlc_planet_wm_add_random_blockers = { WORLD_TYPE = toxic}
 			}
@@ -193,8 +215,14 @@ rikk_mdlc_decision_world_machine_harness_nanites = {
 	resources = {
 		category = decisions
 		cost = {
-			energy = 5000
-			nanites = 500
+			energy = 4000
+			nanites = 400
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_terraform_decisions_cost_mult|
+		}
+		cost = {
+			trigger = { space_owner = { NOT = { has_tradition = rikk_mdlc_tr_geoscaping_2 } } }
+			energy = 1000
+			nanites = 100
 		}
 	}
 	
@@ -214,7 +242,7 @@ rikk_mdlc_decision_world_machine_harness_nanites = {
 	allow = {
 		is_terraforming = no
 		has_anomaly = no
-		NOT = { has_modifier = rikk_mdlc_world_machine_nanites_harnessed }
+		NOT = { has_modifier = rikk_mdlc_world_machine_nanite_mod }
 	}
 	on_queued = {
 		planet = {
@@ -263,6 +291,7 @@ rikk_mdlc_decision_world_machine_crust_roots = {
 		category = decisions
 		cost = {
 			minerals = 2000
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_upgrade_decisions_cost_mult|
 		}
 	}
 
@@ -275,7 +304,13 @@ rikk_mdlc_decision_world_machine_crust_roots = {
 		}
 		planet = {
 			rikk_mdlc_is_wm_planet_trigger = yes
-			NOT = { has_deposit = rikk_mdlc_d_world_machine_crust_roots }
+			NOR = {
+				has_deposit = rikk_mdlc_d_world_machine_roots_1
+				has_deposit = rikk_mdlc_d_world_machine_roots_2
+				has_deposit = rikk_mdlc_d_world_machine_roots_3
+				has_deposit = rikk_mdlc_d_world_machine_roots_4
+				has_deposit = rikk_mdlc_d_world_machine_roots_5
+			}
 		}
 	}
 
@@ -284,10 +319,10 @@ rikk_mdlc_decision_world_machine_crust_roots = {
 	
 	effect = {
 		planet = {
-			add_deposit = rikk_mdlc_d_world_machine_crust_roots
+			add_deposit = rikk_mdlc_d_world_machine_roots_1
 			hidden_effect = { 
 				remove_planet_flag = crust_roots_queued
-				planet_event = { id = rikk_mdlc_wm_upgrade_events.200 days = 1 }
+				planet_event = { id = rikk_mdlc_wm_event.200 days = 1 }
 			}
 		}
 	}
@@ -304,6 +339,7 @@ rikk_mdlc_decision_world_machine_synchronization_arrays = {
 		cost = {
 			minerals = 1000
 			alloys = 500
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_upgrade_decisions_cost_mult|
 		}
 	}	
 	potential = {
@@ -312,7 +348,6 @@ rikk_mdlc_decision_world_machine_synchronization_arrays = {
 		planet = {
 			rikk_mdlc_is_wm_industrial_trigger = yes
 		}
-		
 		owner = {
 			oxr_mdlc_planet_owner_can_build_wm_districts = yes
 			has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
@@ -325,9 +360,13 @@ rikk_mdlc_decision_world_machine_synchronization_arrays = {
 	allow = {
 		custom_tooltip = {
 			fail_text = rikk_mdlc_fail_crust_roots_queued
-			OR = {
-				planet = {
-					has_deposit = rikk_mdlc_d_world_machine_crust_roots
+			planet = {
+				OR = { 
+					has_deposit = rikk_mdlc_d_world_machine_roots_1
+					has_deposit = rikk_mdlc_d_world_machine_roots_2
+					has_deposit = rikk_mdlc_d_world_machine_roots_3
+					has_deposit = rikk_mdlc_d_world_machine_roots_4
+					has_deposit = rikk_mdlc_d_world_machine_roots_5
 					has_planet_flag = crust_roots_queued
 				}
 			}
@@ -335,16 +374,23 @@ rikk_mdlc_decision_world_machine_synchronization_arrays = {
 	}
 
 	effect = {
-		custom_tooltip = rikk_mdlc_decision_world_machine_synchronization_arrays_effect
 		planet = { 
 			add_deposit = rikk_mdlc_d_world_machine_synchronization_arrays
 			hidden_effect = {
 				if = {
-					limit = { NOT = { has_deposit = rikk_mdlc_d_world_machine_crust_roots } }
+					limit = {
+						NOR = {
+							has_deposit = rikk_mdlc_d_world_machine_roots_1
+							has_deposit = rikk_mdlc_d_world_machine_roots_2
+							has_deposit = rikk_mdlc_d_world_machine_roots_3
+							has_deposit = rikk_mdlc_d_world_machine_roots_4
+							has_deposit = rikk_mdlc_d_world_machine_roots_5
+						}
+					}
 					remove_deposit = rikk_mdlc_d_world_machine_synchronization_arrays
 					space_owner = { inline_script = country/messages/rikk_mdlc_upgrade_message_failed }
 				}
-				planet_event = { id = rikk_mdlc_wm_upgrade_events.200 days = 1 }
+				planet_event = { id = rikk_mdlc_wm_event.200 days = 1 }
 			}
 		}
 	}
@@ -362,6 +408,7 @@ rikk_mdlc_decision_world_machine_mantle_roots = {
 		cost = {
 			minerals = 2000
 			energy = 2000
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_upgrade_decisions_cost_mult|
 		}
 	}	
 	potential = {
@@ -373,7 +420,12 @@ rikk_mdlc_decision_world_machine_mantle_roots = {
 		}
 		planet = {
 			rikk_mdlc_is_wm_planet_trigger = yes
-			NOT = { has_deposit = rikk_mdlc_d_world_machine_mantle_roots }
+			NOR = {
+				has_deposit = rikk_mdlc_d_world_machine_roots_2
+				has_deposit = rikk_mdlc_d_world_machine_roots_3
+				has_deposit = rikk_mdlc_d_world_machine_roots_4
+				has_deposit = rikk_mdlc_d_world_machine_roots_5
+			}
 		}
 		
 	}
@@ -383,7 +435,11 @@ rikk_mdlc_decision_world_machine_mantle_roots = {
 			fail_text = rikk_mdlc_fail_crust_roots_queued
 			planet = {
 				OR = { 
-					has_deposit = rikk_mdlc_d_world_machine_crust_roots
+					has_deposit = rikk_mdlc_d_world_machine_roots_1
+					has_deposit = rikk_mdlc_d_world_machine_roots_2
+					has_deposit = rikk_mdlc_d_world_machine_roots_3
+					has_deposit = rikk_mdlc_d_world_machine_roots_4
+					has_deposit = rikk_mdlc_d_world_machine_roots_5
 					has_planet_flag = crust_roots_queued
 				}
 			}
@@ -404,16 +460,18 @@ rikk_mdlc_decision_world_machine_mantle_roots = {
 	
 	effect = {
 		planet = {
-			add_deposit = rikk_mdlc_d_world_machine_mantle_roots
+			add_deposit = rikk_mdlc_d_world_machine_roots_2
 			hidden_effect = {
 				remove_planet_flag = mantle_roots_queued
 				if = {
-					limit = { NOT = { has_deposit = rikk_mdlc_d_world_machine_crust_roots } }
-					remove_deposit = rikk_mdlc_d_world_machine_mantle_roots
+					limit = { NOT = { has_deposit = rikk_mdlc_d_world_machine_roots_1 } }
+					remove_deposit = rikk_mdlc_d_world_machine_roots_2
+					add_deposit = rikk_mdlc_d_world_machine_roots_1
 					space_owner = { inline_script = country/messages/rikk_mdlc_upgrade_message_failed }
 				}
-				planet_event = { id = rikk_mdlc_wm_upgrade_events.200 days = 1 }
+				planet_event = { id = rikk_mdlc_wm_event.200 days = 1 }
 			}
+			remove_deposit = rikk_mdlc_d_world_machine_roots_1
 		}
 	}
 }
@@ -428,6 +486,7 @@ rikk_mdlc_decision_world_machine_mantle_engine = {
 		category = decisions
 		cost = {
 			alloys = 1000
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_upgrade_decisions_cost_mult|
 		}
 	}	
 	potential = {
@@ -444,7 +503,10 @@ rikk_mdlc_decision_world_machine_mantle_engine = {
 		planet = {
 			NOT = { has_deposit = rikk_mdlc_d_world_machine_mantle_engine }
 			OR = { 
-				has_deposit = rikk_mdlc_d_world_machine_mantle_roots
+				has_deposit = rikk_mdlc_d_world_machine_roots_2
+				has_deposit = rikk_mdlc_d_world_machine_roots_3
+				has_deposit = rikk_mdlc_d_world_machine_roots_4
+				has_deposit = rikk_mdlc_d_world_machine_roots_5
 				has_planet_flag = mantle_roots_queued
 			}
 		}
@@ -455,7 +517,10 @@ rikk_mdlc_decision_world_machine_mantle_engine = {
 			fail_text = rikk_mdlc_fail_mantle_roots_queued
 			planet = {
 				OR = { 
-					has_deposit = rikk_mdlc_d_world_machine_mantle_roots
+					has_deposit = rikk_mdlc_d_world_machine_roots_2
+					has_deposit = rikk_mdlc_d_world_machine_roots_3
+					has_deposit = rikk_mdlc_d_world_machine_roots_4
+					has_deposit = rikk_mdlc_d_world_machine_roots_5
 					has_planet_flag = mantle_roots_queued
 				}
 			}
@@ -472,11 +537,18 @@ rikk_mdlc_decision_world_machine_mantle_engine = {
 			hidden_effect = {
 				remove_planet_flag = mantle_engine_queued
 				if = {
-					limit = { NOT = { has_deposit = rikk_mdlc_d_world_machine_mantle_roots } }
+					limit = {
+						NOR = {
+							has_deposit = rikk_mdlc_d_world_machine_roots_2
+							has_deposit = rikk_mdlc_d_world_machine_roots_3
+							has_deposit = rikk_mdlc_d_world_machine_roots_4
+							has_deposit = rikk_mdlc_d_world_machine_roots_5
+						}
+					}
 					remove_deposit = rikk_mdlc_d_world_machine_mantle_engine
 					space_owner = { inline_script = country/messages/rikk_mdlc_upgrade_message_failed }
 				}
-				planet_event = { id = rikk_mdlc_wm_upgrade_events.200 days = 1 }
+				planet_event = { id = rikk_mdlc_wm_event.200 days = 1 }
 			}
 		}
 	}
@@ -490,8 +562,8 @@ rikk_mdlc_decision_world_machine_reinforced_planet = {
 	resources = {
 		category = decisions
 		cost = {
-			minerals = 750
-			mult = value:count_world_machines_districts_not_cooling
+			minerals = 5000
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_upgrade_decisions_cost_mult|
 		}
 	}
 	
@@ -528,14 +600,14 @@ rikk_mdlc_decision_world_machine_reinforced_planet = {
 	
 	effect = {
 		planet = {
-			custom_tooltip = rikk_mdlc_decision_world_machine_reinforced_planet_effect
+		custom_tooltip = rikk_mdlc_decision_world_machine_reinforced_planet_effect
 			hidden_effect = {
 				if = {
 					limit = { has_deposit = rikk_mdlc_d_world_machine_mantle_engine }
 					set_planet_flag = rikk_mdlc_planet_reinforced
 				}
-				else = { space_owner = { inline_script = country/messages/rikk_mdlc_upgrade_message_failed } 
-				planet_event = { id = rikk_mdlc_wm_upgrade_events.200 days = 1 }
+				else = { space_owner = { inline_script = country/messages/rikk_mdlc_upgrade_message_failed } }
+				planet_event = { id = rikk_mdlc_wm_event.200 days = 1 }
 			}
 		}
 	}
@@ -550,6 +622,7 @@ rikk_mdlc_decision_world_machine_mantle_transport_network = {
 		category = decisions
 		cost = {
 			minerals = 2000
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_upgrade_decisions_cost_mult|
 		}
 	}
 	
@@ -567,7 +640,10 @@ rikk_mdlc_decision_world_machine_mantle_transport_network = {
 			rikk_mdlc_is_wm_industrial_trigger = yes
 			is_planet_class = xvcv_mdlc_pc_machine_ecu
 			OR = { 
-				has_deposit = rikk_mdlc_d_world_machine_mantle_roots
+				has_deposit = rikk_mdlc_d_world_machine_roots_2
+				has_deposit = rikk_mdlc_d_world_machine_roots_3
+				has_deposit = rikk_mdlc_d_world_machine_roots_4
+				has_deposit = rikk_mdlc_d_world_machine_roots_5
 				has_planet_flag = mantle_roots_queued
 			}
 		}
@@ -578,7 +654,10 @@ rikk_mdlc_decision_world_machine_mantle_transport_network = {
 			fail_text = rikk_mdlc_fail_mantle_roots_queued
 			planet = {
 				OR = { 
-					has_deposit = rikk_mdlc_d_world_machine_mantle_roots
+					has_deposit = rikk_mdlc_d_world_machine_roots_2
+					has_deposit = rikk_mdlc_d_world_machine_roots_3
+					has_deposit = rikk_mdlc_d_world_machine_roots_4
+					has_deposit = rikk_mdlc_d_world_machine_roots_5
 					has_planet_flag = mantle_roots_queued
 				}
 			}
@@ -591,11 +670,18 @@ rikk_mdlc_decision_world_machine_mantle_transport_network = {
 			add_deposit = rikk_mdlc_d_world_machine_mantle_transport_network
 			hidden_effect = {
 				if = {
-					limit = { NOT = { has_deposit = rikk_mdlc_d_world_machine_mantle_roots } }
+					limit = {
+						NOR = {
+							has_deposit = rikk_mdlc_d_world_machine_roots_2
+							has_deposit = rikk_mdlc_d_world_machine_roots_3
+							has_deposit = rikk_mdlc_d_world_machine_roots_4
+							has_deposit = rikk_mdlc_d_world_machine_roots_5
+						}
+					}
 					remove_deposit = rikk_mdlc_d_world_machine_mantle_transport_network
 					space_owner = { inline_script = country/messages/rikk_mdlc_upgrade_message_failed }
 				}
-				planet_event = { id = rikk_mdlc_wm_upgrade_events.200 days = 1 }
+				planet_event = { id = rikk_mdlc_wm_event.200 days = 1 }
 			}
 		}
 	}
@@ -610,6 +696,7 @@ rikk_mdlc_decision_world_machine_mantle_buses = {
 		category = decisions
 		cost = {
 			minerals = 2000
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_upgrade_decisions_cost_mult|
 		}
 	}
 	
@@ -626,7 +713,10 @@ rikk_mdlc_decision_world_machine_mantle_buses = {
 			NOT = { has_deposit = rikk_mdlc_d_world_machine_mantle_buses }
 			rikk_mdlc_is_wm_computer_trigger = yes
 			OR = { 
-				has_deposit = rikk_mdlc_d_world_machine_mantle_roots
+				has_deposit = rikk_mdlc_d_world_machine_roots_2
+				has_deposit = rikk_mdlc_d_world_machine_roots_3
+				has_deposit = rikk_mdlc_d_world_machine_roots_4
+				has_deposit = rikk_mdlc_d_world_machine_roots_5
 				has_planet_flag = mantle_roots_queued
 			}
 		}
@@ -637,7 +727,10 @@ rikk_mdlc_decision_world_machine_mantle_buses = {
 			fail_text = rikk_mdlc_fail_mantle_roots_queued
 			planet = {
 				OR = { 
-					has_deposit = rikk_mdlc_d_world_machine_mantle_roots
+					has_deposit = rikk_mdlc_d_world_machine_roots_2
+					has_deposit = rikk_mdlc_d_world_machine_roots_3
+					has_deposit = rikk_mdlc_d_world_machine_roots_4
+					has_deposit = rikk_mdlc_d_world_machine_roots_5
 					has_planet_flag = mantle_roots_queued
 				}
 			}
@@ -650,11 +743,18 @@ rikk_mdlc_decision_world_machine_mantle_buses = {
 			add_deposit = rikk_mdlc_d_world_machine_mantle_buses
 			hidden_effect = {
 				if = {
-					limit = { NOT = { has_deposit = rikk_mdlc_d_world_machine_mantle_roots } }
+					limit = {
+						NOR = {
+							has_deposit = rikk_mdlc_d_world_machine_roots_2
+							has_deposit = rikk_mdlc_d_world_machine_roots_3
+							has_deposit = rikk_mdlc_d_world_machine_roots_4
+							has_deposit = rikk_mdlc_d_world_machine_roots_5
+						}
+					}
 					remove_deposit = rikk_mdlc_d_world_machine_mantle_buses
 					space_owner = { inline_script = country/messages/rikk_mdlc_upgrade_message_failed }
 				}
-				planet_event = { id = rikk_mdlc_wm_upgrade_events.200 days = 1 }
+				planet_event = { id = rikk_mdlc_wm_event.200 days = 1 }
 			}
 		}
 	}
@@ -671,6 +771,7 @@ rikk_mdlc_decision_world_machine_outer_core_roots = {
 		cost = {
 			minerals = 5000
 			energy = 5000
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_upgrade_decisions_cost_mult|
 		}
 	}	
 	potential = {
@@ -683,9 +784,13 @@ rikk_mdlc_decision_world_machine_outer_core_roots = {
 			has_technology = oxr_mdlc_tech_geologic_world_expansion_theory
 		}
 		planet = {
-			NOT = { has_deposit = rikk_mdlc_d_world_machine_outer_core_roots }
+			NOR = {
+				has_deposit = rikk_mdlc_d_world_machine_roots_3
+				has_deposit = rikk_mdlc_d_world_machine_roots_4
+				has_deposit = rikk_mdlc_d_world_machine_roots_5
+			}
 			OR = { 
-				has_deposit = rikk_mdlc_d_world_machine_mantle_roots
+				has_deposit = rikk_mdlc_d_world_machine_roots_2
 				has_planet_flag = mantle_roots_queued
 			}
 		}
@@ -695,8 +800,10 @@ rikk_mdlc_decision_world_machine_outer_core_roots = {
 		custom_tooltip = {
 			fail_text = rikk_mdlc_fail_mantle_roots_queued
 			planet = {
-				OR = { 
-					has_deposit = rikk_mdlc_d_world_machine_mantle_roots
+				OR = {
+					has_deposit = rikk_mdlc_d_world_machine_roots_3
+					has_deposit = rikk_mdlc_d_world_machine_roots_4
+					has_deposit = rikk_mdlc_d_world_machine_roots_5
 					has_planet_flag = mantle_roots_queued
 				}
 			}
@@ -717,16 +824,19 @@ rikk_mdlc_decision_world_machine_outer_core_roots = {
 	
 	effect = {
 		planet = {
-			add_deposit = rikk_mdlc_d_world_machine_outer_core_roots
+			add_deposit = rikk_mdlc_d_world_machine_roots_3
 			hidden_effect = {
 				remove_planet_flag = outer_core_roots_queued
 				if = {
-					limit = { NOT = { has_deposit = rikk_mdlc_d_world_machine_mantle_roots } }
-					remove_deposit = rikk_mdlc_d_world_machine_outer_core_roots
+					limit = { NOT = { has_deposit = rikk_mdlc_d_world_machine_roots_2 } }
+					remove_deposit = rikk_mdlc_d_world_machine_roots_3
+					add_deposit = rikk_mdlc_d_world_machine_roots_2
 					space_owner = { inline_script = country/messages/rikk_mdlc_upgrade_message_failed }
 				}
-				planet_event = { id = rikk_mdlc_wm_upgrade_events.200 days = 1 }
+				planet_event = { id = rikk_mdlc_wm_event.200 days = 1 }
+				remove_deposit = rikk_mdlc_d_world_machine_roots_1
 			}
+			remove_deposit = rikk_mdlc_d_world_machine_roots_2
 		}
 	}
 }
@@ -740,6 +850,7 @@ rikk_mdlc_decision_world_machine_outer_core_tap = {
 		category = decisions
 		cost = {
 			alloys = 2000
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_upgrade_decisions_cost_mult|
 		}
 	}	
 	potential = {
@@ -753,7 +864,9 @@ rikk_mdlc_decision_world_machine_outer_core_tap = {
 		planet = {
 			NOT = { has_deposit = rikk_mdlc_d_world_machine_outer_core_tap }
 			OR = { 
-				has_deposit = rikk_mdlc_d_world_machine_outer_core_roots
+				has_deposit = rikk_mdlc_d_world_machine_roots_3
+				has_deposit = rikk_mdlc_d_world_machine_roots_4
+				has_deposit = rikk_mdlc_d_world_machine_roots_5
 				has_planet_flag = outer_core_roots_queued
 			}
 		}
@@ -764,7 +877,9 @@ rikk_mdlc_decision_world_machine_outer_core_tap = {
 			fail_text = rikk_mdlc_fail_outer_core_roots_queued
 			planet = {
 				OR = { 
-					has_deposit = rikk_mdlc_d_world_machine_outer_core_roots
+					has_deposit = rikk_mdlc_d_world_machine_roots_3
+					has_deposit = rikk_mdlc_d_world_machine_roots_4
+					has_deposit = rikk_mdlc_d_world_machine_roots_5
 					has_planet_flag = outer_core_roots_queued
 				}
 			}
@@ -777,11 +892,17 @@ rikk_mdlc_decision_world_machine_outer_core_tap = {
 			add_deposit = rikk_mdlc_d_world_machine_outer_core_tap
 			hidden_effect = {
 				if = {
-					limit = { NOT = { has_deposit = rikk_mdlc_d_world_machine_outer_core_roots } }
+					limit = {
+						NOR = {
+							has_deposit = rikk_mdlc_d_world_machine_roots_3
+							has_deposit = rikk_mdlc_d_world_machine_roots_4
+							has_deposit = rikk_mdlc_d_world_machine_roots_5
+						}
+					}
 					remove_deposit = rikk_mdlc_d_world_machine_outer_core_tap
 					space_owner = { inline_script = country/messages/rikk_mdlc_upgrade_message_failed }
 				}
-				planet_event = { id = rikk_mdlc_wm_upgrade_events.200 days = 1 }
+				planet_event = { id = rikk_mdlc_wm_event.200 days = 1 }
 			}
 		}
 	}
@@ -796,6 +917,7 @@ rikk_mdlc_decision_world_machine_outer_core_cooling = {
 		category = decisions
 		cost = {
 			alloys = 2000
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_upgrade_decisions_cost_mult|
 		}
 	}	
 	potential = {
@@ -809,49 +931,48 @@ rikk_mdlc_decision_world_machine_outer_core_cooling = {
 		planet = {
 			NOT = { has_deposit = rikk_mdlc_d_world_machine_outer_core_cooled }
 			NOT = { has_modifier = rikk_mdlc_world_machine_outer_core_cooling_mod }
-			NOT = { has_planet_flag = rikk_mdlc_wm_upgrade_outer_core_cooling_queued_flag }
 			OR = { 
-				has_deposit = rikk_mdlc_d_world_machine_outer_core_roots
+				has_deposit = rikk_mdlc_d_world_machine_roots_3
+				has_deposit = rikk_mdlc_d_world_machine_roots_4
+				has_deposit = rikk_mdlc_d_world_machine_roots_5
 				has_planet_flag = outer_core_roots_queued
 			}
 		}
 	}
-
+	
 	allow = {
 		custom_tooltip = {
 			fail_text = rikk_mdlc_fail_outer_core_roots_queued
 			planet = {
 				OR = {
-					has_deposit = rikk_mdlc_d_world_machine_outer_core_roots
+					has_deposit = rikk_mdlc_d_world_machine_roots_3
+					has_deposit = rikk_mdlc_d_world_machine_roots_4
+					has_deposit = rikk_mdlc_d_world_machine_roots_5
 					has_planet_flag = outer_core_roots_queued
 				}
 			}
 		}
 		owner = { has_technology = oxr_mdlc_tech_geologic_scaling_thermoelectrics }
 	}
-
-	on_queued = { planet = { set_planet_flag = rikk_mdlc_wm_upgrade_outer_core_cooling_queued_flag } }
-	on_unqueued = { planet = { remove_planet_flag = rikk_mdlc_wm_upgrade_outer_core_cooling_queued_flag } }
-
+	
 	effect = {
 		planet = {
 			custom_tooltip = rikk_mdlc_decision_world_machine_outer_core_cooling_effect
-
-			remove_planet_flag = rikk_mdlc_wm_upgrade_outer_core_cooling_queued_flag
 			add_modifier = { modifier = rikk_mdlc_world_machine_outer_core_cooling_mod days = @wmupgradelength4 }
-			
 			hidden_effect = {
-				# If rikk_mdlc_d_world_machine_outer_core_roots isn't present, fail the decision
 				if = {
-					limit = { NOT = { has_deposit = rikk_mdlc_d_world_machine_outer_core_roots } }
+					limit = {
+						NOR = {
+							has_deposit = rikk_mdlc_d_world_machine_roots_3
+							has_deposit = rikk_mdlc_d_world_machine_roots_4
+							has_deposit = rikk_mdlc_d_world_machine_roots_5
+						}
+					}
 					remove_modifier = rikk_mdlc_world_machine_outer_core_cooling_mod
 					space_owner = { inline_script = country/messages/rikk_mdlc_upgrade_message_failed }
 				}
-				else = {
-					# Add the deposit after 3600 days (10 yrs)
-					planet_event = { id = rikk_mdlc_wm_upgrade_events.110 days = @wmupgradelength4 }
-				}
-				planet_event = { id = rikk_mdlc_wm_upgrade_events.200 days = 1 }
+				else = { planet_event = { id = rikk_mdlc_wm_event.110 days = @wmupgradelength4 } }
+				planet_event = { id = rikk_mdlc_wm_event.200 days = @[ wmupgradelength4 + 2 ] }
 			}
 		}
 		else = {
@@ -873,6 +994,7 @@ rikk_mdlc_decision_world_machine_inner_core_roots = {
 		cost = {
 			minerals = 5000
 			energy = 10000
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_upgrade_decisions_cost_mult|
 		}
 	}	
 	potential = {
@@ -884,9 +1006,12 @@ rikk_mdlc_decision_world_machine_inner_core_roots = {
 		}
 		planet = {
 			rikk_mdlc_is_wm_planet_trigger = yes
-			NOT = { has_deposit = rikk_mdlc_d_world_machine_inner_core_roots }
+			NOR = {
+				has_deposit = rikk_mdlc_d_world_machine_roots_4
+				has_deposit = rikk_mdlc_d_world_machine_roots_5
+			}
 			OR = { 
-				has_deposit = rikk_mdlc_d_world_machine_outer_core_roots
+				has_deposit = rikk_mdlc_d_world_machine_roots_3
 				has_planet_flag = outer_core_roots_queued
 			}
 		}
@@ -897,7 +1022,9 @@ rikk_mdlc_decision_world_machine_inner_core_roots = {
 			fail_text = rikk_mdlc_fail_outer_core_roots_queued
 			planet = {
 				OR = { 
-					has_deposit = rikk_mdlc_d_world_machine_outer_core_roots
+					has_deposit = rikk_mdlc_d_world_machine_roots_3
+					has_deposit = rikk_mdlc_d_world_machine_roots_4
+					has_deposit = rikk_mdlc_d_world_machine_roots_5
 					has_planet_flag = outer_core_roots_queued
 				}
 			}
@@ -916,16 +1043,26 @@ rikk_mdlc_decision_world_machine_inner_core_roots = {
 	
 	effect = {
 		planet = {
-			add_deposit = rikk_mdlc_d_world_machine_inner_core_roots
+			add_deposit = rikk_mdlc_d_world_machine_roots_4
 			hidden_effect = {
 				remove_planet_flag = inner_core_roots_queued
 				if = {
-					limit = { NOT = { has_deposit = rikk_mdlc_d_world_machine_outer_core_roots } }
-					remove_deposit = rikk_mdlc_d_world_machine_inner_core_roots
+					limit = {
+						NOR = {
+							has_deposit = rikk_mdlc_d_world_machine_roots_3
+							has_deposit = rikk_mdlc_d_world_machine_roots_4
+							has_deposit = rikk_mdlc_d_world_machine_roots_5
+						}
+					}
+					remove_deposit = rikk_mdlc_d_world_machine_roots_4
+					add_deposit = rikk_mdlc_d_world_machine_roots_3
 					space_owner = { inline_script = country/messages/rikk_mdlc_upgrade_message_failed }
 				}
-				planet_event = { id = rikk_mdlc_wm_upgrade_events.200 days = 1 }
+				planet_event = { id = rikk_mdlc_wm_event.200 days = 1 }
+				remove_deposit = rikk_mdlc_d_world_machine_roots_2
+				remove_deposit = rikk_mdlc_d_world_machine_roots_1
 			}
+			remove_deposit = rikk_mdlc_d_world_machine_roots_3
 		}
 	}
 }
@@ -939,6 +1076,7 @@ rikk_mdlc_decision_world_machine_inner_core_tap = {
 		category = decisions
 		cost = {
 			alloys = 5000
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_upgrade_decisions_cost_mult|
 		}
 	}
 	
@@ -957,7 +1095,8 @@ rikk_mdlc_decision_world_machine_inner_core_tap = {
 				has_planet_flag = rikk_mdlc_situation_core_core_active
 			}
 			OR = {
-				has_deposit = rikk_mdlc_d_world_machine_inner_core_roots
+				has_deposit = rikk_mdlc_d_world_machine_roots_4
+				has_deposit = rikk_mdlc_d_world_machine_roots_5
 				has_planet_flag = inner_core_roots_queued
 			}
 		}
@@ -968,7 +1107,8 @@ rikk_mdlc_decision_world_machine_inner_core_tap = {
 			fail_text = rikk_mdlc_fail_outer_core_roots_queued
 			planet = {
 				OR = {
-					has_deposit = rikk_mdlc_d_world_machine_inner_core_roots
+					has_deposit = rikk_mdlc_d_world_machine_roots_4
+					has_deposit = rikk_mdlc_d_world_machine_roots_5
 					has_planet_flag = inner_core_roots_queued
 				}
 			}
@@ -988,11 +1128,16 @@ rikk_mdlc_decision_world_machine_inner_core_tap = {
 			hidden_effect = {
 				remove_planet_flag = inner_core_tap_queued
 				if = {
-					limit = { NOT = { has_deposit = rikk_mdlc_d_world_machine_inner_core_roots } }
+					limit = {
+						NOR = {
+							has_deposit = rikk_mdlc_d_world_machine_roots_4
+							has_deposit = rikk_mdlc_d_world_machine_roots_5
+						}
+					}
 					remove_deposit = rikk_mdlc_d_world_machine_inner_core_tap
 					space_owner = { inline_script = country/messages/rikk_mdlc_upgrade_message_failed }
 				}
-				planet_event = { id = rikk_mdlc_wm_upgrade_events.200 days = 1 }
+				planet_event = { id = rikk_mdlc_wm_event.200 days = 1 }
 			}
 		}
 	}
@@ -1009,6 +1154,7 @@ rikk_mdlc_decision_world_machine_core_core = {
 		cost = {
 			alloys = 7500
 			unity = 7500
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_upgrade_decisions_cost_mult|
 		}
 	}
 	potential = {
@@ -1025,7 +1171,8 @@ rikk_mdlc_decision_world_machine_core_core = {
 				has_planet_flag = rikk_mdlc_situation_core_core_active
 			}
 			OR = { 
-				has_deposit = rikk_mdlc_d_world_machine_inner_core_roots
+				has_deposit = rikk_mdlc_d_world_machine_roots_4
+				has_deposit = rikk_mdlc_d_world_machine_roots_5
 				has_planet_flag = inner_core_roots_queued
 			}
 		}
@@ -1036,7 +1183,8 @@ rikk_mdlc_decision_world_machine_core_core = {
 			fail_text = rikk_mdlc_fail_inner_core_roots_queued
 			planet = {
 				OR = { 
-					has_deposit = rikk_mdlc_d_world_machine_inner_core_roots
+					has_deposit = rikk_mdlc_d_world_machine_roots_4
+					has_deposit = rikk_mdlc_d_world_machine_roots_5
 					has_planet_flag = inner_core_roots_queued
 				}
 			}
@@ -1056,21 +1204,104 @@ rikk_mdlc_decision_world_machine_core_core = {
 			hidden_effect = {
 				remove_planet_flag = core_core_queued
 				if = {
-					limit = { NOT = { has_deposit = rikk_mdlc_d_world_machine_inner_core_roots } }
+					limit = {
+						NOR = {
+							has_deposit = rikk_mdlc_d_world_machine_roots_4
+							has_deposit = rikk_mdlc_d_world_machine_roots_5
+						}
+					}
 					space_owner = { inline_script = country/messages/rikk_mdlc_upgrade_message_failed }
 				}
 				else = {
 					set_planet_flag = rikk_mdlc_situation_core_core_active
-					save_global_event_target_as = rikk_mdlc_wm_core_geological_upgrade_planet@root
+					save_global_event_target_as = rikk_mdlc_wm_core_geological_upgrade_planet
 					space_owner = {
 						start_situation = {
 							type = rikk_mdlc_situation_core_core
-							target = event_target:rikk_mdlc_wm_core_geological_upgrade_planet@root
+							target = event_target:rikk_mdlc_wm_core_geological_upgrade_planet
 						}
 					}
 				}
-				planet_event = { id = rikk_mdlc_wm_upgrade_events.200 days = 1 }
+				planet_event = { id = rikk_mdlc_wm_event.200 days = 1 }
 			}
 		}
+	}
+}
+
+# Structured World
+rikk_mdlc_decision_world_machine_structured_world = {
+	owned_planets_only = yes
+	enactment_time = @wmupgradelength3
+	icon = oxr_mdlc_decisions_origin_wm_expand_planet
+	
+	resources = {
+		category = decisions
+		cost = {
+			alloys = 7500
+			unity = 7500
+			mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_upgrade_decisions_cost_mult|
+		}
+	}	
+	potential = {
+		exists = owner
+		exists = planet
+		owner = {
+			oxr_mdlc_planet_owner_can_build_wm_districts = yes
+			has_tradition = rikk_mdlc_tr_geoscaping_5
+		}
+		planet = {
+			rikk_mdlc_is_wm_planet_trigger = yes
+			NOT = { has_deposit = rikk_mdlc_d_world_machine_roots_5 }
+			OR = { 
+				has_deposit = rikk_mdlc_d_world_machine_roots_4
+				has_planet_flag = inner_core_roots_queued
+			}
+		}
+	}
+	
+	allow = {
+		custom_tooltip = {
+			fail_text = rikk_mdlc_fail_inner_core_roots_queued
+			planet = {
+				OR = { 
+					has_deposit = rikk_mdlc_d_world_machine_roots_4
+					has_planet_flag = inner_core_roots_queued
+				}
+			}
+		}
+	}
+	
+	effect = {
+		planet = {
+			add_deposit = rikk_mdlc_d_world_machine_roots_5
+			hidden_effect = {
+				remove_planet_flag = inner_core_roots_queued
+				if = {
+					limit = { NOT = { has_deposit = rikk_mdlc_d_world_machine_roots_4 } }
+					remove_deposit = rikk_mdlc_d_world_machine_roots_5
+					add_deposit = rikk_mdlc_d_world_machine_roots_4
+					space_owner = { inline_script = country/messages/rikk_mdlc_upgrade_message_failed }
+				}
+				planet_event = { id = rikk_mdlc_wm_event.200 days = 1 }
+				remove_deposit = rikk_mdlc_d_world_machine_roots_3
+				remove_deposit = rikk_mdlc_d_world_machine_roots_2
+				remove_deposit = rikk_mdlc_d_world_machine_roots_1
+			}
+			remove_deposit = rikk_mdlc_d_world_machine_roots_4
+		}
+	}
+}
+
+rikk_mdlc_decision_convert_broken_ring = {
+	icon = oxr_mdlc_decisions_origin_wm_expand_planet
+	owned_planets_only = no
+	
+	potential = {
+		exists = space_owner
+		planet = { is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto }
+	}
+	
+	effect = {
+		hidden_effect = { planet = { rikk_mdlc_swap_ringworld_effect = yes } }
 	}
 }

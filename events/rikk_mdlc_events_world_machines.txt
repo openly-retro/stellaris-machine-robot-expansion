@@ -1,10 +1,10 @@
-namespace = rikk_mdlc_wm_upgrade_events
+namespace = rikk_mdlc_wm_event
 
 #Installing World Core Events
 situation_event = {
-	id = rikk_mdlc_wm_upgrade_events.20
-	title = rikk_mdlc_wm_upgrade_events.20.name
-	desc = rikk_mdlc_wm_upgrade_events.20.desc
+	id = rikk_mdlc_wm_event.20
+	title = rikk_mdlc_wm_event.20.name
+	desc = rikk_mdlc_wm_event.20.desc
 	picture = GFX_evt_sapient_AI
 	show_sound = event_scanner
 	is_triggered_only = yes
@@ -14,7 +14,7 @@ situation_event = {
 	immediate = { target = { set_variable = { which = rikk_mdlc_magnetic_field_var value = 1 } } }
 	
 	option = {
-		name = rikk_mdlc_wm_upgrade_events.20.a
+		name = rikk_mdlc_wm_event.20.a
 		target = { 
 			# add_modifier = { modifier = weak_magnetic_field mult = rikk_mdlc_magnetic_field_var }
 			if = {
@@ -25,7 +25,7 @@ situation_event = {
 	}
 	
 	option = {
-		name = rikk_mdlc_wm_upgrade_events.20.b
+		name = rikk_mdlc_wm_event.20.b
 		hidden_effect = { owner = { set_country_flag = rikk_mdlc_core_core_shaddup } }
 		target = {
 			# add_modifier = { modifier = weak_magnetic_field mult = rikk_mdlc_magnetic_field_var }
@@ -38,7 +38,7 @@ situation_event = {
 }
 
 planet_event = {
-	id = rikk_mdlc_wm_upgrade_events.21
+	id = rikk_mdlc_wm_event.21
 	hide_window = yes
 	is_triggered_only = yes
 
@@ -56,7 +56,7 @@ planet_event = {
 }
 
 planet_event = {
-	id = rikk_mdlc_wm_upgrade_events.22
+	id = rikk_mdlc_wm_event.22
 	hide_window = yes
 	is_triggered_only = yes
 
@@ -69,7 +69,7 @@ planet_event = {
 }
 
 situation_event = {
-	id = rikk_mdlc_wm_upgrade_events.23
+	id = rikk_mdlc_wm_event.23
 	hide_window = yes
 	is_triggered_only = yes
 
@@ -89,9 +89,9 @@ situation_event = {
 }
 
 situation_event = {
-	id = rikk_mdlc_wm_upgrade_events.30
-	title = rikk_mdlc_wm_upgrade_events.30.name
-	desc = rikk_mdlc_wm_upgrade_events.30.desc
+	id = rikk_mdlc_wm_event.30
+	title = rikk_mdlc_wm_event.30.name
+	desc = rikk_mdlc_wm_event.30.desc
 	picture = GFX_evt_sapient_AI
 	show_sound = event_scanner
 	is_triggered_only = yes
@@ -99,19 +99,19 @@ situation_event = {
 	trigger = { NOT = { owner = { has_country_flag = rikk_mdlc_core_core_shaddup } } }
 	
 	option = {
-		name = rikk_mdlc_wm_upgrade_events.30.a
+		name = rikk_mdlc_wm_event.30.a
 	}
 	
 	option = {
-		name = rikk_mdlc_wm_upgrade_events.30.b
+		name = rikk_mdlc_wm_event.30.b
 		hidden_effect = { owner = { set_country_flag = rikk_mdlc_core_core_shaddup } }
 	}
 }
 
 situation_event = {
-	id = rikk_mdlc_wm_upgrade_events.40
-	title = rikk_mdlc_wm_upgrade_events.40.name
-	desc = rikk_mdlc_wm_upgrade_events.40.desc
+	id = rikk_mdlc_wm_event.40
+	title = rikk_mdlc_wm_event.40.name
+	desc = rikk_mdlc_wm_event.40.desc
 	picture = GFX_evt_sapient_AI
 	show_sound = event_scanner
 	is_triggered_only = yes
@@ -119,20 +119,98 @@ situation_event = {
 	trigger = { NOT = { owner = { has_country_flag = rikk_mdlc_core_core_shaddup } } }
 	
 	option = {
-		name = rikk_mdlc_wm_upgrade_events.40.a
+		name = rikk_mdlc_wm_event.40.a
 		target = { remove_modifier = weak_magnetic_field }
 	}
 	
 	option = {
-		name = rikk_mdlc_wm_upgrade_events.40.b
+		name = rikk_mdlc_wm_event.40.b
 		target = { remove_modifier = weak_magnetic_field }
 		hidden_effect = { owner = { set_country_flag = rikk_mdlc_core_core_shaddup } }
 	}
 }
 
+# world machine events
+#force transfer ringworld types/update deposits/add new SR deposit
+event = {
+	id = rikk_mdlc_wm_event.50
+	is_triggered_only = yes
+	hide_window = yes
+	immediate = {
+		every_country = {
+			limit = { any_owned_planet = { is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto } }
+			every_owned_planet = {
+				limit = { is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto }
+				rikk_mdlc_swap_ringworld_effect = yes
+				if = { 
+					limit = { NOT = { owner = { has_country_flag = rikk_mdlc_ringworld_converted } } }
+					owner = { country_event = { id = rikk_mdlc_wm_event.55 } }
+				}
+			}
+			remove_country_flag = rikk_mdlc_ringworld_converted
+		}
+		every_country = {
+			limit = { any_owned_planet = { rikk_mdlc_is_wm_planet_trigger = yes } }
+			every_owned_planet = {
+				limit = { has_deposit = rikk_mdlc_d_world_machine_crust_roots }
+				if = { #could be written better but this is a one-off event
+					limit = { has_deposit = rikk_mdlc_d_world_machine_inner_core_roots }
+					remove_deposit = rikk_mdlc_d_world_machine_inner_core_roots
+					remove_deposit = rikk_mdlc_d_world_machine_outer_core_roots
+					remove_deposit = rikk_mdlc_d_world_machine_mantle_roots
+					remove_deposit = rikk_mdlc_d_world_machine_crust_roots
+					add_deposit = rikk_mdlc_d_world_machine_roots_4
+				}
+				else_if = {
+					limit = { has_deposit = rikk_mdlc_d_world_machine_outer_core_roots }
+					remove_deposit = rikk_mdlc_d_world_machine_outer_core_roots
+					remove_deposit = rikk_mdlc_d_world_machine_mantle_roots
+					remove_deposit = rikk_mdlc_d_world_machine_crust_roots
+					add_deposit = rikk_mdlc_d_world_machine_roots_3
+				}
+				else_if = {
+					limit = { has_deposit = rikk_mdlc_d_world_machine_mantle_roots }
+					remove_deposit = rikk_mdlc_d_world_machine_mantle_roots
+					remove_deposit = rikk_mdlc_d_world_machine_crust_roots
+					add_deposit = rikk_mdlc_d_world_machine_roots_2
+				}
+				else_if = {
+					limit = { has_deposit = rikk_mdlc_d_world_machine_crust_roots }
+					remove_deposit = rikk_mdlc_d_world_machine_crust_roots
+					add_deposit = rikk_mdlc_d_world_machine_roots_1
+				}
+			}
+			every_owned_planet = {
+				rikk_mdlc_planet_effect_add_SR_deposit = yes
+			}
+		}
+	}
+}
+
+country_event = {
+	id = rikk_mdlc_wm_event.55
+	title = rikk_mdlc_wm_event.55.name
+	desc = rikk_mdlc_wm_event.55.desc
+	picture = GFX_evt_sapient_AI
+	show_sound = event_scanner
+	is_triggered_only = yes
+	
+	trigger = { NOT = { owner = { has_country_flag = rikk_mdlc_ringworld_converted } } }
+	
+	option = {
+		name = rikk_mdlc_wm_event.55.a
+		custom_tooltip = rikk_mdlc_wm_event.55.a.tt
+		add_monthly_resource_mult = { resource = minerals value = 12 }
+	}
+	
+	immediate = {
+		hidden_effect = { owner = { set_country_flag = rikk_mdlc_ringworld_converted } }
+	}
+}
+
 #force recalculation of planet cooling value
 planet_event = {
-	id = rikk_mdlc_wm_upgrade_events.70 # it's this number because it matches up with xvcv's version of this event
+	id = rikk_mdlc_wm_event.70 # it's this number because it matches up with xvcv's version of this event
 	hide_window = yes
 	is_triggered_only = yes
 
@@ -148,27 +226,20 @@ planet_event = {
 
 #Cooling the outer core effect
 planet_event = {
-	id = rikk_mdlc_wm_upgrade_events.110
+	id = rikk_mdlc_wm_event.110
 	hide_window = yes
 	is_triggered_only = yes
 
-	trigger = {
-		# Don't add the deposit if something catastrophic happened to the planet
-		# in the last 10 years
-		is_planet_world_machine = yes
-	}
-
 	immediate = {
-		remove_modifier = rikk_mdlc_world_machine_outer_core_cooling_mod
 		add_deposit = rikk_mdlc_d_world_machine_outer_core_cooled
 	}
 }
 
 #event to warn the player if their dyson pylons/receivers are unbalanced
 country_event = {
-	id = rikk_mdlc_wm_upgrade_events.120
-	title = rikk_mdlc_wm_upgrade_events.120.name
-	desc = rikk_mdlc_wm_upgrade_events.120.desc
+	id = rikk_mdlc_wm_event.120
+	title = rikk_mdlc_wm_event.120.name
+	desc = rikk_mdlc_wm_event.120.desc
 	picture = GFX_evt_large_explosion
 	show_sound = event_scanner
 	is_triggered_only = yes
@@ -183,7 +254,7 @@ country_event = {
 	}
 	
 	option = {
-		name = rikk_mdlc_wm_upgrade_events.120.a
+		name = rikk_mdlc_wm_event.120.a
 	}
 }
 
@@ -191,9 +262,9 @@ country_event = {
 #131 calls 130 because that's how I made it lol
 
 planet_event = {
-	id = rikk_mdlc_wm_upgrade_events.130
-	title = rikk_mdlc_wm_upgrade_events.130.name
-	desc = rikk_mdlc_wm_upgrade_events.130.desc
+	id = rikk_mdlc_wm_event.130
+	title = rikk_mdlc_wm_event.130.name
+	desc = rikk_mdlc_wm_event.130.desc
 	picture = GFX_evt_burning_city
 	show_sound = event_scanner
 	is_triggered_only = yes
@@ -203,12 +274,12 @@ planet_event = {
 	}
 
 	option = {
-		name = rikk_mdlc_wm_upgrade_events.130.a
-		custom_tooltip = rikk_mdlc_wm_upgrade_events.130.a.tooltip
+		name = rikk_mdlc_wm_event.130.a
+		custom_tooltip = rikk_mdlc_wm_event.130.a.tooltip
 	}
 }
 planet_event = {
-	id = rikk_mdlc_wm_upgrade_events.131
+	id = rikk_mdlc_wm_event.131
 	hide_window = yes
 	is_triggered_only = yes
 
@@ -220,14 +291,14 @@ planet_event = {
 	}
 	
 	immediate = {
-		planet_event = { id = rikk_mdlc_wm_upgrade_events.130 days = 10 }
+		planet_event = { id = rikk_mdlc_wm_event.130 days = 10 }
 		owner = { set_country_flag = wm_upgrade_reinforced_planet_allowed }
 	}
 }
 
 # Informs the player they can transform pc_graygoo into world machine candidates
 ship_event = {
-	id = rikk_mdlc_wm_upgrade_events.140
+	id = rikk_mdlc_wm_event.140
 	hide_window = yes
 	is_triggered_only = yes
 
@@ -239,54 +310,54 @@ ship_event = {
 	immediate = {
 		if = {
 			limit = { NOT = { has_global_flag = gray_goo_empire_set } }
-			owner = { country_event = { id = rikk_mdlc_wm_upgrade_events.141 days = 100 } }
+			owner = { country_event = { id = rikk_mdlc_wm_event.141 days = 100 } }
 			else = {
-				owner = { country_event = { id = rikk_mdlc_wm_upgrade_events.142 days = 200 } }
+				owner = { country_event = { id = rikk_mdlc_wm_event.142 days = 200 } }
 			}
 		}
 	}
 }
 country_event = {
-	id = rikk_mdlc_wm_upgrade_events.141
-	title = rikk_mdlc_wm_upgrade_events.141.name
-	desc = rikk_mdlc_wm_upgrade_events.141.desc
+	id = rikk_mdlc_wm_event.141
+	title = rikk_mdlc_wm_event.141.name
+	desc = rikk_mdlc_wm_event.141.desc
 	picture = GFX_evt_ruined_system
 	show_sound = event_radio_chatter
 	is_triggered_only = yes
 
-	option = { name = rikk_mdlc_wm_upgrade_events.141.a }
+	option = { name = rikk_mdlc_wm_event.141.a }
 }
 country_event = {
-	id = rikk_mdlc_wm_upgrade_events.142
-	title = rikk_mdlc_wm_upgrade_events.141.name #intentional
-	desc = rikk_mdlc_wm_upgrade_events.142.desc
+	id = rikk_mdlc_wm_event.142
+	title = rikk_mdlc_wm_event.141.name #intentional
+	desc = rikk_mdlc_wm_event.142.desc
 	picture = GFX_evt_ruined_system
 	show_sound = event_radio_chatter
 	is_triggered_only = yes
 
 	option = {
-		name = rikk_mdlc_wm_upgrade_events.142.a
+		name = rikk_mdlc_wm_event.142.a
 	}
 }
 
 planet_event = {
-	id = rikk_mdlc_wm_upgrade_events.200
+	id = rikk_mdlc_wm_event.200
 	is_triggered_only = yes
 	hide_window = yes
 	immediate = {
 		every_deposit = {
 			limit = {
 				OR = {
-					is_deposit_type = rikk_mdlc_d_world_machine_crust_roots
+					is_deposit_type = rikk_mdlc_d_world_machine_roots_1
 					is_deposit_type = rikk_mdlc_d_world_machine_synchronization_arrays
-					is_deposit_type = rikk_mdlc_d_world_machine_mantle_roots
+					is_deposit_type = rikk_mdlc_d_world_machine_roots_2
 					is_deposit_type = rikk_mdlc_d_world_machine_mantle_engine
 					is_deposit_type = rikk_mdlc_d_world_machine_mantle_transport_network
 					is_deposit_type = rikk_mdlc_d_world_machine_mantle_buses
-					is_deposit_type = rikk_mdlc_d_world_machine_outer_core_roots
+					is_deposit_type = rikk_mdlc_d_world_machine_roots_3
 					is_deposit_type = rikk_mdlc_d_world_machine_outer_core_tap
 					is_deposit_type = rikk_mdlc_d_world_machine_outer_core_cooled
-					is_deposit_type = rikk_mdlc_d_world_machine_inner_core_roots
+					is_deposit_type = rikk_mdlc_d_world_machine_roots_3
 					is_deposit_type = rikk_mdlc_d_world_machine_core_core
 					is_deposit_type = rikk_mdlc_d_world_machine_inner_core_tap
 					is_deposit_type = rikk_mdlc_d_world_machine_special_resources
@@ -298,7 +369,7 @@ planet_event = {
 }
 
 planet_event = {
-	id = rikk_mdlc_wm_upgrade_events.210
+	id = rikk_mdlc_wm_event.210
 	is_triggered_only = yes
 	hide_window = yes
 	immediate = {

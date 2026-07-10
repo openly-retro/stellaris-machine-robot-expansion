@@ -1,0 +1,181 @@
+
+rikk_mdlc_zone_pc_machine_ser_empire_size = {
+	icon = GFX_district_specialization_culture_worker
+	inline_script = planet/zones/oxr_wm_zone_base_ser
+	
+	unlock = { owner = { has_technology = rikk_mdlc_tech_zone_ser_empire_size } }
+	
+	included_building_sets = {
+		trade
+		origin
+		oxr_mdlc_building_set_wm_government
+		oxr_mdlc_building_set_wm_trade
+	}
+
+	empire_limit = {
+		base = 1
+		modifier = {
+			owner = { has_tradition = rikk_mdlc_tr_zoning_5 }
+			add = 2
+		}
+	}
+	
+	triggered_district_planet_modifier = {
+		xvcv_mdlc_world_machines_districts_energy_upkeep_add = 1
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+	}
+	
+	triggered_district_country_modifier = {
+		empire_size_add = -3
+		mult = value:rikk_mdlc_combined_special_multiplier
+	}
+
+	zone_sets = {
+		oxr_mdlc_zone_set_wm_trade
+	}
+	
+	show_in_tech = rikk_mdlc_tech_zone_ser_empire_size
+	triggered_desc = { text = rikk_mdlc_efficiency_modifier_alert }
+	triggered_desc = { text = rikk_mdlc_special_zone_warning }
+	triggered_desc = { text = rikk_mdlc_zone_swap_tt }
+}
+rikk_mdlc_zone_pc_machine_ser_building_cap = {
+	icon = GFX_district_specialization_bureaucrat
+	inline_script = planet/zones/oxr_wm_zone_base_ser
+	
+	unlock = { owner = { has_technology = rikk_mdlc_tech_zone_ser_building_cap } }
+	
+	included_building_sets = {
+		trade
+		origin
+		oxr_mdlc_building_set_wm_government
+		oxr_mdlc_building_set_wm_trade
+	}
+
+	empire_limit = { base = 1 }
+
+	triggered_district_planet_modifier = {
+		xvcv_mdlc_world_machines_districts_energy_upkeep_add = 1
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+	}
+	
+	triggered_district_country_modifier = {
+		planet_building_capacity_add = 0.034
+		mult = value:rikk_mdlc_combined_special_multiplier
+	}
+
+	zone_sets = {
+		oxr_mdlc_zone_set_wm_trade
+	}
+	
+	show_in_tech = rikk_mdlc_tech_zone_ser_building_cap
+	triggered_desc = { text = rikk_mdlc_efficiency_modifier_alert }
+	triggered_desc = { text = rikk_mdlc_special_zone_warning }
+	triggered_desc = { text = rikk_mdlc_zone_swap_tt }
+}
+
+rikk_mdlc_zone_pc_machine_ser_influence = {
+	icon = GFX_rikk_mdlc_wm_district_specialization_influence
+	inline_script = planet/zones/oxr_wm_zone_base_ser
+	
+	unlock = { owner = { has_technology = rikk_mdlc_tech_zone_ser_influence } }
+
+	included_building_sets = {
+		unity
+		origin
+		oxr_mdlc_building_set_wm_government
+		oxr_mdlc_building_set_wm_unity
+	}
+	
+	empire_limit = { base = 1 }
+
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_unity_districts_influence_produces_add = 0.03
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+	}
+	triggered_district_planet_modifier = {
+		xvcv_mdlc_world_machines_unity_districts_energy_upkeep_add = 1
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+	}
+
+	zone_sets = {
+		unity
+		origin
+		oxr_mdlc_zone_set_wm_unity
+	}
+	
+	show_in_tech = rikk_mdlc_tech_zone_ser_influence
+	triggered_desc = { text = rikk_mdlc_special_zone_warning }
+	triggered_desc = { text = rikk_mdlc_zone_swap_tt }
+}
+
+oxr_mdlc_zone_pc_machine_ecu_military_supply_chain = {
+	icon = GFX_oxr_mdlc_wm_district_specialization_military_trade
+	inline_script = planet/zones/oxr_wm_zone_base_ecu
+
+	unlock = { owner = { has_technology = rikk_mdlc_tech_zone_ecu_speed_mult } }
+	
+	swap_type = xvcv_mdlc_pc_machine_ecu_district_military_supply
+	swap_type_weight = 5
+	
+	empire_limit = { base = 1 }
+	
+	included_building_sets = {
+		military_theory
+		oxr_mdlc_building_set_wm_government
+		oxr_mdlc_building_set_wm_army
+	}
+	triggered_district_planet_modifier = {
+		xvcv_mdlc_world_machines_districts_trade_upkeep_add = 0.5
+		xvcv_mdlc_world_machines_districts_exotic_gases_upkeep_add = 0.05
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+	}
+	triggered_district_country_modifier = {
+		ship_speed_mult = 0.01
+		mult = value:rikk_mdlc_combined_special_multiplier
+	}
+	zone_sets = {
+		oxr_mdlc_zone_set_wm_military
+	}
+	show_in_tech = rikk_mdlc_tech_zone_ecu_speed_mult
+	triggered_desc = { text = oxr_mdlc_zone_pc_machine_ecu_military_supply_chain_effect }
+	triggered_desc = { text = rikk_mdlc_efficiency_modifier_alert }
+	triggered_desc = { text = rikk_mdlc_special_zone_warning }
+	triggered_desc = { text = rikk_mdlc_zone_swap_tt }
+}
+rikk_mdlc_zone_pc_machine_ecu_military_shipyard = {
+	icon = GFX_rikk_mdlc_wm_district_specialization_military_shipyard
+	inline_script = planet/zones/oxr_wm_zone_base_ecu
+	
+	unlock = {
+		owner = { has_technology = rikk_mdlc_tech_zone_ecu_shipyard } 
+		exists = orbital_defence
+	}
+	
+	swap_type = xvcv_mdlc_pc_machine_ecu_district_military_shipyard
+	swap_type_weight = 5
+	
+	empire_limit = { base = 3 }
+	
+	included_building_sets = {
+		military_theory
+		oxr_mdlc_building_set_wm_army
+	}
+	
+	triggered_district_planet_modifier = {
+		xvcv_mdlc_world_machines_districts_alloys_upkeep_add = 0.1
+		xvcv_mdlc_world_machines_districts_energy_upkeep_add = 0.5
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+	}
+	triggered_district_planet_modifier = {
+		rikk_mdlc_world_machine_orbital_shipyards_add = 1
+		mult = value:rikk_mdlc_combined_special_multiplier
+	}
+	zone_sets = {
+		oxr_mdlc_zone_set_wm_military
+	}
+	show_in_tech = rikk_mdlc_tech_zone_ecu_shipyard
+	triggered_desc = { text = rikk_mdlc_efficiency_modifier_alert }
+	triggered_desc = { text = rikk_mdlc_special_zone_warning }
+	triggered_desc = { text = rikk_mdlc_zone_swap_tt }
+}

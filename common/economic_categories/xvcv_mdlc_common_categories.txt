@@ -22,6 +22,7 @@ xvcv_mdlc_world_machines_cities_districts = {
 	generate_add_modifiers = {
 		upkeep
 	}
+	inline_script = planet/districts/rikk_wm_category_addition
 }
 
 xvcv_mdlc_world_machines_primary_districts = {
@@ -36,12 +37,12 @@ xvcv_mdlc_world_machines_primary_districts = {
 		upkeep
 		cost
 	}
+	inline_script = planet/districts/rikk_wm_category_addition
 	
 	triggered_produces_modifier = {
 		key = xvcv_mdlc_world_machines_foundry_districts
 		modifier_types = { add mult } 
-		#trigger = { is_scope_valid = yes has_oxr_mdlc_zone_pc_machine_auto_alloys = yes }
-		trigger = { always = yes }
+		trigger = { is_scope_valid = yes has_oxr_mdlc_zone_pc_machine_auto_alloys = yes }
 		use_parent_icon = yes
 	}
 	triggered_upkeep_modifier = {
@@ -98,6 +99,18 @@ xvcv_mdlc_world_machines_primary_districts = {
 		trigger = { is_scope_valid = yes has_mdlc_science_zone = yes }
 		use_parent_icon = no
 	}
+	triggered_produces_modifier = {
+		key = xvcv_mdlc_world_machines_military_districts
+		modifier_types = { add mult } 
+		trigger = { is_scope_valid = yes has_oxr_mdlc_zone_pc_machine_auto_army = yes }
+		use_parent_icon = yes
+	}
+	triggered_upkeep_modifier = {
+		key = xvcv_mdlc_world_machines_military_districts
+		modifier_types = { add mult } 
+		trigger = { is_scope_valid = yes has_oxr_mdlc_zone_pc_machine_auto_army = yes }
+		use_parent_icon = no
+	}
 }
 
 ## Production districts: alloys, goods, SR
@@ -111,6 +124,56 @@ xvcv_mdlc_world_machines_industrial_districts = {
 	generate_add_modifiers = {
 		produces
 		upkeep
+	}
+	inline_script = planet/districts/rikk_wm_category_addition
+	
+	triggered_produces_modifier = {
+		key = xvcv_mdlc_world_machines_foundry_districts
+		modifier_types = { add mult } 
+		trigger = { is_scope_valid = yes has_oxr_mdlc_zone_pc_machine_ring_alloys = yes }
+		use_parent_icon = no
+	}
+	triggered_upkeep_modifier = {
+		key = xvcv_mdlc_world_machines_foundry_districts
+		modifier_types = { add mult } 
+		trigger = { is_scope_valid = yes has_oxr_mdlc_zone_pc_machine_ring_alloys = yes }
+		use_parent_icon = no
+	}
+	triggered_produces_modifier = {
+		key = xvcv_mdlc_world_machines_factory_districts
+		modifier_types = { add mult } 
+		trigger = { is_scope_valid = yes has_oxr_mdlc_zone_pc_machine_ring_consumer_goods = yes }
+		use_parent_icon = no
+	}
+	triggered_upkeep_modifier = {
+		key = xvcv_mdlc_world_machines_factory_districts
+		modifier_types = { add mult } 
+		trigger = { is_scope_valid = yes has_oxr_mdlc_zone_pc_machine_ring_consumer_goods = yes }
+		use_parent_icon = no
+	}
+	triggered_produces_modifier = {
+		key = xvcv_mdlc_world_machines_foundry_factory_districts
+		modifier_types = { add mult } 
+		trigger = { is_scope_valid = yes has_mdlc_ring_foundry_factory_zone = yes }
+		use_parent_icon = no
+	}
+	triggered_upkeep_modifier = {
+		key = xvcv_mdlc_world_machines_foundry_factory_districts
+		modifier_types = { add mult } 
+		trigger = { is_scope_valid = yes has_mdlc_ring_foundry_factory_zone = yes }
+		use_parent_icon = no
+	}
+	triggered_produces_modifier = {
+		key = xvcv_mdlc_world_machines_trade_districts
+		modifier_types = { add mult } 
+		trigger = { is_scope_valid = yes has_oxr_mdlc_zone_pc_machine_ring_trade = yes }
+		use_parent_icon = no
+	}
+	triggered_upkeep_modifier = {
+		key = xvcv_mdlc_world_machines_trade_districts
+		modifier_types = { add mult } 
+		trigger = { is_scope_valid = yes has_oxr_mdlc_zone_pc_machine_ring_trade = yes }
+		use_parent_icon = no
 	}
 }
 
@@ -126,6 +189,7 @@ xvcv_mdlc_world_machines_military_districts = {
 		produces
 		upkeep
 	}
+	inline_script = planet/districts/rikk_wm_category_addition
 }
 # logistics / trade
 xvcv_mdlc_world_machines_trade_districts = {
@@ -138,7 +202,9 @@ xvcv_mdlc_world_machines_trade_districts = {
 	generate_add_modifiers = {
 		produces
 		upkeep
+		cost
 	}
+	inline_script = planet/districts/rikk_wm_category_addition
 }
 
 xvcv_mdlc_world_machines_strategic_resource_districts = {
@@ -152,6 +218,7 @@ xvcv_mdlc_world_machines_strategic_resource_districts = {
 	 	produces
 		upkeep
 	}
+	inline_script = planet/districts/rikk_wm_category_addition
 }
 
 # To encompass Forge and Factory as Zones in a single industrial district
@@ -169,6 +236,7 @@ xvcv_mdlc_world_machines_foundry_factory_districts = {
 		upkeep
 		produces
 	}
+	inline_script = planet/districts/rikk_wm_category_addition
 	
 	triggered_produces_modifier = {
 		key = xvcv_mdlc_world_machines_foundry_districts
@@ -202,11 +270,13 @@ xvcv_mdlc_world_machines_foundry_districts = {
 	generate_add_modifiers = {
 		produces
 		upkeep
+		cost
 	}
 	generate_mult_modifiers = {
 		produces
 		upkeep
 	}
+	inline_script = planet/districts/rikk_wm_category_addition
 }
 # CG.. nothing else really
 xvcv_mdlc_world_machines_factory_districts = {
@@ -215,11 +285,13 @@ xvcv_mdlc_world_machines_factory_districts = {
 	generate_add_modifiers = {
 		produces
 		upkeep
+		cost
 	}
 	generate_mult_modifiers = {
 		produces
 		upkeep
 	}
+	inline_script = planet/districts/rikk_wm_category_addition
 }
 
 ## Raw resources
@@ -234,8 +306,34 @@ xvcv_mdlc_world_machines_raw_resources_districts = {
 		produces
 		upkeep
 	}
+	inline_script = planet/districts/rikk_wm_category_addition
+	
+	triggered_produces_modifier = {
+		key = xvcv_mdlc_world_machines_food_districts
+		modifier_types = { add mult } 
+		trigger = { is_scope_valid = yes has_oxr_mdlc_zone_pc_machine_ring_food = yes }
+		use_parent_icon = no
+	}
+	triggered_upkeep_modifier = {
+		key = xvcv_mdlc_world_machines_food_districts
+		modifier_types = { add mult } 
+		trigger = { is_scope_valid = yes has_oxr_mdlc_zone_pc_machine_ring_food = yes }
+		use_parent_icon = no
+	}
+	triggered_produces_modifier = {
+		key = xvcv_mdlc_world_machines_generator_districts
+		modifier_types = { add mult } 
+		trigger = { is_scope_valid = yes has_oxr_mdlc_zone_pc_machine_ring_energy = yes }
+		use_parent_icon = no
+	}
+	triggered_upkeep_modifier = {
+		key = xvcv_mdlc_world_machines_generator_districts
+		modifier_types = { add mult } 
+		trigger = { is_scope_valid = yes has_oxr_mdlc_zone_pc_machine_ring_energy = yes }
+		use_parent_icon = no
+	}
 }
-#shouldn't this be farming? the other two are activities...
+# Rikk: Food is a resource, mining is an action, generator is a construction. none of these three follow any discernable scheme.
 xvcv_mdlc_world_machines_food_districts = {
 	parent = xvcv_mdlc_world_machines_raw_resources_districts
 	modifier_category = colony
@@ -247,6 +345,7 @@ xvcv_mdlc_world_machines_food_districts = {
 		produces
 		upkeep
 	}
+	inline_script = planet/districts/rikk_wm_category_addition
 }
 xvcv_mdlc_world_machines_mining_districts = {
 	parent = xvcv_mdlc_world_machines_raw_resources_districts
@@ -259,6 +358,7 @@ xvcv_mdlc_world_machines_mining_districts = {
 		produces
 		upkeep
 	}
+	inline_script = planet/districts/rikk_wm_category_addition
 }
 xvcv_mdlc_world_machines_generator_districts = {
 	parent = xvcv_mdlc_world_machines_raw_resources_districts
@@ -271,6 +371,7 @@ xvcv_mdlc_world_machines_generator_districts = {
 		produces
 		upkeep
 	}
+	inline_script = planet/districts/rikk_wm_category_addition
 }
 
 
@@ -285,21 +386,75 @@ xvcv_mdlc_world_machines_computer_districts = {
 	generate_add_modifiers = {
 		upkeep
 	}
-	modifier_category = colony
+	inline_script = planet/districts/rikk_wm_category_addition
 }
 
-# for auto ringworld
-xvcv_mdlc_world_machines_rnd_districts = {
-	parent = xvcv_mdlc_world_machines_computer_districts
+xvcv_mdlc_world_machines_mining_districts = {
+	parent = xvcv_mdlc_world_machines_raw_resources_districts
 	modifier_category = colony
 	generate_add_modifiers = {
+		upkeep
+		produces
+	}
+	generate_mult_modifiers = {
 		produces
 		upkeep
+	}
+	inline_script = planet/districts/rikk_wm_category_addition
+}
+xvcv_mdlc_world_machines_generator_districts = {
+	parent = xvcv_mdlc_world_machines_raw_resources_districts
+	modifier_category = colony
+	generate_add_modifiers = {
+		upkeep
+		produces
 		cost
 	}
 	generate_mult_modifiers = {
 		produces
 		upkeep
+	}
+	inline_script = planet/districts/rikk_wm_category_addition
+}
+
+
+## Computing & Data districts
+xvcv_mdlc_world_machines_computer_districts = {
+	parent = xvcv_mdlc_world_machines_districts
+	modifier_category = colony
+	generate_mult_modifiers = {
+		produces
+		upkeep
+	}
+	generate_add_modifiers = {
+		produces
+		upkeep
+	}
+	inline_script = planet/districts/rikk_wm_category_addition
+	
+	triggered_produces_modifier = {
+		key = xvcv_mdlc_world_machines_science_districts
+		modifier_types = { add mult } 
+		trigger = { is_scope_valid = yes has_oxr_mdlc_zone_pc_machine_ring_research = yes }
+		use_parent_icon = yes
+	}
+	triggered_upkeep_modifier = {
+		key = xvcv_mdlc_world_machines_science_districts
+		modifier_types = { add mult } 
+		trigger = { is_scope_valid = yes has_oxr_mdlc_zone_pc_machine_ring_research = yes }
+		use_parent_icon = no
+	}
+	triggered_produces_modifier = {
+		key = xvcv_mdlc_world_machines_unity_districts
+		modifier_types = { add mult } 
+		trigger = { is_scope_valid = yes has_oxr_mdlc_zone_pc_machine_ring_unity = yes }
+		use_parent_icon = yes
+	}
+	triggered_upkeep_modifier = {
+		key = xvcv_mdlc_world_machines_unity_districts
+		modifier_types = { add mult } 
+		trigger = { is_scope_valid = yes has_oxr_mdlc_zone_pc_machine_ring_unity = yes }
+		use_parent_icon = no
 	}
 }
 
@@ -310,11 +465,49 @@ xvcv_mdlc_world_machines_science_districts = {
 	generate_add_modifiers = {
 		upkeep
 		produces
+		cost
 	}
 	generate_mult_modifiers = {
 		produces
 		upkeep
 	}
+	triggered_produces_modifier = {
+		key = xvcv_mdlc_world_machines_physics_districts
+		modifier_types = { add }
+		trigger = { OR = { is_xvcv_mdlc_pc_machine_auto = yes is_xvcv_mdlc_pc_machine_ring = yes } }
+		use_parent_icon = yes
+	}
+	triggered_upkeep_modifier = {
+		key = xvcv_mdlc_world_machines_physics_districts
+		modifier_types = { add }
+		trigger = { OR = { is_xvcv_mdlc_pc_machine_auto = yes is_xvcv_mdlc_pc_machine_ring = yes } }
+		use_parent_icon = yes
+	}
+	triggered_produces_modifier = {
+		key = xvcv_mdlc_world_machines_society_districts
+		modifier_types = { add }
+		trigger = { OR = { is_xvcv_mdlc_pc_machine_auto = yes is_xvcv_mdlc_pc_machine_ring = yes } }
+		use_parent_icon = yes
+	}
+	triggered_upkeep_modifier = {
+		key = xvcv_mdlc_world_machines_society_districts
+		modifier_types = { add }
+		trigger = { OR = { is_xvcv_mdlc_pc_machine_auto = yes is_xvcv_mdlc_pc_machine_ring = yes } }
+		use_parent_icon = yes
+	}
+	triggered_produces_modifier = {
+		key = xvcv_mdlc_world_machines_engineering_districts
+		modifier_types = { add }
+		trigger = { OR = { is_xvcv_mdlc_pc_machine_auto = yes is_xvcv_mdlc_pc_machine_ring = yes } }
+		use_parent_icon = yes
+	}
+	triggered_upkeep_modifier = {
+		key = xvcv_mdlc_world_machines_engineering_districts
+		modifier_types = { add }
+		trigger = { OR = { is_xvcv_mdlc_pc_machine_auto = yes is_xvcv_mdlc_pc_machine_ring = yes } }
+		use_parent_icon = yes
+	}
+	inline_script = planet/districts/rikk_wm_category_addition
 }
 xvcv_mdlc_world_machines_physics_districts = {
 	parent = xvcv_mdlc_world_machines_science_districts
@@ -327,6 +520,8 @@ xvcv_mdlc_world_machines_physics_districts = {
 		produces
 		upkeep
 	}
+	inline_script = planet/districts/rikk_wm_category_addition
+	
 	triggered_produces_modifier = {
 		key = xvcv_mdlc_world_machines_science_districts
 		modifier_types = { add }
@@ -351,6 +546,8 @@ xvcv_mdlc_world_machines_society_districts = {
 		produces
 		upkeep
 	}
+	inline_script = planet/districts/rikk_wm_category_addition
+	
 	triggered_produces_modifier = {
 		key = xvcv_mdlc_world_machines_science_districts
 		modifier_types = { add }
@@ -375,6 +572,8 @@ xvcv_mdlc_world_machines_engineering_districts = {
 		produces
 		upkeep
 	}
+	inline_script = planet/districts/rikk_wm_category_addition
+	
 	triggered_produces_modifier = {
 		key = xvcv_mdlc_world_machines_science_districts
 		modifier_types = { add }
@@ -394,11 +593,13 @@ xvcv_mdlc_world_machines_unity_districts = {
 	generate_add_modifiers = {
 	 	produces
 	 	upkeep
+		cost
 	}
 	generate_mult_modifiers = {
 		produces
 		upkeep
 	}
+	inline_script = planet/districts/rikk_wm_category_addition
 }
 # encryption, decryption, infiltration speed
 xvcv_mdlc_world_machines_cybersecurity_districts = {
@@ -407,6 +608,7 @@ xvcv_mdlc_world_machines_cybersecurity_districts = {
 	generate_mult_modifiers = {
 		upkeep
 	}
+	inline_script = planet/districts/rikk_wm_category_addition
 }
 
 ## Misc
@@ -414,6 +616,7 @@ xvcv_mdlc_world_machines_cybersecurity_districts = {
 xvcv_mdlc_world_machines_housing_districts = {
 	parent = xvcv_mdlc_world_machines_districts
 	modifier_category = colony
+	inline_script = planet/districts/rikk_wm_category_addition
 }
 
 xvcv_mdlc_world_machines_cooling_districts = {
@@ -426,6 +629,7 @@ xvcv_mdlc_world_machines_cooling_districts = {
 	generate_mult_modifiers = {
 		upkeep
 	}
+	inline_script = planet/districts/rikk_wm_category_addition
 }
 
 # Maybe servitor district is better on a mechanical world ?
@@ -433,9 +637,11 @@ xvcv_mdlc_world_machines_cooling_districts = {
 xvcv_mdlc_world_machines_servitor_districts = {
 	parent = xvcv_mdlc_world_machines_districts
 	modifier_category = colony
+	inline_script = planet/districts/rikk_wm_category_addition
 }
 
 xvcv_mdlc_world_machines_assimilator_districts = {
 	parent = xvcv_mdlc_world_machines_districts
 	modifier_category = colony
+	inline_script = planet/districts/rikk_wm_category_addition
 }
