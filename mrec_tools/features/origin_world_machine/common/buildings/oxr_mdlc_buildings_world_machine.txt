@@ -488,7 +488,7 @@ oxr_mdlc_world_machines_building_auto_forge_efficiency = {
 		# which is the same as 0.083%
 		potential = {
 			exists = owner
-			is_xvcv_mdlc_pc_machine_auto = yes
+			planet? = { is_xvcv_mdlc_pc_machine_auto = yes }
 		}
 		xvcv_mdlc_world_machines_primary_districts_alloys_produces_mult = 0.085
 		oxr_mdlc_world_machines_foundry_buildings_alloys_produces_mult = 0.085
@@ -496,8 +496,10 @@ oxr_mdlc_world_machines_building_auto_forge_efficiency = {
 	triggered_planet_modifier = {
 		potential = {
 			exists = owner
-			is_planet_world_machine = yes
-			is_xvcv_mdlc_pc_machine_auto = no
+			planet = {
+				is_planet_world_machine = yes
+				is_xvcv_mdlc_pc_machine_auto = no
+			}
 		}
 		xvcv_mdlc_world_machines_production_districts_alloys_produces_mult = 0.085
 	}
@@ -560,7 +562,8 @@ oxr_mdlc_world_machines_building_auto_factory_1 = {
 
 	potential = {
 		exists = owner
-		is_planet_world_machine = yes
+		exists = planet
+		planet = { is_planet_world_machine = yes }
 		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
 		# Either a CG country or using ECU
 		OR = {

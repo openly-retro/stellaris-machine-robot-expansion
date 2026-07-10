@@ -634,6 +634,7 @@ xvcv_mdlc_col_machine_auto_trade = {
 
 	potential = {
 		exists = owner
+		exists = planet
 		is_capital = no
 		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
 		OR = {
@@ -651,10 +652,13 @@ xvcv_mdlc_col_machine_auto_trade = {
 	# Auto
 	triggered_planet_modifier = {
 		potential = {
-			is_xvcv_mdlc_pc_machine_auto = yes
 			exists = owner
 			owner = { has_oxr_mdlc_origin_world_machine_awakened = yes }
+			planet = { is_xvcv_mdlc_pc_machine_auto = yes }
 		}
+		#split this off because it would be too strong on auto-servers
+		planet_structures_upkeep_mult = -0.10
+		oxr_mdlc_world_machines_trade_structures_produces_mult = 0.1
 		planet_xvcv_mdlc_pc_machine_auto_district_primary_origin_wm_build_speed_mult = 0.25
 	}
 	triggered_planet_modifier = {
@@ -662,6 +666,7 @@ xvcv_mdlc_col_machine_auto_trade = {
 			is_xvcv_mdlc_pc_machine_auto = yes
 			exists = owner
 			owner = { has_oxr_mdlc_origin_world_machine_awakened = no }
+			planet = { is_xvcv_mdlc_pc_machine_auto = yes }
 		}
 		planet_xvcv_mdlc_pc_machine_auto_district_city_build_speed_mult = 0.25
 	}

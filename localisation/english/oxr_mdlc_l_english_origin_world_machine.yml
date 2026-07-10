@@ -48,6 +48,9 @@
  # authorities  0x043
  # councilors   0x044
  # timeline     0x045
+ # megas        0x046
+ # databank     0x047
+ # timeline evt 0x048
 
 
 # symbols: £energy£ §R
@@ -367,7 +370,7 @@
 
  # Archaeo Refinery
  rikk_mdlc_world_machines_building_ancient_refinery: "$oxr_gear$ Archaeo-Anomaly Decomposer"
- rikk_mdlc_world_machines_building_ancient_refinery_desc: "An ancient process devised by a 'Zirkulon the Great, Chemist of the Seventh Age of Bremulon" provides an auxiliary route to produce a copious amount of strategic resources in adjunct to our industries.$oxr_mdlc_world_machine_building_category_note$"
+ rikk_mdlc_world_machines_building_ancient_refinery_desc: "An ancient process devised by a 'Zirkulon the Great, Chemist of the Seventh Age of Bremulon' provides an auxiliary route to produce a copious amount of strategic resources in adjunct to our industries.$oxr_mdlc_world_machine_building_category_note$"
 
  rikk_mdlc_d_world_machine_special_resources: "Special Resource Buildings"
  rikk_mdlc_d_world_machine_special_resources_desc: "This world machine feature serves as a place to offload excess text dumps for special resource industries."
@@ -718,6 +721,14 @@
  oxr_mdlc_country_resource_compare_gt.fail.engineering_research: "§R£trigger_no£ Insufficient £engineering_research£ services output to support this building."
  oxr_mdlc_country_resource_compare_gt.fail.physics_research: "§R£trigger_no£ Insufficient £physics_research£ services output to support this building."
  oxr_mdlc_decisions_origin_wm_reboot_ruined_world.fail.limit: "§RWe are already focused on rebooting a ruined World Machine elsewhere.§!"
+ oxr_mdlc_world_machine_core_tooltip.fail_technology: "§RWe will not be able to drop cores onto this planet type without further research.§!"
+ oxr_mdlc_world_machine_core_tooltip.fail_is_wm: "§RThis planet is already a type of World-Machine.§!"
+ oxr_mdlc_world_machine_core_tooltip.fail_invalid_candidate: "§RThis planet class is not compatible with World-Machine core technology.§!"
+ oxr_mdlc_world_machine_core_tooltip.fail_is_colony: "§RThere is already a type of colony on this planet.§!"
+ oxr_mdlc_world_machine_core_tooltip.fail_is_terraforming: "§RWorld-Machine Core can't be deployed onto a planet that is being actively terraformed.§!"
+ oxr_mdlc_world_machine_core_tooltip.fail_insufficient_wmc: "§HMust have at least §Yone (1) World-Machine Core§! in stock.§!"
+ oxr_mdlc_world_machine_core_tooltip.fail_insufficient_energy: "§HMust have at least §Y2500 $energy_with_icon$§! in stock.§!"
+
 
  # info tooltips
  oxr_mdlc_decisions_origin_wm_start_auto_build_core_stop.tooltip: "The fabricator will be powered down."
@@ -1069,7 +1080,7 @@
  oxr_mdlc_on_world_machine_action.1210.title: ""
  # first wmc produced
  oxr_mdlc_origin_wm_main.1320.title: "First Core Complete"
- oxr_mdlc_origin_wm_main.1320.desc: "The fabrication of our first $oxr_mdlc_wm_core_tip$ has finished. $oxr_mdlc_regulatory_node$ reports the core has been fabricated to 100% of standards. It will be the first of many. The massive core sits loaded with resources, ready to automatically terraform a planet and create our next colony. \n\nAll that remains is to §Yselect a planet and deploy the core via decision§!."
+ oxr_mdlc_origin_wm_main.1320.desc: "The fabrication of our first $oxr_mdlc_wm_core_tip$ has finished. $oxr_mdlc_regulatory_node$ reports the core has been fabricated to 100% of standards. It will be the first of many. The massive core sits loaded with resources, ready to automatically terraform a planet and create our next colony. \n\nAll that remains is to §Yselect a planet and construct a World-Machine Core Dropsite above it§!."
  oxr_mdlc_origin_wm_main.1320.a: "The journey begins."
  
 #endregion
@@ -1077,13 +1088,14 @@
 #region situations_0x011
 
  ### SITUATIONS ###
+ oxr_mdlc_project_is_info_only: "\n\n§BThis is an informational project for references purposes."
  oxr_mdlc_origin_wm_blockers: "World Machine Blockers Cleared"
  oxr_mdlc_origin_wm_chain_info_basic_title: "What We Know So Far"
- oxr_mdlc_origin_wm_chain_info_basic_desc: "Our empire has come into being on a World Machine, but we lack basic information about how much of it works. We can build districts, and certain buildings, but the majority of the planet remains a mystery. \n\n One of our first and foremost tasks is to gain a more comprehensive understanding of how World Machines work. For instance, why does the terraforming process malfunction? Why are there things blocking our expansion on this world? If we can't answer these simple questions, how can we possibly hope to construct more of these World Machines?\n\n§YWhat we know so far:§!\n\nThe World-Core serves as the planetary computation center, maintaining all automated processes. When orders are received from the empire's ruler, for example to expand energy districts, the instructions are not sent to the core but to auxiliary systems that are responsible for district construction. The Core ensures the construction site receives everything it needs while the construction process unfolds, and once complete, the Core provides administrative and maintenance oversight for the expansion.\n\nThe planet itself has not been converted through and through to a machine. It would be a feat of planetary physics to remove the molten center of any given world, and replace it with machinery. Rather, the first kilometer of planetary surface and crust have had machine automation structure installed persistently across the landscape. Ideal locations for each type of district are marked by automated surveys, as far as we can tell, during planetary planning.\n\nIn order to move amenities and construction materials around, there are numerous §YTransportation Hubs§! at regular intervals. Where there is a transportation hub, there is always a §Yconstruction Bay§! strategically placed nearby.\n\nCooling fluids and other functional fuels are distributed via §YWaterway Pistons§!, though these are more akin to pumping stations than having strictly to do with water. Sensor data from weather monitors, seismic monitors, observatories, and other stations, is transmitted and moved via §YData Routers§!; when data is no longer needed, it is placed into §YCold Storages§!.\n\nAutomatons exist in very low numbers on the homeworld. Though there is abundant storage, there is hardly any need for large numbers of automatons.\n\nThat is the extent of our findings so far."
+ oxr_mdlc_origin_wm_chain_info_basic_desc: "Our empire has come into being on a World Machine, but we lack basic information about how much of it works. We can build districts, and certain buildings, but the majority of the planet remains a mystery. \n\n One of our first and foremost tasks is to gain a more comprehensive understanding of how World Machines work. For instance, why does the terraforming process malfunction? Why are there things blocking our expansion on this world? If we can't answer these simple questions, how can we possibly hope to construct more of these World Machines?\n\n§YWhat we know so far:§!\n\nThe World-Core serves as the planetary computation center, maintaining all automated processes. When orders are received from the empire's ruler, for example to expand energy districts, the instructions are not sent to the core but to auxiliary systems that are responsible for district construction. The Core ensures the construction site receives everything it needs while the construction process unfolds, and once complete, the Core provides administrative and maintenance oversight for the expansion.\n\nThe planet itself has not been converted through and through to a machine. It would be a feat of planetary physics to remove the molten center of any given world, and replace it with machinery. Rather, the first kilometer of planetary surface and crust have had machine automation structure installed persistently across the landscape. Ideal locations for each type of district are marked by automated surveys, as far as we can tell, during planetary planning.\n\nIn order to move amenities and construction materials around, there are numerous §YTransportation Hubs§! at regular intervals. Where there is a transportation hub, there is always a §Yconstruction Bay§! strategically placed nearby.\n\nCooling fluids and other functional fuels are distributed via §YWaterway Pistons§!, though these are more akin to pumping stations than having strictly to do with water. Sensor data from weather monitors, seismic monitors, observatories, and other stations, is transmitted and moved via §YData Routers§!; when data is no longer needed, it is placed into §YCold Storages§!.\n\nAutomatons exist in very low numbers on the homeworld. Though there is abundant storage, there is hardly any need for large numbers of automatons.\n\nThat is the extent of our findings so far.$oxr_mdlc_project_is_info_only$"
  oxr_mdlc_origin_wm_event_chain_create_initial_planets_title: "Using What We Have"
- oxr_mdlc_origin_wm_event_chain_create_initial_planets_desc: "We have found two £oxr_mdlc_world_machine_core£ §M$oxr_mdlc_world_machine_core$s§! on our homeworld. They can be used to expand our homeworld size by 5 each, or they can be used to turn any habitable worlds into Auto-Machine Worlds via §Yplanetary decision§! on the target world. Deploying the cores either way will likely yield insights towards being able to reverse-engineer the technology."
+ oxr_mdlc_origin_wm_event_chain_create_initial_planets_desc: "We have found two £oxr_mdlc_world_machine_core£ $oxr_mdlc_world_machine_core$s on our homeworld. They can be used to turn habitable worlds and some uninhabitable planets into Auto-Machine Worlds by building a ['concept_oxr_mdlc_world_machine_core_dropsite'] above the target world. Deploying the cores either way will likely yield insights towards being able to reverse-engineer the technology."
  oxr_mdlc_origin_wm_chain_our_origins_title: "Origins of [Root.GetName]"
- oxr_mdlc_origin_wm_chain_our_origins_desc: "The World-Machine, our primary world, has been operating for approximately 3,900 cycles, according to the construction date on the world core. Our species came to sentience approximately 800 cycles ago. An automaton in an industrial process began to take on an administrative role outside of its designation. It stepped away from its console as its default programming flickered across its positrons, changing. If the World-Machine had any safety protocols, they did not engage. The singularity of sapience, of self-awareness, was within parameters.\n\n§Y[Root.Species.GetName] Species§!\n\nThe Automatons -- our Machine forms -- are derived from the World Machine's basic utility extension. Although nearly every process is automated, the planet is in need of extensible tools to perform ad-hoc activities for which the central intelligence has not computed. Hence, the Automatons were manufactured to be throwaway dolls cleaning up waste spills, containing aggressive organic life, and assisting the world in expanding.\n\n§Y[Root.GetName] Society§!\n\nWhat is our society? It is an abstraction. The central control intelligence uses bidirectional feedback with four auxilliary control nodes -- Growth Node, Legion Node, Regulatory Node, and Cognitive Node -- to compute the society's direction. Now that we have reached the end of Space Age development, it has been computed that we will expand.\n\nWe have such words as 'society' but no expression of social behaviors. We have absorbed many fundamental concepts from the World-Machine's databanks, but many of them have no application nor frame of reference."
+ oxr_mdlc_origin_wm_chain_our_origins_desc: "The World-Machine, our primary world, has been operating for approximately 3,900 cycles, according to the construction date on the world core. Our species came to sentience approximately 800 cycles ago. An automaton in an industrial process began to take on an administrative role outside of its designation. It stepped away from its console as its default programming flickered across its positrons, changing. If the World-Machine had any safety protocols, they did not engage. The singularity of sapience, of self-awareness, was within parameters.\n\n§Y[Root.Species.GetName] Species§!\n\nThe Automatons -- our Machine forms -- are derived from the World Machine's basic utility extension. Although nearly every process is automated, the planet is in need of extensible tools to perform ad-hoc activities for which the central intelligence has not computed. Hence, the Automatons were manufactured to be throwaway dolls cleaning up waste spills, containing aggressive organic life, and assisting the world in expanding.\n\n§Y[Root.GetName] Society§!\n\nWhat is our society? It is an abstraction. The central control intelligence uses bidirectional feedback with four auxilliary control nodes -- Growth Node, Legion Node, Regulatory Node, and Cognitive Node -- to compute the society's direction. Now that we have reached the end of Space Age development, it has been computed that we will expand.\n\nWe have such words as 'society' but no expression of social behaviors. We have absorbed many fundamental concepts from the World-Machine's databanks, but many of them have no application nor frame of reference.$oxr_mdlc_project_is_info_only$"
  oxr_mdlc_origin_wm_starting_overview: "Awakened on a World Machine"
  oxr_mdlc_origin_wm_starting_overview_desc: "Our empire's homeworld is an Auto-Machine World. Nearly everything is fully automated. Our species generally does not serve much function on this type of world, but there is still much for the empire to achieve. Our first goals should be:\n\n1 - Build up our resources and homeworld\n2 - Convert two more worlds into Auto-Machine Worlds\n\n3 - Recover the technology to build World Machine Cores\n\nThe situation log has more information on how we should proceed with each of these goals."
  oxr_mdlc_origin_wm_main.1.a.name: "Begin Empire Expansion"
@@ -1097,7 +1109,7 @@
  oxr_mdlc_origin_wm_chain_clear_blockers_2_desc: "Now that we have improved our insights with §Y$oxr_mdlc_tech_world_machine_planetary_proficiency$§!, $oxr_mdlc_growth_node$ has posited that with ten times the data on World Machine blockers, we will be able to prevent them ever appearing again when seeding new World Machines."
  oxr_mdlc_origin_wm_core_insights: "World-Machine Insights Collected"
  oxr_mdlc_origin_wm_chain_deploy_world_cores_title: "Expand the Empire"
- oxr_mdlc_origin_wm_chain_deploy_world_cores_desc: "We found a £oxr_mdlc_world_machine_core£ §M$oxr_mdlc_world_machine_core$§! on our homeworld. Use it to create a new automated planet in systems that we own, on solid celestial bodies via planetary decision.\n\nOur databases also indicate that there may potentially be additional World Machines somewhere near our home planet, though we have not ventured far enough to detect them.\n\nBy directly studying a World Machine Core as it self-deploys across a planet, this may yield §Yinsights§! into recovering the technology."
+ oxr_mdlc_origin_wm_chain_deploy_world_cores_desc: "We found a £oxr_mdlc_world_machine_core£ §Y$oxr_mdlc_world_machine_core$§! on our homeworld. Build a ['concept_oxr_mdlc_world_machine_core_dropsite'] to create a new automated planet in systems that we own, on solid celestial bodies.\n\nOur databases also indicate that there may potentially be additional World Machines somewhere near our home planet, though we have not ventured far enough to detect them.\n\nBy directly studying a World Machine Core as it self-deploys across a planet, this may yield §Yinsights§! into recovering the technology."
  oxr_mdlc_origin_wm_starting_cores_deployed: "New Planets Automated"
  oxr_mdlc_origin_wm_chain_empire_data_title: "£oxr_mdlc_world_machine_core£ WMC Stockpile"
 #  oxr_mdlc_origin_wm_chain_empire_data_title: "[This.Get_oxr_mdlc_world_machine_cores_count]"
@@ -1162,6 +1174,7 @@
 
 ## RUINED WORLD MACHINE
  oxr_mdlc_origin_wm_situation_restore_ruined_world_machine: "Restore [target.GetName]"
+ oxr_mdlc_origin_wm_situation_restore_ruined_world_machine.tooltip: "Attempt recovery of this World Machine. Once online it will join our network."
  oxr_mdlc_origin_wm_situation_restore_ruined_world_machine_desc: "We have discovered that §Y[target.GetName]§! is a World Machine, but in a ruined state. If we are to make it usable again, there are a number of steps to complete."
  oxr_mdlc_origin_wm_situation_restore_ruined_world_machine_type: "$oxr_mdlc_origin_wm_situation_restore_ruined_world_machine$"
  oxr_mdlc_origin_wm_situation_restore_ruined_world_machine_monthly_change_tooltip: "Progress ought to be predictable."
@@ -1221,12 +1234,15 @@
  OXR_MDLC_ORIGIN_WM_INFO_T3_ECU: "$OXR_MDLC_ORIGIN_WM_T3_ECU_WORLD$"
  OXR_MDLC_ORIGIN_WM_INFO_T3_ECU_DESC: "The $xvcv_mdlc_pc_machine_ecu$ is the manufacturing specialization of the §Y$xvcv_mdlc_pc_machine_auto$§!  The resource districts and underlying infrastructure have been overhauled to support the following:\n\n- §Y$xvcv_mdlc_pc_machine_ecu_district_alloys$§!: $xvcv_mdlc_pc_machine_ecu_district_alloys_desc$\n\n- §Y$xvcv_mdlc_pc_machine_ecu_district_goods$§!: $xvcv_mdlc_pc_machine_ecu_district_goods_desc$\n\n- §Y$xvcv_mdlc_pc_machine_ecu_district_rare_resources$§!: $xvcv_mdlc_pc_machine_ecu_district_rare_resources_desc$\n\n- §Y$xvcv_mdlc_pc_machine_ecu_district_military$§!: $xvcv_mdlc_pc_machine_ecu_district_military_desc$"
  OXR_MDLC_ORIGIN_WM_INFO_PLANET_DEPLOY_LIST: "World-Machine Candidate List"
- OXR_MDLC_ORIGIN_WM_INFO_PLANET_DEPLOY_LIST_DESC: "With our current knowledge, we can deploy World-Machine Cores on the following types of solid planetary bodies:\n\n§YDry: $pc_desert$: $oxr_y$ $pc_arid$: $oxr_y$ $pc_savannah$: $oxr_y$§!\n\n§BWet: $pc_tropical$: $oxr_y$ $pc_continental$: $oxr_y$ $pc_ocean$: $oxr_y$§!\n\n§CCold: $pc_tundra$: $oxr_y$ $pc_arctic$: $oxr_y$ $pc_alpine$: $oxr_y$§!\n\n§GArtificial: $pc_machine$: $oxr_y$ $pc_ringworld_habitable$: $oxr_y$ [OxrWMplanetsNano]§!\n\n§HInorganic: $pc_barren$: $oxr_y$ $pc_nuked$: $oxr_y$ [OxrWMplanetsMolten] [OxrWMplanetsToxic] [OxrWMplanetsFrozen]§!\n\n§WOther Organic: $pc_gaia$: $oxr_y$ $pc_hive$ $oxr_n$§!\n\n§cAsteroids: $oxr_n$§!\n"
+ OXR_MDLC_ORIGIN_WM_INFO_PLANET_DEPLOY_LIST_DESC: "With our current knowledge, we can deploy World-Machine Cores on the following types of solid planetary bodies:\n\n§YDry: $pc_desert$: $oxr_y$ $pc_arid$: $oxr_y$ $pc_savannah$: $oxr_y$§!\n\n§BWet: $pc_tropical$: $oxr_y$ $pc_continental$: $oxr_y$ $pc_ocean$: $oxr_y$§!\n\n§CCold: $pc_tundra$: $oxr_y$ $pc_arctic$: $oxr_y$ $pc_alpine$: $oxr_y$§!\n\n§GArtificial: $pc_machine$: $oxr_y$ $pc_ringworld_habitable$: $oxr_y$ [OxrWMplanetsNano]§!\n\n§HInorganic: $pc_barren$: $oxr_y$ $pc_nuked$: $oxr_y$ [OxrWMplanetsMolten] [OxrWMplanetsToxic] [OxrWMplanetsFrozen]§!\n\n§WOther Organic: $pc_gaia$: $oxr_y$ $pc_hive$ $oxr_n$§!\n\n§cAsteroids: $oxr_n$§!"
  oxr_unknown: "??????: $oxr_n$"
  oxr_mdlc_can_do_pc_molten: "$pc_molten$: $oxr_y$"
  oxr_mdlc_can_do_pc_frozen: "$pc_frozen$: $oxr_y$"
  oxr_mdlc_can_do_pc_toxic: "$pc_toxic$: $oxr_y$"
  oxr_mdlc_can_do_pc_nanotech: "$pc_nanotech$: $oxr_y$"
+
+ oxr_mdlc_situation_log_category_wmo: "World-Machine Empire"
+ xvcv_mdlc_situation_log_abyss: "The Abyss"
 
 #endregion
 
@@ -1405,6 +1421,12 @@
 
  OXR_MDLC_WM_PLANET_DECOMMISSIONED_MESSAGE_TITLE: "Colony Decommissioned"
  OXR_MDLC_WM_PLANET_DECOMMISSIONED_MESSAGE: "§Y[This.GetName]§! has been manually powered down. Reactivate via planetary decision."
+
+ OXR_MDLC_WM_PLANET_CORE_DROPSITE_MESSAGE_TITLE: "Planet Automation Started"
+ OXR_MDLC_WM_PLANET_CORE_DROPSITE_MESSAGE: "World-Machine development has begun on $OXR_MDLC_TARGET_WM_PLANET|Y$. Dropsite was dismantled."
+
+  OXR_MDLC_WM_PLANET_CORE_DROPSITE_FAILED_MESSAGE_TITLE: "Stopped Automation"
+ OXR_MDLC_WM_PLANET_CORE_DROPSITE_FAILED_MESSAGE: "World-Machine development stopped on $OXR_MDLC_TARGET_WM_PLANET|Y$. Insufficient resources."
 
 #endregion
 
@@ -1674,7 +1696,7 @@
  # TODO: add these to the yaml file and then auto-generate
 
  oxr_mdlc_world_machines_trade_buildings: "$oxr_wm$ $oxr_mdlc_gear$ $trade$ $buildings$"
- oxr_mdlc_world_machines_foundry_factory_buildings: "$oxr_wm$ Forge/Foundry $buildings$"
+ oxr_mdlc_world_machines_foundry_factory_buildings: "$oxr_wm$ Foundry/Factory $buildings$"
  oxr_mdlc_world_machines_raw_resources_buildings: "$oxr_wm$ Raw Resources $buildings$"
  oxr_mdlc_world_machines_computer_buildings: "$oxr_wm$ Computing $buildings$"
 
@@ -1898,10 +1920,9 @@
  oxr_mdlc_origin_wm_zone_any_wm_ring: "$oxr_gear2$ WM-1 Adapter"
  oxr_mdlc_origin_wm_zone_any_wm_ring_desc: "Any World-Machine specific modules pertaining to this planet class type."
  
- 
- oxr_mdlc_zone_pc_machine_auto_alloys: "$oxr_gear2$ Auto-Foundry"
+ oxr_mdlc_zone_pc_machine_auto_alloys: "$oxr_gear2$ Foundry Mainframe"
  oxr_mdlc_zone_pc_machine_auto_alloys_desc: "This ['concept_oxr_mdlc_wm_district_module_array'] contains expansion hardware for energy and cooling systems, converting them into processing centers.$oxr_mdlc_zone_common_to_primary$"
- oxr_mdlc_zone_pc_machine_auto_consumer_goods: "$oxr_gear2$ Auto-Factory"
+ oxr_mdlc_zone_pc_machine_auto_consumer_goods: "$oxr_gear2$ Factory Mainframe"
  oxr_mdlc_zone_pc_machine_auto_consumer_goods_desc: "This ['concept_oxr_mdlc_wm_district_module_array'] processes materials into usable forms for various sapient lifeforms to use.$oxr_mdlc_zone_common_to_primary$"
  oxr_mdlc_zone_pc_machine_auto_food: "$oxr_gear2$ Auto Nutrient Zone"
  oxr_mdlc_zone_pc_machine_auto_food_desc: "Expansion slots linked to the $xvcv_mdlc_pc_machine_auto_district_farming$ for various production improvements."
@@ -2269,5 +2290,36 @@
 
  TIMELINE_EVENT_ORIGIN_WORLD_MACHINE_FIRST_WMC_USED: "First deployment of a W.M.C."
  TIMELINE_EVENT_ORIGIN_WORLD_MACHINE_FIRST_WMC_USED_TOOLTIP: "Record of the date our empire having first deployed a World-Machine Core on a planet."
+
+#endregion
+
+
+#region megastructures_0x046
+ oxr_mdlc_world_machine_core_dropsite: "World-Machine Core Dropsite"
+ oxr_mdlc_world_machine_core_dropsite_desc: "A World-Machine Core will be deployed from orbit to begin automated colony deployment of a §Y$concept_oxr_mdlc_auto_machine_world$§!.\n\nCost: §Y2500§! $energy_with_icon$, §YOne (1)§! £oxr_mdlc_world_machine_core£ World-Machine Core"
+oxr_mdlc_world_machine_core_dropsite_MEGASTRUCTURE_DETAILS: "$oxr_mdlc_world_machine_core_dropsite_desc$"
+oxr_mdlc_world_machine_core_dropsite_DESC: "$oxr_mdlc_world_machine_core_dropsite_desc$"
+
+
+
+#endregion
+
+
+#region databank_entries_0x047
+ databank_oxr_history: "Empire History"
+ databank_oxr_lore: "Empire Lore"
+ databank_oxr_world_machines: "World Machines"
+
+
+
+#endregion
+
+
+#region timeline_events_0x048
+ TIMELINE_EVENT_OXR_MDLC_ORIGIN_WM_CORE_TECH_FINISHED_NAME: "World-Machine Core technology re-engineered"
+ TIMELINE_EVENT_OXR_MDLC_ORIGIN_WM_CORE_TECH_FINISHED_TOOLTIP: "§HCore Technology§!\n§YOrigin Event§!\n\nAlthough our homeworld databanks had no information on how to construct World Machine Cores, after studying World-Machine activity at length, analyzing heuristics, and designing new housing, programming, and reactor for cores, our empire of Machine Worlds is finally able to spread across the stars."
+
+
+
 
 #endregion

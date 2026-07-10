@@ -34,7 +34,7 @@ oxr_mdlc_can_build_grand_archive = {
 	space_owner = {
 		has_origin = oxr_mdlc_origin_world_machine_awakened
 	}
-	planet = {
+	planet? = {
 		OR = {
 			is_planet_class = xvcv_mdlc_pc_machine_ser
 			is_planet_class = xvcv_mdlc_pc_machine_cpu
@@ -505,8 +505,8 @@ is_xvcv_mdlc_pc_machine_auto = { planet = { is_planet_class = xvcv_mdlc_pc_machi
 is_xvcv_mdlc_pc_machine_ecu = { planet = { is_planet_class = xvcv_mdlc_pc_machine_ecu } }
 is_xvcv_mdlc_pc_machine_cpu = { planet = { is_planet_class = xvcv_mdlc_pc_machine_cpu } }
 is_xvcv_mdlc_pc_machine_ser = { planet = { is_planet_class = xvcv_mdlc_pc_machine_ser } }
-is_xvcv_mdlc_pc_virtual = { planet = { is_planet_class = xvcv_mdlc_pc_virtual } }
 is_xvcv_mdlc_pc_machine_ring = { planet = { is_planet_class = xvcv_mdlc_pc_machine_ring } }
+is_xvcv_mdlc_pc_virtual = { planet = { is_planet_class = xvcv_mdlc_pc_virtual } }
 
 # DISTRICTS
 ## Auto-Machine World
@@ -562,6 +562,50 @@ has_oxr_mdlc_zone_pc_machine_auto_engineering = { colony = { num_zones = { type 
 has_oxr_mdlc_zone_pc_machine_auto_unity = { colony = { num_zones = { type = oxr_mdlc_zone_pc_machine_auto_unity value > 0 } } }
 has_oxr_mdlc_zone_pc_machine_auto_trade = { colony = { num_zones = { type = oxr_mdlc_zone_pc_machine_auto_trade value > 0 } } }
 has_oxr_mdlc_zone_pc_machine_auto_army = { colony = { num_zones = { type = oxr_mdlc_zone_pc_machine_auto_army value > 0 } } }
+
+has_mdlc_science_zone = {
+	colony = { 
+		OR = {
+			num_zones = { type = oxr_mdlc_zone_pc_machine_auto_archive value > 0 }
+			num_zones = { type = oxr_mdlc_zone_pc_machine_auto_science value > 0 }
+			num_zones = { type = oxr_mdlc_zone_pc_machine_auto_physics value > 0 }
+			num_zones = { type = oxr_mdlc_zone_pc_machine_auto_society value > 0 }
+			num_zones = { type = oxr_mdlc_zone_pc_machine_auto_engineering value > 0 }
+		}
+	}
+}
+has_mdlc_unity_zone = {
+	colony = { 
+		OR = {
+			num_zones = { type = oxr_mdlc_zone_pc_machine_auto_archive value > 0 }
+			num_zones = { type = oxr_mdlc_zone_pc_machine_auto_unity value > 0 }
+		}
+	}
+}
+
+has_mdlc_industrial_zone = {
+	colony = { 
+		OR = {
+			num_zones = { type = oxr_mdlc_zone_pc_machine_auto_alloys value > 0 }
+			num_zones = { type = oxr_mdlc_zone_pc_machine_auto_consumer_goods value > 0 }
+		}
+	}
+}
+
+## AUTO-RINGWORLD
+has_oxr_mdlc_zone_pc_ringworld_machine_auto_research = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_research value > 0 } }
+has_oxr_mdlc_zone_pc_ringworld_machine_auto_unity = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_unity value > 0 } }
+has_oxr_mdlc_zone_pc_ringworld_machine_auto_trade = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_trade value > 0 } }
+has_oxr_mdlc_zone_pc_ringworld_machine_auto_consumer_goods = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_consumer_goods value > 0 } }
+has_oxr_mdlc_zone_pc_ringworld_machine_auto_alloys = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_alloys value > 0 } }
+has_oxr_mdlc_zone_pc_ringworld_machine_auto_food = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_food value > 0 } }
+has_oxr_mdlc_zone_pc_ringworld_machine_auto_energy = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_energy value > 0 } }
+ # specialized
+# has_oxr_mdlc_zone_pc_ringworld_machine_auto_research_physics = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_research_physics value > 0 } }
+# has_oxr_mdlc_zone_pc_ringworld_machine_auto_research_society = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_research_society value > 0 } }
+# has_oxr_mdlc_zone_pc_ringworld_machine_auto_research_engineering = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_research_engineering value > 0 } }
+has_oxr_mdlc_zone_pc_ringworld_machine_auto_energy_physics = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_energy_physics value > 0 } }
+has_oxr_mdlc_zone_pc_ringworld_machine_auto_food_biology = { num_zones = { type = oxr_mdlc_zone_pc_ringworld_machine_auto_food_biology value > 0 } }
 
 has_mdlc_science_zone = {
 	colony = { 

@@ -157,25 +157,22 @@ oxr_mdlc_world_machines_building_storage_cradle = {
 		oxr_mdlc_building_set_wm_all
 		oxr_mdlc_building_set_wm_manufacturing
 	}
-
 }
 
 oxr_mdlc_world_machines_building_core_fabrication_depot = {
 	base_buildtime = @b3_time
 	category = manufacturing
 	base_cap_amount = 1
+
 	inline_script = planet/buildings/oxr_sort_important
-	# inline_script = planet/buildings/auto/oxr_mdlc_wm_auto
+
 	potential = {
-		exists = owner
-		owner = {
-			has_origin = oxr_mdlc_origin_world_machine_awakened
-		}
-		xvcv_mdlc_world_machines_planet_classes_trigger = yes
+		oxr_mdlc_colony_can_have_wm_structures_wm_origin = yes
 	}
 	show_tech_unlock_if = {
-		has_origin = oxr_mdlc_origin_world_machine_awakened
+		has_oxr_mdlc_origin_world_machine_awakened = yes
 	}
+	
 	on_built = {
 		owner = {
 			fire_on_action = { on_action = on_world_machine_popless_building_constructed }
@@ -228,11 +225,8 @@ oxr_mdlc_building_auto_organoid_research_center = {
 	base_cap_amount = 1
 	category = research
 	potential = {
-		exists = owner
-		owner = {
-			has_technology = oxr_mdlc_tech_organoid_1
-			has_origin = oxr_mdlc_origin_world_machine_awakened
-		}
+		oxr_mdlc_colony_can_have_wm_structures = yes
+		owner = { has_technology = oxr_mdlc_tech_organoid_1 }
 	}
 	prerequisites = {
 		"oxr_mdlc_tech_organoid_1"

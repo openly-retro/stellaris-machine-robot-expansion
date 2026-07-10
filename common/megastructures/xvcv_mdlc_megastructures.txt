@@ -104,12 +104,16 @@ xvcv_mdlc_planet_cracker = {
 		# This only works if there is ONLY 1 being dismantled in the system
 		random_system_planet_colony = {
 			limit = {
-				has_planet_flag = oxr_mdlc_clear_dismantled_planet_cracker
+				planet? = {
+					has_planet_flag = oxr_mdlc_clear_dismantled_planet_cracker
+				}
 			}
-			remove_planet_flag = xvcv_mdlc_planet_cracker_placed
-			remove_planet_flag = has_megastructure
-			remove_planet_flag = oxr_mdlc_clear_dismantled_planet_cracker
-			clear_deposits = yes
+			planet = {
+				remove_planet_flag = xvcv_mdlc_planet_cracker_placed
+				remove_planet_flag = has_megastructure
+				remove_planet_flag = oxr_mdlc_clear_dismantled_planet_cracker
+				clear_deposits = yes
+			}
 		}
 	}
 	resources = {
@@ -154,7 +158,7 @@ xvcv_mdlc_planet_cracker_2 = {
 	upgrade_from = {
 		xvcv_mdlc_planet_cracker
 	}
-	
+
 	on_build_complete = {
 		from = {
 			add_resource = {

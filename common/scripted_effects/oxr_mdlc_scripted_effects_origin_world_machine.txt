@@ -220,21 +220,21 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 		enable_special_project = {
 			name = OXR_MDLC_ORIGIN_WM_WHO_WE_ARE_1
 		}
-		complete_special_project = {
-			type = OXR_MDLC_ORIGIN_WM_WHO_WE_ARE_1
-		}
+		#complete_special_project = {
+		#	type = OXR_MDLC_ORIGIN_WM_WHO_WE_ARE_1
+		#}
 		enable_special_project = {
 			name = OXR_MDLC_ORIGIN_WM_WHAT_WE_KNOW_1
 		}
-		complete_special_project = {
-			type = OXR_MDLC_ORIGIN_WM_WHAT_WE_KNOW_1
-		}
+		#complete_special_project = {
+		#	type = OXR_MDLC_ORIGIN_WM_WHAT_WE_KNOW_1
+		#}
 		enable_special_project = {
 			name = OXR_MDLC_ORIGIN_WM_INFO_PLANET_DEPLOY_LIST
 		}
-		complete_special_project = {
-			type = OXR_MDLC_ORIGIN_WM_INFO_PLANET_DEPLOY_LIST
-		}
+		#complete_special_project = {
+		#	type = OXR_MDLC_ORIGIN_WM_INFO_PLANET_DEPLOY_LIST
+		#}
 	}
 
 	## Swap buildings
@@ -907,34 +907,37 @@ oxr_mdlc_find_neighbor_planet_and_convert_to_ruined_world_machine = {
 			limit = {
 				any_system_planet = {
 					exists = planet
-					oxr_mdlc_planet_can_become_world_machine  = yes
+					oxr_mdlc_planet_can_become_world_machine = yes
 				}
 			}
 			random_system_planet = {
 				limit = {
+					exists = planet
 					oxr_mdlc_planet_can_become_world_machine  = yes
 				}
-				# oxr_mdlc_pc_convert_to_ruined_world_machine = yes
-				change_pc = xvcv_mdlc_pc_machine_auto_ruined
-				clear_blockers = yes
-				clear_deposits = yes
-				# no point to add all the blockers... ruined type is uninhabitable
-				# ... or is it ?
-				# oxr_mdlc_origin_wm_planet_random_add_all_blockers = yes
-				log = "Starting setup: Changed \\[This.GetName] to Ruined World Machine"
-				planet = { set_planet_flag = oxr_mdlc_ruined_world_machine }
-				add_anomaly = {
-					category = oxr_mdlc_anomaly_ruined_wm
-				}
-				clear_planet_modifiers = yes
-				if = {
-					limit = {
-						planet_size < 28 
+				planet = {
+					# oxr_mdlc_pc_convert_to_ruined_world_machine = yes
+					change_pc = xvcv_mdlc_pc_machine_auto_ruined
+					clear_blockers = yes
+					clear_deposits = yes
+					# no point to add all the blockers... ruined type is uninhabitable
+					# ... or is it ?
+					# oxr_mdlc_origin_wm_planet_random_add_all_blockers = yes
+					log = "Starting setup: Changed \\[This.GetName] to Ruined World Machine"
+					set_planet_flag = oxr_mdlc_ruined_world_machine
+					add_anomaly = {
+						category = oxr_mdlc_anomaly_ruined_wm
 					}
-					# Let's be generous
-					set_planet_size = 28
+					clear_planet_modifiers = yes
+					if = {
+						limit = {
+							planet_size < 28 
+						}
+						# Let's be generous
+						set_planet_size = 28
+					}
 				}
-			}
+			} #/random_system_planet_colony
 		}
 	}
 }
@@ -2018,7 +2021,7 @@ oxr_mdlc_planet_clear_blockers_etc_if_not_already_wm = {
 
 	if = {
 		limit = {
-			is_planet_world_machine = no
+			planet? = { is_planet_world_machine = no }
 		}
 		# Same as vanilla terraform from X to pc_machine
 		reroll_deposits = yes
@@ -2349,5 +2352,41 @@ oxr_mdlc_planet_wm_remove_capital_automation = {
 				BUILDING = building_imperial_machine_capital
 			}
 		}
+	}
+}
+
+oxr_mdlc_planet_destroy_nomad_orbitals_to_prepare_auto_colony = {
+	# Deposits need to be removed from the planet, and the secret owner needs to be reset
+	# since some tricky things make it impossible to use decisions on unowned non-habitables
+	# with deposits on them
+	clear_deposits = yes
+	create_colony = {
+		owner = space_owner
+		species = space_owner.species
+	}
+	destroy_colony = yes
+}
+
+oxr_mdlc_planet_show_wmc_drop_complete_message = {
+	# Call in planet scope
+	create_message = {
+		type = OXR_MDLC_WM_PLANET_CORE_DROPSITE
+		localization = OXR_MDLC_WM_PLANET_CORE_DROPSITE_MESSAGE
+		days = 10
+		target = this
+	}
+}
+
+oxr_resettle_pop_group = {
+	$target_planet$ = {
+		create_pop_group = {
+			pop_group = $source_pop_group$
+			size = 100
+		}
+	}
+	# removing pop groups can be done in any scope
+	kill_pop_group = {
+		pop_group = $source_pop_group$
+		amount = 100
 	}
 }
