@@ -28,15 +28,6 @@ xvcv_mdlc_bio_robot_auto_growth_not_possible_planet_trigger = {
 		has_modifier = planet_population_control_gestalt
 	}
 }
-xvcv_mdlc_world_machines_planet_classes_trigger = {
-	optimize_memory
-	OR = {
-		is_planet_class = xvcv_mdlc_pc_machine_ecu
-		is_planet_class = xvcv_mdlc_pc_machine_cpu
-		is_planet_class = xvcv_mdlc_pc_machine_ser
-		# is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
-	}
-}
 #
 # xvcv_mdlc_world_machines_districts_heat_indicators_calc_trigger was here
 #
@@ -96,9 +87,19 @@ is_planet_world_machine = {
 			is_planet_class = xvcv_mdlc_pc_machine_cpu
 			is_planet_class = xvcv_mdlc_pc_machine_ecu
 			is_planet_class = xvcv_mdlc_pc_machine_auto
-			is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
+			is_planet_class = xvcv_mdlc_pc_machine_ring
 			has_planet_flag = rikk_mdlc_is_world_machine
 		}
+	}
+}
+xvcv_mdlc_world_machines_planet_classes_trigger = { # Anything but extra world types (like battery)
+	optimize_memory
+	OR = {
+		is_planet_class = xvcv_mdlc_pc_machine_auto
+		is_planet_class = xvcv_mdlc_pc_machine_ecu
+		is_planet_class = xvcv_mdlc_pc_machine_cpu
+		is_planet_class = xvcv_mdlc_pc_machine_ser
+		is_planet_class = xvcv_mdlc_pc_machine_ring
 	}
 }
 

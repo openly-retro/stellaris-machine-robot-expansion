@@ -90,7 +90,6 @@ oxr_mdlc_world_machines_building_fractal_sanitizer_4 = {
 	can_build = no
 	prerequisites = { tech_zero_point_power }
 	allow = { oxr_mdlc_has_major_upgraded_capital = yes }
-    # upgrades = { oxr_mdlc_world_machines_building_fractal_sanitizer_4 }
 	inline_script = planet/buildings/oxr_sort_important
 	
 	inline_script = {
@@ -207,7 +206,6 @@ oxr_mdlc_world_machines_building_circuit_physics_3 = {
     planet_limit = 1
 	can_build = no
 	prerequisites = { tech_physics_3 }
-    # upgrades = { oxr_mdlc_world_machines_building_circuit_physics_3 }
 	inline_script = planet/buildings/oxr_sort_important
 
 	inline_script = {
@@ -344,7 +342,6 @@ oxr_mdlc_world_machines_building_circuit_society_3 = {
     planet_limit = 1
 	can_build = no
 	prerequisites = { tech_society_3 }
-    # upgrades = { oxr_mdlc_world_machines_building_circuit_society_3 }
 	inline_script = planet/buildings/oxr_sort_important
 
 	inline_script = {
@@ -481,7 +478,6 @@ oxr_mdlc_world_machines_building_circuit_engineering_3 = {
     planet_limit = 1
 	can_build = no
 	prerequisites = { tech_engineering_3 }
-    # upgrades = { oxr_mdlc_world_machines_building_circuit_engineering_3 }
 	inline_script = planet/buildings/oxr_sort_important
 
 	inline_script = {
@@ -675,14 +671,14 @@ oxr_mdlc_world_machines_building_archaeostudies_recombinator = {
 	
 	#auto
 	triggered_planet_modifier = {
-		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = no is_xvcv_mdlc_pc_ringworld_machine_auto = no }
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = no is_xvcv_mdlc_pc_machine_ring = no }
 		oxr_mdlc_world_machines_science_buildings_minor_artifacts_produces_add = 0.10
 		oxr_mdlc_world_machines_science_buildings_energy_upkeep_add = 2
 		xvcv_mdlc_world_machines_science_districts_minor_artifacts_produces_add = 0.10
 		xvcv_mdlc_world_machines_science_districts_energy_upkeep_add = 2
 	}
 	triggered_planet_modifier = {
-		potential = { exists = owner owner = { has_ascension_perk = ap_archaeoengineers } is_xvcv_mdlc_pc_machine_cpu = no is_xvcv_mdlc_pc_ringworld_machine_auto = no }
+		potential = { exists = owner owner = { has_ascension_perk = ap_archaeoengineers } is_xvcv_mdlc_pc_machine_cpu = no is_xvcv_mdlc_pc_machine_ring = no }
 		xvcv_mdlc_world_machines_science_districts_minor_artifacts_produces_add = 0.10
 		oxr_mdlc_world_machines_science_buildings_minor_artifacts_produces_add = 0.10
 	}
@@ -701,15 +697,15 @@ oxr_mdlc_world_machines_building_archaeostudies_recombinator = {
 	}
 	# ring
 	triggered_planet_modifier = {
-		potential = { exists = owner is_xvcv_mdlc_pc_ringworld_machine_auto = yes }
-		xvcv_mdlc_world_machines_rnd_districts_minor_artifacts_produces_add = 0.50
-		xvcv_mdlc_world_machines_rnd_districts_energy_upkeep_add = 10
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_ring = yes }
+		xvcv_mdlc_world_machines_science_districts_minor_artifacts_produces_add = 0.50
+		xvcv_mdlc_world_machines_science_districts_energy_upkeep_add = 10
 		oxr_mdlc_world_machines_science_buildings_minor_artifacts_produces_add = 0.50
 		oxr_mdlc_world_machines_science_buildings_energy_upkeep_add = 10
 	}
 	triggered_planet_modifier = {
-		potential = { exists = owner owner = { has_ascension_perk = ap_archaeoengineers } is_xvcv_mdlc_pc_ringworld_machine_auto = yes }
-		xvcv_mdlc_world_machines_rnd_districts_minor_artifacts_produces_add = 0.50
+		potential = { exists = owner owner = { has_ascension_perk = ap_archaeoengineers } is_xvcv_mdlc_pc_machine_ring = yes }
+		xvcv_mdlc_world_machines_science_districts_minor_artifacts_produces_add = 0.50
 		oxr_mdlc_world_machines_science_buildings_minor_artifacts_produces_add = 0.50
 	}
 	
@@ -738,7 +734,7 @@ oxr_mdlc_world_machines_building_archaeostudies_recombinator = {
 		RESOURCES = "
 			produces = {
 				trigger = { exists = owner owner = { has_ascension_perk = ap_archaeoengineers } }
-				society_research = @[ @oxr_mdlc_wm_base_calculator_single_output * 2 ]
+				society_research = @[ oxr_mdlc_wm_base_calculator_single_output * 2 ]
 			}
 			produces = {
 				trigger = { planet = { has_planet_flag = oxr_mdlc_pc_was_relic } }
@@ -788,7 +784,7 @@ rikk_mdlc_world_machines_building_vultaum_reality_computer = { #compuper
 	}
 	
 	triggered_planet_modifier = {
-		potential = { exists = owner owner = { has_ascension_perk = ap_cosmogenesis } is_xvcv_mdlc_pc_machine_cpu = no is_xvcv_mdlc_pc_ringworld_machine_auto = no }
+		potential = { exists = owner owner = { has_ascension_perk = ap_cosmogenesis } is_xvcv_mdlc_pc_machine_cpu = no is_xvcv_mdlc_pc_machine_ring = no }
 		xvcv_mdlc_world_machines_science_districts_advanced_logic_produces_add = 0.5
 		oxr_mdlc_world_machines_science_buildings_advanced_logic_produces_add = 0.5
 	}
@@ -798,7 +794,7 @@ rikk_mdlc_world_machines_building_vultaum_reality_computer = { #compuper
 		oxr_mdlc_world_machines_science_buildings_advanced_logic_produces_add = 1.5
 	}
 	triggered_planet_modifier = {
-		potential = { exists = owner owner = { has_ascension_perk = ap_cosmogenesis } is_xvcv_mdlc_pc_ringworld_machine_auto = yes }
+		potential = { exists = owner owner = { has_ascension_perk = ap_cosmogenesis } is_xvcv_mdlc_pc_machine_ring = yes }
 		xvcv_mdlc_world_machines_science_districts_advanced_logic_produces_add = 2.5
 		oxr_mdlc_world_machines_science_buildings_advanced_logic_produces_add = 2.5
 	}

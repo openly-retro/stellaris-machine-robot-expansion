@@ -1,7 +1,7 @@
 # non-cpu/ring
 
 triggered_planet_modifier = { #even though ecu and ser do not have science districts they could feasibly be used to produce science using buildings
-	potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = no is_xvcv_mdlc_pc_ringworld_machine_auto = no $POTENTIAL$ }
+	potential = { exists = owner is_xvcv_mdlc_pc_machine_cpu = no is_xvcv_mdlc_pc_machine_ring = no $POTENTIAL$ }
 	oxr_mdlc_world_machines_science_buildings_$RESEARCH_TYPE$_research_produces_add = $RESEARCH_AMOUNT$
 	oxr_mdlc_world_machines_science_buildings_$SR_TYPE$_upkeep_add = $SR_AMOUNT$
 	xvcv_mdlc_world_machines_science_districts_$RESEARCH_TYPE$_research_produces_add = $RESEARCH_AMOUNT$
@@ -17,9 +17,9 @@ triggered_planet_modifier = {
 }
 # ringworld
 triggered_planet_modifier = {
-	potential = { exists = owner is_xvcv_mdlc_pc_ringworld_machine_auto = yes OR = { rikk_mdlc_colony_has_active_fpga = no rikk_mdlc_colony_has_active_fpga_$RESEARCH_TYPE$ = yes } $POTENTIAL$ }
-	xvcv_mdlc_world_machines_rnd_districts_$RESEARCH_TYPE$_research_produces_add = @[ $RESEARCH_AMOUNT$ * 5 ]
-	xvcv_mdlc_world_machines_rnd_districts_$SR_TYPE$_upkeep_add = @[ $SR_AMOUNT$ * 5 ]
+	potential = { exists = owner is_xvcv_mdlc_pc_machine_ring = yes OR = { rikk_mdlc_colony_has_active_fpga = no rikk_mdlc_colony_has_active_fpga_$RESEARCH_TYPE$ = yes } $POTENTIAL$ }
+	xvcv_mdlc_world_machines_science_districts_$RESEARCH_TYPE$_research_produces_add = @[ $RESEARCH_AMOUNT$ * 5 ]
+	xvcv_mdlc_world_machines_science_districts_$SR_TYPE$_upkeep_add = @[ $SR_AMOUNT$ * 5 ]
 	oxr_mdlc_world_machines_science_buildings_$RESEARCH_TYPE$_research_produces_add = @[ $RESEARCH_AMOUNT$ * 5 ]
 	oxr_mdlc_world_machines_science_buildings_$SR_TYPE$_upkeep_add = @[ $SR_AMOUNT$ * 5 ]
 }

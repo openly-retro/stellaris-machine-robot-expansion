@@ -1,0 +1,29 @@
+# Currently just set to tech.
+@ringworld_segment_size = 50 #copied from vanilla
+entity = {
+	name = "rikk_mdlc_pc_machine_ring_01_entity"
+	pdxmesh = "ringworld_tech_01_mesh"
+	cull_radius = 500.0
+	
+	game_data = {
+		size = @ringworld_segment_size
+		shader_type = ship
+	}
+
+	default_state = "idle"
+	state = { 
+		name = "idle" state_time = 100 time_offset = { 0 100 }
+		start_event = { trigger_once = yes sound = { soundeffect = "ringworld_hum_idle_01" stop_on_state_change = yes } }
+		start_event = { trigger_once = yes sound = { soundeffect = "ringworld_hum_idle_02" stop_on_state_change = yes } }
+	}
+	
+	meshsettings = {
+		name = "pasted__polySurface28Shape"
+		index = 0
+		texture_diffuse = "ringworld_tech_diffuse.dds"
+		texture_normal = "ringworld_tech_normal.dds"
+		texture_specular = "ringworld_tech_specular.dds"
+		shader = "PdxMeshTerra"
+	}
+
+}
