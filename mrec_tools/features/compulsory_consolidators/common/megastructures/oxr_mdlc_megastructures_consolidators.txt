@@ -1,0 +1,194 @@
+oxr_mdlc_orbital_depositor_consolidator = {
+	# Target a galactic object and move the deposit to target planet
+
+	entity = "construction_platform_entity"
+	construction_entity = "construction_platform_entity"
+	portrait = "GFX_megastructure_construction_background"
+	entity_offset = { x = -10 y = 0 }
+
+	place_entity_on_planet_plane = no
+	show_galactic_map_icon = no
+	show_in_outliner = no
+	use_planet_resource = no  # linked to deposit?
+	build_time = 30
+
+	build_type = around_planet
+
+	construction_blocks_and_blocked_by = none
+
+	dismantle_cost = { category = megastructures cost = { energy = 0 } }
+	dismantle_time = 30
+	dismantle_potential = { always = yes }
+	dismantle_possible = { always = yes }
+
+	# trigger, scope: country
+	# from: fleet for new megastructures and megastructure for upgrades
+	potential = {
+		is_country_type = default
+		has_oxr_mdlc_civic_consolidators = yes
+	}
+
+	# trigger scope: galactic object
+	# from: country
+	# fromfrom: fleet for new megastructures and megastructure for upgrades
+	possible = {
+		hidden_trigger = {
+			exists = starbase
+		}
+		custom_tooltip = {
+			fail_text = "requires_inside_border"
+			is_inside_border = from
+		}
+		custom_tooltip = {
+			fail_text = "requires_surveyed_system"
+			NOT = {
+				any_system_planet = {
+					is_surveyed = {
+						who = prev.from
+						status = no
+					}
+				}
+			}
+		}
+		custom_tooltip = {
+			fail_text = "oxr_mdlc_orbital_depositor_consolidator_tooltip.fail_insufficient_energy"
+			space_owner = {
+				has_resource = {
+					type = energy
+					amount >= 200
+				}
+			}
+		}
+	}
+
+	placement_rules = {
+		planet_possible = {
+			# trigger, scope: planet
+
+			custom_tooltip = {
+				fail_text = "requires_no_existing_megastructure"
+				NOT = { has_carrier_flag = has_megastructure }
+			}
+			custom_tooltip = {
+				fail_text = "requires_not_star"
+				is_star = no
+			}
+			custom_tooltip = {
+				fail_text = "requires_not_astral_scar"
+				is_astral_scar = no
+			}
+
+			custom_tooltip = {
+				fail_text = "oxr_mdlc_orbital_depositor_consolidator_tooltip.fail_no_orbital_deps"
+				oxr_mdlc_consolidators_planet_has_orbital_deposits = no
+			}
+
+			custom_tooltip = {
+				fail_text = "oxr_mdlc_orbital_depositor_consolidator_tooltip.fail_terraforming"
+				is_terraforming = no
+			}
+
+			custom_tooltip = {
+				fail_text = "oxr_mdlc_orbital_depositor_consolidator_tooltip.fail_is_colony"
+				is_colony = no  # use xvcv's original decision for that one
+			}
+
+			custom_tooltip = {
+				fail_text = "requires_no_anomaly"
+				NOT = { has_anomaly = yes }
+			}
+
+			custom_tooltip = {
+				fail_text = "oxr_mdlc_orbital_depositor_consolidator_tooltip.fail_is_consolidation_target"
+				NOT = {
+					oxr_mdlc_planet_is_empire_orbital_consolidator_target = no
+					oxr_mdlc_planet_is_empire_planet_consolidation_target = no
+				}
+			}
+
+		} #/planet_possible
+	}
+
+
+	on_dismantle_start = {
+		fromfrom.planet = {
+			log = ""
+		}
+	}
+
+	on_dismantle_cancel = {
+		fromfrom.planet = {
+			log = ""
+		}
+	}
+
+	# effects, scope: galactic object, from: country,
+	# fromfrom: megastructure instance (when upgrading existing megastructure)
+	on_build_start = {
+
+	}
+
+	# effects, scope: galactic object, from: country,
+	# fromfrom: megastructure instance, fromfromfrom: constructing fleet
+	# prev: starbase (if the megastructure spawns a starbase)
+	on_build_complete = {
+
+		# Check if there are enough resources to start terraforming,
+		# otherwise the empire gets a free terraform!
+		if = {
+			limit = {
+				from = {
+
+						has_resource = {
+							type = energy
+							amount < 200
+						}
+					
+				}
+			}
+			# throw an error message
+			# destroy the mega
+
+			fromfrom = {
+				remove_megastructure = this
+			}
+		}
+		else = {
+			# Proceed as planned
+			from = {
+				log = "effect of oxr_mdlc_decision_trigger_orbital_extraction_project was fired"
+				space_owner = {
+					country_event = {
+						id = oxr_mdlc_civic_consolidators.3000
+						scopes = {
+							from = prev
+						}
+					}
+				}
+			}
+			# We don't need this mega since it did its job
+			fromfrom = {
+				create_message = {
+					type = OXR_MDLC_WM_PLANET_CORE_DROPSITE
+					localization = OXR_MDLC_WM_PLANET_CORE_DROPSITE_MESSAGE
+					days = 20
+					target = planet
+					variable = {
+						type = name
+						localization = OXR_MDLC_TARGET_WM_PLANET
+						scope = planet
+					}
+				}
+				remove_megastructure = this
+			}
+		}
+
+	} #/on_build_complete
+
+	on_dismantle_complete = { }
+
+	resources = {
+		category = station_gatherers
+		upkeep = { energy = 1 }
+	}
+}
