@@ -5,13 +5,17 @@
 #	xvcv_mdlc_pc_machine_cpu
 #	xvcv_mdlc_pc_machine_ser
 
-@wmupgradelength1 = 400
-@wmupgradelength2 = 600
-@wmupgradelength3 = 800
-@wmupgradelength4 = 3600
+@terraformlength = 720
+
+@wmupgradelength1 = 360
+@wmupgradelength2 = 540
+@wmupgradelength3 = 720
+@wmupgradelength4 = 900
+@wmupgradelength5 = 1080
+@wmupgradelengthlong = 3600
 
 rikk_mdlc_decision_world_machine_solidify_molten = {
-	enactment_time = @wmupgradelength3
+	enactment_time = @terraformlength
 	owned_planets_only = no
 	
 	resources = {
@@ -52,7 +56,7 @@ rikk_mdlc_decision_world_machine_solidify_molten = {
 		planet = {
 			oxr_mdlc_planet_add_rikk_terraforming_queued_modifier = {
 				PLANET_CLASS = pc_molten
-				DAYS = @wmupgradelength3
+				DAYS = @terraformlength
 			}
 		}
 	}
@@ -79,7 +83,7 @@ rikk_mdlc_decision_world_machine_solidify_molten = {
 }
 
 rikk_mdlc_decision_world_machine_defrost_cryosphere = {
-	enactment_time = @wmupgradelength3
+	enactment_time = @terraformlength
 	owned_planets_only = no
 	
 	resources = {
@@ -116,7 +120,7 @@ rikk_mdlc_decision_world_machine_defrost_cryosphere = {
 		planet = {
 			oxr_mdlc_planet_add_rikk_terraforming_queued_modifier = {
 				PLANET_CLASS = pc_frozen
-				DAYS = @wmupgradelength3
+				DAYS = @terraformlength
 			}
 		}
 	}
@@ -141,7 +145,7 @@ rikk_mdlc_decision_world_machine_defrost_cryosphere = {
 }
 
 rikk_mdlc_decision_world_machine_cleanse_toxic = {
-	enactment_time = @wmupgradelength2
+	enactment_time = @terraformlength
 	owned_planets_only = no
 	
 	resources = {
@@ -183,7 +187,7 @@ rikk_mdlc_decision_world_machine_cleanse_toxic = {
 		planet = {
 			oxr_mdlc_planet_add_rikk_terraforming_queued_modifier = {
 				PLANET_CLASS = pc_toxic
-				DAYS = @wmupgradelength2
+				DAYS = @terraformlength
 			}
 		}
 	}
@@ -209,7 +213,7 @@ rikk_mdlc_decision_world_machine_cleanse_toxic = {
 }
 
 rikk_mdlc_decision_world_machine_harness_nanites = {
-	enactment_time = @wmupgradelength1
+	enactment_time = @terraformlength
 	owned_planets_only = no
 	
 	resources = {
@@ -244,23 +248,15 @@ rikk_mdlc_decision_world_machine_harness_nanites = {
 		has_anomaly = no
 		NOT = { has_modifier = rikk_mdlc_world_machine_nanite_mod }
 	}
-	on_queued = {
-		planet = {
-			oxr_mdlc_planet_add_rikk_terraforming_queued_modifier = {
-				PLANET_CLASS = pc_gray_goo
-				DAYS = @wmupgradelength1
-			}
-		}
-
-	}
 	
 	on_queued = {
 		planet = {
 			oxr_mdlc_planet_add_rikk_terraforming_queued_modifier = {
 				PLANET_CLASS = pc_gray_goo
-				DAYS = @wmupgradelength1
+				DAYS = @terraformlength
 			}
 		}
+
 	}
 	
 	effect = {
@@ -284,7 +280,7 @@ rikk_mdlc_decision_world_machine_harness_nanites = {
 
 rikk_mdlc_decision_world_machine_crust_roots = {
 	owned_planets_only = yes
-	enactment_time = @wmupgradelength2
+	enactment_time = @wmupgradelength1
 	icon = oxr_mdlc_decisions_origin_wm_expand_planet
 	
 	resources = {
@@ -331,7 +327,7 @@ rikk_mdlc_decision_world_machine_crust_roots = {
 
 rikk_mdlc_decision_world_machine_synchronization_arrays = {
 	owned_planets_only = yes
-	enactment_time = @wmupgradelength2
+	enactment_time = @[ wmupgradelength1 + 5 ]
 	icon = oxr_mdlc_decisions_origin_wm_expand_planet_eng
 	
 	resources = {
@@ -400,7 +396,7 @@ rikk_mdlc_decision_world_machine_synchronization_arrays = {
 #Mantle
 rikk_mdlc_decision_world_machine_mantle_roots = {
 	owned_planets_only = yes
-	enactment_time = @wmupgradelength3
+	enactment_time = @wmupgradelength2
 	icon = oxr_mdlc_decisions_origin_wm_expand_planet
 	
 	resources = {
@@ -479,7 +475,7 @@ rikk_mdlc_decision_world_machine_mantle_roots = {
 
 rikk_mdlc_decision_world_machine_mantle_engine = {
 	owned_planets_only = yes
-	enactment_time = @wmupgradelength1
+	enactment_time = @[ wmupgradelength2 + 5 ]
 	icon = oxr_mdlc_decisions_origin_wm_expand_planet_eng
 	
 	resources = {
@@ -556,7 +552,7 @@ rikk_mdlc_decision_world_machine_mantle_engine = {
 
 rikk_mdlc_decision_world_machine_reinforced_planet = {
 	owned_planets_only = yes
-	enactment_time = @wmupgradelength1
+	enactment_time = @[ wmupgradelength2 + 10 ]
 	icon = oxr_mdlc_decisions_origin_wm_expand_planet_eng
 	
 	resources = {
@@ -615,7 +611,7 @@ rikk_mdlc_decision_world_machine_reinforced_planet = {
 
 rikk_mdlc_decision_world_machine_mantle_transport_network = {
 	owned_planets_only = yes
-	enactment_time = @wmupgradelength1
+	enactment_time = @[ wmupgradelength2 + 5 ]
 	icon = oxr_mdlc_decisions_origin_wm_expand_planet_eng
 	
 	resources = {
@@ -689,7 +685,7 @@ rikk_mdlc_decision_world_machine_mantle_transport_network = {
 
 rikk_mdlc_decision_world_machine_mantle_buses = {
 	owned_planets_only = yes
-	enactment_time = @wmupgradelength1
+	enactment_time = @[ wmupgradelength2 + 5 ]
 	icon = oxr_mdlc_decisions_origin_wm_expand_planet_eng
 	
 	resources = {
@@ -843,7 +839,7 @@ rikk_mdlc_decision_world_machine_outer_core_roots = {
 
 rikk_mdlc_decision_world_machine_outer_core_tap = {
 	owned_planets_only = yes
-	enactment_time = @wmupgradelength2
+	enactment_time = @[ wmupgradelength3 + 5 ]
 	icon = oxr_mdlc_decisions_origin_wm_expand_planet
 	
 	resources = {
@@ -959,7 +955,7 @@ rikk_mdlc_decision_world_machine_outer_core_cooling = {
 	effect = {
 		planet = {
 			custom_tooltip = rikk_mdlc_decision_world_machine_outer_core_cooling_effect
-			add_modifier = { modifier = rikk_mdlc_world_machine_outer_core_cooling_mod days = @wmupgradelength4 }
+			add_modifier = { modifier = rikk_mdlc_world_machine_outer_core_cooling_mod days = @wmupgradelengthlong }
 			hidden_effect = {
 				if = {
 					limit = {
@@ -972,8 +968,8 @@ rikk_mdlc_decision_world_machine_outer_core_cooling = {
 					remove_modifier = rikk_mdlc_world_machine_outer_core_cooling_mod
 					space_owner = { inline_script = country/messages/rikk_mdlc_upgrade_message_failed }
 				}
-				else = { planet_event = { id = rikk_mdlc_wm_event.110 days = @wmupgradelength4 } }
-				planet_event = { id = rikk_mdlc_wm_event.200 days = @[ wmupgradelength4 + 2 ] }
+				else = { planet_event = { id = rikk_mdlc_wm_event.110 days = @wmupgradelengthlong } }
+				planet_event = { id = rikk_mdlc_wm_event.200 days = @[ wmupgradelengthlong + 2 ] }
 			}
 		}
 	}
@@ -982,7 +978,7 @@ rikk_mdlc_decision_world_machine_outer_core_cooling = {
 #Inner_Core
 rikk_mdlc_decision_world_machine_inner_core_roots = {
 	owned_planets_only = yes
-	enactment_time = @wmupgradelength3
+	enactment_time = @wmupgradelength4
 	icon = oxr_mdlc_decisions_origin_wm_expand_planet
 	
 	resources = {
@@ -1065,7 +1061,7 @@ rikk_mdlc_decision_world_machine_inner_core_roots = {
 
 rikk_mdlc_decision_world_machine_inner_core_tap = {
 	owned_planets_only = yes
-	enactment_time = @wmupgradelength2
+	enactment_time = @[ wmupgradelength4 + 5 ]
 	icon = oxr_mdlc_decisions_origin_wm_expand_planet
 	
 	resources = {
@@ -1227,7 +1223,7 @@ rikk_mdlc_decision_world_machine_core_core = {
 # Structured World
 rikk_mdlc_decision_world_machine_structured_world = {
 	owned_planets_only = yes
-	enactment_time = @wmupgradelength3
+	enactment_time = @wmupgradelength5
 	icon = oxr_mdlc_decisions_origin_wm_expand_planet
 	
 	resources = {
