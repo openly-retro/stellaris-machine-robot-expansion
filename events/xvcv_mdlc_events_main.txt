@@ -2296,13 +2296,7 @@ planet_event = {
 		log = "A district was built on \\[This.GetName]."
 		# Any time a T3-world district is built, cooling must be recalculated,
 		# as well as deposits must be re-checked to create offsets in case cooling is unbalanced
-		xvcv_mdlc_planet_wm_calc_output_value = yes
-
-		# if = {
-		# 	limit = { xvcv_mdlc_planet_wm_has_non_resource_district = yes }
-		# 	#log = "Going into xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all"
-		# 	xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all = yes
-		# }
+		planet_event = { id = xvcv_mdlc.75 }
 	}
 }
 
@@ -2317,12 +2311,7 @@ planet_event = {
 	}
 	immediate = {
 		log = "A district was removed from \\[This.GetName]."
-		xvcv_mdlc_planet_wm_calc_output_value = yes
-		# if = {
-		# 	limit = { xvcv_mdlc_planet_wm_has_non_resource_district = yes }
-		# 	#log = "Going into xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all"
-		# 	xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all = yes
-		# }
+		planet_event = { id = xvcv_mdlc.75 }
 	}
 }
 # xvcv_on_world_machine_t3_resource_district_demolished, or cooling district demolished
@@ -2336,31 +2325,9 @@ planet_event = {
 	}
 	immediate = {
 		log = "A T3 resource district was removed from \\[This.GetName]."
-		if = {
-			limit = {
-				has_planet_flag = oxr_lock_oxr_mdlc_planet_destroy_excess_cooling_districts
-			}
-			log = "Not going to rebalance cooling bc it is in progress ..."
-		}
-		else = {
-			xvcv_mdlc_planet_wm_calc_output_value = yes
-		}
-
-		# Check if non-resource districts need offsets (if output is below 0.0) and add them
-		# if = {
-		# 	limit = { xvcv_mdlc_planet_wm_has_non_resource_district = yes }
-		# 	#log = "Going into xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all"
-		# 	xvcv_mdlc_planet_wm_recalc_non_resource_offsets_all = yes
-		# }
+		planet_event = { id = xvcv_mdlc.75 }
 	}
 }
-
-
-#'xvcv_mdlc_d_pc_machine_ser_crime' or 'xvcv_mdlc_d_pc_machine_ser_admin_cap' deposits count
-#on district built or destroyed
-# DEPRECATED AS OF APR 29 2025 - the work is done in on_built/on_destroy in districts
-# xvcv_mdlc.72
-
 
 #on_tech_increased
 #'xvcv_mdlc_tech_world_machines_districts_produces' tech effect event
@@ -2375,12 +2342,39 @@ country_event = {
 
 	immediate = {
 		every_owned_colony = {
-			limit = { xvcv_mdlc_world_machines_planet_classes_trigger = yes }
-			xvcv_mdlc_planet_wm_calc_output_value = yes
+			limit = { oxr_mdlc_planet_is_t3_world_machine = yes }
+			planet_event = { id = xvcv_mdlc.75 }
 		}
 	}
 }
 
+# Called immediately to add the calculating modifier
+planet_event = {
+	id = xvcv_mdlc.75
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = { oxr_mdlc_planet_is_t3_world_machine = yes }
+	
+	immediate = {
+		remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_good
+		remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral
+		remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad
+		add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_calculating days = 1 }
+		planet_event = { id = xvcv_mdlc.76 days = 1 }
+	}
+}
+# Called 1 day after to let stellaris process the modifier change
+planet_event = {
+	id = xvcv_mdlc.76
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_calculating
+		xvcv_mdlc_planet_wm_calc_output_value = yes
+	}
+}
 
 ### Species Traits Events ###
 #'xvcv_mdlc_trait_self_replicating_microbot' trait effect event

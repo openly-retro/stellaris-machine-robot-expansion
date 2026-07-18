@@ -1521,7 +1521,7 @@ oxr_mdlc_planet_create_world_machine_colony = {
 				is_planet_class = xvcv_mdlc_pc_machine_ecu
 			}
 		}
-		xvcv_mdlc_planet_wm_calc_output_value = yes
+		planet = { planet_event = { id = xvcv_mdlc.75 } }
 	}
 
 	# Clean up flags
@@ -1947,51 +1947,6 @@ oxr_mdlc_country_clear_wm_arc_sites_on_knowledge_gain = {
 	}
 }
 
-oxr_mdlc_planet_set_initial_cooling_district_count_var = {
-	if = {
-		limit = {
-			is_xvcv_mdlc_pc_machine_ecu = yes
-		}
-		export_trigger_value_to_variable = {
-			trigger = num_districts
-			parameters = {
-				type = xvcv_mdlc_pc_machine_ecu_district_cooling_primary
-			}
-			variable = num_xvcv_mdlc_cooling_districts
-		}
-	}
-	else_if = {
-		limit = {
-			is_xvcv_mdlc_pc_machine_ser = yes
-		}
-		export_trigger_value_to_variable = {
-			trigger = num_districts
-			parameters = {
-				type = xvcv_mdlc_pc_machine_ser_district_cooling_primary
-			}
-			variable = num_xvcv_mdlc_cooling_districts
-		}
-	}
-	else_if = {
-		limit = {
-			is_xvcv_mdlc_pc_machine_cpu = yes
-		}
-		export_trigger_value_to_variable = {
-			trigger = num_districts
-			parameters = {
-				type = xvcv_mdlc_pc_machine_cpu_district_cooling_primary
-			}
-			variable = num_xvcv_mdlc_cooling_districts
-		}
-	}
-	else = {
-		set_variable = {
-			which = num_xvcv_mdlc_cooling_districts
-			value = 1
-		}
-	}
-}
-
 oxr_mdlc_planet_clear_mods_and_vars_for_destroy_colony = {
 
 	remove_modifier_if_exists = {
@@ -2006,16 +1961,6 @@ oxr_mdlc_planet_clear_mods_and_vars_for_destroy_colony = {
 	remove_modifier_if_exists = {
 		WHICH = oxr_mdlc_planet_origin_world_machine_info
 	}
-	clear_variable_if_exists = {
-		WHICH = xvcv_mdlc_world_machines_districts_output_var
-	}
-	clear_variable_if_exists = {
-		WHICH = xvcv_mdlc_world_machines_districts_current_output_for_display_var
-	}
-	clear_variable_if_exists = {
-		WHICH = xvcv_mdlc_cooling_district_strength
-	}
-
 }
 
 oxr_mdlc_planet_clear_blockers_etc_if_not_already_wm = {
@@ -2082,10 +2027,6 @@ oxr_mdlc_planet_create_t3_world_colony = {
 			oxr_mdlc_origin_world_machine_create_digsite_for_blocker = yes
 		}
 
-		set_variable = {
-			which = num_xvcv_mdlc_cooling_districts
-			value = 0
-		}
 		add_modifier = { modifier = "planet_population_control_gestalt" days = -1 }
 		# add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral days = -1 }
 		xvcv_mdlc_planet_owner_terraforming_resolution_breached_effect = yes
@@ -2116,8 +2057,7 @@ oxr_mdlc_planet_create_t3_world_colony = {
 			log = "Created one extra Automation species"
 		}
 		oxr_mdlc_origin_world_machine_calc_max_district_armies = yes
-		oxr_mdlc_planet_set_initial_cooling_district_count_var = yes
-		xvcv_mdlc_planet_wm_calc_output_value = yes
+		planet = { planet_event = { id = xvcv_mdlc.75 } }
 	}
 
 	owner = {
