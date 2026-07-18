@@ -327,31 +327,36 @@ country_event = {
 	immediate = {
 		every_owned_colony = {
 			limit = { any_owned_species = { has_trait = rikk_mdlc_trait_robotic_constant_growth } }
-			export_trigger_value_to_variable = {
-				trigger = count_owned_pop_amount
-				parameters = { limit = { has_trait = rikk_mdlc_trait_robotic_constant_growth } }
-				variable = rikk_mdlc_count_nanomachine_pops_on_planet_var
-			}
-			log = "(Nanomachines Monthly) \\[this.GetName] has \\[this.rikk_mdlc_count_nanomachine_pops_on_planet_var] Nanomachine pops"
-			# Homeworld starts at 5k...
-			# When planet population of nanomachines reaches 10k, they don't get their bonuses any more,
-			# and penalties start to kick in
-			# It is an inverse relationship - more pops, less bonus
+			colony = {
+				set_variable = {
+					which = rikk_mdlc_planet_nanomachines_bonus_mult_percent
+					value = 0
+				}
+				export_trigger_value_to_variable = {
+					trigger = count_owned_pop_amount
+					parameters = { limit = { has_trait = rikk_mdlc_trait_robotic_constant_growth } }
+					variable = rikk_mdlc_count_nanomachine_pops_on_planet_var
+				}
+				log = "(Nanomachines Monthly) \\[this.GetName] has \\[this.rikk_mdlc_count_nanomachine_pops_on_planet_var] Nanomachine pops"
+				# Homeworld starts at 5k...
+				# When planet population of nanomachines reaches 10k, they don't get their bonuses any more,
+				# and penalties start to kick in
+				# It is an inverse relationship - more pops, less bonus
 
-			set_variable = {
-				which = rikk_mdlc_planet_nanomachines_bonus_mult_percent
-				value = 10000
-			}
-			subtract_variable = {
-				which = rikk_mdlc_planet_nanomachines_bonus_mult_percent
-				value = rikk_mdlc_count_nanomachine_pops_on_planet_var
-			}
-			divide_variable = {
-				which = rikk_mdlc_planet_nanomachines_bonus_mult_percent
-				value = 10000
-			}
-			log = "Planet nanomachine pop bonus on \\[this.GetName] set to \\[this.rikk_mdlc_planet_nanomachines_bonus_mult_percent] for empire \\[This.owner.GetName]]"
-
+				set_variable = {
+					which = rikk_mdlc_planet_nanomachines_bonus_mult_percent
+					value = 10000
+				}
+				subtract_variable = {
+					which = rikk_mdlc_planet_nanomachines_bonus_mult_percent
+					value = rikk_mdlc_count_nanomachine_pops_on_planet_var
+				}
+				divide_variable = {
+					which = rikk_mdlc_planet_nanomachines_bonus_mult_percent
+					value = 10000
+				}
+				log = "Planet nanomachine pop bonus on \\[this.GetName] set to \\[this.rikk_mdlc_planet_nanomachines_bonus_mult_percent] for empire \\[This.owner.GetName]]"
+			} #/ colony
 		}
 	}
 }
