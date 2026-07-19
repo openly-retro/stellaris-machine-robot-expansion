@@ -1,5 +1,41 @@
 
+rikk_mdlc_tech_rare_raw_zones = { #unlocks the rare zones for raw resource districts
+	cost = @tier3cost2
+	area = engineering
+	tier = 4
+	weight = @tier4weight1
+	category = { industry }
+	prerequisites = { "xvcv_mdlc_tech_world_machines_districts_produces" }
+	is_rare = yes
+	
+	potential = { owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes } }
+	
+	modifier = { custom_tooltip = rikk_mdlc_tech_rare_raw_zones_tooltip }
+
+	weight_modifier = { factor = 1 }
+	
+	ai_weight = { weight = 2 }
+}
+rikk_mdlc_tech_rare_primary_zones = { #unlocks the rare zones for primary/cooling districts
+	cost = @tier3cost2
+	area = engineering
+	tier = 4
+	weight = @tier4weight1
+	category = { industry }
+	prerequisites = { "xvcv_mdlc_tech_world_machines_districts_produces" }
+	is_rare = yes
+	
+	potential = { owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes } }
+	
+	modifier = { custom_tooltip = rikk_mdlc_tech_rare_raw_zones_tooltip }
+
+	weight_modifier = { factor = 1 }
+	
+	ai_weight = { weight = 2 }
+}
+
 rikk_mdlc_tech_rare_resource_synthesizer = {
+	#disabled but here for compatability. The following 4 techs take over it.
 	cost = @repeatableTechBaseCost
 	area = engineering
 	tier = @repeatableTechTier
@@ -10,6 +46,7 @@ rikk_mdlc_tech_rare_resource_synthesizer = {
 	
 	potential = {
 		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		always = no
 	}
 	
 	modifier = {
@@ -17,13 +54,242 @@ rikk_mdlc_tech_rare_resource_synthesizer = {
 	}
 
 	weight_modifier = {
-		factor = 1
-		inline_script = {
-			script = technologies/rare_technologies_weight_modifiers
-			TECHNOLOGY = rikk_mdlc_tech_battery_world
-		}
+		factor = 0.01
+	}
+	
+	ai_weight = {
+		weight = 2
+	}
+}
+
+rikk_mdlc_tech_dark_matter_integration = {
+	cost = @repeatableTechBaseCost
+	area = physics
+	tier = @repeatableTechTier
+	weight = @tier5weight3
+	category = { field_manipulation  }
+	prerequisites = { "xvcv_mdlc_tech_world_machines_districts_produces" "tech_mine_dark_matter" }
+	is_rare = yes
+	
+	potential = {
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+	}
+	
+	modifier = {
+		custom_tooltip = rikk_mdlc_tech_dark_matter_integration_tooltip
+	}
+
+	weight_modifier = {
+		factor = 0.01
 	}
 	ai_weight = {
 		weight = 2
 	}
+}
+rikk_mdlc_tech_living_metal_integration = {
+	cost = @repeatableTechBaseCost
+	area = society
+	tier = @repeatableTechTier
+	weight = @tier5weight3
+	category = { biology  }
+	prerequisites = { "xvcv_mdlc_tech_world_machines_districts_produces" "tech_mine_living_metal" }
+	is_rare = yes
+	
+	potential = {
+		owner = { 
+			oxr_mdlc_planet_owner_can_build_wm_districts = yes
+			NOR = {
+				has_tradition = tr_modularity_adopt
+				has_active_tradition = tr_modularity_adopt
+			}
+		}
+	}
+	
+	modifier = {
+		custom_tooltip = rikk_mdlc_tech_living_metal_integration_tooltip
+	}
+
+	weight_modifier = {
+		factor = 0.01
+	}
+	ai_weight = {
+		weight = 2
+	}
+}
+rikk_mdlc_tech_nanites_integration = {
+	cost = @repeatableTechBaseCost
+	area = engineering
+	tier = 4
+	weight = @tier4weight1
+	category = { industry }
+	prerequisites = { "xvcv_mdlc_tech_world_machines_districts_produces" "tech_nanite_transmutation" }
+	is_rare = yes
+	
+	potential = {
+		owner = { 
+			oxr_mdlc_planet_owner_can_build_wm_districts = yes
+			NOR = {
+				has_tradition = tr_nanotech_1
+				has_active_tradition = tr_nanotech_1
+			}
+		}
+	}
+	
+	modifier = {
+		custom_tooltip = rikk_mdlc_tech_nanites_integration_tooltip
+	}
+
+	weight_modifier = {
+		factor = 0.01
+	}
+	ai_weight = {
+		weight = 2
+	}
+}
+rikk_mdlc_tech_zro_integration = {
+	cost = @repeatableTechBaseCost
+	area = society
+	tier = @repeatableTechTier
+	weight = @tier5weight3
+	category = { psionics  }
+	prerequisites = { "xvcv_mdlc_tech_world_machines_districts_produces" "tech_mine_zro" }
+	is_rare = yes
+	
+	potential = {
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+	}
+	
+	modifier = {
+		custom_tooltip = rikk_mdlc_tech_zro_integration_tooltip
+	}
+
+	weight_modifier = { factor = 0.01 }
+	ai_weight = { weight = 2 }
+}
+
+rikk_mdlc_tech_zone_ser_empire_size = {
+	cost = @repeatableTechBaseCost
+	area = society
+	tier = @repeatableTechTier
+	weight = @tier5weight3
+	category = { statecraft }
+	prerequisites = { "xvcv_mdlc_tech_world_machines_districts_produces" }
+	is_rare = yes
+	
+	potential = {
+		owner = {
+			OR = {
+				any_owned_planet = { is_xvcv_mdlc_pc_machine_ser = yes }
+				has_tradition = rikk_mdlc_tr_zoning_adopt
+			}
+		}
+	}
+	
+	modifier = {
+		custom_tooltip = rikk_mdlc_tech_zone_ser_empire_size_tooltip
+	}
+
+	weight_modifier = { factor = 0.01 }
+	ai_weight = { weight = 2 }
+}
+rikk_mdlc_tech_zone_ser_building_cap = {
+	cost = @repeatableTechBaseCost
+	area = society
+	tier = @repeatableTechTier
+	weight = @tier5weight3
+	category = { statecraft }
+	prerequisites = { "xvcv_mdlc_tech_world_machines_districts_produces" }
+	is_rare = yes
+	
+	potential = {
+		owner = {
+			OR = {
+				any_owned_planet = { is_xvcv_mdlc_pc_machine_ser = yes }
+				has_tradition = rikk_mdlc_tr_zoning_adopt
+			}
+		}
+	}
+	
+	modifier = {
+		custom_tooltip = rikk_mdlc_tech_zone_ser_building_cap_tooltip
+	}
+
+	weight_modifier = { factor = 0.01 }
+	ai_weight = { weight = 2 }
+}
+rikk_mdlc_tech_zone_ser_influence = {
+	cost = @repeatableTechBaseCost
+	area = society
+	tier = @repeatableTechTier
+	weight = @tier5weight3
+	category = { statecraft }
+	prerequisites = { "xvcv_mdlc_tech_world_machines_districts_produces" "tech_orbital_ring_tier_1" }
+	is_rare = yes
+	
+	potential = {
+		owner = {
+			OR = {
+				any_owned_planet = { is_xvcv_mdlc_pc_machine_ser = yes }
+				has_tradition = rikk_mdlc_tr_zoning_adopt
+			}
+		}
+	}
+	
+	modifier = {
+		custom_tooltip = rikk_mdlc_tech_zone_ser_influence_tooltip
+	}
+
+	weight_modifier = { factor = 0.01 }
+	ai_weight = { weight = 2 }
+}
+
+rikk_mdlc_tech_zone_ecu_speed_mult = {
+	cost = @repeatableTechBaseCost
+	area = society
+	tier = @repeatableTechTier
+	weight = @tier5weight3
+	category = { military_theory }
+	prerequisites = { "xvcv_mdlc_tech_world_machines_districts_produces" }
+	is_rare = yes
+	
+	potential = {
+		owner = {
+			OR = {
+				any_owned_planet = { is_xvcv_mdlc_pc_machine_ecu = yes }
+				has_tradition = rikk_mdlc_tr_zoning_adopt
+			}
+		}
+	}
+	
+	modifier = {
+		custom_tooltip = rikk_mdlc_tech_zone_ecu_speed_mult_tooltip
+	}
+
+	weight_modifier = { factor = 0.01 }
+	ai_weight = { weight = 2 }
+}
+rikk_mdlc_tech_zone_ecu_shipyard = {
+	cost = @repeatableTechBaseCost
+	area = society
+	tier = @repeatableTechTier
+	weight = @tier5weight3
+	category = { military_theory }
+	prerequisites = { "xvcv_mdlc_tech_world_machines_districts_produces" "tech_orbital_ring_tier_1" }
+	is_rare = yes
+	
+	potential = {
+		owner = {
+			OR = {
+				any_owned_planet = { is_xvcv_mdlc_pc_machine_ecu = yes }
+				has_tradition = rikk_mdlc_tr_zoning_adopt
+			}
+		}
+	}
+	
+	modifier = {
+		custom_tooltip = rikk_mdlc_tech_zone_ecu_shipyard_tooltip
+	}
+
+	weight_modifier = { factor = 0.01 }
+	ai_weight = { weight = 2 }
 }

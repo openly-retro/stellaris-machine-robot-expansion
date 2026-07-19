@@ -19,11 +19,9 @@ oxr_mdlc_zone_pc_machine_ecu_alloys = {
 	# Modify base district output, upkeep, and cost
 	inline_script = {
 		script = planet/zones/auto/oxr_wm_alloys_zone_production
-		DISTRICT_CATEGORY = xvcv_mdlc_world_machines_foundry_factory_districts
+		DISTRICT_CATEGORY = xvcv_mdlc_world_machines_foundry_districts
 		JOBS = @oxr_t3_planet_district_jobs
 	}
-
-	triggered_desc = { trigger = { always = yes } text = rikk_mdlc_zone_swap_tt }
 
 	included_building_sets = {
 		foundry
@@ -37,6 +35,7 @@ oxr_mdlc_zone_pc_machine_ecu_alloys = {
 	zone_sets = {
 		oxr_mdlc_zone_set_wm_production
 	}
+	triggered_desc = { text = rikk_mdlc_zone_swap_tt }
 }
 
 oxr_mdlc_zone_pc_machine_ecu_consumer_goods = {
@@ -57,11 +56,9 @@ oxr_mdlc_zone_pc_machine_ecu_consumer_goods = {
 	# Modify base district output, upkeep, and cost
 	inline_script = {
 		script = planet/zones/auto/oxr_wm_consumer_goods_zone_production
-		DISTRICT_CATEGORY = xvcv_mdlc_world_machines_foundry_factory_districts
+		DISTRICT_CATEGORY = xvcv_mdlc_world_machines_factory_districts
 		JOBS = @oxr_t3_planet_district_jobs
 	}
-
-	triggered_desc = { trigger = { always = yes } text = rikk_mdlc_zone_swap_tt }
 
 	included_building_sets = {
 		factory
@@ -80,6 +77,7 @@ oxr_mdlc_zone_pc_machine_ecu_consumer_goods = {
 	zone_sets = {
 		oxr_mdlc_zone_set_wm_production
 	}
+	triggered_desc = { text = rikk_mdlc_zone_swap_tt }
 }
 
 # STRATEGIC RESOURCE ZONES
@@ -112,8 +110,6 @@ oxr_mdlc_zone_pc_machine_ecu_triple_strategic_resources = {
 		JOBS = @oxr_t1_planet_district_jobs
 	}
 	
-	triggered_desc = { trigger = { always = yes } text = rikk_mdlc_zone_swap_tt }
-	
 	included_building_sets = {
 		industrial
 		automation
@@ -121,10 +117,10 @@ oxr_mdlc_zone_pc_machine_ecu_triple_strategic_resources = {
 		oxr_mdlc_building_set_wm_strategic
 	}
 	
-	
 	zone_sets = {
 		oxr_mdlc_zone_set_wm_strategic_resources
 	}
+	triggered_desc = { text = rikk_mdlc_zone_swap_tt }
 }
 
 oxr_mdlc_zone_pc_machine_ecu_rare_crystals = {
@@ -152,8 +148,6 @@ oxr_mdlc_zone_pc_machine_ecu_rare_crystals = {
 		JOBS = @oxr_t3_planet_district_jobs
 	}
 
-	triggered_desc = { trigger = { always = yes } text = rikk_mdlc_zone_swap_tt }
-
 	included_building_sets = {
 		industrial
 		automation
@@ -164,6 +158,7 @@ oxr_mdlc_zone_pc_machine_ecu_rare_crystals = {
 	zone_sets = {
 		oxr_mdlc_zone_set_wm_strategic_resources
 	}
+	triggered_desc = { text = rikk_mdlc_zone_swap_tt }
 }
 
 oxr_mdlc_zone_pc_machine_ecu_volatile_motes = {
@@ -191,8 +186,6 @@ oxr_mdlc_zone_pc_machine_ecu_volatile_motes = {
 		JOBS = @oxr_t3_planet_district_jobs
 	}
 
-	triggered_desc = { trigger = { always = yes } text = rikk_mdlc_zone_swap_tt }
-
 	included_building_sets = {
 		industrial
 		automation
@@ -203,6 +196,7 @@ oxr_mdlc_zone_pc_machine_ecu_volatile_motes = {
 	zone_sets = {
 		oxr_mdlc_zone_set_wm_strategic_resources
 	}
+	triggered_desc = { text = rikk_mdlc_zone_swap_tt }
 }
 
 oxr_mdlc_zone_pc_machine_ecu_exotic_gases = {
@@ -210,12 +204,11 @@ oxr_mdlc_zone_pc_machine_ecu_exotic_gases = {
 	inline_script = planet/zones/oxr_wm_zone_base_ecu_no_unlock
 	unlock = {
 		hidden_trigger = { exists = owner }
-		owner = { 
+		owner = {
 			oxr_mdlc_planet_owner_can_build_wm_districts = yes
 			has_technology = tech_exotic_gases
 		}
 	}
-	
 	
 	resources = {
 		category = oxr_mdlc_world_machines_zones
@@ -231,8 +224,6 @@ oxr_mdlc_zone_pc_machine_ecu_exotic_gases = {
 		JOBS = @oxr_t3_planet_district_jobs
 	}
 
-	triggered_desc = { trigger = { always = yes } text = rikk_mdlc_zone_swap_tt }
-
 	included_building_sets = {
 		industrial
 		automation
@@ -244,179 +235,204 @@ oxr_mdlc_zone_pc_machine_ecu_exotic_gases = {
 	zone_sets = {
 		oxr_mdlc_zone_set_wm_strategic_resources
 	}
+	triggered_desc = { text = rikk_mdlc_zone_swap_tt }
 }
 
-# RARE STRATEGIC RESOURCES
-#oxr_mdlc_zone_pc_machine_ecu_dark_matter_drawing = {
-#	icon = GFX_district_specialization_industrial
-#	base_buildtime = @zone_buildtime
-#	
-#	potential = {
-#		exists = owner
-#		owner = { 
-#			has_technology = rikk_mdlc_tech_rare_resource_synthesizer
-#		}
-#	}
-#	unlock = { owner = { has_technology = tech_mine_dark_matter } }
-#	
-#	resources = {
-#		category = oxr_mdlc_world_machines_zones
-#		cost = { 
-#			minerals = @zone_cost
-#			sr_dark_matter = @b5_rare_cost
-#		}
-#	}
-#
-#	triggered_planet_modifier = {
-#		xvcv_mdlc_world_machines_strategic_resource_districts_sr_dark_matter_produces_add = 1
-#		xvcv_mdlc_world_machines_strategic_resource_districts_energy_upkeep_add = @[ 10 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
-#		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
-#	}
-#
-#	triggered_desc = { trigger = { always = yes } text = rikk_mdlc_zone_swap_tt }
-#
-#	planet_modifier = {
-#		zone_building_slots_add = 3
-#	}
-#	
-#	included_building_sets = {
-#		industrial
-#		automation
-#		origin
-#		oxr_mdlc_building_set_wm_manufacturing
-#		oxr_mdlc_building_set_wm_strategic
-#	}
-#
-#	ai_resource_production = {
-#		sr_dark_matter = 1
-#		trigger = { always = yes }
-#	}
-#	
-#	zone_sets = {
-#		oxr_mdlc_zone_set_wm_strategic_resources
-#	}
-#}
-#oxr_mdlc_zone_pc_machine_ecu_living_metal_breeding = {
-#	icon = GFX_district_specialization_industrial
-#	base_buildtime = @zone_buildtime
-#	
-#	potential = {
-#		exists = owner
-#		owner = { has_technology = rikk_mdlc_tech_rare_resource_synthesizer }
-#	}
-#	
-#	unlock = { owner = { has_technology = tech_mine_living_metal } }
-#	
-#	resources = {
-#		category = oxr_mdlc_world_machines_zones
-#		cost = { 
-#			minerals = @zone_cost
-#			sr_living_metal = @b5_rare_cost
-#		}
-#	}
-#
-#	triggered_planet_modifier = {
-#		xvcv_mdlc_world_machines_strategic_resource_districts_sr_living_metal_produces_add = 1
-#		xvcv_mdlc_world_machines_strategic_resource_districts_alloys_upkeep_add = @oxr_mdlc_wm_base_chemist_drone_upkeep
-#		xvcv_mdlc_world_machines_strategic_resource_districts_energy_upkeep_add = @[ 5 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
-#		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
-#	}
-#
-#	triggered_desc = { trigger = { always = yes } text = rikk_mdlc_zone_swap_tt }
-#
-#	planet_modifier = {
-#		zone_building_slots_add = 3
-#	}
-#	
-#	included_building_sets = {
-#		industrial
-#		automation
-#		origin
-#		oxr_mdlc_building_set_wm_manufacturing
-#		oxr_mdlc_building_set_wm_strategic
-#	}
-#
-#	ai_resource_production = {
-#		sr_living_metal = 1
-#		trigger = { always = yes }
-#	}
-#	
-#	zone_sets = {
-#		oxr_mdlc_zone_set_wm_strategic_resources
-#	}
-#}
-#oxr_mdlc_zone_pc_machine_ecu_nanite_feeding = {
-#	icon = GFX_district_specialization_industrial
-#	base_buildtime = @zone_buildtime
-#	
-#	potential = {
-#		exists = owner
-#		owner = { has_technology = rikk_mdlc_tech_rare_resource_synthesizer }
-#	}
-#	
-#	unlock = { 
-#		owner = { 
-#			OR = {
-#				has_tradition = tr_nanotech_1
-#				has_active_tradition = tr_nanotech_1
-#				has_technology = tech_nanite_transmutation
-#			}
-#		}
-#	}
-#	
-#	resources = {
-#		category = oxr_mdlc_world_machines_zones
-#		cost = { 
-#			minerals = @zone_cost
-#			nanites = @b5_rare_cost
-#		}
-#	}
-#
-#	triggered_planet_modifier = {
-#		potential = { owner = { NOR = { has_tradition = tr_nanotech_1 has_active_tradition = tr_nanotech_1 } } }
-#		xvcv_mdlc_world_machines_strategic_resource_districts_nanites_produces_add = 1
-#		xvcv_mdlc_world_machines_strategic_resource_districts_minerals_upkeep_add = @[ 5 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
-#		xvcv_mdlc_world_machines_strategic_resource_districts_food_upkeep_add = @[ 5 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
-#		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
-#	}
-#	triggered_planet_modifier = {
-#		potential = { owner = { OR = { has_tradition = tr_nanotech_1 has_active_tradition = tr_nanotech_1 } } }
-#		xvcv_mdlc_world_machines_strategic_resource_districts_nanites_produces_add = 4
-#		xvcv_mdlc_world_machines_strategic_resource_districts_minerals_upkeep_add = @oxr_mdlc_wm_base_chemist_drone_upkeep
-#		xvcv_mdlc_world_machines_strategic_resource_districts_food_upkeep_add = @oxr_mdlc_wm_base_chemist_drone_upkeep
-#		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
-#	}
-#
-#	triggered_desc = { trigger = { always = yes } text = rikk_mdlc_zone_swap_tt }
-#	
-#	planet_modifier = {
-#		zone_building_slots_add = 3
-#	}
-#	
-#	included_building_sets = {
-#		industrial
-#		automation
-#		origin
-#		oxr_mdlc_building_set_wm_manufacturing
-#		oxr_mdlc_building_set_wm_strategic
-#	}
-#	
-#	ai_resource_production = {
-#		nanites = 1
-#		trigger = { always = yes }
-#	}
-#	
-#	zone_sets = {
-#		oxr_mdlc_zone_set_wm_strategic_resources
-#	}
-#}
-oxr_mdlc_zone_pc_machine_ecu_zro_summoning = {
-	icon = GFX_district_specialization_industrial
+# Exotic Resources
+oxr_mdlc_zone_pc_machine_ecu_dark_matter_drawing = {
+	icon = GFX_rikk_mdlc_district_specialization_ecu_dark_matter
 	base_buildtime = @zone_buildtime
 	
 	potential = {
 		exists = owner
-		owner = { has_technology = rikk_mdlc_tech_rare_resource_synthesizer}
+		owner = {
+			OR = {
+				has_technology = rikk_mdlc_tech_rare_resource_synthesizer
+				has_technology = rikk_mdlc_tech_dark_matter_integration
+			}
+		}
+	}
+	
+	resources = {
+		category = oxr_mdlc_world_machines_zones
+		cost = { 
+			minerals = @zone_cost
+			sr_dark_matter = @b5_rare_cost
+		}
+	}
+
+	triggered_planet_modifier = {
+		xvcv_mdlc_world_machines_strategic_resource_districts_sr_dark_matter_produces_add = 2
+		xvcv_mdlc_world_machines_strategic_resource_districts_energy_upkeep_add = @[ 12 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+	}
+	triggered_planet_modifier = {
+		potential = { owner = { has_tradition = rikk_mdlc_tr_zoning_4 } }
+		xvcv_mdlc_world_machines_strategic_resource_districts_sr_dark_matter_produces_add = 1
+	}
+
+	planet_modifier = { zone_building_slots_add = 3 }
+	
+	included_building_sets = {
+		industrial
+		automation
+		origin
+		oxr_mdlc_building_set_wm_manufacturing
+		oxr_mdlc_building_set_wm_strategic
+	}
+
+	ai_resource_production = {
+		sr_dark_matter = 1
+		trigger = { always = yes }
+	}
+	
+	zone_sets = {
+		oxr_mdlc_zone_set_wm_strategic_resources
+	}
+	triggered_desc = { text = rikk_mdlc_zone_swap_tt }
+}
+oxr_mdlc_zone_pc_machine_ecu_living_metal_breeding = {
+	icon = GFX_rikk_mdlc_district_specialization_ecu_living_metal
+	base_buildtime = @zone_buildtime
+	
+	potential = {
+		exists = owner
+		owner = {
+			OR = {
+				has_technology = rikk_mdlc_tech_rare_resource_synthesizer
+				has_technology = rikk_mdlc_tech_living_metal_integration
+				has_tradition = tr_modularity_adopt
+				has_active_tradition = tr_modularity_adopt
+			}
+		}
+	}
+	
+	unlock = { }
+	
+	resources = {
+		category = oxr_mdlc_world_machines_zones
+		cost = { 
+			minerals = @zone_cost
+			sr_living_metal = @b5_rare_cost
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = { owner = { NOR = { has_tradition = tr_modularity_adopt has_active_tradition = tr_modularity_adopt } } }
+		xvcv_mdlc_world_machines_strategic_resource_districts_sr_living_metal_produces_add = 2
+		xvcv_mdlc_world_machines_strategic_resource_districts_alloys_upkeep_add = @[ 1.2 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
+		xvcv_mdlc_world_machines_strategic_resource_districts_energy_upkeep_add = @[ 6 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+	}
+	triggered_planet_modifier = {
+		potential = { owner = { OR = { has_tradition = tr_modularity_adopt has_active_tradition = tr_modularity_adopt } } }
+		xvcv_mdlc_world_machines_strategic_resource_districts_sr_living_metal_produces_add = 8
+		xvcv_mdlc_world_machines_strategic_resource_districts_alloys_upkeep_add = @[ 0.25 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
+		xvcv_mdlc_world_machines_strategic_resource_districts_energy_upkeep_add = @[ 1.2 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+	}
+	triggered_planet_modifier = {
+		potential = { owner = { has_tradition = rikk_mdlc_tr_zoning_4 } }
+		xvcv_mdlc_world_machines_strategic_resource_districts_sr_living_metal_produces_add = 1
+	}
+
+	planet_modifier = { zone_building_slots_add = 3 }
+	
+	included_building_sets = {
+		industrial
+		automation
+		origin
+		oxr_mdlc_building_set_wm_manufacturing
+		oxr_mdlc_building_set_wm_strategic
+	}
+
+	ai_resource_production = {
+		sr_living_metal = 1
+		trigger = { always = yes }
+	}
+	
+	zone_sets = {
+		oxr_mdlc_zone_set_wm_strategic_resources
+	}
+	triggered_desc = { text = rikk_mdlc_zone_swap_tt }
+}
+oxr_mdlc_zone_pc_machine_ecu_nanite_feeding = {
+	icon = GFX_rikk_mdlc_district_specialization_ecu_nanites
+	base_buildtime = @zone_buildtime
+	
+	potential = {
+		exists = owner
+		owner = {
+			OR = {
+				has_technology = rikk_mdlc_tech_rare_resource_synthesizer
+				has_technology = rikk_mdlc_tech_nanites_integration
+				has_tradition = tr_nanotech_1
+				has_active_tradition = tr_nanotech_1
+			}
+		}
+	}
+	
+	unlock = { }
+	
+	resources = {
+		category = oxr_mdlc_world_machines_zones
+		cost = { 
+			minerals = @zone_cost
+			nanites = @b5_rare_cost
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = { owner = { NOR = { has_tradition = tr_nanotech_1 has_active_tradition = tr_nanotech_1 } } }
+		xvcv_mdlc_world_machines_strategic_resource_districts_nanites_produces_add = 2
+		xvcv_mdlc_world_machines_strategic_resource_districts_minerals_upkeep_add = @[ 6 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
+		xvcv_mdlc_world_machines_strategic_resource_districts_food_upkeep_add = @[ 6 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+	}
+	triggered_planet_modifier = {
+		potential = { owner = { OR = { has_tradition = tr_nanotech_1 has_active_tradition = tr_nanotech_1 } } }
+		xvcv_mdlc_world_machines_strategic_resource_districts_nanites_produces_add = 8
+		xvcv_mdlc_world_machines_strategic_resource_districts_minerals_upkeep_add = @[ 1.2 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
+		xvcv_mdlc_world_machines_strategic_resource_districts_food_upkeep_add = @[ 1.2 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
+		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
+	}
+	triggered_planet_modifier = {
+		potential = { owner = { has_tradition = rikk_mdlc_tr_zoning_4 } }
+		xvcv_mdlc_world_machines_strategic_resource_districts_nanites_produces_add = 1
+	}
+	
+	planet_modifier = { zone_building_slots_add = 3 }
+	
+	included_building_sets = {
+		industrial
+		automation
+		origin
+		oxr_mdlc_building_set_wm_manufacturing
+		oxr_mdlc_building_set_wm_strategic
+	}
+	
+	ai_resource_production = {
+		nanites = 1
+		trigger = { always = yes }
+	}
+	
+	zone_sets = {
+		oxr_mdlc_zone_set_wm_strategic_resources
+	}
+	triggered_desc = { text = rikk_mdlc_zone_swap_tt }
+}
+oxr_mdlc_zone_pc_machine_ecu_zro_summoning = {
+	icon = GFX_rikk_mdlc_district_specialization_ecu_zro
+	base_buildtime = @zone_buildtime
+	
+	potential = {
+		exists = owner
+		owner = { 
+			OR = {
+				has_technology = rikk_mdlc_tech_rare_resource_synthesizer
+				has_technology = rikk_mdlc_tech_zro_integration
+			}
+		}
 	}
 	
 	unlock = { owner = { has_technology = tech_mine_zro } }
@@ -431,16 +447,16 @@ oxr_mdlc_zone_pc_machine_ecu_zro_summoning = {
 
 	# Modify base district output, upkeep, and cost
 	triggered_planet_modifier = {
-		xvcv_mdlc_world_machines_strategic_resource_districts_sr_zro_produces_add = 1
-		xvcv_mdlc_world_machines_strategic_resource_districts_energy_upkeep_add = @[ 10 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
+		xvcv_mdlc_world_machines_strategic_resource_districts_sr_zro_produces_add = 2
+		xvcv_mdlc_world_machines_strategic_resource_districts_energy_upkeep_add = @[ 12 * oxr_mdlc_wm_base_chemist_drone_upkeep ]
 		mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
 	}
-
-	triggered_desc = { trigger = { always = yes } text = rikk_mdlc_zone_swap_tt }
-
-	planet_modifier = {
-		zone_building_slots_add = 3
+	triggered_planet_modifier = {
+		potential = { owner = { has_tradition = rikk_mdlc_tr_zoning_4 } }
+		xvcv_mdlc_world_machines_strategic_resource_districts_sr_zro_produces_add = 1
 	}
+
+	planet_modifier = { zone_building_slots_add = 3 }
 	
 	included_building_sets = {
 		industrial
@@ -457,6 +473,7 @@ oxr_mdlc_zone_pc_machine_ecu_zro_summoning = {
 	zone_sets = {
 		oxr_mdlc_zone_set_wm_strategic_resources
 	}
+	triggered_desc = { text = rikk_mdlc_zone_swap_tt }
 }
 
 # MILITARY ZONES
@@ -474,7 +491,7 @@ oxr_mdlc_zone_pc_machine_ecu_star_command = {
 	triggered_district_country_modifier = {
 		potential = { always = yes }
 		country_naval_cap_add = 24
-		mult = planet.oxr_mdlc_world_machines_districts_output_var
+		mult = value:rikk_mdlc_combined_special_multiplier
 	}
 	zone_sets = {
 		oxr_mdlc_zone_set_wm_military
@@ -483,6 +500,8 @@ oxr_mdlc_zone_pc_machine_ecu_star_command = {
 	triggered_planet_modifier = {
 		xvcv_mdlc_world_machines_military_districts_alloys_upkeep_add = 6
 	}
+	triggered_desc = { text = rikk_mdlc_efficiency_modifier_alert }
+	triggered_desc = { text = rikk_mdlc_zone_swap_tt }
 }
 
 oxr_mdlc_zone_pc_machine_ecu_ground_command = {
@@ -502,7 +521,7 @@ oxr_mdlc_zone_pc_machine_ecu_ground_command = {
 		planet_army_build_speed_mult = 0.1
 		army_defense_health_mult = 0.1
 		army_collateral_damage_mult = -0.1
-		mult = planet.oxr_mdlc_world_machines_districts_output_var
+		mult = value:rikk_mdlc_combined_special_multiplier
 	}
 	zone_sets = {
 		oxr_mdlc_zone_set_wm_military
@@ -510,30 +529,6 @@ oxr_mdlc_zone_pc_machine_ecu_ground_command = {
 	triggered_planet_modifier = {
 		xvcv_mdlc_world_machines_military_districts_trade_upkeep_add = 8
 	}
-}
-
-oxr_mdlc_zone_pc_machine_ecu_military_supply_chain = {
-	icon = GFX_oxr_mdlc_wm_district_specialization_military_trade
-	inline_script = planet/zones/oxr_wm_zone_base_ecu
-
-	swap_type = xvcv_mdlc_pc_machine_ecu_district_military_supply
-	swap_type_weight = 5
-	
-	included_building_sets = {
-		military_theory
-		oxr_mdlc_building_set_wm_army
-	}
-	triggered_planet_modifier = {
-		xvcv_mdlc_world_machines_military_districts_trade_upkeep_add = 6
-		xvcv_mdlc_world_machines_military_districts_exotic_gases_upkeep_add = 1
-		# mult = value:scripted_modifier_mult|MODIFIER|rikk_mdlc_world_machine_districts_efficiency|
-	}
-	triggered_country_modifier = {
-		ship_speed_mult = 0.01
-		mult = planet.oxr_mdlc_world_machines_districts_output_var
-		mult = value:oxr_mdlc_planet_num_military_districts
-	}
-	zone_sets = {
-		oxr_mdlc_zone_set_wm_military
-	}
+	triggered_desc = { text = rikk_mdlc_efficiency_modifier_alert }
+	triggered_desc = { text = rikk_mdlc_zone_swap_tt }
 }
