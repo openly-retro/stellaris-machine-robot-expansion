@@ -1,0 +1,264 @@
+# Zones that can be shared across WM types
+oxr_mdlc_origin_wm_zone_default = {
+	icon = GFX_district_specialization_urban
+	base_buildtime = @zone_buildtime
+	potential = {
+		hidden_trigger = { exists = owner }
+		planet = {
+			is_planet_world_machine = yes
+			is_xvcv_mdlc_pc_machine_ring = no
+		}
+	}
+
+	unlock = { planet = { is_planet_world_machine = yes is_xvcv_mdlc_pc_machine_ring = no } }
+
+	resources = {
+		category = oxr_mdlc_world_machines_zones
+		cost = {
+			minerals = @zone_cost
+		}
+	}
+	max_buildings = 6
+	include = { all }
+	excluded_building_sets = { 
+		knights
+		generator_automation
+		mining_automation
+		farming_automation
+		urban_automation
+	}
+	zone_sets = {
+		oxr_mdlc_zone_set_wm_default
+	}
+
+}
+
+# Placeholder zone
+oxr_mdlc_zone_none = {
+	icon = GFX_district_specialization_urban
+	base_buildtime = 1
+	potential = {
+		# hidden_trigger = { exists = owner }
+		# is_xvcv_mdlc_pc_machine_ring = yes
+		always = no
+	}
+	unlock = { always = no }
+	resources = {
+		category = oxr_mdlc_world_machines_zones
+		cost = {
+			energy = 1
+		}
+	}
+	max_buildings = 0
+
+	included_building_sets = {
+		research
+		oxr_mdlc_building_set_wm_research
+	}
+
+	excluded_building_sets = { 
+		knights
+		generator_automation
+		mining_automation
+		farming_automation
+		urban_automation
+	}
+	zone_sets = {
+		oxr_mdlc_zone_set_none
+	}
+}
+
+# Any building from any set
+oxr_mdlc_origin_wm_zone_any = {
+	icon = GFX_district_specialization_urban
+	inline_script = planet/zones/oxr_wm_zone_base_no_potential
+	
+	potential = {
+		hidden_trigger = { exists = owner }
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		planet = { is_planet_world_machine = yes is_xvcv_mdlc_pc_machine_ring = no }
+	}
+
+	country_modifier = { country_resource_max_add = 1000 }
+
+	max_buildings = 3
+	include = { all }
+	excluded_building_sets = { 
+		knights
+		generator_automation
+		mining_automation
+		farming_automation
+		urban_automation
+	}
+	planet_modifier = {
+		zone_building_slots_add = 3
+	}
+	zone_sets = { oxr_mdlc_zone_set_wm_common }
+}
+
+# Any building in the world-machine set
+oxr_mdlc_origin_wm_zone_any_wm = {
+	icon = GFX_district_specialization_urban
+	inline_script = planet/zones/oxr_wm_zone_base_no_potential
+	
+	potential = {
+		hidden_trigger = { exists = owner }
+		owner = { oxr_mdlc_planet_owner_can_build_wm_districts = yes }
+		planet = { is_planet_world_machine = yes is_xvcv_mdlc_pc_machine_ring = no }
+	}
+
+	max_buildings = 3
+	country_modifier = { country_resource_max_add = 2500 }
+	included_building_sets = {
+		oxr_mdlc_building_set_wm_all
+	}
+	excluded_building_sets = { 
+		knights
+		generator_automation
+		mining_automation
+		farming_automation
+		urban_automation
+	}
+	planet_modifier = {
+		zone_building_slots_add = 3
+	}
+	zone_sets = { oxr_mdlc_zone_set_wm_common }
+}
+# No buildings all storage
+rikk_mdlc_wm_zone_storage = {
+	icon = GFX_district_specialization_urban
+	inline_script = planet/zones/oxr_wm_zone_base_no_potential
+	
+	potential = {
+		hidden_trigger = { exists = owner }
+		owner = {
+			oxr_mdlc_planet_owner_can_build_wm_districts = yes
+			has_tradition = rikk_mdlc_tr_zoning_1
+		}
+		planet = { is_planet_world_machine = yes }
+	}
+	
+	#These are replacements for the buildings slots being gone
+	country_modifier = {
+		country_resource_max_add = 15000
+	}
+	triggered_country_modifier = {
+		potential = { exists = owner owner = { has_technology = tech_construction_templates } }
+		country_resource_max_add = 15000
+	}
+	triggered_country_modifier = {
+		potential = { exists = owner owner = { has_valid_civic = civic_machine_obsessional_directive } }
+		country_resource_max_consumer_goods_add = 15000
+	}
+	
+	#These are the district modifiers
+	triggered_district_country_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_auto = yes }
+		country_resource_max_add = 5000
+	}
+	triggered_district_country_modifier = {
+		potential = { exists = owner owner = { has_technology = tech_construction_templates } is_xvcv_mdlc_pc_machine_auto = yes }
+		country_resource_max_add = 5000
+	}
+	triggered_district_country_modifier = {
+		potential = { exists = owner owner = { has_origin = oxr_mdlc_origin_world_machine_awakened } is_xvcv_mdlc_pc_machine_auto = yes }
+		country_resource_max_oxr_mdlc_world_machine_core_add = 1
+	}
+	triggered_district_country_modifier = {
+		potential = { exists = owner owner = { has_valid_civic = civic_machine_obsessional_directive } is_xvcv_mdlc_pc_machine_auto = yes }
+		country_resource_max_consumer_goods_add = 5000
+	}
+	
+	triggered_district_country_modifier = {
+		potential = { exists = owner oxr_mdlc_planet_is_t3_world_machine = yes }
+		country_resource_max_add = 15000
+	}
+	triggered_district_country_modifier = {
+		potential = { exists = owner owner = { has_technology = tech_construction_templates } oxr_mdlc_planet_is_t3_world_machine = yes }
+		country_resource_max_add = 15000
+	}
+	triggered_district_country_modifier = {
+		potential = { exists = owner owner = { has_origin = oxr_mdlc_origin_world_machine_awakened } oxr_mdlc_planet_is_t3_world_machine = yes }
+		country_resource_max_oxr_mdlc_world_machine_core_add = 3
+	}
+	triggered_district_country_modifier = {
+		potential = { exists = owner owner = { has_valid_civic = civic_machine_obsessional_directive } oxr_mdlc_planet_is_t3_world_machine = yes }
+		country_resource_max_consumer_goods_add = 15000
+	}
+	
+	triggered_district_country_modifier = {
+		potential = { exists = owner is_xvcv_mdlc_pc_machine_ring = yes }
+		country_resource_max_add = 25000
+	}
+	triggered_district_country_modifier = {
+		potential = { exists = owner owner = { has_technology = tech_construction_templates } is_xvcv_mdlc_pc_machine_ring = yes }
+		country_resource_max_add = 25000
+	}
+	triggered_district_country_modifier = {
+		potential = { exists = owner owner = { has_origin = oxr_mdlc_origin_world_machine_awakened } is_xvcv_mdlc_pc_machine_ring = yes }
+		country_resource_max_oxr_mdlc_world_machine_core_add = 5
+	}
+	triggered_district_country_modifier = {
+		potential = { exists = owner owner = { has_valid_civic = civic_machine_obsessional_directive } is_xvcv_mdlc_pc_machine_ring = yes }
+		country_resource_max_consumer_goods_add = 25000
+	}
+	
+	max_buildings = 0
+	included_building_sets = { betharian }
+	#planet_modifier = { zone_building_slots_add = 3 }
+	zone_sets = { oxr_mdlc_zone_set_wm_common }
+}
+
+# these zones are here for ringworlds to prevent mineral buildings
+# Any building from any set except minerals for ringworlds
+oxr_mdlc_zone_pc_machine_ring_default = {
+	icon = GFX_district_specialization_urban
+	base_buildtime = @zone_buildtime
+	potential = { hidden_trigger = { exists = owner } is_xvcv_mdlc_pc_machine_ring = yes }
+	unlock = { is_xvcv_mdlc_pc_machine_ring = yes }
+	resources = {
+		category = oxr_mdlc_world_machines_zones
+		cost = { minerals = @zone_cost }
+	}
+	max_buildings = 6
+	include = { all }
+	excluded_building_sets = { 
+		knights
+		generator_automation
+		mining_automation
+		farming_automation
+		urban_automation
+		mining
+		fallen_empire_mining
+		oxr_mdlc_building_set_wm_minerals
+	}
+	zone_sets = {
+		oxr_mdlc_zone_set_wm_default
+	}
+}
+oxr_mdlc_origin_wm_zone_any_ring = {
+	icon = GFX_district_specialization_urban
+	inline_script = planet/zones/oxr_wm_zone_base_ring
+
+	country_modifier = { country_resource_max_add = 1000 }
+
+	max_buildings = 3
+	include = { all }
+	
+	zone_sets = { oxr_mdlc_zone_set_wm_common rikk_mdlc_zone_set_ring_primary }
+}
+
+# Any building in the world-machine set
+oxr_mdlc_origin_wm_zone_any_wm_ring = {
+	icon = GFX_district_specialization_urban
+	inline_script = planet/zones/oxr_wm_zone_base_ring
+
+	country_modifier = { country_resource_max_add = 2500 }
+	
+	max_buildings = 3
+	included_building_sets = {
+		oxr_mdlc_building_set_wm_all
+	}
+	
+	zone_sets = { oxr_mdlc_zone_set_wm_common rikk_mdlc_zone_set_ring_primary }
+}

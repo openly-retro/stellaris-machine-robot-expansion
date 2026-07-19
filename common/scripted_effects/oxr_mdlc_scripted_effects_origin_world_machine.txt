@@ -23,7 +23,12 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 	planet = {
 		# have to do this planet class change in 4.0 for some reason
 		change_pc = xvcv_mdlc_pc_machine_auto
-		set_colony_type = xvcv_mdlc_col_machine_auto_capital
+		set_colony_type = oxr_mdlc_wm_col_capital
+		if = {
+			limit = { planet_size < 21
+			}
+			set_planet_size = 21
+		}
 
 		# In 4.0 we don't start with extra districts
 		# Calculate how many to add
@@ -102,6 +107,7 @@ oxr_mdlc_origin_wm_planet_game_start_setup = {
 			zone = oxr_mdlc_zone_pc_machine_auto_alloys
 			zone_slot = 2
 		}
+		validate_planet_buildings_and_districts = yes #rikk: should fix some issues
 	}
 
 	planet = {
@@ -907,7 +913,7 @@ oxr_mdlc_find_neighbor_planet_and_convert_to_ruined_world_machine = {
 			random_system_planet = {
 				limit = {
 					exists = planet
-					oxr_mdlc_planet_can_become_world_machine = yes
+					oxr_mdlc_planet_can_become_world_machine  = yes
 				}
 				planet = {
 					# oxr_mdlc_pc_convert_to_ruined_world_machine = yes
@@ -931,8 +937,7 @@ oxr_mdlc_find_neighbor_planet_and_convert_to_ruined_world_machine = {
 						set_planet_size = 28
 					}
 				}
-
-			} #/random_system_planet_colony
+			} #/random_system_planet
 		}
 	}
 }
@@ -1029,7 +1034,7 @@ oxr_mdlc_planet_self_destruct = {
 	## WE WANT EYE CANDY NAO
 	if = {
 		limit = {
-			is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
+			is_planet_class = xvcv_mdlc_pc_machine_ring
 		}
 		create_ambient_object = {
 			location = this
@@ -1333,7 +1338,7 @@ oxr_mdlc_planet_self_destruct = {
 	if = {
 		limit = {
 			OR = {
-				is_planet_class = xvcv_mdlc_pc_ringworld_machine_auto
+				is_planet_class = xvcv_mdlc_pc_machine_ring
 			}
 		}
 		change_pc = pc_ringworld_habitable_damaged
@@ -1382,7 +1387,7 @@ oxr_mdlc_planet_create_world_machine_colony = {
 		limit = {
 			has_planet_flag = rikk_mdlc_world_machine_suitable
 		}
-		rikk_mdlc_planet_wm_add_random_blockers = yes
+		#rikk_mdlc_planet_wm_add_random_blockers = yes
 		remove_planet_flag = rikk_mdlc_world_machine_suitable
 	}
 
@@ -1621,14 +1626,14 @@ oxr_mdlc_planet_do_wm_origin_things_after_project = {
 
 }
 
-# Rikk: This is no longer necessary thanks to rikk_mdlc_wm_upgrade_events.200 but I'm leaving it here for games that don't have those flags (24 June 2026)
+# Rikk: This is no longer necessary thanks to rikk_mdlc_wm_event.200 but I'm leaving it here for games that don't have those flags (24 June 2026)
 oxr_mdlc_planet_create_deposit_upgrade_flags = {
 	# Call before terraform / WM project finishes
 	# Any world machine upgrades will be transferred to the other world machine type
 
 	if = {
 		limit = {
-			has_deposit = rikk_mdlc_d_world_machine_crust_roots
+			has_deposit = rikk_mdlc_d_world_machine_roots_1
 		}
 		set_planet_flag = has_rikk_mdlc_d_world_machine_crust_roots
 	}
@@ -1646,7 +1651,7 @@ oxr_mdlc_planet_create_deposit_upgrade_flags = {
 	}
 	if = {
 		limit = {
-			has_deposit = rikk_mdlc_d_world_machine_mantle_roots
+			has_deposit = rikk_mdlc_d_world_machine_roots_2
 		}
 		set_planet_flag = has_rikk_mdlc_d_world_machine_mantle_roots
 	}
@@ -1670,7 +1675,7 @@ oxr_mdlc_planet_create_deposit_upgrade_flags = {
 	}
 	if = {
 		limit = {
-			has_deposit = rikk_mdlc_d_world_machine_outer_core_roots
+			has_deposit = rikk_mdlc_d_world_machine_roots_3
 		}
 		set_planet_flag = has_rikk_mdlc_d_world_machine_outer_core_roots
 	}
@@ -1688,7 +1693,7 @@ oxr_mdlc_planet_create_deposit_upgrade_flags = {
 	}
 	if = {
 		limit = {
-			has_deposit = rikk_mdlc_d_world_machine_inner_core_roots
+			has_deposit = rikk_mdlc_d_world_machine_roots_3
 		}
 		set_planet_flag = has_rikk_mdlc_d_world_machine_inner_core_roots
 	}
@@ -1712,15 +1717,15 @@ oxr_mdlc_planet_create_deposit_upgrade_flags = {
 	}
 }
 
-# Rikk: This is no longer necessary thanks to rikk_mdlc_wm_upgrade_events.200 but I'm leaving it here for games that don't have those flags (24 June 2026)
+# Rikk: This is no longer necessary thanks to rikk_mdlc_wm_event.200 but I'm leaving it here for games that don't have those flags (24 June 2026)
 oxr_mdlc_planet_restore_deposit_upgrades = {
 	# Look for these flags, and then create the corresponding deposit
 	if = {
 		limit = {
 			has_planet_flag = has_rikk_mdlc_d_world_machine_crust_roots
-			NOT = { has_deposit = rikk_mdlc_d_world_machine_crust_roots }
+			NOT = { has_deposit = rikk_mdlc_d_world_machine_roots_1 }
 		}
-		add_deposit = rikk_mdlc_d_world_machine_crust_roots
+		add_deposit = rikk_mdlc_d_world_machine_roots_1
 		remove_planet_flag = has_rikk_mdlc_d_world_machine_crust_roots
 	}
 	else = { remove_planet_flag = has_rikk_mdlc_d_world_machine_crust_roots }
@@ -1743,9 +1748,9 @@ oxr_mdlc_planet_restore_deposit_upgrades = {
 	if = {
 		limit = {
 			has_planet_flag = has_rikk_mdlc_d_world_machine_mantle_roots
-			NOT = { has_deposit = rikk_mdlc_d_world_machine_mantle_roots }
+			NOT = { has_deposit = rikk_mdlc_d_world_machine_roots_2 }
 		}
-		add_deposit = rikk_mdlc_d_world_machine_mantle_roots
+		add_deposit = rikk_mdlc_d_world_machine_roots_2
 		remove_planet_flag = has_rikk_mdlc_d_world_machine_mantle_roots
 	}
 	else = { remove_planet_flag = has_rikk_mdlc_d_world_machine_mantle_roots }
@@ -1779,9 +1784,9 @@ oxr_mdlc_planet_restore_deposit_upgrades = {
 	if = {
 		limit = {
 			has_planet_flag = has_rikk_mdlc_d_world_machine_outer_core_roots
-			NOT = { has_deposit = rikk_mdlc_d_world_machine_outer_core_roots }
+			NOT = { has_deposit = rikk_mdlc_d_world_machine_roots_3 }
 		}
-		add_deposit = rikk_mdlc_d_world_machine_outer_core_roots
+		add_deposit = rikk_mdlc_d_world_machine_roots_3
 		remove_planet_flag = has_rikk_mdlc_d_world_machine_outer_core_roots
 	}
 	else = { remove_planet_flag = has_rikk_mdlc_d_world_machine_outer_core_roots }
@@ -1806,9 +1811,9 @@ oxr_mdlc_planet_restore_deposit_upgrades = {
 	if = {
 		limit = {
 			has_planet_flag = has_rikk_mdlc_d_world_machine_inner_core_roots
-			NOT = { has_deposit = rikk_mdlc_d_world_machine_inner_core_roots }
+			NOT = { has_deposit = rikk_mdlc_d_world_machine_roots_3 }
 		}
-		add_deposit = rikk_mdlc_d_world_machine_inner_core_roots
+		add_deposit = rikk_mdlc_d_world_machine_roots_3
 		remove_planet_flag = has_rikk_mdlc_d_world_machine_inner_core_roots
 	}
 	else = { remove_planet_flag = has_rikk_mdlc_d_world_machine_inner_core_roots }
@@ -1847,7 +1852,7 @@ oxr_mdlc_planet_add_wmc_core_deposit_if_missing = {
 			NOT = {
 				has_deposit = oxr_mdlc_d_world_machine_core
 			}
-			is_planet_world_machine = yes
+			xvcv_mdlc_world_machines_planet_classes_trigger = yes
 			owner = {
 				has_origin = oxr_mdlc_origin_world_machine_awakened
 			}
@@ -2043,7 +2048,7 @@ oxr_mdlc_planet_create_t3_world_colony = {
 			limit = {
 				has_planet_flag = rikk_mdlc_world_machine_suitable
 			}
-			rikk_mdlc_planet_wm_add_random_blockers = yes
+			#rikk_mdlc_planet_wm_add_random_blockers = yes
 			remove_planet_flag = rikk_mdlc_world_machine_suitable
 		}
 		if = {
@@ -2228,9 +2233,9 @@ oxr_mdlc_planet_add_building_to_primary_wm_district = {
 				}
 			}
 		}
-		xvcv_mdlc_pc_ringworld_machine_auto = {
+		xvcv_mdlc_pc_machine_ring = {
 			add_building = {
-				district = xvcv_mdlc_pc_ringworld_machine_auto_district_primary
+				district = xvcv_mdlc_pc_machine_ring_district_primary
 				zone = oxr_mdlc_origin_wm_zone_default
 				building = $BUILDING$
 			}

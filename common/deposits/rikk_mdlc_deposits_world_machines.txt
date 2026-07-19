@@ -1,10 +1,26 @@
+@rikk_mdlc_roots_1_district_mult = 0.1
+@rikk_mdlc_roots_2_district_mult = 0.3
+@rikk_mdlc_roots_3_district_mult = 0.5
+@rikk_mdlc_roots_4_district_mult = 0.6
+@rikk_mdlc_roots_5_district_mult = 0.75
+@rikk_mdlc_roots_1_cost_mult = 0.20
+@rikk_mdlc_roots_2_cost_mult = 0.40
+@rikk_mdlc_roots_3_cost_mult = 0.60
+@rikk_mdlc_roots_4_cost_mult = 0.80
+@rikk_mdlc_roots_5_cost_mult = 1.00
+
 #Crust
-rikk_mdlc_d_world_machine_crust_roots = {
+rikk_mdlc_d_world_machine_crust_roots = { } # deprecated
+rikk_mdlc_d_world_machine_roots_1 = {
 	category = oxr_mdlc_deposit_cat_world_machine_geo_improvements
 	inline_script = planet/deposits/oxr_mdlc_nospawn_deposits
 	planet_modifier = {
-		xvcv_mdlc_world_machines_districts_minerals_cost_mult = 0.20
-		planet_max_districts_mult = @rikk_mdlc_upgrade_1_crust_roots_districts_mult
+		xvcv_mdlc_world_machines_districts_minerals_cost_mult = @rikk_mdlc_roots_1_cost_mult
+		planet_max_districts_mult = @rikk_mdlc_roots_1_district_mult
+	}
+	triggered_planet_modifier = {
+		potential = { owner = { has_tradition = rikk_mdlc_tr_geoscaping_1 } }
+		planet_decision_enact_speed_mult = 0.10
 	}
 }
 #rikk_mdlc_d_world_machine_cooling_towers = {
@@ -32,12 +48,17 @@ rikk_mdlc_d_world_machine_synchronization_arrays = {
 }
 
 #Mantle
-rikk_mdlc_d_world_machine_mantle_roots = {
+rikk_mdlc_d_world_machine_mantle_roots = { } #deprecated
+rikk_mdlc_d_world_machine_roots_2 = {
 	category = oxr_mdlc_deposit_cat_world_machine_geo_improvements
 	inline_script = planet/deposits/oxr_mdlc_nospawn_deposits
 	planet_modifier = {
-		xvcv_mdlc_world_machines_districts_minerals_cost_mult = 0.30
-		planet_max_districts_mult = @rikk_mdlc_upgrade_2_mantle_roots_districts_mult
+		xvcv_mdlc_world_machines_districts_minerals_cost_mult = @rikk_mdlc_roots_1_cost_mult
+		planet_max_districts_mult = @rikk_mdlc_roots_2_district_mult
+	}
+	triggered_planet_modifier = {
+		potential = { owner = { has_tradition = rikk_mdlc_tr_geoscaping_1 } }
+		planet_decision_enact_speed_mult = 0.20
 	}
 }
 
@@ -52,7 +73,7 @@ rikk_mdlc_d_world_machine_mantle_engine = {
 	triggered_planet_modifier = {
 		potential = { has_planet_flag = rikk_mdlc_planet_reinforced }
 		planet_orbital_bombardment_damage = -0.3
-		xvcv_mdlc_world_machines_districts_minerals_cost_mult = 0.20
+		xvcv_mdlc_world_machines_districts_minerals_cost_mult = @rikk_mdlc_roots_2_cost_mult
 	}
 	
 	resources = {
@@ -87,21 +108,42 @@ rikk_mdlc_d_world_machine_mantle_buses = {
 }
 
 #Outer Core
-rikk_mdlc_d_world_machine_outer_core_roots = {
+rikk_mdlc_d_world_machine_outer_core_roots = { } #deprecated
+rikk_mdlc_d_world_machine_roots_3 = {
 	category = oxr_mdlc_deposit_cat_world_machine_geo_improvements
 	inline_script = planet/deposits/oxr_mdlc_nospawn_deposits
 	planet_modifier = {
-		xvcv_mdlc_world_machines_districts_minerals_cost_mult = 0.30
-		planet_max_districts_mult = @rikk_mdlc_upgrade_3_outer_core_roots_districts_mult
+		xvcv_mdlc_world_machines_districts_minerals_cost_mult = @rikk_mdlc_roots_3_cost_mult
+		planet_max_districts_mult = @rikk_mdlc_roots_3_district_mult
+	}
+	triggered_planet_modifier = {
+		potential = { owner = { has_tradition = rikk_mdlc_tr_geoscaping_1 } }
+		planet_decision_enact_speed_mult = 0.30
 	}
 }
 
 rikk_mdlc_d_world_machine_outer_core_tap = {
 	category = oxr_mdlc_deposit_cat_world_machine_geo_improvements
 	inline_script = planet/deposits/oxr_mdlc_nospawn_deposits
-	planet_modifier = {
+	triggered_planet_modifier = {
+		potential = { has_oxr_mdlc_zone_pc_machine_auto_alloys = no has_oxr_mdlc_zone_pc_machine_auto_consumer_goods = no has_oxr_mdlc_zone_pc_machine_auto_trade = no }
 		xvcv_mdlc_world_machines_industrial_districts_produces_mult = 0.1
 		xvcv_mdlc_world_machines_industrial_districts_upkeep_mult = -0.05
+	}
+	triggered_planet_modifier = {
+		potential = { has_oxr_mdlc_zone_pc_machine_auto_alloys = yes has_oxr_mdlc_zone_pc_machine_auto_consumer_goods = no has_oxr_mdlc_zone_pc_machine_auto_trade = no }
+		xvcv_mdlc_world_machines_foundry_districts_produces_mult = 0.1
+		xvcv_mdlc_world_machines_foundry_districts_upkeep_mult = -0.05
+	}
+	triggered_planet_modifier = {
+		potential = { has_oxr_mdlc_zone_pc_machine_auto_alloys = no has_oxr_mdlc_zone_pc_machine_auto_consumer_goods = yes has_oxr_mdlc_zone_pc_machine_auto_trade = no }
+		xvcv_mdlc_world_machines_factory_districts_produces_mult = 0.1
+		xvcv_mdlc_world_machines_factory_districts_upkeep_mult = -0.05
+	}
+	triggered_planet_modifier = {
+		potential = { has_oxr_mdlc_zone_pc_machine_auto_alloys = no has_oxr_mdlc_zone_pc_machine_auto_consumer_goods = no has_oxr_mdlc_zone_pc_machine_auto_trade = yes }
+		xvcv_mdlc_world_machines_trade_districts_produces_mult = 0.1
+		xvcv_mdlc_world_machines_trade_districts_upkeep_mult = -0.05
 	}
 }
 
@@ -115,12 +157,17 @@ rikk_mdlc_d_world_machine_outer_core_cooled = {
 }
 
 #Inner Core
-rikk_mdlc_d_world_machine_inner_core_roots = {
+rikk_mdlc_d_world_machine_inner_core_roots = { }
+rikk_mdlc_d_world_machine_roots_4 = {
 	category = oxr_mdlc_deposit_cat_world_machine_geo_improvements
 	inline_script = planet/deposits/oxr_mdlc_nospawn_deposits
 	planet_modifier = {
-		xvcv_mdlc_world_machines_districts_minerals_cost_mult = 0.20
-		planet_max_districts_mult = @rikk_mdlc_upgrade_4_inner_core_roots_districts_mult
+		xvcv_mdlc_world_machines_districts_minerals_cost_mult = @rikk_mdlc_roots_4_cost_mult
+		planet_max_districts_mult = @rikk_mdlc_roots_4_district_mult
+	}
+	triggered_planet_modifier = {
+		potential = { owner = { has_tradition = rikk_mdlc_tr_geoscaping_1 } }
+		planet_decision_enact_speed_mult = 0.40
 	}
 }
 
@@ -155,6 +202,24 @@ rikk_mdlc_d_world_machine_inner_core_tap = {
 	}
 	planet_modifier = {
 		xvcv_mdlc_world_machines_industrial_districts_produces_mult = 0.40
+	}
+}
+
+# Tradition Structured Planet
+rikk_mdlc_d_world_machine_roots_5 = {
+	category = oxr_mdlc_deposit_cat_world_machine_geo_improvements
+	inline_script = planet/deposits/oxr_mdlc_nospawn_deposits
+	planet_modifier = {
+		xvcv_mdlc_world_machines_districts_minerals_cost_mult = @rikk_mdlc_roots_5_cost_mult
+		planet_max_districts_mult = @rikk_mdlc_roots_5_district_mult
+	}
+	triggered_planet_modifier = {
+		potential = { owner = { has_tradition = rikk_mdlc_tr_geoscaping_1 } }
+		planet_decision_enact_speed_mult = 0.50
+	}
+	triggered_planet_modifier = {
+		potential = { owner = { has_tradition = rikk_mdlc_tr_geoscaping_5 } }
+		planet_building_capacity_add = 1
 	}
 }
 
