@@ -37,12 +37,6 @@ xvcv_mdlc_planet_wm_calc_output_value = {
 
 	#log = "Going into xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect"
 	if = {
-		limit = { oxr_mdlc_planet_is_t3_world_machine = no }
-		remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_good
-		remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral
-		remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad
-	}
-	else_if = {
 		limit = { check_variable = { which = xvcv_mdlc_world_machines_districts_output_var value > 0 } }
 		add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_good days = -1 }
 	}
@@ -54,28 +48,22 @@ xvcv_mdlc_planet_wm_calc_output_value = {
 		limit = { check_variable = { which = xvcv_mdlc_world_machines_districts_output_var value < 0 } }
 		add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad days = -1 }
 	}
-	if = {
-		limit = { oxr_mdlc_planet_is_t3_world_machine = no }
-		clear_variable = xvcv_mdlc_world_machines_districts_current_output_for_display_var
+	# Reset the display to be "100%" (1)
+	set_variable = {
+		which = xvcv_mdlc_world_machines_districts_current_output_for_display_var
+		value = 1
 	}
-	else = {
-		# Reset the display to be "100%" (1)
-		set_variable = {
-			which = xvcv_mdlc_world_machines_districts_current_output_for_display_var
-			value = 1
-		}
-		# Add or subtract a decimal value (1 minus 0.1 = 0.9 )
-		change_variable = {
-			which = xvcv_mdlc_world_machines_districts_current_output_for_display_var
-			value = xvcv_mdlc_world_machines_districts_output_var
-		}
-		# convert 0.1 to 10%
-		multiply_variable = {
-			which = xvcv_mdlc_world_machines_districts_current_output_for_display_var
-			value = 100
-		}
-		#log = "Finished xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect"
+	# Add or subtract a decimal value (1 minus 0.1 = 0.9 )
+	change_variable = {
+		which = xvcv_mdlc_world_machines_districts_current_output_for_display_var
+		value = xvcv_mdlc_world_machines_districts_output_var
 	}
+	# convert 0.1 to 10%
+	multiply_variable = {
+		which = xvcv_mdlc_world_machines_districts_current_output_for_display_var
+		value = 100
+	}
+	#log = "Finished xvcv_mdlc_world_machines_districts_heat_indicators_calc_effect"
 }
 
 xvcv_mdlc_planet_count_districts_calculate_output_display_var = {

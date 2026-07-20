@@ -868,7 +868,7 @@ planet_event = {
 
 	immediate = {
 		add_modifier = { modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress }
-		planet_event = { id = oxr_mdlc_origin_wm_main.1305 days = 30 }
+		planet_event = { id = oxr_mdlc_origin_wm_main.1305 }
 	}
 }
 
@@ -923,13 +923,13 @@ planet_event = {
 			# Continue, since the construction is still active
 			subtract_variable = {
 				which = oxr_mdlc_planet_world_machine_core_countdown
-				value = modifier:rikk_mdlc_world_machine_wmc_fabricator_progress_add
+				value = 1
 			}
 			if = {
 				limit = {
 					check_variable = {
 						which = oxr_mdlc_planet_world_machine_core_countdown
-						value < 1
+						value = 0
 					}
 				}
 				# Manufacturing is complete!
@@ -940,20 +940,20 @@ planet_event = {
 				}
 				
 			}
-			#else_if = {
-			#	limit = {
-			#		check_variable = {
-			#			which = oxr_mdlc_planet_world_machine_core_countdown
-			#			value < 0
-			#		}
-			#	}
-			#	log = "Something weird happen while counting down WMC construction."
-			#	log = "The counter was below 0"
-			#	# Stop and don't loop
-			#	clear_variable = oxr_mdlc_planet_world_machine_core_countdown
-			#	remove_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
-			#	remove_planet_flag = oxr_mdlc_origin_world_machine_core_auto_build_enabled
-			#}
+			else_if = {
+				limit = {
+					check_variable = {
+						which = oxr_mdlc_planet_world_machine_core_countdown
+						value < 0
+					}
+				}
+				log = "Something weird happen while counting down WMC construction."
+				log = "The counter was below 0"
+				# Stop and don't loop
+				clear_variable = oxr_mdlc_planet_world_machine_core_countdown
+				remove_modifier = oxr_mdlc_origin_world_machine_core_manufacturing_in_progress
+				remove_planet_flag = oxr_mdlc_origin_world_machine_core_auto_build_enabled
+			}
 			else = {
 				# Loop
 				planet_event = {
