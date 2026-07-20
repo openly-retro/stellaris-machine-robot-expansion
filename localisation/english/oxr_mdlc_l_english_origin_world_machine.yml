@@ -62,6 +62,7 @@
  oxr_mdlc_legion_node: "§R$councilor_gestalt_legion_with_icon$§!"
  oxr_mdlc_ruler_node: "£oxr_ruler_node£ §M[Root.owner.GetRulerName], [Root.owner.GetRulerTitle]§!"
  oxr_mdlc_wm_core_tip: "£oxr_mdlc_world_machine_core£ §M$oxr_mdlc_world_machine_core$§!"
+ oxr_mdlc_wm_core_tip_plural: "£oxr_mdlc_world_machine_core£ §M$oxr_mdlc_world_machine_core$s§!"
  oxr_mdlc_popless: "§B(Popless)§!"
  oxr_mdlc_geological: "£oxr_geological£"
  oxr_gear2: "£oxr_gear£"
@@ -684,7 +685,7 @@
  mod_country_situations_society_research_produces_add: "Monthly £society_research£ $society_research$"
  mod_country_situations_engineering_research_produces_add: "Monthly £engineering_research£ $engineering_research$"
  mod_oxr_mdlc_category_world_machines_buildings_upkeep_mult: "$oxr_mdlc_category_world_machines_buildings$ $oxr_upkeep$"
- oxr_mdlc_decisions_origin_wm_start_auto_build_core.tooltip: "Continuously fabricate $oxr_mdlc_world_machine_core_res$s, until a decision is made to stop fabrication. \n$oxr_mdlc_world_machines_building_core_fabrication_depot$ upkeep while active:\n- £energy£ §R-$@oxr_mdlc_modifier_wmc_fabrication_monthly_energy$§! $energy$\n- £alloys£ §R-$@oxr_mdlc_modifier_wmc_fabrication_monthly_alloys$§! $alloys$\n- £physics_research£ §R-3§! $physics_research$\n- Planetary $oxr_build_speed$ §R-25%§!\n\n§Y£time£ Assembly time: 2.95 years ($@oxr_mdlc_world_machine_core_build_time_months|*0$ months)§!"
+ oxr_mdlc_decisions_origin_wm_start_auto_build_core.tooltip: "Continuously fabricate $oxr_mdlc_world_machine_core_res$s, until a decision is made to stop fabrication. \n$oxr_mdlc_world_machines_building_core_fabrication_depot$ upkeep while active:\n- £energy£ §R-$@oxr_mdlc_modifier_wmc_fabrication_monthly_energy$§! $energy$\n- £alloys£ §R-$@oxr_mdlc_modifier_wmc_fabrication_monthly_alloys$§! $alloys$\n- £physics_research£ §R-3§! $physics_research$\n- Planetary $oxr_build_speed$ §R-25%§!\n\n§Y£time£ Base Assembly time: 3.00 years ($@oxr_mdlc_world_machine_core_build_time_months|*0$ months)§!"
  oxr_mdlc_decisions_origin_wm_manufacture_core_stop.tooltip: "Stops manufacturing cores. Fabricator upkeep returns to normal. Current core progress is saved for when fabrication begins again."
  mod_oxr_mdlc_deposit_blockers_world_machine_cost_mult: "Clear $oxr_mdlc_deposit_blockers_world_machine$ cost"
  mod_category_oxr_mdlc_tech_physics_category_fractal_field_research_research_speed_mult: "$oxr_mdlc_tech_physics_category_fractal_field_research$ Research Speed"
@@ -734,7 +735,7 @@
  # info tooltips
  oxr_mdlc_decisions_origin_wm_start_auto_build_core_stop.tooltip: "The fabricator will be powered down."
  oxr_mdlc_planet_origin_world_machine_info: "Planetary Data"
- oxr_mdlc_planet_origin_world_machine_info_desc: "Max ['concept_oxr_mdlc_world_machine_district_defense_army_plural']: [This.oxr_mdlc_world_machine_num_max_district_armies]\nCurrent Auto-District Defense Armies: [This.oxr_mdlc_world_machine_num_existing_district_armies]\nWorld Core Tech Level: [PlanetWMCoreTechLevel]\nInstallation date: [This.oxr_mdlc_world_machine_founded_date][PlanetTypeBeforeWM]\n\n§HEmpire Data§!\n-------------\n['concept_oxr_mdlc_world_machine_core_resource'] total across empire: £oxr_mdlc_world_machine_core£ [This.owner.oxr_mdlc_origin_wm_cores_current_count]\nMax empire ['concept_oxr_mdlc_world_machine_core_resource'] storage: [This.owner.oxr_mdlc_origin_wm_cores_max]\nTotal World Machines in empire: [CountryWorldMachinesCount]"
+ oxr_mdlc_planet_origin_world_machine_info_desc: "Max ['concept_oxr_mdlc_world_machine_district_defense_army_plural']: [This.oxr_mdlc_world_machine_num_max_district_armies]\nCurrent Auto-District Defense Armies: [This.oxr_mdlc_world_machine_num_existing_district_armies]\nWorld Core Tech Level: [PlanetWMCoreTechLevel]\nInstallation date: [This.oxr_mdlc_world_machine_founded_date][PlanetTypeBeforeWM]\n$mod_rikk_mdlc_world_machine_districts_efficiency$: [colony.rikk_mdlc_district_efficiency_value_loc]%\n\n§HEmpire Data§!\n-------------\n['concept_oxr_mdlc_world_machine_core_resource'] total across empire: £oxr_mdlc_world_machine_core£ [This.owner.oxr_mdlc_origin_wm_cores_current_count]\nMax empire ['concept_oxr_mdlc_world_machine_core_resource'] storage: [This.owner.oxr_mdlc_origin_wm_cores_max]\nTotal World Machines in empire: [CountryWorldMachinesCount]"
  oxr_mdlc_planet_origin_world_machine_info_desc.tech_basic: "Standard"
  oxr_mdlc_planet_origin_world_machine_info_desc.tech_mk2: "Mk 2"
  oxr_mdlc_planet_origin_world_machine_info_desc_planet_history.relic: "\nPlanet History: Former ['concept_oxr_pc_relic']"  #§Y$pc_relic$§!
@@ -775,13 +776,6 @@
  oxr_mdlc_capital_has_tech_administrative_ai: "§M(Tech) $tech_administrative_ai$§!\nAuto-Science building upkeep: §G-5%§!"
  oxr_mdlc_capital_has_civic_astromining: "§B(Civic) $civic_machine_astromining_drones$§! reduces planetary £minerals£ $minerals$ £energy£ $energy$ £food£ $food$ output."
  oxr_mdlc_unity_building_has_civic_planetary_systems_audit: "§H(Tradition) $oxr_mdlc_tr_machinery_planetary_systems_audit$§!\nAuto-Unity buildings Upkeep/output: §R+10%§!/§G+5%§!"
-
- # for rikk SR building
- xvcv_mdlc_food_district_gas_produces: "Producing £exotic_gases£ from $rikk_mdlc_world_machine_SR_building$"
-
- xvcv_mdlc_mining_district_crystals_produces: "Producing £rare_crystals£ from $rikk_mdlc_world_machine_SR_building$"
-
- xvcv_mdlc_generator_district_motes_produces: "Producing £volatile_motes£ from $rikk_mdlc_world_machine_SR_building$"
 
  # OTHER
   # Dropping these here as they have no home elsewhere ...
@@ -1081,7 +1075,7 @@
  oxr_mdlc_on_world_machine_action.1210.title: ""
  # first wmc produced
  oxr_mdlc_origin_wm_main.1320.title: "First Core Complete"
- oxr_mdlc_origin_wm_main.1320.desc: "The fabrication of our first $oxr_mdlc_wm_core_tip$ has finished. $oxr_mdlc_regulatory_node$ reports the core has been fabricated to 100% of standards. It will be the first of many. The massive core sits loaded with resources, ready to automatically terraform a planet and create our next colony. \n\nAll that remains is to §Yselect a planet and construct a World-Machine Core Dropsite above it§!."
+ oxr_mdlc_origin_wm_main.1320.desc: "The fabrication of our first $oxr_mdlc_wm_core_tip$ has finished. $oxr_mdlc_regulatory_node$ reports the core has been fabricated to 100% of standards. It will be the first of many. The massive core sits loaded with resources, ready to automatically terraform a planet and create our next colony. \n\n§YAll that remains is to deploy it using either the §!§HPlanet Decisions Tab§!§Y or the §!§HConstruction Ship 'Build Megastructure' Action§!§Y.§!"
  oxr_mdlc_origin_wm_main.1320.a: "The journey begins."
  
 #endregion
@@ -1268,7 +1262,7 @@
  oxr_mdlc_origin_world_machine_world_rebooting_stage_5: "Reactivation Stage 5: Installing"
  oxr_mdlc_origin_world_machine_world_rebooting_stage_5_desc: "World Machine Operating system is resuming installation of automated structures across the planet's surface."
  oxr_mdlc_origin_world_machine_core_manufacturing_in_progress: "W.M.C. Fabricator Active"
- oxr_mdlc_origin_world_machine_core_manufacturing_in_progress_desc: "Fabricator upkeep increased by: £energy£ §R+$@oxr_mdlc_modifier_wmc_fabrication_monthly_energy$§! £alloys£ §R+$@oxr_mdlc_modifier_wmc_fabrication_monthly_alloys$§! £physics_research£ §R+3§!\nMonths remaining for current core production: §G[This.oxr_mdlc_planet_world_machine_core_countdown]§!"
+ oxr_mdlc_origin_world_machine_core_manufacturing_in_progress_desc: "Fabricator upkeep increased by: £energy£ §R+$@oxr_mdlc_modifier_wmc_fabrication_monthly_energy$§! £alloys£ §R+$@oxr_mdlc_modifier_wmc_fabrication_monthly_alloys$§! £physics_research£ §R+3§!\nProgress remaining for current core production: §G[This.oxr_mdlc_planet_world_machine_core_countdown]§!"
 
  oxr_mdlc_world_machine_district_army_restock_in_progress: "$oxr_gear$Restock ['concept_oxr_mdlc_world_machine_district_defense_army']"
  oxr_mdlc_world_machine_district_army_restock_in_progress_desc: "District Defense armies are being automatically replenished, one squadron per $@oxr_mdlc_world_machine_defense_armies_refill_time$ days.\nMax District Armies: [This.oxr_mdlc_world_machine_num_max_district_armies]\nCurrent District Armies: [This.oxr_mdlc_world_machine_num_existing_district_armies]"
@@ -2119,7 +2113,7 @@
  xvcv_mdlc_pc_machine_ser_district_triggered_name_none: "Unspecialized Server"
  xvcv_mdlc_pc_machine_ser_district_unity_triggered_name_standard: "£unity£ Module"
  xvcv_mdlc_pc_machine_ser_district_unity_triggered_name_zro_unity: "£sr_zro£ £unity£ Module"
- xvcv_mdlc_pc_machine_ser_district_unity_triggered_name_zro_unity: "£influence£ Module"
+ xvcv_mdlc_pc_machine_ser_district_unity_triggered_name_influence: "£influence£ Module"
  xvcv_mdlc_pc_machine_ser_district_logistics_triggered_name_empire_size: "Management Module"
  xvcv_mdlc_pc_machine_ser_district_logistics_triggered_name_building_cap: "Construction Module"
  xvcv_mdlc_pc_machine_ser_district_logistics_triggered_name_standard: "£trade£ Module"

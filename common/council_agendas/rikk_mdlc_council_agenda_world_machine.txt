@@ -1,0 +1,55 @@
+@base_agenda_cost = 7000
+@rikk_mdlc_agenda_penalty_mult = -0.10
+
+rikk_mdlc_origin_world_machine_core_reverse_engineering = {
+	agenda_cost = @base_agenda_cost
+	potential = {
+		has_origin = oxr_mdlc_origin_world_machine_awakened
+		NOT = { has_technology = oxr_mdlc_tech_world_machine_wmc_core }
+	}
+	allow = { always = yes }
+	modifier = {
+		country_alloys_produces_mult = @rikk_mdlc_agenda_penalty_mult
+		country_energy_produces_mult = @rikk_mdlc_agenda_penalty_mult
+		country_unity_produces_mult = @rikk_mdlc_agenda_penalty_mult
+		country_influence_produces_mult = @rikk_mdlc_agenda_penalty_mult
+	}
+	effect = {
+		custom_tooltip = council_agenda_rikk_mdlc_origin_world_machine_core_reverse_engineering_tooltip
+		hidden_effect = { 
+			oxr_mdlc_wm_country_cores_add = yes
+			if = {
+				limit = { NOT = { has_country_flag = oxr_mdlc_world_machine_first_core_produced } }
+				country_event = { id = oxr_mdlc_origin_wm_main.1320 }
+			}
+			create_message = {
+				type = OXR_MDLC_ORIGIN_WM_CORE_FABRICATION_FINISHED
+				localization = OXR_MDLC_ORIGIN_WM_CORE_FABRICATION_FINISHED_MESSAGE
+				days = 20
+				target = capital_scope
+				variable = {
+					type = name
+					localization = OXR_MDLC_ORIGIN_WM_CORE_FABRICATION_PLANET
+					scope = capital_scope
+				}
+			}
+		}
+	}
+}
+
+rikk_mdlc_origin_world_machine_core_aggressive_engineering = {
+	agenda_cost = @base_agenda_cost
+	potential = {
+		has_origin = oxr_mdlc_origin_world_machine_awakened
+		has_technology = oxr_mdlc_tech_world_machine_wmc_core
+	}
+	allow = { always = yes }
+	modifier = {
+		country_alloys_produces_mult = @rikk_mdlc_agenda_penalty_mult
+		country_energy_produces_mult = @rikk_mdlc_agenda_penalty_mult
+		country_unity_produces_mult = @rikk_mdlc_agenda_penalty_mult
+		country_influence_produces_mult = @rikk_mdlc_agenda_penalty_mult
+		rikk_mdlc_world_machine_wmc_fabricator_production_mult = 0.25
+	}
+	finish_modifier = agenda_rikk_mdlc_origin_world_machine_core_aggressive_engineering_finish
+}
