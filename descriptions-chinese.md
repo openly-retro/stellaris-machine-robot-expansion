@@ -115,7 +115,7 @@
 已知与其他模组的冲突问题：
 
 - 轨道碎星器不会阻止《更多巨构》（Gigastructural Engineering & More）中的巨构建筑。
-- 本模组包含更新版本的 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2801950004]Extended Machines 模组（作者：mute）[/url]。如果同时启用了原版 Extended Machines 模组，本模组内置的版本将被禁用。
+- 本模组包含更新版本的 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2801950004]Extended Machines 模组（原作者：mute）[/url]。如果同时启用了原版 Extended Machines 模组，本模组内置的版本将被禁用。
 
 [h1] 覆盖的原版文件 [/h1]
 
