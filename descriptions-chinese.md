@@ -1,148 +1,122 @@
 [img]https://i.postimg.cc/yxxVY1MW/rate-favorite.gif[/img]
-[h1] 兼容 Stellaris v3.14.*、v3.13.*、v3.12.5 版本 [/h1]
+[h1] 兼容 Stellaris v4.4.* 版本 [/h1]
 
-[h1] 需知 [/h1]
-本模组是对 XVCV 所创作的高人气模组[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2441507863] 《Machines & Robot Expansion》（智械拓展） [/url]的继承和发扬。对于那些喜爱智械帝国的玩家来说，这是一个很棒的拓展模组——我自己也不例外。
+[h1] 鸣谢 [/h1]
+本模组是 XVCV 广受好评的模组 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2441507863]《智械拓展》 (Machines & Robot Expansion)[/url] 的延续。作为一名智械帝国爱好者，我非常喜欢这个出色的拓展模组——它增加了多种飞升天赋、新玩法、国策、特质，以及智械与机器人亟需的关爱！
 
-不幸的是，XVCV 退坑了 Stellaris 模组制作，因而《智械拓展》处于无人维护的状态。
+遗憾的是，由于 XVCV 已经退出了群星的模组制作圈，《智械拓展》模组也因此停止了更新。
 
-作为《智械拓展》的修改/延续，本模组会继续确保《智械拓展》与最新版本 Stellaris 兼容。除了修复 bug 以外，我们还计划推出各种新内容！
+本次适配/延续计划将继续让原版《智械拓展》兼容最新版本的群星。除了修复漏洞之外，我们还加入了许多新功能！
+
+[b] 从群星 4.3.6 版本开始，《智械黎明（Synthetic Dawn）》 DLC 已被包含在游戏本体当中，因此本模组不再单独需要该 DLC。[/b]
 
 [img]https://i.postimg.cc/yNgJTMGr/1.png[/img]
 
-[h1] 智械拓展的核心特色 [/h1]
+[h1] 《智械拓展：延续版》 的核心功能 [/h1]
 
-本模组添加了各式各样的飞升天赋、新玩法、新国民理念、新特质，以及机械与机器人亟需的热爱！
+原版模组功能（在延续版中保留）：
 
-- 可作为个体机器人帝国开局（机界星球起源）
-- 可以修改统治者与内阁成员的特质，并使用你选定的特质建造领袖
-- 不需要人口就能运行的自动机械星球，包含 4 种特殊星球类型
-- 可通过飞升天赋从格式塔智械切换为个体智械，反之亦然
-- 可以转变为同化斗士/铁心灭绝者/失控机仆，亦可反向而行
-- 智械领袖可在死亡后重生（备份特质）
-- 可以飞升为崭新的人机融合体物种
-- 可对星海发动全面战争
-- 灵能飞升；触碰深渊……
-- 可以通过虚拟现实服务器星球，提升个体机器人帝国的贸易与全帝国的舒适度
-- 恶意软件国民理念让间谍活动更易于施行，还提供了新的渗透手段
-- 可利用机械学习国民理念强化你的格式塔智械帝国
-- 使用轨道碎星器劈开并开采行星
+- 作为非格式塔智械开局（“机界星球”起源）
+- 编辑统治者与内阁成员特质，亲手挑选特质、定制领袖
+- 无需人口即可运转的自动化机械星球，包含 4 种特殊星球类型
+- 通过飞升天赋在格式塔与非格式塔智械之间切换（且可逆向切换）
+- 随时切换为同化斗士、铁心灭绝者或失控机仆，也可以随时转换回来
+- 智械领袖死后可复活（“备份”特质）
+- 飞升为全新的生物-机械混合物种
+- 向整个星海宣战，发起全面战争
+- 灵能飞升：触碰深渊……
+- 非格式塔智械可通过“虚拟现实服务器”星球提升贸易值与全国范围的舒适度
+- “恶意软件”国民理念使间谍行动更轻松，并为你提供全新的渗透方式
+- “机器学习”国民理念助力你的格式塔帝国
+- 使用“轨道碎星器”将星球裂解并开采其资源
 
-[b]延续版模组添加的功能：[/b]
+[b]延续版新增功能：[/b]
 
-- 可释放智械附庸
-- 自动环世界
-- 拆除居住站（如果你的帝国拥有居住站技术）
-- 机械特质拓展，与超频起源（感谢 Legit Rikk）
-- 作为机械帝国，让覆灭的有机体陆军重新活动起来
-- 在[url=https://github.com/openly-retro/stellaris-machine-robot-expansion/wiki/Origin:-World%E2%80%90Machine,-Awakened-_WIP_]“世界型巨械，苏醒！”起源[/url]中扮演无需人口的全自动智械帝国
+- 释放智械附庸
+- 自动化的环形世界
+- 拆除居住站（如果你的帝国拥有任何居住站科技）
+- 拓展智械特质与“超频”起源（感谢 Legit Rikk）
+- 作为智械帝国将击败的有机体军队复活为亡灵军队
+- 游玩[url=https://machine-robot-expansion-continued.readthedocs.io/en/latest/origins.html#world-machine-awakened]“世界型巨械，苏醒！”起源[/url]，扮演一个全自动化、无需人口的智械帝国。该起源拥有众多专属科技和目标，并拥有原版建筑的无人口版本，自带独立的背景设定和机制。
+- 能够加快研究速度的“类器官”科技
 
-还有更多功能！
+以及更多内容！
 
 - 15 种国民理念
-- 15 种飞升天赋
-- 6 种新起源
-- 80 种新科技
-- 45 种新特质
+- 15 个飞升天赋
+- 6 种起源
+- 80 项科技
+- 45 种特质
 
-[h1] 文档 [/h1]
+[h1] 说明文档 [/h1]
 
-施工中： [url=https://github.com/openly-retro/stellaris-machine-robot-expansion/wiki/1.-Feature-Documentation-for-Machines-&-Robots-Expansion] 在此查阅完整的功能概述 [/url]
+文档已全新迁移至 readthedocs.io！[url=https://machine-robot-expansion-continued.readthedocs.io/en/latest/index.html] 点击此处阅读完整的功能概述 [/url]
 
-[h1] 所需 DLC [/h1]
+[h1] DLC 需求 [/h1]
 
 [b]必备 DLC：[/b]
 
-- SYNTHETIC DAWN
+- 从群星 4.3.6 版本开始，本模组不需要任何 DLC！
 
 [b]可选 DLC：[/b]
 
-- GALACTIC PARAGONS：解锁领袖生产界面和统治者修改界面
-- UTOPIA：解锁机界星球起源（个体机器人帝国）
+- 《至臻完人 (GALACTIC PARAGONS)》：解锁能够定制领袖与统治者的特殊界面！
 
-一些 DLC 为模组制作者提供了新的玩法，这类额外模组功能取决于这些 DLC。
+部分 DLC 为模组制作者提供了新的机制，因此本模组的某些额外功能可能依赖于这些 DLC。
 
-[h1] 联系方式 [/h1]
+[h1] 联系与反馈 [/h1]
 
-[h2] 未来的所需 DLC [/h2]
+[url=https://steamcommunity.com/workshop/filedetails/discussion/3163759042/571542161324218606/] 🐛 在此提交 Bug 报告 💭 [/url]
 
-我将尽力确保在为此模组添加更多内容时，不再**需要**其它 DLC。
+[url=https://steamcommunity.com/workshop/filedetails/discussion/3163759042/7260435610011379418/] 💡 在此提交你的建议与想法 💭 [/url]
 
-但是，一些 DLC 提供了新的内容供模组制作者使用，因此，一些额外的模组功能可能依赖于这些 DLC。
+[h2] 打个招呼（可选） [/h2]
 
-[h1] 报告 bug [/h1]
+想随时聊天、关注开发更新或提问，请访问：Discord -> Stellaris Modding Den 服务器 -> [b] machines-robots-expac [/b] 频道。可以在那里找我，我的 id 是 "Openly Retro"。
 
-[url=https://steamcommunity.com/workshop/filedetails/discussion/3163759042/7260435610011367539/] 🐛 请在此处报告 bug 💭 [/url].
+[h2] Steam 创意工坊外联系方式 [/h2]
 
-[h1] 建议 [/h1]
+如果你是在 Steam 创意工坊之外找到本模组的，[url=https://github.com/openly-retro/stellaris-machine-robot-expansion/issues/new/choose]请在公开代码仓库中报告 Bug 或分享新想法。[/url]
 
-[url=https://steamcommunity.com/workshop/filedetails/discussion/3163759042/7260435610011379418/] 💡 请在此处留下建议 💭 [/url].
-
-[h2] 问好（可选） [/h2]
-
-若想随时聊天、关注开发进度或进行提问，请访问 [url=https://discord.gg/Qkvu9Q4w] Discord 的 Stellaris Modding Den 服务器 [/url] 的[b] machines-robots-expac [/b]频道。你可以在那里找到我（Openly Retor）。
-
-[h2] Steam 创意工坊以外的联系方式 [/h2]
-
-如果您是在 Steam 工坊外发现这个模组, 请在[url=https://github.com/openly-retro/stellaris-machine-robot-expansion/issues/new/choose] Github 页面上报告 bug 或分享新想法[/url]。
-
-
-[h1] 下一步的计划？ [/h1]
+[h1] 后续计划 [/h1]
 
 进行中：
 
-- 仔细梳理现有问题并进行修复
-- 解决平衡问题和玩家报告的 bug
+- 仔细整理现有问题并开发修复补丁
+- 解决平衡性问题与玩家反馈的问题
 
-规划中：
-- 新起源与新玩法
-- 修改并合并已被废弃的智械主题模组
+计划中：
+- 新的起源、国民理念、玩法以及飞升天赋
 
-根据 bug 报告、功能开发、以及我的日常工作与生活的各种情况，每 2~4 周会更新一轮。
+更新周期通常为 2-4 周，具体取决于 Bug 报告数量、功能开发进度、我工作之余的压力水平以及其他日常琐事。
 
-[h1] 感谢以下艺术家： [/h1]
+[h1] 感谢以下艺术家 [/h1]
 
-[url=https://github.com/openly-retro/stellaris-machine-robot-expansion/blob/main/readme.md#art-credits] 在此查看完整致谢 [/url]
+[url=https://steamcommunity.com/workshop/filedetails/discussion/3163759042/501694185121807194/] 完整的美术致谢列表请见此处 [/url]
 
-[h1] 感谢以下翻译者： [/h1]
+[h1] 感谢以下译者 [/h1]
 
-- 韩语：y1224y1、Horangye
+- 韩语：感谢 y1224y1 和 Horangye
 
-- 汉语：FlantingCort/KrukaL 与 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2131014154]鸽组汉化[/url]
+- 中文：感谢 FlantingCort/KrukaL 以及 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2131014154]鸽组汉化[/url] 的各位成员
 
 [img]https://i.postimg.cc/BQjBWG18/2.png[/img]
 
-[h1] 附属模组 [/h1]
+[h1] 模组扩展 [/h1]
 
-- [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3401666625] World Machine Origin Vanilla Overwrites （由 Legit-Rikk 创作）[/url] 覆写了原版的一些传统，为世界型巨械提供增益
-- [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3412089966] World Machine Origin Gigastructures Buildings （由 Legit-Rikk 创作） [/url] 为更多巨构（Gigastructural Engineering & More）模组的一些建筑添加了可用于世界型巨械的自动化变体
+- [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3401666625] World Machine Origin Vanilla Overwrites（由 Legit-Rikk 制作）[/url]：修改了部分原版传统选项，使其为世界型巨械提供加成。
+- [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3412089966] World Machine Origin Gigastructures Buildings（由 Legit-Rikk 制作）[/url]：为《更多巨构》（Gigastructural Engineering & More）的部分建筑添加了自动化版本，供世界型巨械使用。
+- [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3653979426] More Machine & Robot Trait Points and Picks（由 Openly Retro 制作）[/url]：专为兼容本模组而制作。
+- [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3677086971] World Machine Origin Dawn of Ascension Buildings（由 OlegY 制作）[/url]：为世界型巨械添加了相关建筑的自动化版本。
+- [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3679636017] World Machine Origin ACoT Buildings（由 OlegY 制作）[/url]：将 ACOT 的建筑和区划修改为全自动、无人口版本，供世界型巨械起源的帝国使用。
 
 [h2] 模组兼容性 [/h2]
 
-已知与下列模组存在兼容问题:
+已知与其他模组的冲突问题：
 
-- 无法对更多巨构（Gigastructural Engineering & More）模组中的超级巨构禁用轨道碎星器
-- 本模组合并并更新了 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2801950004]mute 所创作的 Extended Machines 模组[/url], 如果你启用了原版 Extended Machines，则本模组的相关功能会被禁用。
+- 轨道碎星器不会阻止《更多巨构》（Gigastructural Engineering & More）中的巨构建筑。
+- 本模组包含更新版本的 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2801950004]Extended Machines 模组（作者：mute）[/url]。如果同时启用了原版 Extended Machines 模组，本模组内置的版本将被禁用。
 
-[h1] 被覆盖的原版文件 [/h1]
+[h1] 覆盖的原版文件 [/h1]
 
-[b]common\economic_categories\00_common_categories.txt [/b]
-- pop_category_drones
-- pop_category_workers
-- pop_category_specialists
-- pop_category_rulers
-
-[b]Stellaris\common\game_rules\00_rules.txt[/b]
-- can_release_vassal_from_species - 允许“分布式多核”飞升
-- can_colonize_planet - 对被拆除的居住站禁用殖民
-- can_species_be_assembled - 不可组装人机融合体人口
-
-[b]common\scripted_triggers\02_scripted_triggers_machine_age.txt[/b]
-- is_individual_machine - 适用于非格式塔的人机融合体
-
-[b]common\scripted_triggers\05_scripted_triggers_traits.txt[/b]
-- can_add_genetic_traits - 适用于拥有“有机体基因掌控”飞升的帝国
-- can_remove_beneficial_genetic_traits - 适用于拥有“有机体基因掌控”飞升的帝国
-
-[b]common\traits\02_species_traits_basic_characteristics.txt[/b]
-- trait_mechanical - 为机界星球添加宜居性
+文件覆盖的详细信息请见此文档：[url=https://machine-robot-expansion-continued.readthedocs.io/en/latest/overwrites.html] Overwritten Game Elements in mod wiki [/url]
