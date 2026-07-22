@@ -3,19 +3,54 @@ is_individual_machine = {
 }
 
 can_add_genetic_traits = {
-	oxr_mdlc_can_add_genetic_traits = yes
+	hidden_trigger = { exists = from }
+	custom_tooltip = {
+		text = requires_tech_gene_tailoring
+		from = {
+			OR = {
+				has_technology = tech_gene_tailoring
+				oxr_mdlc_can_add_genetic_traits = yes
+			}
+		}
+	}
 }
 
 can_remove_beneficial_genetic_traits = {
-	oxr_mdlc_can_remove_beneficial_genetic_traits = yes
+	hidden_trigger = { exists = from }
+	from = {
+		if = {
+			limit = {
+				# First check things from this mod. If they don't exist, then do base game check
+				oxr_mdlc_country_can_remove_beneficial_genetic_traits = yes
+			}
+			always = yes
+		}
+		else = {
+			# Base game check
+			if = {
+				limit = {
+					OR = {
+						has_biogenesis_dlc = no
+						has_tradition = tr_genetics_adopt
+					}
+				}
+				has_tradition = tr_genetics_resequencing
+			}
+			else = {
+				has_tradition = tr_purity_genotype_regeneration
+			}
+		}
+	}
+	
 }
 
 can_add_overclocked_traits = {
 	hidden_trigger = { exists = from }
-	OR = {
-		from = { has_origin = rikk_mdlc_origin_overclocked }
-		can_do_advanced_robo_modding = yes
-	}
+	from = { has_origin = rikk_mdlc_origin_overclocked }
+	#OR = {
+		# can_do_advanced_robo_modding = yes # where did this trigger go??
+		# has_tradition = tr_modularity_finish
+	#}
 }
 
 
@@ -139,5 +174,113 @@ can_colonize_planet_trigger = {
 		# Machine & Robot Expansion Continued
 		fail_text = oxr_mdlc_can_colonize_planet.planet_being_decomposed
 		NOT = { has_planet_flag = oxr_mdlc_origin_null_stellar_formatter_placed }
+	}
+}
+
+# Overwritten bc Mechanical origin pops could not work specialist jobs after a base game update
+can_fill_specialist_job_trigger = {
+	custom_tooltip = SPECIALIST_JOB_TRIGGER
+	hidden_trigger = {
+		NOT = { has_ethic = ethic_gestalt_consciousness }
+		exists = owner
+		OR = {
+			is_enslaved = no
+			has_slavery_type = { type = slavery_indentured }
+		}
+		is_being_purged = no
+		is_being_assimilated = no
+		NOT = { has_trait = trait_syncretic_proles }
+		# Rule out Traits for servitude & lack of free will
+		can_think = yes
+		NOT = {	has_pop_group_flag = cant_work }
+		# Rule out Disconnected Drones
+		has_disconnected_drone_citizenship_type = no
+		OR = {
+			# Machine & Robot Expansion: Continued - if empire has 2 origins or custom owner species
+			oxr_mdlc_pop_can_fill_advanced_job_trigger = yes
+			NOT = { has_trait = trait_mechanical }
+			owner = { has_technology = tech_droid_workers }
+		}
+		NOR = {
+			has_citizenship_type = {
+				type = citizenship_organic_trophy
+				country = owner
+			}
+			has_citizenship_type = {
+				type = citizenship_cruise_passenger
+				country = owner
+			}
+		}
+		if = {
+			limit = {
+				divinity_right_to_work_job_check_trigger_exempt = no
+			}
+			divinity_right_to_work_job_check_trigger_specialist = yes
+		}
+	}
+}
+
+#this/root = pop
+#checked if job's possible_precalc = can_fill_ruler_job
+# Overwritten bc Mechanical origin pops could not work specialist jobs after a base game update
+can_fill_ruler_job = {
+	if = {
+		limit = {
+			exists = owner
+			owner = {
+				has_origin = origin_necrophage
+				has_trait = trait_necrophage
+			}
+		}
+		custom_tooltip = {
+			text = RULER_JOB_NECROPHAGE_TRIGGER
+			has_trait = trait_necrophage
+			is_enslaved = no
+			is_being_purged = no
+			is_being_assimilated = no
+		}
+	}
+	else = {
+		custom_tooltip = RULER_JOB_TRIGGER
+		hidden_trigger = {
+			NOT = { has_ethic = ethic_gestalt_consciousness }
+			exists = owner
+			is_enslaved = no
+			is_being_purged = no
+			is_being_assimilated = no
+			NOT = { has_trait = trait_syncretic_proles }
+			# Rule out Traits for servitude & lack of free will
+			can_think = yes
+			# Rule out Disconnected Drones
+			has_disconnected_drone_citizenship_type = no
+			# Rule out Machine Pops, unless they're rendered sapient
+			OR = {
+				# Machine & Robot Expansion: Continued check - let synth empires & custom origin pops work ruler jobs
+				oxr_mdlc_pop_can_fill_advanced_job_trigger = yes
+				NOT = { has_trait = trait_mechanical }
+				AND = {
+					owner = { has_technology = tech_synthetic_workers }
+					owner = { has_policy_flag = ai_full_rights }
+				}
+			}
+			# Rule out Organic Trophies
+			NOR = {
+				has_citizenship_type = {
+					type = citizenship_organic_trophy
+					country = owner
+				}
+				has_citizenship_type = {
+					type = citizenship_cruise_passenger
+					country = owner
+				}
+			}
+			# Rule out violations of the 'Right to Work' Resolution (prioritises organic workers)
+			if = {
+				limit = {
+					divinity_right_to_work_job_check_trigger_exempt = no
+				}
+				divinity_right_to_work_job_check_trigger_ruler = yes
+			}
+		}
 	}
 }
