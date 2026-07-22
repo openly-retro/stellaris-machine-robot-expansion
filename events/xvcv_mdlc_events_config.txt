@@ -437,7 +437,7 @@ country_event = {
 		set_country_flag = xvcv_mdlc_decision_virtual_world_project_message_on
 	}
 }
-#from robot to machine species conversion
+#from robot to machine species conversion (Gestalt empires only)
 country_event = {
 	id = xvcv_mdlc_config_effect.2
 	hide_window = yes
@@ -488,9 +488,11 @@ country_event = {
 				}
 			}
 		}
+		log = "xvcv_mdlc_config_effect.2: from robot to machine species conversion was called"
 	}
 }
-#from machine to robot species conversion
+
+#from machine to robot species conversion (Mechanical empires only)
 country_event = {
 	id = xvcv_mdlc_config_effect.3
 	hide_window = yes
@@ -513,36 +515,38 @@ country_event = {
 						change_species = prev.species
 					}
 				}
-				else = {
-					create_species = {
-						adjective = this
-						name = this
-						namelist = root
-						plural = this
-						class = "ROBOT"
-						portrait = this
-						traits = { trait = trait_mechanical }
-						traits = this
-						homeworld = root.capital_scope
-						effect = {
-							change_species_characteristics = {
-								remove_trait = trait_machine_unit
-							}
-							# oxr_mdlc_set_custom_species_habitability = yes
+			}
+			else = {
+				create_species = {
+					adjective = this
+					name = this
+					namelist = root
+					plural = this
+					class = "ROBOT"
+					portrait = this
+					traits = { trait = trait_mechanical }
+					traits = this
+					homeworld = root.capital_scope
+					effect = {
+						change_species_characteristics = {
+							remove_trait = trait_machine_unit
 						}
+						# oxr_mdlc_set_custom_species_habitability = yes
 					}
-					root = {
-						every_owned_pop_group = {
-							limit = { is_same_species = prevprev }
-							change_species = last_created_species
-						}
-					}
-					xvcv_mdlc_robot_species_rights_adjustments_effect = yes
 				}
+				root = {
+					every_owned_pop_group = {
+						limit = { is_same_species = prevprev }
+						change_species = last_created_species
+					}
+				}
+				xvcv_mdlc_robot_species_rights_adjustments_effect = yes
 			}
 		}
+		log = "xvcv_mdlc_config_effect.3: from machine to robot species conversion was called"
 	}
 }
+
 #species assimilation
 country_event = {
 	id = xvcv_mdlc_config_effect.4
@@ -585,6 +589,7 @@ country_event = {
 				}
 			}
 		}
+		log = "xvcv_mdlc_config_effect.4 (species assimilation) was called"
 	}
 }
 #auto pop migration
@@ -648,7 +653,7 @@ country_event = {
 					source_pop_group = this
 					target_planet = event_target:xvcv_mdlc_colony_unemployment_resettlement_target
 				}
-
+				log = "xvcv_mdlc_config_effect.5: Pop has been resettled to \\[This.GetName]"
 			}
 		}
 	}
