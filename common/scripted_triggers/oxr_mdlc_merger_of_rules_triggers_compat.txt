@@ -93,7 +93,7 @@ oxr_mdlc_is_synthetic_empire = {
 
 oxr_mdlc_species_is_bio_robot = {
 	OR = {
-		is_species_class = XVCV_MDLC_ROBOT
+		is_species_class = XVCV_MDLC_BIO_ROBOT
 		has_trait = xvcv_mdlc_trait_bio_robot
 	}
 }
@@ -102,6 +102,14 @@ oxr_mdlc_species_is_bio_robot = {
 oxr_mdlc_can_species_be_assembled = {
 	oxr_mdlc_species_is_bio_robot = no
 	has_oxr_mdlc_trait_world_machine_automaton = no
+	if = {
+		limit = {
+			owner = {
+				oxr_mdlc_has_mechanical_origin = yes
+			}
+		}
+		oxr_mdlc_is_synthetic_empire = yes
+	}
 }
 
 
