@@ -66,6 +66,7 @@ oxr_mdlc_is_non_organic_empire = {
 		owner_species = { has_trait = trait_mechanical }  # is_mechanical_empire
 		oxr_mdlc_is_synthetic_empire = yes  # include species from this mod
 		oxr_mdlc_is_any_machine_empire = yes  # gestalt or individual
+		owner_species = { is_archetype = XVCV_MDLC_BIO_ROBOT }
 	}
 }
 
@@ -81,27 +82,57 @@ oxr_mdlc_has_mechanical_origin = {
 # Synths: self aware, assembled, ascended from organic bodies
 oxr_mdlc_is_synthetic_empire = {
 	OR = {
-		# owner_species = { has_trait = trait_mechanical }
-		owner_species = { is_archetype = XVCV_MDLC_BIO_ROBOT }  # AP
+		owner_species = { has_trait = trait_mechanical }
+		# Bio-robot species will have either Machine or Mechanical trait attached
+		# So just looking at archetype won't give accuracy
+		# owner_species = { is_archetype = XVCV_MDLC_BIO_ROBOT }  # AP
 		has_country_flag = synthetic_empire
-		owner_species = { is_species_class = XVCV_MDLC_ROBOT }  # origin
+		owner_species = { is_species_class = XVCV_MDLC_ROBOT }  # origin, mechanicals
 	}
 }
+
+oxr_mdlc_species_is_bio_robot = {
+	OR = {
+		is_species_class = XVCV_MDLC_BIO_ROBOT
+		has_trait = xvcv_mdlc_trait_bio_robot
+	}
+}
+
+# used in game rule: can_species_be_assembled
+oxr_mdlc_can_species_be_assembled = {
+	oxr_mdlc_species_is_bio_robot = no
+	has_oxr_mdlc_trait_world_machine_automaton = no
+	if = {
+		limit = {
+			owner = {
+				oxr_mdlc_has_mechanical_origin = yes
+			}
+		}
+		oxr_mdlc_is_synthetic_empire = yes
+	}
+}
+
+
 # Machines: self aware, assembled, did not ascend from organic bodies
+# Can have any gov type or auth
 oxr_mdlc_is_any_machine_empire = {
 	OR = {
         owner_species = { is_archetype = MACHINE }
 		owner_species = { has_trait = trait_machine_unit }
     }
 }
+
+# Specifically not gestalt but still machine
 oxr_mdlc_is_individual_machine = {
 	oxr_mdlc_is_any_machine_empire = yes
 	NOT = { has_authority = auth_machine_intelligence }
 }
+
 oxr_mdlc_is_gestalt_machine = {
 	oxr_mdlc_is_any_machine_empire = yes
 	has_authority = auth_machine_intelligence
 }
+
 oxr_mdlc_is_machine_terminator = {
 	has_civic = civic_machine_terminator
 }
@@ -138,47 +169,16 @@ oxr_mdlc_country_is_finished_bio_mech = {
 }
 
 oxr_mdlc_can_add_genetic_traits = {
-	hidden_trigger = { exists = from }
-	custom_tooltip = {
-		text = requires_tech_gene_tailoring
-		from = {
-			OR = {
-				has_technology = tech_gene_tailoring
-				has_xvcv_mdlc_ap_genetics_mastery = yes
-				oxr_mdlc_country_is_finished_bio_mech = yes
-			}
-		}
+	OR = {
+		has_xvcv_mdlc_ap_genetics_mastery = yes
+		oxr_mdlc_country_is_finished_bio_mech = yes
 	}
 }
 
-oxr_mdlc_can_remove_beneficial_genetic_traits = {
-	hidden_trigger = { exists = from }
-	from = {
-		if = {
-			limit = {
-				# First check things from this mod. If they don't exist, then do base game check
-				OR = {
-					has_xvcv_mdlc_ap_genetics_mastery = yes
-					oxr_mdlc_country_is_finished_bio_mech = yes
-				}
-				always = yes
-			}
-		}
-		else = {
-			# Base game check
-			if = {
-				limit = {
-					OR = {
-						has_biogenesis_dlc = no
-						has_tradition = tr_genetics_adopt
-					}
-				}
-				has_tradition = tr_genetics_resequencing
-			}
-			else = {
-				has_tradition = tr_purity_genotype_regeneration
-			}
-		}
+oxr_mdlc_country_can_remove_beneficial_genetic_traits = {
+	OR = {
+		has_xvcv_mdlc_ap_genetics_mastery = yes
+		oxr_mdlc_country_is_finished_bio_mech = yes
 	}
 }
 
@@ -208,6 +208,8 @@ oxr_mdlc_is_robot_empire = {
 	OR = {
 		owner_species = { is_archetype = ROBOT }
 		owner_species = { is_archetype = MACHINE }
+		owner_species = { is_archetype = XVCV_MDLC_ROBOT }
+		owner_species = { has_trait = trait_machine_unit }
 		# mechanical
 		oxr_mldc_is_mechanical_empire = yes
 	}
@@ -217,9 +219,22 @@ oxr_mldc_is_mechanical_empire = {
 	optimize_memory
 	OR = {
 		owner_species = { has_trait = trait_mechanical }
-		owner_species = { has_trait = trait_machine_unit }
-		owner_species = { is_archetype = XVCV_MDLC_BIO_ROBOT }
+		owner_species = { is_archetype = XVCV_MDLC_ROBOT }
 	}
+}
+
+oxr_mdlc_pop_can_fill_advanced_job_trigger = {
+	# Let Mechanical origin and Synth empires pops work specialist & ruler jobs
+	# This is probably pop_group scope but it's unclear from the base game code
+
+	owner = {
+		OR = {
+			has_origin = xvcv_mdlc_origin_mechanical_heritage
+			has_origin = xvcv_mdlc_origin_synth_ascend
+			oxr_mdlc_is_synthetic_empire = yes
+		}
+	}
+
 }
 
 # Scopes: country, leader, pop, army, (colony) ship

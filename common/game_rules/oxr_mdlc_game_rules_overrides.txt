@@ -69,7 +69,9 @@ can_release_vassal = {
 	}
 }
 
+# Stellaris 4.4.x version
 can_species_be_assembled = {
+	is_robotic = yes
 	is_sapient = yes
 	NOT = {
 		has_trait = trait_exd
@@ -89,26 +91,12 @@ can_species_be_assembled = {
 			}
 		}
 	}
-	OR = {
-		AND = {
-			is_robotic = yes
-			root = {
-				check_modifier_value = {
-					modifier = planet_pop_assembly_add
-					value > 0
-				}
-				owner = {
-					NOT = { has_country_flag = synth_assembly_stopped }
-				}
-			}
-			# Machines & Robot Expansion Continued
-			has_xvcv_mdlc_trait_bio_robot = no
-		}
-		# Create a second block so the OR has something to resolve to
-		AND = {
-			is_sapient = yes
-		}
+	NOT = {
+		is_being_integrated_by = root.owner
 	}
+	# Machine & Robot Expansion: Continued
+	oxr_mdlc_can_species_be_assembled = yes
+
 	has_population_control = {
 		type = no
 		country = root.owner
