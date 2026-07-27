@@ -142,6 +142,7 @@ oxr_mdlc_tech_machine_species_points_picks_repeatable = {
 	potential = {
 		has_authority = auth_machine_intelligence
 		has_paragon_dlc = yes
+		has_country_flag = oxr_mdlc_country_feature_infinite_repeatable_builder_techs
 	}
 	prerequisites = {
 		"tech_self_assembling_components"  # T3 Eng
@@ -209,5 +210,40 @@ oxr_mdlc_tech_mechanical_species_points_picks_repeatable = {
 	modifier = {
 		ROBOT_species_trait_picks_add = 1
 		ROBOT_species_trait_points_add = 2
+	}
+}
+
+oxr_mdlc_tech_bio_mechanical_species_points_picks_repeatable = {
+	icon = oxr_mdlc_tech_machine_species_points_picks_repeatable
+	area = engineering
+	cost = 250000
+	cost_per_level = 25000
+	tier = @repeatableTechTier
+	category = { industry }
+	levels = -1 #5% x 10 = 50% #use '-1' value for infinite researching
+	weight = @repeatableTechWeight
+
+	potential = {
+		oxr_mdlc_country_is_finished_bio_mech = yes
+	}
+
+	weight_modifier = {
+		factor = @repatableTechFactor
+	}
+	
+	ai_weight = {
+		factor = 1.0
+	}
+
+	weight_groups = {
+		repeatable
+	}
+	mod_weight_if_group_picked = {
+		repeatable = 0.01
+	}
+
+	modifier = {
+		XVCV_MDLC_BIO_ROBOT_species_trait_picks_add = 1
+		XVCV_MDLC_BIO_ROBOT_species_trait_points_add = 2
 	}
 }
