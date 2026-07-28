@@ -1,0 +1,191 @@
+## These are for supporting Synth species from this mod's origins
+## oxr_mdlc_synths_can_fill_complex_job = yes <-- main trigger
+
+## We have to get around all the code blocking non-sapient robots
+## from working complex jobs.
+
+can_fill_specialist_job_trigger = {
+	custom_tooltip = SPECIALIST_JOB_TRIGGER
+	hidden_trigger = {
+		NOT = { has_ethic = ethic_gestalt_consciousness }
+		exists = owner
+		OR = {
+			is_enslaved = no
+			has_slavery_type = { type = slavery_indentured }
+		}
+		is_being_purged = no
+		is_being_assimilated = no
+		NOT = { has_trait = trait_syncretic_proles }
+		# Rule out Traits for servitude & lack of free will
+		can_think = yes
+		NOT = {	has_pop_group_flag = cant_work }
+		# Rule out Disconnected Drones
+		has_disconnected_drone_citizenship_type = no
+		OR = {
+			# Machine & Robot Expansion: Continued
+			oxr_mdlc_synths_can_fill_complex_job = yes
+
+			NOT = { has_trait = trait_mechanical }
+			owner = { has_technology = tech_droid_workers }
+		}
+		NOR = {
+			has_citizenship_type = {
+				type = citizenship_organic_trophy
+				country = owner
+			}
+			has_citizenship_type = {
+				type = citizenship_cruise_passenger
+				country = owner
+			}
+		}
+		if = {
+			limit = {
+				divinity_right_to_work_job_check_trigger_exempt = no
+			}
+			divinity_right_to_work_job_check_trigger_specialist = yes
+		}
+	}
+}
+
+entertainer_job_check_trigger = {
+	custom_tooltip = SPECIALIST_JOB_TRIGGER
+	hidden_trigger = {
+		exists = owner
+		OR = {
+			is_enslaved = no
+			has_slavery_type = { type = slavery_domestic }
+		}
+		is_being_purged = no
+		is_being_assimilated = no
+		# Rule out Traits for servitude & lack of free will
+		can_think = yes
+		# Rule out Disconnected Drones
+		has_disconnected_drone_citizenship_type = no
+		OR = {
+			# Machine & Robot Expansion: Continued
+			oxr_mdlc_synths_can_fill_complex_job = yes
+
+			NOT = { has_trait = trait_mechanical }
+			owner = { has_technology = tech_droid_workers }
+		}
+		NOR = {
+			has_citizenship_type = {
+				type = citizenship_organic_trophy
+				country = owner
+			}
+			has_citizenship_type = {
+				type = citizenship_cruise_passenger
+				country = owner
+			}
+		}
+		if = {
+			limit = {
+				divinity_right_to_work_job_check_trigger_exempt = no
+			}
+			divinity_right_to_work_job_check_trigger_specialist = yes
+		}
+	}
+}
+
+complex_specialist_job_check_trigger = {
+	hidden_trigger = {
+		exists = owner
+		OR = {
+			# Machine & Robot Expansion: Continued
+			oxr_mdlc_synths_can_fill_complex_job = yes
+
+			NOT = { has_trait = trait_mechanical }
+			AND = {
+				owner = { has_technology = tech_droid_workers }
+				owner = { NOT = { has_policy_flag = ai_outlawed } }
+			}
+		}
+	}
+}
+
+entertainer_job_check_trigger = {
+	custom_tooltip = SPECIALIST_JOB_TRIGGER
+	hidden_trigger = {
+		exists = owner
+		OR = {
+			is_enslaved = no
+			has_slavery_type = { type = slavery_domestic }
+		}
+		is_being_purged = no
+		is_being_assimilated = no
+		# Rule out Traits for servitude & lack of free will
+		can_think = yes
+		# Rule out Disconnected Drones
+		has_disconnected_drone_citizenship_type = no
+		OR = {
+			# Machine & Robot Expansion: Continued
+			oxr_mdlc_synths_can_fill_complex_job = yes
+
+			NOT = { has_trait = trait_mechanical }
+			owner = { has_technology = tech_droid_workers }
+		}
+		NOR = {
+			has_citizenship_type = {
+				type = citizenship_organic_trophy
+				country = owner
+			}
+			has_citizenship_type = {
+				type = citizenship_cruise_passenger
+				country = owner
+			}
+		}
+		if = {
+			limit = {
+				divinity_right_to_work_job_check_trigger_exempt = no
+			}
+			divinity_right_to_work_job_check_trigger_specialist = yes
+		}
+	}
+}
+
+# ENFORCER not battle thrall >:/
+
+battle_thrall_job_check_trigger = {
+	custom_tooltip = BATTLE_THRALL_JOB_TRIGGER
+	hidden_trigger = {
+		exists = owner
+		OR = {
+			is_enslaved = no
+			has_slavery_type = { type = slavery_military }
+		}
+		is_being_purged = no
+		is_being_assimilated = no
+		# Rule out Traits for servitude & lack of free will
+		can_think = yes
+		# Rule out Disconnected Drones
+		has_disconnected_drone_citizenship_type = no
+		NOT = {
+			has_military_service_type = {
+				type = military_service_none
+			}
+		}
+		OR = {
+			# Machine & Robot Expansion: Continued
+			oxr_mdlc_synths_can_fill_complex_job = yes
+
+			NOT = { has_trait = trait_mechanical }
+			owner = { has_technology = tech_droid_workers }
+		}
+		NOR = {
+			has_citizenship_type = {
+				type = citizenship_organic_trophy
+				country = owner
+			}
+			has_citizenship_type = {
+				type = citizenship_cruise_passenger
+				country = owner
+			}
+		}
+		if = {
+			limit = {
+				divinity_right_to_work_job_check_trigger_exempt = no
+			}
+			divinity_right_to_work_job_check_trigger_specialist = yes
+		}
+	}
+}
