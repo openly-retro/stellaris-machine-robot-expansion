@@ -21,6 +21,18 @@ oxr_mdlc_orbital_depositor_consolidator = {
 	dismantle_potential = { always = yes }
 	dismantle_possible = { always = yes }
 
+	resources = {
+		category = megastructures
+		cost = {
+			energy = 200
+			influence = 1
+		}
+
+		upkeep = {
+			energy = 1
+		}
+	}
+
 	# trigger, scope: country
 	# from: fleet for new megastructures and megastructure for upgrades
 	potential = {
@@ -128,67 +140,43 @@ oxr_mdlc_orbital_depositor_consolidator = {
 
 	}
 
-	# effects, scope: galactic object, from: country,
-	# fromfrom: megastructure instance, fromfromfrom: constructing fleet
+	# effects, scope: galactic object
+	# from: country,
+	# fromfrom: megastructure instance
+	# fromfromfrom: constructing fleet
 	# prev: starbase (if the megastructure spawns a starbase)
 	on_build_complete = {
 
-		# Check if there are enough resources to start terraforming,
-		# otherwise the empire gets a free terraform!
-		if = {
-			limit = {
-				from = {
 
-						has_resource = {
-							type = energy
-							amount < 200
-						}
-					
+		# Proceed as planned
+		from = {
+			log = "effect of oxr_mdlc_decision_trigger_orbital_extraction_project was fired"
+			space_owner = {
+				country_event = {
+					id = oxr_mdlc_civic_consolidators.3000
+					scopes = {
+						from = prev
+					}
 				}
-			}
-			# throw an error message
-			# destroy the mega
-
-			fromfrom = {
-				remove_megastructure = this
 			}
 		}
-		else = {
-			# Proceed as planned
-			from = {
-				log = "effect of oxr_mdlc_decision_trigger_orbital_extraction_project was fired"
-				space_owner = {
-					country_event = {
-						id = oxr_mdlc_civic_consolidators.3000
-						scopes = {
-							from = prev
-						}
-					}
+		# We don't need this mega since it did its job
+		fromfrom = {
+			create_message = {
+				type = OXR_MDLC_WM_PLANET_CORE_DROPSITE
+				localization = OXR_MDLC_WM_PLANET_CORE_DROPSITE_MESSAGE
+				days = 20
+				target = planet
+				variable = {
+					type = name
+					localization = OXR_MDLC_TARGET_WM_PLANET
+					scope = planet
 				}
 			}
-			# We don't need this mega since it did its job
-			fromfrom = {
-				create_message = {
-					type = OXR_MDLC_WM_PLANET_CORE_DROPSITE
-					localization = OXR_MDLC_WM_PLANET_CORE_DROPSITE_MESSAGE
-					days = 20
-					target = planet
-					variable = {
-						type = name
-						localization = OXR_MDLC_TARGET_WM_PLANET
-						scope = planet
-					}
-				}
-				remove_megastructure = this
-			}
+			remove_megastructure = this
 		}
 
 	} #/on_build_complete
 
 	on_dismantle_complete = { }
-
-	resources = {
-		category = station_gatherers
-		upkeep = { energy = 1 }
-	}
 }
