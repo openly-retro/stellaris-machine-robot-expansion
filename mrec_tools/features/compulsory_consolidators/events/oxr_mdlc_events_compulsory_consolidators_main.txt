@@ -59,6 +59,65 @@ country_event = {
 	}
 }
 
+planet_event = {
+	# When orbital consolidator mega is upgraded to Mining Consolidator,
+	# start an event loop that checks for any more mining deposits each month
+	# when none are found, fire a message and remove the mega
+	id = oxr_mdlc_civic_consolidators.1000
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = { has_civic = oxr_mdlc_civic_consolidators }
+
+	immediate = {
+		# This is just after the mega has been upgraded to Mining,
+		# and we know there are mining deposits on the planet
+		# But what kind .. standard? strategic?
+		set_planet_flag = oxr_mdlc_orbital_deposit_consolidator_mining_mega_active
+	}
+}
+
+planet_event = {
+	# The Mining Consolidator loop
+	id = oxr_mdlc_civic_consolidators.1005
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		space_owner = { has_civic = oxr_mdlc_civic_consolidators }
+		has_planet_flag = oxr_mdlc_orbital_deposit_consolidator_mining_mega_active
+	}
+	immediate = {
+		# Prefer extracting standard deposits before strategic ones
+		if = {
+			limit = {
+				# Check for any mining deposits, excluding SR ones
+				oxr_mdlc_consolidators_planet_has_any_mining_deposits = yes
+			}
+			# Start a 30-day timer. On timer end, initiate the special project for 1 unit of a target deposit
+			# Then, call this event again
+			log = "Mining Consolidator found standard deposits to extract"
+		}
+		else_if = {
+			limit = {
+				# Check for SR deposits, and can the empire extract them?
+				oxr_mdlc_consolidators_planet_has_any_sr_mining_deposits = yes
+			}
+			if = {
+				limit = {
+					oxr_mdlc_consolidators_planet_can_consolidate_any_sr_mining_deposits = yes
+				}
+				# There are SR deposits on the planet, and the empire can extract at least one type
+				log = "Mining Consolidator found SR deposits and the empire can extract them"
+				# TODO: Switch statement on has_deposit to fire special project to remove 1 unit of it
+				# But how are we going to subtract 1 unit?
+				# probably use Python scripts to emit truckloads of checks
+				# if deposit name matches X, check expected value of matching var to actual value
+				# increment a var every time a deposit is "chipped away"
+			}
+		}
+	}
+
+}
 
 
 

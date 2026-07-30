@@ -1,0 +1,54 @@
+# look what i cooked up at 1am
+oxr_mdlc_consolidators_reduce_minerals_deposit_trigger_project = {
+	switch = {
+		trigger = has_deposit
+		# add deposit before removing existing so planet scope is not lost
+		d_minerals_1 = {
+			# remove deposit completely
+			remove_deposit = yes
+		}
+		d_minerals_2 = {
+			planet = { add_deposit = d_minerals_1 }
+			remove_deposit = yes
+		}
+		d_minerals_3 = {
+			planet = { add_deposit = d_minerals_2 }
+			remove_deposit = yes
+		}
+		d_minerals_4 = {
+			planet = { add_deposit = d_minerals_3 }
+			remove_deposit = yes
+		}
+		d_minerals_5 = {
+			planet = { add_deposit = d_minerals_4 }
+			remove_deposit = yes
+		}
+		d_minerals_6 = {
+			planet = { add_deposit = d_minerals_5 }
+			remove_deposit = yes
+		}
+		d_minerals_7 = {
+			planet = { add_deposit = d_minerals_6 }
+			remove_deposit = yes
+		}
+		d_minerals_8 = {
+			planet = { add_deposit = d_minerals_7 }
+			remove_deposit = yes
+		}
+		d_minerals_9 = {
+			planet = { add_deposit = d_minerals_8 }
+			remove_deposit = yes
+		}
+		d_minerals_10 = {
+			planet = { add_deposit = d_minerals_9 }
+			remove_deposit = yes
+		}
+	}
+	# trigger the project after manipulating the deposit size
+	space_owner = {
+		oxr_mdlc_country_create_mover_fleet_give_instructions = {
+			RESOURCE = minerals
+			AMOUNT = 1
+		}
+	}
+}
