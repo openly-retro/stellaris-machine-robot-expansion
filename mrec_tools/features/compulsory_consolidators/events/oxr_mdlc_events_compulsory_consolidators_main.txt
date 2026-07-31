@@ -67,13 +67,23 @@ planet_event = {
 	hide_window = yes
 	is_triggered_only = yes
 
-	trigger = { has_civic = oxr_mdlc_civic_consolidators }
+	trigger = {
+		space_owner = {
+			has_civic = oxr_mdlc_civic_consolidators
+		}
+		planet = {
+			NOT = { has_planet_flag = oxr_mdlc_orbital_deposit_consolidator_mining_mega_active }
+		}
+	}
 
 	immediate = {
 		# This is just after the mega has been upgraded to Mining,
 		# and we know there are mining deposits on the planet
 		
 		set_planet_flag = oxr_mdlc_orbital_deposit_consolidator_mining_mega_active
+		planet_event = {
+			id = oxr_mdlc_civic_consolidators.1005
+		}
 	}
 }
 
