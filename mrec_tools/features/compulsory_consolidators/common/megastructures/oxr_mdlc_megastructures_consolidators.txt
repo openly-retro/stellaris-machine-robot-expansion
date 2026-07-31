@@ -1,3 +1,5 @@
+# Megas for yoinking deposits from orbit and appropriating them
+
 oxr_mdlc_orbital_deposit_consolidator = {
 	# Target a galactic object and move the deposit to target planet
 
@@ -275,19 +277,12 @@ oxr_mdlc_orbital_deposit_consolidator_mining = {
 	# fromfromfrom: constructing fleet
 	# prev: starbase (if the megastructure spawns a starbase)
 	on_build_complete = {
-		remove_planet_flag = oxr_mdlc_consolidator_orbital_mega_upgrading
+		fromfrom.planet = {
+			remove_planet_flag = oxr_mdlc_consolidator_orbital_mega_upgrading
 
-
-		# Proceed as planned
-		from = {
-			log = "effect of oxr_mdlc_decision_trigger_orbital_extraction_project was fired"
-			space_owner = {
-				country_event = {
-					id = oxr_mdlc_civic_consolidators.3000
-					scopes = {
-						from = prev
-					}
-				}
+			# Start the loop to pop off 1 unit of orbital deposit per month
+			planet_event = {
+				id = oxr_mdlc_civic_consolidators.1000
 			}
 		}
 

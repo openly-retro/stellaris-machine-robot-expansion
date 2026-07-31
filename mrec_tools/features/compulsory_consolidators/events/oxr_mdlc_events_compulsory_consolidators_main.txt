@@ -72,7 +72,7 @@ planet_event = {
 	immediate = {
 		# This is just after the mega has been upgraded to Mining,
 		# and we know there are mining deposits on the planet
-		# But what kind .. standard? strategic?
+		
 		set_planet_flag = oxr_mdlc_orbital_deposit_consolidator_mining_mega_active
 	}
 }
@@ -96,6 +96,55 @@ planet_event = {
 			# Start a 30-day timer. On timer end, initiate the special project for 1 unit of a target deposit
 			# Then, call this event again
 			log = "Mining Consolidator found standard deposits to extract"
+			random_deposit = {
+				# Look at what basic mining deposits are available (that require no tech)
+				# Pick a random deposit from among any in the limit below
+				limit = {
+					# I want this order to be randomized every check, but that may not be possible
+					# I'll just hope that 'random_deposit' takes care of the randomness
+					OR = {
+						oxr_mdlc_consolidators_deposit_is_minerals = yes
+						oxr_mdlc_consolidators_deposit_is_energy = yes
+						oxr_mdlc_consolidators_deposit_is_trade = yes
+						oxr_mdlc_consolidators_deposit_is_alloys = yes
+						oxr_mdlc_consolidators_deposit_is_food = yes
+					}
+				}
+				# Now that we know the deposit is one of the above, call a different effect
+				# for each deposit type
+				if = {
+					limit = { oxr_mdlc_consolidators_deposit_is_minerals = yes }
+					oxr_mdlc_consolidators_reduce_minerals_deposit_trigger_project = yes
+				}
+				else_if = {
+					limit = { oxr_mdlc_consolidators_deposit_is_energy = yes }
+					oxr_mdlc_consolidators_reduce_energy_deposit_trigger_project = yes
+				}
+				else_if = {
+					limit = { oxr_mdlc_consolidators_deposit_is_food = yes }
+					oxr_mdlc_consolidators_reduce_food_deposit_trigger_project = yes
+				}
+				else_if = {
+					limit = { oxr_mdlc_consolidators_deposit_is_trade = yes }
+					oxr_mdlc_consolidators_reduce_trade_deposit_trigger_project = yes
+				}
+				else_if = {
+					limit = { oxr_mdlc_consolidators_deposit_is_alloys = yes }
+					oxr_mdlc_consolidators_reduce_alloys_deposit_trigger_project = yes
+				}
+				# Call this effect again in 30 days
+				# Ideally I would like some tech upgrades to be able to make this process faster,
+				# or to be able to excavate more of each type of deposit per month.
+				# Probably the latter at some point
+				planet_event = {
+					id = oxr_mdlc_civic_consolidators.1005
+					days = 30
+				}
+				# Sending a message each time a deposit is consolidated could be tiring to experience
+				# and become extra noise that frustrates the player
+				# could there be a way that we can transmit this info to the player?
+				# maybe have a 'stats' special project that tracks consolidation records over time
+			}
 		}
 		else_if = {
 			limit = {
@@ -108,17 +157,41 @@ planet_event = {
 				}
 				# There are SR deposits on the planet, and the empire can extract at least one type
 				log = "Mining Consolidator found SR deposits and the empire can extract them"
-				# TODO: Switch statement on has_deposit to fire special project to remove 1 unit of it
-				# But how are we going to subtract 1 unit?
-				# probably use Python scripts to emit truckloads of checks
-				# if deposit name matches X, check expected value of matching var to actual value
-				# increment a var every time a deposit is "chipped away"
+
+				# TODO: do the same for the basic mining orbitals
+			}
+		}
+		else = {
+			# There are no mining deposits available, either because there simply are none,
+			# or the empire lacks the tech to extract it.
+			# Shut down the mega and show a message that extraction is finished on planet (name)
+			create_message = {
+				type = OXR_MDLC_ORBITAL_CONSOLIDATOR_EXHAUSTED
+				localization = OXR_MDLC_ORBITAL_CONSOLIDATOR_EXHAUSTED_MESSAGE
+				days = 15
+				target = this
+			}
+			remove_planet_flag = oxr_mdlc_orbital_deposit_consolidator_mining_mega_active
+			planet = {
+				save_event_target_as = oxr_mdlc_consolidators_mega_finished@planet
+			}
+			# Find the consolidator mega attached to this planet and remove it
+			solar_system = {
+				random_megastructure = {
+					limit = {
+						# Ignore gates, etc
+						oxr_mdlc_mega_is_orbital_consolidator = yes
+						exists = planet
+						planet = {
+							is_same_value = event_target:oxr_mdlc_consolidators_mega_finished@planet
+						}
+					}
+					remove_megastructure = this
+				}
 			}
 		}
 	}
-
 }
-
 
 
 # when consolidator mover ship arrives at target

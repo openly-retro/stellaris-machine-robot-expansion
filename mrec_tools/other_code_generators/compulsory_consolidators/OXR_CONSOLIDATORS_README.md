@@ -66,15 +66,13 @@ Planetary features:
 	has_planet_flag = oxr_mdlc_civic_consolidation_target_@root
 
 
-## Version 2 design
+## Version 4
 
-This civic will require some micro
-
-1. Place megastructure on stellar body with deposit. Player chooses "mining" or "research" or "auto" upgrade
-1. If Mining extractor, only deposits that could have mining stations are prepared
-2. If Research, only deposits that could be research stations are prepared
-3. If Auto, this symbolizes the player doesn't care, and they will be extracted in random order
-4. If player runs out of extraction resources, megas will deconstruct automatically / disable themselves
-2. If multiple orbitals, each will be prepared in sequence, over time, at 3-month intervals
-3. Special projects will be created in space for each orbital extracted. These can be completed by construction ships on "special project autopilot"
-5. Mega self deconstructs if no more valid orbitals are found
+1. Auto-Extractor mega is placed on stellar body
+2. Player chooses upgrade type: Mining, Research, or All. Either mining or research will be unavailable if either of those isn't on the stellar body.
+2. Its monthly upkeep represents the one-time resource extraction cost of upending a deposit
+2.1 When the country has insufficient resources to run the extractor, it automatically shuts off and downgrades to the "Frame" stage. Player will upgrade it again once their empire has resources.
+3. Each month, one unit of deposit will be extracted. For a size 3 deposit, that will take 3 months to fully extract it. Every month, a special project will be generated to transport 1 unit of that deposit to the target.
+4. The mega disassembles itself and the game shows a message when that extractor has finished its task.
+5. Tech advances can increase the amount of deposit extracted in whole amounts (1->2->3)
+6. Deposits which the player cannot exploit (strategic resources) because of insufficient tech, will not be extracted, and message will be shown to that effect
