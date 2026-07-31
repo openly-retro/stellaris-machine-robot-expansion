@@ -1,0 +1,56 @@
+# Check if the empire can consolidate a deposit (having relevant tech)
+# These are all called from planet scope, so space_owner must be explicitly given
+# There are only tech checks for strategic resource consolidation
+
+oxr_mdlc_consolidators_planet_can_consolidate_any_sr_mining_deposits = {
+	OR = {
+		oxr_mdlc_consolidators_planet_can_consolidate_exotic_gases = yes
+		oxr_mdlc_consolidators_planet_can_consolidate_rare_crystals = yes
+		oxr_mdlc_consolidators_planet_can_consolidate_volatile_motes = yes
+		oxr_mdlc_consolidators_planet_can_consolidate_zro = yes
+		oxr_mdlc_consolidators_planet_can_consolidate_living_metal = yes
+	}
+}
+
+oxr_mdlc_consolidators_planet_can_consolidate_any_sr_research_deposits = {
+	OR = {
+		oxr_mdlc_consolidators_planet_can_consolidate_zro = yes
+		oxr_mdlc_consolidators_planet_can_consolidate_dark_matter = yes
+	}
+}
+
+oxr_mdlc_consolidators_planet_can_consolidate_exotic_gases = {
+	space_owner = { 
+		OR = {
+			has_technology = tech_mine_exotic_gases
+			has_technology = tech_exotic_gases
+		}
+}
+oxr_mdlc_consolidators_planet_can_consolidate_rare_crystals = {
+	space_owner = {
+		OR = {
+			has_technology = tech_rare_crystals
+			has_technology = tech_mine_rare_crystals
+		}
+}
+oxr_mdlc_consolidators_planet_can_consolidate_volatile_motes = {
+	space_owner = { 
+		OR = {
+			has_technology = tech_volatile_motes
+			has_technology = tech_mine_volatile_motes
+		}
+}
+oxr_mdlc_consolidators_planet_can_consolidate_zro = {
+	space_owner = { has_technology = tech_mine_zro }
+}
+oxr_mdlc_consolidators_planet_can_consolidate_living_metal = {
+	space_owner = { has_technology = tech_mine_living_metal }
+}
+
+oxr_mdlc_consolidators_planet_can_consolidate_dark_matter = {
+	space_owner = { has_technology = tech_mine_dark_matter }
+}
+oxr_mdlc_consolidators_planet_can_consolidate_nanites = {
+	space_owner = { has_technology = tech_nanite_transmutation }
+}
+

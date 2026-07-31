@@ -1,0 +1,294 @@
+namespace = oxr_mdlc_civic_consolidators
+
+# Create the invisible country that controls the movers
+event = {
+	id = oxr_mdlc_civic_consolidators.1
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = {
+				NOT = {
+					any_country = {
+						is_country_type = oxr_mdlc_country_consolidators_movers_controller
+					}
+				}
+			}
+			create_country = {
+				name = "name_oxr_mdlc_country_consolidators_movers_controller"
+				type = oxr_mdlc_country_consolidators_movers_controller
+				flag = {
+					icon = {
+						category = "special"
+						file = "caravaneer_00.dds"
+					}
+					background = {
+						category = "backgrounds"
+						file = "triangle_split.dds"
+					}
+					colors = {
+						"green"
+						"dark_green"
+						"null"
+						"null"
+					}
+				}
+				effect = {
+					save_global_event_target_as = oxr_mdlc_country_consolidators_movers_controller_target
+				}
+			}
+		}
+	}
+	
+}
+
+# on game start, flag/create consolidator dropoff points and establish comms with invisible country 
+country_event = {
+	# on game start
+	id = oxr_mdlc_civic_consolidators.2
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		has_civic = oxr_mdlc_civic_consolidators
+	}
+
+	immediate = {
+		oxr_mdlc_compulsory_consolidators_game_start_effect = yes
+	}
+}
+
+planet_event = {
+	# When orbital consolidator mega is upgraded to Mining Consolidator,
+	# start an event loop that checks for any more mining deposits each month
+	# when none are found, fire a message and remove the mega
+	id = oxr_mdlc_civic_consolidators.1000
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		space_owner = {
+			has_civic = oxr_mdlc_civic_consolidators
+		}
+		planet = {
+			NOT = { has_planet_flag = oxr_mdlc_orbital_deposit_consolidator_mining_mega_active }
+		}
+	}
+
+	immediate = {
+		# This is just after the mega has been upgraded to Mining,
+		# and we know there are mining deposits on the planet
+		
+		set_planet_flag = oxr_mdlc_orbital_deposit_consolidator_mining_mega_active
+		planet_event = {
+			id = oxr_mdlc_civic_consolidators.1005
+		}
+	}
+}
+
+planet_event = {
+	# The Mining Consolidator loop
+	id = oxr_mdlc_civic_consolidators.1005
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		space_owner = { has_civic = oxr_mdlc_civic_consolidators }
+		has_planet_flag = oxr_mdlc_orbital_deposit_consolidator_mining_mega_active
+	}
+	immediate = {
+		# Prefer extracting standard deposits before strategic ones
+		if = {
+			limit = {
+				# Check for any mining deposits, excluding SR ones
+				oxr_mdlc_consolidators_planet_has_any_mining_deposits = yes
+			}
+			# Start a 30-day timer. On timer end, initiate the special project for 1 unit of a target deposit
+			# Then, call this event again
+			log = "Mining Consolidator found standard deposits to extract"
+			random_deposit = {
+				# Look at what basic mining deposits are available (that require no tech)
+				# Pick a random deposit from among any in the limit below
+				limit = {
+					# I want this order to be randomized every check, but that may not be possible
+					# I'll just hope that 'random_deposit' takes care of the randomness
+					OR = {
+						oxr_mdlc_consolidators_deposit_is_minerals = yes
+						oxr_mdlc_consolidators_deposit_is_energy = yes
+						oxr_mdlc_consolidators_deposit_is_trade = yes
+						oxr_mdlc_consolidators_deposit_is_alloys = yes
+						oxr_mdlc_consolidators_deposit_is_food = yes
+					}
+				}
+				# Now that we know the deposit is one of the above, call a different effect
+				# for each deposit type
+				if = {
+					limit = { oxr_mdlc_consolidators_deposit_is_minerals = yes }
+					oxr_mdlc_consolidators_reduce_minerals_deposit_trigger_project = yes
+				}
+				else_if = {
+					limit = { oxr_mdlc_consolidators_deposit_is_energy = yes }
+					oxr_mdlc_consolidators_reduce_energy_deposit_trigger_project = yes
+				}
+				else_if = {
+					limit = { oxr_mdlc_consolidators_deposit_is_food = yes }
+					oxr_mdlc_consolidators_reduce_food_deposit_trigger_project = yes
+				}
+				else_if = {
+					limit = { oxr_mdlc_consolidators_deposit_is_trade = yes }
+					oxr_mdlc_consolidators_reduce_trade_deposit_trigger_project = yes
+				}
+				else_if = {
+					limit = { oxr_mdlc_consolidators_deposit_is_alloys = yes }
+					oxr_mdlc_consolidators_reduce_alloys_deposit_trigger_project = yes
+				}
+				# Call this effect again in 30 days
+				# Ideally I would like some tech upgrades to be able to make this process faster,
+				# or to be able to excavate more of each type of deposit per month.
+				# Probably the latter at some point
+				planet_event = {
+					id = oxr_mdlc_civic_consolidators.1005
+					days = 30
+				}
+				# Sending a message each time a deposit is consolidated could be tiring to experience
+				# and become extra noise that frustrates the player
+				# could there be a way that we can transmit this info to the player?
+				# maybe have a 'stats' special project that tracks consolidation records over time
+			}
+		}
+		else_if = {
+			limit = {
+				# Check for SR deposits, and can the empire extract them?
+				oxr_mdlc_consolidators_planet_has_any_sr_mining_deposits = yes
+			}
+			if = {
+				limit = {
+					oxr_mdlc_consolidators_planet_can_consolidate_any_sr_mining_deposits = yes
+				}
+				# There are SR deposits on the planet, and the empire can extract at least one type
+				log = "Mining Consolidator found SR deposits and the empire can extract them"
+
+				# TODO: do the same for the basic mining orbitals
+			}
+		}
+		else = {
+			# There are no mining deposits available, either because there simply are none,
+			# or the empire lacks the tech to extract it.
+			# Shut down the mega and show a message that extraction is finished on planet (name)
+			create_message = {
+				type = OXR_MDLC_ORBITAL_CONSOLIDATOR_EXHAUSTED
+				localization = OXR_MDLC_ORBITAL_CONSOLIDATOR_EXHAUSTED_MESSAGE
+				days = 15
+				target = this
+			}
+			remove_planet_flag = oxr_mdlc_orbital_deposit_consolidator_mining_mega_active
+			planet = {
+				save_event_target_as = oxr_mdlc_consolidators_mega_finished@planet
+			}
+			# Find the consolidator mega attached to this planet and remove it
+			solar_system = {
+				random_megastructure = {
+					limit = {
+						# Ignore gates, etc
+						oxr_mdlc_mega_is_orbital_consolidator = yes
+						exists = planet
+						planet = {
+							is_same_value = event_target:oxr_mdlc_consolidators_mega_finished@planet
+						}
+					}
+					remove_megastructure = this
+				}
+			}
+		}
+	}
+}
+
+
+# when consolidator mover ship arrives at target
+country_event = {
+	id = oxr_mdlc_civic_consolidators.2000
+	hide_window = yes
+	is_triggered_only = yes
+	# This = owner of fleet
+	# From = fleet
+	# FromFrom = planet (if any)
+
+	trigger = {
+		from = {
+			any_owned_ship = { is_ship_size = oxr_mdlc_civic_consolidators_ship }
+		}
+	}
+
+	immediate = {
+		from.solar_system = {
+			random_system_planet = {
+				limit = {
+					has_planet_flag = oxr_mdlc_civic_orbital_target@space_owner
+				}
+				save_event_target_as = oxr_mdlc_civic_consolidators_target_planet
+			}
+		}
+
+		## Check what resource is being transferred over
+		# energy
+		if = {
+			limit = {
+				from = {
+					is_variable_set = oxr_mdlc_consolidator_ship_resource_type_energy
+				}
+			}
+			# add 1 energy deposit per 1 value in variable
+			while = {
+				count = from.oxr_mdlc_consolidator_ship_resource_type_energy
+				event_target:oxr_mdlc_civic_consolidators_target_planet = {
+					add_deposit = d_energy_1
+					# Deposit the new amount as a variable also
+					set_or_increment_variable = {
+						VAR = oxr_mdlc_consolidator_total_energy_deposits
+						AMOUNT = 1
+					}
+				}
+			}
+			destroy_fleet = from
+		}
+	}
+}
+
+
+# call the mover
+planet_event = {
+	id = oxr_mdlc_civic_consolidators.3100
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		oxr_mdlc_country_create_mover_fleet_give_instructions = {
+			RESOURCE = energy
+		}
+	}
+}
+
+
+# get the fucking event widnow to show.. wtf why is not appearing?
+
+country_event = {
+	id = oxr_mdlc_civic_consolidators.3200
+	title = "oxr_mdlc_civic_consolidators.3000.title"
+	desc = "oxr_mdlc_civic_consolidators.3000.desc"
+	picture = GFX_evt_habitable_dig_site
+	is_triggered_only = yes
+
+	trigger = {
+		space_owner = {
+			has_civic = oxr_mdlc_civic_consolidators
+		}
+	}
+
+	option = {
+		name = EXCELLENT
+		default_hide_option = yes
+		hidden_effect = {
+			log = "finished event 3200"
+		}
+	}
+}
