@@ -21,9 +21,17 @@ can_release_vassal_from_species = {
 					}
 					AND = {
 						NOT = { has_trait = trait_hive_mind }
-						prev.this = { has_authority = auth_hive_mind }
+						prev.this = { is_hive_empire = yes }
 					}
-					has_trait = trait_mechanical
+					AND = {
+						has_trait = trait_mechanical
+						prev.this = {
+							NOR = {
+								is_mechanical_empire = yes
+								has_technology = tech_synthetic_leaders
+							}
+						}
+					}
 					can_think = no
 					has_trait = trait_clone_soldier_infertile
 					has_trait = trait_clone_soldier_infertile_full_potential
