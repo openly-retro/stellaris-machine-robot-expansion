@@ -10,9 +10,9 @@ I invite you to collaborate, but I also want you to know I'm not desperate for h
 
 ## Communicating
 
-Chat with me about this mod in the [Stellaris Modding Den](https://discord.gg/vKwNs93g ) discord! Look for `mag-sanchusa#4206 (openlyretro)`. We can discuss this mod in the `machines-robots-expac` channel.
+Chat with me about this mod in the `Stellaris Modding Den` Discord server! We can discuss this mod in the `machines-robots-expac` channel.
 
-I will also respond to comments in the Github wiki and issues for this project.
+I will also respond to issues created for this project.
 
 ## Contributing
 
@@ -20,7 +20,7 @@ Borrowing from QUEMU's [Code Provenance](https://github.com/qemu/qemu/blob/maste
 
 **The Machine & Robot Expansion: Continued project policy is to DECLINE any contributions which are believed to include or derive from AI generated content. This includes ChatGPT, Claude, Copilot, Llama and similar tools.**
 
-For modders and interested persons in meat-space, please visit the Github repo wiki for this project: [https://github.com/openly-retro/stellaris-machine-robot-expansion/wiki](https://github.com/openly-retro/stellaris-machine-robot-expansion/wiki)
+For modders and interested persons in meat-space, please visit the Github repo wiki for this project to get instructions on how to start working on this mod: [MRE:C Wiki at readthedocs.io](https://machine-robot-expansion-continued.readthedocs.io/en/latest/developers_corner.html)
 
 Warnings about working with Clausewitz syntax (what base Stellaris traits files are written in)
 
