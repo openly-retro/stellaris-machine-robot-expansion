@@ -2025,7 +2025,6 @@ oxr_mdlc_planet_clear_blockers_etc_if_not_already_wm = {
 			planet? = { is_planet_world_machine = no }
 		}
 		# Same as vanilla terraform from X to pc_machine
-		reroll_deposits = yes
 		clear_blockers = yes
 	}
 }
@@ -2039,7 +2038,6 @@ oxr_mdlc_planet_create_t3_world_colony = {
 			# Set name .. read a variable on the planet as a list index
 			# then according to that, set the name
 		}
-		reroll_deposits = yes
 		clear_blockers = yes
 		add_deposit = oxr_mdlc_d_world_machine_core
 		
@@ -2354,18 +2352,6 @@ oxr_mdlc_planet_wm_remove_capital_automation = {
 			}
 		}
 	}
-}
-
-oxr_mdlc_planet_destroy_nomad_orbitals_to_prepare_auto_colony = {
-	# Deposits need to be removed from the planet, and the secret owner needs to be reset
-	# since some tricky things make it impossible to use decisions on unowned non-habitables
-	# with deposits on them
-	clear_deposits = yes
-	create_colony = {
-		owner = space_owner
-		species = space_owner.species
-	}
-	destroy_colony = yes
 }
 
 oxr_mdlc_planet_show_wmc_drop_complete_message = {
