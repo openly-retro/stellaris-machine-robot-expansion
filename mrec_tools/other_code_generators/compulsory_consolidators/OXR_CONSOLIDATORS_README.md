@@ -1,0 +1,78 @@
+# How it works
+
+## Version 1
+
+1. Decision on a planetary body with an orbital deposit "primes" the deposit for removal.
+1.1. A var is set based on the deposit, and a flag is set
+1.2. A special project is created in space at the location
+2. Player completes project with construction ship
+2.1. On project completion, a transport ship is created and the ship goes to the consolidation dropoff
+2.2. Look at what var is set and its value; transfer that amount to the planet and create 1 corresponding deposit per 1 increment of the var
+
+
+Resources are tracked on the source planet with:
+- `oxr_mdlc_consolidator_orbital_resource_type_$RESOURCE$`
+
+When a resource has been marked for extraction, planet flag is set:
+- `oxr_mdlc_consolidators_planet_has_available_$RESOURCE$_consolidation`
+
+
+Resources are tracked on the mover fleet with:
+- `oxr_mdlc_consolidator_ship_resource_type_$RESOURCE$`
+
+Find resource dropoff with planet flag: `oxr_mdlc_civic_orbital_target@root`
+
+Find research dropoff with planet flag: `oxr_mdlc_civic_orbital_research_target@root`
+
+
+Global event targets:
+
+- Mover controller: `oxr_mdlc_country_consolidators_movers_controller_target`
+- orbital research consolidation target: `oxr_mdlc_civic_orbital_research_target@root`
+- orbital mining target: `oxr_mdlc_civic_orbital_target@root`
+
+
+Mover is doing things: 
+planet flag: oxr_mdlc_consolidators_planet_consolidation_in_progress
+
+1. Decision: oxr_mdlc_decision_trigger_orbital_extraction_project
+2. Call event `oxr_mdlc_civic_consolidators.3000`
+2.1. Player selects an available deposit to extract
+2.2. Call planet effect: `oxr_mdlc_planet_select_orbital_energy_deposits_for_processing`
+2.3. (planet effect) oxr_mdlc_consolidators_planet_make_orbital_deposits_ready_for_extraction
+2.4. Trigger special project
+3. Special project finishes
+3.1. Trigger planet event `oxr_mdlc_civic_consolidators.3100`
+3.2. This summons the ship, copies vars from the planet to the ship, and moves it
+
+
+Other stuff:
+
+- planet event dialogues won't appear for planets not owned by the initiating country
+- The consolidator civic won't pick up habitat deposits, becaues they're created as a result of orbital deposits existing
+
+TODO:
+- create mover controller inside of event `xvcv_mdlc.3`
+
+WHERE ARE THE DROPOFFS?
+
+Orbital:
+ - oxr_mdlc_civic_orbital_target@root
+ - has_planet_flag = oxr_mdlc_civic_orbital_target@root
+
+Planetary features:
+
+	is_planet = oxr_mdlc_civic_consolidation_target_@root
+	has_planet_flag = oxr_mdlc_civic_consolidation_target_@root
+
+
+## Version 4
+
+1. Auto-Extractor mega is placed on stellar body
+2. Player chooses upgrade type: Mining, Research, or All. Either mining or research will be unavailable if either of those isn't on the stellar body.
+2. Its monthly upkeep represents the one-time resource extraction cost of upending a deposit
+2.1 When the country has insufficient resources to run the extractor, it automatically shuts off and downgrades to the "Frame" stage. Player will upgrade it again once their empire has resources.
+3. Each month, one unit of deposit will be extracted. For a size 3 deposit, that will take 3 months to fully extract it. Every month, a special project will be generated to transport 1 unit of that deposit to the target.
+4. The mega disassembles itself and the game shows a message when that extractor has finished its task.
+5. Tech advances can increase the amount of deposit extracted in whole amounts (1->2->3)
+6. Deposits which the player cannot exploit (strategic resources) because of insufficient tech, will not be extracted, and message will be shown to that effect
