@@ -208,6 +208,25 @@ country_event = {
 	}
 }
 
+# world machine events
+#force add new cooling deposit 
+# get rid of this 2027
+event = {
+	id = rikk_mdlc_wm_event.60
+	is_triggered_only = yes
+	hide_window = yes
+	immediate = {
+		every_country = {
+			limit = { any_owned_planet = { oxr_mdlc_planet_is_t3_world_machine = yes } NOT = { has_country_flag = rikk_mdlc_cooling_updated } }
+			every_owned_planet = {
+				limit = { oxr_mdlc_planet_is_t3_world_machine = yes }
+				xvcv_mdlc_planet_wm_calc_output_value = yes
+			}
+			set_country_flag = rikk_mdlc_cooling_updated
+		}
+	}
+}
+
 #force recalculation of planet cooling value
 planet_event = {
 	id = rikk_mdlc_wm_event.70 # it's this number because it matches up with xvcv's version of this event
@@ -219,8 +238,7 @@ planet_event = {
 	}
 
 	immediate = {
-		oxr_mdlc_planet_wm_check_should_balance_cooling_districts = yes
-		# xvcv_mdlc_planet_wm_calc_output_value = yes
+		planet_event = { id = xvcv_mdlc.75 }
 	}
 }
 
@@ -232,7 +250,7 @@ planet_event = {
 
 	immediate = {
 		add_deposit = rikk_mdlc_d_world_machine_outer_core_cooled
-		oxr_mdlc_planet_wm_check_should_balance_cooling_districts = yes
+		planet_event = { id = xvcv_mdlc.75 }
 	}
 }
 
