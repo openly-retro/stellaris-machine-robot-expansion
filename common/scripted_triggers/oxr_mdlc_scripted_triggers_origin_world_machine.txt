@@ -130,23 +130,21 @@ oxr_mdlc_country_origin_wm_met_t3_ecu_alloy_target = {
 	# }
 }
 oxr_mdlc_country_origin_wm_met_t3_ecu_sr_target = {
-	# OR = {
-		AND = {
-			resource_revenue_compare = {
-				resource = volatile_motes
-				value >= @oxr_mdlc_t3_ecu_sr_target
-			}
-			resource_revenue_compare = {
-				resource = exotic_gases
-				value >= @oxr_mdlc_t3_ecu_sr_target
-			}
-			resource_revenue_compare = {
-				resource = rare_crystals
-				value >= @oxr_mdlc_t3_ecu_sr_target
-			}
+	# producing 30 of any single SR
+	OR = {
+		resource_revenue_compare = {
+			resource = volatile_motes
+			value >= @oxr_mdlc_t3_ecu_sr_target
 		}
-		# has_country_flag = oxr_mdlc_origin_world_machine_t3_ecu_sr_target_met
-	# }
+		resource_revenue_compare = {
+			resource = exotic_gases
+			value >= @oxr_mdlc_t3_ecu_sr_target
+		}
+		resource_revenue_compare = {
+			resource = rare_crystals
+			value >= @oxr_mdlc_t3_ecu_sr_target
+		}
+	}
 }
 
 oxr_mdlc_country_origin_wm_can_unlock_t3_cpu = {
