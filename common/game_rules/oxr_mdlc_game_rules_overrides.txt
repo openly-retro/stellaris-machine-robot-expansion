@@ -115,20 +115,27 @@ can_species_be_assembled = {
 #Root = country
 #This = species
 can_generate_leader_from_species = {
-	is_sapient = yes
-	OR = {
-		# If the pop is mechanical, or country has synth leaders
-		# It's saying non-mechanical pops CAN be leaders,
-		# and mechanical pops cannot
 
-		# This must be in front of the NAND because it concerns mechanical pops
-		oxr_mdlc_can_generate_leader_from_species = yes
-		NAND = {
-			NOT = { root = { has_technology = "tech_synthetic_leaders" } }
-			has_trait = "trait_mechanical"
+	# Seems the game does not see Mechanical pops as sapient
+	# So, inject our mod's check before checks for sapience
+	if = {
+		limit = {
+			oxr_mdlc_can_generate_leader_from_species = yes
 		}
-		has_citizenship_type = { type = citizenship_full country = root }
+		always = yes
 	}
+	else = {
+		# Vanilla rule
+		is_sapient = yes
+		OR = {
+			NAND = {
+				NOT = { root = { has_technology = "tech_synthetic_leaders" } }
+				has_trait = "trait_mechanical"
+			}
+			has_citizenship_type = { type = citizenship_full country = root }
+		}
+	}
+
 }
 
 can_fill_ruler_job = {

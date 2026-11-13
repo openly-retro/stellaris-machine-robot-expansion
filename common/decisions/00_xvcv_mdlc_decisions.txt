@@ -196,7 +196,15 @@ xvcv_mdlc_decision_remove_unemployed = {
 	allow = {
 		custom_tooltip_fail = {
 			text = xvcv_mdlc_decision_remove_unemployed_tooltip.fail
-			num_unemployed > 0
+			# num_unemployed > 0
+			# Thanks to RicardoVB on the Steam Workshop page for 
+			# suggesting this fix
+			any_owned_pop_group = {
+				OR = {
+					is_unemployed = yes
+					has_civilian_job_category = yes
+				}
+			}
 		}
 	}
 
@@ -204,9 +212,21 @@ xvcv_mdlc_decision_remove_unemployed = {
 		custom_tooltip = xvcv_mdlc_decision_remove_unemployed_tooltip
 		hidden_effect = {
 			while = {
-				limit = { num_unemployed > 0 }
+				limit = {
+					any_owned_pop_group = {
+						OR = {
+							is_unemployed = yes
+							has_civilian_job_category = yes
+						}
+					}
+				}
 				random_owned_pop_group = {
-					limit = { is_unemployed = yes }
+					limit = {
+						OR = {
+							is_unemployed = yes
+							has_civilian_job_category = yes
+						}
+					}
 					owner = { add_resource = { alloys = 100 } } #1 replicator = 1 pop assembly = 1 alloys upkeep per month #need 100 months for 1 pop #total 100 alloys per 1 pop
 					kill_pop_group = {
 						pop_group = this
@@ -315,10 +335,6 @@ xvcv_mdlc_decision_machine_ecu_project = {
 	}
 
 	allow = {
-		custom_tooltip_fail = {
-			text = xvcv_mdlc_world_machines_decisions_tooltip.fail
-			oxr_mdlc_planet_has_only_1_district = yes
-		}
 		num_uncleared_blockers < 1
 	}
 
@@ -396,10 +412,6 @@ xvcv_mdlc_decision_machine_cpu_project = {
 	}
 
 	allow = {
-		custom_tooltip_fail = {
-			text = xvcv_mdlc_world_machines_decisions_tooltip.fail
-			oxr_mdlc_planet_has_only_1_district = yes
-		}
 		num_uncleared_blockers < 1
 	}
 
@@ -477,10 +489,6 @@ xvcv_mdlc_decision_machine_ser_project = {
 
 	allow = {
 		planet = {
-			custom_tooltip_fail = {
-				text = xvcv_mdlc_world_machines_decisions_tooltip.fail
-				oxr_mdlc_planet_has_only_1_district = yes
-			}
 			num_uncleared_blockers < 1
 		}
 	}
@@ -564,10 +572,6 @@ xvcv_mdlc_pc_ringworld_automation_project = {
 
 	allow = {
 		planet = {
-			custom_tooltip_fail = {
-				text = xvcv_mdlc_world_machines_decisions_tooltip.fail
-				oxr_mdlc_planet_has_only_1_district = yes
-			}
 			num_uncleared_blockers < 1
 		}
 	}
@@ -701,10 +705,6 @@ xvcv_mdlc_decision_virtual_world_project = {
 
 	allow = {
 		planet = {
-			custom_tooltip_fail = {
-				text = xvcv_mdlc_world_machines_decisions_tooltip.fail
-				oxr_mdlc_planet_has_only_1_district = yes
-			}
 			num_uncleared_blockers < 1
 		}
 	}

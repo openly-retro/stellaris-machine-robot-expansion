@@ -76,31 +76,44 @@ rikk_mdlc_situation_encrypted_protocol = {
 			}
 		}
 	}
-	
+
 	on_progress_complete = {
-		custom_tooltip = rikk_mdlc_situation_encrypted_protocol_finish
+		log = "Encrypted protocol origin project finished!"
 		owner = {
+			custom_tooltip = rikk_mdlc_situation_encrypted_protocol_finish
 			if = {
 				limit = { has_country_flag = rikk_mdlc_origin_encrypted_protocol_scrapbot_end }
-				set_origin = rikk_mdlc_origin_encrypted_protocol_scrapbot
+				add_modifier = {
+					modifier = rikk_mdlc_origin_encrypted_protocol_scrapbot_finished days = -1
+				}
 				remove_country_flag = rikk_mdlc_origin_encrypted_protocol_scrapbot_end
+				log = "Encrypted protocol: Should have added scrapbot modifier!"
 			}
-			if = {
+			else_if = {
 				limit = { has_country_flag = rikk_mdlc_origin_encrypted_protocol_warmachine_end }
-				set_origin = rikk_mdlc_origin_encrypted_protocol_warmachine
+				add_modifier = {
+					modifier = rikk_mdlc_origin_encrypted_protocol_warmachine_finished days = -1
+				}
 				remove_country_flag = rikk_mdlc_origin_encrypted_protocol_warmachine_end
+				log = "Encrypted protocol: Should have added warmachine modifier!"
 			}
-			if = {
+			else_if = {
 				limit = { has_country_flag = rikk_mdlc_origin_encrypted_protocol_research_end }
-				set_origin = rikk_mdlc_origin_encrypted_protocol_research
+				add_modifier = {
+					modifier = rikk_mdlc_origin_encrypted_protocol_research_finished days = -1
+				}
 				remove_country_flag = rikk_mdlc_origin_encrypted_protocol_research_end
+				log = "Encrypted protocol: Should have added research modifier!"
 			}
-			if = {
+			else_if = {
 				limit = { has_country_flag = rikk_mdlc_origin_encrypted_protocol_production_end }
-				set_origin = rikk_mdlc_origin_encrypted_protocol_production
+				add_modifier = {
+					modifier = rikk_mdlc_origin_encrypted_protocol_production_finished days = -1
+				}
 				remove_country_flag = rikk_mdlc_origin_encrypted_protocol_production_end
+				log = "Encrypted protocol: Should have added production modifier!"
 			}
-			if = {
+			else_if = {
 				limit = { has_country_flag = rikk_mdlc_encrypted_closure_end }
 				remove_country_flag = rikk_mdlc_encrypted_closure_end
 				add_modifier = {
@@ -108,6 +121,14 @@ rikk_mdlc_situation_encrypted_protocol = {
 					years = 50
 				}
 			}
+			else = {
+				log = "Encrypted protocol: No country flags found, couldnt find closure!"
+			}
+
+			clear_variable = rikk_mdlc_encrypted_scrap_counter
+			clear_variable = rikk_mdlc_encrypted_war_counter
+			clear_variable = rikk_mdlc_encrypted_prod_counter
+			clear_variable = rikk_mdlc_encrypted_sci_counter
 		}
 		hidden_effect = {
 			destroy_situation = this
@@ -215,7 +236,7 @@ rikk_mdlc_situation_encrypted_protocol = {
 	}
 
 	monthly_progress = {
-		base = 5
+		base = 300 #5
 		modifier = {
 			desc = rikk_mdlc_encrypted_introspective_boost
 			owner = { has_civic = civic_machine_introspective }

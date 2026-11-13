@@ -96,7 +96,7 @@ oxr_mdlc_is_synthetic_empire = {
 		# Bio-robot species will have either Machine or Mechanical trait attached
 		# So just looking at archetype won't give accuracy
 		# owner_species = { is_archetype = XVCV_MDLC_BIO_ROBOT }  # AP
-		country.owner = { has_country_flag = synthetic_empire }
+		owner = { has_country_flag = synthetic_empire }
 		owner_species = { is_species_class = XVCV_MDLC_ROBOT }  # origin, mechanicals
 	}
 }
@@ -114,7 +114,7 @@ oxr_mdlc_can_species_be_assembled = {
 	has_oxr_mdlc_trait_world_machine_automaton = no
 	if = {
 		limit = {
-			country.owner = {
+			country = {
 				oxr_mdlc_has_mechanical_origin = yes
 			}
 		}
@@ -779,6 +779,24 @@ has_rikk_mdlc_origin_encrypted_protocol = { has_origin = rikk_mdlc_origin_encryp
 has_xvcv_mdlc_origin_synth_ascend = { has_origin = xvcv_mdlc_origin_synth_ascend }
 has_xvcv_mdlc_origin_mechanical_heritage = { has_origin = xvcv_mdlc_origin_mechanical_heritage }
 has_xvcv_mdlc_origin_start_with_colony = { has_origin = xvcv_mdlc_origin_start_with_colony }
+
+# These finisher origins were changed to be modifiers so players can rejoin MP after completion
+has_rikk_mdlc_origin_encrypted_protocol_warmachine = {
+	has_origin = rikk_mdlc_origin_encrypted_protocol
+	has_modifier = rikk_mdlc_origin_encrypted_protocol_warmachine_finished
+}
+has_rikk_mdlc_origin_encrypted_protocol_scrapbot = {
+	has_origin = rikk_mdlc_origin_encrypted_protocol
+	has_modifier = rikk_mdlc_origin_encrypted_protocol_scrapbot_finished
+}
+has_rikk_mdlc_origin_encrypted_protocol_production = {
+	has_origin = rikk_mdlc_origin_encrypted_protocol
+	has_modifier = rikk_mdlc_origin_encrypted_protocol_production_finished
+}
+has_rikk_mdlc_origin_encrypted_protocol_research = {
+	has_origin = rikk_mdlc_origin_encrypted_protocol
+	has_modifier = rikk_mdlc_origin_encrypted_protocol_research_finished
+}
 
 # TECHNOLOGY
 has_xvcv_mdlc_tech_automated_goods_manufacturing_1 = {

@@ -1,0 +1,42 @@
+# Scripted effects for calculating and managing cooling/overheating on World Machines
+xvcv_mdlc_planet_wm_calc_output_value = {
+	# optimize_memory
+	# This effect is called from 
+	# - on_built/on_destroy of t3 world districts
+	# - on cooling tower built
+	# - xvcv_mdlc.73
+	
+	if = {
+		limit = { count_deposits = { type = rikk_mdlc_d_planet_cooling count > 1 } }
+		while = {
+			limit = { has_deposit = rikk_mdlc_d_planet_cooling }
+			every_deposit = {
+				limit = { is_deposit_type = rikk_mdlc_d_planet_cooling }
+				remove_deposit = yes
+			}
+		}
+	}
+	
+	remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_good
+	remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral
+	remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad
+	remove_modifier = xvcv_mdlc_world_machines_districts_heat_indicator_calculating
+	
+	if = {
+		limit = { planet = { check_modifier_value = { modifier = rikk_mdlc_planet_cooling_modifier value < 0 } } }
+		add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_good days = -1 }
+	}
+	else_if = {
+		limit = { planet = { check_modifier_value = { modifier = rikk_mdlc_planet_cooling_modifier value = 0 } } }
+		add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_neutral days = -1 }
+	}
+	else_if = {
+		limit = { planet = { check_modifier_value = { modifier = rikk_mdlc_planet_cooling_modifier value > 0 } } }
+		add_modifier = { modifier = xvcv_mdlc_world_machines_districts_heat_indicator_bad days = -1 }
+	}
+	
+	if = {
+		limit = { NOT = { has_deposit = rikk_mdlc_d_planet_cooling } }
+		add_deposit = rikk_mdlc_d_planet_cooling
+	}
+}

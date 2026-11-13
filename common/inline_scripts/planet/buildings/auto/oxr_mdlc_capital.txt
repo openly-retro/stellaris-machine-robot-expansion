@@ -43,9 +43,18 @@ triggered_planet_modifier = {
 # }
 
 allow = {
-	num_districts = {
-		type = any
-		value >= $REQ_MIN_NUM_DISTRICTS$
+	OR = {
+		num_districts = {
+			type = any
+			value >= $REQ_MIN_NUM_DISTRICTS$
+		}
+		AND = {
+			is_xvcv_mdlc_pc_machine_ring = yes
+			num_districts = {
+				type = any
+				value >= 10
+			}
+		}
 	}
 }
 

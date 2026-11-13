@@ -187,11 +187,14 @@ xvcv_mdlc_planet_send_message_xvcv_mdlc_pc_machine_cpu_project_complete = {
 }
 
 xvcv_mdlc_planet_decision_convert_to_world_machine = {
+	# Don't need to remove districts in order to use decision to convert world to WM class	
+	remove_all_districts = yes
 	oxr_mdlc_planet_clear_blockers_etc_if_not_already_wm = yes
 	oxr_mdlc_planet_create_deposit_upgrade_flags = yes
 	change_pc = $PLANET_CLASS$
 	oxr_mdlc_planet_restore_deposit_upgrades = yes
 	oxr_mdlc_planet_add_wmc_core_deposit_if_missing = yes
+
 	if = {
 		limit = { NOT = { has_modifier = planet_population_control_gestalt } }
 		add_modifier = { modifier = planet_population_control_gestalt days = -1 }
@@ -206,8 +209,7 @@ xvcv_mdlc_planet_decision_convert_to_world_machine = {
 	}
 	if = {
 		limit = { oxr_mdlc_planet_is_t3_world_machine = yes }
-		oxr_mdlc_planet_set_initial_cooling_district_count_var = yes
-		xvcv_mdlc_planet_wm_calc_output_value = yes
+		planet = { planet_event = { id = xvcv_mdlc.75 } }
 	}
 }
 
